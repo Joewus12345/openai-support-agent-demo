@@ -21,6 +21,7 @@ Features:
 - Streaming suggested responses
 - Suggested actions to execute tool calls
 - Auto-execution of tool calls for non-sensitive actions
+- Input guardrails for relevance and jailbreak detection
 
 Feel free to customize this demo to suit your specific use case.
 
@@ -84,6 +85,8 @@ In the agent view, you can edit the message or send it as is.
 You can also click on the "Relevant articles" to see the corresponding articles in the knowledge base or FAQ.
 
 You can then continue the conversation as the user.
+
+Messages that are unrelated to industrial electrical automation or that attempt to override system instructions are intercepted before reaching the assistant.
 
 You can ask for help to trigger actions.
 
