@@ -114,6 +114,14 @@ export const toolsList = [
       },
     },
   },
+  {
+    name: "get_outstanding_projects",
+    parameters: {},
+  },
+  {
+    name: "get_special_offers",
+    parameters: {},
+  },
 ];
 
 // Tools that will need to be confirmed by the human representative before execution
