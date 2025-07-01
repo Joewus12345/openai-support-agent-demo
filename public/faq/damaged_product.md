@@ -1,3 +1,3 @@
 ## Damaged Product
 
-We apologize if your item arrives damaged. Please notify us within 48 hours of delivery by contacting customer service. To expedite the resolution, please provide your order number along with clear photographs of the damaged item and packaging. Once verified, we will arrange for a replacement to be shipped promptly at no additional cost to you, or provide a full refund if preferred.
+We take care to protect every automation or electrical component and appliance we ship. If your item arrives damaged, notify us within 48 hours by emailing support@automation.example.com or calling +1-800-555-0199. Include your order number and photos of the damaged product and packaging. Once verified, we will dispatch a replacement within 48 hours at no cost or provide a full refund, ensuring minimal disruption to your operations.
