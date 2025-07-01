@@ -45,10 +45,83 @@ export const toolsList = [
       },
     },
   },
+  {
+    name: "get_order",
+    parameters: {
+      order_id: {
+        type: "string",
+        description: "Order ID to retrieve",
+      },
+    },
+  },
+  {
+    name: "cancel_order",
+    parameters: {
+      order_id: {
+        type: "string",
+        description: "Order ID to cancel",
+      },
+    },
+  },
+  {
+    name: "create_return",
+    parameters: {
+      order_id: {
+        type: "string",
+        description: "Order ID for the return",
+      },
+      product_ids: {
+        type: "array",
+        description: "List of product IDs to return",
+      },
+    },
+  },
+  {
+    name: "create_refund",
+    parameters: {
+      order_id: {
+        type: "string",
+        description: "Order ID for the refund",
+      },
+      amount: {
+        type: "number",
+        description: "Refund amount",
+      },
+      reason: {
+        type: "string",
+        description: "Reason for the refund",
+      },
+    },
+  },
+  {
+    name: "create_complaint",
+    parameters: {
+      user_id: {
+        type: "string",
+        description: "ID of the complaining user",
+      },
+      type: {
+        type: "string",
+        description: "Complaint category",
+      },
+      details: {
+        type: "string",
+        description: "Complaint details",
+      },
+      order_id: {
+        type: "string",
+        description: "Related order ID if any",
+      },
+    },
+  },
 ];
 
 // Tools that will need to be confirmed by the human representative before execution
 export const agentTools = [
   "schedule_service_visit",
   "submit_warranty_claim",
+  "cancel_order",
+  "create_return",
+  "create_refund",
+  "create_complaint",
 ];

@@ -1,9 +1,9 @@
 export async function POST(
   request: Request,
-  { params }: { params: { order_id: string } }
+  context: { params: { order_id: string } }
 ) {
   try {
-    const { order_id } = params;
+    const { order_id } = context.params;
     const { amount, reason } = await request.json();
     // Simulate refund creation
     return new Response(
