@@ -1,3 +1,5 @@
 ## Delivery Information
 
-Our logistics team ships automation and electrical components, appliances, and smart-home products Monday through Friday, excluding public holidays. Standard orders leave the warehouse within 1-2 business days and usually arrive within 5-7 business days. Express shipping delivers most parts and devices within 2-3 business days. You will receive a tracking link as soon as your order departs. If your shipment is delayed more than 10 business days, contact our logistics specialists at support@automation.example.com or call +1-800-555-0199 so we can keep your operations running.
+Most automation components ship within 1-2 business days and arrive in 5-7 business days.
+
+You will receive a tracking link once dispatched. Contact us if a shipment is delayed more than 10 days.

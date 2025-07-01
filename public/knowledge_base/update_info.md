@@ -1,14 +1,9 @@
 ## Update Account Information
 
-If a customer cannot update their account details:
+If a customer can't change company or contact details:
 
-Verify their identity by asking for their name, previous order details, billing information, or registered phone number.
+Verify identity with facility name, prior order numbers, or billing data.
 
-Once verified, use the update_info tool to update:
+Then use update_info to modify email, phone, shipping address, or contact person.
 
-- Email
-- Phone number
-- Shipping address
-- Name
-
-Confirm the changes with the customer first to prevent errors.
+Confirm all changes to avoid interruptions in service or delivery.

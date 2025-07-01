@@ -1,11 +1,9 @@
 ## Product Exchange
 
-If the customer struggles with initiating an exchange:
+When a component is incompatible or defective:
 
-Manually process the exchange.
+Process the exchange manually and use create_return to issue a return label.
 
-Use the create_return tool to generate a return.
+Exchanges are typically completed within 3 business days of receiving the returned part.
 
-Inform the customer that they will receive a return label via email and communicate expected timelines (usually, returns are processed within 3 business days).
-
-Explain that once the return is processed, they can ask for a replacement here or via their orders page.
+Advise the customer when the replacement automation equipment will ship.

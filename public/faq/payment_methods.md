@@ -1,3 +1,5 @@
 ## Payment Methods
 
-We offer secure and convenient payment options for automation and electrical component purchases. Accepted methods include Visa, MasterCard, PayPal, Apple Pay, Google Pay, and wire transfers. Corporate purchase orders are available for qualified integrators, manufacturers, and wholesalers. All transactions are encrypted and processed through secure gateways to safeguard your financial data. Please ensure that your billing information matches your bank records to prevent delays. For questions about payment or credit terms, reach us at support@automation.example.com or call +1-800-555-0199.
+We accept Visa, MasterCard, PayPal, Apple Pay, and wire transfers for automation equipment orders.
+
+Qualified businesses may submit purchase orders. All transactions are processed securely.
