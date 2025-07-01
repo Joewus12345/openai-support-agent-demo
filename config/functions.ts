@@ -152,6 +152,26 @@ export const create_complaint = async ({
     return { error: "Failed to create complaint" };
   }
 };
+export const get_outstanding_projects = async () => {
+  try {
+    const res = await fetch(`/api/projects/outstanding`).then((res) => res.json());
+    return res;
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to retrieve outstanding projects" };
+  }
+};
+
+export const get_special_offers = async () => {
+  try {
+    const res = await fetch(`/api/special_offers`).then((res) => res.json());
+    return res;
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to retrieve special offers" };
+  }
+};
+
 
 export const functionsMap = {
   schedule_service_visit,
@@ -162,4 +182,6 @@ export const functionsMap = {
   create_return,
   create_refund,
   create_complaint,
+  get_outstanding_projects,
+  get_special_offers,
 };

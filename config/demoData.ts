@@ -155,3 +155,29 @@ export const DEMO_ORDERS = [
     ],
   },
 ];
+
+export const OUTSTANDING_PROJECTS = [
+  {
+    id: "PROJ001",
+    description: "Install new conveyor system",
+    due_date: "2024-06-30",
+  },
+  {
+    id: "PROJ002",
+    description: "Upgrade control software",
+    due_date: "2024-07-15",
+  },
+];
+
+export const SPECIAL_OFFERS = [
+  {
+    id: "OFF001",
+    title: "10% off PLC maintenance",
+    details: "Valid until 2024-07-31",
+  },
+  {
+    id: "OFF002",
+    title: "Free shipping on orders over $500",
+    details: "Valid this month",
+  },
+];
