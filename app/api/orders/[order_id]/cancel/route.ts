@@ -3,8 +3,7 @@ export async function POST(
   context: { params: { order_id: string } }
 ) {
   try {
-    const { params } = context;
-    const { order_id } = await params;
+    const { order_id } = context.params;
     // Simulate order cancellation
     return new Response(
       JSON.stringify({ message: `Order ${order_id} cancelled successfully` }),
