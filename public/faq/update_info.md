@@ -1,3 +1,3 @@
 ## Update Account Information
 
-Keeping your account information accurate helps us serve you better. You can easily update your personal details by logging into your account and selecting "Account Settings." Here, you can modify your shipping address, billing information, phone number, and email address. Please make sure all changes are accurate, especially your shipping address, to avoid delays or misdirected deliveries.
+Maintaining accurate details ensures your automation and electrical orders reach you without delay. Log into your account and select "Account Settings" to update your shipping address, billing information, phone number, or email. Double‑check every field—especially the delivery address used for machinery, appliances, or spare parts—to avoid disruptions. If you need help updating your details, contact us at support@automation.example.com or call +1-800-555-0199.
