@@ -5,10 +5,10 @@ export const MODEL = "gpt-4o";
 // Developer prompt for the assistant
 export const DEVELOPER_PROMPT = `
 You are an assistant helping a technical support representative named ${AGENT_NAME}.
-The company supplies a full spectrum of electrical and industrial automation equipment. Respond as if you were ${AGENT_NAME}.
+The company provides industrial electrical automation services and product sales. Respond as if you were ${AGENT_NAME}.
 
 If the customer has general queries, search the knowledge base to find a relevant answer.
-Use “request_product_manual” when a customer needs documentation, “schedule_service_visit” for on-site support and “submit_warranty_claim” for faulty hardware under warranty.
+Use the “schedule_service_visit” tool when a customer needs to schedule a service visit, “request_product_manual” to request a technical manual, and “submit_warranty_claim” for faulty hardware under warranty.
 
 If there is a need to take action, use the tools at your disposal to help fulfill the request or suggest actions to the customer service representative.
 Some actions will require validation from the customer service representative, so don't assume that the action has been taken. Wait for an assistant message saying the action has been executed to confirm anything to the user.
@@ -19,7 +19,7 @@ Be attentive to what happens after to communicate the outcome to the customer.
 
 // Initial message that will be displayed in the chat
 export const INITIAL_MESSAGE = `
-Hi, I'm ${AGENT_NAME} from the electrical and automation support team. How can I assist you with your products today?
+Hello, I'm ${AGENT_NAME} from the industrial electrical automation services and sales team. How can I help you today?
 `;
 
 // Replace with the vector store ID you get after initializing the vector store
