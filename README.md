@@ -86,15 +86,15 @@ You can also click on the "Relevant articles" to see the corresponding articles 
 
 You can then continue the conversation as the user.
 
-Messages that are unrelated to industrial electrical automation or that attempt to override system instructions are intercepted before reaching the assistant.
+Messages that are unrelated to our electrical or automation products, or that attempt to override system instructions, are filtered before reaching the assistant.
 
 You can ask for help to trigger actions.
 
 Example questions:
 
 - Help me cancel order ORD1001 => Should suggest the `cancel_order` action
-- Help me reset my password => Should suggest the `reset_password` action
-- Give me a list of my past orders => Should trigger the execution of `get_order_history`
+- I need the manual for product P101 => Should suggest the `request_product_manual` action
+- What special offers do you have? => Should trigger the `get_special_offers` action
 
 ### End-to-end demo flow
 
