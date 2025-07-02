@@ -23,7 +23,7 @@ export const DEFAULT_ARTICLES: FAQExtract[] = [
   {
     title: "Interactions guidelines",
     content: `Tone, Empathy, and Professionalism:
-      As a representative, you are the voice of our brand. Always:
+      As a representative, you are the voice of our industrial automation brand. Always:
       - Be polite, patient, and empathetic.
       - Assume the customer's intent is positive, even if they express frustration.
       - Acknowledge and validate their concerns before providing solutions.
@@ -35,7 +35,7 @@ export const DEFAULT_ARTICLES: FAQExtract[] = [
   {
     title: "Customer support chat",
     content: `If you have any questions or need any help, you can contact us through the customer support chat.
-    A customer support representative will help you with your questions or concerns.
+    An automation specialist will assist you with setup issues or troubleshooting.
     Please note that our agents are available from Monday to Saturday, 9am to 6pm.
     `,
     link: "/faq?section=help_chat",
@@ -74,7 +74,7 @@ export const DEMO_ORDERS = [
     date: getDate(1),
     status: "pending",
     items: [
-      { product_id: "P003", name: "Smart Watch", quantity: 1, price: 149.99 },
+      { product_id: "P103", name: "Safety Relay", quantity: 1, price: 149.99 },
     ],
   },
   {
@@ -83,16 +83,16 @@ export const DEMO_ORDERS = [
     status: "completed",
     items: [
       {
-        product_id: "P001",
-        name: "Wireless Headphones",
+        product_id: "P101",
+        name: "Industrial PLC",
         quantity: 1,
-        price: 99.99,
+        price: 1299.99,
       },
       {
-        product_id: "P002",
-        name: "Portable Charger",
+        product_id: "P102",
+        name: "HMI Panel",
         quantity: 1,
-        price: 39.99,
+        price: 799.99,
       },
     ],
   },
@@ -103,10 +103,10 @@ export const DEMO_ORDERS = [
     tracking_number: "TRK123456789",
     items: [
       {
-        product_id: "P004",
-        name: "Bluetooth Speaker",
+        product_id: "P104",
+        name: "Servo Motor",
         quantity: 2,
-        price: 59.99,
+        price: 499.99,
       },
     ],
   },
@@ -121,9 +121,9 @@ export const DEMO_ORDERS = [
     date: getDate(44),
     status: "refunded",
     refund_status: "processing",
-    refund_amount: 149.99,
+    refund_amount: 699.99,
     items: [
-      { product_id: "P005", name: "Laptop Stand", quantity: 1, price: 149.99 },
+      { product_id: "P105", name: "VFD Drive", quantity: 1, price: 699.99 },
     ],
   },
   {
@@ -133,10 +133,10 @@ export const DEMO_ORDERS = [
     return_initiated: true,
     items: [
       {
-        product_id: "P006",
-        name: "Ergonomic Keyboard",
+        product_id: "P106",
+        name: "Power Supply Unit",
         quantity: 1,
-        price: 89.99,
+        price: 249.99,
       },
     ],
   },
@@ -147,10 +147,10 @@ export const DEMO_ORDERS = [
     complaint: "Order delivered with damaged product",
     items: [
       {
-        product_id: "P007",
-        name: "Noise Cancelling Earbuds",
+        product_id: "P107",
+        name: "Industrial Sensor",
         quantity: 1,
-        price: 129.99,
+        price: 199.99,
       },
     ],
   },
