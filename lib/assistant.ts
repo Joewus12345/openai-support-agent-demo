@@ -119,6 +119,7 @@ export const processMessages = async () => {
     setSuggestedMessageDone,
     addConversationItem,
     addChatMessage,
+    removeRecommendedAction,
     autoReply,
   } = useConversationStore.getState();
 
@@ -280,7 +281,8 @@ export const processMessages = async () => {
 
           if (
             toolCallMessage.name &&
-            agentTools.includes(toolCallMessage.name)
+            agentTools.includes(toolCallMessage.name) &&
+            !autoReply
           ) {
             setRecommendedActions([
               ...recommendedActions.filter(
@@ -330,10 +332,18 @@ export const processMessages = async () => {
         if (item.type === "function_call") {
           const toolCallMessage = chatMessages.find((m) => m.id === item.id);
           if (toolCallMessage && toolCallMessage.type === "tool_call") {
-            // Handle tool call (execute function)
+            // Handle tool call
+            const execMode =
+              autoReply &&
+              toolCallMessage.name &&
+              agentTools.includes(toolCallMessage.name)
+                ? "execute"
+                : "suggestion";
+
             const toolResult = await handleTool(
               toolCallMessage.name as keyof typeof functionsMap,
-              toolCallMessage.parsedArguments
+              toolCallMessage.parsedArguments,
+              execMode
             );
             toolCallMessage.call_id = item.call_id;
             // Record tool output
@@ -345,6 +355,10 @@ export const processMessages = async () => {
               status: "completed",
               output: JSON.stringify(toolResult),
             });
+
+            if (execMode === "execute" && toolCallMessage.name) {
+              removeRecommendedAction(toolCallMessage.name);
+            }
 
             // Create another turn after tool output has been added
             await processMessages();
