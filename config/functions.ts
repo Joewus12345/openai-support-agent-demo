@@ -223,6 +223,18 @@ export const update_info = async ({
   }
 };
 
+export const get_products = async ({ query }: { query: string }) => {
+  try {
+    const res = await fetch(
+      `/api/products/search?query=${encodeURIComponent(query)}`
+    ).then((res) => res.json());
+    return res;
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to search products" };
+  }
+};
+
 export const functionsMap = {
   get_order: get_order,
   get_order_history: get_order_history,
@@ -235,5 +247,6 @@ export const functionsMap = {
   create_complaint: create_complaint,
   update_info: update_info,
   create_ticket: create_ticket,
+  get_products: get_products,
   // add more functions as needed
 };
