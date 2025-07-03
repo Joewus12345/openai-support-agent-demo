@@ -1,0 +1,4 @@
+[
+  { "name": "Sample Widget", "price": "$9.99", "url": "https://example.com/widget" },
+  { "name": "Sample Gizmo",  "price": "$19.99", "url": "https://example.com/gizmo" }
+]

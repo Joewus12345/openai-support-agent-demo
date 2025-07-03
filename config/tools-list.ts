@@ -174,6 +174,15 @@ export const toolsList = [
       },
     },
   },
+  {
+    name: "get_products",
+    parameters: {
+      query: {
+        type: "string",
+        description: "Product name or partial name",
+      },
+    },
+  },
   // add more tools as needed
 ];
 
