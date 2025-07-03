@@ -31,6 +31,9 @@ interface ConversationState {
   agentTyping: boolean;
   setAgentTyping: (typing: boolean) => void;
 
+  autoReply: boolean;
+  setAutoReply: (flag: boolean) => void;
+
   setChatMessages: (items: Item[]) => void;
   setConversationItems: (messages: any[]) => void;
   addChatMessage: (item: Item) => void;
@@ -57,9 +60,11 @@ const useConversationStore = create<ConversationState>((set) => ({
   suggestedMessageDone: false,
   userTyping: false,
   agentTyping: false,
+  autoReply: false,
   composerText: "",
   setUserTyping: (typing) => set({ userTyping: typing }),
   setAgentTyping: (typing) => set({ agentTyping: typing }),
+  setAutoReply: (flag) => set({ autoReply: flag }),
   setComposerText: (text) => set({ composerText: text }),
   setChatMessages: (items) => set({ chatMessages: items }),
   setConversationItems: (messages) => set({ conversationItems: messages }),

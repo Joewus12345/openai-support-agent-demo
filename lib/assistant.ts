@@ -117,6 +117,9 @@ export const processMessages = async () => {
     setSuggestedMessage,
     setAgentTyping,
     setSuggestedMessageDone,
+    addConversationItem,
+    addChatMessage,
+    autoReply,
   } = useConversationStore.getState();
 
   const { setRelevantArticlesLoading, setFAQExtracts } =
@@ -147,30 +150,46 @@ export const processMessages = async () => {
         }
         assistantMessageContent += partial;
 
-        const message = {
-          type: "message",
-          role: "agent",
-          id: item_id,
-          content: [
-            {
-              type: "output_text",
-              text: assistantMessageContent,
-              annotations: annotation ? [annotation] : undefined,
-            },
-          ],
-        } as ChatMessage;
-        if (annotation) {
-          message.content[0].annotations = [
-            ...(message.content[0].annotations ?? []),
-            annotation,
-          ];
+        if (!autoReply) {
+          const message = {
+            type: "message",
+            role: "agent",
+            id: item_id,
+            content: [
+              {
+                type: "output_text",
+                text: assistantMessageContent,
+                annotations: annotation ? [annotation] : undefined,
+              },
+            ],
+          } as ChatMessage;
+          if (annotation) {
+            message.content[0].annotations = [
+              ...(message.content[0].annotations ?? []),
+              annotation,
+            ];
+          }
+          setSuggestedMessage(message);
         }
-        setSuggestedMessage(message);
         break;
       }
 
       case "response.output_text.done": {
-        setSuggestedMessageDone(true);
+        if (autoReply) {
+          addConversationItem({ role: "assistant", content: assistantMessageContent });
+          addChatMessage({
+            type: "message",
+            role: "agent",
+            content: [
+              { type: "output_text", text: assistantMessageContent },
+            ],
+          });
+          setSuggestedMessage(null);
+          setSuggestedMessageDone(false);
+          setAgentTyping(false);
+        } else {
+          setSuggestedMessageDone(true);
+        }
         break;
       }
 

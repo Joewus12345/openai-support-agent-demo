@@ -75,6 +75,7 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
   );
   const composerText = useConversationStore((s) => s.composerText);
   const setComposerText = useConversationStore((s) => s.setComposerText);
+  const autoReply = useConversationStore((s) => s.autoReply);
 
   useEffect(() => {
     itemsEndRef.current?.scrollIntoView({ behavior: "instant" });
@@ -165,7 +166,7 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
           <div className="flex flex-col gap-1 mb-5">
             <Message message={suggestedMessage} view={view} suggestion={true} />
 
-            {suggestedMessageDone ? (
+            {suggestedMessageDone && !autoReply ? (
               <div className="flex justify-end text-xs mt-2">
                 <div className="flex flex-col gap-1">
                   <div className="mt-2 flex gap-2">
