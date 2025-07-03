@@ -12,9 +12,10 @@ import {
 } from "./ui/drawer";
 import { Info } from "lucide-react";
 import Chat from "./Chat";
+import { Switch } from "./ui/switch";
 
 export default function AgentView() {
-  const { chatMessages, addConversationItem, addChatMessage } =
+  const { chatMessages, addConversationItem, addChatMessage, autoReply, setAutoReply } =
     useConversationStore();
 
   const handleSendMessage = async (message: string) => {
@@ -36,6 +37,10 @@ export default function AgentView() {
 
   return (
     <div className="relative flex flex-1 min-h-0 bg-white rounded-lg p-4 gap-4">
+      <div className="absolute top-4 left-4 flex items-center gap-2">
+        <span className="text-xs text-zinc-500">Auto reply</span>
+        <Switch checked={autoReply} onCheckedChange={setAutoReply} mode="custom" />
+      </div>
       <div className="w-full md:w-3/5">
         <Chat
           items={chatMessages}
