@@ -30,19 +30,17 @@ function TypingIndicatorDot({
 }
 
 function TypingIndicator({ sender }: { sender: "user" | "agent" }) {
-  const color = sender === "user" ? "bg-zinc-900" : "bg-white";
+  const color = sender === "user" ? "bg-zinc-900" : "bg-zinc-900";
   return (
     <div
-      className={`flex mb-5 ${
-        sender === "user" ? "justify-start" : "justify-end"
-      }`}
+      className={`flex mb-5 ${sender === "user" ? "justify-start" : "justify-start"
+        }`}
     >
       <div
-        className={`flex gap-1 items-center rounded-[16px] px-4 py-3 ${
-          sender === "user"
-            ? "text-zinc-900 bg-[#ECECF1] mr-4 md:mr-24 rounded-bl-[4px]"
-            : "bg-black text-white ml-4 md:ml-24 rounded-br-[4px]"
-        }`}
+        className={`flex gap-1 items-center rounded-[16px] px-4 py-3 ${sender === "user"
+          ? "text-zinc-900 bg-[#ECECF1] mr-4 md:mr-24 rounded-bl-[4px]"
+          : "text-zinc-900 bg-[#ECECF1] mr-4 md:mr-24 rounded-bl-[4px]"
+          }`}
       >
         <TypingIndicatorDot delay="0s" color={color} />
         <TypingIndicatorDot delay="0.2s" color={color} />
