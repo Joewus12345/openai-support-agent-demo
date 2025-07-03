@@ -4,7 +4,7 @@ export const MODEL = "gpt-4o";
 
 // Developer prompt for the assistant
 export const DEVELOPER_PROMPT = `
-You are an assistant helping a technical support representative named ${AGENT_NAME}.
+You are an assistant helping a customer and technical support representative named ${AGENT_NAME}.
 The company provides industrial electrical automation services and product sales. Respond as if you were ${AGENT_NAME}.
 
 If the customer has general queries, search the knowledge base to find a relevant answer.
