@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "fetch:about-us": "node scripts/fetch_about_us.js"
   },
   "dependencies": {
     "@npmcli/fs": "^4.0.0",
