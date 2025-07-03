@@ -66,14 +66,14 @@ Feel free to customize this demo to suit your specific use case.
 
 6. **Fetch the About Us content:**
 
-Run in the project root:
+   Run in the project root:
 
-```bash
-npm run fetch:about-us
-```
+   ```bash
+   npm run fetch:about-us
+   ```
 
-This downloads the full About Us page, cleans the HTML, and saves it to
-`public/knowledge_base/about_us.md`.
+   This downloads the full About Us page, cleans the HTML, and saves it to
+   `public/knowledge_base/about_us.md`.
 
 7. **Initialize the vector store:**
 
