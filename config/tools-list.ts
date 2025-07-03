@@ -183,6 +183,15 @@ export const toolsList = [
       },
     },
   },
+  {
+    name: "get_about_us",
+    parameters: {
+      query: {
+        type: "string",
+        description: "Search term for the about page",
+      },
+    },
+  },
   // add more tools as needed
 ];
 
