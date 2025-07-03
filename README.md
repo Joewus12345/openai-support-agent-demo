@@ -72,6 +72,9 @@ Feel free to customize this demo to suit your specific use case.
    npm run fetch:about-us
    ```
 
+   This downloads the full About Us page, cleans the HTML, and saves it to
+   `public/knowledge_base/about_us.md`.
+
 7. **Initialize the vector store:**
 
    Go to [`/init_vs`](http://localhost:3000/init_vs) to create a vector store and initialize it with the knowledge base. Once you have created the vector store, update `config/constants.ts` with your own vector store ID.
