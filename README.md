@@ -113,7 +113,13 @@ To customize this demo you can:
 - Edit prompts, initial message and model in `config/constants.ts`
 - Edit available functions in `config/tools-list.ts`
 - Edit functions logic in `config/functions.ts`
-- Use the `get_about_us` tool to retrieve text from the company website
+- Use the `get_about_us` tool to retrieve text from the company website. For example:
+
+```ts
+const { text } = await get_about_us({ query: "shipping" });
+```
+
+This tool returns a short excerpt of the company's about page and caches the response for efficiency.
 - (optional) Edit the demo data in `config/demoData.ts`
 
 You can also customize the endpoints in the `/api` folder to call your own backend or external services.
