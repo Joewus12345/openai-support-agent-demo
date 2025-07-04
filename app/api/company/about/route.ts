@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     if (query) {
       const sentences = baseText.match(/[^.!?]+[.!?]*/g) || [baseText];
       processedText = sentences
-        .filter((s) => s.toLowerCase().includes(query.toLowerCase()))
+        .filter((s: string) => s.toLowerCase().includes(query.toLowerCase()))
         .join(" ")
         .trim();
     }
