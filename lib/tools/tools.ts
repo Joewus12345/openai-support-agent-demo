@@ -20,7 +20,7 @@ export const tools = [
       parameters: {
         type: "object",
         properties: { ...tool.parameters },
-        required: Object.keys(tool.parameters),
+        required: (tool as any).required ?? Object.keys(tool.parameters),
         additionalProperties: false,
       },
       strict: true,
