@@ -21,6 +21,9 @@ Features:
 - Streaming suggested responses
 - Suggested actions to execute tool calls
 - Auto-execution of tool calls for non-sensitive actions
+- Product search functionality via the `get_products` tool
+- Optional auto reply mode to automatically send suggested messages
+- Company info retrieval through a cached About Us API
 
 Feel free to customize this demo to suit your specific use case.
 
@@ -88,9 +91,12 @@ Example questions:
 - What is the return policy?
 - How do I return a product?
 - How can I cancel an order?
+- What does your company do?
+- Do you sell sensors?
 
 When an answer is generated, it will be displayed as a suggested response for the customer support representative.
 In the agent view, you can edit the message or send it as is.
+You can toggle **Auto reply** in the agent view to automatically send the suggested response.
 
 You can also click on the "Relevant articles" to see the corresponding articles in the knowledge base or FAQ.
 
@@ -103,6 +109,8 @@ Example questions:
 - Help me cancel order ORD1001 => Should suggest the `cancel_order` action
 - Help me reset my password => Should suggest the `reset_password` action
 - Give me a list of my past orders => Should trigger the execution of `get_order_history`
+- Search for level sensors => Should trigger the `get_products` action
+- Tell me about Automation Ghana => Should trigger the `get_about_us` action
 
 ### End-to-end demo flow
 
@@ -125,6 +133,7 @@ To customize this demo you can:
 - Edit available functions in `config/tools-list.ts`
 - Edit functions logic in `config/functions.ts`
 - Use the `get_about_us` tool to retrieve text from the company website
+- Add a `public/knowledge_base/products.json` file to power the `get_products` search
 - (optional) Edit the demo data in `config/demoData.ts`
 
 You can also customize the endpoints in the `/api` folder to call your own backend or external services.
