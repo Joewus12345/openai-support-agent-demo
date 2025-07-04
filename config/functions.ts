@@ -235,11 +235,12 @@ export const get_products = async ({ query }: { query: string }) => {
   }
 };
 
-export const get_about_us = async ({ query }: { query: string }) => {
+export const get_about_us = async ({ query = "" }: { query?: string }) => {
   try {
-    const res = await fetch(
-      `/api/company/about?query=${encodeURIComponent(query)}`
-    ).then((res) => res.json());
+    const url = query
+      ? `/api/company/about?query=${encodeURIComponent(query)}`
+      : "/api/company/about";
+    const res = await fetch(url).then((res) => res.json());
     return res;
   } catch (error) {
     console.error(error);

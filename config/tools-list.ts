@@ -191,6 +191,7 @@ export const toolsList = [
         description: "Search term for the about page",
       },
     },
+    required: [],
   },
   // add more tools as needed
 ];
