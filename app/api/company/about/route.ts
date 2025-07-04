@@ -1,13 +1,17 @@
-let cachedAboutText: { text: string; timestamp: number } | null = null;
+const cachedAboutText: Record<string, { text: string; timestamp: number }> = {};
 const ABOUT_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const query = searchParams.get("query") || "";
+    const cacheKey = query.toLowerCase() || "__all__";
+
     if (
-      cachedAboutText &&
-      Date.now() - cachedAboutText.timestamp < ABOUT_CACHE_TTL_MS
+      cachedAboutText[cacheKey] &&
+      Date.now() - cachedAboutText[cacheKey].timestamp < ABOUT_CACHE_TTL_MS
     ) {
-      return new Response(JSON.stringify({ text: cachedAboutText.text }), {
+      return new Response(JSON.stringify({ text: cachedAboutText[cacheKey].text }), {
         status: 200,
       });
     }
@@ -16,12 +20,22 @@ export async function GET() {
     );
     const pages = (await res.json()) as any[];
     const excerptHtml = pages[0]?.excerpt?.rendered || "";
-    const text = excerptHtml
+    const baseText = excerptHtml
       .replace(/<[^>]*>/g, " ")
       .replace(/\s+/g, " ")
       .trim();
-    cachedAboutText = { text, timestamp: Date.now() };
-    return new Response(JSON.stringify({ text }), { status: 200 });
+
+    let processedText = baseText;
+    if (query) {
+      const sentences = baseText.match(/[^.!?]+[.!?]*/g) || [baseText];
+      processedText = sentences
+        .filter((s) => s.toLowerCase().includes(query.toLowerCase()))
+        .join(" ")
+        .trim();
+    }
+
+    cachedAboutText[cacheKey] = { text: processedText, timestamp: Date.now() };
+    return new Response(JSON.stringify({ text: processedText }), { status: 200 });
   } catch (error) {
     console.error("Error fetching about page:", error);
     return new Response("Error fetching about page", { status: 500 });
