@@ -1,3 +1,5 @@
+import prisma from "@/lib/prisma";
+
 export async function POST(
   request: Request,
   { params }: { params: { user_id: string } }
@@ -5,7 +7,10 @@ export async function POST(
   try {
     const { user_id } = params;
     const { info } = await request.json();
-    // Simulate updating user information
+    await prisma.user.update({
+      where: { id: user_id },
+      data: { [info.field]: info.value },
+    });
     return new Response(
       JSON.stringify({
         message: `User ${user_id} info updated`,
