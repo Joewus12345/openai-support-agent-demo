@@ -6,6 +6,9 @@ interface CustomerDetails {
   id: string;
   orderNb: number;
   signupDate: string;
+  email: string;
+  phone: string;
+  address: string;
 }
 
 export interface FAQExtract {

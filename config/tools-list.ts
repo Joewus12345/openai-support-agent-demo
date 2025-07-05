@@ -175,6 +175,33 @@ export const toolsList = [
     },
   },
   {
+    name: "get_user_profile",
+    parameters: {
+      email: {
+        type: "string",
+        description: "Email address of the customer",
+      },
+    },
+  },
+  {
+    name: "create_user_profile",
+    parameters: {
+      email: { type: "string", description: "Email address of the customer" },
+      name: { type: "string", description: "Full name of the customer" },
+      phone: { type: "string", description: "Phone number" },
+      address: { type: "string", description: "Street address" },
+    },
+  },
+  {
+    name: "start_chat_session",
+    parameters: {
+      email: { type: "string", description: "Email address of the customer" },
+      name: { type: "string", description: "Full name of the customer" },
+      phone: { type: "string", description: "Phone number" },
+      address: { type: "string", description: "Street address" },
+    },
+  },
+  {
     name: "get_products",
     parameters: {
       query: {
@@ -207,4 +234,6 @@ export const agentTools = [
   "create_return",
   "create_complaint",
   "update_info",
+  "create_user_profile",
+  "start_chat_session",
 ];
