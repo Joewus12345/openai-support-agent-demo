@@ -1,6 +1,19 @@
 // Functions mapping to tool calls
 // Define one function per tool call - each tool call should have a matching function
 // Parameters for a tool call are passed as an object to the corresponding function
+import useDataStore from "@/stores/useDataStore";
+
+const setDetailsFromUser = (user: any) => ({
+  id: user.id,
+  name: user.name ?? "",
+  email: user.email ?? "",
+  phone: user.phone ?? "",
+  address: user.address ?? "",
+  signupDate: user.createdAt
+    ? new Date(user.createdAt).toISOString().split("T")[0]
+    : "",
+  orderNb: user.orders ? user.orders.length : 0,
+});
 
 export const get_order = async ({ order_id }: { order_id: string }) => {
   try {
@@ -250,10 +263,13 @@ export const get_about_us = async ({ query = "" }: { query?: string }) => {
 
 export const get_user_profile = async ({ email }: { email: string }) => {
   try {
-    const res = await fetch(`/api/users?email=${encodeURIComponent(email)}`).then(
+    const user = await fetch(`/api/users?email=${encodeURIComponent(email)}`).then(
       (res) => res.json()
     );
-    return res;
+    if (!user.error) {
+      useDataStore.getState().setCustomerDetails(setDetailsFromUser(user));
+    }
+    return user;
   } catch (error) {
     console.error(error);
     return { error: "Failed to get user profile" };
@@ -272,14 +288,17 @@ export const create_user_profile = async ({
   address?: string;
 }) => {
   try {
-    const res = await fetch(`/api/users`, {
+    const user = await fetch(`/api/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, name, phone, address }),
     }).then((res) => res.json());
-    return res;
+    if (!user.error) {
+      useDataStore.getState().setCustomerDetails(setDetailsFromUser(user));
+    }
+    return user;
   } catch (error) {
     console.error(error);
     return { error: "Failed to create user profile" };
@@ -303,6 +322,9 @@ export const start_chat_session = async ({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, name, phone, address }),
     }).then((res) => res.json());
+    if (res.user && !res.user.error) {
+      useDataStore.getState().setCustomerDetails(setDetailsFromUser(res.user));
+    }
     return res;
   } catch (error) {
     console.error(error);

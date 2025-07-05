@@ -9,7 +9,10 @@ export async function GET(request: Request) {
         status: 400,
       });
     }
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: { orders: true },
+    });
     if (!user) {
       return new Response(JSON.stringify({ error: "User not found" }), {
         status: 404,
@@ -34,6 +37,7 @@ export async function POST(request: Request) {
       where: { email },
       update: { name, phone, address },
       create: { email, name, phone, address },
+      include: { orders: true },
     });
     return new Response(JSON.stringify(user), { status: 200 });
   } catch (error) {
