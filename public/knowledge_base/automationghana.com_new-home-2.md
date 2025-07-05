@@ -96,13 +96,13 @@ To provide unique electrical and automation services and products through innova
 ###  Our Vision 
 To be West Africa's Choice for Smart Solutions. 
 Years In Business
-0 +
+20 +
 Projects Delivered
-0 +
+615 +
 Satisfied Clients
-0 +
+500 +
 Satisfaction Rate
-0 %
+93 %
 ## Our History
 **Automation Ghana Group (TAGG): Pioneers in Industrial and Building Automation.**
 The story of TAGG began in 2003 with the inception of Process and Plant Automation Ltd (PPA). PPA swiftly carved its niche as Ghana’s premier Industrial and Building Automation firm, marking a significant milestone as the nation’s inaugural establishment of its kind. Our expertise spans across a broad spectrum, including System Integration, PLC Programming and Upgrades, Industrial Control, and more, catering to sectors like mining, manufacturing, residential, and commercial spaces.
