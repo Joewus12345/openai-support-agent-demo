@@ -248,6 +248,68 @@ export const get_about_us = async ({ query = "" }: { query?: string }) => {
   }
 };
 
+export const get_user_profile = async ({ email }: { email: string }) => {
+  try {
+    const res = await fetch(`/api/users?email=${encodeURIComponent(email)}`).then(
+      (res) => res.json()
+    );
+    return res;
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to get user profile" };
+  }
+};
+
+export const create_user_profile = async ({
+  email,
+  name,
+  phone,
+  address,
+}: {
+  email: string;
+  name?: string;
+  phone?: string;
+  address?: string;
+}) => {
+  try {
+    const res = await fetch(`/api/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, name, phone, address }),
+    }).then((res) => res.json());
+    return res;
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to create user profile" };
+  }
+};
+
+export const start_chat_session = async ({
+  email,
+  name,
+  phone,
+  address,
+}: {
+  email: string;
+  name?: string;
+  phone?: string;
+  address?: string;
+}) => {
+  try {
+    const res = await fetch(`/api/sessions/start`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, name, phone, address }),
+    }).then((res) => res.json());
+    return res;
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to start chat session" };
+  }
+};
+
 export const functionsMap = {
   get_order: get_order,
   get_order_history: get_order_history,
@@ -260,6 +322,9 @@ export const functionsMap = {
   create_complaint: create_complaint,
   update_info: update_info,
   create_ticket: create_ticket,
+  get_user_profile: get_user_profile,
+  create_user_profile: create_user_profile,
+  start_chat_session: start_chat_session,
   get_products: get_products,
   get_about_us: get_about_us,
   // add more functions as needed

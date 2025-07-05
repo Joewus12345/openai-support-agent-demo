@@ -140,6 +140,24 @@ You can also customize the endpoints in the `/api` folder to call your own backe
 
 If you want to use this code repository as a starting point for your own project in production, please note that this demo is not production-ready and that you would need to implement safety measures such as input guardrails, user authentication, etc.
 
+## Local database
+
+This demo can store customer profiles and chat sessions in a local PostgreSQL database using Prisma.
+
+1. Add your connection string to `.env`:
+
+   ```
+   DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
+   ```
+
+2. Run the migrations to create the tables:
+
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+The new API endpoints under `/api/users` and `/api/sessions/start` allow the agent to create or retrieve customer records and chat sessions using this database.
+
 ## Contributing
 
 You are welcome to open issues or submit PRs to improve this app, however, please note that we may not review all suggestions.

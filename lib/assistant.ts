@@ -360,19 +360,22 @@ export const processMessages = async () => {
               removeRecommendedAction(toolCallMessage.name);
             }
 
+            // Persist conversation items before creating a new turn
+            setConversationItems([...conversationItems]);
+
             // Create another turn after tool output has been added
             await processMessages();
           }
         }
 
-        if (item.type === "file_search_call") {
-          setFAQExtracts(item.results);
-          setRelevantArticlesLoading(false);
-        }
+          if (item.type === "file_search_call") {
+            setFAQExtracts(item.results);
+            setRelevantArticlesLoading(false);
+          }
 
-        setConversationItems([...conversationItems]);
+          setConversationItems([...conversationItems]);
 
-        break;
+          break;
       }
 
       // Handle other events as needed
