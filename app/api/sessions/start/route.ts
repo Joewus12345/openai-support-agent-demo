@@ -12,6 +12,7 @@ export async function POST(request: Request) {
       where: { email },
       update: { name, phone, address },
       create: { email, name, phone, address },
+      include: { orders: true },
     });
     let session = await prisma.chatSession.findFirst({
       where: { userId: user.id },
