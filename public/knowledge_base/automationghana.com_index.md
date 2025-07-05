@@ -96,13 +96,13 @@ We provide unique electrical and automation services and products through innova
 Through respect, trust and integrity, we ensure customer satisfaction by operating as a team with the following as the defining boundaries: respect, trust, integrity, discipline, people development, sharing and knowledge seeking.
 [ Learn more ](https://automationghana.com/new-home-2/)
 ## Quick Facts
-0 +
+20 +
 #####  Years In Business 
-0 +
+615 +
 #####  Projects Delivered 
-0 +
+500 +
 #####  Satisfied Clients 
-0 %
+93 %
 #####  Satisfaction Rate 
 ## Our Brands
 ![The Automation Ghana Group - asl loog](https://automationghana.com/wp-content/uploads/2024/08/asl_loog.png)
