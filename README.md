@@ -22,6 +22,7 @@ Features:
 - Suggested actions to execute tool calls
 - Auto-execution of tool calls for non-sensitive actions
 - Optional auto reply mode to automatically send suggested messages
+- Filters out irrelevant questions and jailbreaking attempts
 
 Feel free to customize this demo to suit your specific use case.
 
