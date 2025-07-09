@@ -189,25 +189,6 @@ export const toolsList = [
       address: { type: "string", description: "Street address" },
     },
   },
-  {
-    name: "get_products",
-    parameters: {
-      query: {
-        type: "string",
-        description: "Product name or partial name",
-      },
-    },
-  },
-  {
-    name: "get_about_us",
-    parameters: {
-      query: {
-        type: "string",
-        description: "Search term for the about page",
-      },
-    },
-    required: ["query"],
-  },
   // add more tools as needed
 ];
 

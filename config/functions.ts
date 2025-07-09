@@ -242,30 +242,7 @@ export const update_info = async ({
   }
 };
 
-export const get_products = async ({ query }: { query: string }) => {
-  try {
-    const res = await fetch(
-      `/api/products/search?query=${encodeURIComponent(query)}`
-    ).then((res) => res.json());
-    return res;
-  } catch (error) {
-    console.error(error);
-    return { error: "Failed to search products" };
-  }
-};
 
-export const get_about_us = async ({ query = "" }: { query?: string }) => {
-  try {
-    const url = query
-      ? `/api/company/about?query=${encodeURIComponent(query)}`
-      : "/api/company/about";
-    const res = await fetch(url).then((res) => res.json());
-    return res;
-  } catch (error) {
-    console.error(error);
-    return { error: "Failed to get about us" };
-  }
-};
 
 export const get_user_profile = async ({ email }: { email: string }) => {
   try {
@@ -353,7 +330,5 @@ export const functionsMap = {
   get_user_profile: get_user_profile,
   create_user_profile: create_user_profile,
   start_chat_session: start_chat_session,
-  get_products: get_products,
-  get_about_us: get_about_us,
   // add more functions as needed
 };
