@@ -153,7 +153,7 @@ export const toolsList = [
     parameters: {
       user_id: {
         type: "string",
-        description: "User ID to update",
+        description: "User ID to update information for",
       },
       email: { type: "string", description: "New email", nullable: true },
       phone: { type: "string", description: "New phone", nullable: true },
