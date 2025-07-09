@@ -1,7 +1,12 @@
 import { MODEL } from "@/config/constants";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { relevance_guardrail, jailbreak_guardrail } from "@/lib/guardrails";
+import {
+  relevance_guardrail,
+  jailbreak_guardrail,
+  runRelevanceGuardrail,
+  runJailbreakGuardrail,
+} from "@/lib/guardrails";
 
 export async function POST(request: Request) {
   try {
@@ -15,8 +20,8 @@ export async function POST(request: Request) {
         ? String(messages[messages.length - 1].content || "")
         : "";
 
-    const relevance = await relevance_guardrail.execute({ input: userInput });
-    const jailbreak = await jailbreak_guardrail.execute({ input: userInput });
+    const relevance = await runRelevanceGuardrail({ input: userInput });
+    const jailbreak = await runJailbreakGuardrail({ input: userInput });
 
     if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
       return NextResponse.json(
