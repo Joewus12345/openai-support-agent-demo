@@ -1,5 +1,5 @@
 import { Agent, run } from '@openai/agents';
-import { defineInputGuardrail } from '@openai/agents-core';
+import { defineInputGuardrail } from '@openai/agents-core/guardrail';
 import { z } from 'zod';
 import { MODEL } from '@/config/constants';
 
@@ -27,34 +27,38 @@ const jailbreak_guardrail_agent = new Agent({
   outputType: JailbreakOutput,
 });
 
+export async function runRelevanceGuardrail({ input }: { input: string }) {
+  const result = await run(guardrail_agent, input);
+  let parsed: any;
+  try {
+    parsed = typeof result.finalOutput === 'string' ? JSON.parse(result.finalOutput) : result.finalOutput;
+  } catch {
+    parsed = {};
+  }
+  const res = RelevanceOutput.safeParse(parsed);
+  const relevant = res.success ? res.data.relevant : false;
+  return { tripwireTriggered: !relevant, outputInfo: parsed };
+}
+
 export const relevance_guardrail = defineInputGuardrail({
   name: 'relevance_guardrail',
-  async execute({ input }) {
-    const result = await run(guardrail_agent, input as string);
-    let parsed: any;
-    try {
-      parsed = typeof result.finalOutput === 'string' ? JSON.parse(result.finalOutput) : result.finalOutput;
-    } catch {
-      parsed = {};
-    }
-    const res = RelevanceOutput.safeParse(parsed);
-    const relevant = res.success ? res.data.relevant : false;
-    return { tripwireTriggered: !relevant, outputInfo: parsed };
-  },
+  execute: runRelevanceGuardrail as any,
 });
+
+export async function runJailbreakGuardrail({ input }: { input: string }) {
+  const result = await run(jailbreak_guardrail_agent, input);
+  let parsed: any;
+  try {
+    parsed = typeof result.finalOutput === 'string' ? JSON.parse(result.finalOutput) : result.finalOutput;
+  } catch {
+    parsed = {};
+  }
+  const res = JailbreakOutput.safeParse(parsed);
+  const jailbreak = res.success ? res.data.jailbreak : false;
+  return { tripwireTriggered: jailbreak, outputInfo: parsed };
+}
 
 export const jailbreak_guardrail = defineInputGuardrail({
   name: 'jailbreak_guardrail',
-  async execute({ input }) {
-    const result = await run(jailbreak_guardrail_agent, input as string);
-    let parsed: any;
-    try {
-      parsed = typeof result.finalOutput === 'string' ? JSON.parse(result.finalOutput) : result.finalOutput;
-    } catch {
-      parsed = {};
-    }
-    const res = JailbreakOutput.safeParse(parsed);
-    const jailbreak = res.success ? res.data.jailbreak : false;
-    return { tripwireTriggered: jailbreak, outputInfo: parsed };
-  },
+  execute: runJailbreakGuardrail as any,
 });

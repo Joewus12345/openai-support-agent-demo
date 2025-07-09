@@ -1,7 +1,12 @@
 import { MODEL } from "@/config/constants";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { relevance_guardrail, jailbreak_guardrail } from "@/lib/guardrails";
+import {
+  relevance_guardrail,
+  jailbreak_guardrail,
+  runRelevanceGuardrail,
+  runJailbreakGuardrail,
+} from "@/lib/guardrails";
 
 export async function POST(request: Request) {
   try {
@@ -10,19 +15,15 @@ export async function POST(request: Request) {
 
     const openai = new OpenAI();
 
-    const events = await openai.responses.create({
-      model: MODEL,
-      input: messages,
-      tools,
-      guardrails: [relevance_guardrail, jailbreak_guardrail],
-      stream: true,
-      include: ["file_search_call.results"],
-      parallel_tool_calls: false,
-    });
+    const userInput =
+      Array.isArray(messages) && messages.length > 0
+        ? String(messages[messages.length - 1].content || "")
+        : "";
 
-    const iterator = events[Symbol.asyncIterator]();
-    const first = await iterator.next();
-    if (first.value && (first.value as any).tripwire_triggered) {
+    const relevance = await runRelevanceGuardrail({ input: userInput });
+    const jailbreak = await runJailbreakGuardrail({ input: userInput });
+
+    if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
       return NextResponse.json(
         {
           message: "Sorry, I can't help with that request.",
@@ -31,14 +32,19 @@ export async function POST(request: Request) {
       );
     }
 
+    const events = await openai.responses.create({
+      model: MODEL,
+      input: messages,
+      tools,
+      stream: true,
+      include: ["file_search_call.results"],
+      parallel_tool_calls: false,
+    });
+
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          if (!first.done) {
-            const data = JSON.stringify({ event: first.value.type, data: first.value });
-            controller.enqueue(`data: ${data}\n\n`);
-          }
-          for await (const event of iterator) {
+          for await (const event of events) {
             const data = JSON.stringify({ event: event.type, data: event });
             controller.enqueue(`data: ${data}\n\n`);
           }
