@@ -1,6 +1,7 @@
 import { MODEL } from "@/config/constants";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { relevance_guardrail, jailbreak_guardrail } from "@/lib/guardrails";
 
 export async function POST(request: Request) {
   try {
@@ -13,24 +14,34 @@ export async function POST(request: Request) {
       model: MODEL,
       input: messages,
       tools,
+      guardrails: [relevance_guardrail, jailbreak_guardrail],
       stream: true,
       include: ["file_search_call.results"],
       parallel_tool_calls: false,
     });
 
-    // Create a ReadableStream that emits SSE data
+    const iterator = events[Symbol.asyncIterator]();
+    const first = await iterator.next();
+    if (first.value && (first.value as any).tripwire_triggered) {
+      return NextResponse.json(
+        {
+          message: "Sorry, I can't help with that request.",
+        },
+        { status: 400 }
+      );
+    }
+
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const event of events) {
-            // Sending all events to the client
-            const data = JSON.stringify({
-              event: event.type,
-              data: event,
-            });
+          if (!first.done) {
+            const data = JSON.stringify({ event: first.value.type, data: first.value });
             controller.enqueue(`data: ${data}\n\n`);
           }
-          // End of stream
+          for await (const event of iterator) {
+            const data = JSON.stringify({ event: event.type, data: event });
+            controller.enqueue(`data: ${data}\n\n`);
+          }
           controller.close();
         } catch (error) {
           console.error("Error in streaming loop:", error);
