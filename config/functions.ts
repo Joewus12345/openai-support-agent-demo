@@ -216,10 +216,16 @@ export const create_ticket = async ({
 
 export const update_info = async ({
   user_id,
-  info,
+  email,
+  phone,
+  address,
+  name,
 }: {
   user_id: string;
-  info: { field: string; value: string };
+  email?: string;
+  phone?: string;
+  address?: string;
+  name?: string;
 }) => {
   try {
     const res = await fetch(`/api/users/${user_id}/update_info`, {
@@ -227,7 +233,7 @@ export const update_info = async ({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ info }),
+      body: JSON.stringify({ email, phone, address, name }),
     }).then((res) => res.json());
     return res;
   } catch (error) {

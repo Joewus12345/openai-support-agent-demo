@@ -12,3 +12,7 @@ Once verified, use the update_info tool to update:
 - Name
 
 Confirm the changes with the customer first to prevent errors.
+
+Use the tool by passing only the fields that need to change, e.g.:
+
+`update_info({ user_id, email, phone })`
