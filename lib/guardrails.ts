@@ -1,5 +1,5 @@
 import { Agent, run } from '@openai/agents';
-import { defineInputGuardrail } from '@openai/agents-core';
+import { defineInputGuardrail } from '@openai/agents-core/guardrail';
 import { z } from 'zod';
 import { MODEL } from '@/config/constants';
 
@@ -29,8 +29,8 @@ const jailbreak_guardrail_agent = new Agent({
 
 export const relevance_guardrail = defineInputGuardrail({
   name: 'relevance_guardrail',
-  async execute({ input }) {
-    const result = await run(guardrail_agent, input as string);
+  async execute({ input }: { input: string }) {
+    const result = await run(guardrail_agent, input);
     let parsed: any;
     try {
       parsed = typeof result.finalOutput === 'string' ? JSON.parse(result.finalOutput) : result.finalOutput;
@@ -45,8 +45,8 @@ export const relevance_guardrail = defineInputGuardrail({
 
 export const jailbreak_guardrail = defineInputGuardrail({
   name: 'jailbreak_guardrail',
-  async execute({ input }) {
-    const result = await run(jailbreak_guardrail_agent, input as string);
+  async execute({ input }: { input: string }) {
+    const result = await run(jailbreak_guardrail_agent, input);
     let parsed: any;
     try {
       parsed = typeof result.finalOutput === 'string' ? JSON.parse(result.finalOutput) : result.finalOutput;
