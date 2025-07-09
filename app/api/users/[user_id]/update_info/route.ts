@@ -6,16 +6,21 @@ export async function POST(
 ) {
   try {
     const { user_id } = params;
-    const { info } = await request.json();
+    const { email, phone, address, name } = await request.json();
+    const data = {
+      ...(email && { email }),
+      ...(phone && { phone }),
+      ...(address && { address }),
+      ...(name && { name }),
+    };
     await prisma.user.update({
       where: { id: user_id },
-      data: { [info.field]: info.value },
+      data,
     });
     return new Response(
       JSON.stringify({
         message: `User ${user_id} info updated`,
-        updatedField: info.field,
-        newValue: info.value,
+        updated: data,
       }),
       { status: 200 }
     );

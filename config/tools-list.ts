@@ -155,24 +155,12 @@ export const toolsList = [
         type: "string",
         description: "User ID to update information for",
       },
-      info: {
-        type: "object",
-        description: "Information to update",
-        properties: {
-          field: {
-            type: "string",
-            description: "Field to update",
-            enum: ["email", "phone", "address", "name"],
-          },
-          value: {
-            type: "string",
-            description: "Value to update",
-          },
-        },
-        additionalProperties: false,
-        required: ["field", "value"],
-      },
+      email: { type: "string", description: "New email", nullable: true },
+      phone: { type: "string", description: "New phone", nullable: true },
+      address: { type: "string", description: "New address", nullable: true },
+      name: { type: "string", description: "New name", nullable: true },
     },
+    required: ["user_id"],
   },
   {
     name: "get_user_profile",
