@@ -1,12 +1,7 @@
 import { MODEL } from "@/config/constants";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import {
-  relevance_guardrail,
-  jailbreak_guardrail,
-  runRelevanceGuardrail,
-  runJailbreakGuardrail,
-} from "@/lib/guardrails";
+import { runRelevanceGuardrail, runJailbreakGuardrail } from "@/lib/guardrails";
 
 export async function POST(request: Request) {
   try {
