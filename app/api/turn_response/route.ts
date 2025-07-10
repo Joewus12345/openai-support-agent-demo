@@ -1,14 +1,11 @@
-import { MODEL } from "@/config/constants";
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
 import { runRelevanceGuardrail, runJailbreakGuardrail } from "@/lib/guardrails";
+import { getProvider } from "@/lib/providers";
 
 export async function POST(request: Request) {
   try {
-    const { messages, tools } = await request.json();
+    const { messages, tools, provider } = await request.json();
     console.log("Received messages:", messages);
-
-    const openai = new OpenAI();
 
     const lastMessage =
       Array.isArray(messages) && messages.length > 0
@@ -37,21 +34,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const events = await openai.responses.create({
-      model: MODEL,
-      input: messages,
-      tools,
-      stream: true,
-      include: ["file_search_call.results"],
-      parallel_tool_calls: false,
-    });
+    const providerFn = getProvider(provider);
+    const events = providerFn(messages, tools);
 
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const event of events) {
-            const data = JSON.stringify({ event: event.type, data: event });
-            controller.enqueue(`data: ${data}\n\n`);
+          for await (const { event, data } of events) {
+            const payload = JSON.stringify({ event, data });
+            controller.enqueue(`data: ${payload}\n\n`);
           }
           controller.close();
         } catch (error) {
