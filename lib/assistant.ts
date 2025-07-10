@@ -47,7 +47,8 @@ export type Item = ChatMessage | ToolCallItem;
 
 export const handleTurn = async (
   messages: any[],
-  onMessage: (data: any) => void
+  onMessage: (data: any) => void,
+  provider = "openai"
 ) => {
   try {
     // Get response from the API (defined in app/api/turn_response/route.ts)
@@ -57,6 +58,7 @@ export const handleTurn = async (
       body: JSON.stringify({
         messages: messages,
         tools: tools,
+        provider,
       }),
     });
 
@@ -148,7 +150,9 @@ export const processMessages = async () => {
   let assistantMessageContent = "";
   let functionArguments = "";
 
-  await handleTurn(allConversationItems, async ({ event, data }) => {
+  await handleTurn(
+    allConversationItems,
+    async ({ event, data }) => {
     switch (event) {
       case "response.output_text.delta":
       case "response.output_text.annotation.added": {
@@ -405,5 +409,6 @@ export const processMessages = async () => {
 
       // Handle other events as needed
     }
-  });
+  },
+  "openai");
 };
