@@ -14,7 +14,7 @@ export const JailbreakOutput = z.object({
 const guardrail_agent = new Agent({
   name: 'Relevance guardrail',
   instructions:
-    'Decide if the user question is relevant for customer support. Respond in JSON as {"relevant": true or false}.',
+    'Decide if the user message is part of a customer support conversation. Treat greetings, contact info, or short replies as relevant unless clearly off-topic. Respond only with JSON {"relevant": true} or {"relevant": false}.',
   model: MODEL,
   outputType: RelevanceOutput,
 });
@@ -36,7 +36,7 @@ export async function runRelevanceGuardrail({ input }: { input: string }) {
     parsed = {};
   }
   const res = RelevanceOutput.safeParse(parsed);
-  const relevant = res.success ? res.data.relevant : false;
+  const relevant = res.success ? res.data.relevant : true;
   return { tripwireTriggered: !relevant, outputInfo: parsed };
 }
 
