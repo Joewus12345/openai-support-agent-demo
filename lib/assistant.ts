@@ -62,6 +62,14 @@ export const handleTurn = async (
 
     if (!response.ok) {
       console.error(`Error: ${response.status} - ${response.statusText}`);
+      let message = "";
+      try {
+        const errorData = await response.json();
+        message = errorData.message || errorData.error || "Unknown error";
+      } catch {
+        message = "Unknown error";
+      }
+      onMessage({ event: "error", data: { message } });
       return;
     }
 
@@ -376,6 +384,20 @@ export const processMessages = async () => {
           setConversationItems([...conversationItems]);
 
           break;
+      }
+
+      case "error": {
+        const { message } = data;
+        addConversationItem({ role: "assistant", content: message });
+        addChatMessage({
+          type: "message",
+          role: "agent",
+          content: [{ type: "output_text", text: message }],
+        });
+        setSuggestedMessage(null);
+        setSuggestedMessageDone(false);
+        setAgentTyping(false);
+        break;
       }
 
       // Handle other events as needed
