@@ -10,13 +10,23 @@ export async function POST(request: Request) {
 
     const openai = new OpenAI();
 
-    const userInput =
+    const lastMessage =
       Array.isArray(messages) && messages.length > 0
-        ? String(messages[messages.length - 1].content || "")
-        : "";
+        ? messages[messages.length - 1]
+        : null;
 
-    const relevance = await runRelevanceGuardrail({ input: userInput });
-    const jailbreak = await runJailbreakGuardrail({ input: userInput });
+    let userInput = "";
+    let relevance = { tripwireTriggered: false };
+    let jailbreak = { tripwireTriggered: false };
+
+    if (lastMessage && lastMessage.role === "user") {
+      const content = lastMessage.content;
+      userInput = Array.isArray(content)
+        ? content.join(" ")
+        : String(content || "");
+      relevance = await runRelevanceGuardrail({ input: userInput });
+      jailbreak = await runJailbreakGuardrail({ input: userInput });
+    }
 
     if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
       return NextResponse.json(
