@@ -160,7 +160,7 @@ export const toolsList = [
       address: { type: "string", description: "New address", nullable: true },
       name: { type: "string", description: "New name", nullable: true },
     },
-    required: ["user_id"],
+    required: ["user_id", "email", "phone", "address", "name"],
   },
   {
     name: "get_user_profile",
