@@ -111,6 +111,8 @@ export const handleTurn = async (
     }
   } catch (error) {
     console.error("Error handling turn:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    onMessage({ event: "error", data: { message } });
   }
 };
 
@@ -185,13 +187,14 @@ export const processMessages = async () => {
 
       case "response.output_text.done": {
         if (autoReply) {
-          addConversationItem({ role: "assistant", content: assistantMessageContent });
+          addConversationItem({
+            role: "assistant",
+            content: assistantMessageContent,
+          });
           addChatMessage({
             type: "message",
             role: "agent",
-            content: [
-              { type: "output_text", text: assistantMessageContent },
-            ],
+            content: [{ type: "output_text", text: assistantMessageContent }],
           });
           setSuggestedMessage(null);
           setSuggestedMessageDone(false);
@@ -376,14 +379,14 @@ export const processMessages = async () => {
           }
         }
 
-          if (item.type === "file_search_call") {
-            setFAQExtracts(item.results);
-            setRelevantArticlesLoading(false);
-          }
+        if (item.type === "file_search_call") {
+          setFAQExtracts(item.results);
+          setRelevantArticlesLoading(false);
+        }
 
-          setConversationItems([...conversationItems]);
+        setConversationItems([...conversationItems]);
 
-          break;
+        break;
       }
 
       case "error": {
