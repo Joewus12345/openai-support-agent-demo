@@ -16,7 +16,7 @@ export async function fileSearch({ query, max_results = 5 }: FileSearchParams) {
           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           "OpenAI-Beta": "assistants=v2",
         },
-        body: JSON.stringify({ query, max_num_results: max_results }),
+        body: JSON.stringify({ query, max_results }),
       }
     );
     if (!res.ok) {
