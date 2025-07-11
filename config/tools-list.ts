@@ -4,6 +4,21 @@
 
 export const toolsList = [
   {
+    name: "search_files",
+    parameters: {
+      query: {
+        type: "string",
+        description: "Query used to search the knowledge base",
+      },
+      max_results: {
+        type: "number",
+        description: "Maximum number of results to return",
+        nullable: true,
+      },
+    },
+    required: ["query"],
+  },
+  {
     name: "get_order",
     parameters: {
       order_id: {

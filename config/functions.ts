@@ -315,6 +315,17 @@ export const start_chat_session = async ({
   }
 };
 
+export const search_files = async ({
+  query,
+  max_results,
+}: {
+  query: string;
+  max_results?: number;
+}) => {
+  const { fileSearch } = await import("@/lib/tools/fileSearch");
+  return fileSearch({ query, max_results });
+};
+
 export const functionsMap = {
   get_order: get_order,
   get_order_history: get_order_history,
@@ -330,5 +341,6 @@ export const functionsMap = {
   get_user_profile: get_user_profile,
   create_user_profile: create_user_profile,
   start_chat_session: start_chat_session,
+  search_files: search_files,
   // add more functions as needed
 };
