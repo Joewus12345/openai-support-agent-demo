@@ -64,6 +64,27 @@ Feel free to customize this demo to suit your specific use case.
    running locally (e.g. by executing `ollama serve`). The built-in tools work
    the same with both providers.
 
+## Running Ollama
+
+When using the `ollama` provider you need a local server running.
+
+1. Start the server:
+
+```bash
+ollama serve
+```
+
+2. Begin with a lightweight model such as `llama3`:
+
+```bash
+ollama run llama3
+```
+
+The command downloads the model if needed. Use `ollama run <model>` or `ollama pull <model>` to get other models.
+
+3. After installing multiple models, switch between them using the **Model** dropdown in the agent view. Ensure the provider dropdown is set to `ollama`.
+
+
 5. **Install dependencies:**
 
    Run in the project root:
