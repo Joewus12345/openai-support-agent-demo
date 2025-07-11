@@ -8,6 +8,7 @@ export const tools = [
   },
   // Mapping toolsList into the expected tool definition format
   ...toolsList.map((tool) => {
+    const required = (tool as any).required ?? Object.keys(tool.parameters);
     const toolDef: {
       type: string;
       name: string;
@@ -20,10 +21,10 @@ export const tools = [
       parameters: {
         type: "object",
         properties: { ...tool.parameters },
-        required: (tool as any).required ?? Object.keys(tool.parameters),
+        required,
         additionalProperties: false,
       },
-      strict: true,
+      strict: required.length === Object.keys(tool.parameters).length,
     };
     if ((tool as any).description) {
       toolDef.description = (tool as any).description;
