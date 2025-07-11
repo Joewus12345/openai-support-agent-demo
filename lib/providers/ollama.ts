@@ -1,6 +1,7 @@
 import { ProviderEvent } from "./openai";
 import ollama from "ollama";
 import { randomUUID } from "crypto";
+import { search_files } from "@/config/functions";
 
 export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerator<ProviderEvent> {
   const converted = (messages || []).map((m: any) => ({
@@ -9,6 +10,31 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
       ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
       : String(m.content ?? ""),
   }));
+
+  const lastUser = [...(messages || [])].reverse().find((m: any) => m.role === "user");
+  if (lastUser) {
+    const q = Array.isArray(lastUser.content)
+      ? lastUser.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
+      : String(lastUser.content ?? "");
+    try {
+      const results = await search_files({ query: q });
+      if (results && !(results as any).error) {
+        const snippets = (results.data || results.results || [])
+          .map((r: any) => r.text)
+          .filter(Boolean)
+          .slice(0, 3)
+          .join("\n---\n");
+        if (snippets) {
+          converted.push({
+            role: "system",
+            content: `Relevant knowledge base excerpts:\n${snippets}`,
+          });
+        }
+      }
+    } catch (err) {
+      console.error("search_files failed", err);
+    }
+  }
 
   const stream = await ollama.chat({
     model: "llama3",
