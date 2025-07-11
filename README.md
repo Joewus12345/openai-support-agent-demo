@@ -23,6 +23,8 @@ Features:
 - Auto-execution of tool calls for non-sensitive actions
 - Optional auto reply mode to automatically send suggested messages
 - Filters out irrelevant questions and jailbreaking attempts
+- Works with either `openai` or `ollama` providers. The built-in tools operate
+  the same with both.
 
 Feel free to customize this demo to suit your specific use case.
 
@@ -54,7 +56,16 @@ Feel free to customize this demo to suit your specific use case.
    queries the OpenAI vector store. Make sure your `OPENAI_API_KEY` is set so
    this call succeeds.
 
-4. **Install dependencies:**
+4. **Choose your provider (optional):**
+
+   The assistant can run using either the `openai` API or the `ollama` package.
+   To switch providers, edit `lib/assistant.ts` and change the last argument
+   passed to `handleTurn` inside `processMessages()` (`"openai"` by default).
+   When selecting `ollama`, make sure you have an Ollama server running locally
+   (e.g. by executing `ollama serve`). The built-in tools work the same with
+   both providers.
+
+5. **Install dependencies:**
 
    Run in the project root:
 
@@ -62,7 +73,7 @@ Feel free to customize this demo to suit your specific use case.
    npm install
    ```
 
-5. **Run the app:**
+6. **Run the app:**
 
    ```bash
    npm run dev
@@ -70,7 +81,7 @@ Feel free to customize this demo to suit your specific use case.
 
    The app will be available at [`http://localhost:3000`](http://localhost:3000).
 
-6. **Initialize the vector store:**
+7. **Initialize the vector store:**
 
    Go to [`/init_vs`](http://localhost:3000/init_vs) to create a vector store and initialize it with the knowledge base. Once you have created the vector store, update `config/constants.ts` with your own vector store ID.
 
