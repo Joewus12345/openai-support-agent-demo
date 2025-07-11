@@ -59,11 +59,10 @@ Feel free to customize this demo to suit your specific use case.
 4. **Choose your provider (optional):**
 
    The assistant can run using either the `openai` API or the `ollama` package.
-   To switch providers, edit `lib/assistant.ts` and change the last argument
-   passed to `handleTurn` inside `processMessages()` (`"openai"` by default).
-   When selecting `ollama`, make sure you have an Ollama server running locally
-   (e.g. by executing `ollama serve`). The built-in tools work the same with
-   both providers.
+   You can switch providers from the dropdown next to **Auto reply** in the
+   agent view. When selecting `ollama`, make sure you have an Ollama server
+   running locally (e.g. by executing `ollama serve`). The built-in tools work
+   the same with both providers.
 
 5. **Install dependencies:**
 

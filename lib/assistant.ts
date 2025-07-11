@@ -133,6 +133,7 @@ export const processMessages = async () => {
     addChatMessage,
     removeRecommendedAction,
     autoReply,
+    modelProvider,
   } = useConversationStore.getState();
 
   const { setRelevantArticlesLoading, setFAQExtracts } =
@@ -410,5 +411,5 @@ export const processMessages = async () => {
       // Handle other events as needed
     }
   },
-  "openai");
+  modelProvider);
 };
