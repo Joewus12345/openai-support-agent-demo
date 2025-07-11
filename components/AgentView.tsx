@@ -15,8 +15,15 @@ import Chat from "./Chat";
 import { Switch } from "./ui/switch";
 
 export default function AgentView() {
-  const { chatMessages, addConversationItem, addChatMessage, autoReply, setAutoReply } =
-    useConversationStore();
+  const {
+    chatMessages,
+    addConversationItem,
+    addChatMessage,
+    autoReply,
+    setAutoReply,
+    modelProvider,
+    setModelProvider,
+  } = useConversationStore();
 
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
@@ -37,9 +44,23 @@ export default function AgentView() {
 
   return (
     <div className="relative flex flex-1 min-h-0 bg-white rounded-lg p-4 gap-4">
-      <div className="absolute top-4 left-4 flex items-center gap-2">
-        <span className="text-xs text-zinc-500">Auto reply</span>
-        <Switch checked={autoReply} onCheckedChange={setAutoReply} mode="custom" />
+      <div className="absolute top-4 left-4 flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-zinc-500">Auto reply</span>
+          <Switch
+            checked={autoReply}
+            onCheckedChange={setAutoReply}
+            mode="custom"
+          />
+        </div>
+        <select
+          className="text-xs border rounded p-1"
+          value={modelProvider}
+          onChange={(e) => setModelProvider(e.target.value)}
+        >
+          <option value="openai">OpenAI</option>
+          <option value="ollama">Ollama</option>
+        </select>
       </div>
       <div className="w-full md:w-3/5">
         <Chat

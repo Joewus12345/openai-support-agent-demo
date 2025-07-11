@@ -34,6 +34,9 @@ interface ConversationState {
   autoReply: boolean;
   setAutoReply: (flag: boolean) => void;
 
+  modelProvider: string;
+  setModelProvider: (provider: string) => void;
+
   setChatMessages: (items: Item[]) => void;
   setConversationItems: (messages: any[]) => void;
   addChatMessage: (item: Item) => void;
@@ -61,10 +64,12 @@ const useConversationStore = create<ConversationState>((set) => ({
   userTyping: false,
   agentTyping: false,
   autoReply: false,
+  modelProvider: "openai",
   composerText: "",
   setUserTyping: (typing) => set({ userTyping: typing }),
   setAgentTyping: (typing) => set({ agentTyping: typing }),
   setAutoReply: (flag) => set({ autoReply: flag }),
+  setModelProvider: (provider) => set({ modelProvider: provider }),
   setComposerText: (text) => set({ composerText: text }),
   setChatMessages: (items) => set({ chatMessages: items }),
   setConversationItems: (messages) => set({ conversationItems: messages }),
