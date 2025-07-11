@@ -19,7 +19,8 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
     try {
       const results = await search_files({ query: q });
       if (results && !(results as any).error) {
-        const snippets = (results.data || results.results || [])
+        const searchResults = results.data || results.results || [];
+        const snippets = searchResults
           .map((r: any) => r.text)
           .filter(Boolean)
           .slice(0, 3)
@@ -29,6 +30,15 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
             role: "system",
             content: `Relevant knowledge base excerpts:\n${snippets}`,
           });
+          const id = randomUUID();
+          yield {
+            event: "response.file_search_call.completed",
+            data: { item_id: id, results: searchResults },
+          } as ProviderEvent;
+          yield {
+            event: "response.output_item.done",
+            data: { item: { type: "file_search_call", id, results: searchResults } },
+          } as ProviderEvent;
         }
       }
     } catch (err) {
