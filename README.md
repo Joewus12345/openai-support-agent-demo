@@ -50,6 +50,10 @@ Feel free to customize this demo to suit your specific use case.
    OPENAI_API_KEY=<your_api_key>
    ```
 
+   **Note:** Even when using the `ollama` provider, the `search_files` function
+   queries the OpenAI vector store. Make sure your `OPENAI_API_KEY` is set so
+   this call succeeds.
+
 4. **Install dependencies:**
 
    Run in the project root:
