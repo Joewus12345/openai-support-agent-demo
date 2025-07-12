@@ -2,6 +2,7 @@ import { ChatMessage } from "@/lib/assistant";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import ImageModal from "./ImageModal";
+import Image from "next/image";
 
 interface MessageProps {
   message: ChatMessage;
@@ -32,7 +33,7 @@ const Message: React.FC<MessageProps> = ({
                 <div>
                   {item.type === "output_image" && item.image_url ? (
                     <ImageModal src={item.image_url}>
-                      <img
+                      <Image
                         src={item.image_url}
                         alt="image"
                         className="w-24 h-24 object-cover rounded-md cursor-pointer"
@@ -53,7 +54,7 @@ const Message: React.FC<MessageProps> = ({
               <div>
                 {item.type === "output_image" && item.image_url ? (
                   <ImageModal src={item.image_url}>
-                    <img
+                    <Image
                       src={item.image_url}
                       alt="image"
                       className="w-24 h-24 object-cover rounded-md cursor-pointer"
