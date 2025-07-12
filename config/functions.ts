@@ -235,6 +235,12 @@ export const update_info = async ({
       },
       body: JSON.stringify({ email, phone, address, name }),
     }).then((res) => res.json());
+
+    if (res && res.updated) {
+      const { customerDetails, setCustomerDetails } = useDataStore.getState();
+      setCustomerDetails({ ...customerDetails, ...res.updated });
+    }
+
     return res;
   } catch (error) {
     console.error(error);
