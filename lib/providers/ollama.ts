@@ -47,7 +47,7 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
   }
 
   const stream = await ollama.chat({
-    model: "llama3",
+    model: "llama3.2",
     messages: converted,
     tools,
     stream: true,
