@@ -63,7 +63,7 @@ const useConversationStore = create<ConversationState>((set) => ({
   suggestedMessageDone: false,
   userTyping: false,
   agentTyping: false,
-  autoReply: false,
+  autoReply: true,
   modelProvider: "openai",
   composerText: "",
   setUserTyping: (typing) => set({ userTyping: typing }),
