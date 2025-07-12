@@ -9,9 +9,10 @@ import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
 
 export interface ContentItem {
-  type: "input_text" | "output_text" | "refusal" | "output_audio";
+  type: "input_text" | "output_text" | "refusal" | "output_audio" | "output_image";
   annotations?: Annotation[];
   text?: string;
+  image_url?: string;
 }
 
 // Message items for storing conversation history matching API shape
