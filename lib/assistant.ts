@@ -64,13 +64,15 @@ export const handleTurn = async (
     });
 
     if (!response.ok) {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
       let message = "";
       try {
         const errorData = await response.json();
-        message = errorData.message || errorData.error || "Unknown error";
+        message =
+          errorData.message ||
+          errorData.error ||
+          "The assistant encountered an error. Please try again.";
       } catch {
-        message = "Unknown error";
+        message = "The assistant encountered an error. Please try again.";
       }
       onMessage({ event: "error", data: { message } });
       return;
@@ -113,8 +115,10 @@ export const handleTurn = async (
       }
     }
   } catch (error) {
-    console.error("Error handling turn:", error);
-    const message = error instanceof Error ? error.message : "Unknown error";
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "An unexpected error occurred. Please try again.";
     onMessage({ event: "error", data: { message } });
   }
 };
