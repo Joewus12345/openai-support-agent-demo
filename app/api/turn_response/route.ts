@@ -22,10 +22,16 @@ export async function POST(request: Request) {
         ? content.join(" ")
         : String(content || "");
       relevance = await runRelevanceGuardrail({ input: userInput });
+      console.log("Relevance guardrail result:", relevance);
       jailbreak = await runJailbreakGuardrail({ input: userInput });
+      console.log("Jailbreak guardrail result:", jailbreak);
     }
 
     if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
+      console.log("Guardrail triggered", {
+        relevanceTriggered: relevance.tripwireTriggered,
+        jailbreakTriggered: jailbreak.tripwireTriggered,
+      });
       return NextResponse.json(
         {
           message: "Sorry, I can't help with that request.",
