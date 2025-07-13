@@ -4,6 +4,18 @@ import ReactMarkdown from "react-markdown";
 import ImageModal from "./ImageModal";
 import Image from "next/image";
 
+const markdownComponents = {
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    <ImageModal src={props.src ?? ""}>
+      <Image
+        {...props}
+        alt={props.alt || "image"}
+        className="w-24 h-24 object-cover rounded-md cursor-pointer"
+      />
+    </ImageModal>
+  ),
+};
+
 interface MessageProps {
   message: ChatMessage;
   view: "user" | "agent";
@@ -40,7 +52,9 @@ const Message: React.FC<MessageProps> = ({
                       />
                     </ImageModal>
                   ) : (
-                    <ReactMarkdown>{item.text as string}</ReactMarkdown>
+                    <ReactMarkdown components={markdownComponents}>
+                      {item.text as string}
+                    </ReactMarkdown>
                   )}
                 </div>
               </div>
@@ -61,7 +75,9 @@ const Message: React.FC<MessageProps> = ({
                     />
                   </ImageModal>
                 ) : (
-                  <ReactMarkdown>{item.text as string}</ReactMarkdown>
+                  <ReactMarkdown components={markdownComponents}>
+                    {item.text as string}
+                  </ReactMarkdown>
                 )}
               </div>
             </div>
