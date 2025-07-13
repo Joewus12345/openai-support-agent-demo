@@ -2,11 +2,12 @@ import { ChatMessage } from "@/lib/assistant";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import ImageModal from "./ImageModal";
+import Image from "next/image";
 
 const markdownComponents = {
   img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
     <ImageModal src={props.src ?? ""}>
-      <img
+      <Image
         {...props}
         alt={props.alt || "image"}
         className="w-24 h-24 object-cover rounded-md cursor-pointer"
@@ -44,7 +45,7 @@ const Message: React.FC<MessageProps> = ({
                 <div>
                   {item.type === "output_image" && item.image_url ? (
                     <ImageModal src={item.image_url}>
-                      <img
+                      <Image
                         src={item.image_url}
                         alt="image"
                         className="w-24 h-24 object-cover rounded-md cursor-pointer"
@@ -67,7 +68,7 @@ const Message: React.FC<MessageProps> = ({
               <div>
                 {item.type === "output_image" && item.image_url ? (
                   <ImageModal src={item.image_url}>
-                    <img
+                    <Image
                       src={item.image_url}
                       alt="image"
                       className="w-24 h-24 object-cover rounded-md cursor-pointer"
