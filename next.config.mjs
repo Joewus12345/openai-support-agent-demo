@@ -9,7 +9,17 @@ const nextConfig = {
         pathname: '/**',
       },
       {
+        protocol: 'http',
+        hostname: 'automationghana.com',
+        pathname: '/**',
+      },
+      {
         protocol: 'https',
+        hostname: 'store.automationghana.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
         hostname: 'store.automationghana.com',
         pathname: '/**',
       },
