@@ -2,18 +2,17 @@ import { ChatMessage } from "@/lib/assistant";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import ImageModal from "./ImageModal";
-import Image, { ImageProps } from "next/image";
+import { ImageProps } from "next/image";
 import type { Components } from 'react-markdown';
+import ChatImage from "./ChatImage";
 
 const markdownComponents: Components = {
   img: (props) => (
     <ImageModal src={(props.src as string) ?? ''}>
-      <Image
+      <ChatImage
         {...(props as unknown as ImageProps)}
         alt={props.alt || 'image'}
-        width={96}
-        height={96}
-        className="w-24 h-24 object-cover rounded-md cursor-pointer"
+        className="object-cover rounded-md cursor-pointer"
       />
     </ImageModal>
   ),
@@ -48,12 +47,10 @@ const Message: React.FC<MessageProps> = ({
                 <div>
                   {item.type === "output_image" && item.image_url ? (
                     <ImageModal src={item.image_url}>
-                      <Image
+                      <ChatImage
                         src={item.image_url}
                         alt="image"
-                        width={96}
-                        height={96}
-                        className="w-24 h-24 object-cover rounded-md cursor-pointer"
+                        className="object-cover rounded-md cursor-pointer"
                       />
                     </ImageModal>
                   ) : (
@@ -73,12 +70,10 @@ const Message: React.FC<MessageProps> = ({
               <div>
                 {item.type === "output_image" && item.image_url ? (
                   <ImageModal src={item.image_url}>
-                    <Image
+                    <ChatImage
                       src={item.image_url}
                       alt="image"
-                      width={96}
-                      height={96}
-                      className="w-24 h-24 object-cover rounded-md cursor-pointer"
+                      className="object-cover rounded-md cursor-pointer"
                     />
                   </ImageModal>
                 ) : (
