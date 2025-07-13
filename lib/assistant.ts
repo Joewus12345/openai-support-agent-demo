@@ -64,6 +64,7 @@ export const handleTurn = async (
     });
 
     if (!response.ok) {
+      console.error(`Error: ${response.status} - ${response.statusText}`);
       let message = "";
       try {
         const errorData = await response.json();
@@ -115,6 +116,7 @@ export const handleTurn = async (
       }
     }
   } catch (error) {
+    console.error("Error handling turn:", error);
     const message =
       error instanceof Error && error.message
         ? error.message
