@@ -2,10 +2,10 @@ import prisma from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  { params }: { params: { user_id: string } }
+  { params }: { params: Promise<{ user_id: string }> }
 ) {
   try {
-    const { user_id } = params;
+    const { user_id } = await params;
     const orders = await prisma.order.findMany({ where: { userId: user_id } });
     return new Response(JSON.stringify(orders), {
       status: 200,

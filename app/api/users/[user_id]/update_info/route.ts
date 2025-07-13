@@ -2,10 +2,10 @@ import prisma from "@/lib/prisma";
 
 export async function POST(
   request: Request,
-  { params }: { params: { user_id: string } }
+  { params }: { params: Promise<{ user_id: string }> }
 ) {
   try {
-    const { user_id } = params;
+    const { user_id } = await params;
     const { email, phone, address, name } = await request.json();
     const data = {
       ...(email && { email }),
