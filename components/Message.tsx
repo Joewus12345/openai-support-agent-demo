@@ -3,13 +3,14 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import ImageModal from "./ImageModal";
 import Image, { ImageProps } from "next/image";
+import type { Components } from 'react-markdown';
 
-const markdownComponents = {
-  img: (props: ImageProps) => (
-    <ImageModal src={(props.src as string) ?? ""}>
+const markdownComponents: Components = {
+  img: (props) => (
+    <ImageModal src={(props.src as string) ?? ''}>
       <Image
-        {...props}
-        alt={props.alt || "image"}
+        {...(props as unknown as ImageProps)}
+        alt={props.alt || 'image'}
         width={96}
         height={96}
         className="w-24 h-24 object-cover rounded-md cursor-pointer"
