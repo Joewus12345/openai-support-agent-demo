@@ -1,6 +1,19 @@
 import { ChatMessage } from "@/lib/assistant";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import ImageModal from "./ImageModal";
+
+const markdownComponents = {
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    <ImageModal src={props.src ?? ""}>
+      <img
+        {...props}
+        alt={props.alt || "image"}
+        className="w-24 h-24 object-cover rounded-md cursor-pointer"
+      />
+    </ImageModal>
+  ),
+};
 
 interface MessageProps {
   message: ChatMessage;
@@ -13,6 +26,7 @@ const Message: React.FC<MessageProps> = ({
   view,
   suggestion = false,
 }) => {
+  const item = message.content[0];
   return (
     <div className="text-sm">
       {(message.role === "user" && view === "user") ||
@@ -28,9 +42,19 @@ const Message: React.FC<MessageProps> = ({
             >
               <div>
                 <div>
-                  <ReactMarkdown>
-                    {message.content[0].text as string}
-                  </ReactMarkdown>
+                  {item.type === "output_image" && item.image_url ? (
+                    <ImageModal src={item.image_url}>
+                      <img
+                        src={item.image_url}
+                        alt="image"
+                        className="w-24 h-24 object-cover rounded-md cursor-pointer"
+                      />
+                    </ImageModal>
+                  ) : (
+                    <ReactMarkdown components={markdownComponents}>
+                      {item.text as string}
+                    </ReactMarkdown>
+                  )}
                 </div>
               </div>
             </div>
@@ -41,9 +65,19 @@ const Message: React.FC<MessageProps> = ({
           <div className="flex">
             <div className="mr-4 rounded-[16px] rounded-bl-[4px] px-4 py-2 md:mr-24 text-zinc-900 bg-[#ECECF1] font-light">
               <div>
-                <ReactMarkdown>
-                  {message.content[0].text as string}
-                </ReactMarkdown>
+                {item.type === "output_image" && item.image_url ? (
+                  <ImageModal src={item.image_url}>
+                    <img
+                      src={item.image_url}
+                      alt="image"
+                      className="w-24 h-24 object-cover rounded-md cursor-pointer"
+                    />
+                  </ImageModal>
+                ) : (
+                  <ReactMarkdown components={markdownComponents}>
+                    {item.text as string}
+                  </ReactMarkdown>
+                )}
               </div>
             </div>
           </div>
