@@ -2,7 +2,18 @@
 const nextConfig = {
   devIndicators: false,
   images: {
-    domains: ['automationghana.com', 'store.automationghana.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'automationghana.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'store.automationghana.com',
+        pathname: '/**',
+      },
+    ],
   },
 };
 
