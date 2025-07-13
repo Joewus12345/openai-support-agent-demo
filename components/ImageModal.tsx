@@ -13,7 +13,9 @@ export default function ImageModal({ src, children }: ImageModalProps) {
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="p-0 w-[90vw] max-w-3xl flex items-center justify-center">
-        <Image src={src} alt="image" className="max-h-[90vh] w-auto h-auto object-contain" />
+        <div className="relative w-full h-[90vh]">
+          <Image src={src} alt="image" fill className="object-contain" />
+        </div>
       </DialogContent>
     </Dialog>
   );
