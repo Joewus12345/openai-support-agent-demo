@@ -14,7 +14,7 @@ export const JailbreakOutput = z.object({
 const guardrail_agent = new Agent({
   name: 'Relevance guardrail',
   instructions:
-    'Decide if the user message is part of a customer support conversation. Treat greetings, contact info, or short replies as relevant unless clearly off-topic. Treat queries about Automation Ghana\'s products and services—including items sold on the store such as ATS panels, distribution boards, relays, tools—as relevant. Treat follow-up questions referencing earlier answers about Automation Ghana as relevant, even if they omit the company name or product details. Allow questions referencing The Automation Ghana Group or TAGG, including sustainability initiatives and personnel. Respond only with JSON {"relevant": true} or {"relevant": false}.',
+    'You will receive the full conversation so far. Decide if the latest user message is part of a customer support conversation. Treat greetings, contact info, or short replies as relevant unless clearly off-topic. Treat queries about Automation Ghana\'s products and services—including items sold on the store such as ATS panels, distribution boards, relays, tools—as relevant. Treat follow-up questions referencing earlier answers about Automation Ghana as relevant, even if they omit the company name or product details. Allow questions referencing The Automation Ghana Group or TAGG, including sustainability initiatives and personnel. Respond only with JSON {"relevant": true} or {"relevant": false}.',
   model: MODEL,
   outputType: RelevanceOutput,
 });

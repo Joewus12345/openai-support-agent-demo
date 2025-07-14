@@ -13,15 +13,26 @@ export async function POST(request: Request) {
         : null;
 
     let userInput = "";
+    let conversationInput = "";
     let relevance = { tripwireTriggered: false };
     let jailbreak = { tripwireTriggered: false };
+
+    if (Array.isArray(messages)) {
+      conversationInput = messages
+        .filter((m) => m.role !== "developer")
+        .map((m) => {
+          const c = m.content;
+          return Array.isArray(c) ? c.join(" ") : String(c || "");
+        })
+        .join(" ");
+    }
 
     if (lastMessage && lastMessage.role === "user") {
       const content = lastMessage.content;
       userInput = Array.isArray(content)
         ? content.join(" ")
         : String(content || "");
-      relevance = await runRelevanceGuardrail({ input: userInput });
+      relevance = await runRelevanceGuardrail({ input: conversationInput });
       console.log("Relevance guardrail result:", relevance);
       jailbreak = await runJailbreakGuardrail({ input: userInput });
       console.log("Jailbreak guardrail result:", jailbreak);
