@@ -84,6 +84,13 @@ The command downloads the model if needed. Use `ollama run <model>` or `ollama p
 
 3. After installing multiple models, switch between them using the **Model** dropdown in the agent view. Ensure the provider dropdown is set to `ollama`.
 
+4. (Optional) Configure the default model and context size by adding the following variables to your `.env` file (see `.env.example`):
+
+   ```bash
+   OLLAMA_MODEL=llama3.2
+   OLLAMA_NUM_CTX=4096
+   ```
+
 
 5. **Install dependencies:**
 

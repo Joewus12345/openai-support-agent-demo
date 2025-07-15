@@ -3,6 +3,9 @@ import ollama from "ollama";
 import { randomUUID } from "crypto";
 import { search_files } from "@/config/functions";
 
+const model = process.env.OLLAMA_MODEL || "llama3.2";
+const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "4096", 10);
+
 export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerator<ProviderEvent> {
   const converted = (messages || []).map((m: any) => ({
     role: m.role === "developer" ? "system" : m.role,
@@ -47,10 +50,11 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
   }
 
   const stream = await ollama.chat({
-    model: "llama3.2",
+    model,
     messages: converted,
     tools,
     stream: true,
+    options: { num_ctx },
   });
 
   let finalText = "";
