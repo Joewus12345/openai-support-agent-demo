@@ -89,6 +89,7 @@ When using the `ollama` provider you need a local server running.
    ```bash
    OLLAMA_MODEL=llama3.2
    OLLAMA_NUM_CTX=4096
+   OLLAMA_HOST=http://localhost:11434
    ```
 
 5. **Install dependencies:**

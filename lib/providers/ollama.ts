@@ -5,6 +5,19 @@ import { search_files } from "@/config/functions";
 
 const model = process.env.OLLAMA_MODEL || "llama3.2";
 const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "4096", 10);
+const host = process.env.OLLAMA_HOST;
+
+if (host) {
+  try {
+    (ollama as any).defaults = { ...(ollama as any).defaults, host };
+  } catch {
+    try {
+      (ollama as any).config.host = host;
+    } catch {
+      // ignore if unable to set host
+    }
+  }
+}
 
 export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerator<ProviderEvent> {
   const converted = (messages || []).map((m: any) => ({
@@ -49,13 +62,23 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
     }
   }
 
-  const stream = await ollama.chat({
-    model,
-    messages: converted,
-    tools,
-    stream: true,
-    options: { num_ctx },
-  });
+  let stream: any;
+  try {
+    stream = await ollama.chat({
+      model,
+      messages: converted,
+      tools,
+      stream: true,
+      options: { num_ctx },
+    });
+  } catch (error) {
+    console.error("ollama.chat failed", error);
+    yield {
+      event: "error",
+      data: { message: (error as Error).message },
+    } as ProviderEvent;
+    return;
+  }
 
   let finalText = "";
   const seenCalls = new Set<string>();
