@@ -1,7 +1,7 @@
 import { ProviderEvent } from "./openai";
 import ollama from "ollama";
 import { randomUUID } from "crypto";
-import { search_files } from "@/config/functions";
+import { search_files } from "@/lib/server/searchFiles";
 
 const model = process.env.OLLAMA_MODEL || "llama3.2";
 const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "4096", 10);
