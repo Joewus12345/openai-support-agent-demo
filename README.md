@@ -52,9 +52,10 @@ Feel free to customize this demo to suit your specific use case.
    OPENAI_API_KEY=<your_api_key>
    ```
 
-   **Note:** Even when using the `ollama` provider, the `search_files` function
-   queries the OpenAI vector store. Make sure your `OPENAI_API_KEY` is set so
-   this call succeeds.
+   **Note:** When using the `ollama` provider, file search runs against a local
+   vector store built from the knowledge base. Embeddings are generated using
+   Ollama's `embeddings` endpoint, so an OpenAI API key is only required when
+   using the `openai` provider.
 
 4. **Choose your provider (optional):**
 
@@ -110,7 +111,9 @@ When using the `ollama` provider you need a local server running.
 
 7. **Initialize the vector store:**
 
-   Go to [`/init_vs`](http://localhost:3000/init_vs) to create a vector store and initialize it with the knowledge base. Once you have created the vector store, update `config/constants.ts` with your own vector store ID.
+   Visit [`/init_vs`](http://localhost:3000/init_vs) to generate embeddings for
+   the knowledge base using Ollama and store them locally. This step prepares the
+   search index used when the provider is set to `ollama`.
 
 ## Demo Flow
 
