@@ -49,7 +49,8 @@ export type Item = ChatMessage | ToolCallItem;
 export const handleTurn = async (
   messages: any[],
   onMessage: (data: any) => void,
-  provider = "openai"
+  provider = "openai",
+  toolsArg = tools
 ) => {
   try {
     // Get response from the API (defined in app/api/turn_response/route.ts)
@@ -58,7 +59,7 @@ export const handleTurn = async (
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         messages: messages,
-        tools: tools,
+        tools: toolsArg,
         provider,
       }),
     });
@@ -418,5 +419,6 @@ export const processMessages = async () => {
       // Handle other events as needed
     }
   },
-  modelProvider);
+  modelProvider,
+  modelProvider === "ollama" ? [] : undefined);
 };
