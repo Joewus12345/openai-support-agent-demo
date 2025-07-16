@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { localVectorStore } from "@/lib/localVectorStore";
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
-    await localVectorStore.initialize();
+    const url = new URL(request.url);
+    const force = url.searchParams.get("force") === "true";
+    await localVectorStore.initialize(force);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error initializing local vector store:", error);
