@@ -70,20 +70,27 @@ When using the `ollama` provider you need a local server running.
 
 1. Start the server:
 
-```bash
-ollama serve
-```
+   ```bash
+   ollama serve
+   ```
 
 2. Begin with a lightweight model such as `llama3`:
 
-```bash
-ollama run llama3
-```
+   ```bash
+   ollama run llama3
+   ```
 
-The command downloads the model if needed. Use `ollama run <model>` or `ollama pull <model>` to get other models.
+   The command downloads the model if needed. Use `ollama run <model>` or `ollama pull <model>` to get other models.
 
 3. After installing multiple models, switch between them using the **Model** dropdown in the agent view. Ensure the provider dropdown is set to `ollama`.
 
+4. (Optional) Configure the default model and context size by adding the following variables to your `.env` file (see `.env.example`):
+
+   ```bash
+   OLLAMA_MODEL=llama3.2
+   OLLAMA_NUM_CTX=4096
+   OLLAMA_HOST=http://localhost:11434
+   ```
 
 5. **Install dependencies:**
 
@@ -165,7 +172,7 @@ This demo can store customer profiles and chat sessions in a local PostgreSQL da
 
 1. Add your connection string to `.env`:
 
-   ```
+   ```bash
    DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
    ```
 
