@@ -27,8 +27,12 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
       : String(m.content ?? ""),
   }));
 
+  const hasFileSearchTool =
+    Array.isArray(tools) &&
+    tools.some((t: any) => t.type === "file_search" || t.name === "search_files");
+
   const lastUser = [...(messages || [])].reverse().find((m: any) => m.role === "user");
-  if (lastUser) {
+  if (hasFileSearchTool && lastUser) {
     const q = Array.isArray(lastUser.content)
       ? lastUser.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
       : String(lastUser.content ?? "");
