@@ -324,12 +324,14 @@ export const start_chat_session = async ({
 export const search_files = async ({
   query,
   max_results,
+  provider,
 }: {
   query: string;
   max_results?: number;
+  provider?: string;
 }) => {
   const { fileSearch } = await import("@/lib/tools/fileSearch");
-  return fileSearch({ query, max_results });
+  return fileSearch({ query, max_results, provider });
 };
 
 export const functionsMap = {

@@ -37,7 +37,7 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
       ? lastUser.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
       : String(lastUser.content ?? "");
     try {
-      const results = await search_files({ query: q });
+      const results = await search_files({ query: q, provider: "ollama" });
       if (results && !(results as any).error) {
         const searchResults = results.data || results.results || [];
         const snippets = searchResults
