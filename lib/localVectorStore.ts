@@ -50,9 +50,14 @@ class LocalVectorStore {
     return res.embedding;
   }
 
-  async initialize() {
-    await this.ensureLoaded();
-    if (this.store.length > 0) return;
+  async initialize(force = false) {
+    if (force) {
+      this.store = [];
+      this.loaded = true;
+    } else {
+      await this.ensureLoaded();
+      if (this.store.length > 0) return;
+    }
     for (const folder of KB_FOLDERS) {
       const dir = path.join(process.cwd(), "public", folder);
       const files = await fs.readdir(dir);
