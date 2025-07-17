@@ -2,6 +2,7 @@
 // Define one function per tool call - each tool call should have a matching function
 // Parameters for a tool call are passed as an object to the corresponding function
 import useDataStore from "@/stores/useDataStore";
+import { search_files } from "./functions";
 
 const setDetailsFromUser = (user: any) => ({
   id: user.id,
@@ -338,5 +339,6 @@ export const functionsMap = {
   get_user_profile: get_user_profile,
   create_user_profile: create_user_profile,
   start_chat_session: start_chat_session,
+  search_files: search_files,
   // add more functions as needed
 };

@@ -7,7 +7,8 @@ import { VECTOR_STORE_ID } from "@/config/constants";
  * Ollama provider only needs the function tools defined in `toolsList`.
  */
 
-const functionTools = toolsList.map((tool) => {
+/** Build a tool definition compatible with the OpenAI provider. */
+const buildOpenAITool = (tool: any) => {
   const required = (tool as any).required ?? Object.keys(tool.parameters);
   const toolDef: {
     type: string;
@@ -30,20 +31,12 @@ const functionTools = toolsList.map((tool) => {
     toolDef.description = (tool as any).description;
   }
   return toolDef;
-});
+};
 
-// Tools for the OpenAI provider (includes built-in file search)
-export const tools = [
-  {
-    type: "file_search",
-    vector_store_ids: [VECTOR_STORE_ID],
-  },
-  ...functionTools,
-];
-
-const functionToolsOllama = toolsList.map((tool) => {
+/** Build a tool definition compatible with the Ollama provider. */
+const buildOllamaTool = (tool: any) => {
   const required = (tool as any).required ?? Object.keys(tool.parameters);
-  const functionObj = {
+  const functionObj: { name: string; description?: string; parameters: any } = {
     name: tool.name,
     parameters: {
       type: "object",
@@ -51,18 +44,32 @@ const functionToolsOllama = toolsList.map((tool) => {
       required,
       additionalProperties: false,
     },
-  } as { name: string; description?: string; parameters: any };
-
+  };
   if ((tool as any).description) {
     functionObj.description = (tool as any).description;
   }
-
-  return {
+  const toolDef: { type: string; function: typeof functionObj; strict?: boolean } = {
     type: "function",
     function: functionObj,
-    strict: required.length === Object.keys(tool.parameters).length,
   };
-});
+  if (required.length === Object.keys(tool.parameters).length) {
+    toolDef.strict = true;
+  }
+  return toolDef;
+};
+
+const openAITools = toolsList.map(buildOpenAITool);
+
+// Tools for the OpenAI provider (includes built-in file search)
+export const tools = [
+  {
+    type: "file_search",
+    vector_store_ids: [VECTOR_STORE_ID],
+  },
+  ...openAITools,
+];
+
+const ollamaFunctionTools = toolsList.map(buildOllamaTool);
 
 // Tools for the Ollama provider (function tools only)
-export const ollamaTools = [...functionToolsOllama];
+export const ollamaTools = [...ollamaFunctionTools];

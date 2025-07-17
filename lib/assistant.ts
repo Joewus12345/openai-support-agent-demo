@@ -436,6 +436,6 @@ export const processMessages = async () => {
     }
   },
   modelProvider,
-  modelProvider === "ollama" ? ollamaTools : undefined,
+  modelProvider === "ollama" ? (ollamaTools as any) : undefined,
   modelProvider === "ollama" ? ollamaModel : undefined);
 };
