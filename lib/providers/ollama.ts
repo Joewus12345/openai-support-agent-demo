@@ -121,10 +121,15 @@ export async function* ollamaProvider(
     }
 
     if (chunk.done) {
+      let msg = finalText;
+      if (!msg.trim()) {
+        msg = "Ollama returned no content";
+        yield { event: "error", data: { message: msg } } as ProviderEvent;
+      }
       yield { event: "response.output_text.done", data: {} } as ProviderEvent;
       yield {
         event: "response.output_item.done",
-        data: { item: { type: "message", role: "assistant", content: finalText } },
+        data: { item: { type: "message", role: "assistant", content: msg } },
       } as ProviderEvent;
     }
   }
