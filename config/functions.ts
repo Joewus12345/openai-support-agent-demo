@@ -2,7 +2,8 @@
 // Define one function per tool call - each tool call should have a matching function
 // Parameters for a tool call are passed as an object to the corresponding function
 import useDataStore from "@/stores/useDataStore";
-import { search_files } from "./functions";
+import useConversationStore from "@/stores/useConversationStore";
+import { search_files as serverSearchFiles } from "@/lib/server/searchFiles";
 
 const setDetailsFromUser = (user: any) => ({
   id: user.id,
@@ -322,7 +323,16 @@ export const start_chat_session = async ({
   }
 };
 
-export { search_files } from "@/lib/server/searchFiles";
+export const search_files = async ({
+  query,
+  max_results,
+}: {
+  query: string;
+  max_results?: number;
+}) => {
+  const provider = useConversationStore.getState().modelProvider;
+  return serverSearchFiles({ query, max_results, provider });
+};
 
 export const functionsMap = {
   get_order: get_order,

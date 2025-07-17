@@ -26,12 +26,14 @@ export async function* ollamaProvider(
   options?: ProviderOptions
 ): AsyncGenerator<ProviderEvent> {
   const model = options?.model || defaultModel;
-  const converted = (messages || []).map((m: any) => ({
-    role: m.role === "developer" ? "system" : m.role,
-    content: Array.isArray(m.content)
-      ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
-      : String(m.content ?? ""),
-  }));
+  const converted = (messages || [])
+    .filter((m: any) => m.role)
+    .map((m: any) => ({
+      role: m.role === "developer" ? "system" : m.role,
+      content: Array.isArray(m.content)
+        ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
+        : String(m.content ?? ""),
+    }));
 
   const hasFileSearchTool =
     Array.isArray(tools) &&
@@ -138,17 +140,19 @@ export async function* ollamaProvider(
     }
 
     if (chunk.done) {
-      let msg = finalText;
-      if (!msg.trim()) {
-        msg = "Ollama returned no content";
+      if (finalText.trim()) {
+        yield { event: "response.output_text.done", data: {} } as ProviderEvent;
+        yield {
+          event: "response.output_item.done",
+          data: { item: { type: "message", role: "assistant", content: finalText } },
+        } as ProviderEvent;
+      } else if (seenCalls.size === 0) {
+        const msg = "Ollama returned no content";
         console.error("No content returned", "finalText length", finalText.length);
         yield { event: "error", data: { message: msg } } as ProviderEvent;
+      } else {
+        yield { event: "response.output_text.done", data: {} } as ProviderEvent;
       }
-      yield { event: "response.output_text.done", data: {} } as ProviderEvent;
-      yield {
-        event: "response.output_item.done",
-        data: { item: { type: "message", role: "assistant", content: msg } },
-      } as ProviderEvent;
     }
   }
 }
