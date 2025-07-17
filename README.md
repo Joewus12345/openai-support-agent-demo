@@ -76,15 +76,15 @@ When using the `ollama` provider you need a local server running.
    ollama serve
    ```
 
-2. Begin with a lightweight model such as `llama3`:
+2. Begin with a lightweight model such as `llama3` (or another small model):
 
    ```bash
    ollama run llama3
    ```
 
-   The command downloads the model if needed. Use `ollama run <model>` or `ollama pull <model>` to get other models.
+    The command downloads the model if needed. You can also pre-download additional models with `ollama pull <model>` or simply run `ollama run <model>` for the first time.
 
-3. After installing multiple models, switch between them using the **Model** dropdown in the agent view. Ensure the provider dropdown is set to `ollama`.
+3. After installing multiple models, switch between them using the new **Model** dropdown in the agent view (next to **Auto reply**). Make sure the provider dropdown is set to `ollama`.
 
 4. (Optional) Configure the default model and context size by adding the following variables to your `.env` file (see `.env.example`):
 
