@@ -43,10 +43,12 @@ type ContextItem = OrderContextItem | TicketContextItem;
 interface DataState {
   customerDetails: CustomerDetails;
   FAQExtracts?: FAQExtract[] | null;
+  relevantArticlesError: string | null;
   relevantArticlesLoading: boolean;
   additionalContext?: ContextItem[] | null;
   setCustomerDetails: (details: CustomerDetails) => void;
   setFAQExtracts: (searchResults: any[]) => void;
+  setRelevantArticlesError: (error: string | null) => void;
   setAdditionalContext: (context: ContextItem[]) => void;
   setRelevantArticlesLoading: (loading: boolean) => void;
   addContextItem: (item: ContextItem) => void;
@@ -65,6 +67,7 @@ const getFileUrl = (type: string, filename: string) => {
 const useDataStore = create<DataState>((set) => ({
   customerDetails: CUSTOMER_DETAILS,
   FAQExtracts: DEFAULT_ARTICLES,
+  relevantArticlesError: null,
   relevantArticlesLoading: false,
   additionalContext: null,
   setCustomerDetails: (details) => set({ customerDetails: details }),
@@ -88,8 +91,10 @@ const useDataStore = create<DataState>((set) => ({
     const sortedArticles = articles.sort((a, b) => b.score - a.score);
     set({
       FAQExtracts: sortedArticles.filter((a) => a.score > 0.5),
+      relevantArticlesError: null,
     });
   },
+  setRelevantArticlesError: (error) => set({ relevantArticlesError: error }),
   setAdditionalContext: (context) => set({ additionalContext: context }),
   addContextItem: (item) =>
     set((state) => ({

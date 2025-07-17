@@ -18,7 +18,9 @@ export async function fileSearch({
       return { results };
     } catch (error) {
       console.error("Local file search failed", error);
-      return { error: "Failed to search files" };
+      return {
+        error: error instanceof Error ? error.message : "Failed to search files",
+      };
     }
   }
   try {
@@ -40,6 +42,8 @@ export async function fileSearch({
     return await res.json();
   } catch (error) {
     console.error("Error searching files:", error);
-    return { error: "Failed to search files" };
+    return {
+      error: error instanceof Error ? error.message : "Failed to search files",
+    };
   }
 }

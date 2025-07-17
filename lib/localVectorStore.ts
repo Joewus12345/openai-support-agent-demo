@@ -83,7 +83,9 @@ class LocalVectorStore {
 
   async search(query: string, max_results = 5) {
     await this.ensureLoaded();
-    if (this.store.length === 0) return [];
+    if (this.store.length === 0) {
+      throw new Error("Local vector store is empty");
+    }
     const qEmbed = await this.embedding(query);
     return this.store
       .map((e) => ({
