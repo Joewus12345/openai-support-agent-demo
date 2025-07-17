@@ -140,17 +140,19 @@ export async function* ollamaProvider(
     }
 
     if (chunk.done) {
-      let msg = finalText;
-      if (!msg.trim()) {
-        msg = "Ollama returned no content";
+      if (finalText.trim()) {
+        yield { event: "response.output_text.done", data: {} } as ProviderEvent;
+        yield {
+          event: "response.output_item.done",
+          data: { item: { type: "message", role: "assistant", content: finalText } },
+        } as ProviderEvent;
+      } else if (seenCalls.size === 0) {
+        const msg = "Ollama returned no content";
         console.error("No content returned", "finalText length", finalText.length);
         yield { event: "error", data: { message: msg } } as ProviderEvent;
+      } else {
+        yield { event: "response.output_text.done", data: {} } as ProviderEvent;
       }
-      yield { event: "response.output_text.done", data: {} } as ProviderEvent;
-      yield {
-        event: "response.output_item.done",
-        data: { item: { type: "message", role: "assistant", content: msg } },
-      } as ProviderEvent;
     }
   }
 }
