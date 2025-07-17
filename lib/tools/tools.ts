@@ -41,5 +41,28 @@ export const tools = [
   ...functionTools,
 ];
 
+const functionToolsOllama = toolsList.map((tool) => {
+  const required = (tool as any).required ?? Object.keys(tool.parameters);
+  const functionObj = {
+    name: tool.name,
+    parameters: {
+      type: "object",
+      properties: { ...tool.parameters },
+      required,
+      additionalProperties: false,
+    },
+  } as { name: string; description?: string; parameters: any };
+
+  if ((tool as any).description) {
+    functionObj.description = (tool as any).description;
+  }
+
+  return {
+    type: "function",
+    function: functionObj,
+    strict: required.length === Object.keys(tool.parameters).length,
+  };
+});
+
 // Tools for the Ollama provider (function tools only)
-export const ollamaTools = [...functionTools];
+export const ollamaTools = [...functionToolsOllama];
