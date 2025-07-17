@@ -37,6 +37,9 @@ interface ConversationState {
   modelProvider: string;
   setModelProvider: (provider: string) => void;
 
+  ollamaModel: string;
+  setOllamaModel: (model: string) => void;
+
   setChatMessages: (items: Item[]) => void;
   setConversationItems: (messages: any[]) => void;
   addChatMessage: (item: Item) => void;
@@ -65,11 +68,13 @@ const useConversationStore = create<ConversationState>((set) => ({
   agentTyping: false,
   autoReply: true,
   modelProvider: "openai",
+  ollamaModel: "llama3.2",
   composerText: "",
   setUserTyping: (typing) => set({ userTyping: typing }),
   setAgentTyping: (typing) => set({ agentTyping: typing }),
   setAutoReply: (flag) => set({ autoReply: flag }),
   setModelProvider: (provider) => set({ modelProvider: provider }),
+  setOllamaModel: (model) => set({ ollamaModel: model }),
   setComposerText: (text) => set({ composerText: text }),
   setChatMessages: (items) => set({ chatMessages: items }),
   setConversationItems: (messages) => set({ conversationItems: messages }),

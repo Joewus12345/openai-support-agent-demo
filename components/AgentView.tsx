@@ -23,7 +23,29 @@ export default function AgentView() {
     setAutoReply,
     modelProvider,
     setModelProvider,
+    ollamaModel,
+    setOllamaModel,
   } = useConversationStore();
+
+  const [availableModels, setAvailableModels] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const res = await fetch("/api/ollama/models");
+        const data = await res.json();
+        const names = Array.isArray(data?.models)
+          ? data.models.map((m: any) => m.name)
+          : [];
+        setAvailableModels(names);
+      } catch (err) {
+        console.error("Failed to fetch models", err);
+      }
+    };
+    if (modelProvider === "ollama") {
+      fetchModels();
+    }
+  }, [modelProvider]);
 
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
@@ -61,6 +83,19 @@ export default function AgentView() {
           <option value="openai">OpenAI</option>
           <option value="ollama">Ollama</option>
         </select>
+        {modelProvider === "ollama" && (
+          <select
+            className="text-xs border rounded p-1"
+            value={ollamaModel}
+            onChange={(e) => setOllamaModel(e.target.value)}
+          >
+            {availableModels.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
       <div className="w-full md:w-3/5">
         <Chat
