@@ -58,6 +58,7 @@ class LocalVectorStore {
       await this.ensureLoaded();
       if (this.store.length > 0) return;
     }
+    let processed = 0;
     for (const folder of KB_FOLDERS) {
       const dir = path.join(process.cwd(), "public", folder);
       const files = await fs.readdir(dir);
@@ -75,10 +76,15 @@ class LocalVectorStore {
             filepath: `/public/${folder}/${file}`,
           },
         });
+        processed++;
       }
     }
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
+    console.log(`Processed ${processed} files. Writing local vector store...`);
     await fs.writeFile(STORE_PATH, JSON.stringify(this.store, null, 2));
+    console.log(
+      `Local vector store written to ${STORE_PATH} with ${this.store.length} entries.`
+    );
   }
 
   async search(query: string, max_results = 5) {
@@ -86,8 +92,9 @@ class LocalVectorStore {
     if (this.store.length === 0) {
       throw new Error("Local vector store is empty");
     }
+    console.log(`Searching ${this.store.length} stored entries...`);
     const qEmbed = await this.embedding(query);
-    return this.store
+    const results = this.store
       .map((e) => ({
         text: e.text,
         attributes: e.attributes,
@@ -95,6 +102,16 @@ class LocalVectorStore {
       }))
       .sort((a, b) => b.score - a.score)
       .slice(0, max_results);
+    console.log(
+      "Top scores:",
+      results.map((r) => r.score.toFixed(3))
+    );
+    return results;
+  }
+
+  async getStatus() {
+    await this.ensureLoaded();
+    return { loaded: this.loaded, count: this.store.length };
   }
 }
 
