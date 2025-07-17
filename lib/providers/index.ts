@@ -2,9 +2,14 @@ import { openaiProvider } from "./openai";
 import { ollamaProvider } from "./ollama";
 import type { ProviderEvent } from "./openai";
 
+export interface ProviderOptions {
+  model?: string;
+}
+
 export type ProviderFunction = (
   messages: any[],
-  tools: any
+  tools: any,
+  options?: ProviderOptions
 ) => AsyncGenerator<ProviderEvent>;
 
 export function getProvider(name: string | undefined): ProviderFunction {

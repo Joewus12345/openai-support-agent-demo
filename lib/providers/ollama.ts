@@ -2,8 +2,9 @@ import { ProviderEvent } from "./openai";
 import ollama from "ollama";
 import { randomUUID } from "crypto";
 import { search_files } from "@/lib/server/searchFiles";
+import type { ProviderOptions } from "./index";
 
-const model = process.env.OLLAMA_MODEL || "llama3.2";
+const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "4096", 10);
 const host = process.env.OLLAMA_HOST;
 
@@ -19,7 +20,12 @@ if (host) {
   }
 }
 
-export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerator<ProviderEvent> {
+export async function* ollamaProvider(
+  messages: any[],
+  tools: any,
+  options?: ProviderOptions
+): AsyncGenerator<ProviderEvent> {
+  const model = options?.model || defaultModel;
   const converted = (messages || []).map((m: any) => ({
     role: m.role === "developer" ? "system" : m.role,
     content: Array.isArray(m.content)

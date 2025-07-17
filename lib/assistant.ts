@@ -50,7 +50,8 @@ export const handleTurn = async (
   messages: any[],
   onMessage: (data: any) => void,
   provider = "openai",
-  toolsArg = tools
+  toolsArg = tools,
+  model?: string
 ) => {
   try {
     // Get response from the API (defined in app/api/turn_response/route.ts)
@@ -61,6 +62,7 @@ export const handleTurn = async (
         messages: messages,
         tools: toolsArg,
         provider,
+        model,
       }),
     });
 
@@ -142,6 +144,7 @@ export const processMessages = async () => {
     removeRecommendedAction,
     autoReply,
     modelProvider,
+    ollamaModel,
   } = useConversationStore.getState();
 
   const { setRelevantArticlesLoading, setFAQExtracts } =
@@ -420,5 +423,6 @@ export const processMessages = async () => {
     }
   },
   modelProvider,
-  modelProvider === "ollama" ? ollamaTools : undefined);
+  modelProvider === "ollama" ? ollamaTools : undefined,
+  modelProvider === "ollama" ? ollamaModel : undefined);
 };
