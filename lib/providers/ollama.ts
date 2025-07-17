@@ -41,8 +41,20 @@ export async function* ollamaProvider(
 
   let finalText = "";
 
-  const lastUser = [...(messages || [])].reverse().find((m: any) => m.role === "user");
-  if (hasFileSearchTool && lastUser) {
+  const lastUserIndex = [...(messages || [])]
+    .map((m, i) => [m, i] as const)
+    .reverse()
+    .find(([m]) => (m as any).role === "user")?.[1];
+
+  let searchAlready = false;
+  if (lastUserIndex !== undefined) {
+    searchAlready = (messages || [])
+      .slice(lastUserIndex + 1)
+      .some((m: any) => m.type === "file_search_call");
+  }
+
+  const lastUser = lastUserIndex !== undefined ? (messages as any)[lastUserIndex] : undefined;
+  if (hasFileSearchTool && lastUser && !searchAlready) {
     const q = Array.isArray(lastUser.content)
       ? lastUser.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
       : String(lastUser.content ?? "");
