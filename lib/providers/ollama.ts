@@ -26,12 +26,14 @@ export async function* ollamaProvider(
   options?: ProviderOptions
 ): AsyncGenerator<ProviderEvent> {
   const model = options?.model || defaultModel;
-  const converted = (messages || []).map((m: any) => ({
-    role: m.role === "developer" ? "system" : m.role,
-    content: Array.isArray(m.content)
-      ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
-      : String(m.content ?? ""),
-  }));
+  const converted = (messages || [])
+    .filter((m: any) => m.role)
+    .map((m: any) => ({
+      role: m.role === "developer" ? "system" : m.role,
+      content: Array.isArray(m.content)
+        ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
+        : String(m.content ?? ""),
+    }));
 
   const hasFileSearchTool =
     Array.isArray(tools) &&
