@@ -43,6 +43,7 @@ export default function InitVS() {
         const folderFiles = await fetch(`/api/list_files?folder=${folder}`).then(
           (res) => res.json()
         );
+        console.log(`Files found in folder ${folder}:`, folderFiles);
         filesList.push(
           ...folderFiles.map((file: string) => ({
             type: folder,
