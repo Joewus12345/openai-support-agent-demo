@@ -37,11 +37,14 @@ export async function* ollamaProvider(
     Array.isArray(tools) &&
     tools.some((t: any) => t.type === "file_search" || t.name === "search_files");
 
+  let finalText = "";
+
   const lastUser = [...(messages || [])].reverse().find((m: any) => m.role === "user");
   if (hasFileSearchTool && lastUser) {
     const q = Array.isArray(lastUser.content)
       ? lastUser.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
       : String(lastUser.content ?? "");
+    console.log("File search query:", q);
     try {
       const results = await search_files({ query: q, provider: "ollama" });
       if (results && (results as any).error) {
@@ -53,6 +56,7 @@ export async function* ollamaProvider(
           .filter(Boolean)
           .slice(0, 3)
           .join("\n---\n");
+        console.log("Retrieved snippets:", snippets);
         if (snippets) {
           converted.push({
             role: "system",
@@ -70,7 +74,7 @@ export async function* ollamaProvider(
         }
       }
     } catch (err) {
-      console.error("search_files failed", err);
+      console.error("search_files failed", err, "finalText length", finalText.length);
       yield {
         event: "error",
         data: { message: (err as Error).message },
@@ -80,15 +84,17 @@ export async function* ollamaProvider(
 
   let stream: any;
   try {
-    stream = await ollama.chat({
+    const payload = {
       model,
       messages: converted,
       tools,
       stream: true,
       options: { num_ctx },
-    });
+    };
+    console.log("ollama.chat payload", payload);
+    stream = await ollama.chat(payload);
   } catch (error) {
-    console.error("ollama.chat failed", error);
+    console.error("ollama.chat failed", error, "finalText length", 0);
     yield {
       event: "error",
       data: { message: (error as Error).message },
@@ -96,10 +102,15 @@ export async function* ollamaProvider(
     return;
   }
 
-  let finalText = "";
   const seenCalls = new Set<string>();
 
   for await (const chunk of stream) {
+    console.log(
+      "Stream chunk:",
+      JSON.stringify(chunk).slice(0, 80),
+      "tool calls detected:",
+      (chunk.message?.tool_calls || []).length > 0
+    );
     const content = chunk.message?.content ?? "";
     if (content) {
       finalText += content;
@@ -130,6 +141,7 @@ export async function* ollamaProvider(
       let msg = finalText;
       if (!msg.trim()) {
         msg = "Ollama returned no content";
+        console.error("No content returned", "finalText length", finalText.length);
         yield { event: "error", data: { message: msg } } as ProviderEvent;
       }
       yield { event: "response.output_text.done", data: {} } as ProviderEvent;
