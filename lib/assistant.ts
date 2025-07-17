@@ -2,7 +2,7 @@ import { DEVELOPER_PROMPT } from "@/config/constants";
 import { parse } from "partial-json";
 import { handleTool } from "@/lib/tools/tools-handling";
 import useConversationStore from "@/stores/useConversationStore";
-import { tools } from "@/lib/tools/tools";
+import { tools, ollamaTools } from "@/lib/tools/tools";
 import { Annotation } from "@/components/Annotations";
 import { functionsMap } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
@@ -420,5 +420,5 @@ export const processMessages = async () => {
     }
   },
   modelProvider,
-  modelProvider === "ollama" ? [] : undefined);
+  modelProvider === "ollama" ? ollamaTools : undefined);
 };
