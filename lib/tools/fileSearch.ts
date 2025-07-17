@@ -12,6 +12,11 @@ export async function fileSearch({
   max_results = 5,
   provider,
 }: FileSearchParams) {
+  // Fallback to default when max_results is missing or not positive
+  max_results =
+    typeof max_results === "number" && max_results > 0
+      ? Math.floor(max_results)
+      : 5;
   if (provider === "ollama") {
     try {
       const results = await localVectorStore.search(query, max_results);
