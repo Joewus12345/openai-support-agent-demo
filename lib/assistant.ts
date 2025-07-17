@@ -351,6 +351,15 @@ export const processMessages = async () => {
         // After output item is done, adding tool call ID
         const { item } = data || {};
 
+        if (
+          item?.type === "message" &&
+          item.role === "assistant" &&
+          (!item.content || !(item.content as string).trim())
+        ) {
+          // ignore empty assistant messages
+          break;
+        }
+
         conversationItems.push({
           ...item,
           results: undefined,
