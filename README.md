@@ -102,6 +102,8 @@ When using the `ollama` provider you need a local server running.
    npm install
    ```
 
+   You must run this command before executing `npm run lint` or `npm run dev`.
+
 6. **Run the app:**
 
    ```bash
