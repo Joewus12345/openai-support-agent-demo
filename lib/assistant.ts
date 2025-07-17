@@ -147,7 +147,7 @@ export const processMessages = async () => {
     ollamaModel,
   } = useConversationStore.getState();
 
-  const { setRelevantArticlesLoading, setFAQExtracts } =
+  const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
     useDataStore.getState();
 
   const allConversationItems = [
@@ -258,6 +258,7 @@ export const processMessages = async () => {
           }
           case "file_search_call": {
             setRelevantArticlesLoading(true);
+            setRelevantArticlesError(null);
             chatMessages.push({
               type: "tool_call",
               tool_type: "file_search_call",
@@ -407,6 +408,7 @@ export const processMessages = async () => {
         if (item.type === "file_search_call") {
           setFAQExtracts(item.results);
           setRelevantArticlesLoading(false);
+          setRelevantArticlesError(null);
         }
 
         setConversationItems([...conversationItems]);
@@ -422,6 +424,8 @@ export const processMessages = async () => {
           role: "agent",
           content: [{ type: "output_text", text: message }],
         });
+        setRelevantArticlesError(message);
+        setRelevantArticlesLoading(false);
         setSuggestedMessage(null);
         setSuggestedMessageDone(false);
         setAgentTyping(false);

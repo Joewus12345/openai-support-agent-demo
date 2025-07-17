@@ -44,7 +44,9 @@ export async function* ollamaProvider(
       : String(lastUser.content ?? "");
     try {
       const results = await search_files({ query: q, provider: "ollama" });
-      if (results && !(results as any).error) {
+      if (results && (results as any).error) {
+        yield { event: "error", data: { message: (results as any).error } } as ProviderEvent;
+      } else if (results) {
         const searchResults = results.data || results.results || [];
         const snippets = searchResults
           .map((r: any) => r.text)
@@ -69,6 +71,10 @@ export async function* ollamaProvider(
       }
     } catch (err) {
       console.error("search_files failed", err);
+      yield {
+        event: "error",
+        data: { message: (err as Error).message },
+      } as ProviderEvent;
     }
   }
 

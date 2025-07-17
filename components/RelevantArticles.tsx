@@ -45,6 +45,7 @@ function ArticleSkeleton() {
 
 export default function RelevantArticles() {
   const FAQExtracts = useDataStore((s) => s.FAQExtracts);
+  const relevantArticlesError = useDataStore((s) => s.relevantArticlesError);
   const relevantArticlesLoading = useDataStore(
     (s) => s.relevantArticlesLoading
   );
@@ -56,6 +57,8 @@ export default function RelevantArticles() {
           <ArticleSkeleton />
           <ArticleSkeleton />
         </>
+      ) : relevantArticlesError ? (
+        <div className="text-sm text-zinc-500">{relevantArticlesError}</div>
       ) : (
         FAQExtracts?.map((article, index) => (
           <Article
