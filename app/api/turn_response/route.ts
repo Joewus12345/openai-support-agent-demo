@@ -52,7 +52,23 @@ export async function POST(request: Request) {
     }
 
     const providerFn = getProvider(provider);
-    const events = providerFn(messages, tools, { model });
+
+    if (provider === "ollama") {
+      try {
+        const text = (await providerFn(messages, tools, { model })) as string;
+        return new Response(text, {
+          headers: { "Content-Type": "text/plain" },
+        });
+      } catch (error) {
+        console.error("Error in ollama provider:", error);
+        return NextResponse.json(
+          { error: error instanceof Error ? error.message : "Unknown error" },
+          { status: 500 }
+        );
+      }
+    }
+
+    const events = providerFn(messages, tools, { model }) as AsyncGenerator<any>;
 
     const stream = new ReadableStream({
       async start(controller) {

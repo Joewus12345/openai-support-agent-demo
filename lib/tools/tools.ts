@@ -33,31 +33,6 @@ const buildOpenAITool = (tool: any) => {
   return toolDef;
 };
 
-/** Build a tool definition compatible with the Ollama provider. */
-const buildOllamaTool = (tool: any) => {
-  const required = (tool as any).required ?? Object.keys(tool.parameters);
-  const functionObj: { name: string; description?: string; parameters: any } = {
-    name: tool.name,
-    parameters: {
-      type: "object",
-      properties: { ...tool.parameters },
-      required,
-      additionalProperties: false,
-    },
-  };
-  if ((tool as any).description) {
-    functionObj.description = (tool as any).description;
-  }
-  const toolDef: { type: string; function: typeof functionObj; strict?: boolean } = {
-    type: "function",
-    function: functionObj,
-  };
-  if (required.length === Object.keys(tool.parameters).length) {
-    toolDef.strict = true;
-  }
-  return toolDef;
-};
-
 const openAITools = toolsList.map(buildOpenAITool);
 
 // Tools for the OpenAI provider (includes built-in file search)
@@ -69,7 +44,5 @@ export const tools = [
   ...openAITools,
 ];
 
-const ollamaFunctionTools = toolsList.map(buildOllamaTool);
-
 // Tools for the Ollama provider (function tools only)
-export const ollamaTools = [...ollamaFunctionTools];
+export const ollamaTools: any[] = [];

@@ -2,12 +2,11 @@ import { DEVELOPER_PROMPT } from "@/config/constants";
 import { parse } from "partial-json";
 import { handleTool } from "@/lib/tools/tools-handling";
 import useConversationStore from "@/stores/useConversationStore";
-import { tools, ollamaTools } from "@/lib/tools/tools";
+import { tools } from "@/lib/tools/tools";
 import { Annotation } from "@/components/Annotations";
 import { functionsMap } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
-import { search_files } from "@/lib/server/searchFiles";
 
 // generateId uses browser crypto if available, otherwise Math.random
 export function generateId() {
@@ -88,6 +87,17 @@ export const handleTurn = async (
       return;
     }
 
+    if (provider === "ollama") {
+      const text = await response.text();
+      onMessage({ event: "response.output_text.delta", data: { delta: text } });
+      onMessage({ event: "response.output_text.done", data: {} });
+      onMessage({
+        event: "response.output_item.done",
+        data: { item: { type: "message", role: "assistant", content: text } },
+      });
+      return;
+    }
+
     // Reader for streaming data
     const reader = response.body!.getReader();
     const decoder = new TextDecoder();
@@ -156,7 +166,7 @@ export const processMessages = async () => {
   const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
     useDataStore.getState();
 
-  let activeTools: any[] = modelProvider === "ollama" ? [...ollamaTools] : [...tools];
+  let activeTools: any[] = modelProvider === "ollama" ? [] : [...tools];
 
   const lastUserIndex = [...conversationItems]
     .map((m, i) => [m, i] as const)
@@ -174,84 +184,6 @@ export const processMessages = async () => {
     activeTools = activeTools.filter(
       (t: any) => t.type !== "function" || (t.function?.name ?? t.name) !== "search_files"
     );
-  }
-
-  if (modelProvider === "ollama" && !searchAlready) {
-    const lastUser =
-      lastUserIndex !== undefined ? (conversationItems as any)[lastUserIndex] : undefined;
-    const hasSearchTool = activeTools.some(
-      (t: any) => t.type === "function" && (t.function?.name ?? t.name) === "search_files"
-    );
-    if (hasSearchTool && lastUser) {
-      const q = Array.isArray(lastUser.content)
-        ? lastUser.content
-            .map((c: any) => (typeof c === "string" ? c : c.text || ""))
-            .join(" ")
-        : String(lastUser.content ?? "");
-      setRelevantArticlesLoading(true);
-      setRelevantArticlesError(null);
-      const searchId = generateId();
-      chatMessages.push({
-        type: "tool_call",
-        tool_type: "file_search_call",
-        status: "in_progress",
-        id: searchId,
-      });
-      setChatMessages([...chatMessages]);
-      try {
-        const results = await search_files({ query: q, provider: "ollama" });
-        if (results && (results as any).error) {
-          const message = (results as any).error;
-          addConversationItem({ role: "assistant", content: message });
-          addChatMessage({
-            type: "message",
-            role: "agent",
-            content: [{ type: "output_text", text: message }],
-          });
-          setRelevantArticlesError(message);
-          setRelevantArticlesLoading(false);
-          setSuggestedMessage(null);
-          setSuggestedMessageDone(false);
-          setAgentTyping(false);
-        } else if (results) {
-          const searchResults = (results as any).data || (results as any).results || [];
-          const snippets = searchResults
-            .map((r: any) => r.text)
-            .filter(Boolean)
-            .slice(0, 3)
-            .join("\n---\n");
-          if (snippets) {
-            conversationItems.push({
-              role: "system",
-              content: `Relevant knowledge base excerpts:\n${snippets}`,
-            });
-          }
-          const toolMsg = chatMessages.find((m) => m.id === searchId);
-          if (toolMsg && toolMsg.type === "tool_call") {
-            toolMsg.status = "completed";
-          }
-          conversationItems.push({ type: "file_search_call", id: searchId, results: searchResults });
-          setChatMessages([...chatMessages]);
-          setFAQExtracts(searchResults);
-          setRelevantArticlesLoading(false);
-          setRelevantArticlesError(null);
-          setConversationItems([...conversationItems]);
-        }
-      } catch (err) {
-        const message = (err as Error).message;
-        addConversationItem({ role: "assistant", content: message });
-        addChatMessage({
-          type: "message",
-          role: "agent",
-          content: [{ type: "output_text", text: message }],
-        });
-        setRelevantArticlesError(message);
-        setRelevantArticlesLoading(false);
-        setSuggestedMessage(null);
-        setSuggestedMessageDone(false);
-        setAgentTyping(false);
-      }
-    }
   }
 
   const allConversationItems = [
