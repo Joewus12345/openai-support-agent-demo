@@ -53,6 +53,16 @@ export async function* ollamaProvider(
       .some((m: any) => m.type === "file_search_call");
   }
 
+  // If the last user message already triggered a file search, remove the
+  // `search_files` tool from the next model invocation to avoid duplicate
+  // searches that can lead to loops.
+  let activeTools = tools;
+  if (searchAlready) {
+    activeTools = tools?.filter(
+      (t: any) => t.type !== "function" || t.function?.name !== "search_files"
+    );
+  }
+
   const lastUser = lastUserIndex !== undefined ? (messages as any)[lastUserIndex] : undefined;
   if (hasFileSearchTool && lastUser && !searchAlready) {
     const q = Array.isArray(lastUser.content)
@@ -101,7 +111,8 @@ export async function* ollamaProvider(
     const payload = {
       model,
       messages: converted,
-      tools,
+      // Use the filtered tool list when a search has already occurred
+      tools: activeTools,
       stream: true,
       options: { num_ctx },
     } as const;
