@@ -7,6 +7,8 @@ import { Annotation } from "@/components/Annotations";
 import { functionsMap } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
+import { search_files } from "@/lib/server/searchFiles";
+import { randomUUID } from "crypto";
 
 export interface ContentItem {
   type: "input_text" | "output_text" | "refusal" | "output_audio" | "output_image";
@@ -149,6 +151,104 @@ export const processMessages = async () => {
 
   const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
     useDataStore.getState();
+
+  let activeTools = modelProvider === "ollama" ? [...ollamaTools] : [...tools];
+
+  const lastUserIndex = [...conversationItems]
+    .map((m, i) => [m, i] as const)
+    .reverse()
+    .find(([m]) => (m as any).role === "user")?.[1];
+
+  let searchAlready = false;
+  if (lastUserIndex !== undefined) {
+    searchAlready = conversationItems
+      .slice(lastUserIndex + 1)
+      .some((m: any) => m.type === "file_search_call");
+  }
+
+  if (searchAlready) {
+    activeTools = activeTools.filter(
+      (t: any) => t.type !== "function" || (t.function?.name ?? t.name) !== "search_files"
+    );
+  }
+
+  if (modelProvider === "ollama" && !searchAlready) {
+    const lastUser =
+      lastUserIndex !== undefined ? (conversationItems as any)[lastUserIndex] : undefined;
+    const hasSearchTool = activeTools.some(
+      (t: any) => t.type === "function" && (t.function?.name ?? t.name) === "search_files"
+    );
+    if (hasSearchTool && lastUser) {
+      const q = Array.isArray(lastUser.content)
+        ? lastUser.content
+            .map((c: any) => (typeof c === "string" ? c : c.text || ""))
+            .join(" ")
+        : String(lastUser.content ?? "");
+      setRelevantArticlesLoading(true);
+      setRelevantArticlesError(null);
+      const searchId = randomUUID();
+      chatMessages.push({
+        type: "tool_call",
+        tool_type: "file_search_call",
+        status: "in_progress",
+        id: searchId,
+      });
+      setChatMessages([...chatMessages]);
+      try {
+        const results = await search_files({ query: q, provider: "ollama" });
+        if (results && (results as any).error) {
+          const message = (results as any).error;
+          addConversationItem({ role: "assistant", content: message });
+          addChatMessage({
+            type: "message",
+            role: "agent",
+            content: [{ type: "output_text", text: message }],
+          });
+          setRelevantArticlesError(message);
+          setRelevantArticlesLoading(false);
+          setSuggestedMessage(null);
+          setSuggestedMessageDone(false);
+          setAgentTyping(false);
+        } else if (results) {
+          const searchResults = (results as any).data || (results as any).results || [];
+          const snippets = searchResults
+            .map((r: any) => r.text)
+            .filter(Boolean)
+            .slice(0, 3)
+            .join("\n---\n");
+          if (snippets) {
+            conversationItems.push({
+              role: "system",
+              content: `Relevant knowledge base excerpts:\n${snippets}`,
+            });
+          }
+          const toolMsg = chatMessages.find((m) => m.id === searchId);
+          if (toolMsg && toolMsg.type === "tool_call") {
+            toolMsg.status = "completed";
+          }
+          conversationItems.push({ type: "file_search_call", id: searchId, results: searchResults });
+          setChatMessages([...chatMessages]);
+          setFAQExtracts(searchResults);
+          setRelevantArticlesLoading(false);
+          setRelevantArticlesError(null);
+          setConversationItems([...conversationItems]);
+        }
+      } catch (err) {
+        const message = (err as Error).message;
+        addConversationItem({ role: "assistant", content: message });
+        addChatMessage({
+          type: "message",
+          role: "agent",
+          content: [{ type: "output_text", text: message }],
+        });
+        setRelevantArticlesError(message);
+        setRelevantArticlesLoading(false);
+        setSuggestedMessage(null);
+        setSuggestedMessageDone(false);
+        setAgentTyping(false);
+      }
+    }
+  }
 
   const allConversationItems = [
     // Adding developer prompt as first item in the conversation
@@ -436,6 +536,6 @@ export const processMessages = async () => {
     }
   },
   modelProvider,
-  modelProvider === "ollama" ? (ollamaTools as any) : undefined,
+  activeTools as any,
   modelProvider === "ollama" ? ollamaModel : undefined);
 };

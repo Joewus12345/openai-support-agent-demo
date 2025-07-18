@@ -1,7 +1,6 @@
 import { ProviderEvent } from "./openai";
 import ollama from "ollama";
 import { randomUUID } from "crypto";
-import { search_files } from "@/lib/server/searchFiles";
 import type { ProviderOptions } from "./index";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
@@ -35,84 +34,14 @@ export async function* ollamaProvider(
         : String(m.content ?? ""),
     }));
 
-  const hasFileSearchTool =
-    Array.isArray(tools) &&
-    tools.some((t: any) => t.type === "file_search" || t.name === "search_files");
-
   let finalText = "";
-
-  const lastUserIndex = [...(messages || [])]
-    .map((m, i) => [m, i] as const)
-    .reverse()
-    .find(([m]) => (m as any).role === "user")?.[1];
-
-  let searchAlready = false;
-  if (lastUserIndex !== undefined) {
-    searchAlready = (messages || [])
-      .slice(lastUserIndex + 1)
-      .some((m: any) => m.type === "file_search_call");
-  }
-
-  // If the last user message already triggered a file search, remove the
-  // `search_files` tool from the next model invocation to avoid duplicate
-  // searches that can lead to loops.
-  let activeTools = tools;
-  if (searchAlready) {
-    activeTools = tools?.filter(
-      (t: any) => t.type !== "function" || t.function?.name !== "search_files"
-    );
-  }
-
-  const lastUser = lastUserIndex !== undefined ? (messages as any)[lastUserIndex] : undefined;
-  if (hasFileSearchTool && lastUser && !searchAlready) {
-    const q = Array.isArray(lastUser.content)
-      ? lastUser.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
-      : String(lastUser.content ?? "");
-    console.log("File search query:", q);
-    try {
-      const results = await search_files({ query: q, provider: "ollama" });
-      if (results && (results as any).error) {
-        yield { event: "error", data: { message: (results as any).error } } as ProviderEvent;
-      } else if (results) {
-        const searchResults = results.data || results.results || [];
-        const snippets = searchResults
-          .map((r: any) => r.text)
-          .filter(Boolean)
-          .slice(0, 3)
-          .join("\n---\n");
-        console.log("Retrieved snippets:", snippets);
-        if (snippets) {
-          converted.push({
-            role: "system",
-            content: `Relevant knowledge base excerpts:\n${snippets}`,
-          });
-          const id = randomUUID();
-          yield {
-            event: "response.file_search_call.completed",
-            data: { item_id: id, results: searchResults },
-          } as ProviderEvent;
-          yield {
-            event: "response.output_item.done",
-            data: { item: { type: "file_search_call", id, results: searchResults } },
-          } as ProviderEvent;
-        }
-      }
-    } catch (err) {
-      console.error("search_files failed", err, "finalText length", finalText.length);
-      yield {
-        event: "error",
-        data: { message: (err as Error).message },
-      } as ProviderEvent;
-    }
-  }
 
   let stream: any;
   try {
     const payload = {
       model,
       messages: converted,
-      // Use the filtered tool list when a search has already occurred
-      tools: activeTools,
+      tools,
       stream: true,
       options: { num_ctx },
     } as const;
