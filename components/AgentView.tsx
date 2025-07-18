@@ -82,8 +82,9 @@ export default function AgentView() {
         >
           <option value="openai">OpenAI</option>
           <option value="ollama">Ollama</option>
+          <option value="ollama-openai">Ollama (OpenAI compat)</option>
         </select>
-        {modelProvider === "ollama" && (
+        {(modelProvider === "ollama" || modelProvider === "ollama-openai") && (
           <select
             className="text-xs border rounded p-1"
             value={ollamaModel}

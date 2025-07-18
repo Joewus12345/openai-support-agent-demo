@@ -60,11 +60,12 @@ Feel free to customize this demo to suit your specific use case.
 
 4. **Choose your provider (optional):**
 
-   The assistant can run using either the `openai` API or the `ollama` package.
-   You can switch providers from the dropdown next to **Auto reply** in the
-   agent view. When selecting `ollama`, make sure you have an Ollama server
-   running locally (e.g. by executing `ollama serve`). The built-in tools work
-   the same with both providers.
+   The assistant can run using the `openai` API, the `ollama` package, or
+   Ollama's OpenAI compatible endpoint. You can switch providers from the
+   dropdown next to **Auto reply** in the agent view. When selecting either
+   `ollama` or `ollama-openai`, make sure you have an Ollama server running
+   locally (e.g. by executing `ollama serve`). The built-in tools work the same
+   with all providers.
 
 ## Running Ollama
 
@@ -92,6 +93,13 @@ When using the `ollama` provider you need a local server running.
    OLLAMA_MODEL=llama3.2
    OLLAMA_NUM_CTX=4096
    OLLAMA_HOST=http://localhost:11434
+   ```
+
+   To enable the OpenAI compatible endpoint, also set:
+
+   ```bash
+   OLLAMA_OPENAI_BASE_URL=http://localhost:11434/v1
+   OLLAMA_OPENAI_API_KEY=ollama
    ```
 
 5. **Install dependencies:**
