@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import ollama from "ollama";
 
-const host = process.env.OLLAMA_HOST;
+const host = process.env.OLLAMA_HOST || process.env.OLLAMA_OPENAI_BASE_URL;
 if (host) {
   try {
     (ollama as any).defaults = { ...(ollama as any).defaults, host };
