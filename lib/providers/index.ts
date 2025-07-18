@@ -1,5 +1,5 @@
 import { openaiProvider } from "./openai";
-import { ollamaSimple } from "./ollama";
+import { ollamaProvider } from "./ollama";
 import type { ProviderEvent } from "./openai";
 
 export interface ProviderOptions {
@@ -10,14 +10,14 @@ export type ProviderFunction = (
   messages: any[],
   tools: any,
   options?: ProviderOptions
-) => AsyncGenerator<ProviderEvent> | Promise<string>;
+) => AsyncGenerator<ProviderEvent>;
 
 export function getProvider(name: string | undefined): ProviderFunction {
-  switch (name) {
-    case "ollama":
-      return ollamaSimple as ProviderFunction;
-    case "openai":
-    default:
-      return openaiProvider;
-  }
+    switch (name) {
+      case "ollama":
+        return ollamaProvider;
+      case "openai":
+      default:
+        return openaiProvider;
+    }
 }
