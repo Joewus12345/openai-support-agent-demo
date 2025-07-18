@@ -13,9 +13,7 @@ export async function* openaiProvider(
   _opts?: ProviderOptions
 ): AsyncGenerator<ProviderEvent> {
   void _opts;
-  const openai = new OpenAI({
-    baseURL: process.env.OPENAI_BASE_URL,
-  });
+  const openai = new OpenAI();
   const events = await openai.responses.create({
     model: MODEL,
     input: messages,

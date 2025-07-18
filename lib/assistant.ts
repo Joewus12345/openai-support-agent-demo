@@ -166,10 +166,7 @@ export const processMessages = async () => {
   const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
     useDataStore.getState();
 
-  let activeTools: any[] =
-    modelProvider === "ollama" || modelProvider === "ollama-openai"
-      ? []
-      : [...tools];
+  let activeTools: any[] = modelProvider === "ollama" ? [] : [...tools];
 
   const lastUserIndex = [...conversationItems]
     .map((m, i) => [m, i] as const)
