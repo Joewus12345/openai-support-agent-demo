@@ -8,7 +8,11 @@ import { functionsMap } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
 import { search_files } from "@/lib/server/searchFiles";
-import { randomUUID } from "crypto";
+
+// generateId uses browser crypto if available, otherwise Math.random
+export function generateId() {
+  return globalThis.crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2);
+}
 
 export interface ContentItem {
   type: "input_text" | "output_text" | "refusal" | "output_audio" | "output_image";
@@ -152,7 +156,7 @@ export const processMessages = async () => {
   const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
     useDataStore.getState();
 
-  let activeTools = modelProvider === "ollama" ? [...ollamaTools] : [...tools];
+  let activeTools: any[] = modelProvider === "ollama" ? [...ollamaTools] : [...tools];
 
   const lastUserIndex = [...conversationItems]
     .map((m, i) => [m, i] as const)
@@ -186,7 +190,7 @@ export const processMessages = async () => {
         : String(lastUser.content ?? "");
       setRelevantArticlesLoading(true);
       setRelevantArticlesError(null);
-      const searchId = randomUUID();
+      const searchId = generateId();
       chatMessages.push({
         type: "tool_call",
         tool_type: "file_search_call",
