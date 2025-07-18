@@ -2,6 +2,8 @@ import OpenAI from "openai";
 import { randomUUID } from "crypto";
 import type { ProviderOptions } from "./index";
 import type { ProviderEvent } from "./openai";
+import { fileSearch } from "@/lib/tools/fileSearch";
+import { webSearch } from "@/lib/tools/webSearch";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 
@@ -46,7 +48,7 @@ export async function* ollamaOpenAIProvider(
     .filter(Boolean);
 
   let finalText = "";
-  const calls = new Map<string, { name: string; args: string }>();
+  const calls = new Map<string, { type: string; name?: string; args: string }>();
 
   try {
     const stream = await openai.chat.completions.create({
@@ -56,6 +58,11 @@ export async function* ollamaOpenAIProvider(
       stream: true,
     });
 
+    // Stream chunks from Ollama's OpenAI endpoint. Each chunk may contain
+    // partial text and tool call deltas. We forward text deltas directly
+    // and build up tool call state until the model signals `tool_calls` as
+    // the finish_reason. At that point we execute the calls and emit the
+    // appropriate events for each tool type.
     for await (const chunk of stream as any) {
       const choice = chunk.choices?.[0];
       const delta = choice?.delta || {};
@@ -72,13 +79,23 @@ export async function* ollamaOpenAIProvider(
         const id = call.id || randomUUID();
         let state = calls.get(id);
         if (!state) {
-          state = { name: call.function?.name ?? "", args: "" };
+          state = {
+            type: call.type || "function",
+            name: call.function?.name,
+            args: "",
+          };
           calls.set(id, state);
+          const itemType =
+            state.type === "file_search"
+              ? "file_search_call"
+              : state.type === "web_search"
+              ? "web_search_call"
+              : "function_call";
           yield {
             event: "response.output_item.added",
             data: {
               item: {
-                type: "function_call",
+                type: itemType,
                 id,
                 name: state.name,
                 call_id: id,
@@ -87,34 +104,87 @@ export async function* ollamaOpenAIProvider(
             },
           } as ProviderEvent;
         }
+
         if (call.function?.arguments) {
           state.args += call.function.arguments;
-          yield {
-            event: "response.function_call_arguments.delta",
-            data: { item_id: id, delta: call.function.arguments },
-          } as ProviderEvent;
+          if (state.type === "function") {
+            yield {
+              event: "response.function_call_arguments.delta",
+              data: { item_id: id, delta: call.function.arguments },
+            } as ProviderEvent;
+          }
+        }
+
+        if (call.file_search?.query) {
+          state.args += call.file_search.query;
+        }
+        if (call.web_search?.query) {
+          state.args += call.web_search.query;
         }
       }
 
       if (choice?.finish_reason) {
         if (choice.finish_reason === "tool_calls") {
           for (const [id, state] of calls.entries()) {
-            yield {
-              event: "response.function_call_arguments.done",
-              data: { item_id: id, arguments: state.args },
-            } as ProviderEvent;
-            yield {
-              event: "response.output_item.done",
-              data: {
-                item: {
-                  type: "function_call",
-                  id,
-                  name: state.name,
-                  call_id: id,
-                  arguments: state.args,
+            if (state.type === "function") {
+              yield {
+                event: "response.function_call_arguments.done",
+                data: { item_id: id, arguments: state.args },
+              } as ProviderEvent;
+              yield {
+                event: "response.output_item.done",
+                data: {
+                  item: {
+                    type: "function_call",
+                    id,
+                    name: state.name,
+                    call_id: id,
+                    arguments: state.args,
+                  },
                 },
-              },
-            } as ProviderEvent;
+              } as ProviderEvent;
+            } else {
+              // For built-in file and web search we execute the query and
+              // stream back the results to mirror the Responses API flow.
+              let params: any = {};
+              try {
+                params = JSON.parse(state.args);
+              } catch {
+                params = { query: state.args };
+              }
+              const query = params.query || "";
+              const max_results = params.max_results;
+              let results: any = {};
+              if (state.type === "file_search") {
+                results = await fileSearch({
+                  query,
+                  max_results,
+                  provider: "ollama-openai",
+                });
+                yield {
+                  event: "response.file_search_call.results",
+                  data: { item_id: id, results },
+                } as ProviderEvent;
+              } else {
+                results = await webSearch({ query, max_results });
+                yield {
+                  event: "response.web_search_call.results",
+                  data: { item_id: id, results },
+                } as ProviderEvent;
+              }
+              yield {
+                event: "response.output_item.done",
+                data: { item: { type: `${state.type}_call`, id, results } },
+              } as ProviderEvent;
+              // Signal completion so the UI can update the tool call status
+              yield {
+                event:
+                  state.type === "file_search"
+                    ? "response.file_search_call.completed"
+                    : "response.web_search_call.completed",
+                data: { item_id: id, output: results },
+              } as ProviderEvent;
+            }
           }
           yield { event: "response.output_text.done", data: {} } as ProviderEvent;
         } else if (choice.finish_reason === "stop") {
