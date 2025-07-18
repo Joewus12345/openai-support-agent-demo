@@ -456,10 +456,16 @@ export const processMessages = async () => {
         // After output item is done, adding tool call ID
         const { item } = data || {};
 
+        const text = Array.isArray(item.content)
+          ? item.content
+              .map((c: any) => (typeof c === "string" ? c : c.text || ""))
+              .join(" ")
+          : String(item.content ?? "");
+
         if (
           item?.type === "message" &&
           item.role === "assistant" &&
-          (!item.content || !(item.content as string).trim())
+          !text.trim()
         ) {
           // ignore empty assistant messages
           break;
