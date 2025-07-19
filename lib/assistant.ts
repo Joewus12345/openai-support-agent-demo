@@ -257,6 +257,18 @@ export const processMessages = async () => {
           setSuggestedMessageDone(false);
           setAgentTyping(false);
         } else {
+          const { suggestedMessage } = useConversationStore.getState();
+          if (!suggestedMessage && assistantMessageContent.trim()) {
+            const message: ChatMessage = {
+              type: "message",
+              role: "agent",
+              content: [
+                { type: "output_text", text: assistantMessageContent },
+              ],
+            };
+            setSuggestedMessage(message);
+          }
+          setAgentTyping(false);
           setSuggestedMessageDone(true);
         }
         break;
