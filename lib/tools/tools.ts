@@ -7,17 +7,10 @@ import { VECTOR_STORE_ID } from "@/config/constants";
  * Ollama provider only needs the function tools defined in `toolsList`.
  */
 
-/** Build a tool definition compatible with the OpenAI provider. */
-const buildOpenAITool = (tool: any) => {
+/** Build a tool definition compatible with the providers. */
+const buildTool = (tool: any) => {
   const required = (tool as any).required ?? Object.keys(tool.parameters);
-  const toolDef: {
-    type: string;
-    name: string;
-    parameters: any;
-    strict: boolean;
-    description?: string;
-  } = {
-    type: "function",
+  const fn = {
     name: tool.name,
     parameters: {
       type: "object",
@@ -25,15 +18,17 @@ const buildOpenAITool = (tool: any) => {
       required,
       additionalProperties: false,
     },
-    strict: required.length === Object.keys(tool.parameters).length,
-  };
+  } as any;
   if ((tool as any).description) {
-    toolDef.description = (tool as any).description;
+    fn.description = (tool as any).description;
   }
-  return toolDef;
+  return {
+    type: "function",
+    function: fn,
+  };
 };
 
-const openAITools = toolsList.map(buildOpenAITool);
+const functionTools = toolsList.map(buildTool);
 
 // Tools for the OpenAI provider (includes built-in file search)
 export const tools = [
@@ -41,8 +36,8 @@ export const tools = [
     type: "file_search",
     vector_store_ids: [VECTOR_STORE_ID],
   },
-  ...openAITools,
+  ...functionTools,
 ];
 
 // Tools for the Ollama provider (function tools only)
-export const ollamaTools: any[] = [];
+export const ollamaTools = [...functionTools];
