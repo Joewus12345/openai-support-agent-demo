@@ -25,14 +25,25 @@ export async function* ollamaProvider(
   options?: ProviderOptions
 ): AsyncGenerator<ProviderEvent> {
   const model = options?.model || defaultModel;
-  const converted = (messages || [])
-    .filter((m: any) => m.role)
-    .map((m: any) => ({
+
+const converted = (messages || [])
+  .filter((m: any) => m.role)
+  .map((m: any) => {
+    if (m.type === "function_call_output") {
+      return {
+        role: "tool",
+        tool_call_id: m.call_id,
+        content: m.output ?? "",
+      };
+    }
+
+    return {
       role: m.role === "developer" ? "system" : m.role,
       content: Array.isArray(m.content)
         ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
         : String(m.content ?? ""),
-    }));
+    };
+  });
   let finalText = "";
 
   let stream: any;

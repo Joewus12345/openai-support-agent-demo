@@ -42,7 +42,7 @@ export default function AgentView() {
         console.error("Failed to fetch models", err);
       }
     };
-    if (modelProvider === "ollama" || "ollama-openai") {
+    if (modelProvider === "ollama" || modelProvider === "ollama-openai") {
       fetchModels();
     }
   }, [modelProvider]);
