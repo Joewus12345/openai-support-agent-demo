@@ -482,5 +482,7 @@ export const processMessages = async () => {
   },
   modelProvider,
   activeTools as any,
-  modelProvider === "ollama" ? ollamaModel : undefined);
+  modelProvider === "ollama" || modelProvider === "ollama-openai"
+    ? ollamaModel
+    : undefined);
 };

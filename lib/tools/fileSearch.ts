@@ -17,7 +17,7 @@ export async function fileSearch({
     typeof max_results === "number" && max_results > 0
       ? Math.floor(max_results)
       : 5;
-  if (provider === "ollama" || "ollama-openai") {
+  if (provider === "ollama" || provider === "ollama-openai") {
     try {
       const results = await localVectorStore.search(query, max_results);
       return { results };

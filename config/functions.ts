@@ -331,7 +331,25 @@ export const search_files = async ({
   max_results?: number;
 }) => {
   const provider = useConversationStore.getState().modelProvider;
-  return serverSearchFiles({ query, max_results, provider });
+  const {
+    setFAQExtracts,
+    setRelevantArticlesError,
+    setRelevantArticlesLoading,
+  } = useDataStore.getState();
+
+  try {
+    setRelevantArticlesLoading(true);
+    const result = await serverSearchFiles({ query, max_results, provider });
+    if (result.results) {
+      setFAQExtracts(result.results);
+      setRelevantArticlesError(null);
+    } else if (result.error) {
+      setRelevantArticlesError(result.error);
+    }
+    return result;
+  } finally {
+    setRelevantArticlesLoading(false);
+  }
 };
 
 export const functionsMap = {
