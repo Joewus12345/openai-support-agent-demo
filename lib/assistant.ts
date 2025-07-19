@@ -299,6 +299,7 @@ export const processMessages = async () => {
             });
             setChatMessages([...chatMessages]);
             setConversationItems([...conversationItems]);
+            setSuggestedMessage(null);
             setAgentTyping(false);
             setSuggestedMessageDone(true);
           } else {

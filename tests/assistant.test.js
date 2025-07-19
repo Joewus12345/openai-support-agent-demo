@@ -43,6 +43,15 @@ function runParse(content) {
   return { parsed, chatMessages, conversationItems };
 }
 
+function processOutputTextDone(content) {
+  let suggestedMessage = { text: 'placeholder' };
+  const { parsed, chatMessages, conversationItems } = runParse(content);
+  if (parsed) {
+    suggestedMessage = null;
+  }
+  return { parsed, chatMessages, conversationItems, suggestedMessage };
+}
+
 test('parseToolCallJson detects valid JSON', () => {
   const text = '{"name":"search_files","parameters":{"query":"foo"}}';
   const { parsed } = runParse(text);
@@ -53,4 +62,14 @@ test('parseToolCallJson detects valid JSON', () => {
 test('parseToolCallJson ignores non JSON', () => {
   const { parsed } = runParse('Hello world');
   assert.strictEqual(parsed, null);
+});
+
+test('suggestedMessage cleared after tool call', () => {
+  const text = '{"name":"search_files","parameters":{"query":"bar"}}';
+  const { parsed, chatMessages, conversationItems, suggestedMessage } =
+    processOutputTextDone(text);
+  assert.ok(parsed);
+  assert.strictEqual(chatMessages.length, 1);
+  assert.strictEqual(conversationItems.length, 1);
+  assert.strictEqual(suggestedMessage, null);
 });
