@@ -13,6 +13,22 @@ export function generateId() {
   return globalThis.crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2);
 }
 
+export function parseToolCallJson(text: string): { name: string; parameters?: any } | null {
+  const trimmed = text.trim();
+  if (!trimmed.startsWith("{")) {
+    return null;
+  }
+  try {
+    const obj = JSON.parse(trimmed);
+    if (obj && typeof obj.name === "string") {
+      return { name: obj.name, parameters: obj.parameters };
+    }
+  } catch {
+    // ignore JSON.parse errors
+  }
+  return null;
+}
+
 export interface ContentItem {
   type: "input_text" | "output_text" | "refusal" | "output_audio" | "output_image";
   annotations?: Annotation[];
@@ -257,19 +273,49 @@ export const processMessages = async () => {
           setSuggestedMessageDone(false);
           setAgentTyping(false);
         } else {
-          const { suggestedMessage } = useConversationStore.getState();
-          if (!suggestedMessage && assistantMessageContent.trim()) {
-            const message: ChatMessage = {
-              type: "message",
-              role: "agent",
-              content: [
-                { type: "output_text", text: assistantMessageContent },
-              ],
+          const parsed = parseToolCallJson(assistantMessageContent);
+          if (parsed) {
+            const id = generateId();
+            const argStr = parsed.parameters
+              ? JSON.stringify(parsed.parameters)
+              : "";
+            const toolCall: ToolCallItem = {
+              type: "tool_call",
+              tool_type: "function_call",
+              status: "in_progress",
+              id,
+              name: parsed.name,
+              arguments: argStr,
+              parsedArguments: parsed.parameters ?? {},
+              output: null,
             };
-            setSuggestedMessage(message);
+            chatMessages.push(toolCall);
+            conversationItems.push({
+              type: "function_call",
+              role: "assistant",
+              id,
+              name: parsed.name,
+              arguments: argStr,
+            });
+            setChatMessages([...chatMessages]);
+            setConversationItems([...conversationItems]);
+            setAgentTyping(false);
+            setSuggestedMessageDone(true);
+          } else {
+            const { suggestedMessage } = useConversationStore.getState();
+            if (!suggestedMessage && assistantMessageContent.trim()) {
+              const message: ChatMessage = {
+                type: "message",
+                role: "agent",
+                content: [
+                  { type: "output_text", text: assistantMessageContent },
+                ],
+              };
+              setSuggestedMessage(message);
+            }
+            setAgentTyping(false);
+            setSuggestedMessageDone(true);
           }
-          setAgentTyping(false);
-          setSuggestedMessageDone(true);
         }
         break;
       }
