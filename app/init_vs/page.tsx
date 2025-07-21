@@ -107,6 +107,23 @@ export default function InitVS() {
     setLoadingOllama(false);
   };
 
+  const handleRebuildOllama = async () => {
+    setLoadingOllama(true);
+    setSuccessOllama(false);
+    setErrorOllama(null);
+    setStatusOllama("Rebuilding embeddings...");
+    const res = await fetch("/api/local_vector_store/init?force=true", {
+      method: "POST",
+    });
+    if (res.ok) {
+      setStatusOllama("Knowledge base rebuilt.");
+      setSuccessOllama(true);
+    } else {
+      setErrorOllama("Failed to rebuild vector store");
+    }
+    setLoadingOllama(false);
+  };
+
   return (
     <div className="h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-32">
       <div className="flex flex-col gap-4 max-w-lg">
@@ -134,7 +151,7 @@ export default function InitVS() {
           ) : (
             <div className="text-sm text-zinc-500 animate-pulse">{statusOpenAI}</div>
           )}
-          {!loadingOllama ? (
+        {!loadingOllama ? (
             <div
               className="bg-black text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-800 cursor-pointer"
               onClick={handleInitializeOllama}
@@ -144,6 +161,14 @@ export default function InitVS() {
           ) : (
             <div className="text-sm text-zinc-500 animate-pulse">{statusOllama}</div>
           )}
+          {!loadingOllama ? (
+            <div
+              className="bg-black text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-800 cursor-pointer"
+              onClick={handleRebuildOllama}
+            >
+              Rebuild Ollama
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="mt-6 text-left w-full max-w-lg space-y-4">

@@ -130,9 +130,10 @@ When using the `ollama` provider you need a local server running.
      `config/constants.ts` as `VECTOR_STORE_ID`.
   - **Initialize Ollama vector store**: click the <kbd>Ollama</kbd> button to
     generate embeddings locally. This stores the embeddings in the
-    `data/local_vector_store.json` file. To rebuild the embeddings from scratch
-    later on, send a POST request to
-    `/api/local_vector_store/init?force=true`.
+    `data/local_vector_store.json` file.
+  - **Rebuild Ollama vector store**: click the <kbd>Rebuild Ollama</kbd> button
+    on the same page to regenerate embeddings after updating the knowledge base
+    (this calls `/api/local_vector_store/init?force=true`).
 
    The OpenAI vector store will be used when the provider is set to `openai`
    while the local store powers file search when using the `ollama` provider.
