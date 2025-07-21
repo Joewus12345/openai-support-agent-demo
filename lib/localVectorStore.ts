@@ -3,6 +3,7 @@ import path from "path";
 import crypto from "crypto";
 import ollama from "ollama";
 import { KB_FOLDERS } from "@/config/demoData";
+import cleanMarkdown from "./cleanMarkdown";
 
 const STORE_PATH = path.join(process.cwd(), "data", "local_vector_store.json");
 
@@ -66,9 +67,7 @@ class LocalVectorStore {
       for (const file of files) {
         const filePath = path.join(dir, file);
         const raw = await fs.readFile(filePath, "utf8");
-        const cleaned = raw
-          .replace(/<[^>]*>/g, "")
-          .replace(/[\#*_`>\-]/g, "");
+        const cleaned = cleanMarkdown(raw);
         const paragraphs = cleaned.split(/\n{2,}/);
         let chunk = "";
         let index = 0;
@@ -127,7 +126,7 @@ class LocalVectorStore {
     }
     console.log(`Searching ${this.store.length} stored entries...`);
     const qEmbed = await this.embedding(query);
-    const threshold = 0.50
+    const threshold = 0.25
     const results = this.store
       .map((e) => ({
         text: e.text,
