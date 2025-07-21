@@ -5,6 +5,9 @@ import useDataStore from "@/stores/useDataStore";
 import useConversationStore from "@/stores/useConversationStore";
 import { search_files as serverSearchFiles } from "@/lib/server/searchFiles";
 
+// simple in-memory cache for file search results
+const fileSearchCache = new Map<string, any[]>();
+
 const setDetailsFromUser = (user: any) => ({
   id: user.id,
   name: user.name ?? "",
@@ -324,13 +327,17 @@ export const start_chat_session = async ({
 };
 
 export const search_files = async ({
-  query,
-  max_results,
+  query
 }: {
-  query: string;
-  max_results?: number;
+  query: string
 }) => {
-  const provider = useConversationStore.getState().modelProvider;
+  const {
+    modelProvider: provider,
+    lastSearchQuery,
+    lastSearchResults,
+    setLastSearchQuery,
+    setLastSearchResults,
+  } = useConversationStore.getState();
   const {
     setFAQExtracts,
     setRelevantArticlesError,
@@ -339,14 +346,32 @@ export const search_files = async ({
 
   try {
     setRelevantArticlesLoading(true);
-    const result = await serverSearchFiles({ query, max_results, provider });
+    if (lastSearchQuery === query && lastSearchResults) {
+      setFAQExtracts(lastSearchResults, provider);
+      setRelevantArticlesError(null);
+      return { results: lastSearchResults };
+    }
+
+    if (fileSearchCache.has(query)) {
+      const cached = fileSearchCache.get(query)!;
+      setFAQExtracts(cached, provider);
+      setLastSearchQuery(query);
+      setLastSearchResults(cached);
+      setRelevantArticlesError(null);
+      return { results: cached };
+    }
+
+    const result = await serverSearchFiles({ query, provider });
     if (result.results) {
-      setFAQExtracts(result.results);
+      setFAQExtracts(result.results, provider);
+      setLastSearchQuery(query);
+      setLastSearchResults(result.results);
+      fileSearchCache.set(query, result.results);
       setRelevantArticlesError(null);
     } else if (result.error) {
       setRelevantArticlesError(result.error);
     }
-    return result;
+    return result
   } finally {
     setRelevantArticlesLoading(false);
   }

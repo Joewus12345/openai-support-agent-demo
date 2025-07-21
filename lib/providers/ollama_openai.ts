@@ -155,12 +155,10 @@ export async function* ollamaOpenAIProvider(
                 params = { query: state.args };
               }
               const query = params.query || "";
-              const max_results = params.max_results;
               let results: any = {};
               if (state.type === "file_search") {
                 results = await fileSearch({
                   query,
-                  max_results,
                   provider: "ollama-openai",
                 });
                 yield {
@@ -168,7 +166,7 @@ export async function* ollamaOpenAIProvider(
                   data: { item_id: id, results },
                 } as ProviderEvent;
               } else {
-                results = await webSearch({ query, max_results });
+                results = await webSearch({ query });
                 yield {
                   event: "response.web_search_call.results",
                   data: { item_id: id, results },

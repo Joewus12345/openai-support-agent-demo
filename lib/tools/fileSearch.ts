@@ -3,20 +3,14 @@ import { localVectorStore } from "@/lib/localVectorStore";
 
 export interface FileSearchParams {
   query: string;
-  max_results?: number;
   provider?: string;
 }
 
 export async function fileSearch({
   query,
-  max_results = 5,
   provider,
 }: FileSearchParams) {
-  // Fallback to default when max_results is missing or not positive
-  max_results =
-    typeof max_results === "number" && max_results > 0
-      ? Math.floor(max_results)
-      : 5;
+  const max_results = 20;
   if (provider === "ollama" || provider === "ollama-openai") {
     try {
       const results = await localVectorStore.search(query, max_results);

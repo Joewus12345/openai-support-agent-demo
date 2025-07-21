@@ -14,6 +14,7 @@ interface Entry {
     type: string;
     filename: string;
     filepath: string;
+    chunk?: number;
   };
 }
 
@@ -64,19 +65,51 @@ class LocalVectorStore {
       const files = await fs.readdir(dir);
       for (const file of files) {
         const filePath = path.join(dir, file);
-        const text = await fs.readFile(filePath, "utf8");
-        const embedding = await this.embedding(text);
-        this.store.push({
-          id: crypto.randomUUID(),
-          embedding,
-          text,
-          attributes: {
-            type: folder,
-            filename: file.replace(/\.md$/, ""),
-            filepath: `/public/${folder}/${file}`,
-          },
-        });
-        processed++;
+        const raw = await fs.readFile(filePath, "utf8");
+        const cleaned = raw
+          .replace(/<[^>]*>/g, "")
+          .replace(/[\#*_`>\-]/g, "");
+        const paragraphs = cleaned.split(/\n{2,}/);
+        let chunk = "";
+        let index = 0;
+        for (const para of paragraphs) {
+          const p = para.trim();
+          if (!p) continue;
+          if (chunk.length + p.length > 500 && chunk) {
+            const embedding = await this.embedding(chunk);
+            this.store.push({
+              id: crypto.randomUUID(),
+              embedding,
+              text: chunk,
+              attributes: {
+                type: folder,
+                filename: file.replace(/\.md$/, ""),
+                filepath: `/public/${folder}/${file}`,
+                chunk: index,
+              },
+            });
+            processed++;
+            index++;
+            chunk = p;
+          } else {
+            chunk += (chunk ? "\n\n" : "") + p;
+          }
+        }
+        if (chunk.trim()) {
+          const embedding = await this.embedding(chunk);
+          this.store.push({
+            id: crypto.randomUUID(),
+            embedding,
+            text: chunk,
+            attributes: {
+              type: folder,
+              filename: file.replace(/\.md$/, ""),
+              filepath: `/public/${folder}/${file}`,
+              chunk: index,
+            },
+          });
+          processed++;
+        }      
       }
     }
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
@@ -87,7 +120,7 @@ class LocalVectorStore {
     );
   }
 
-  async search(query: string, max_results = 5) {
+  async search(query: string, limit = 20) {
     await this.ensureLoaded();
     if (this.store.length === 0) {
       throw new Error("Local vector store is empty");
@@ -101,7 +134,7 @@ class LocalVectorStore {
         score: cosineSimilarity(qEmbed, e.embedding),
       }))
       .sort((a, b) => b.score - a.score)
-      .slice(0, max_results);
+      .slice(0, limit);
     console.log(
       "Top scores:",
       results.map((r) => r.score.toFixed(3))

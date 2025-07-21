@@ -182,12 +182,21 @@ export const processMessages = async () => {
   const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
     useDataStore.getState();
 
-  let activeTools: any[] =
+  let toolSet: any[] =
     modelProvider === "ollama"
       ? [...ollamaTools]
       : modelProvider === "ollama-openai"
       ? [...ollamaTools]
       : [...tools];
+
+  if (modelProvider === "openai") {
+    toolSet = toolSet.filter(
+      (t: any) =>
+        t.type !== "function" || (t.function?.name ?? t.name) !== "search_files"
+    );
+  }
+
+  let activeTools: any[] = [...toolSet];
 
   const lastUserIndex = [...conversationItems]
     .map((m, i) => [m, i] as const)
@@ -437,6 +446,15 @@ export const processMessages = async () => {
         break;
       }
 
+      case "response.file_search_call.results": {
+        const provider = useConversationStore.getState().modelProvider;
+
+        setFAQExtracts(data.results, provider);
+        setRelevantArticlesLoading(false);
+        setRelevantArticlesError(null);
+        break;
+      }
+
       case "response.file_search_call.completed": {
         const { item_id } = data;
         console.log("file search call completed", data);
@@ -489,7 +507,13 @@ export const processMessages = async () => {
               execMode
             );
             toolCallMessage.call_id = item.call_id;
-            // Record tool output
+            // Record tool output for conversation history but avoid showing
+            // raw search results in the agent view
+            if (toolCallMessage.name !== "search_files") {
+              toolCallMessage.output = JSON.stringify(toolResult);
+            } else {
+              toolCallMessage.output = null;
+            }
             toolCallMessage.output = JSON.stringify(toolResult);
             setChatMessages([...chatMessages]);
             conversationItems.push({
@@ -512,7 +536,8 @@ export const processMessages = async () => {
         }
 
         if (item.type === "file_search_call") {
-          setFAQExtracts(item.results);
+          const provider = useConversationStore.getState().modelProvider;
+          setFAQExtracts(item.results, provider);
           setRelevantArticlesLoading(false);
           setRelevantArticlesError(null);
         }
