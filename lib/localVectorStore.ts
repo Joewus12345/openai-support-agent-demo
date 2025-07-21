@@ -46,7 +46,7 @@ class LocalVectorStore {
   }
 
   private async embedding(text: string): Promise<number[]> {
-    const model = process.env.OLLAMA_MODEL || "llama3";
+    const model = "nomic-embed-text";
     const res = await ollama.embeddings({ model, prompt: text });
     return res.embedding;
   }
@@ -127,12 +127,14 @@ class LocalVectorStore {
     }
     console.log(`Searching ${this.store.length} stored entries...`);
     const qEmbed = await this.embedding(query);
+    const threshold = 0.50
     const results = this.store
       .map((e) => ({
         text: e.text,
         attributes: e.attributes,
         score: cosineSimilarity(qEmbed, e.embedding),
       }))
+      .filter((r) => r.score >= threshold)
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
     console.log(

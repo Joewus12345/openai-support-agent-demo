@@ -8,6 +8,10 @@ import { search_files as serverSearchFiles } from "@/lib/server/searchFiles";
 // simple in-memory cache for file search results
 const fileSearchCache = new Map<string, any[]>();
 
+export function clearFileSearchCache() {
+  fileSearchCache.clear();
+}
+
 const setDetailsFromUser = (user: any) => ({
   id: user.id,
   name: user.name ?? "",
