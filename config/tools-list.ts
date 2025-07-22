@@ -20,8 +20,18 @@ export const toolsList = [
             properties: {
               domain_filter: {
                 type: ["string", "null"],
+                enum: [
+                  "company overview",
+                  "services",
+                  "training programs",
+                  "csr initiatives",
+                  "certifications",
+                  "products",
+                  "personnel",
+                  null,
+                ],
                 description:
-                  "Optional domain to narrow the search (e.g. 'company overview', 'services', 'training programs', 'csr initiatives', 'certifications', 'products', 'personnel'). Pass null if not needed.",
+                  "Optional domain to narrow the search. Pass null if not needed.",
               },
               sort_by: {
                 type: ["string", "null"],

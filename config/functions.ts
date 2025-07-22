@@ -4,7 +4,6 @@
 import useDataStore from "@/stores/useDataStore";
 import useConversationStore from "@/stores/useConversationStore";
 import { search_knowledge_base as serverSearchKnowledgeBase } from "@/lib/server/searchFiles";
-import { inferSearchOptions } from "@/lib/inferSearchOptions";
 
 // simple in-memory cache for file search results
 const fileSearchCache = new Map<string, any[]>();
@@ -337,8 +336,8 @@ export const search_knowledge_base = async ({
 }: {
   query: string;
   options?: {
-    domain_filter: string | null;
-    sort_by: string | null;
+    domain_filter?: string | null;
+    sort_by?: string | null;
   };
 }) => {
   const {
@@ -356,16 +355,15 @@ export const search_knowledge_base = async ({
 
   try {
     setRelevantArticlesLoading(true);
-    const inferred = inferSearchOptions(query);
     const finalOptions = {
       domain_filter:
         options && options.domain_filter !== undefined
           ? options.domain_filter
-          : inferred.domain_filter,
+          : null,
       sort_by:
-        options && options.sort_by !== undefined
+        options && options.sort_by !== undefined && options.sort_by !== null
           ? options.sort_by
-          : inferred.sort_by,
+          : "relevance",
     };
     if (lastSearchQuery === query && lastSearchResults) {
       setFAQExtracts(lastSearchResults, provider);
