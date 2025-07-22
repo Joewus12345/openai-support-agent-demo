@@ -20,37 +20,45 @@ export async function search_knowledge_base({
   query,
   queries,
   provider,
-  options,
 }: {
   query?: string;
   queries?: string[];
   provider?: string;
-  options?: {
-    domain_filter: string | null;
-    sort_by: string | null;
-  };
 }) {
-  const searchParts =
-    queries && queries.length > 0
-      ? queries
-      : query
-      ? splitQueries(query)
-      : [];
+  try {
+    const searchParts =
+      queries && queries.length > 0
+        ? queries
+        : query
+        ? splitQueries(query)
+        : [];
 
-  const max_results = 20;
-  let collected: any[] = [];
+    const max_results = 20;
+    let collected: any[] = [];
 
-  for (const q of searchParts) {
-    if (provider === 'ollama' || provider === 'ollama-openai') {
-      const results = await localVectorStore.search(q, max_results);
-      collected = collected.concat(results);
-    } else {
-      const res = await fileSearch({ query: q, provider });
-      if (res.results) {
-        collected = collected.concat(res.results);
+    for (const q of searchParts) {
+      if (provider === 'ollama' || provider === 'ollama-openai') {
+        try {
+          const results = await localVectorStore.search(q, max_results);
+          collected = collected.concat(results);
+        } catch (error) {
+          console.error('Local file search failed', error);
+          return {
+            error:
+              error instanceof Error
+                ? error.message
+                : 'Failed to search files',
+          };
+        }
+      } else {
+        const res = await fileSearch({ query: q, provider });
+        if (res.results) {
+          collected = collected.concat(res.results);
+        } else if (res.error) {
+          return { error: res.error };
+        }
       }
     }
-  }
 
   const seen = new Set<string>();
   const merged = collected.filter((r) => {
@@ -60,18 +68,14 @@ export async function search_knowledge_base({
     return true;
   });
 
-  let filtered = merged;
-  if (options?.domain_filter) {
-    const df = options.domain_filter.toLowerCase();
-    filtered = filtered.filter((r) =>
-      r.attributes?.type?.toLowerCase().includes(df)
-    );
+  return { results: merged };
+  } catch (error) {
+    console.error('Error searching knowledge base', error);
+    return {
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Failed to search files',
+    };
   }
-  if (options?.sort_by === 'alphabetical') {
-    filtered = [...filtered].sort((a, b) =>
-      (a.attributes?.filename ?? '').localeCompare(b.attributes?.filename ?? '')
-    );
-  }
-
-  return { results: filtered };
 }

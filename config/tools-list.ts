@@ -21,35 +21,8 @@ export const toolsList = [
               "Optional list of search queries derived from the user question.",
             items: { type: "string" },
           },
-          options: {
-            type: "object",
-            properties: {
-              domain_filter: {
-                type: ["string", "null"],
-                enum: [
-                  "company overview",
-                  "services",
-                  "training programs",
-                  "csr initiatives",
-                  "certifications",
-                  "products",
-                  "personnel",
-                  null,
-                ],
-                description:
-                  "Optional domain to narrow the search. Pass null if not needed.",
-              },
-              sort_by: {
-                type: ["string", "null"],
-                enum: ["relevance", "date", "popularity", "alphabetical"],
-                description: "How to sort results. Pass null if not needed.",
-              },
-            },
-            required: ["domain_filter", "sort_by"],
-            additionalProperties: false,
-          },
         },
-        required: ["query", "options"],
+        required: ["query"],
         additionalProperties: false,
       },
     },

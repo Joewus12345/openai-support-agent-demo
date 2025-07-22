@@ -53,7 +53,7 @@ function processOutputTextDone(content) {
 }
 
 test('parseToolCallJson detects valid JSON', () => {
-  const text = '{"name":"search_knowledge_base","parameters":{"query":"foo","options":{"domain_filter":null,"sort_by":null}}}';
+  const text = '{"name":"search_knowledge_base","parameters":{"query":"foo"}}';
   const { parsed } = runParse(text);
   assert.ok(parsed);
   assert.strictEqual(parsed.name, 'search_knowledge_base');
@@ -65,7 +65,7 @@ test('parseToolCallJson ignores non JSON', () => {
 });
 
 test('suggestedMessage cleared after tool call', () => {
-  const text = '{"name":"search_knowledge_base","parameters":{"query":"bar","options":{"domain_filter":null,"sort_by":null}}}';
+  const text = '{"name":"search_knowledge_base","parameters":{"query":"bar"}}';
   const { parsed, chatMessages, conversationItems, suggestedMessage } =
     processOutputTextDone(text);
   assert.ok(parsed);
