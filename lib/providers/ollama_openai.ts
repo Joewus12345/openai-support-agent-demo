@@ -6,7 +6,8 @@ import { fileSearch } from "@/lib/tools/fileSearch";
 import { webSearch } from "@/lib/tools/webSearch";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
-const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "4096", 10);
+// Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
+const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "8192", 10);
 
 /**
  * Provider that uses the OpenAI client against Ollama's

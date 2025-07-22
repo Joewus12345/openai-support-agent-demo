@@ -4,7 +4,8 @@ import { randomUUID } from "crypto";
 import type { ProviderOptions } from "./index";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
-const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "4096", 10);
+// Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
+const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "8192", 10);
 const host = process.env.OLLAMA_HOST;
 
 if (host) {

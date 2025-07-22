@@ -91,9 +91,13 @@ When using the `ollama` provider you need a local server running.
 
    ```bash
    OLLAMA_MODEL=llama3.2
-   OLLAMA_NUM_CTX=4096
+   OLLAMA_NUM_CTX=8192
    OLLAMA_HOST=http://localhost:11434
    ```
+
+   `OLLAMA_NUM_CTX` controls the maximum context window for requests. When the
+   total token count of the conversation approaches this limit, the app drops
+   the oldest messages to stay within the allowed size.
 
    To enable the OpenAI compatible endpoint, also set:
 

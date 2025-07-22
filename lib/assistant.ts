@@ -216,14 +216,27 @@ export const processMessages = async () => {
     );
   }
 
-  const allConversationItems = [
-    // Adding developer prompt as first item in the conversation
-    {
-      role: "developer",
-      content: DEVELOPER_PROMPT,
-    },
-    ...conversationItems,
-  ];
+  const estimateTokens = (text: string) => Math.ceil(String(text || "").length / 4);
+  const maxTokens = parseInt(process.env.OLLAMA_NUM_CTX || "8192", 10);
+
+  const historyItems = [...conversationItems];
+  const developerItem = { role: "developer", content: DEVELOPER_PROMPT };
+  let tokensUsed = estimateTokens(DEVELOPER_PROMPT);
+  const trimmed: any[] = [];
+
+  for (let i = historyItems.length - 1; i >= 0; i--) {
+    const item: any = historyItems[i];
+    if (!item.role) continue;
+    const content = Array.isArray(item.content)
+      ? item.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
+      : String(item.content ?? "");
+    const t = estimateTokens(content);
+    if (tokensUsed + t > maxTokens) break;
+    tokensUsed += t;
+    trimmed.push(item);
+  }
+
+  const allConversationItems = [developerItem, ...trimmed.reverse()];
 
   let assistantMessageContent = "";
   let functionArguments = "";
