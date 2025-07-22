@@ -15,6 +15,12 @@ export const toolsList = [
             type: "string",
             description: "The user question or search query.",
           },
+          queries: {
+            type: "array",
+            description:
+              "Optional list of search queries derived from the user question.",
+            items: { type: "string" },
+          },
           options: {
             type: "object",
             properties: {
