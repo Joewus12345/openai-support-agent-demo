@@ -332,9 +332,11 @@ export const start_chat_session = async ({
 
 export const search_knowledge_base = async ({
   query,
+  queries,
   options,
 }: {
   query: string;
+  queries?: string[];
   options?: {
     domain_filter?: string | null;
     sort_by?: string | null;
@@ -365,30 +367,34 @@ export const search_knowledge_base = async ({
           ? options.sort_by
           : "relevance",
     };
-    if (lastSearchQuery === query && lastSearchResults) {
+    // Use all provided queries to build a stable cache key
+    const queryKey =
+      queries && queries.length > 0 ? queries.join("|") : query;
+    if (lastSearchQuery === queryKey && lastSearchResults) {
       setFAQExtracts(lastSearchResults, provider);
       setRelevantArticlesError(null);
       return { results: lastSearchResults };
     }
 
-    const cacheKey = `${query}|${finalOptions.domain_filter}|${finalOptions.sort_by}`;
+    const cacheKey = `${queryKey}|${finalOptions.domain_filter}|${finalOptions.sort_by}`;
     if (fileSearchCache.has(cacheKey)) {
       const cached = fileSearchCache.get(cacheKey)!;
       setFAQExtracts(cached, provider);
-      setLastSearchQuery(query);
+      setLastSearchQuery(queryKey);
       setLastSearchResults(cached);
       setRelevantArticlesError(null);
       return { results: cached };
     }
 
-    const result = await serverSearchKnowledgeBase({ 
-      query, 
-      provider, 
-      options: finalOptions, 
+    const result = await serverSearchKnowledgeBase({
+      query,
+      queries,
+      provider,
+      options: finalOptions,
     });
     if (result.results) {
       setFAQExtracts(result.results, provider);
-      setLastSearchQuery(query);
+      setLastSearchQuery(queryKey);
       setLastSearchResults(result.results);
       fileSearchCache.set(cacheKey, result.results);
       setRelevantArticlesError(null);
