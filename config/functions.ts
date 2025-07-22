@@ -3,7 +3,8 @@
 // Parameters for a tool call are passed as an object to the corresponding function
 import useDataStore from "@/stores/useDataStore";
 import useConversationStore from "@/stores/useConversationStore";
-import { search_files as serverSearchFiles } from "@/lib/server/searchFiles";
+import { search_knowledge_base as serverSearchKnowledgeBase } from "@/lib/server/searchFiles";
+import { inferSearchOptions } from "@/lib/inferSearchOptions";
 
 // simple in-memory cache for file search results
 const fileSearchCache = new Map<string, any[]>();
@@ -330,10 +331,15 @@ export const start_chat_session = async ({
   }
 };
 
-export const search_files = async ({
-  query
+export const search_knowledge_base = async ({
+  query,
+  options,
 }: {
-  query: string
+  query: string;
+  options?: {
+    domain_filter: string | null;
+    sort_by: string | null;
+  };
 }) => {
   const {
     modelProvider: provider,
@@ -350,14 +356,26 @@ export const search_files = async ({
 
   try {
     setRelevantArticlesLoading(true);
+    const inferred = inferSearchOptions(query);
+    const finalOptions = {
+      domain_filter:
+        options && options.domain_filter !== undefined
+          ? options.domain_filter
+          : inferred.domain_filter,
+      sort_by:
+        options && options.sort_by !== undefined
+          ? options.sort_by
+          : inferred.sort_by,
+    };
     if (lastSearchQuery === query && lastSearchResults) {
       setFAQExtracts(lastSearchResults, provider);
       setRelevantArticlesError(null);
       return { results: lastSearchResults };
     }
 
-    if (fileSearchCache.has(query)) {
-      const cached = fileSearchCache.get(query)!;
+    const cacheKey = `${query}|${finalOptions.domain_filter}|${finalOptions.sort_by}`;
+    if (fileSearchCache.has(cacheKey)) {
+      const cached = fileSearchCache.get(cacheKey)!;
       setFAQExtracts(cached, provider);
       setLastSearchQuery(query);
       setLastSearchResults(cached);
@@ -365,12 +383,16 @@ export const search_files = async ({
       return { results: cached };
     }
 
-    const result = await serverSearchFiles({ query, provider });
+    const result = await serverSearchKnowledgeBase({ 
+      query, 
+      provider, 
+      options: finalOptions, 
+    });
     if (result.results) {
       setFAQExtracts(result.results, provider);
       setLastSearchQuery(query);
       setLastSearchResults(result.results);
-      fileSearchCache.set(query, result.results);
+      fileSearchCache.set(cacheKey, result.results);
       setRelevantArticlesError(null);
     } else if (result.error) {
       setRelevantArticlesError(result.error);
@@ -396,6 +418,6 @@ export const functionsMap = {
   get_user_profile: get_user_profile,
   create_user_profile: create_user_profile,
   start_chat_session: start_chat_session,
-  search_files: search_files,
+  search_knowledge_base: search_knowledge_base,
   // add more functions as needed
 };

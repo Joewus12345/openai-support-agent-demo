@@ -192,7 +192,7 @@ export const processMessages = async () => {
   if (modelProvider === "openai") {
     toolSet = toolSet.filter(
       (t: any) =>
-        t.type !== "function" || (t.function?.name ?? t.name) !== "search_files"
+        t.type !== "function" || (t.function?.name ?? t.name) !== "search_knowledge_base"
     );
   }
 
@@ -212,7 +212,7 @@ export const processMessages = async () => {
 
   if (searchAlready) {
     activeTools = activeTools.filter(
-      (t: any) => t.type !== "function" || (t.function?.name ?? t.name) !== "search_files"
+      (t: any) => t.type !== "function" || (t.function?.name ?? t.name) !== "search_knowledge_base"
     );
   }
 
@@ -509,7 +509,7 @@ export const processMessages = async () => {
             toolCallMessage.call_id = item.call_id;
             // Record tool output for conversation history but avoid showing
             // raw search results in the agent view
-            if (toolCallMessage.name !== "search_files") {
+            if (toolCallMessage.name !== "search_knowledge_base") {
               toolCallMessage.output = JSON.stringify(toolResult);
             } else {
               toolCallMessage.output = null;
