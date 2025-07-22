@@ -52,17 +52,20 @@ Feel free to customize this demo to suit your specific use case.
    OPENAI_API_KEY=<your_api_key>
    ```
 
-   **Note:** Even when using the `ollama` provider, the `search_files` function
-   queries the OpenAI vector store. Make sure your `OPENAI_API_KEY` is set so
-   this call succeeds.
+   **Note:** File search uses the OpenAI vector store when the provider is set
+   to `openai`. When using the `ollama` provider, search falls back to a local
+   vector store built from the knowledge base using Ollama's `embeddings`
+   endpoint. You can keep both stores initialized and switch providers at any
+   time.
 
 4. **Choose your provider (optional):**
 
-   The assistant can run using either the `openai` API or the `ollama` package.
-   You can switch providers from the dropdown next to **Auto reply** in the
-   agent view. When selecting `ollama`, make sure you have an Ollama server
-   running locally (e.g. by executing `ollama serve`). The built-in tools work
-   the same with both providers.
+   The assistant can run using the `openai` API, the `ollama` package, or
+   Ollama's OpenAI compatible endpoint. You can switch providers from the
+   dropdown next to **Auto reply** in the agent view. When selecting either
+   `ollama` or `ollama-openai`, make sure you have an Ollama server running
+   locally (e.g. by executing `ollama serve`). The built-in tools work the same
+   with all providers.
 
 ## Running Ollama
 
@@ -88,8 +91,15 @@ When using the `ollama` provider you need a local server running.
 
    ```bash
    OLLAMA_MODEL=llama3.2
-   OLLAMA_NUM_CTX=4096
+   OLLAMA_NUM_CTX=8192
    OLLAMA_HOST=http://localhost:11434
+   ```
+
+   To enable the OpenAI compatible endpoint, also set:
+
+   ```bash
+   OLLAMA_OPENAI_BASE_URL=http://localhost:11434/v1
+   OLLAMA_OPENAI_API_KEY=ollama
    ```
 
 5. **Install dependencies:**
@@ -99,6 +109,8 @@ When using the `ollama` provider you need a local server running.
    ```bash
    npm install
    ```
+
+   You must run this command before executing `npm run lint` or `npm run dev`.
 
 6. **Run the app:**
 
@@ -110,7 +122,22 @@ When using the `ollama` provider you need a local server running.
 
 7. **Initialize the vector store:**
 
-   Go to [`/init_vs`](http://localhost:3000/init_vs) to create a vector store and initialize it with the knowledge base. Once you have created the vector store, update `config/constants.ts` with your own vector store ID.
+   Visit [`/init_vs`](http://localhost:3000/init_vs) where you can create both
+   OpenAI and Ollama vector stores.
+
+   - **Initialize OpenAI vector store**: click the <kbd>OpenAI</kbd> button. Copy
+     the returned vector store ID and paste it into
+     `config/constants.ts` as `VECTOR_STORE_ID`.
+  - **Initialize Ollama vector store**: click the <kbd>Ollama</kbd> button to
+    generate embeddings locally. This stores the embeddings in the
+    `data/local_vector_store.json` file.
+  - **Rebuild Ollama vector store**: click the <kbd>Rebuild Ollama</kbd> button
+    on the same page to regenerate embeddings after updating the knowledge base
+    (this calls `/api/local_vector_store/init?force=true`).
+
+   The OpenAI vector store will be used when the provider is set to `openai`
+   while the local store powers file search when using the `ollama` provider.
+   Both stores can exist side by side.
 
 ## Demo Flow
 

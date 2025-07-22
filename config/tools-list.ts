@@ -4,204 +4,336 @@
 
 export const toolsList = [
   {
-    name: "search_files",
-    parameters: {
-      query: {
-        type: "string",
-        description: "Query used to search the knowledge base",
-      },
-      max_results: {
-        type: "number",
-        description: "Maximum number of results to return",
-        nullable: true,
-      },
-    },
-    required: ["query"],
-  },
-  {
-    name: "get_order",
-    parameters: {
-      order_id: {
-        type: "string",
-        description: "Order ID to get details for",
-      },
-    },
-  },
-  {
-    name: "get_order_history",
-    parameters: {
-      user_id: {
-        type: "string",
-        description: "User ID to get order history for",
-      },
-    },
-  },
-  {
-    name: "cancel_order",
-    parameters: {
-      order_id: {
-        type: "string",
-        description: "Order ID to cancel",
-      },
-    },
-  },
-  {
-    name: "reset_password",
-    parameters: {
-      user_id: {
-        type: "string",
-        description: "User ID to send password reset email to",
-      },
-    },
-  },
-  {
-    name: "send_replacement",
-    parameters: {
-      product_id: {
-        type: "string",
-        description: "Product ID to send replacement for",
-      },
-      order_id: {
-        type: "string",
-        description: "Order ID to send replacement for",
-      },
-    },
-  },
-  {
-    name: "create_refund",
-    parameters: {
-      order_id: {
-        type: "string",
-        description: "Order ID to create refund for",
-      },
-      amount: {
-        type: "number",
-        description: "Amount to refund",
-      },
-      reason: {
-        type: "string",
-        description: "Reason for refund",
-      },
-    },
-  },
-  {
-    name: "issue_voucher",
-    parameters: {
-      user_id: {
-        type: "string",
-        description: "User ID to issue voucher for",
-      },
-      amount: {
-        type: "number",
-        description: "Amount to issue voucher for",
-      },
-      reason: {
-        type: "string",
-        description: "Reason for issuing voucher",
-      },
-    },
-  },
-  {
-    name: "create_return",
-    parameters: {
-      order_id: {
-        type: "string",
-        description: "Order ID to create return for",
-      },
-      product_ids: {
-        type: "array",
-        description: "Product IDs to create return for",
-        items: {
-          type: "string",
+    type: "function",
+    function: {
+      name: "search_knowledge_base",
+      description: "Query the knowledge base to retrieve relevant info on a topic.",
+      parameters: {
+        type: "object",
+        properties: {
+          query: {
+            type: "string",
+            description: "The user question or search query.",
+          },
+          queries: {
+            type: "array",
+            description:
+              "Optional list of search queries derived from the user question.",
+            items: { type: "string" },
+          },
         },
+        required: ["query"],
+        additionalProperties: false,
       },
     },
   },
   {
-    name: "create_complaint",
-    parameters: {
-      user_id: {
-        type: "string",
-        description: "User ID to create complaint for",
-      },
-      type: {
-        type: "string",
-        description: "Type of complaint",
-        enum: ["product_quality", "order_delay", "delivery_issues", "other"],
-      },
-      details: {
-        type: "string",
-        description: "Details of the complaint",
-      },
-      order_id: {
-        type: "string",
-        description:
-          "Order ID linked to the complaint, N/A if not linked to an order",
+    type: "function",
+    function: {
+      name: "get_order",
+      description: "Fetch details for a specific order",
+      parameters: {
+        type: "object",
+        properties: {
+          order_id: {
+            type: "string",
+            description: "Order ID to get details for",
+          },
+        },
+        required: ["order_id"],
+        additionalProperties: false,
       },
     },
   },
   {
-    name: "create_ticket",
-    parameters: {
-      user_id: {
-        type: "string",
-        description: "User ID to create ticket for",
-      },
-      type: {
-        type: "string",
-        description: "Type of ticket",
-        enum: ["bug_reported", "damaged_product", "other"],
-      },
-      details: {
-        type: "string",
-        description: "Details of the ticket",
-      },
-      order_id: {
-        type: "string",
-        description:
-          "Order ID linked to the ticket, N/A if not linked to an order",
+    type: "function",
+    function: {
+      name: "get_order_history",
+      description: "Retrieve a user's past orders",
+      parameters: {
+        type: "object",
+        properties: {
+          user_id: {
+            type: "string",
+            description: "User ID to get order history for",
+          },
+        },
+        required: ["user_id"],
+        additionalProperties: false,
       },
     },
   },
   {
-    name: "update_info",
-    parameters: {
-      user_id: {
-        type: "string",
-        description: "User ID to update information for",
-      },
-      email: { type: "string", description: "New email", nullable: true },
-      phone: { type: "string", description: "New phone", nullable: true },
-      address: { type: "string", description: "New address", nullable: true },
-      name: { type: "string", description: "New name", nullable: true },
-    },
-    required: ["user_id", "email", "phone", "address", "name"],
-  },
-  {
-    name: "get_user_profile",
-    parameters: {
-      email: {
-        type: "string",
-        description: "Email address of the customer",
+    type: "function",
+    function: {
+      name: "cancel_order",
+      description: "Cancel a customer's order",
+      parameters: {
+        type: "object",
+        properties: {
+          order_id: {
+            type: "string",
+            description: "Order ID to cancel",
+          },
+        },
+        required: ["order_id"],
+        additionalProperties: false,
       },
     },
   },
   {
-    name: "create_user_profile",
-    parameters: {
-      email: { type: "string", description: "Email address of the customer" },
-      name: { type: "string", description: "Full name of the customer" },
-      phone: { type: "string", description: "Phone number" },
-      address: { type: "string", description: "Street address" },
+    type: "function",
+    function: {
+      name: "reset_password",
+      description: "Send a password reset email to a user",
+      parameters: {
+        type: "object",
+        properties: {
+          user_id: {
+            type: "string",
+            description: "User ID to send password reset email to",
+          },
+        },
+        required: ["user_id"],
+        additionalProperties: false,
+      },
     },
   },
   {
-    name: "start_chat_session",
-    parameters: {
-      email: { type: "string", description: "Email address of the customer" },
-      name: { type: "string", description: "Full name of the customer" },
-      phone: { type: "string", description: "Phone number" },
-      address: { type: "string", description: "Street address" },
+    type: "function",
+    function: {
+      name: "send_replacement",
+      description: "Ship a replacement product for an order",
+      parameters: {
+        type: "object",
+        properties: {
+          product_id: {
+            type: "string",
+            description: "Product ID to send replacement for",
+          },
+          order_id: {
+            type: "string",
+            description: "Order ID to send replacement for",
+          },
+        },
+        required: ["product_id", "order_id"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "create_refund",
+      description: "Issue a refund for an order",
+      parameters: {
+        type: "object",
+        properties: {
+          order_id: {
+            type: "string",
+            description: "Order ID to create refund for",
+          },
+          amount: {
+            type: "number",
+            description: "Amount to refund",
+          },
+          reason: {
+            type: "string",
+            description: "Reason for refund",
+          },
+        },
+        required: ["order_id", "amount", "reason"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "issue_voucher",
+      description: "Provide a voucher credit to a user",
+      parameters: {
+        type: "object",
+        properties: {
+          user_id: {
+            type: "string",
+            description: "User ID to issue voucher for",
+          },
+          amount: {
+            type: "number",
+            description: "Amount to issue voucher for",
+          },
+          reason: {
+            type: "string",
+            description: "Reason for issuing voucher",
+          },
+        },
+        required: ["user_id", "amount", "reason"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "create_return",
+      description: "Initiate a product return",
+      parameters: {
+        type: "object",
+        properties: {
+          order_id: {
+            type: "string",
+            description: "Order ID to create return for",
+          },
+          product_ids: {
+            type: "array",
+            description: "Product IDs to create return for",
+            items: { type: "string" },
+          },
+        },
+        required: ["order_id", "product_ids"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "create_complaint",
+      description: "Register a customer complaint",
+      parameters: {
+        type: "object",
+        properties: {
+          user_id: {
+            type: "string",
+            description: "User ID to create complaint for",
+          },
+          type: {
+            type: "string",
+            description: "Type of complaint",
+            enum: ["product_quality", "order_delay", "delivery_issues", "other"],
+          },
+          details: {
+            type: "string",
+            description: "Details of the complaint",
+          },
+          order_id: {
+            type: "string",
+            description:
+              "Order ID linked to the complaint, N/A if not linked to an order",
+          },
+        },
+        required: ["user_id", "type", "details", "order_id"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "create_ticket",
+      description: "Open a customer support ticket",
+      parameters: {
+        type: "object",
+        properties: {
+          user_id: {
+            type: "string",
+            description: "User ID to create ticket for",
+          },
+          type: {
+            type: "string",
+            description: "Type of ticket",
+            enum: ["bug_reported", "damaged_product", "other"],
+          },
+          details: {
+            type: "string",
+            description: "Details of the ticket",
+          },
+          order_id: {
+            type: "string",
+            description:
+              "Order ID linked to the ticket, N/A if not linked to an order",
+          },
+        },
+        required: ["user_id", "type", "details", "order_id"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "update_info",
+      description: "Update stored user information",
+      parameters: {
+        type: "object",
+        properties: {
+          user_id: {
+            type: "string",
+            description: "User ID to update information for",
+          },
+          email: { type: "string", description: "New email", nullable: true },
+          phone: { type: "string", description: "New phone", nullable: true },
+          address: { type: "string", description: "New address", nullable: true },
+          name: { type: "string", description: "New name", nullable: true },
+        },
+        required: ["user_id", "email", "phone", "address", "name"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_user_profile",
+      description: "Look up an existing customer profile by email",
+      parameters: {
+        type: "object",
+        properties: {
+          email: {
+            type: "string",
+            description: "Email address of the customer",
+          },
+        },
+        required: ["email"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "create_user_profile",
+      description: "Create a new customer profile",
+      parameters: {
+        type: "object",
+        properties: {
+          email: { type: "string", description: "Email address of the customer" },
+          name: { type: "string", description: "Full name of the customer" },
+          phone: { type: "string", description: "Phone number" },
+          address: { type: "string", description: "Street address" },
+        },
+        required: ["email", "name", "phone", "address"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "start_chat_session",
+      description: "Reconnect to an existing chat session or create a new one",
+      parameters: {
+        type: "object",
+        properties: {
+          email: { type: "string", description: "Email address of the customer" },
+          name: { type: "string", description: "Full name of the customer" },
+          phone: { type: "string", description: "Phone number" },
+          address: { type: "string", description: "Street address" },
+        },
+        required: ["email", "name", "phone", "address"],
+        additionalProperties: false,
+      },
     },
   },
   // add more tools as needed

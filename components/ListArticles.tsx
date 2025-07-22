@@ -48,7 +48,7 @@ export default function ListArticles({
     };
 
     fetchFiles();
-  }, []);
+  }, [folder]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);

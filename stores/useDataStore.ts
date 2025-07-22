@@ -43,10 +43,12 @@ type ContextItem = OrderContextItem | TicketContextItem;
 interface DataState {
   customerDetails: CustomerDetails;
   FAQExtracts?: FAQExtract[] | null;
+  relevantArticlesError: string | null;
   relevantArticlesLoading: boolean;
   additionalContext?: ContextItem[] | null;
   setCustomerDetails: (details: CustomerDetails) => void;
-  setFAQExtracts: (searchResults: any[]) => void;
+  setFAQExtracts: (searchResults: any[], provider?: string) => void;
+  setRelevantArticlesError: (error: string | null) => void;
   setAdditionalContext: (context: ContextItem[]) => void;
   setRelevantArticlesLoading: (loading: boolean) => void;
   addContextItem: (item: ContextItem) => void;
@@ -65,10 +67,11 @@ const getFileUrl = (type: string, filename: string) => {
 const useDataStore = create<DataState>((set) => ({
   customerDetails: CUSTOMER_DETAILS,
   FAQExtracts: DEFAULT_ARTICLES,
+  relevantArticlesError: null,
   relevantArticlesLoading: false,
   additionalContext: null,
   setCustomerDetails: (details) => set({ customerDetails: details }),
-  setFAQExtracts: (searchResults) => {
+  setFAQExtracts: (searchResults, provider?: string) => {
     console.log("searchResults", searchResults);
     const articles = searchResults.map((result) => {
       const [firstLine, ...rest] = result.text.split("\n");
@@ -86,10 +89,13 @@ const useDataStore = create<DataState>((set) => ({
     });
     // Sorting by relevance score and keeping only results with score > 0.5
     const sortedArticles = articles.sort((a, b) => b.score - a.score);
+    const threshold = provider && provider.includes("ollama") ? 0.3 : 0.5;
     set({
-      FAQExtracts: sortedArticles.filter((a) => a.score > 0.5),
+      FAQExtracts: sortedArticles.filter((a) => a.score > threshold),
+      relevantArticlesError: null,
     });
   },
+  setRelevantArticlesError: (error) => set({ relevantArticlesError: error }),
   setAdditionalContext: (context) => set({ additionalContext: context }),
   addContextItem: (item) =>
     set((state) => ({

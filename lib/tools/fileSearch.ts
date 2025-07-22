@@ -1,11 +1,27 @@
 import { VECTOR_STORE_ID } from "@/config/constants";
+import { localVectorStore } from "@/lib/localVectorStore";
 
 export interface FileSearchParams {
   query: string;
-  max_results?: number;
+  provider?: string;
 }
 
-export async function fileSearch({ query, max_results = 5 }: FileSearchParams) {
+export async function fileSearch({
+  query,
+  provider,
+}: FileSearchParams) {
+  const max_results = 20;
+  if (provider === "ollama" || provider === "ollama-openai") {
+    try {
+      const results = await localVectorStore.search(query, max_results);
+      return { results };
+    } catch (error) {
+      console.error("Local file search failed", error);
+      return {
+        error: error instanceof Error ? error.message : "Failed to search files",
+      };
+    }
+  }
   try {
     const res = await fetch(
       `https://api.openai.com/v1/vector_stores/${VECTOR_STORE_ID}/search`,
@@ -25,6 +41,8 @@ export async function fileSearch({ query, max_results = 5 }: FileSearchParams) {
     return await res.json();
   } catch (error) {
     console.error("Error searching files:", error);
-    return { error: "Failed to search files" };
+    return {
+      error: error instanceof Error ? error.message : "Failed to search files",
+    };
   }
 }

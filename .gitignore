@@ -41,4 +41,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 products.json
-data/local_vector_store.json
+
+# local data
+data/

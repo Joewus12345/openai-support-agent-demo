@@ -4,7 +4,7 @@ import { getProvider } from "@/lib/providers";
 
 export async function POST(request: Request) {
   try {
-    const { messages, tools, provider } = await request.json();
+    const { messages, tools, provider, model } = await request.json();
     console.log("Received messages:", messages);
 
     const lastMessage =
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     }
 
     const providerFn = getProvider(provider);
-    const events = providerFn(messages, tools);
+    const events = providerFn(messages, tools, { model });
 
     const stream = new ReadableStream({
       async start(controller) {
