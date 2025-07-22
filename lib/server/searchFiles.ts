@@ -2,14 +2,7 @@
 
 import { fileSearch } from '@/lib/tools/fileSearch';
 import { localVectorStore } from '../localVectorStore';
-
-// Break a user query into smaller search phrases when `queries` isn't provided
-function splitQueries(query: string): string[] {
-  return query
-    .split(/(?:[.!?;,]|\band\b|\bor\b)/i)
-    .map((p) => p.trim())
-    .filter((p) => p);
-}
+import { generateSearchQueries } from '../generateSearchQueries';
 
 /**
  * Search the knowledge base using one or multiple queries.
@@ -26,38 +19,37 @@ export async function search_knowledge_base({
   provider?: string;
 }) {
   try {
-    const searchParts =
-      queries && queries.length > 0
+    const baseParts =
+      Array.isArray(queries) && queries.length > 0
         ? queries
         : query
-        ? splitQueries(query)
+        ? generateSearchQueries(query)
         : [];
+
+    const searchParts = Array.from(new Set(baseParts.map((p) => p.trim())));
 
     const max_results = 20;
     let collected: any[] = [];
 
-    for (const q of searchParts) {
-      if (provider === 'ollama' || provider === 'ollama-openai') {
-        try {
-          const results = await localVectorStore.search(q, max_results);
-          collected = collected.concat(results);
-        } catch (error) {
-          console.error('Local file search failed', error);
-          return {
-            error:
-              error instanceof Error
-                ? error.message
-                : 'Failed to search files',
-          };
-        }
-      } else {
-        const res = await fileSearch({ query: q, provider });
-        if (res.results) {
-          collected = collected.concat(res.results);
-        } else if (res.error) {
-          return { error: res.error };
-        }
+    try {
+      const arrays = await Promise.all(
+        searchParts.map(async (q) => {
+          if (provider === 'ollama' || provider === 'ollama-openai') {
+            return await localVectorStore.search(q, max_results);
+          }
+
+          const res = await fileSearch({ query: q, provider });
+          if (res.error) throw new Error(res.error);
+          return res.results ?? [];
+        })
+      );
+
+      for (const arr of arrays) {
+        collected = collected.concat(arr);
       }
+    } catch (error) {
+      console.error('Knowledge base search failed', error);
+      return { error: error instanceof Error ? error.message : 'Failed to search files' };
     }
 
   const seen = new Set<string>();

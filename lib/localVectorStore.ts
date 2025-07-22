@@ -126,7 +126,7 @@ class LocalVectorStore {
     }
     console.log(`Searching ${this.store.length} stored entries...`);
     const qEmbed = await this.embedding(query);
-    const threshold = 0.25
+    const threshold = 0.5
     const results = this.store
       .map((e) => ({
         text: e.text,
