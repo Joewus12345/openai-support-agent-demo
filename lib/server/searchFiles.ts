@@ -53,29 +53,37 @@ export async function search_knowledge_base({
     }
 
   const seen = new Set<string>();
-  const merged = collected.filter((r) => {
+  const deduped = collected.filter((r) => {
     const key = `${r.text}|${r.attributes?.filepath ?? ''}|${r.attributes?.chunk ?? ''}`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
 
-  // Perform secondary similarity check on the text results to rank them
-  if (query) {
-    const qWords = new Set(query.toLowerCase().split(/\W+/).filter(Boolean));
-    const score = (t: string) => {
-      const words = new Set(t.toLowerCase().split(/\W+/).filter(Boolean));
-      let overlap = 0;
-      for (const w of qWords) if (words.has(w)) overlap++;
-      return overlap / (qWords.size || 1);
-    };
-    merged.sort((a, b) => score(b.text) - score(a.text));
-  }
+  const qWords = query
+    ? new Set(query.toLowerCase().split(/\W+/).filter(Boolean))
+    : null;
+  const textScore = (t: string) => {
+    if (!qWords) return 0;
+    const words = new Set(t.toLowerCase().split(/\W+/).filter(Boolean));
+    let overlap = 0;
+    for (const w of qWords) if (words.has(w)) overlap++;
+    return overlap / (qWords.size || 1);
+  };
+
+  const ranked = deduped
+    .map((r) => ({
+      item: r,
+      rank: ((typeof r.score === 'number' ? r.score : 0) + textScore(r.text)) / 2,
+    }))
+    .sort((a, b) => b.rank - a.rank)
+    .slice(0, max_results)
+    .map((r) => r.item);
 
   const results =
     provider === 'ollama' || provider === 'ollama-openai'
-      ? merged.map((r) => r.text)
-      : merged;
+      ? ranked.map((r) => r.text)
+      : ranked;
 
   return { results };
   } catch (error) {
