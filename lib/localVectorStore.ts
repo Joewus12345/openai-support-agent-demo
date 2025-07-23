@@ -131,7 +131,7 @@ class LocalVectorStore {
     );
   }
 
-  async search(query: string, limit = 20) {
+  async search(query: string, limit = 5) {
     await this.ensureLoaded();
     if (this.store.length === 0) {
       throw new Error("Local vector store is empty");

@@ -28,7 +28,7 @@ export async function search_knowledge_base({
 
     const searchParts = Array.from(new Set(baseParts.map((p) => p.trim())));
 
-    const max_results = 20;
+    const max_results = 10;
     let collected: any[] = [];
 
     try {
