@@ -60,6 +60,18 @@ export async function search_knowledge_base({
     return true;
   });
 
+  // Perform secondary similarity check on the text results to rank them
+  if (query) {
+    const qWords = new Set(query.toLowerCase().split(/\W+/).filter(Boolean));
+    const score = (t: string) => {
+      const words = new Set(t.toLowerCase().split(/\W+/).filter(Boolean));
+      let overlap = 0;
+      for (const w of qWords) if (words.has(w)) overlap++;
+      return overlap / (qWords.size || 1);
+    };
+    merged.sort((a, b) => score(b.text) - score(a.text));
+  }
+
   return { results: merged };
   } catch (error) {
     console.error('Error searching knowledge base', error);
