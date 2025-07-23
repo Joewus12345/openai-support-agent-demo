@@ -72,7 +72,12 @@ export async function search_knowledge_base({
     merged.sort((a, b) => score(b.text) - score(a.text));
   }
 
-  return { results: merged };
+  const results =
+    provider === 'ollama' || provider === 'ollama-openai'
+      ? merged.map((r) => r.text)
+      : merged;
+
+  return { results };
   } catch (error) {
     console.error('Error searching knowledge base', error);
     return {

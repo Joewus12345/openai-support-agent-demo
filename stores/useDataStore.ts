@@ -73,18 +73,23 @@ const useDataStore = create<DataState>((set) => ({
   setCustomerDetails: (details) => set({ customerDetails: details }),
   setFAQExtracts: (searchResults, provider?: string) => {
     console.log("searchResults", searchResults);
-    const articles = searchResults.map((result) => {
-      const [firstLine, ...rest] = result.text.split("\n");
+    const articles = searchResults.map((result: any) => {
+      const text = typeof result === "string" ? result : result.text;
+      const attrs =
+        typeof result === "string" ? { type: "knowledge_base" } : result.attributes ?? {};
+      const score = typeof result === "string" ? 1 : result.score;
+
+      const [firstLine, ...rest] = text.split("\n");
       const title = firstLine.replaceAll("#", ""); // Remove markdown header syntax
       const content = rest.join("\n");
-      const type = result.attributes.type ?? "knowledge_base";
-      const link = getFileUrl(type, result.attributes.filename ?? "");
+      const type = attrs.type ?? "knowledge_base";
+      const link = getFileUrl(type, attrs.filename ?? "");
       return {
         title,
         content,
         type,
         link,
-        score: result.score,
+        score,
       };
     });
     // Sorting by relevance score and keeping only results with score > 0.5
