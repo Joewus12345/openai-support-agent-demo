@@ -54,7 +54,7 @@ export async function search_knowledge_base({
 
   const seen = new Set<string>();
   const deduped = collected.filter((r) => {
-    const key = `${r.text}|${r.attributes?.filepath ?? ''}|${r.attributes?.chunk ?? ''}`;
+    const key = `${r.text}|${r.attributes?.filepath ?? ''}`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;

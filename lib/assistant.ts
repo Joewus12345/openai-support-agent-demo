@@ -487,7 +487,7 @@ export const processMessages = async () => {
 
         conversationItems.push({
           ...item,
-          results: undefined,
+          // results: undefined,
         });
 
         if (item.type === "function_call") {

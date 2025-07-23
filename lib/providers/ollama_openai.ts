@@ -163,10 +163,11 @@ export async function* ollamaOpenAIProvider(
               const query = params.query || "";
               let results: any = {};
               if (state.type === "file_search") {
-                results = await fileSearch({
+                const res = await fileSearch({
                   query,
                   provider: "ollama-openai",
                 });
+                results = res.results;
                 yield {
                   event: "response.file_search_call.results",
                   data: { item_id: id, results },

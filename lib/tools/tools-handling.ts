@@ -27,7 +27,8 @@ export const handleTool = async (
         toolName === "search_knowledge_base" &&
         result?.results
       ) {
-        processed = { results: result.results.map((r: any) => r.text) };
+        const context = result.results.map((r: any) => r.text ?? r);
+        processed = { context, query: parameters.query };
       }
       return {
         result: processed,
