@@ -6,7 +6,7 @@ import useConversationStore from "@/stores/useConversationStore";
 import { search_knowledge_base as serverSearchKnowledgeBase } from "@/lib/server/searchFiles";
 
 // simple in-memory cache for file search results
-const fileSearchCache = new Map<string, any[]>();
+const fileSearchCache = new Map<string, any[] | string[]>();
 
 export function clearFileSearchCache() {
   fileSearchCache.clear();
@@ -336,7 +336,7 @@ export const search_knowledge_base = async ({
 }: {
   query: string;
   queries?: string[];
-}): Promise<{ results?: any[]; error?: string }> => {
+}): Promise<{ results?: any[] | string[]; error?: string }> => {
   const {
     modelProvider: provider,
     lastSearchQuery,

@@ -29,12 +29,18 @@ export default function Action({
   const addConversationItem = useConversationStore(
     (s) => s.addConversationItem
   );
+  const modelProvider = useConversationStore((s) => s.modelProvider);
   const removeRecommendedAction = useConversationStore(
     (s) => s.removeRecommendedAction
   );
   const handleConfirm = async () => {
     setLoading(true);
-    const result = await handleTool(functionName, parameters, "execute");
+    const result = await handleTool(
+      functionName,
+      parameters,
+      "execute",
+      modelProvider
+    );
     if (result.result) {
       console.log("Executed function", functionName, parameters, result);
       // Add to conversation as a new assistant message

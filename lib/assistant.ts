@@ -487,7 +487,7 @@ export const processMessages = async () => {
 
         conversationItems.push({
           ...item,
-          results: undefined,
+          // results: undefined,
         });
 
         if (item.type === "function_call") {
@@ -504,16 +504,10 @@ export const processMessages = async () => {
             const toolResult = await handleTool(
               toolCallMessage.name as keyof typeof functionsMap,
               toolCallMessage.parsedArguments,
-              execMode
+              execMode,
+              modelProvider
             );
             toolCallMessage.call_id = item.call_id;
-            // Record tool output for conversation history but avoid showing
-            // raw search results in the agent view
-            if (toolCallMessage.name !== "search_knowledge_base") {
-              toolCallMessage.output = JSON.stringify(toolResult);
-            } else {
-              toolCallMessage.output = null;
-            }
             toolCallMessage.output = JSON.stringify(toolResult);
             setChatMessages([...chatMessages]);
             conversationItems.push({

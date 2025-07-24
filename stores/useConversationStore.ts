@@ -73,7 +73,7 @@ const useConversationStore = create<ConversationState>((set) => ({
   agentTyping: false,
   autoReply: true,
   modelProvider: "openai",
-  ollamaModel: "llama3.2",
+  ollamaModel: "llama3.1:8b",
   composerText: "",
   lastSearchQuery: null,
   lastSearchResults: null,

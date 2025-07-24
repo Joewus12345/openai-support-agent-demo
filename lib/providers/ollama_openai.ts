@@ -53,13 +53,18 @@ export async function* ollamaOpenAIProvider(
   const calls = new Map<string, { type: string; name?: string; args: string }>();
 
   try {
-    const stream = await openai.chat.completions.create({
+    const payload = {
       model,
       messages: converted as any,
       tools,
       stream: true,
       options: { num_ctx },
-    } as any);
+    } as any;
+    console.log(
+      "ollamaOpenAI.chat payload",
+      JSON.stringify(payload)
+    );
+    const stream = await openai.chat.completions.create(payload);
 
     // Stream chunks from Ollama's OpenAI endpoint. Each chunk may contain
     // partial text and tool call deltas. We forward text deltas directly
@@ -158,10 +163,11 @@ export async function* ollamaOpenAIProvider(
               const query = params.query || "";
               let results: any = {};
               if (state.type === "file_search") {
-                results = await fileSearch({
+                const res = await fileSearch({
                   query,
                   provider: "ollama-openai",
                 });
+                results = res.results;
                 yield {
                   event: "response.file_search_call.results",
                   data: { item_id: id, results },

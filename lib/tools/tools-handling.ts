@@ -6,7 +6,8 @@ export type ToolName = keyof typeof functionsMap;
 export const handleTool = async (
   toolName: ToolName,
   parameters: any,
-  mode = "suggestion"
+  mode = "suggestion",
+  provider = "openai"
 ) => {
   console.log("Handle tool", toolName, parameters);
   // These tools will be suggested as a "recommended action" to the human agent
@@ -20,8 +21,17 @@ export const handleTool = async (
       console.log("Executing tool", toolName);
       const result = await functionsMap[toolName](parameters);
       console.log("Tool result", result);
+      let processed = result;
+      if (
+        (provider === "ollama" || provider === "ollama-openai") &&
+        toolName === "search_knowledge_base" &&
+        result?.results
+      ) {
+        const context = result.results.map((r: any) => r.text ?? r);
+        processed = { context, query: parameters.query };
+      }
       return {
-        result,
+        result: processed,
         response: `Tool ${toolName} has been executed`,
       };
     }
