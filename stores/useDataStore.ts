@@ -43,10 +43,12 @@ type ContextItem = OrderContextItem | TicketContextItem;
 interface DataState {
   customerDetails: CustomerDetails;
   FAQExtracts?: FAQExtract[] | null;
+  relevantArticlesError: string | null;
   relevantArticlesLoading: boolean;
   additionalContext?: ContextItem[] | null;
   setCustomerDetails: (details: CustomerDetails) => void;
-  setFAQExtracts: (searchResults: any[]) => void;
+  setFAQExtracts: (searchResults: any[], provider?: string) => void;
+  setRelevantArticlesError: (error: string | null) => void;
   setAdditionalContext: (context: ContextItem[]) => void;
   setRelevantArticlesLoading: (loading: boolean) => void;
   addContextItem: (item: ContextItem) => void;
@@ -65,31 +67,40 @@ const getFileUrl = (type: string, filename: string) => {
 const useDataStore = create<DataState>((set) => ({
   customerDetails: CUSTOMER_DETAILS,
   FAQExtracts: DEFAULT_ARTICLES,
+  relevantArticlesError: null,
   relevantArticlesLoading: false,
   additionalContext: null,
   setCustomerDetails: (details) => set({ customerDetails: details }),
-  setFAQExtracts: (searchResults) => {
+  setFAQExtracts: (searchResults, provider?: string) => {
     console.log("searchResults", searchResults);
-    const articles = searchResults.map((result) => {
-      const [firstLine, ...rest] = result.text.split("\n");
+    const articles = searchResults.map((result: any) => {
+      const text = typeof result === "string" ? result : result.text;
+      const attrs =
+        typeof result === "string" ? { type: "knowledge_base" } : result.attributes ?? {};
+      const score = typeof result === "string" ? 1 : result.score;
+
+      const [firstLine, ...rest] = text.split("\n");
       const title = firstLine.replaceAll("#", ""); // Remove markdown header syntax
       const content = rest.join("\n");
-      const type = result.attributes.type ?? "knowledge_base";
-      const link = getFileUrl(type, result.attributes.filename ?? "");
+      const type = attrs.type ?? "knowledge_base";
+      const link = getFileUrl(type, attrs.filename ?? "");
       return {
         title,
         content,
         type,
         link,
-        score: result.score,
+        score,
       };
     });
     // Sorting by relevance score and keeping only results with score > 0.5
     const sortedArticles = articles.sort((a, b) => b.score - a.score);
+    const threshold = provider && provider.includes("ollama") ? 0.3 : 0.5;
     set({
-      FAQExtracts: sortedArticles.filter((a) => a.score > 0.5),
+      FAQExtracts: sortedArticles.filter((a) => a.score > threshold),
+      relevantArticlesError: null,
     });
   },
+  setRelevantArticlesError: (error) => set({ relevantArticlesError: error }),
   setAdditionalContext: (context) => set({ additionalContext: context }),
   addContextItem: (item) =>
     set((state) => ({

@@ -2,6 +2,15 @@
 // Define one function per tool call - each tool call should have a matching function
 // Parameters for a tool call are passed as an object to the corresponding function
 import useDataStore from "@/stores/useDataStore";
+import useConversationStore from "@/stores/useConversationStore";
+import { search_knowledge_base as serverSearchKnowledgeBase } from "@/lib/server/searchFiles";
+
+// simple in-memory cache for file search results
+const fileSearchCache = new Map<string, any[] | string[]>();
+
+export function clearFileSearchCache() {
+  fileSearchCache.clear();
+}
 
 const setDetailsFromUser = (user: any) => ({
   id: user.id,
@@ -321,15 +330,65 @@ export const start_chat_session = async ({
   }
 };
 
-export const search_files = async ({
+export const search_knowledge_base = async ({
   query,
-  max_results,
+  queries,
 }: {
   query: string;
-  max_results?: number;
-}) => {
-  const { fileSearch } = await import("@/lib/tools/fileSearch");
-  return fileSearch({ query, max_results });
+  queries?: string[];
+}): Promise<{ results?: any[] | string[]; error?: string }> => {
+  const {
+    modelProvider: provider,
+    lastSearchQuery,
+    lastSearchResults,
+    setLastSearchQuery,
+    setLastSearchResults,
+  } = useConversationStore.getState();
+  const {
+    setFAQExtracts,
+    setRelevantArticlesError,
+    setRelevantArticlesLoading,
+  } = useDataStore.getState();
+
+  try {
+    setRelevantArticlesLoading(true);
+    // Use all provided queries to build a stable cache key
+    const queryKey =
+      Array.isArray(queries) && queries.length > 0 ? queries.join("|") : query;
+    if (lastSearchQuery === queryKey && lastSearchResults) {
+      setFAQExtracts(lastSearchResults, provider);
+      setRelevantArticlesError(null);
+      return { results: lastSearchResults };
+    }
+
+    const cacheKey = `${queryKey}`;
+    if (fileSearchCache.has(cacheKey)) {
+      const cached = fileSearchCache.get(cacheKey)!;
+      setFAQExtracts(cached, provider);
+      setLastSearchQuery(queryKey);
+      setLastSearchResults(cached);
+      setRelevantArticlesError(null);
+      return { results: cached };
+    }
+
+    const result = await serverSearchKnowledgeBase({
+      query,
+      queries,
+      provider,
+    });
+    if (result.results) {
+      setFAQExtracts(result.results, provider);
+      setLastSearchQuery(queryKey);
+      setLastSearchResults(result.results);
+      fileSearchCache.set(cacheKey, result.results);
+      setRelevantArticlesError(null);
+    } else if (result.error) {
+      setRelevantArticlesError(result.error);
+    }
+    return result
+  } finally {
+    setRelevantArticlesLoading(false);
+  }
 };
 
 export const functionsMap = {
@@ -347,6 +406,6 @@ export const functionsMap = {
   get_user_profile: get_user_profile,
   create_user_profile: create_user_profile,
   start_chat_session: start_chat_session,
-  search_files: search_files,
+  search_knowledge_base: search_knowledge_base,
   // add more functions as needed
 };

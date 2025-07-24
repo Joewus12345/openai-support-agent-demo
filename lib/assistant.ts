@@ -2,11 +2,32 @@ import { DEVELOPER_PROMPT } from "@/config/constants";
 import { parse } from "partial-json";
 import { handleTool } from "@/lib/tools/tools-handling";
 import useConversationStore from "@/stores/useConversationStore";
-import { tools } from "@/lib/tools/tools";
+import { tools, ollamaTools } from "@/lib/tools/tools";
 import { Annotation } from "@/components/Annotations";
 import { functionsMap } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
+
+// generateId uses browser crypto if available, otherwise Math.random
+export function generateId() {
+  return globalThis.crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2);
+}
+
+export function parseToolCallJson(text: string): { name: string; parameters?: any } | null {
+  const trimmed = text.trim();
+  if (!trimmed.startsWith("{")) {
+    return null;
+  }
+  try {
+    const obj = JSON.parse(trimmed);
+    if (obj && typeof obj.name === "string") {
+      return { name: obj.name, parameters: obj.parameters };
+    }
+  } catch {
+    // ignore JSON.parse errors
+  }
+  return null;
+}
 
 export interface ContentItem {
   type: "input_text" | "output_text" | "refusal" | "output_audio" | "output_image";
@@ -49,7 +70,9 @@ export type Item = ChatMessage | ToolCallItem;
 export const handleTurn = async (
   messages: any[],
   onMessage: (data: any) => void,
-  provider = "openai"
+  provider = "openai",
+  toolsArg = tools,
+  model?: string
 ) => {
   try {
     // Get response from the API (defined in app/api/turn_response/route.ts)
@@ -58,8 +81,9 @@ export const handleTurn = async (
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         messages: messages,
-        tools: tools,
+        tools: toolsArg,
         provider,
+        model,
       }),
     });
 
@@ -76,6 +100,17 @@ export const handleTurn = async (
         message = "The assistant encountered an error. Please try again.";
       }
       onMessage({ event: "error", data: { message } });
+      return;
+    }
+
+    if (provider === "ollama") {
+      const text = await response.text();
+      onMessage({ event: "response.output_text.delta", data: { delta: text } });
+      onMessage({ event: "response.output_text.done", data: {} });
+      onMessage({
+        event: "response.output_item.done",
+        data: { item: { type: "message", role: "assistant", content: text } },
+      });
       return;
     }
 
@@ -141,10 +176,45 @@ export const processMessages = async () => {
     removeRecommendedAction,
     autoReply,
     modelProvider,
+    ollamaModel,
   } = useConversationStore.getState();
 
-  const { setRelevantArticlesLoading, setFAQExtracts } =
+  const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
     useDataStore.getState();
+
+  let toolSet: any[] =
+    modelProvider === "ollama"
+      ? [...ollamaTools]
+      : modelProvider === "ollama-openai"
+      ? [...ollamaTools]
+      : [...tools];
+
+  if (modelProvider === "openai") {
+    toolSet = toolSet.filter(
+      (t: any) =>
+        t.type !== "function" || (t.function?.name ?? t.name) !== "search_knowledge_base"
+    );
+  }
+
+  let activeTools: any[] = [...toolSet];
+
+  const lastUserIndex = [...conversationItems]
+    .map((m, i) => [m, i] as const)
+    .reverse()
+    .find(([m]) => (m as any).role === "user")?.[1];
+
+  let searchAlready = false;
+  if (lastUserIndex !== undefined) {
+    searchAlready = conversationItems
+      .slice(lastUserIndex + 1)
+      .some((m: any) => m.type === "file_search_call");
+  }
+
+  if (searchAlready) {
+    activeTools = activeTools.filter(
+      (t: any) => t.type !== "function" || (t.function?.name ?? t.name) !== "search_knowledge_base"
+    );
+  }
 
   const allConversationItems = [
     // Adding developer prompt as first item in the conversation
@@ -212,7 +282,50 @@ export const processMessages = async () => {
           setSuggestedMessageDone(false);
           setAgentTyping(false);
         } else {
-          setSuggestedMessageDone(true);
+          const parsed = parseToolCallJson(assistantMessageContent);
+          if (parsed) {
+            const id = generateId();
+            const argStr = parsed.parameters
+              ? JSON.stringify(parsed.parameters)
+              : "";
+            const toolCall: ToolCallItem = {
+              type: "tool_call",
+              tool_type: "function_call",
+              status: "in_progress",
+              id,
+              name: parsed.name,
+              arguments: argStr,
+              parsedArguments: parsed.parameters ?? {},
+              output: null,
+            };
+            chatMessages.push(toolCall);
+            conversationItems.push({
+              type: "function_call",
+              role: "assistant",
+              id,
+              name: parsed.name,
+              arguments: argStr,
+            });
+            setChatMessages([...chatMessages]);
+            setConversationItems([...conversationItems]);
+            setSuggestedMessage(null);
+            setAgentTyping(false);
+            setSuggestedMessageDone(true);
+          } else {
+            const { suggestedMessage } = useConversationStore.getState();
+            if (!suggestedMessage && assistantMessageContent.trim()) {
+              const message: ChatMessage = {
+                type: "message",
+                role: "agent",
+                content: [
+                  { type: "output_text", text: assistantMessageContent },
+                ],
+              };
+              setSuggestedMessage(message);
+            }
+            setAgentTyping(false);
+            setSuggestedMessageDone(true);
+          }
         }
         break;
       }
@@ -254,6 +367,7 @@ export const processMessages = async () => {
           }
           case "file_search_call": {
             setRelevantArticlesLoading(true);
+            setRelevantArticlesError(null);
             chatMessages.push({
               type: "tool_call",
               tool_type: "file_search_call",
@@ -332,6 +446,15 @@ export const processMessages = async () => {
         break;
       }
 
+      case "response.file_search_call.results": {
+        const provider = useConversationStore.getState().modelProvider;
+
+        setFAQExtracts(data.results, provider);
+        setRelevantArticlesLoading(false);
+        setRelevantArticlesError(null);
+        break;
+      }
+
       case "response.file_search_call.completed": {
         const { item_id } = data;
         console.log("file search call completed", data);
@@ -347,9 +470,24 @@ export const processMessages = async () => {
         // After output item is done, adding tool call ID
         const { item } = data || {};
 
+        const text = Array.isArray(item.content)
+          ? item.content
+              .map((c: any) => (typeof c === "string" ? c : c.text || ""))
+              .join(" ")
+          : String(item.content ?? "");
+
+        if (
+          item?.type === "message" &&
+          item.role === "assistant" &&
+          !text.trim()
+        ) {
+          // ignore empty assistant messages
+          break;
+        }
+
         conversationItems.push({
           ...item,
-          results: undefined,
+          // results: undefined,
         });
 
         if (item.type === "function_call") {
@@ -366,10 +504,10 @@ export const processMessages = async () => {
             const toolResult = await handleTool(
               toolCallMessage.name as keyof typeof functionsMap,
               toolCallMessage.parsedArguments,
-              execMode
+              execMode,
+              modelProvider
             );
             toolCallMessage.call_id = item.call_id;
-            // Record tool output
             toolCallMessage.output = JSON.stringify(toolResult);
             setChatMessages([...chatMessages]);
             conversationItems.push({
@@ -392,8 +530,10 @@ export const processMessages = async () => {
         }
 
         if (item.type === "file_search_call") {
-          setFAQExtracts(item.results);
+          const provider = useConversationStore.getState().modelProvider;
+          setFAQExtracts(item.results, provider);
           setRelevantArticlesLoading(false);
+          setRelevantArticlesError(null);
         }
 
         setConversationItems([...conversationItems]);
@@ -409,6 +549,8 @@ export const processMessages = async () => {
           role: "agent",
           content: [{ type: "output_text", text: message }],
         });
+        setRelevantArticlesError(message);
+        setRelevantArticlesLoading(false);
         setSuggestedMessage(null);
         setSuggestedMessageDone(false);
         setAgentTyping(false);
@@ -418,5 +560,9 @@ export const processMessages = async () => {
       // Handle other events as needed
     }
   },
-  modelProvider);
+  modelProvider,
+  activeTools as any,
+  modelProvider === "ollama" || modelProvider === "ollama-openai"
+    ? ollamaModel
+    : undefined);
 };

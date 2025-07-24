@@ -1,10 +1,11 @@
 import { ProviderEvent } from "./openai";
 import ollama from "ollama";
 import { randomUUID } from "crypto";
-import { search_files } from "@/config/functions";
+import type { ProviderOptions } from "./index";
 
-const model = process.env.OLLAMA_MODEL || "llama3.2";
-const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "4096", 10);
+const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
+// Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
+const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "8192", 10);
 const host = process.env.OLLAMA_HOST;
 
 if (host) {
@@ -19,60 +20,46 @@ if (host) {
   }
 }
 
-export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerator<ProviderEvent> {
-  const converted = (messages || []).map((m: any) => ({
-    role: m.role === "developer" ? "system" : m.role,
-    content: Array.isArray(m.content)
-      ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
-      : String(m.content ?? ""),
-  }));
+export async function* ollamaProvider(
+  messages: any[],
+  tools: any,
+  options?: ProviderOptions
+): AsyncGenerator<ProviderEvent> {
+  const model = options?.model || defaultModel;
 
-  const lastUser = [...(messages || [])].reverse().find((m: any) => m.role === "user");
-  if (lastUser) {
-    const q = Array.isArray(lastUser.content)
-      ? lastUser.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
-      : String(lastUser.content ?? "");
-    try {
-      const results = await search_files({ query: q });
-      if (results && !(results as any).error) {
-        const searchResults = results.data || results.results || [];
-        const snippets = searchResults
-          .map((r: any) => r.text)
-          .filter(Boolean)
-          .slice(0, 3)
-          .join("\n---\n");
-        if (snippets) {
-          converted.push({
-            role: "system",
-            content: `Relevant knowledge base excerpts:\n${snippets}`,
-          });
-          const id = randomUUID();
-          yield {
-            event: "response.file_search_call.completed",
-            data: { item_id: id, results: searchResults },
-          } as ProviderEvent;
-          yield {
-            event: "response.output_item.done",
-            data: { item: { type: "file_search_call", id, results: searchResults } },
-          } as ProviderEvent;
-        }
-      }
-    } catch (err) {
-      console.error("search_files failed", err);
+const converted = (messages || [])
+  .filter((m: any) => m.role)
+  .map((m: any) => {
+    if (m.type === "function_call_output") {
+      return {
+        role: "tool",
+        tool_call_id: m.call_id,
+        content: m.output ?? "",
+      };
     }
-  }
+
+    return {
+      role: m.role === "developer" ? "system" : m.role,
+      content: Array.isArray(m.content)
+        ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
+        : String(m.content ?? ""),
+    };
+  });
+  let finalText = "";
 
   let stream: any;
   try {
-    stream = await ollama.chat({
+    const payload = {
       model,
       messages: converted,
       tools,
       stream: true,
       options: { num_ctx },
-    });
+    } as const;
+    console.log("ollama.chat payload", payload);
+    stream = await ollama.chat(payload);
   } catch (error) {
-    console.error("ollama.chat failed", error);
+    console.error("ollama.chat failed", error, "finalText length", 0);
     yield {
       event: "error",
       data: { message: (error as Error).message },
@@ -80,10 +67,15 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
     return;
   }
 
-  let finalText = "";
   const seenCalls = new Set<string>();
 
   for await (const chunk of stream) {
+    console.log(
+      "Stream chunk:",
+      JSON.stringify(chunk).slice(0, 80),
+      "tool calls detected:",
+      (chunk.message?.tool_calls || []).length > 0
+    );
     const content = chunk.message?.content ?? "";
     if (content) {
       finalText += content;
@@ -111,11 +103,19 @@ export async function* ollamaProvider(messages: any[], tools: any): AsyncGenerat
     }
 
     if (chunk.done) {
-      yield { event: "response.output_text.done", data: {} } as ProviderEvent;
-      yield {
-        event: "response.output_item.done",
-        data: { item: { type: "message", role: "assistant", content: finalText } },
-      } as ProviderEvent;
+      if (finalText.trim()) {
+        yield { event: "response.output_text.done", data: {} } as ProviderEvent;
+        yield {
+          event: "response.output_item.done",
+          data: { item: { type: "message", role: "assistant", content: finalText } },
+        } as ProviderEvent;
+      } else if (seenCalls.size === 0) {
+        const msg = "Ollama returned no content";
+        console.error("No content returned", "finalText length", finalText.length);
+        yield { event: "error", data: { message: msg } } as ProviderEvent;
+      } else {
+        yield { event: "response.output_text.done", data: {} } as ProviderEvent;
+      }
     }
   }
 }
