@@ -3,6 +3,7 @@ import { runRelevanceGuardrail, runJailbreakGuardrail } from "@/lib/guardrails";
 import { getProvider } from "@/lib/providers";
 
 export async function POST(request: Request) {
+  const start = Date.now();
   try {
     const { messages, tools, provider, model } = await request.json();
     console.log("Received messages:", messages);
@@ -57,10 +58,16 @@ export async function POST(request: Request) {
     const stream = new ReadableStream({
       async start(controller) {
         try {
+          let first = true;
           for await (const { event, data } of events) {
+            if (first) {
+              first = false;
+              console.log("Model response latency:", Date.now() - start, "ms");
+            }
             const payload = JSON.stringify({ event, data });
             controller.enqueue(`data: ${payload}\n\n`);
           }
+          console.log("Total response time:", Date.now() - start, "ms");
           controller.close();
         } catch (error) {
           console.error("Error in streaming loop:", error);
