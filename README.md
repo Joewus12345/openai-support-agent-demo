@@ -91,7 +91,7 @@ When using the `ollama` provider you need a local server running.
 
    ```bash
    OLLAMA_MODEL=llama3.2
-   OLLAMA_NUM_CTX=8192
+   OLLAMA_NUM_CTX=32768
    OLLAMA_HOST=http://localhost:11434
    ```
 

@@ -2,10 +2,12 @@ import { ProviderEvent } from "./openai";
 import ollama from "ollama";
 import { randomUUID } from "crypto";
 import type { ProviderOptions } from "./index";
+import { fileSearch } from "@/lib/tools/fileSearch";
+import { webSearch } from "@/lib/tools/webSearch";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
-const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "8192", 10);
+const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "32768", 10);
 const host = process.env.OLLAMA_HOST;
 
 if (host) {
@@ -20,6 +22,36 @@ if (host) {
   }
 }
 
+export function convertMessages(messages: any[]) {
+  return (messages || [])
+    .map((m: any) => {
+      if (m.role) {
+        return {
+          role: m.role === "developer" ? "system" : m.role,
+          content: Array.isArray(m.content)
+            ? m.content
+                .map((c: any) => (typeof c === "string" ? c : c.text || ""))
+                .join(" ")
+            : String(m.content ?? ""),
+        };
+      }
+      if (m.type === "function_call_output") {
+        return {
+          role: "tool",
+          tool_call_id: m.call_id,
+          content: m.output ?? "",
+        };
+      }
+      return undefined;
+    })
+    .filter(Boolean);
+}
+
+export function serializeToolCallArgs(args: any): string {
+  if (typeof args === "string") return args;
+  return JSON.stringify(args ?? {});
+}
+
 export async function* ollamaProvider(
   messages: any[],
   tools: any,
@@ -27,24 +59,7 @@ export async function* ollamaProvider(
 ): AsyncGenerator<ProviderEvent> {
   const model = options?.model || defaultModel;
 
-const converted = (messages || [])
-  .filter((m: any) => m.role)
-  .map((m: any) => {
-    if (m.type === "function_call_output") {
-      return {
-        role: "tool",
-        tool_call_id: m.call_id,
-        content: m.output ?? "",
-      };
-    }
-
-    return {
-      role: m.role === "developer" ? "system" : m.role,
-      content: Array.isArray(m.content)
-        ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
-        : String(m.content ?? ""),
-    };
-  });
+const converted = convertMessages(messages);
   let finalText = "";
 
   let stream: any;
@@ -55,7 +70,7 @@ const converted = (messages || [])
       tools,
       stream: true,
       options: { num_ctx },
-    } as const;
+    } as any;
     console.log("ollama.chat payload", payload);
     stream = await ollama.chat(payload);
   } catch (error) {
@@ -67,7 +82,7 @@ const converted = (messages || [])
     return;
   }
 
-  const seenCalls = new Set<string>();
+  const calls = new Map<string, { type: string; name?: string; args: string }>();
 
   for await (const chunk of stream) {
     console.log(
@@ -85,31 +100,110 @@ const converted = (messages || [])
     const toolCalls = chunk.message?.tool_calls || [];
     for (const call of toolCalls) {
       const id = (call as any).id ?? randomUUID();
-      if (seenCalls.has(id)) continue;
-      seenCalls.add(id);
-      const args = JSON.stringify(call.function?.arguments ?? {});
-      yield {
-        event: "response.output_item.added",
-        data: { item: { type: "function_call", id, name: call.function?.name, call_id: id, arguments: "" } },
-      } as ProviderEvent;
-      if (args) {
-        yield { event: "response.function_call_arguments.delta", data: { item_id: id, delta: args } } as ProviderEvent;
-        yield { event: "response.function_call_arguments.done", data: { item_id: id, arguments: args } } as ProviderEvent;
+      let state = calls.get(id);
+      if (!state) {
+        const type = (call as any).type || "function";
+        state = { type, name: call.function?.name, args: "" };
+        calls.set(id, state);
+        const itemType =
+          type === "file_search"
+            ? "file_search_call"
+            : type === "web_search"
+            ? "web_search_call"
+            : "function_call";
+        yield {
+          event: "response.output_item.added",
+          data: { item: { type: itemType, id, name: state.name, call_id: id, arguments: "" } },
+        } as ProviderEvent;
       }
-      yield {
-        event: "response.output_item.done",
-        data: { item: { type: "function_call", id, name: call.function?.name, call_id: id, arguments: args } },
-      } as ProviderEvent;
+
+      if (call.function?.arguments) {
+        const delta = serializeToolCallArgs(call.function.arguments);
+        if (delta) {
+          state.args += delta;
+          if (state.type === "function") {
+            yield {
+              event: "response.function_call_arguments.delta",
+              data: { item_id: id, delta },
+            } as ProviderEvent;
+          }
+        }
+      }
+
+      if (call.file_search?.query) {
+        state.args += call.file_search.query;
+      }
+
+      if (call.web_search?.query) {
+        state.args += call.web_search.query;
+      }
     }
 
     if (chunk.done) {
+      for (const [id, state] of calls.entries()) {
+        if (state.type === "function") {
+          yield {
+            event: "response.function_call_arguments.done",
+            data: { item_id: id, arguments: state.args },
+          } as ProviderEvent;
+          yield {
+            event: "response.output_item.done",
+            data: {
+              item: {
+                type: "function_call",
+                id,
+                name: state.name,
+                call_id: id,
+                arguments: state.args,
+              },
+            },
+          } as ProviderEvent;
+        } else {
+          let params: any = {};
+          try {
+            params = JSON.parse(state.args);
+          } catch {
+            params = { query: state.args };
+          }
+          const query = params.query || "";
+          let results: any = {};
+          if (state.type === "file_search") {
+            const res = await fileSearch({ query, provider: "ollama" });
+            results = res.results;
+            yield {
+              event: "response.file_search_call.results",
+              data: { item_id: id, results },
+            } as ProviderEvent;
+          } else {
+            results = await webSearch({ query });
+            yield {
+              event: "response.web_search_call.results",
+              data: { item_id: id, results },
+            } as ProviderEvent;
+          }
+          yield {
+            event: "response.output_item.done",
+            data: { item: { type: `${state.type}_call`, id, results } },
+          } as ProviderEvent;
+          yield {
+            event:
+              state.type === "file_search"
+                ? "response.file_search_call.completed"
+                : "response.web_search_call.completed",
+            data: { item_id: id, output: results },
+          } as ProviderEvent;
+        }
+      }
+
       if (finalText.trim()) {
         yield { event: "response.output_text.done", data: {} } as ProviderEvent;
         yield {
           event: "response.output_item.done",
-          data: { item: { type: "message", role: "assistant", content: finalText } },
+          data: {
+            item: { type: "message", role: "assistant", content: finalText },
+          },
         } as ProviderEvent;
-      } else if (seenCalls.size === 0) {
+      } else if (calls.size === 0) {
         const msg = "Ollama returned no content";
         console.error("No content returned", "finalText length", finalText.length);
         yield { event: "error", data: { message: msg } } as ProviderEvent;
