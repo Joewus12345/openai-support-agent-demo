@@ -63,7 +63,7 @@ const converted = convertMessages(messages);
       tools,
       stream: true,
       options: { num_ctx },
-    } as const;
+    } as any;
     console.log("ollama.chat payload", payload);
     stream = await ollama.chat(payload);
   } catch (error) {
