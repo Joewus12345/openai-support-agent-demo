@@ -7,7 +7,7 @@ import { webSearch } from "@/lib/tools/webSearch";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
-const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "8192", 10);
+const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "32768", 10);
 const host = process.env.OLLAMA_HOST;
 
 if (host) {
@@ -118,13 +118,15 @@ const converted = convertMessages(messages);
       }
 
       if (call.function?.arguments) {
-        const delta = call.function.arguments;
-        state.args += delta;
-        if (state.type === "function") {
-          yield {
-            event: "response.function_call_arguments.delta",
-            data: { item_id: id, delta },
-          } as ProviderEvent;
+        const delta = serializeToolCallArgs(call.function.arguments);
+        if (delta) {
+          state.args += delta;
+          if (state.type === "function") {
+            yield {
+              event: "response.function_call_arguments.delta",
+              data: { item_id: id, delta },
+            } as ProviderEvent;
+          }
         }
       }
 
