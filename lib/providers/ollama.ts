@@ -45,6 +45,11 @@ export function convertMessages(messages: any[]) {
     .filter(Boolean);
 }
 
+export function serializeToolCallArgs(args: any): string {
+  if (typeof args === "string") return args;
+  return JSON.stringify(args ?? {});
+}
+
 export async function* ollamaProvider(
   messages: any[],
   tools: any,
@@ -95,7 +100,7 @@ const converted = convertMessages(messages);
       const id = (call as any).id ?? randomUUID();
       if (seenCalls.has(id)) continue;
       seenCalls.add(id);
-      const args = JSON.stringify(call.function?.arguments ?? {});
+      const args = serializeToolCallArgs(call.function?.arguments);
       yield {
         event: "response.output_item.added",
         data: { item: { type: "function_call", id, name: call.function?.name, call_id: id, arguments: "" } },
