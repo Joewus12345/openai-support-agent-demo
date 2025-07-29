@@ -103,17 +103,6 @@ export const handleTurn = async (
       return;
     }
 
-    if (provider === "ollama") {
-      const text = await response.text();
-      onMessage({ event: "response.output_text.delta", data: { delta: text } });
-      onMessage({ event: "response.output_text.done", data: {} });
-      onMessage({
-        event: "response.output_item.done",
-        data: { item: { type: "message", role: "assistant", content: text } },
-      });
-      return;
-    }
-
     // Reader for streaming data
     const reader = response.body!.getReader();
     const decoder = new TextDecoder();
