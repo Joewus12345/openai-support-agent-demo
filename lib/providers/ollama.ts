@@ -20,6 +20,31 @@ if (host) {
   }
 }
 
+export function convertMessages(messages: any[]) {
+  return (messages || [])
+    .map((m: any) => {
+      if (m.role) {
+        return {
+          role: m.role === "developer" ? "system" : m.role,
+          content: Array.isArray(m.content)
+            ? m.content
+                .map((c: any) => (typeof c === "string" ? c : c.text || ""))
+                .join(" ")
+            : String(m.content ?? ""),
+        };
+      }
+      if (m.type === "function_call_output") {
+        return {
+          role: "tool",
+          tool_call_id: m.call_id,
+          content: m.output ?? "",
+        };
+      }
+      return undefined;
+    })
+    .filter(Boolean);
+}
+
 export async function* ollamaProvider(
   messages: any[],
   tools: any,
@@ -27,24 +52,7 @@ export async function* ollamaProvider(
 ): AsyncGenerator<ProviderEvent> {
   const model = options?.model || defaultModel;
 
-const converted = (messages || [])
-  .filter((m: any) => m.role)
-  .map((m: any) => {
-    if (m.type === "function_call_output") {
-      return {
-        role: "tool",
-        tool_call_id: m.call_id,
-        content: m.output ?? "",
-      };
-    }
-
-    return {
-      role: m.role === "developer" ? "system" : m.role,
-      content: Array.isArray(m.content)
-        ? m.content.map((c: any) => (typeof c === "string" ? c : c.text || "")).join(" ")
-        : String(m.content ?? ""),
-    };
-  });
+const converted = convertMessages(messages);
   let finalText = "";
 
   let stream: any;
