@@ -1,6 +1,7 @@
 const assert = require('assert');
 const test = require('node:test');
 require('ts-node/register/transpile-only');
+require('tsconfig-paths/register');
 const { convertMessages, serializeToolCallArgs } = require('../lib/providers/ollama.ts');
 
 test('ollamaProvider serializes function_call_output', () => {
