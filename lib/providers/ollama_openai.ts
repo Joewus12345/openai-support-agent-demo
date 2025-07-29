@@ -4,6 +4,7 @@ import type { ProviderOptions } from "./index";
 import type { ProviderEvent } from "./openai";
 import { fileSearch } from "@/lib/tools/fileSearch";
 import { webSearch } from "@/lib/tools/webSearch";
+import { serializeToolCallArgs } from "./ollama";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
@@ -114,12 +115,15 @@ export async function* ollamaOpenAIProvider(
         }
 
         if (call.function?.arguments) {
-          state.args += call.function.arguments;
-          if (state.type === "function") {
-            yield {
-              event: "response.function_call_arguments.delta",
-              data: { item_id: id, delta: call.function.arguments },
-            } as ProviderEvent;
+          const delta = serializeToolCallArgs(call.function?.arguments);
+          if (delta) {
+            state.args += delta;
+            if (state.type === "function") {
+              yield {
+                event: "response.function_call_arguments.delta",
+                data: { item_id: id, delta },
+              } as ProviderEvent;
+            }
           }
         }
 
