@@ -80,7 +80,7 @@ const converted = convertMessages(messages);
     return;
   }
 
-  const seenCalls = new Set<string>();
+  const calls = new Map<string, { name?: string; args: string }>();
 
   for await (const chunk of stream) {
     console.log(
@@ -98,31 +98,54 @@ const converted = convertMessages(messages);
     const toolCalls = chunk.message?.tool_calls || [];
     for (const call of toolCalls) {
       const id = (call as any).id ?? randomUUID();
-      if (seenCalls.has(id)) continue;
-      seenCalls.add(id);
-      const args = serializeToolCallArgs(call.function?.arguments);
-      yield {
-        event: "response.output_item.added",
-        data: { item: { type: "function_call", id, name: call.function?.name, call_id: id, arguments: "" } },
-      } as ProviderEvent;
-      if (args) {
-        yield { event: "response.function_call_arguments.delta", data: { item_id: id, delta: args } } as ProviderEvent;
-        yield { event: "response.function_call_arguments.done", data: { item_id: id, arguments: args } } as ProviderEvent;
+      let state = calls.get(id);
+      if (!state) {
+        state = { name: call.function?.name, args: "" };
+        calls.set(id, state);
+        yield {
+          event: "response.output_item.added",
+          data: { item: { type: "function_call", id, name: state.name, call_id: id, arguments: "" } },
+        } as ProviderEvent;
       }
-      yield {
-        event: "response.output_item.done",
-        data: { item: { type: "function_call", id, name: call.function?.name, call_id: id, arguments: args } },
-      } as ProviderEvent;
+
+      if (call.function?.arguments) {
+        state.args += call.function.arguments;
+        yield {
+          event: "response.function_call_arguments.delta",
+          data: { item_id: id, delta: call.function.arguments },
+        } as ProviderEvent;
+      }
     }
 
     if (chunk.done) {
+      for (const [id, state] of calls.entries()) {
+        yield {
+          event: "response.function_call_arguments.done",
+          data: { item_id: id, arguments: state.args },
+        } as ProviderEvent;
+        yield {
+          event: "response.output_item.done",
+          data: {
+            item: {
+              type: "function_call",
+              id,
+              name: state.name,
+              call_id: id,
+              arguments: state.args,
+            },
+          },
+        } as ProviderEvent;
+      }
+
       if (finalText.trim()) {
         yield { event: "response.output_text.done", data: {} } as ProviderEvent;
         yield {
           event: "response.output_item.done",
-          data: { item: { type: "message", role: "assistant", content: finalText } },
+          data: {
+            item: { type: "message", role: "assistant", content: finalText },
+          },
         } as ProviderEvent;
-      } else if (seenCalls.size === 0) {
+      } else if (calls.size === 0) {
         const msg = "Ollama returned no content";
         console.error("No content returned", "finalText length", finalText.length);
         yield { event: "error", data: { message: msg } } as ProviderEvent;
