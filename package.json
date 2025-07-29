@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"CommonJS\",\"moduleResolution\":\"node\"}' node -r ts-node/register/transpile-only -r tsconfig-paths/register --test"
+    "test": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r tsconfig-paths/register --test"
   },
   "dependencies": {
     "@npmcli/fs": "^4.0.0",
@@ -50,6 +50,7 @@
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "cross-env": "^10.0.0",
     "eslint": "^9.13.0",
     "eslint-config-next": "^15.0.1",
     "postcss": "^8",
