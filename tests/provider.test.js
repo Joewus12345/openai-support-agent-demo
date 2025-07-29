@@ -1,7 +1,7 @@
 const assert = require('assert');
 const test = require('node:test');
 require('ts-node/register/transpile-only');
-const { convertMessages } = require('../lib/providers/ollama.ts');
+const { convertMessages, serializeToolCallArgs } = require('../lib/providers/ollama.ts');
 
 test('ollamaProvider serializes function_call_output', () => {
   const messages = [
@@ -15,4 +15,14 @@ test('ollamaProvider serializes function_call_output', () => {
     { role: 'user', content: 'hi' },
     { role: 'tool', tool_call_id: '123', content: 'ok' },
   ]);
+});
+
+test('serializeToolCallArgs handles string arguments', () => {
+  const input = '{"a":1}';
+  assert.strictEqual(serializeToolCallArgs(input), input);
+});
+
+test('serializeToolCallArgs handles object arguments', () => {
+  const input = { a: 1 };
+  assert.strictEqual(serializeToolCallArgs(input), JSON.stringify(input));
 });
