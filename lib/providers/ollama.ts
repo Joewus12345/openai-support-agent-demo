@@ -2,6 +2,8 @@ import { ProviderEvent } from "./openai";
 import ollama from "ollama";
 import { randomUUID } from "crypto";
 import type { ProviderOptions } from "./index";
+import { fileSearch } from "@/lib/tools/fileSearch";
+import { webSearch } from "@/lib/tools/webSearch";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
@@ -80,7 +82,7 @@ const converted = convertMessages(messages);
     return;
   }
 
-  const calls = new Map<string, { name?: string; args: string }>();
+  const calls = new Map<string, { type: string; name?: string; args: string }>();
 
   for await (const chunk of stream) {
     console.log(
@@ -100,41 +102,95 @@ const converted = convertMessages(messages);
       const id = (call as any).id ?? randomUUID();
       let state = calls.get(id);
       if (!state) {
-        state = { name: call.function?.name, args: "" };
+        const type = (call as any).type || "function";
+        state = { type, name: call.function?.name, args: "" };
         calls.set(id, state);
+        const itemType =
+          type === "file_search"
+            ? "file_search_call"
+            : type === "web_search"
+            ? "web_search_call"
+            : "function_call";
         yield {
           event: "response.output_item.added",
-          data: { item: { type: "function_call", id, name: state.name, call_id: id, arguments: "" } },
+          data: { item: { type: itemType, id, name: state.name, call_id: id, arguments: "" } },
         } as ProviderEvent;
       }
 
       if (call.function?.arguments) {
-        state.args += call.function.arguments;
-        yield {
-          event: "response.function_call_arguments.delta",
-          data: { item_id: id, delta: call.function.arguments },
-        } as ProviderEvent;
+        const delta = call.function.arguments;
+        state.args += delta;
+        if (state.type === "function") {
+          yield {
+            event: "response.function_call_arguments.delta",
+            data: { item_id: id, delta },
+          } as ProviderEvent;
+        }
+      }
+
+      if (call.file_search?.query) {
+        state.args += call.file_search.query;
+      }
+
+      if (call.web_search?.query) {
+        state.args += call.web_search.query;
       }
     }
 
     if (chunk.done) {
       for (const [id, state] of calls.entries()) {
-        yield {
-          event: "response.function_call_arguments.done",
-          data: { item_id: id, arguments: state.args },
-        } as ProviderEvent;
-        yield {
-          event: "response.output_item.done",
-          data: {
-            item: {
-              type: "function_call",
-              id,
-              name: state.name,
-              call_id: id,
-              arguments: state.args,
+        if (state.type === "function") {
+          yield {
+            event: "response.function_call_arguments.done",
+            data: { item_id: id, arguments: state.args },
+          } as ProviderEvent;
+          yield {
+            event: "response.output_item.done",
+            data: {
+              item: {
+                type: "function_call",
+                id,
+                name: state.name,
+                call_id: id,
+                arguments: state.args,
+              },
             },
-          },
-        } as ProviderEvent;
+          } as ProviderEvent;
+        } else {
+          let params: any = {};
+          try {
+            params = JSON.parse(state.args);
+          } catch {
+            params = { query: state.args };
+          }
+          const query = params.query || "";
+          let results: any = {};
+          if (state.type === "file_search") {
+            const res = await fileSearch({ query, provider: "ollama" });
+            results = res.results;
+            yield {
+              event: "response.file_search_call.results",
+              data: { item_id: id, results },
+            } as ProviderEvent;
+          } else {
+            results = await webSearch({ query });
+            yield {
+              event: "response.web_search_call.results",
+              data: { item_id: id, results },
+            } as ProviderEvent;
+          }
+          yield {
+            event: "response.output_item.done",
+            data: { item: { type: `${state.type}_call`, id, results } },
+          } as ProviderEvent;
+          yield {
+            event:
+              state.type === "file_search"
+                ? "response.file_search_call.completed"
+                : "response.web_search_call.completed",
+            data: { item_id: id, output: results },
+          } as ProviderEvent;
+        }
       }
 
       if (finalText.trim()) {
