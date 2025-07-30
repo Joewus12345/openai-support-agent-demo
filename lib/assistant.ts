@@ -168,6 +168,9 @@ export const processMessages = async () => {
     ollamaModel,
   } = useConversationStore.getState();
 
+  // Show typing indicator immediately when processing starts
+  setAgentTyping(true);
+
   const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
     useDataStore.getState();
 
@@ -490,6 +493,8 @@ export const processMessages = async () => {
                 ? "execute"
                 : "suggestion";
 
+            // Show typing indicator while executing the tool
+            setAgentTyping(true);
             const toolResult = await handleTool(
               toolCallMessage.name as keyof typeof functionsMap,
               toolCallMessage.parsedArguments,
