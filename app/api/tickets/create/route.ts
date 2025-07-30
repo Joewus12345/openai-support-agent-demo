@@ -1,16 +1,35 @@
+import prisma from "@/lib/prisma";
+
 export async function POST(request: Request) {
   try {
-    const { user_id, type, details, order_id } = await request.json();
-    // Simulate ticket creation
-    return new Response(
-      JSON.stringify({
-        message: `Ticket created for user ${user_id}`,
-        type,
-        details,
-        order_id,
-      }),
-      { status: 200 }
-    );
+    const { user_id } = await request.json();
+
+    const start = new Date();
+    start.setUTCHours(0, 0, 0, 0);
+    const end = new Date();
+    end.setUTCHours(23, 59, 59, 999);
+
+    const count = await prisma.ticket.count({
+      where: {
+        createdAt: {
+          gte: start,
+          lte: end,
+        },
+      },
+    });
+
+    const today = start.toISOString().split("T")[0];
+    const index = count + 1;
+    const ticket_id = `#${index}/${today}`;
+
+    await prisma.ticket.create({
+      data: {
+        ticket: ticket_id,
+        userId: user_id || null,
+      },
+    });
+
+    return new Response(JSON.stringify({ ticket_id }), { status: 200 });
   } catch (error) {
     console.error("Error creating ticket:", error);
     return new Response("Error creating ticket", { status: 500 });
