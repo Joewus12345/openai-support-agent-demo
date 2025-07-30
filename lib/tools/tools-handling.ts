@@ -1,5 +1,6 @@
 import { agentTools } from "@/config/tools-list";
 import { functionsMap } from "../../config/functions";
+import useConversationStore from "@/stores/useConversationStore";
 
 export type ToolName = keyof typeof functionsMap;
 
@@ -10,6 +11,12 @@ export const handleTool = async (
   provider = "openai"
 ) => {
   console.log("Handle tool", toolName, parameters);
+  // Show typing indicator while the tool executes
+  try {
+    useConversationStore.getState().setAgentTyping(true);
+  } catch {
+    // ignore if store is unavailable (e.g. during tests)
+  }
   // These tools will be suggested as a "recommended action" to the human agent
   if (agentTools.includes(toolName)) {
     if (mode === "suggestion") {
