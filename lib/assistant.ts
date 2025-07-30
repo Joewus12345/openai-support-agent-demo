@@ -260,6 +260,8 @@ export const processMessages = async () => {
       }
 
       case "response.output_text.done": {
+        const parsed = parseToolCallJson(assistantMessageContent);
+
         if (autoReply) {
           addConversationItem({
             role: "assistant",
@@ -274,7 +276,6 @@ export const processMessages = async () => {
           setSuggestedMessageDone(false);
           setAgentTyping(false);
         } else {
-          const parsed = parseToolCallJson(assistantMessageContent);
           if (parsed) {
             const id = generateId();
             const argStr = parsed.parameters
@@ -301,7 +302,6 @@ export const processMessages = async () => {
             setChatMessages([...chatMessages]);
             setConversationItems([...conversationItems]);
             setSuggestedMessage(null);
-            setAgentTyping(false);
             setSuggestedMessageDone(true);
           } else {
             const { suggestedMessage } = useConversationStore.getState();
@@ -315,8 +315,11 @@ export const processMessages = async () => {
               };
               setSuggestedMessage(message);
             }
-            setAgentTyping(false);
             setSuggestedMessageDone(true);
+          }
+
+          if (!parsed) {
+            setAgentTyping(false);
           }
         }
         break;
