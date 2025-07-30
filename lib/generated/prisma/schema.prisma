@@ -23,6 +23,7 @@ model User {
   createdAt DateTime      @default(now())
   orders    Order[]
   sessions  ChatSession[]
+  tickets   Ticket[]
 }
 
 model Order {
@@ -40,4 +41,12 @@ model ChatSession {
   userId    String
   createdAt DateTime @default(now())
   messages  Json // or a separate Message model
+}
+
+model Ticket {
+  id        String   @id @default(uuid())
+  ticket    String
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }
