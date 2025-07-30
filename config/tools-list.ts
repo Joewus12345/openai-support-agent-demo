@@ -232,30 +232,16 @@ export const toolsList = [
     type: "function",
     function: {
       name: "create_ticket",
-      description: "Open a customer support ticket",
+      description:
+        "Generate a session ticket for customers without an email.",
       parameters: {
         type: "object",
         properties: {
           user_id: {
             type: "string",
-            description: "User ID to create ticket for",
-          },
-          type: {
-            type: "string",
-            description: "Type of ticket",
-            enum: ["bug_reported", "damaged_product", "other"],
-          },
-          details: {
-            type: "string",
-            description: "Details of the ticket",
-          },
-          order_id: {
-            type: "string",
-            description:
-              "Order ID linked to the ticket, N/A if not linked to an order",
+            description: "User ID to link the session with, if available",
           },
         },
-        required: ["user_id", "type", "details", "order_id"],
         additionalProperties: false,
       },
     },

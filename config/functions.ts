@@ -199,14 +199,8 @@ export const create_complaint = async ({
 
 export const create_ticket = async ({
   user_id,
-  type,
-  details,
-  order_id,
 }: {
-  user_id: string;
-  type: string;
-  details: string;
-  order_id: string;
+  user_id?: string;
 }) => {
   try {
     const res = await fetch(`/api/tickets/create`, {
@@ -214,9 +208,9 @@ export const create_ticket = async ({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id, type, details, order_id }),
+      body: JSON.stringify({ user_id }),
     }).then((res) => res.json());
-    return res;
+    return res.ticket_id;
   } catch (error) {
     console.error(error);
     return { error: "Failed to create ticket" };
