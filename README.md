@@ -209,7 +209,13 @@ This demo can store customer profiles and chat sessions in a local PostgreSQL da
    npx prisma migrate deploy
    ```
 
-The new API endpoints under `/api/users` and `/api/sessions/start` allow the agent to create or retrieve customer records and chat sessions using this database.
+3. Configure Redis by setting `REDIS_URL` in your `.env` file:
+
+   ```bash
+   REDIS_URL=redis://localhost:6379
+   ```
+
+The new API endpoints under `/api/users`, `/api/sessions/start`, and `/api/sessions/[session_id]/save` allow the agent to create or retrieve customer records, manage chat sessions, and store conversation history using this database and Redis.
 
 ## Contributing
 
