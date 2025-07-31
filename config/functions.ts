@@ -299,20 +299,24 @@ export const create_user_profile = async ({
 
 export const start_chat_session = async ({
   email,
+  ticket_id,
   name,
   phone,
   address,
 }: {
-  email: string;
+  email?: string;
+  ticket_id?: string;
   name?: string;
   phone?: string;
   address?: string;
 }) => {
   try {
+    const identifier = email || ticket_id;
+
     const res = await fetch(`/api/sessions/start`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, name, phone, address }),
+      body: JSON.stringify({ email: identifier, ticket_id, name, phone, address }),
     }).then((res) => res.json());
     if (res.user && !res.user.error) {
       useDataStore.getState().setCustomerDetails(setDetailsFromUser(res.user));
