@@ -210,6 +210,11 @@ export const create_ticket = async ({
       },
       body: JSON.stringify({ user_id }),
     }).then((res) => res.json());
+    const { setTicketId, setEmailRefused } = useDataStore.getState();
+    if (res?.ticket_id) {
+      setTicketId(res.ticket_id);
+      setEmailRefused(true);
+    }
     return res.ticket_id;
   } catch (error) {
     console.error(error);
