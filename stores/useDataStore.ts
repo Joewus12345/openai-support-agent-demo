@@ -46,12 +46,16 @@ interface DataState {
   relevantArticlesError: string | null;
   relevantArticlesLoading: boolean;
   additionalContext?: ContextItem[] | null;
+  ticketId: string | null;
+  emailRefused: boolean;
   setCustomerDetails: (details: CustomerDetails) => void;
   setFAQExtracts: (searchResults: any[], provider?: string) => void;
   setRelevantArticlesError: (error: string | null) => void;
   setAdditionalContext: (context: ContextItem[]) => void;
   setRelevantArticlesLoading: (loading: boolean) => void;
   addContextItem: (item: ContextItem) => void;
+  setTicketId: (id: string | null) => void;
+  setEmailRefused: (refused: boolean) => void;
 }
 
 const getFileUrl = (type: string, filename: string) => {
@@ -70,6 +74,8 @@ const useDataStore = create<DataState>((set) => ({
   relevantArticlesError: null,
   relevantArticlesLoading: false,
   additionalContext: null,
+  ticketId: null,
+  emailRefused: false,
   setCustomerDetails: (details) => set({ customerDetails: details }),
   setFAQExtracts: (searchResults, provider?: string) => {
     console.log("searchResults", searchResults);
@@ -108,6 +114,8 @@ const useDataStore = create<DataState>((set) => ({
     })),
   setRelevantArticlesLoading: (loading) =>
     set({ relevantArticlesLoading: loading }),
+  setTicketId: (id) => set({ ticketId: id }),
+  setEmailRefused: (refused) => set({ emailRefused: refused }),
 }));
 
 export default useDataStore;

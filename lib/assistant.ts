@@ -75,12 +75,29 @@ export const handleTurn = async (
   model?: string
 ) => {
   try {
+    const { emailRefused, ticketId } = useDataStore.getState();
+    const messagesWithTicket =
+      emailRefused && ticketId
+        ? [
+            {
+              role: "system",
+              content: [
+                {
+                  type: "input_text",
+                  text: `Customer refused to share an email and uses ticket ${ticketId}.`,
+                },
+              ],
+            },
+            ...messages,
+          ]
+        : messages;
+
     // Get response from the API (defined in app/api/turn_response/route.ts)
     const response = await fetch("/api/turn_response", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        messages: messages,
+        messages: messagesWithTicket,
         tools: toolsArg,
         provider,
         model,
