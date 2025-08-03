@@ -4,7 +4,7 @@ import { handleTool } from "@/lib/tools/tools-handling";
 import useConversationStore from "@/stores/useConversationStore";
 import { tools, ollamaTools } from "@/lib/tools/tools";
 import { Annotation } from "@/components/Annotations";
-import { functionsMap } from "@/config/functions";
+import { functionsMap, create_ticket } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
 
@@ -200,8 +200,31 @@ export const processMessages = async () => {
   // Show typing indicator immediately when processing starts
   setAgentTyping(true);
 
-  const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
-    useDataStore.getState();
+  const {
+    setRelevantArticlesLoading,
+    setFAQExtracts,
+    setRelevantArticlesError,
+    emailRefused,
+    setEmailRefused,
+    contactType,
+    contactId,
+    customerDetails,
+  } = useDataStore.getState();
+
+  const lastUserMessage = [...conversationItems]
+    .reverse()
+    .find((m) => (m as any).role === "user");
+  const lastUserText = typeof lastUserMessage?.content === "string" ? lastUserMessage.content : "";
+  const emailRefusalRegex = /don['’]?t feel comfortable giving (?:you )?my email/i;
+  if (
+    !contactType &&
+    !contactId &&
+    !emailRefused &&
+    emailRefusalRegex.test(lastUserText)
+  ) {
+    setEmailRefused(true);
+    await create_ticket({ user_id: customerDetails.id });
+  }
 
   let toolSet: any[] =
     modelProvider === "ollama"
