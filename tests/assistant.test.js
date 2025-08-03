@@ -88,3 +88,38 @@ test('emailRefusalRegex detects common refusal phrases', () => {
   assert.ok(emailRefusalRegex.test("I don't want to"));
   assert.ok(emailRefusalRegex.test("I can't provide that info"));
 });
+
+test('DEVELOPER_PROMPT mentions ticket workflow', () => {
+  const { DEVELOPER_PROMPT } = require('../config/constants');
+  assert.match(
+    DEVELOPER_PROMPT,
+    /identify customers by either an email address or a ticket ID/i
+  );
+  assert.match(DEVELOPER_PROMPT, /inform the customer of the ticket ID/i);
+});
+
+test('handleTurn prefixes ticket system message', async () => {
+  const { handleTurn } = require('../lib/assistant');
+  const useDataStore = require('../stores/useDataStore').default;
+  const originalFetch = global.fetch;
+  let body;
+  global.fetch = async (_url, options) => {
+    body = JSON.parse(options.body);
+    return new Response('data: [DONE]\n\n', {
+      headers: { 'Content-Type': 'text/plain' },
+      status: 200,
+    });
+  };
+  try {
+    useDataStore.setState({ contactType: 'ticket', contactId: 'TICK123' });
+    const messages = [
+      { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
+    ];
+    await handleTurn(messages, () => {});
+    assert.strictEqual(body.messages[0].role, 'system');
+    assert.match(body.messages[0].content[0].text, /TICK123/);
+  } finally {
+    global.fetch = originalFetch;
+    useDataStore.setState({ contactType: null, contactId: null });
+  }
+});
