@@ -36,10 +36,12 @@ model Order {
 }
 
 model ChatSession {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
+  id        String    @id @default(uuid())
+  user      User      @relation(fields: [userId], references: [id])
   userId    String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  endedAt   DateTime?
   messages  Json // or a separate Message model
 }
 

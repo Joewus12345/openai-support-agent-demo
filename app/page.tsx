@@ -3,12 +3,15 @@ import { useState } from "react";
 import AgentView from "@/components/AgentView";
 import UserView from "@/components/UserView";
 import { Switch } from "@/components/ui/switch";
+import SessionTimer from "@/components/SessionTimer";
 
 export default function Main() {
   const [isAgentView, setIsAgentView] = useState(false);
 
   return (
-    <div className="flex flex-col h-screen bg-[#ED6A5E] p-2">
+    <>
+      <SessionTimer />
+      <div className="flex flex-col h-screen bg-[#ED6A5E] p-2">
       {/* Small screens */}
       <div className="flex gap-2 justify-center pt-2 pb-4 md:hidden">
         <div
@@ -60,6 +63,7 @@ export default function Main() {
           <AgentView />
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
