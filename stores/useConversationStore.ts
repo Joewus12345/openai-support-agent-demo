@@ -54,6 +54,10 @@ interface ConversationState {
   lastSearchResults: any[] | null;
   setLastSearchQuery: (query: string | null) => void;
   setLastSearchResults: (results: any[] | null) => void;
+
+  pendingMessages: any[];
+  addPendingMessage: (message: any) => void;
+  clearPendingMessages: () => void;
 }
 
 const useConversationStore = create<ConversationState>((set) => ({
@@ -77,6 +81,7 @@ const useConversationStore = create<ConversationState>((set) => ({
   composerText: "",
   lastSearchQuery: null,
   lastSearchResults: null,
+  pendingMessages: [],
   setUserTyping: (typing) => set({ userTyping: typing }),
   setAgentTyping: (typing) => set({ agentTyping: typing }),
   setAutoReply: (flag) => set({ autoReply: flag }),
@@ -102,7 +107,10 @@ const useConversationStore = create<ConversationState>((set) => ({
     })),
   setAnnotations: (annotations) => set({ annotations }),
   setLastSearchQuery: (query) => set({ lastSearchQuery: query }),
-  setLastSearchResults: (results) => set({ lastSearchResults: results })
+  setLastSearchResults: (results) => set({ lastSearchResults: results }),
+  addPendingMessage: (message) =>
+    set((state) => ({ pendingMessages: [...state.pendingMessages, message] })),
+  clearPendingMessages: () => set({ pendingMessages: [] }),
 }));
 
 export default useConversationStore;
