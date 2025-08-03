@@ -5,7 +5,7 @@ import { handleTool } from "@/lib/tools/tools-handling";
 import useConversationStore from "@/stores/useConversationStore";
 import { tools, ollamaTools } from "@/lib/tools/tools";
 import { Annotation } from "@/components/Annotations";
-import { functionsMap, create_ticket } from "@/config/functions";
+import { functionsMap, create_ticket, start_chat_session } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
 
@@ -216,6 +216,10 @@ export const processMessages = async () => {
     .reverse()
     .find((m) => (m as any).role === "user");
   const lastUserText = typeof lastUserMessage?.content === "string" ? lastUserMessage.content : "";
+  const ticketMatch = lastUserText.match(/#\d+\/\d{4}-\d{2}-\d{2}/);
+  if (!contactType && !contactId && ticketMatch) {
+    await start_chat_session({ ticket_id: ticketMatch[0] });
+  }
   const emailRefusalRegex = new RegExp(
     [
       "don['’]?t feel comfortable giving (?:you )?my email",

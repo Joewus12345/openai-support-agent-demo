@@ -89,6 +89,11 @@ test('emailRefusalRegex detects common refusal phrases', () => {
   assert.ok(emailRefusalRegex.test("I can't provide that info"));
 });
 
+test('ticket regex matches ticket ID', () => {
+  const ticketRegex = /#\d+\/\d{4}-\d{2}-\d{2}/;
+  assert.ok('#12345/2024-01-01'.match(ticketRegex));
+});
+
 test('DEVELOPER_PROMPT mentions ticket workflow', () => {
   const { DEVELOPER_PROMPT } = require('../config/constants');
   assert.match(
@@ -206,5 +211,49 @@ test('create_ticket includes user_id when profile updated', async () => {
     assert.strictEqual(ticketBody, '{"user_id":"cus_real"}');
   } finally {
     global.fetch = originalFetch;
+  }
+});
+
+test('start_chat_session triggered by ticket ID', async () => {
+  const { processMessages } = require('../lib/assistant');
+  const useDataStore = require('../stores/useDataStore').default;
+  const useConversationStore = require('../stores/useConversationStore').default;
+  const originalFetch = global.fetch;
+  let sessionBody;
+  global.fetch = async (url, options = {}) => {
+    if (url === '/api/sessions/start') {
+      sessionBody = options.body;
+      return new Response('{"user":{}}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    if (url === '/api/turn_response') {
+      return new Response('data: [DONE]\n\n', {
+        headers: { 'Content-Type': 'text/plain' },
+        status: 200,
+      });
+    }
+    return originalFetch(url, options);
+  };
+
+  try {
+    useDataStore.setState({ contactType: null, contactId: null });
+    useConversationStore.setState({
+      conversationItems: [
+        { role: 'user', content: '#12345/2024-01-01' },
+      ],
+    });
+    await processMessages();
+    assert.strictEqual(
+      sessionBody,
+      '{"email":"#12345/2024-01-01","ticket_id":"#12345/2024-01-01"}'
+    );
+    const state = useDataStore.getState();
+    assert.strictEqual(state.contactType, 'ticket');
+    assert.strictEqual(state.contactId, '#12345/2024-01-01');
+  } finally {
+    global.fetch = originalFetch;
+    useDataStore.setState({ contactType: null, contactId: null });
   }
 });
