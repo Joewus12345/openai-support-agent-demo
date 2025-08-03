@@ -32,9 +32,18 @@ export async function POST(
       data: { messages: updatedMessages },
     });
 
-    // Build simple summary from last few messages
-    const last = updatedMessages.slice(-5)
-      .map((m: any) => (m.content || "")).join(" ");
+    // Only generate and cache a summary once there are at least five messages
+    if (updatedMessages.length < 5) {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+      });
+    }
+
+    // Build simple summary from last five messages
+    const last = updatedMessages
+      .slice(-5)
+      .map((m: any) => m.content || "")
+      .join(" ");
     const summary = last.slice(0, 200);
 
     const key = identifier || session.user.email;
