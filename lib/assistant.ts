@@ -109,18 +109,25 @@ export const handleTurn = async (
       }),
     });
 
-    if (!response.ok) {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-      let message = "";
-      try {
-        const errorData = await response.json();
-        message =
-          errorData.message ||
-          errorData.error ||
-          "The assistant encountered an error. Please try again.";
-      } catch {
-        message = "The assistant encountered an error. Please try again.";
+    const contentType = response.headers.get("Content-Type") || "";
+    if (contentType.includes("application/json")) {
+      const data = await response.json();
+      if (data.guardrail) {
+        onMessage({ event: "error", data: { message: data.message } });
+        return;
       }
+      if (!response.ok) {
+        console.warn(`Error: ${response.status} - ${response.statusText}`);
+        const message =
+          data.message ||
+          data.error ||
+          "The assistant encountered an error. Please try again.";
+        onMessage({ event: "error", data: { message } });
+        return;
+      }
+    } else if (!response.ok) {
+      console.warn(`Error: ${response.status} - ${response.statusText}`);
+      const message = "The assistant encountered an error. Please try again.";
       onMessage({ event: "error", data: { message } });
       return;
     }
@@ -162,7 +169,7 @@ export const handleTurn = async (
       }
     }
   } catch (error) {
-    console.error("Error handling turn:", error);
+    console.warn("Error handling turn:", error);
     const message =
       error instanceof Error && error.message
         ? error.message
