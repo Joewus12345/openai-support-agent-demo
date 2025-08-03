@@ -93,7 +93,9 @@ export const handleTurn = async (
           ]
         : messages;
 
-    // Get response from the API (defined in app/api/turn_response/route.ts)
+    // Get response from the API (app/api/turn_response/route.ts).
+    // This endpoint streams the assistant's reply and persists the turn
+    // using saveSessionMessages on the server.
     const response = await fetch("/api/turn_response", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
