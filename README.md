@@ -203,13 +203,15 @@ This demo can store customer profiles and chat sessions in a local PostgreSQL da
    DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
    ```
 
-2. Run the migrations to create the tables:
+2. Run the migrations to create the tables (including the latest schema updates):
 
    ```bash
    npx prisma migrate deploy
    ```
 
-3. Configure Redis by setting `REDIS_URL` in your `.env` file:
+3. Start a Redis instance (for example, run `redis-server` locally or use Docker `docker run -p 6379:6379 redis`).
+
+4. Configure Redis by setting `REDIS_URL` in your `.env` file:
 
    ```bash
    REDIS_URL=redis://localhost:6379
