@@ -203,21 +203,34 @@ export const create_ticket = async ({
   user_id?: string;
 }) => {
   try {
-    const res = await fetch(`/api/tickets/create`, {
+    const response = await fetch(`/api/tickets/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ user_id }),
-    }).then((res) => res.json());
+    });
+
+    if (!response.ok) {
+      let message = `Request failed with status ${response.status}`;
+      try {
+        const err = await response.json();
+        if (err?.error) message = err.error;
+      } catch {
+        // ignore JSON parsing errors
+      }
+      throw new Error(message);
+    }
+
+    const res = await response.json();
     const { setContact } = useDataStore.getState();
     if (res?.ticket_id) {
       setContact({ contactType: "ticket", contactId: res.ticket_id });
     }
     return res.ticket_id;
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { error: "Failed to create ticket" };
+    return { error: error?.message || "Failed to create ticket" };
   }
 };
 

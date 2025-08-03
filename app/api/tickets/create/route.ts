@@ -32,6 +32,9 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify({ ticket_id }), { status: 200 });
   } catch (error) {
     console.error("Error creating ticket:", error);
-    return new Response("Error creating ticket", { status: 500 });
+    return new Response(
+      JSON.stringify({ error: "Error creating ticket" }),
+      { status: 500 }
+    );
   }
 }
