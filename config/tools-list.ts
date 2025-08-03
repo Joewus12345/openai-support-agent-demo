@@ -308,16 +308,26 @@ export const toolsList = [
     type: "function",
     function: {
       name: "start_chat_session",
-      description: "Reconnect to an existing chat session or create a new one",
+      description:
+        "Reconnect to an existing chat session using either the customer's email or a ticket ID, or create a new one",
       parameters: {
         type: "object",
         properties: {
-          email: { type: "string", description: "Email address of the customer" },
+          email: {
+            type: "string",
+            description:
+              "Email address of the customer (required if ticket_id is not provided)",
+          },
+          ticket_id: {
+            type: "string",
+            description:
+              "Ticket ID of an existing session (required if email is not provided)",
+          },
           name: { type: "string", description: "Full name of the customer" },
           phone: { type: "string", description: "Phone number" },
           address: { type: "string", description: "Street address" },
         },
-        required: ["email", "name", "phone", "address"],
+        // At least one of email or ticket_id must be provided
         additionalProperties: false,
       },
     },
