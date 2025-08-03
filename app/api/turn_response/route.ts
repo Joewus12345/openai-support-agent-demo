@@ -34,17 +34,18 @@ export async function POST(request: Request) {
     if (Array.isArray(messages)) {
       conversationInput = messages
         .filter((m) => m.role !== "developer")
-        .map((m) => {
-          const c = m.content;
-          return Array.isArray(c) ? c.join(" ") : String(c || "");
-        })
+        .map((m) =>
+          Array.isArray(m.content)
+            ? m.content.map((c: any) => c.text ?? "").join(" ")
+            : String(m.content || "")
+        )
         .join(" ");
     }
 
     if (lastMessage && lastMessage.role === "user") {
       const content = lastMessage.content;
       userInput = Array.isArray(content)
-        ? content.join(" ")
+        ? content.map((c: any) => c.text ?? "").join(" ")
         : String(content || "");
       relevance = await runRelevanceGuardrail({ input: conversationInput });
       console.log("Relevance guardrail result:", relevance);
