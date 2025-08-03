@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import { runRelevanceGuardrail, runJailbreakGuardrail } from "@/lib/guardrails";
 import { getProvider } from "@/lib/providers";
+import { saveSessionMessages } from "@/lib/server/saveSessionMessages";
 
 export async function POST(request: Request) {
   const start = Date.now();
   try {
-    const { messages, tools, provider, model } = await request.json();
+    const {
+      messages,
+      tools,
+      provider,
+      model,
+      session_id,
+      identifier,
+    } = await request.json();
     console.log("Received messages:", messages);
 
     const lastMessage =
@@ -59,16 +67,42 @@ export async function POST(request: Request) {
       async start(controller) {
         try {
           let first = true;
+          let assistantText = "";
           for await (const { event, data } of events) {
             if (first) {
               first = false;
               console.log("Model response latency:", Date.now() - start, "ms");
             }
+
+            if (
+              event === "response.output_text.delta" &&
+              typeof data?.delta === "string"
+            ) {
+              assistantText += data.delta;
+            }
+
             const payload = JSON.stringify({ event, data });
             controller.enqueue(`data: ${payload}\n\n`);
           }
+
           console.log("Total response time:", Date.now() - start, "ms");
           controller.close();
+
+          if (session_id && lastMessage) {
+            try {
+              const assistantMessage = {
+                role: "assistant",
+                content: assistantText,
+              } as any;
+              await saveSessionMessages(
+                session_id,
+                [lastMessage, assistantMessage],
+                identifier
+              );
+            } catch (err) {
+              console.error("Error saving session messages:", err);
+            }
+          }
         } catch (error) {
           console.error("Error in streaming loop:", error);
           controller.error(error);
