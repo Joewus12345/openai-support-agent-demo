@@ -23,6 +23,7 @@ Features:
 - Auto-execution of tool calls for non-sensitive actions
 - Optional auto reply mode to automatically send suggested messages
 - Filters out irrelevant questions and jailbreaking attempts
+- Idle sessions auto-close after 4 minutes, sending unsaved messages and marking the session as ended
 - Works with either `openai` or `ollama` providers. The built-in tools operate
   the same with both.
 
