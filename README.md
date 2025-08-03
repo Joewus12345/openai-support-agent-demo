@@ -28,6 +28,41 @@ Features:
 
 Feel free to customize this demo to suit your specific use case.
 
+## Getting Started
+
+1. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+2. **Configure environment:**
+
+   Create a `.env` file with your database connection string and Redis URL:
+
+   ```bash
+   DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
+   REDIS_URL=redis://localhost:6379
+   ```
+
+3. **Run database migrations:**
+
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+4. **Start Redis and the app:**
+
+   Start a Redis server (e.g. `redis-server` or `docker run -p 6379:6379 redis`) and then run:
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Ticket IDs in chats:**
+
+   When a customer does not share an email, the `create_ticket` tool generates a ticket ID in the format `#<index>/<date>` (for example `#1/2024-05-01`). The ID is stored with the chat session so the conversation can be resumed later using that ticket number.
+
 ## How to use
 
 1. **Set up the OpenAI API:**
