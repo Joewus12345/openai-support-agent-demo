@@ -94,11 +94,14 @@ export async function POST(request: Request) {
                 role: "assistant",
                 content: assistantText,
               } as any;
-              await saveSessionMessages(
+              const result = await saveSessionMessages(
                 session_id,
                 [lastMessage, assistantMessage],
                 identifier
               );
+              if (result && "error" in result) {
+                console.error("Error saving session messages:", result.error);
+              }
             } catch (err) {
               console.error("Error saving session messages:", err);
             }
