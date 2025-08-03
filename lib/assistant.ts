@@ -76,23 +76,33 @@ export const handleTurn = async (
   model?: string
 ) => {
   try {
-    const { contactType, contactId } = useDataStore.getState();
+    const { contactType, contactId, summary } = useDataStore.getState();
     const session_id = (useDataStore.getState() as any).sessionId;
+    const systemMessages: any[] = [];
+    if (summary) {
+      systemMessages.push({
+        role: "system",
+        content: [
+          {
+            type: "input_text",
+            text: `Previous conversation summary: ${summary}`,
+          },
+        ],
+      });
+    }
+    if (contactType === "ticket" && contactId) {
+      systemMessages.push({
+        role: "system",
+        content: [
+          {
+            type: "input_text",
+            text: `Customer refused to share an email and uses ticket ${contactId}.`,
+          },
+        ],
+      });
+    }
     const messagesWithTicket =
-      contactType === "ticket" && contactId
-        ? [
-            {
-              role: "system",
-              content: [
-                {
-                  type: "input_text",
-                  text: `Customer refused to share an email and uses ticket ${contactId}.`,
-                },
-              ],
-            },
-            ...messages,
-          ]
-        : messages;
+      systemMessages.length > 0 ? [...systemMessages, ...messages] : messages;
 
     // Get response from the API (app/api/turn_response/route.ts).
     // This endpoint streams the assistant's reply and persists the turn

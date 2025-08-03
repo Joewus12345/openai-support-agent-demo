@@ -48,6 +48,7 @@ interface DataState {
   additionalContext?: ContextItem[] | null;
   contactType: "email" | "ticket" | null;
   contactId: string | null;
+  summary: string | null;
   emailRefused: boolean;
   setCustomerDetails: (details: CustomerDetails) => void;
   setFAQExtracts: (searchResults: any[], provider?: string) => void;
@@ -58,6 +59,7 @@ interface DataState {
   setContact: (
     info: { contactType: "email" | "ticket"; contactId: string } | null
   ) => void;
+  setSummary: (summary: string | null) => void;
   setEmailRefused: (refused: boolean) => void;
 }
 
@@ -79,6 +81,7 @@ const useDataStore = create<DataState>((set) => ({
   additionalContext: null,
   contactType: null,
   contactId: null,
+  summary: null,
   emailRefused: false,
   setCustomerDetails: (details) => set({ customerDetails: details }),
   setFAQExtracts: (searchResults, provider?: string) => {
@@ -123,6 +126,7 @@ const useDataStore = create<DataState>((set) => ({
       contactType: info ? info.contactType : null,
       contactId: info ? info.contactId : null,
     }),
+  setSummary: (summary) => set({ summary }),
   setEmailRefused: (refused) => set({ emailRefused: refused }),
 }));
 

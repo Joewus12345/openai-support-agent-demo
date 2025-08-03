@@ -116,7 +116,11 @@ test('handleTurn prefixes ticket system message', async () => {
     });
   };
   try {
-    useDataStore.setState({ contactType: 'ticket', contactId: 'TICK123' });
+    useDataStore.setState({
+      contactType: 'ticket',
+      contactId: 'TICK123',
+      summary: null,
+    });
     const messages = [
       { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
     ];
@@ -125,7 +129,42 @@ test('handleTurn prefixes ticket system message', async () => {
     assert.match(body.messages[0].content[0].text, /TICK123/);
   } finally {
     global.fetch = originalFetch;
-    useDataStore.setState({ contactType: null, contactId: null });
+    useDataStore.setState({ contactType: null, contactId: null, summary: null });
+  }
+});
+
+test('handleTurn prefixes summary before ticket message', async () => {
+  const { handleTurn } = require('../lib/assistant');
+  const useDataStore = require('../stores/useDataStore').default;
+  const originalFetch = global.fetch;
+  let body;
+  global.fetch = async (_url, options) => {
+    body = JSON.parse(options.body);
+    return new Response('data: [DONE]\n\n', {
+      headers: { 'Content-Type': 'text/plain' },
+      status: 200,
+    });
+  };
+  try {
+    useDataStore.setState({
+      contactType: 'ticket',
+      contactId: 'TICK123',
+      summary: 'old summary',
+    });
+    const messages = [
+      { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
+    ];
+    await handleTurn(messages, () => {});
+    assert.strictEqual(body.messages[0].role, 'system');
+    assert.match(
+      body.messages[0].content[0].text,
+      /Previous conversation summary: old summary/
+    );
+    assert.strictEqual(body.messages[1].role, 'system');
+    assert.match(body.messages[1].content[0].text, /TICK123/);
+  } finally {
+    global.fetch = originalFetch;
+    useDataStore.setState({ contactType: null, contactId: null, summary: null });
   }
 });
 
@@ -223,7 +262,7 @@ test('start_chat_session triggered by ticket ID', async () => {
   global.fetch = async (url, options = {}) => {
     if (url === '/api/sessions/start') {
       sessionBody = options.body;
-      return new Response('{"user":{}}', {
+      return new Response('{"user":{},"summary":"old summary"}', {
         headers: { 'Content-Type': 'application/json' },
         status: 200,
       });
@@ -238,7 +277,7 @@ test('start_chat_session triggered by ticket ID', async () => {
   };
 
   try {
-    useDataStore.setState({ contactType: null, contactId: null });
+    useDataStore.setState({ contactType: null, contactId: null, summary: null });
     useConversationStore.setState({
       conversationItems: [
         { role: 'user', content: '#12345/2024-01-01' },
@@ -252,8 +291,9 @@ test('start_chat_session triggered by ticket ID', async () => {
     const state = useDataStore.getState();
     assert.strictEqual(state.contactType, 'ticket');
     assert.strictEqual(state.contactId, '#12345/2024-01-01');
+    assert.strictEqual(state.summary, 'old summary');
   } finally {
     global.fetch = originalFetch;
-    useDataStore.setState({ contactType: null, contactId: null });
+    useDataStore.setState({ contactType: null, contactId: null, summary: null });
   }
 });
