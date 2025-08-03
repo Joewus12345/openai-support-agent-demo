@@ -6,6 +6,9 @@ export async function saveSessionMessages(
   messages: any[],
   identifier?: string
 ) {
+  if (!Array.isArray(messages)) {
+    return { error: "Messages must be an array" };
+  }
   try {
     const session = await prisma.chatSession.findUnique({
       where: { id: session_id },
