@@ -28,6 +28,14 @@ Features:
 
 Feel free to customize this demo to suit your specific use case.
 
+## Project structure
+
+- `app/` for Next.js routes & API handlers
+- `components/` for UI components
+- `stores/` for state management (e.g., `useConversationStore`)
+- `scripts/` for maintenance tasks like `cleanupSessions.ts`
+- `prisma/` for schema & migrations, etc.
+
 ## Getting Started
 
 1. **Install dependencies:**
