@@ -3,6 +3,11 @@ import { runRelevanceGuardrail, runJailbreakGuardrail } from "@/lib/guardrails";
 import { getProvider } from "@/lib/providers";
 import { saveSessionMessages } from "@/lib/server/saveSessionMessages";
 
+/**
+ * Handle a single conversation turn and stream the model response.
+ * When a `session_id` is provided, messages are persisted using
+ * `saveSessionMessages` so they can be retrieved later.
+ */
 export async function POST(request: Request) {
   const start = Date.now();
   try {
