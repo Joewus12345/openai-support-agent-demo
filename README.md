@@ -252,7 +252,7 @@ This demo can store customer profiles and chat sessions in a local PostgreSQL da
    REDIS_URL=redis://localhost:6379
    ```
 
-The new API endpoints under `/api/users`, `/api/sessions/start`, and `/api/sessions/[session_id]/save` allow the agent to create or retrieve customer records, manage chat sessions, and store conversation history using this database and Redis.
+The new API endpoints under `/api/users` and `/api/sessions/start` allow the agent to create or retrieve customer records, manage chat sessions, and store conversation history using this database and Redis.
 
 ## Contributing
 
