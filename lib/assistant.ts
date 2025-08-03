@@ -1,4 +1,5 @@
 import { DEVELOPER_PROMPT } from "@/config/constants";
+import { CUSTOMER_DETAILS } from "@/config/demoData";
 import { parse } from "partial-json";
 import { handleTool } from "@/lib/tools/tools-handling";
 import useConversationStore from "@/stores/useConversationStore";
@@ -232,7 +233,8 @@ export const processMessages = async () => {
   ) {
     setEmailRefused(true);
     const userId = customerDetails?.id;
-    const params = userId ? { user_id: userId } : {};
+    const params =
+      userId && userId !== CUSTOMER_DETAILS.id ? { user_id: userId } : {};
     await create_ticket(params);
   }
 
