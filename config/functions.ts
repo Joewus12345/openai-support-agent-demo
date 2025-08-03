@@ -347,7 +347,8 @@ export const start_chat_session = async ({
       body: JSON.stringify({ email: identifier, ticket_id, name, phone, address }),
     }).then((res) => res.json());
     if (res.user && !res.user.error) {
-      const { setCustomerDetails, setContact } = useDataStore.getState();
+      const { setCustomerDetails, setContact, setSummary } =
+        useDataStore.getState();
       setCustomerDetails(setDetailsFromUser(res.user));
       if (identifier) {
         setContact({
@@ -355,6 +356,7 @@ export const start_chat_session = async ({
           contactId: identifier,
         });
       }
+      setSummary(res.summary || null);
     }
     return res;
   } catch (error) {
