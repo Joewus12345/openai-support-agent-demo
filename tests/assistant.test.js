@@ -123,3 +123,45 @@ test('handleTurn prefixes ticket system message', async () => {
     useDataStore.setState({ contactType: null, contactId: null });
   }
 });
+
+test('create_ticket called without user_id when profile missing', async () => {
+  const { processMessages } = require('../lib/assistant');
+  const useDataStore = require('../stores/useDataStore').default;
+  const useConversationStore = require('../stores/useConversationStore').default;
+  const originalFetch = global.fetch;
+  let ticketBody;
+  global.fetch = async (url, options = {}) => {
+    if (url === '/api/tickets/create') {
+      ticketBody = options.body;
+      return new Response('{"ticket_id":"T1"}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    if (url === '/api/turn_response') {
+      return new Response('data: [DONE]\n\n', {
+        headers: { 'Content-Type': 'text/plain' },
+        status: 200,
+      });
+    }
+    return originalFetch(url, options);
+  };
+
+  try {
+    useDataStore.setState({
+      contactType: null,
+      contactId: null,
+      emailRefused: false,
+      customerDetails: {},
+    });
+    useConversationStore.setState({
+      conversationItems: [
+        { role: 'user', content: 'No, I won\'t provide that info' },
+      ],
+    });
+    await processMessages();
+    assert.strictEqual(ticketBody, '{}');
+  } finally {
+    global.fetch = originalFetch;
+  }
+});

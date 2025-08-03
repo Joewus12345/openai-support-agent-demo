@@ -231,7 +231,9 @@ export const processMessages = async () => {
     emailRefusalRegex.test(lastUserText)
   ) {
     setEmailRefused(true);
-    await create_ticket({ user_id: customerDetails.id });
+    const userId = customerDetails?.id;
+    const params = userId ? { user_id: userId } : {};
+    await create_ticket(params);
   }
 
   let toolSet: any[] =
