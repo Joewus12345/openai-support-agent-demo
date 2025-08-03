@@ -38,12 +38,15 @@ Feel free to customize this demo to suit your specific use case.
 
 2. **Configure environment:**
 
-   Create a `.env` file with your database connection string and Redis URL:
+   Create a `.env` file with your database connection string, Redis URL, and session retention setting:
 
    ```bash
    DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
    REDIS_URL=redis://localhost:6379
+   SESSION_RETENTION_DAYS=30 # How many days to retain ended sessions
    ```
+
+   `SESSION_RETENTION_DAYS` controls how long ended sessions are kept before cleanup (defaults to 30 days).
 
 3. **Run database migrations:**
 
@@ -253,6 +256,12 @@ This demo can store customer profiles and chat sessions in a local PostgreSQL da
    ```
 
 The new API endpoints under `/api/users` and `/api/sessions/start` allow the agent to create or retrieve customer records, manage chat sessions, and store conversation history using this database and Redis. During each turn, `/api/turn_response` persists messages via `saveSessionMessages`, so a separate `/api/sessions/[session_id]/save` call is no longer required.
+
+## Session lifecycle & cleanup
+
+- Sessions automatically end after 4 minutes of inactivity.
+- Run `npm run cleanup:sessions` to remove ended sessions older than the number of days specified in `SESSION_RETENTION_DAYS`.
+- By default, sessions are retained for 30 days. Change the value of `SESSION_RETENTION_DAYS` in your `.env` file to adjust the retention period.
 
 ## Contributing
 
