@@ -31,6 +31,8 @@ test('create ticket route success returns JSON', async () => {
 
 test('create ticket route error returns JSON', async () => {
   const originalCount = prisma.ticket.count;
+  const originalError = console.error;
+  console.error = () => {};
   prisma.ticket.count = async () => {
     throw new Error('db error');
   };
@@ -46,6 +48,7 @@ test('create ticket route error returns JSON', async () => {
     assert.deepStrictEqual(data, { error: 'Error creating ticket' });
   } finally {
     prisma.ticket.count = originalCount;
+    console.error = originalError;
   }
 });
 
@@ -71,6 +74,8 @@ test('create_ticket handles success', async () => {
 
 test('create_ticket surfaces API errors', async () => {
   const originalFetch = global.fetch;
+  const originalError = console.error;
+  console.error = () => {};
   global.fetch = async () =>
     new Response(JSON.stringify({ error: 'Error creating ticket' }), {
       status: 500,
@@ -81,5 +86,6 @@ test('create_ticket surfaces API errors', async () => {
     assert.deepStrictEqual(result, { error: 'Error creating ticket' });
   } finally {
     global.fetch = originalFetch;
+    console.error = originalError;
   }
 });
