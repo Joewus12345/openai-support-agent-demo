@@ -73,3 +73,18 @@ test('suggestedMessage cleared after tool call', () => {
   assert.strictEqual(conversationItems.length, 1);
   assert.strictEqual(suggestedMessage, null);
 });
+
+test('emailRefusalRegex detects common refusal phrases', () => {
+  const emailRefusalRegex = new RegExp(
+    [
+      "don['’]?t feel comfortable giving (?:you )?my email",
+      "i don['’]?t want to",
+      "i can['’]?t provide that info(?:rmation)?",
+      "no[,\\s]*i won['’]?t",
+    ].join('|'),
+    'i',
+  );
+  assert.ok(emailRefusalRegex.test("No I won't"));
+  assert.ok(emailRefusalRegex.test("I don't want to"));
+  assert.ok(emailRefusalRegex.test("I can't provide that info"));
+});

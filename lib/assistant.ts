@@ -215,7 +215,15 @@ export const processMessages = async () => {
     .reverse()
     .find((m) => (m as any).role === "user");
   const lastUserText = typeof lastUserMessage?.content === "string" ? lastUserMessage.content : "";
-  const emailRefusalRegex = /don['’]?t feel comfortable giving (?:you )?my email/i;
+  const emailRefusalRegex = new RegExp(
+    [
+      "don['’]?t feel comfortable giving (?:you )?my email",
+      "i don['’]?t want to",
+      "i can['’]?t provide that info(?:rmation)?",
+      "no[,\\s]*i won['’]?t",
+    ].join("|"),
+    "i",
+  );
   if (
     !contactType &&
     !contactId &&
