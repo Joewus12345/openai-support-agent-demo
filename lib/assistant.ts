@@ -76,6 +76,7 @@ export const handleTurn = async (
 ) => {
   try {
     const { contactType, contactId } = useDataStore.getState();
+    const session_id = (useDataStore.getState() as any).sessionId;
     const messagesWithTicket =
       contactType === "ticket" && contactId
         ? [
@@ -101,6 +102,8 @@ export const handleTurn = async (
         tools: toolsArg,
         provider,
         model,
+        session_id,
+        identifier: contactId,
       }),
     });
 
