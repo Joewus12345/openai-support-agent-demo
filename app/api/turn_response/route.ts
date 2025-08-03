@@ -59,9 +59,10 @@ export async function POST(request: Request) {
       });
       return NextResponse.json(
         {
+          guardrail: true,
           message: "Sorry, I can't help with that request.",
         },
-        { status: 400 }
+        { status: 200 }
       );
     }
 
