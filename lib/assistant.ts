@@ -75,16 +75,16 @@ export const handleTurn = async (
   model?: string
 ) => {
   try {
-    const { emailRefused, ticketId } = useDataStore.getState();
+    const { contactType, contactId } = useDataStore.getState();
     const messagesWithTicket =
-      emailRefused && ticketId
+      contactType === "ticket" && contactId
         ? [
             {
               role: "system",
               content: [
                 {
                   type: "input_text",
-                  text: `Customer refused to share an email and uses ticket ${ticketId}.`,
+                  text: `Customer refused to share an email and uses ticket ${contactId}.`,
                 },
               ],
             },

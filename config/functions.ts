@@ -210,10 +210,9 @@ export const create_ticket = async ({
       },
       body: JSON.stringify({ user_id }),
     }).then((res) => res.json());
-    const { setTicketId, setEmailRefused } = useDataStore.getState();
+    const { setContact } = useDataStore.getState();
     if (res?.ticket_id) {
-      setTicketId(res.ticket_id);
-      setEmailRefused(true);
+      setContact({ contactType: "ticket", contactId: res.ticket_id });
     }
     return res.ticket_id;
   } catch (error) {
@@ -245,8 +244,15 @@ export const update_info = async ({
     }).then((res) => res.json());
 
     if (res && res.updated) {
-      const { customerDetails, setCustomerDetails } = useDataStore.getState();
+      const {
+        customerDetails,
+        setCustomerDetails,
+        setContact,
+      } = useDataStore.getState();
       setCustomerDetails({ ...customerDetails, ...res.updated });
+      if (email) {
+        setContact({ contactType: "email", contactId: email });
+      }
     }
 
     return res;
@@ -264,7 +270,9 @@ export const get_user_profile = async ({ email }: { email: string }) => {
       (res) => res.json()
     );
     if (!user.error) {
-      useDataStore.getState().setCustomerDetails(setDetailsFromUser(user));
+      const { setCustomerDetails, setContact } = useDataStore.getState();
+      setCustomerDetails(setDetailsFromUser(user));
+      setContact({ contactType: "email", contactId: email });
     }
     return user;
   } catch (error) {
@@ -293,7 +301,9 @@ export const create_user_profile = async ({
       body: JSON.stringify({ email, name, phone, address }),
     }).then((res) => res.json());
     if (!user.error) {
-      useDataStore.getState().setCustomerDetails(setDetailsFromUser(user));
+      const { setCustomerDetails, setContact } = useDataStore.getState();
+      setCustomerDetails(setDetailsFromUser(user));
+      setContact({ contactType: "email", contactId: email });
     }
     return user;
   } catch (error) {
@@ -324,7 +334,14 @@ export const start_chat_session = async ({
       body: JSON.stringify({ email: identifier, ticket_id, name, phone, address }),
     }).then((res) => res.json());
     if (res.user && !res.user.error) {
-      useDataStore.getState().setCustomerDetails(setDetailsFromUser(res.user));
+      const { setCustomerDetails, setContact } = useDataStore.getState();
+      setCustomerDetails(setDetailsFromUser(res.user));
+      if (identifier) {
+        setContact({
+          contactType: email ? "email" : "ticket",
+          contactId: identifier,
+        });
+      }
     }
     return res;
   } catch (error) {

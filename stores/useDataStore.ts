@@ -46,16 +46,17 @@ interface DataState {
   relevantArticlesError: string | null;
   relevantArticlesLoading: boolean;
   additionalContext?: ContextItem[] | null;
-  ticketId: string | null;
-  emailRefused: boolean;
+  contactType: "email" | "ticket" | null;
+  contactId: string | null;
   setCustomerDetails: (details: CustomerDetails) => void;
   setFAQExtracts: (searchResults: any[], provider?: string) => void;
   setRelevantArticlesError: (error: string | null) => void;
   setAdditionalContext: (context: ContextItem[]) => void;
   setRelevantArticlesLoading: (loading: boolean) => void;
   addContextItem: (item: ContextItem) => void;
-  setTicketId: (id: string | null) => void;
-  setEmailRefused: (refused: boolean) => void;
+  setContact: (
+    info: { contactType: "email" | "ticket"; contactId: string } | null
+  ) => void;
 }
 
 const getFileUrl = (type: string, filename: string) => {
@@ -74,8 +75,8 @@ const useDataStore = create<DataState>((set) => ({
   relevantArticlesError: null,
   relevantArticlesLoading: false,
   additionalContext: null,
-  ticketId: null,
-  emailRefused: false,
+  contactType: null,
+  contactId: null,
   setCustomerDetails: (details) => set({ customerDetails: details }),
   setFAQExtracts: (searchResults, provider?: string) => {
     console.log("searchResults", searchResults);
@@ -114,8 +115,11 @@ const useDataStore = create<DataState>((set) => ({
     })),
   setRelevantArticlesLoading: (loading) =>
     set({ relevantArticlesLoading: loading }),
-  setTicketId: (id) => set({ ticketId: id }),
-  setEmailRefused: (refused) => set({ emailRefused: refused }),
+  setContact: (info) =>
+    set({
+      contactType: info ? info.contactType : null,
+      contactId: info ? info.contactId : null,
+    }),
 }));
 
 export default useDataStore;
