@@ -35,6 +35,7 @@
     "next": "^15.2.3",
     "ollama": "^0.5.16",
     "openai": "^4.87.3",
+    "p-limit": "^6.2.0",
     "partial-json": "^0.1.7",
     "react": "^18",
     "react-dom": "^18",
