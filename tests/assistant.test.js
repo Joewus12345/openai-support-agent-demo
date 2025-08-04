@@ -77,9 +77,9 @@ test('suggestedMessage cleared after tool call', () => {
 test('emailRefusalRegex detects common refusal phrases', () => {
   const emailRefusalRegex = new RegExp(
     [
-      "don['’]?t feel comfortable giving (?:you )?my email",
+      "don['’]?t feel comfortable giving (?:you )?my e[-\\s]?mail(?: address)?",
       "i don['’]?t want to",
-      "i can['’]?t provide that info(?:rmation)?",
+      "i can['’]?t provide (?:that info(?:rmation)?|my e[-\\s]?mail(?: address)?)",
       "no[,\\s]*i won['’]?t",
     ].join('|'),
     'i',
@@ -87,6 +87,14 @@ test('emailRefusalRegex detects common refusal phrases', () => {
   assert.ok(emailRefusalRegex.test("No I won't"));
   assert.ok(emailRefusalRegex.test("I don't want to"));
   assert.ok(emailRefusalRegex.test("I can't provide that info"));
+  assert.ok(
+    emailRefusalRegex.test(
+      "I don't feel comfortable giving you my email address"
+    )
+  );
+  assert.ok(
+    emailRefusalRegex.test("I can't provide my e-mail address")
+  );
 });
 
 test('ticket regex matches ticket ID', () => {
