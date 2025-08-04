@@ -187,6 +187,11 @@ When using the `ollama` provider you need a local server running.
    while the local store powers file search when using the `ollama` provider.
    Both stores can exist side by side.
 
+   By default, local search returns up to 5 results with a cosine similarity
+   threshold of 0.5. Pass a `threshold` option to adjust the cutoff or set
+   `topKOnly: true` to ignore the threshold and rely solely on the highest
+   scoring `limit` matches.
+
 ## Demo Flow
 
 To try out the demo, you can ask questions that will trigger a file search.

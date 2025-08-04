@@ -35,7 +35,7 @@ export async function search_knowledge_base({
       const arrays = await Promise.all(
         searchParts.map(async (q) => {
           if (provider === 'ollama' || provider === 'ollama-openai') {
-            return await localVectorStore.search(q, max_results);
+            return await localVectorStore.search(q, { limit: max_results });
           }
 
           const res = await fileSearch({ query: q, provider });
