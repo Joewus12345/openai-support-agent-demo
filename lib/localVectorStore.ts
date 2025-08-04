@@ -4,6 +4,7 @@ import crypto from "crypto";
 import ollama from "ollama";
 import { KB_FOLDERS } from "@/config/demoData";
 import cleanMarkdown from "./cleanMarkdown";
+import { splitText } from "./textSplitter";
 
 const STORE_PATH = path.join(process.cwd(), "data", "local_vector_store.json");
 
@@ -74,11 +75,9 @@ class LocalVectorStore {
         } else {
           cleaned = cleanMarkdown(raw);
         }
-        const words = cleaned.split(/\s+/);
-        const CHUNK_SIZE = 500; // adjust up to 1000 if desired
+        const chunks = await splitText(cleaned);
         let index = 0;
-        for (let i = 0; i < words.length; i += CHUNK_SIZE) {
-          const chunk = words.slice(i, i + CHUNK_SIZE).join(" ");
+        for (const chunk of chunks) {
           const embedding = await this.embedding(chunk);
           this.store.push({
             id: crypto.randomUUID(),
