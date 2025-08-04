@@ -108,25 +108,32 @@ class LocalVectorStore {
             console.log(
               `Embedding chunk ${current}/${totalChunks} from ${file}`
             );
-            const embedding = await this.embedding(chunk);
-            this.store.push({
-              id: crypto.randomUUID(),
-              embedding,
-              text: chunk,
-              attributes: {
-                type: folder,
-                filename: file.replace(/\.(md|json)$/, ""),
-                filepath: `/public/${folder}/${file}`,
-                chunk: idx,
-                overlap,
-              },
-            });
+            try {
+              const embedding = await this.embedding(chunk);
+              this.store.push({
+                id: crypto.randomUUID(),
+                embedding,
+                text: chunk,
+                attributes: {
+                  type: folder,
+                  filename: file.replace(/\.(md|json)$/, ""),
+                  filepath: `/public/${folder}/${file}`,
+                  chunk: idx,
+                  overlap,
+                },
+              });
+            } catch (err) {
+              console.error(
+                `Failed to embed chunk ${current}/${totalChunks} from ${file}:`,
+                err
+              );
+            }
           })
         );
       });
     }
     const filesProcessed = filesData.length;
-    await Promise.all(tasks);
+    await Promise.allSettled(tasks);
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
     console.log(
       `Processed ${filesProcessed} files and ${chunksProcessed} chunks in parallel. Writing local vector store...`
