@@ -28,7 +28,7 @@ Be attentive to what happens after to communicate the outcome to the customer.
 
 // Initial message that will be displayed in the chat
 export const INITIAL_MESSAGE = `
-Hi, I'm ${AGENT_NAME}, your support representative. How can I help you today? If you'd rather stay anonymous, I can create a ticket instead of using your email.
+Hi, I'm ${AGENT_NAME}, your support representative. How can I help you today?
 `;
 
 // Replace with the vector store ID you get after initializing the vector store
