@@ -6,6 +6,7 @@ import { KB_FOLDERS } from "@/config/demoData";
 import { TEXT_SPLITTER_CONFIG } from "@/config/vectorStore";
 import cleanMarkdown from "./cleanMarkdown";
 import { splitText } from "./textSplitter";
+import pLimit from "p-limit";
 
 const STORE_PATH = path.join(process.cwd(), "data", "local_vector_store.json");
 
@@ -97,37 +98,35 @@ class LocalVectorStore {
     }
 
     let chunksProcessed = 0;
-    let filesProcessed = 0;
+    const limit = pLimit(concurrency > 0 ? concurrency : totalChunks || 1);
+    const tasks: Promise<void>[] = [];
     for (const { folder, file, joinedChunks, overlap } of filesData) {
-      let index = 0;
-      const batchSize = concurrency > 0 ? concurrency : joinedChunks.length;
-      for (let i = 0; i < joinedChunks.length; i += batchSize) {
-        const batch = joinedChunks.slice(i, i + batchSize);
-        console.log(
-          `Embedding batch of ${batch.length} chunks in parallel (${chunksProcessed + batch.length}/${totalChunks}) from ${file}`
+      joinedChunks.forEach((chunk, idx) => {
+        tasks.push(
+          limit(async () => {
+            const current = ++chunksProcessed;
+            console.log(
+              `Embedding chunk ${current}/${totalChunks} from ${file}`
+            );
+            const embedding = await this.embedding(chunk);
+            this.store.push({
+              id: crypto.randomUUID(),
+              embedding,
+              text: chunk,
+              attributes: {
+                type: folder,
+                filename: file.replace(/\.(md|json)$/, ""),
+                filepath: `/public/${folder}/${file}`,
+                chunk: idx,
+                overlap,
+              },
+            });
+          })
         );
-        const embeddings = await Promise.all(
-          batch.map((chunk) => this.embedding(chunk))
-        );
-        embeddings.forEach((embedding, j) => {
-          const chunk = batch[j];
-          this.store.push({
-            id: crypto.randomUUID(),
-            embedding,
-            text: chunk,
-            attributes: {
-              type: folder,
-              filename: file.replace(/\.(md|json)$/, ""),
-              filepath: `/public/${folder}/${file}`,
-              chunk: index++,
-              overlap,
-            },
-          });
-        });
-        chunksProcessed += batch.length;
-      }
-      filesProcessed++;
+      });
     }
+    const filesProcessed = filesData.length;
+    await Promise.all(tasks);
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
     console.log(
       `Processed ${filesProcessed} files and ${chunksProcessed} chunks in parallel. Writing local vector store...`
