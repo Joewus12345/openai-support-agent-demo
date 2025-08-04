@@ -3,6 +3,7 @@ import path from "path";
 import crypto from "crypto";
 import ollama from "ollama";
 import { KB_FOLDERS } from "@/config/demoData";
+import { TEXT_SPLITTER_CONFIG } from "@/config/vectorStore";
 import cleanMarkdown from "./cleanMarkdown";
 import { splitText } from "./textSplitter";
 
@@ -17,6 +18,7 @@ interface Entry {
     filename: string;
     filepath: string;
     chunk?: number;
+    overlap?: number;
   };
 }
 
@@ -76,8 +78,15 @@ class LocalVectorStore {
           cleaned = cleanMarkdown(raw);
         }
         const chunks = await splitText(cleaned);
+        const overlap = TEXT_SPLITTER_CONFIG.chunkOverlap;
+        const joinedChunks = chunks.map((chunk, i) => {
+          if (i === 0) return chunk;
+          const prevWords = chunks[i - 1].split(/\s+/);
+          const overlapWords = prevWords.slice(-overlap).join(" ");
+          return `${overlapWords} ${chunk}`.trim();
+        });
         let index = 0;
-        for (const chunk of chunks) {
+        for (const chunk of joinedChunks) {
           const embedding = await this.embedding(chunk);
           this.store.push({
             id: crypto.randomUUID(),
@@ -88,6 +97,7 @@ class LocalVectorStore {
               filename: file.replace(/\.(md|json)$/, ""),
               filepath: `/public/${folder}/${file}`,
               chunk: index++,
+              overlap,
             },
           });
           chunksProcessed++;
