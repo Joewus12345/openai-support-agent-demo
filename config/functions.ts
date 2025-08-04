@@ -226,6 +226,7 @@ export const create_ticket = async ({
     const { setContact } = useDataStore.getState();
     if (res?.ticket_id) {
       setContact({ contactType: "ticket", contactId: res.ticket_id });
+      await start_chat_session({ ticket_id: res.ticket_id });
     }
     return res.ticket_id;
   } catch (error: any) {
@@ -346,9 +347,12 @@ export const start_chat_session = async ({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: identifier, ticket_id, name, phone, address }),
     }).then((res) => res.json());
+    const { setCustomerDetails, setContact, setSummary, setSessionId } =
+      useDataStore.getState();
+    if (res.session?.id) {
+      setSessionId(res.session.id);
+    }
     if (res.user && !res.user.error) {
-      const { setCustomerDetails, setContact, setSummary } =
-        useDataStore.getState();
       setCustomerDetails(setDetailsFromUser(res.user));
       if (identifier) {
         setContact({
