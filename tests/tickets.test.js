@@ -16,7 +16,7 @@ test('create ticket route success returns JSON', async () => {
   try {
     const req = new Request('http://localhost', {
       method: 'POST',
-      body: JSON.stringify({ user_id: 'u1' }),
+      body: JSON.stringify({}),
     });
     const res = await POST(req);
     assert.strictEqual(res.status, 200);
@@ -39,7 +39,7 @@ test('create ticket route error returns JSON', async () => {
   try {
     const req = new Request('http://localhost', {
       method: 'POST',
-      body: JSON.stringify({ user_id: 'u1' }),
+      body: JSON.stringify({}),
     });
     const res = await POST(req);
     assert.strictEqual(res.status, 500);
@@ -61,8 +61,8 @@ test('create_ticket handles success', async () => {
     });
   try {
     useDataStore.setState({ contactType: null, contactId: null });
-    const result = await create_ticket({ user_id: 'u1' });
-    assert.strictEqual(result, 'T1');
+    const result = await create_ticket();
+    assert.strictEqual(result, 'Your ticket ID is T1');
     const state = useDataStore.getState();
     assert.strictEqual(state.contactType, 'ticket');
     assert.strictEqual(state.contactId, 'T1');
@@ -82,7 +82,7 @@ test('create_ticket surfaces API errors', async () => {
       headers: { 'Content-Type': 'application/json' },
     });
   try {
-    const result = await create_ticket({ user_id: 'u1' });
+    const result = await create_ticket();
     assert.deepStrictEqual(result, { error: 'Error creating ticket' });
   } finally {
     global.fetch = originalFetch;

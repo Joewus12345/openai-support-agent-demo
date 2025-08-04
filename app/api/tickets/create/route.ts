@@ -1,9 +1,7 @@
 import prisma from "@/lib/prisma";
 
-export async function POST(request: Request) {
+export async function POST() {
   try {
-    const { user_id } = await request.json();
-
     const start = new Date();
     start.setUTCHours(0, 0, 0, 0);
     const end = new Date();
@@ -25,7 +23,6 @@ export async function POST(request: Request) {
     await prisma.ticket.create({
       data: {
         ticket: ticket_id,
-        userId: user_id || null,
       },
     });
 

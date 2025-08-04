@@ -236,12 +236,7 @@ export const toolsList = [
         "Generate a session ticket for customers without an email.",
       parameters: {
         type: "object",
-        properties: {
-          user_id: {
-            type: "string",
-            description: "User ID to link the session with, if available",
-          },
-        },
+        properties: {},
         additionalProperties: false,
       },
     },
