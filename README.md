@@ -60,6 +60,7 @@ Feel free to customize this demo to suit your specific use case.
 3. **Run database migrations:**
 
    ```bash
+   npx prisma generate
    npx prisma migrate deploy
    ```
 
