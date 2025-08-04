@@ -27,13 +27,8 @@ export async function saveSessionMessages(
       where: { id: session_id },
       data: { messages: updatedMessages },
     });
-
-    if (updatedMessages.length < 5) {
-      return { success: true };
-    }
-
     const last = updatedMessages
-      .slice(-5)
+      .slice(-Math.min(updatedMessages.length, 5))
       .map((m: any) => m.content || "")
       .join(" ");
     const summary = last.slice(0, 200);
