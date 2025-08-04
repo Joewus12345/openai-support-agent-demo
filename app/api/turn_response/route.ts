@@ -47,21 +47,13 @@ export async function POST(request: Request) {
       userInput = Array.isArray(content)
         ? content.map((c: any) => c.text ?? "").join(" ")
         : String(content || "");
-
-      const ticketRegex = /#[0-9]+\/[0-9]{4}-[0-9]{2}-[0-9]{2}/g;
-      const hasTicket = ticketRegex.test(conversationInput);
-      const sanitizedConversation = conversationInput.replace(ticketRegex, "");
-      if (hasTicket) {
-        console.log(
-          "Ticket detected, running relevance guardrail on sanitized conversation"
-        );
-      }
-      relevance = await runRelevanceGuardrail({ input: sanitizedConversation });
-      console.log("Relevance guardrail result:", relevance);
-
-      jailbreak = await runJailbreakGuardrail({ input: userInput });
-      console.log("Jailbreak guardrail result:", jailbreak);
     }
+
+    relevance = await runRelevanceGuardrail({ input: conversationInput });
+    console.log("Relevance guardrail result:", relevance);
+
+    jailbreak = await runJailbreakGuardrail({ input: userInput });
+    console.log("Jailbreak guardrail result:", jailbreak);
 
     if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
       console.log("Guardrail triggered", {
