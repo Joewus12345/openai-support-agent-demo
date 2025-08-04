@@ -197,18 +197,14 @@ export const create_complaint = async ({
   }
 };
 
-export const create_ticket = async ({
-  user_id,
-}: {
-  user_id?: string;
-}) => {
+export const create_ticket = async () => {
   try {
     const response = await fetch(`/api/tickets/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id }),
+      body: JSON.stringify({}),
     });
 
     if (!response.ok) {
@@ -227,8 +223,9 @@ export const create_ticket = async ({
     if (res?.ticket_id) {
       setContact({ contactType: "ticket", contactId: res.ticket_id });
       await start_chat_session({ ticket_id: res.ticket_id });
+      return `Your ticket ID is ${res.ticket_id}`;
     }
-    return res.ticket_id;
+    return { error: "Failed to create ticket" };
   } catch (error: any) {
     console.error(error);
     return { error: error?.message || "Failed to create ticket" };

@@ -168,7 +168,7 @@ test('handleTurn prefixes summary before ticket message', async () => {
   }
 });
 
-test('create_ticket called without user_id when using placeholder ID', async () => {
+test('create_ticket sends empty body when using placeholder ID', async () => {
   const { processMessages } = require('../lib/assistant');
   const { CUSTOMER_DETAILS } = require('../config/demoData');
   const useDataStore = require('../stores/useDataStore').default;
@@ -179,6 +179,12 @@ test('create_ticket called without user_id when using placeholder ID', async () 
     if (url === '/api/tickets/create') {
       ticketBody = options.body;
       return new Response('{"ticket_id":"T1"}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    if (url === '/api/sessions/start') {
+      return new Response('{}', {
         headers: { 'Content-Type': 'application/json' },
         status: 200,
       });
@@ -211,7 +217,7 @@ test('create_ticket called without user_id when using placeholder ID', async () 
   }
 });
 
-test('create_ticket includes user_id when profile updated', async () => {
+test('create_ticket still sends empty body when profile updated', async () => {
   const { processMessages } = require('../lib/assistant');
   const useDataStore = require('../stores/useDataStore').default;
   const useConversationStore = require('../stores/useConversationStore').default;
@@ -221,6 +227,12 @@ test('create_ticket includes user_id when profile updated', async () => {
     if (url === '/api/tickets/create') {
       ticketBody = options.body;
       return new Response('{"ticket_id":"T1"}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    if (url === '/api/sessions/start') {
+      return new Response('{}', {
         headers: { 'Content-Type': 'application/json' },
         status: 200,
       });
@@ -247,7 +259,7 @@ test('create_ticket includes user_id when profile updated', async () => {
       ],
     });
     await processMessages();
-    assert.strictEqual(ticketBody, '{"user_id":"cus_real"}');
+    assert.strictEqual(ticketBody, '{}');
   } finally {
     global.fetch = originalFetch;
   }

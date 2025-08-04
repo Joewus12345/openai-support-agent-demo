@@ -1,5 +1,4 @@
 import { DEVELOPER_PROMPT } from "@/config/constants";
-import { CUSTOMER_DETAILS } from "@/config/demoData";
 import { parse } from "partial-json";
 import { handleTool } from "@/lib/tools/tools-handling";
 import useConversationStore from "@/stores/useConversationStore";
@@ -220,7 +219,6 @@ export const processMessages = async () => {
     setEmailRefused,
     contactType,
     contactId,
-    customerDetails,
   } = useDataStore.getState();
 
   const lastUserMessage = [...conversationItems]
@@ -247,10 +245,7 @@ export const processMessages = async () => {
     emailRefusalRegex.test(lastUserText)
   ) {
     setEmailRefused(true);
-    const userId = customerDetails?.id;
-    const params =
-      userId && userId !== CUSTOMER_DETAILS.id ? { user_id: userId } : {};
-    await create_ticket(params);
+    await create_ticket();
   }
 
   let toolSet: any[] =
