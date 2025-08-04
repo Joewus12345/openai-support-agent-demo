@@ -47,14 +47,13 @@ export async function POST(request: Request) {
       userInput = Array.isArray(content)
         ? content.map((c: any) => c.text ?? "").join(" ")
         : String(content || "");
-
-      const relevanceInput = conversationInput || userInput;
-      relevance = await runRelevanceGuardrail({ input: relevanceInput });
-      console.log("Relevance guardrail result:", relevance);
-
-      jailbreak = await runJailbreakGuardrail({ input: userInput });
-      console.log("Jailbreak guardrail result:", jailbreak);
     }
+
+    relevance = await runRelevanceGuardrail({ input: conversationInput });
+    console.log("Relevance guardrail result:", relevance);
+
+    jailbreak = await runJailbreakGuardrail({ input: userInput });
+    console.log("Jailbreak guardrail result:", jailbreak);
 
     if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
       console.log("Guardrail triggered", {
