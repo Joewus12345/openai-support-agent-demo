@@ -43,7 +43,20 @@ class LocalVectorStore {
     if (this.loaded) return;
     try {
       const data = await fs.readFile(STORE_PATH, "utf8");
-      this.store = JSON.parse(data);
+      try {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed)) {
+          this.store = parsed;
+        } else {
+          console.warn(
+            `Unexpected format in ${STORE_PATH}, initializing empty store`
+          );
+          this.store = [];
+        }
+      } catch (err) {
+        console.error(`Failed to parse ${STORE_PATH}:`, err);
+        this.store = [];
+      }
     } catch {
       this.store = [];
     }
@@ -80,7 +93,20 @@ class LocalVectorStore {
         const raw = await fs.readFile(filePath, "utf8");
         let cleaned: string;
         if (file.endsWith(".json")) {
-          cleaned = JSON.stringify(JSON.parse(raw));
+          try {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === "object") {
+              cleaned = JSON.stringify(parsed);
+            } else {
+              console.warn(
+                `Invalid JSON structure in ${file}; using raw text`
+              );
+              cleaned = raw;
+            }
+          } catch (err) {
+            console.error(`Failed to parse ${file}:`, err);
+            cleaned = raw;
+          }
         } else {
           cleaned = cleanMarkdown(raw);
         }
