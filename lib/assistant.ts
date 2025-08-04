@@ -76,8 +76,9 @@ export const handleTurn = async (
   model?: string
 ) => {
   try {
-    const { contactType, contactId, summary } = useDataStore.getState();
-    const session_id = (useDataStore.getState() as any).sessionId;
+    const { contactType, contactId, summary, sessionId } =
+      useDataStore.getState();
+    const session_id = sessionId;
     const systemMessages: any[] = [];
     if (summary) {
       systemMessages.push({
