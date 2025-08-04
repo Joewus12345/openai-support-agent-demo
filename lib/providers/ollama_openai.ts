@@ -165,11 +165,15 @@ export async function* ollamaOpenAIProvider(
                 params = { query: state.args };
               }
               const query = params.query || "";
+              const { limit, threshold, topKOnly } = params;
               let results: any = {};
               if (state.type === "file_search") {
                 const res = await fileSearch({
                   query,
                   provider: "ollama-openai",
+                  limit,
+                  threshold,
+                  topKOnly,
                 });
                 results = res.results;
                 yield {

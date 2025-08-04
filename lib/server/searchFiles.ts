@@ -11,16 +11,26 @@ const OLLAMA_SEARCH_THRESHOLD = Number(
 /**
  * Search the knowledge base using one or multiple queries.
  * If `queries` is not provided, the single `query` string will be split into
- * shorter phrases to broaden the search.
+ * shorter phrases to broaden the search. Optional parameters can tune the
+ * vector search:
+ * - `limit` controls the maximum number of results.
+ * - `threshold` sets the minimum cosine similarity score.
+ * - `topKOnly` ignores the threshold and returns only the top `limit` items.
  */
 export async function search_knowledge_base({
   query,
   queries,
   provider,
+  limit,
+  threshold,
+  topKOnly,
 }: {
   query?: string;
   queries?: string[];
   provider?: string;
+  limit?: number;
+  threshold?: number;
+  topKOnly?: boolean;
 }) {
   try {
     const baseParts =
@@ -32,7 +42,7 @@ export async function search_knowledge_base({
 
     const searchParts = Array.from(new Set(baseParts.map((p) => p.trim())));
 
-    const max_results = 10;
+    const max_results = limit ?? 10;
     let collected: any[] = [];
 
     try {
@@ -41,11 +51,18 @@ export async function search_knowledge_base({
           if (provider?.includes('ollama')) {
             return await localVectorStore.search(q, {
               limit: max_results,
-              threshold: OLLAMA_SEARCH_THRESHOLD,
+              threshold: threshold ?? OLLAMA_SEARCH_THRESHOLD,
+              topKOnly,
             });
           }
 
-          const res = await fileSearch({ query: q, provider });
+          const res = await fileSearch({
+            query: q,
+            provider,
+            limit: max_results,
+            threshold,
+            topKOnly,
+          });
           if (res.error) throw new Error(res.error);
           return res.results ?? [];
         })

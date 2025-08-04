@@ -21,6 +21,20 @@ export const toolsList = [
               "Optional list of search queries derived from the user question.",
             items: { type: "string" },
           },
+          limit: {
+            type: "number",
+            description: "Maximum number of results to return.",
+          },
+          threshold: {
+            type: "number",
+            description:
+              "Minimum cosine similarity score. Ignored when topKOnly is true.",
+          },
+          topKOnly: {
+            type: "boolean",
+            description:
+              "Return only the top `limit` matches, bypassing the threshold.",
+          },
         },
         required: ["query"],
         additionalProperties: false,
