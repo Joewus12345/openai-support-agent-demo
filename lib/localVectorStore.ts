@@ -63,8 +63,14 @@ class LocalVectorStore {
       await this.ensureLoaded();
       if (this.store.length > 0) return;
     }
-    let chunksProcessed = 0;
-    let filesProcessed = 0;
+    // Preprocess files to determine total number of chunks
+    const filesData: {
+      folder: string;
+      file: string;
+      joinedChunks: string[];
+      overlap: number;
+    }[] = [];
+    let totalChunks = 0;
     for (const folder of KB_FOLDERS) {
       const dir = path.join(process.cwd(), "public", folder);
       const files = await fs.readdir(dir);
@@ -85,36 +91,42 @@ class LocalVectorStore {
           const overlapWords = prevWords.slice(-overlap).join(" ");
           return `${overlapWords} ${chunk}`.trim();
         });
-
-        let index = 0;
-        const batchSize = concurrency > 0 ? concurrency : joinedChunks.length;
-        for (let i = 0; i < joinedChunks.length; i += batchSize) {
-          const batch = joinedChunks.slice(i, i + batchSize);
-          console.log(
-            `Embedding batch of ${batch.length} chunks in parallel (${chunksProcessed + batch.length}/${joinedChunks.length}) from ${file}`
-          );
-          const embeddings = await Promise.all(
-            batch.map((chunk) => this.embedding(chunk))
-          );
-          embeddings.forEach((embedding, j) => {
-            const chunk = batch[j];
-            this.store.push({
-              id: crypto.randomUUID(),
-              embedding,
-              text: chunk,
-              attributes: {
-                type: folder,
-                filename: file.replace(/\.(md|json)$/, ""),
-                filepath: `/public/${folder}/${file}`,
-                chunk: index++,
-                overlap,
-              },
-            });
-          });
-          chunksProcessed += batch.length;
-        }
-        filesProcessed++;
+        totalChunks += joinedChunks.length;
+        filesData.push({ folder, file, joinedChunks, overlap });
       }
+    }
+
+    let chunksProcessed = 0;
+    let filesProcessed = 0;
+    for (const { folder, file, joinedChunks, overlap } of filesData) {
+      let index = 0;
+      const batchSize = concurrency > 0 ? concurrency : joinedChunks.length;
+      for (let i = 0; i < joinedChunks.length; i += batchSize) {
+        const batch = joinedChunks.slice(i, i + batchSize);
+        console.log(
+          `Embedding batch of ${batch.length} chunks in parallel (${chunksProcessed + batch.length}/${totalChunks}) from ${file}`
+        );
+        const embeddings = await Promise.all(
+          batch.map((chunk) => this.embedding(chunk))
+        );
+        embeddings.forEach((embedding, j) => {
+          const chunk = batch[j];
+          this.store.push({
+            id: crypto.randomUUID(),
+            embedding,
+            text: chunk,
+            attributes: {
+              type: folder,
+              filename: file.replace(/\.(md|json)$/, ""),
+              filepath: `/public/${folder}/${file}`,
+              chunk: index++,
+              overlap,
+            },
+          });
+        });
+        chunksProcessed += batch.length;
+      }
+      filesProcessed++;
     }
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
     console.log(
