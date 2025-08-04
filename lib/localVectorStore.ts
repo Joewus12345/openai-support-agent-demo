@@ -182,15 +182,29 @@ class LocalVectorStore {
   async search(
     query: string,
     {
-      limit = 5,
-      threshold = 0.5,
+      limit: rawLimit = 5,
+      threshold: rawThreshold = 0.5,
       topKOnly = false,
-    }: { limit?: number; threshold?: number; topKOnly?: boolean } = {}
+    }: { limit?: number; threshold?: number; topKOnly?: boolean } = {},
   ) {
     await this.ensureLoaded();
     if (this.store.length === 0) {
       throw new Error("Local vector store is empty");
     }
+
+    let limit = rawLimit;
+    if (!Number.isInteger(limit) || limit <= 0) {
+      console.warn(`Invalid limit ${rawLimit}; defaulting to 5`);
+      limit = 5;
+    }
+
+    let threshold = rawThreshold;
+    if (typeof threshold !== "number" || Number.isNaN(threshold)) {
+      throw new Error("threshold must be a number between -1 and 1");
+    }
+    if (threshold < -1) threshold = -1;
+    if (threshold > 1) threshold = 1;
+
     console.log(`Searching ${this.store.length} stored entries...`);
     const qEmbed = await this.embedding(query);
     let results = this.store
