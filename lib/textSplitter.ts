@@ -1,7 +1,7 @@
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { TokenTextSplitter } from "langchain/text_splitter";
 import { TEXT_SPLITTER_CONFIG } from "@/config/vectorStore";
 
-const splitter = new RecursiveCharacterTextSplitter({
+const splitter = new TokenTextSplitter({
   ...TEXT_SPLITTER_CONFIG,
   encodingName: "cl100k_base",
 });
