@@ -108,11 +108,11 @@ const useDataStore = create<DataState>((set) => ({
         score,
       };
     });
-    // Sorting by relevance score and keeping only results with score > 0.5
+    // Sorting by relevance score and applying a provider-specific threshold
     const sortedArticles = articles.sort((a, b) => b.score - a.score);
-    const threshold = provider && provider.includes("ollama") ? 0.3 : 0.5;
+    const threshold = provider?.includes("ollama") ? 0.3 : 0.5;
     set({
-      FAQExtracts: sortedArticles.filter((a) => a.score > threshold),
+      FAQExtracts: sortedArticles.filter((a) => a.score >= threshold),
       relevantArticlesError: null,
     });
   },
