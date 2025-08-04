@@ -4,6 +4,10 @@ import { fileSearch } from '@/lib/tools/fileSearch';
 import { localVectorStore } from '../localVectorStore';
 import { generateSearchQueries } from '../generateSearchQueries';
 
+const OLLAMA_SEARCH_THRESHOLD = Number(
+  process.env.OLLAMA_SEARCH_THRESHOLD ?? 0.3,
+);
+
 /**
  * Search the knowledge base using one or multiple queries.
  * If `queries` is not provided, the single `query` string will be split into
@@ -34,8 +38,11 @@ export async function search_knowledge_base({
     try {
       const arrays = await Promise.all(
         searchParts.map(async (q) => {
-          if (provider === 'ollama' || provider === 'ollama-openai') {
-            return await localVectorStore.search(q, { limit: max_results });
+          if (provider?.includes('ollama')) {
+            return await localVectorStore.search(q, {
+              limit: max_results,
+              threshold: OLLAMA_SEARCH_THRESHOLD,
+            });
           }
 
           const res = await fileSearch({ query: q, provider });
@@ -80,10 +87,9 @@ export async function search_knowledge_base({
     .slice(0, max_results)
     .map((r) => r.item);
 
-  const results =
-    provider === 'ollama' || provider === 'ollama-openai'
-      ? ranked.map((r) => r.text)
-      : ranked;
+  const results = provider?.includes('ollama')
+    ? ranked.map((r) => r.text)
+    : ranked;
 
   return { results };
   } catch (error) {
