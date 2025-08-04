@@ -13,7 +13,7 @@ export async function fileSearch({
   const max_results = 20;
   if (provider === "ollama" || provider === "ollama-openai") {
     try {
-      const results = await localVectorStore.search(query, max_results);
+      const results = await localVectorStore.search(query, { limit: max_results });
       return { results };
     } catch (error) {
       console.error("Local file search failed", error);

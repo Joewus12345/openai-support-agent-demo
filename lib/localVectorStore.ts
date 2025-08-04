@@ -170,23 +170,43 @@ class LocalVectorStore {
     );
   }
 
-  async search(query: string, limit = 5) {
+  /**
+   * Search the local vector store.
+   *
+   * By default, returns up to `limit` entries with a cosine similarity score
+   * of at least `threshold` (defaults to `0.5`).
+   * Set `topKOnly` to `true` to ignore the threshold and rely solely on the
+   * highest scoring `limit` matches. Lowering the threshold increases recall,
+   * while raising it can improve precision.
+   */
+  async search(
+    query: string,
+    {
+      limit = 5,
+      threshold = 0.5,
+      topKOnly = false,
+    }: { limit?: number; threshold?: number; topKOnly?: boolean } = {}
+  ) {
     await this.ensureLoaded();
     if (this.store.length === 0) {
       throw new Error("Local vector store is empty");
     }
     console.log(`Searching ${this.store.length} stored entries...`);
     const qEmbed = await this.embedding(query);
-    const threshold = 0.5
-    const results = this.store
+    let results = this.store
       .map((e) => ({
         text: e.text,
         attributes: e.attributes,
         score: cosineSimilarity(qEmbed, e.embedding),
       }))
-      .filter((r) => r.score >= threshold)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, limit);
+      .sort((a, b) => b.score - a.score);
+
+    if (!topKOnly) {
+      results = results.filter((r) => r.score >= threshold);
+    }
+
+    results = results.slice(0, limit);
+
     console.log(
       "Top scores:",
       results.map((r) => r.score.toFixed(3))
