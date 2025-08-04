@@ -231,9 +231,9 @@ export const processMessages = async () => {
   }
   const emailRefusalRegex = new RegExp(
     [
-      "don['’]?t feel comfortable giving (?:you )?my email",
+      "don['’]?t feel comfortable giving (?:you )?my e[-\\s]?mail(?: address)?",
       "i don['’]?t want to",
-      "i can['’]?t provide that info(?:rmation)?",
+      "i can['’]?t provide (?:that info(?:rmation)?|my e[-\\s]?mail(?: address)?)",
       "no[,\\s]*i won['’]?t",
     ].join("|"),
     "i",
