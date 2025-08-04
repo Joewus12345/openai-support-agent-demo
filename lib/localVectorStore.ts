@@ -15,7 +15,7 @@ interface Entry {
     type: string;
     filename: string;
     filepath: string;
-    // chunk?: number;
+    chunk?: number;
   };
 }
 
@@ -67,60 +67,31 @@ class LocalVectorStore {
       for (const file of files) {
         const filePath = path.join(dir, file);
         const raw = await fs.readFile(filePath, "utf8");
-        const cleaned = cleanMarkdown(raw);
-        // const paragraphs = cleaned.split(/\n{2,}/);
-        // let chunk = "";
-        // let index = 0;
-        // for (const para of paragraphs) {
-        //   const p = para.trim();
-        //   if (!p) continue;
-        //   if (chunk.length + p.length > 500 && chunk) {
-        //     const embedding = await this.embedding(chunk);
-        //     this.store.push({
-        //       id: crypto.randomUUID(),
-        //       embedding,
-        //       text: chunk,
-        //       attributes: {
-        //         type: folder,
-        //         filename: file.replace(/\.md$/, ""),
-        //         filepath: `/public/${folder}/${file}`,
-        //         chunk: index,
-        //       },
-        //     });
-        //     processed++;
-        //     index++;
-        //     chunk = p;
-        //   } else {
-        //     chunk += (chunk ? "\n\n" : "") + p;
-        //   }
-        // }
-        // if (chunk.trim()) {
-        //   const embedding = await this.embedding(chunk);
-        //   this.store.push({
-        //     id: crypto.randomUUID(),
-        //     embedding,
-        //     text: chunk,
-        //     attributes: {
-        //       type: folder,
-        //       filename: file.replace(/\.md$/, ""),
-        //       filepath: `/public/${folder}/${file}`,
-        //       chunk: index,
-        //     },
-        //   });
-        //   processed++;
-        // }
-        const embedding = await this.embedding(cleaned);
-        this.store.push({
-          id: crypto.randomUUID(),
-          embedding,
-          text: cleaned,
-          attributes: {
-            type: folder,
-            filename: file.replace(/\.md$/, ""),
-            filepath: `/public/${folder}/${file}`,
-          },
-        });
-        processed++;      
+        let cleaned: string;
+        if (file.endsWith(".json")) {
+          cleaned = JSON.stringify(JSON.parse(raw));
+        } else {
+          cleaned = cleanMarkdown(raw);
+        }
+        const words = cleaned.split(/\s+/);
+        const CHUNK_SIZE = 500; // adjust up to 1000 if desired
+        let index = 0;
+        for (let i = 0; i < words.length; i += CHUNK_SIZE) {
+          const chunk = words.slice(i, i + CHUNK_SIZE).join(" ");
+          const embedding = await this.embedding(chunk);
+          this.store.push({
+            id: crypto.randomUUID(),
+            embedding,
+            text: chunk,
+            attributes: {
+              type: folder,
+              filename: file.replace(/\.(md|json)$/, ""),
+              filepath: `/public/${folder}/${file}`,
+              chunk: index++,
+            },
+          });
+          processed++;
+        }
       }
     }
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
