@@ -60,7 +60,8 @@ class LocalVectorStore {
       await this.ensureLoaded();
       if (this.store.length > 0) return;
     }
-    let processed = 0;
+    let chunksProcessed = 0;
+    let filesProcessed = 0;
     for (const folder of KB_FOLDERS) {
       const dir = path.join(process.cwd(), "public", folder);
       const files = await fs.readdir(dir);
@@ -90,12 +91,15 @@ class LocalVectorStore {
               chunk: index++,
             },
           });
-          processed++;
+          chunksProcessed++;
         }
+        filesProcessed++;
       }
     }
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
-    console.log(`Processed ${processed} files. Writing local vector store...`);
+    console.log(
+      `Processed ${filesProcessed} files and ${chunksProcessed} chunks. Writing local vector store...`
+    );
     await fs.writeFile(STORE_PATH, JSON.stringify(this.store, null, 2));
     console.log(
       `Local vector store written to ${STORE_PATH} with ${this.store.length} entries.`
