@@ -55,7 +55,7 @@ class LocalVectorStore {
     return res.embedding;
   }
 
-  async initialize(force = false) {
+  async initialize(force = false, concurrency = 5) {
     if (force) {
       this.store = [];
       this.loaded = true;
@@ -85,29 +85,40 @@ class LocalVectorStore {
           const overlapWords = prevWords.slice(-overlap).join(" ");
           return `${overlapWords} ${chunk}`.trim();
         });
+
         let index = 0;
-        for (const chunk of joinedChunks) {
-          const embedding = await this.embedding(chunk);
-          this.store.push({
-            id: crypto.randomUUID(),
-            embedding,
-            text: chunk,
-            attributes: {
-              type: folder,
-              filename: file.replace(/\.(md|json)$/, ""),
-              filepath: `/public/${folder}/${file}`,
-              chunk: index++,
-              overlap,
-            },
+        const batchSize = concurrency > 0 ? concurrency : joinedChunks.length;
+        for (let i = 0; i < joinedChunks.length; i += batchSize) {
+          const batch = joinedChunks.slice(i, i + batchSize);
+          console.log(
+            `Embedding batch of ${batch.length} chunks in parallel (${chunksProcessed + batch.length}/${joinedChunks.length}) from ${file}`
+          );
+          const embeddings = await Promise.all(
+            batch.map((chunk) => this.embedding(chunk))
+          );
+          embeddings.forEach((embedding, j) => {
+            const chunk = batch[j];
+            this.store.push({
+              id: crypto.randomUUID(),
+              embedding,
+              text: chunk,
+              attributes: {
+                type: folder,
+                filename: file.replace(/\.(md|json)$/, ""),
+                filepath: `/public/${folder}/${file}`,
+                chunk: index++,
+                overlap,
+              },
+            });
           });
-          chunksProcessed++;
+          chunksProcessed += batch.length;
         }
         filesProcessed++;
       }
     }
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
     console.log(
-      `Processed ${filesProcessed} files and ${chunksProcessed} chunks. Writing local vector store...`
+      `Processed ${filesProcessed} files and ${chunksProcessed} chunks in parallel. Writing local vector store...`
     );
     await fs.writeFile(STORE_PATH, JSON.stringify(this.store, null, 2));
     console.log(
