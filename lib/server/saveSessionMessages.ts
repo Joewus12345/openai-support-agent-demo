@@ -29,7 +29,11 @@ export async function saveSessionMessages(
     });
     const last = updatedMessages
       .slice(-Math.min(updatedMessages.length, 5))
-      .map((m: any) => m.content || "")
+      .map((m: any) =>
+        Array.isArray(m.content)
+          ? m.content.map((c: any) => c.text ?? "").join(" ")
+          : String(m.content ?? "")
+      )
       .join(" ");
     const summary = last.slice(0, 200);
 
