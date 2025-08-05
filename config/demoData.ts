@@ -15,11 +15,7 @@ export const CUSTOMER_DETAILS = {
 
 export const DEFAULT_ACTION: Action = {
   name: "create_ticket",
-  parameters: {
-    user_id: CUSTOMER_DETAILS.id,
-    type: "other",
-    details: "Need more help with the request",
-  },
+  parameters: {},
 };
 
 export const DEFAULT_ARTICLES: FAQExtract[] = [

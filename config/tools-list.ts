@@ -21,6 +21,20 @@ export const toolsList = [
               "Optional list of search queries derived from the user question.",
             items: { type: "string" },
           },
+          limit: {
+            type: "number",
+            description: "Maximum number of results to return.",
+          },
+          threshold: {
+            type: "number",
+            description:
+              "Minimum cosine similarity score. Ignored when topKOnly is true.",
+          },
+          topKOnly: {
+            type: "boolean",
+            description:
+              "Return only the top `limit` matches, bypassing the threshold.",
+          },
         },
         required: ["query"],
         additionalProperties: false,
@@ -232,30 +246,11 @@ export const toolsList = [
     type: "function",
     function: {
       name: "create_ticket",
-      description: "Open a customer support ticket",
+      description:
+        "Generate a session ticket for customers without an email.",
       parameters: {
         type: "object",
-        properties: {
-          user_id: {
-            type: "string",
-            description: "User ID to create ticket for",
-          },
-          type: {
-            type: "string",
-            description: "Type of ticket",
-            enum: ["bug_reported", "damaged_product", "other"],
-          },
-          details: {
-            type: "string",
-            description: "Details of the ticket",
-          },
-          order_id: {
-            type: "string",
-            description:
-              "Order ID linked to the ticket, N/A if not linked to an order",
-          },
-        },
-        required: ["user_id", "type", "details", "order_id"],
+        properties: {},
         additionalProperties: false,
       },
     },
@@ -322,16 +317,26 @@ export const toolsList = [
     type: "function",
     function: {
       name: "start_chat_session",
-      description: "Reconnect to an existing chat session or create a new one",
+      description:
+        "Reconnect to an existing chat session using either the customer's email or a ticket ID, or create a new one",
       parameters: {
         type: "object",
         properties: {
-          email: { type: "string", description: "Email address of the customer" },
+          email: {
+            type: "string",
+            description:
+              "Email address of the customer (required if ticket_id is not provided)",
+          },
+          ticket_id: {
+            type: "string",
+            description:
+              "Ticket ID of an existing session (required if email is not provided)",
+          },
           name: { type: "string", description: "Full name of the customer" },
           phone: { type: "string", description: "Phone number" },
           address: { type: "string", description: "Street address" },
         },
-        required: ["email", "name", "phone", "address"],
+        // At least one of email or ticket_id must be provided
         additionalProperties: false,
       },
     },

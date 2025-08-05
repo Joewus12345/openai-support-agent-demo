@@ -23,10 +23,58 @@ Features:
 - Auto-execution of tool calls for non-sensitive actions
 - Optional auto reply mode to automatically send suggested messages
 - Filters out irrelevant questions and jailbreaking attempts
+- Idle sessions auto-close after 4 minutes, sending unsaved messages and marking the session as ended
 - Works with either `openai` or `ollama` providers. The built-in tools operate
   the same with both.
 
 Feel free to customize this demo to suit your specific use case.
+
+## Project structure
+
+- `app/` for Next.js routes & API handlers
+- `components/` for UI components
+- `stores/` for state management (e.g., `useConversationStore`)
+- `scripts/` for maintenance tasks like `cleanupSessions.ts`
+- `prisma/` for schema & migrations, etc.
+
+## Getting Started
+
+1. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+2. **Configure environment:**
+
+   Create a `.env` file with your database connection string, Redis URL, and session retention setting:
+
+   ```bash
+   DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
+   REDIS_URL=redis://localhost:6379
+   SESSION_RETENTION_DAYS=30 # How many days to retain ended sessions
+   ```
+
+   `SESSION_RETENTION_DAYS` controls how long ended sessions are kept before cleanup (defaults to 30 days).
+
+3. **Run database migrations:**
+
+   ```bash
+   npx prisma generate
+   npx prisma migrate deploy
+   ```
+
+4. **Start Redis and the app:**
+
+   Start a Redis server (e.g. `redis-server` or `docker run -p 6379:6379 redis`) and then run:
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Ticket IDs in chats:**
+
+   When a customer does not share an email, the `create_ticket` tool generates a ticket ID in the format `#<index>/<date>` (for example `#1/2024-05-01`). The ID is stored with the chat session so the conversation can be resumed later using that ticket number.
 
 ## How to use
 
@@ -139,6 +187,11 @@ When using the `ollama` provider you need a local server running.
    while the local store powers file search when using the `ollama` provider.
    Both stores can exist side by side.
 
+  By default, local search returns up to 10 results with a cosine similarity
+  threshold of 0.5. Provide a `limit` option to control the number of results,
+  a `threshold` option to adjust the cutoff, or set `topKOnly: true` to ignore
+  the threshold and rely solely on the highest scoring `limit` matches.
+
 ## Demo Flow
 
 To try out the demo, you can ask questions that will trigger a file search.
@@ -203,13 +256,27 @@ This demo can store customer profiles and chat sessions in a local PostgreSQL da
    DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
    ```
 
-2. Run the migrations to create the tables:
+2. Run the migrations to create the tables (including the latest schema updates):
 
    ```bash
    npx prisma migrate deploy
    ```
 
-The new API endpoints under `/api/users` and `/api/sessions/start` allow the agent to create or retrieve customer records and chat sessions using this database.
+3. Start a Redis instance (for example, run `redis-server` locally or use Docker `docker run -p 6379:6379 redis`).
+
+4. Configure Redis by setting `REDIS_URL` in your `.env` file:
+
+   ```bash
+   REDIS_URL=redis://localhost:6379
+   ```
+
+The new API endpoints under `/api/users` and `/api/sessions/start` allow the agent to create or retrieve customer records, manage chat sessions, and store conversation history using this database and Redis. During each turn, `/api/turn_response` persists messages via `saveSessionMessages`, so a separate `/api/sessions/[session_id]/save` call is no longer required.
+
+## Session lifecycle & cleanup
+
+- Sessions automatically end after 4 minutes of inactivity.
+- Run `npm run cleanup:sessions` to remove ended sessions older than the number of days specified in `SESSION_RETENTION_DAYS`.
+- By default, sessions are retained for 30 days. Change the value of `SESSION_RETENTION_DAYS` in your `.env` file to adjust the retention period.
 
 ## Contributing
 

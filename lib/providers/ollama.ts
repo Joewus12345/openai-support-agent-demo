@@ -166,9 +166,16 @@ const converted = convertMessages(messages);
             params = { query: state.args };
           }
           const query = params.query || "";
+          const { limit, threshold, topKOnly } = params;
           let results: any = {};
           if (state.type === "file_search") {
-            const res = await fileSearch({ query, provider: "ollama" });
+            const res = await fileSearch({
+              query,
+              provider: "ollama",
+              limit,
+              threshold,
+              topKOnly,
+            });
             results = res.results;
             yield {
               event: "response.file_search_call.results",

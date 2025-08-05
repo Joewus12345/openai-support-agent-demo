@@ -3,7 +3,10 @@ import path from "path";
 import crypto from "crypto";
 import ollama from "ollama";
 import { KB_FOLDERS } from "@/config/demoData";
+import { TEXT_SPLITTER_CONFIG } from "@/config/vectorStore";
 import cleanMarkdown from "./cleanMarkdown";
+import { splitText } from "./textSplitter";
+import pLimit from "p-limit";
 
 const STORE_PATH = path.join(process.cwd(), "data", "local_vector_store.json");
 
@@ -15,7 +18,8 @@ interface Entry {
     type: string;
     filename: string;
     filepath: string;
-    // chunk?: number;
+    chunk?: number;
+    overlap?: number;
   };
 }
 
@@ -39,7 +43,20 @@ class LocalVectorStore {
     if (this.loaded) return;
     try {
       const data = await fs.readFile(STORE_PATH, "utf8");
-      this.store = JSON.parse(data);
+      try {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed)) {
+          this.store = parsed;
+        } else {
+          console.warn(
+            `Unexpected format in ${STORE_PATH}, initializing empty store`
+          );
+          this.store = [];
+        }
+      } catch (err) {
+        console.error(`Failed to parse ${STORE_PATH}:`, err);
+        this.store = [];
+      }
     } catch {
       this.store = [];
     }
@@ -52,7 +69,7 @@ class LocalVectorStore {
     return res.embedding;
   }
 
-  async initialize(force = false) {
+  async initialize(force = false, concurrency = 5) {
     if (force) {
       this.store = [];
       this.loaded = true;
@@ -60,94 +77,150 @@ class LocalVectorStore {
       await this.ensureLoaded();
       if (this.store.length > 0) return;
     }
-    let processed = 0;
+    // Preprocess files to determine total number of chunks
+    const filesData: {
+      folder: string;
+      file: string;
+      joinedChunks: string[];
+      overlap: number;
+    }[] = [];
+    let totalChunks = 0;
     for (const folder of KB_FOLDERS) {
       const dir = path.join(process.cwd(), "public", folder);
       const files = await fs.readdir(dir);
       for (const file of files) {
         const filePath = path.join(dir, file);
         const raw = await fs.readFile(filePath, "utf8");
-        const cleaned = cleanMarkdown(raw);
-        // const paragraphs = cleaned.split(/\n{2,}/);
-        // let chunk = "";
-        // let index = 0;
-        // for (const para of paragraphs) {
-        //   const p = para.trim();
-        //   if (!p) continue;
-        //   if (chunk.length + p.length > 500 && chunk) {
-        //     const embedding = await this.embedding(chunk);
-        //     this.store.push({
-        //       id: crypto.randomUUID(),
-        //       embedding,
-        //       text: chunk,
-        //       attributes: {
-        //         type: folder,
-        //         filename: file.replace(/\.md$/, ""),
-        //         filepath: `/public/${folder}/${file}`,
-        //         chunk: index,
-        //       },
-        //     });
-        //     processed++;
-        //     index++;
-        //     chunk = p;
-        //   } else {
-        //     chunk += (chunk ? "\n\n" : "") + p;
-        //   }
-        // }
-        // if (chunk.trim()) {
-        //   const embedding = await this.embedding(chunk);
-        //   this.store.push({
-        //     id: crypto.randomUUID(),
-        //     embedding,
-        //     text: chunk,
-        //     attributes: {
-        //       type: folder,
-        //       filename: file.replace(/\.md$/, ""),
-        //       filepath: `/public/${folder}/${file}`,
-        //       chunk: index,
-        //     },
-        //   });
-        //   processed++;
-        // }
-        const embedding = await this.embedding(cleaned);
-        this.store.push({
-          id: crypto.randomUUID(),
-          embedding,
-          text: cleaned,
-          attributes: {
-            type: folder,
-            filename: file.replace(/\.md$/, ""),
-            filepath: `/public/${folder}/${file}`,
-          },
+        let cleaned: string;
+        if (file.endsWith(".json")) {
+          try {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === "object") {
+              cleaned = JSON.stringify(parsed);
+            } else {
+              console.warn(
+                `Invalid JSON structure in ${file}; using raw text`
+              );
+              cleaned = raw;
+            }
+          } catch (err) {
+            console.error(`Failed to parse ${file}:`, err);
+            cleaned = raw;
+          }
+        } else {
+          cleaned = cleanMarkdown(raw);
+        }
+        const chunks = await splitText(cleaned);
+        const overlap = TEXT_SPLITTER_CONFIG.chunkOverlap;
+        const joinedChunks = chunks.map((chunk, i) => {
+          if (i === 0) return chunk;
+          const prevWords = chunks[i - 1].split(/\s+/);
+          const overlapWords = prevWords.slice(-overlap).join(" ");
+          return `${overlapWords} ${chunk}`.trim();
         });
-        processed++;      
+        totalChunks += joinedChunks.length;
+        filesData.push({ folder, file, joinedChunks, overlap });
       }
     }
+
+    let chunksProcessed = 0;
+    const limit = pLimit(concurrency > 0 ? concurrency : totalChunks || 1);
+    const tasks: Promise<void>[] = [];
+    for (const { folder, file, joinedChunks, overlap } of filesData) {
+      joinedChunks.forEach((chunk, idx) => {
+        tasks.push(
+          limit(async () => {
+            const current = ++chunksProcessed;
+            console.log(
+              `Embedding chunk ${current}/${totalChunks} from ${file}`
+            );
+            try {
+              const embedding = await this.embedding(chunk);
+              this.store.push({
+                id: crypto.randomUUID(),
+                embedding,
+                text: chunk,
+                attributes: {
+                  type: folder,
+                  filename: file.replace(/\.(md|json)$/, ""),
+                  filepath: `/public/${folder}/${file}`,
+                  chunk: idx,
+                  overlap,
+                },
+              });
+            } catch (err) {
+              console.error(
+                `Failed to embed chunk ${current}/${totalChunks} from ${file}:`,
+                err
+              );
+            }
+          })
+        );
+      });
+    }
+    const filesProcessed = filesData.length;
+    await Promise.allSettled(tasks);
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
-    console.log(`Processed ${processed} files. Writing local vector store...`);
+    console.log(
+      `Processed ${filesProcessed} files and ${chunksProcessed} chunks in parallel. Writing local vector store...`
+    );
     await fs.writeFile(STORE_PATH, JSON.stringify(this.store, null, 2));
     console.log(
       `Local vector store written to ${STORE_PATH} with ${this.store.length} entries.`
     );
   }
 
-  async search(query: string, limit = 5) {
+  /**
+   * Search the local vector store.
+   *
+   * By default, returns up to `limit` entries with a cosine similarity score
+   * of at least `threshold` (defaults to `0.5`).
+   * Set `topKOnly` to `true` to ignore the threshold and rely solely on the
+   * highest scoring `limit` matches. Lowering the threshold increases recall,
+   * while raising it can improve precision.
+   */
+  async search(
+    query: string,
+    {
+      limit: rawLimit = 10,
+      threshold: rawThreshold = 0.5,
+      topKOnly = false,
+    }: { limit?: number; threshold?: number; topKOnly?: boolean } = {},
+  ) {
     await this.ensureLoaded();
     if (this.store.length === 0) {
       throw new Error("Local vector store is empty");
     }
+
+    let limit = rawLimit;
+    if (!Number.isInteger(limit) || limit <= 0) {
+      console.warn(`Invalid limit ${rawLimit}; defaulting to 10`);
+      limit = 10;
+    }
+
+    let threshold = rawThreshold;
+    if (typeof threshold !== "number" || Number.isNaN(threshold)) {
+      throw new Error("threshold must be a number between -1 and 1");
+    }
+    if (threshold < -1) threshold = -1;
+    if (threshold > 1) threshold = 1;
+
     console.log(`Searching ${this.store.length} stored entries...`);
     const qEmbed = await this.embedding(query);
-    const threshold = 0.5
-    const results = this.store
+    let results = this.store
       .map((e) => ({
         text: e.text,
         attributes: e.attributes,
         score: cosineSimilarity(qEmbed, e.embedding),
       }))
-      .filter((r) => r.score >= threshold)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, limit);
+      .sort((a, b) => b.score - a.score);
+
+    if (!topKOnly) {
+      results = results.filter((r) => r.score >= threshold);
+    }
+
+    results = results.slice(0, limit);
+
     console.log(
       "Top scores:",
       results.map((r) => r.score.toFixed(3))

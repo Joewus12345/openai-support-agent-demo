@@ -197,29 +197,38 @@ export const create_complaint = async ({
   }
 };
 
-export const create_ticket = async ({
-  user_id,
-  type,
-  details,
-  order_id,
-}: {
-  user_id: string;
-  type: string;
-  details: string;
-  order_id: string;
-}) => {
+export const create_ticket = async () => {
   try {
-    const res = await fetch(`/api/tickets/create`, {
+    const response = await fetch(`/api/tickets/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id, type, details, order_id }),
-    }).then((res) => res.json());
-    return res;
-  } catch (error) {
-    console.error(error);
+      body: JSON.stringify({}),
+    });
+
+    if (!response.ok) {
+      let message = `Request failed with status ${response.status}`;
+      try {
+        const err = await response.json();
+        if (err?.error) message = err.error;
+      } catch {
+        // ignore JSON parsing errors
+      }
+      throw new Error(message);
+    }
+
+    const res = await response.json();
+    const { setContact } = useDataStore.getState();
+    if (res?.ticket_id) {
+      setContact({ contactType: "ticket", contactId: res.ticket_id });
+      await start_chat_session({ ticket_id: res.ticket_id });
+      return `Your ticket ID is ${res.ticket_id}`;
+    }
     return { error: "Failed to create ticket" };
+  } catch (error: any) {
+    console.error(error);
+    return { error: error?.message || "Failed to create ticket" };
   }
 };
 
@@ -246,8 +255,15 @@ export const update_info = async ({
     }).then((res) => res.json());
 
     if (res && res.updated) {
-      const { customerDetails, setCustomerDetails } = useDataStore.getState();
+      const {
+        customerDetails,
+        setCustomerDetails,
+        setContact,
+      } = useDataStore.getState();
       setCustomerDetails({ ...customerDetails, ...res.updated });
+      if (email) {
+        setContact({ contactType: "email", contactId: email });
+      }
     }
 
     return res;
@@ -265,7 +281,9 @@ export const get_user_profile = async ({ email }: { email: string }) => {
       (res) => res.json()
     );
     if (!user.error) {
-      useDataStore.getState().setCustomerDetails(setDetailsFromUser(user));
+      const { setCustomerDetails, setContact } = useDataStore.getState();
+      setCustomerDetails(setDetailsFromUser(user));
+      setContact({ contactType: "email", contactId: email });
     }
     return user;
   } catch (error) {
@@ -294,7 +312,9 @@ export const create_user_profile = async ({
       body: JSON.stringify({ email, name, phone, address }),
     }).then((res) => res.json());
     if (!user.error) {
-      useDataStore.getState().setCustomerDetails(setDetailsFromUser(user));
+      const { setCustomerDetails, setContact } = useDataStore.getState();
+      setCustomerDetails(setDetailsFromUser(user));
+      setContact({ contactType: "email", contactId: email });
     }
     return user;
   } catch (error) {
@@ -305,23 +325,39 @@ export const create_user_profile = async ({
 
 export const start_chat_session = async ({
   email,
+  ticket_id,
   name,
   phone,
   address,
 }: {
-  email: string;
+  email?: string;
+  ticket_id?: string;
   name?: string;
   phone?: string;
   address?: string;
 }) => {
   try {
+    const identifier = email || ticket_id;
+
     const res = await fetch(`/api/sessions/start`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, name, phone, address }),
+      body: JSON.stringify({ email: identifier, ticket_id, name, phone, address }),
     }).then((res) => res.json());
+    const { setCustomerDetails, setContact, setSummary, setSessionId } =
+      useDataStore.getState();
+    if (res.session?.id) {
+      setSessionId(res.session.id);
+    }
     if (res.user && !res.user.error) {
-      useDataStore.getState().setCustomerDetails(setDetailsFromUser(res.user));
+      setCustomerDetails(setDetailsFromUser(res.user));
+      if (identifier) {
+        setContact({
+          contactType: email ? "email" : "ticket",
+          contactId: identifier,
+        });
+      }
+      setSummary(res.summary || null);
     }
     return res;
   } catch (error) {
@@ -333,9 +369,15 @@ export const start_chat_session = async ({
 export const search_knowledge_base = async ({
   query,
   queries,
+  limit,
+  threshold,
+  topKOnly,
 }: {
   query: string;
   queries?: string[];
+  limit?: number | string;
+  threshold?: number | string;
+  topKOnly?: boolean;
 }): Promise<{ results?: any[] | string[]; error?: string }> => {
   const {
     modelProvider: provider,
@@ -352,18 +394,29 @@ export const search_knowledge_base = async ({
 
   try {
     setRelevantArticlesLoading(true);
-    // Use all provided queries to build a stable cache key
-    const queryKey =
+    // Use all provided queries plus search params to build a stable cache key
+    const queryKeyBase =
       Array.isArray(queries) && queries.length > 0 ? queries.join("|") : query;
+    const limitNum =
+      typeof limit === "string" ? parseInt(limit, 10) : limit;
+    const thresholdNum =
+      typeof threshold === "string" ? parseFloat(threshold) : threshold;
+    const queryKey = [
+      queryKeyBase,
+      limitNum,
+      thresholdNum,
+      topKOnly,
+    ]
+      .filter((v) => v !== undefined)
+      .join("|");
     if (lastSearchQuery === queryKey && lastSearchResults) {
       setFAQExtracts(lastSearchResults, provider);
       setRelevantArticlesError(null);
       return { results: lastSearchResults };
     }
 
-    const cacheKey = `${queryKey}`;
-    if (fileSearchCache.has(cacheKey)) {
-      const cached = fileSearchCache.get(cacheKey)!;
+    if (fileSearchCache.has(queryKey)) {
+      const cached = fileSearchCache.get(queryKey)!;
       setFAQExtracts(cached, provider);
       setLastSearchQuery(queryKey);
       setLastSearchResults(cached);
@@ -375,12 +428,15 @@ export const search_knowledge_base = async ({
       query,
       queries,
       provider,
+      limit: limitNum,
+      threshold: thresholdNum,
+      topKOnly,
     });
     if (result.results) {
       setFAQExtracts(result.results, provider);
       setLastSearchQuery(queryKey);
       setLastSearchResults(result.results);
-      fileSearchCache.set(cacheKey, result.results);
+      fileSearchCache.set(queryKey, result.results);
       setRelevantArticlesError(null);
     } else if (result.error) {
       setRelevantArticlesError(result.error);

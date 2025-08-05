@@ -23,6 +23,7 @@ model User {
   createdAt DateTime      @default(now())
   orders    Order[]
   sessions  ChatSession[]
+  tickets   Ticket[]
 }
 
 model Order {
@@ -35,9 +36,19 @@ model Order {
 }
 
 model ChatSession {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
+  id        String    @id @default(uuid())
+  user      User      @relation(fields: [userId], references: [id])
   userId    String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  endedAt   DateTime?
   messages  Json // or a separate Message model
+}
+
+model Ticket {
+  id        String   @id @default(uuid())
+  ticket    String
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }
