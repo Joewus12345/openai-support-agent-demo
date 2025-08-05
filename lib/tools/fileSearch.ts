@@ -1,4 +1,4 @@
-import { VECTOR_STORE_ID } from "@/config/constants";
+import { VECTOR_STORE_ID, DEFAULT_SEARCH_LIMIT } from "@/config/constants";
 import { localVectorStore } from "@/lib/localVectorStore";
 
 const OLLAMA_SEARCH_THRESHOLD = Number(
@@ -8,7 +8,7 @@ const OLLAMA_SEARCH_THRESHOLD = Number(
 /**
  * Parameters for searching files locally or via the OpenAI Vector Store.
  *
- * `limit` controls the maximum number of results returned.
+ * `limit` controls the maximum number of results returned (defaults to 10).
  * `threshold` sets the minimum cosine similarity when `topKOnly` is false.
  * When `topKOnly` is true, only the top `limit` matches are returned.
  */
@@ -27,7 +27,7 @@ export async function fileSearch({
   threshold,
   topKOnly,
 }: FileSearchParams) {
-  const max_results = limit ?? 20;
+  const max_results = limit ?? DEFAULT_SEARCH_LIMIT;
   if (provider?.includes("ollama")) {
     try {
       const results = await localVectorStore.search(query, {

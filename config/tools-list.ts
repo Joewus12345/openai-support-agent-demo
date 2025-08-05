@@ -23,7 +23,7 @@ export const toolsList = [
           },
           limit: {
             type: "number",
-            description: "Maximum number of results to return.",
+            description: "Maximum number of results to return. Defaults to 10.",
           },
           threshold: {
             type: "number",
