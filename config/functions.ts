@@ -375,8 +375,8 @@ export const search_knowledge_base = async ({
 }: {
   query: string;
   queries?: string[];
-  limit?: number;
-  threshold?: number;
+  limit?: number | string;
+  threshold?: number | string;
   topKOnly?: boolean;
 }): Promise<{ results?: any[] | string[]; error?: string }> => {
   const {
@@ -397,10 +397,14 @@ export const search_knowledge_base = async ({
     // Use all provided queries plus search params to build a stable cache key
     const queryKeyBase =
       Array.isArray(queries) && queries.length > 0 ? queries.join("|") : query;
+    const limitNum =
+      typeof limit === "string" ? parseInt(limit, 10) : limit;
+    const thresholdNum =
+      typeof threshold === "string" ? parseFloat(threshold) : threshold;
     const queryKey = [
       queryKeyBase,
-      limit,
-      threshold,
+      limitNum,
+      thresholdNum,
       topKOnly,
     ]
       .filter((v) => v !== undefined)
@@ -424,8 +428,8 @@ export const search_knowledge_base = async ({
       query,
       queries,
       provider,
-      limit,
-      threshold,
+      limit: limitNum,
+      threshold: thresholdNum,
       topKOnly,
     });
     if (result.results) {

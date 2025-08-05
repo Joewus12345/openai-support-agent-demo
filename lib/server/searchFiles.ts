@@ -28,8 +28,8 @@ export async function search_knowledge_base({
   query?: string;
   queries?: string[];
   provider?: string;
-  limit?: number;
-  threshold?: number;
+  limit?: number | string;
+  threshold?: number | string;
   topKOnly?: boolean;
 }) {
   try {
@@ -42,7 +42,11 @@ export async function search_knowledge_base({
 
     const searchParts = Array.from(new Set(baseParts.map((p) => p.trim())));
 
-    const max_results = limit ?? 10;
+    const limitNum = typeof limit === "string" ? parseInt(limit, 10) : limit;
+    const thresholdNum =
+      typeof threshold === "string" ? parseFloat(threshold) : threshold;
+
+    const max_results = limitNum ?? 10;
     let collected: any[] = [];
 
     try {
@@ -51,7 +55,7 @@ export async function search_knowledge_base({
           if (provider?.includes('ollama')) {
             return await localVectorStore.search(q, {
               limit: max_results,
-              threshold: threshold ?? OLLAMA_SEARCH_THRESHOLD,
+              threshold: thresholdNum ?? OLLAMA_SEARCH_THRESHOLD,
               topKOnly,
             });
           }
@@ -60,7 +64,7 @@ export async function search_knowledge_base({
             query: q,
             provider,
             limit: max_results,
-            threshold,
+            threshold: thresholdNum,
             topKOnly,
           });
           if (res.error) throw new Error(res.error);
