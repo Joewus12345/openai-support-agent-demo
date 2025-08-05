@@ -3,10 +3,13 @@
 // Parameters for a tool call are passed as an object to the corresponding function
 import useDataStore from "@/stores/useDataStore";
 import useConversationStore from "@/stores/useConversationStore";
-import { search_knowledge_base as serverSearchKnowledgeBase } from "@/lib/server/searchFiles";
+import {
+  search_knowledge_base as serverSearchKnowledgeBase,
+  type SearchKnowledgeBaseResponse,
+} from "@/lib/server/searchFiles";
 
 // simple in-memory cache for file search results
-const fileSearchCache = new Map<string, any[] | string[]>();
+const fileSearchCache = new Map<string, SearchKnowledgeBaseResponse["results"]>();
 
 export function clearFileSearchCache() {
   fileSearchCache.clear();
@@ -378,7 +381,7 @@ export const search_knowledge_base = async ({
   limit?: number | string;
   threshold?: number | string;
   topKOnly?: boolean;
-}): Promise<{ results?: any[] | string[]; error?: string }> => {
+}): Promise<SearchKnowledgeBaseResponse> => {
   const {
     modelProvider: provider,
     lastSearchQuery,

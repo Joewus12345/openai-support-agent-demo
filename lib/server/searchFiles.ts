@@ -9,6 +9,11 @@ const OLLAMA_SEARCH_THRESHOLD = Number(
   process.env.OLLAMA_SEARCH_THRESHOLD ?? 0.3,
 );
 
+export interface SearchKnowledgeBaseResponse {
+  results?: any[] | string[];
+  error?: string;
+}
+
 /**
  * Search the knowledge base using one or multiple queries.
  * If `queries` is not provided, the single `query` string will be split into
@@ -32,7 +37,7 @@ export async function search_knowledge_base({
   limit?: number | string;
   threshold?: number | string;
   topKOnly?: boolean;
-}) {
+}): Promise<SearchKnowledgeBaseResponse> {
   try {
     const baseParts =
       Array.isArray(queries) && queries.length > 0
