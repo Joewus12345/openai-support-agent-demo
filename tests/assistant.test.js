@@ -73,3 +73,247 @@ test('suggestedMessage cleared after tool call', () => {
   assert.strictEqual(conversationItems.length, 1);
   assert.strictEqual(suggestedMessage, null);
 });
+
+test('emailRefusalRegex detects common refusal phrases', () => {
+  const emailRefusalRegex = new RegExp(
+    [
+      "don['’]?t feel comfortable giving (?:you )?my e[-\\s]?mail(?: address)?",
+      "i don['’]?t want to",
+      "i can['’]?t provide (?:that info(?:rmation)?|my e[-\\s]?mail(?: address)?)",
+      "no[,\\s]*i won['’]?t",
+    ].join('|'),
+    'i',
+  );
+  assert.ok(emailRefusalRegex.test("No I won't"));
+  assert.ok(emailRefusalRegex.test("I don't want to"));
+  assert.ok(emailRefusalRegex.test("I can't provide that info"));
+  assert.ok(
+    emailRefusalRegex.test(
+      "I don't feel comfortable giving you my email address"
+    )
+  );
+  assert.ok(
+    emailRefusalRegex.test("I can't provide my e-mail address")
+  );
+});
+
+test('ticket regex matches ticket ID', () => {
+  const ticketRegex = /#\d+\/\d{4}-\d{2}-\d{2}/;
+  assert.ok('#12345/2024-01-01'.match(ticketRegex));
+});
+
+test('DEVELOPER_PROMPT mentions ticket workflow', () => {
+  const { DEVELOPER_PROMPT } = require('../config/constants');
+  assert.match(
+    DEVELOPER_PROMPT,
+    /identify customers by either an email address or a ticket ID/i
+  );
+  assert.match(DEVELOPER_PROMPT, /inform the customer of the ticket ID/i);
+});
+
+test('handleTurn prefixes ticket system message', async () => {
+  const { handleTurn } = require('../lib/assistant');
+  const useDataStore = require('../stores/useDataStore').default;
+  const originalFetch = global.fetch;
+  let body;
+  global.fetch = async (_url, options) => {
+    body = JSON.parse(options.body);
+    return new Response('data: [DONE]\n\n', {
+      headers: { 'Content-Type': 'text/plain' },
+      status: 200,
+    });
+  };
+  try {
+    useDataStore.setState({
+      contactType: 'ticket',
+      contactId: 'TICK123',
+      summary: null,
+    });
+    const messages = [
+      { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
+    ];
+    await handleTurn(messages, () => {});
+    assert.strictEqual(body.messages[0].role, 'system');
+    assert.match(body.messages[0].content[0].text, /TICK123/);
+  } finally {
+    global.fetch = originalFetch;
+    useDataStore.setState({ contactType: null, contactId: null, summary: null });
+  }
+});
+
+test('handleTurn prefixes summary before ticket message', async () => {
+  const { handleTurn } = require('../lib/assistant');
+  const useDataStore = require('../stores/useDataStore').default;
+  const originalFetch = global.fetch;
+  let body;
+  global.fetch = async (_url, options) => {
+    body = JSON.parse(options.body);
+    return new Response('data: [DONE]\n\n', {
+      headers: { 'Content-Type': 'text/plain' },
+      status: 200,
+    });
+  };
+  try {
+    useDataStore.setState({
+      contactType: 'ticket',
+      contactId: 'TICK123',
+      summary: 'old summary',
+    });
+    const messages = [
+      { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
+    ];
+    await handleTurn(messages, () => {});
+    assert.strictEqual(body.messages[0].role, 'system');
+    assert.match(
+      body.messages[0].content[0].text,
+      /Previous conversation summary: old summary/
+    );
+    assert.strictEqual(body.messages[1].role, 'system');
+    assert.match(body.messages[1].content[0].text, /TICK123/);
+  } finally {
+    global.fetch = originalFetch;
+    useDataStore.setState({ contactType: null, contactId: null, summary: null });
+  }
+});
+
+test('create_ticket sends empty body when using placeholder ID', async () => {
+  const { processMessages } = require('../lib/assistant');
+  const { CUSTOMER_DETAILS } = require('../config/demoData');
+  const useDataStore = require('../stores/useDataStore').default;
+  const useConversationStore = require('../stores/useConversationStore').default;
+  const originalFetch = global.fetch;
+  let ticketBody;
+  global.fetch = async (url, options = {}) => {
+    if (url === '/api/tickets/create') {
+      ticketBody = options.body;
+      return new Response('{"ticket_id":"T1"}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    if (url === '/api/sessions/start') {
+      return new Response('{}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    if (url === '/api/turn_response') {
+      return new Response('data: [DONE]\n\n', {
+        headers: { 'Content-Type': 'text/plain' },
+        status: 200,
+      });
+    }
+    return originalFetch(url, options);
+  };
+
+  try {
+    useDataStore.setState({
+      contactType: null,
+      contactId: null,
+      emailRefused: false,
+      customerDetails: { id: CUSTOMER_DETAILS.id },
+    });
+    useConversationStore.setState({
+      conversationItems: [
+        { role: 'user', content: 'No, I won\'t provide that info' },
+      ],
+    });
+    await processMessages();
+    assert.strictEqual(ticketBody, '{}');
+  } finally {
+    global.fetch = originalFetch;
+  }
+});
+
+test('create_ticket still sends empty body when profile updated', async () => {
+  const { processMessages } = require('../lib/assistant');
+  const useDataStore = require('../stores/useDataStore').default;
+  const useConversationStore = require('../stores/useConversationStore').default;
+  const originalFetch = global.fetch;
+  let ticketBody;
+  global.fetch = async (url, options = {}) => {
+    if (url === '/api/tickets/create') {
+      ticketBody = options.body;
+      return new Response('{"ticket_id":"T1"}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    if (url === '/api/sessions/start') {
+      return new Response('{}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    if (url === '/api/turn_response') {
+      return new Response('data: [DONE]\n\n', {
+        headers: { 'Content-Type': 'text/plain' },
+        status: 200,
+      });
+    }
+    return originalFetch(url, options);
+  };
+
+  try {
+    useDataStore.setState({
+      contactType: null,
+      contactId: null,
+      emailRefused: false,
+      customerDetails: { id: 'cus_real' },
+    });
+    useConversationStore.setState({
+      conversationItems: [
+        { role: 'user', content: 'No, I won\'t provide that info' },
+      ],
+    });
+    await processMessages();
+    assert.strictEqual(ticketBody, '{}');
+  } finally {
+    global.fetch = originalFetch;
+  }
+});
+
+test('start_chat_session triggered by ticket ID', async () => {
+  const { processMessages } = require('../lib/assistant');
+  const useDataStore = require('../stores/useDataStore').default;
+  const useConversationStore = require('../stores/useConversationStore').default;
+  const originalFetch = global.fetch;
+  let sessionBody;
+  global.fetch = async (url, options = {}) => {
+    if (url === '/api/sessions/start') {
+      sessionBody = options.body;
+      return new Response('{"user":{},"summary":"old summary"}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    if (url === '/api/turn_response') {
+      return new Response('data: [DONE]\n\n', {
+        headers: { 'Content-Type': 'text/plain' },
+        status: 200,
+      });
+    }
+    return originalFetch(url, options);
+  };
+
+  try {
+    useDataStore.setState({ contactType: null, contactId: null, summary: null });
+    useConversationStore.setState({
+      conversationItems: [
+        { role: 'user', content: '#12345/2024-01-01' },
+      ],
+    });
+    await processMessages();
+    assert.strictEqual(
+      sessionBody,
+      '{"email":"#12345/2024-01-01","ticket_id":"#12345/2024-01-01"}'
+    );
+    const state = useDataStore.getState();
+    assert.strictEqual(state.contactType, 'ticket');
+    assert.strictEqual(state.contactId, '#12345/2024-01-01');
+    assert.strictEqual(state.summary, 'old summary');
+  } finally {
+    global.fetch = originalFetch;
+    useDataStore.setState({ contactType: null, contactId: null, summary: null });
+  }
+});

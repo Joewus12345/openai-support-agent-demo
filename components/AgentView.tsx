@@ -19,6 +19,7 @@ export default function AgentView() {
     chatMessages,
     addConversationItem,
     addChatMessage,
+    addPendingMessage,
     autoReply,
     setAutoReply,
     modelProvider,
@@ -62,6 +63,7 @@ export default function AgentView() {
 
     addConversationItem(agentMessage);
     addChatMessage(agentItem);
+    addPendingMessage(agentMessage);
   };
 
   return (

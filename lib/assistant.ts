@@ -4,7 +4,7 @@ import { handleTool } from "@/lib/tools/tools-handling";
 import useConversationStore from "@/stores/useConversationStore";
 import { tools, ollamaTools } from "@/lib/tools/tools";
 import { Annotation } from "@/components/Annotations";
-import { functionsMap } from "@/config/functions";
+import { functionsMap, create_ticket, start_chat_session } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
 
@@ -75,30 +75,70 @@ export const handleTurn = async (
   model?: string
 ) => {
   try {
-    // Get response from the API (defined in app/api/turn_response/route.ts)
+    const { contactType, contactId, summary, sessionId } =
+      useDataStore.getState();
+    const session_id = sessionId;
+    const systemMessages: any[] = [];
+    if (summary) {
+      systemMessages.push({
+        role: "system",
+        content: [
+          {
+            type: "input_text",
+            text: `Previous conversation summary: ${summary}`,
+          },
+        ],
+      });
+    }
+    if (contactType === "ticket" && contactId) {
+      systemMessages.push({
+        role: "system",
+        content: [
+          {
+            type: "input_text",
+            text: `Customer refused to share an email and uses ticket ${contactId}.`,
+          },
+        ],
+      });
+    }
+    const messagesWithTicket =
+      systemMessages.length > 0 ? [...systemMessages, ...messages] : messages;
+
+    // Get response from the API (app/api/turn_response/route.ts).
+    // This endpoint streams the assistant's reply and persists the turn
+    // using saveSessionMessages on the server.
     const response = await fetch("/api/turn_response", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        messages: messages,
+        messages: messagesWithTicket,
         tools: toolsArg,
         provider,
         model,
+        session_id,
+        identifier: contactId,
       }),
     });
 
-    if (!response.ok) {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-      let message = "";
-      try {
-        const errorData = await response.json();
-        message =
-          errorData.message ||
-          errorData.error ||
-          "The assistant encountered an error. Please try again.";
-      } catch {
-        message = "The assistant encountered an error. Please try again.";
+    const contentType = response.headers.get("Content-Type") || "";
+    if (contentType.includes("application/json")) {
+      const data = await response.json();
+      if (data.guardrail) {
+        onMessage({ event: "error", data: { message: data.message } });
+        return;
       }
+      if (!response.ok) {
+        console.warn(`Error: ${response.status} - ${response.statusText}`);
+        const message =
+          data.message ||
+          data.error ||
+          "The assistant encountered an error. Please try again.";
+        onMessage({ event: "error", data: { message } });
+        return;
+      }
+    } else if (!response.ok) {
+      console.warn(`Error: ${response.status} - ${response.statusText}`);
+      const message = "The assistant encountered an error. Please try again.";
       onMessage({ event: "error", data: { message } });
       return;
     }
@@ -140,7 +180,7 @@ export const handleTurn = async (
       }
     }
   } catch (error) {
-    console.error("Error handling turn:", error);
+    console.warn("Error handling turn:", error);
     const message =
       error instanceof Error && error.message
         ? error.message
@@ -171,8 +211,42 @@ export const processMessages = async () => {
   // Show typing indicator immediately when processing starts
   setAgentTyping(true);
 
-  const { setRelevantArticlesLoading, setFAQExtracts, setRelevantArticlesError } =
-    useDataStore.getState();
+  const {
+    setRelevantArticlesLoading,
+    setFAQExtracts,
+    setRelevantArticlesError,
+    emailRefused,
+    setEmailRefused,
+    contactType,
+    contactId,
+  } = useDataStore.getState();
+
+  const lastUserMessage = [...conversationItems]
+    .reverse()
+    .find((m) => (m as any).role === "user");
+  const lastUserText = typeof lastUserMessage?.content === "string" ? lastUserMessage.content : "";
+  const ticketMatch = lastUserText.match(/#\d+\/\d{4}-\d{2}-\d{2}/);
+  if (!contactType && !contactId && ticketMatch) {
+    await start_chat_session({ ticket_id: ticketMatch[0] });
+  }
+  const emailRefusalRegex = new RegExp(
+    [
+      "don['’]?t feel comfortable giving (?:you )?my e[-\\s]?mail(?: address)?",
+      "i don['’]?t want to",
+      "i can['’]?t provide (?:that info(?:rmation)?|my e[-\\s]?mail(?: address)?)",
+      "no[,\\s]*i won['’]?t",
+    ].join("|"),
+    "i",
+  );
+  if (
+    !contactType &&
+    !contactId &&
+    !emailRefused &&
+    emailRefusalRegex.test(lastUserText)
+  ) {
+    setEmailRefused(true);
+    await create_ticket();
+  }
 
   let toolSet: any[] =
     modelProvider === "ollama"

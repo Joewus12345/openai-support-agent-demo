@@ -15,14 +15,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String        @id @default(uuid())
+  email     String        @unique
   name      String?
   phone     String?
   address   String?
-  createdAt DateTime @default(now())
+  createdAt DateTime      @default(now())
   orders    Order[]
   sessions  ChatSession[]
+  tickets   Ticket[]
 }
 
 model Order {
@@ -39,5 +40,15 @@ model ChatSession {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   createdAt DateTime @default(now())
-  messages  Json     // or a separate Message model
+  updatedAt DateTime @updatedAt
+  endedAt   DateTime?
+  messages  Json // or a separate Message model
+}
+
+model Ticket {
+  id        String   @id @default(uuid())
+  ticket    String
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }

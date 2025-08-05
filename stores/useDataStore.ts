@@ -46,12 +46,23 @@ interface DataState {
   relevantArticlesError: string | null;
   relevantArticlesLoading: boolean;
   additionalContext?: ContextItem[] | null;
+  contactType: "email" | "ticket" | null;
+  contactId: string | null;
+  sessionId: string | null;
+  summary: string | null;
+  emailRefused: boolean;
   setCustomerDetails: (details: CustomerDetails) => void;
   setFAQExtracts: (searchResults: any[], provider?: string) => void;
   setRelevantArticlesError: (error: string | null) => void;
   setAdditionalContext: (context: ContextItem[]) => void;
   setRelevantArticlesLoading: (loading: boolean) => void;
   addContextItem: (item: ContextItem) => void;
+  setContact: (
+    info: { contactType: "email" | "ticket"; contactId: string } | null
+  ) => void;
+  setSessionId: (id: string | null) => void;
+  setSummary: (summary: string | null) => void;
+  setEmailRefused: (refused: boolean) => void;
 }
 
 const getFileUrl = (type: string, filename: string) => {
@@ -70,6 +81,11 @@ const useDataStore = create<DataState>((set) => ({
   relevantArticlesError: null,
   relevantArticlesLoading: false,
   additionalContext: null,
+  contactType: null,
+  contactId: null,
+  sessionId: null,
+  summary: null,
+  emailRefused: false,
   setCustomerDetails: (details) => set({ customerDetails: details }),
   setFAQExtracts: (searchResults, provider?: string) => {
     console.log("searchResults", searchResults);
@@ -92,11 +108,11 @@ const useDataStore = create<DataState>((set) => ({
         score,
       };
     });
-    // Sorting by relevance score and keeping only results with score > 0.5
+    // Sorting by relevance score and applying a provider-specific threshold
     const sortedArticles = articles.sort((a, b) => b.score - a.score);
-    const threshold = provider && provider.includes("ollama") ? 0.3 : 0.5;
+    const threshold = provider?.includes("ollama") ? 0.3 : 0.5;
     set({
-      FAQExtracts: sortedArticles.filter((a) => a.score > threshold),
+      FAQExtracts: sortedArticles.filter((a) => a.score >= threshold),
       relevantArticlesError: null,
     });
   },
@@ -108,6 +124,14 @@ const useDataStore = create<DataState>((set) => ({
     })),
   setRelevantArticlesLoading: (loading) =>
     set({ relevantArticlesLoading: loading }),
+  setContact: (info) =>
+    set({
+      contactType: info ? info.contactType : null,
+      contactId: info ? info.contactId : null,
+    }),
+  setSessionId: (id) => set({ sessionId: id }),
+  setSummary: (summary) => set({ summary }),
+  setEmailRefused: (refused) => set({ emailRefused: refused }),
 }));
 
 export default useDataStore;

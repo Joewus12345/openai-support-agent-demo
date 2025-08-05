@@ -1,17 +1,22 @@
 import prisma from "@/lib/prisma";
+import redis from "@/lib/redis";
 
 export async function POST(request: Request) {
   try {
-    const { email, name, phone, address } = await request.json();
-    if (!email) {
+    const { email, ticket_id, name, phone, address } = await request.json();
+
+    const identifier = email || ticket_id;
+
+    if (!identifier) {
       return new Response(JSON.stringify({ error: "Email is required" }), {
         status: 400,
       });
     }
+
     const user = await prisma.user.upsert({
-      where: { email },
+      where: { email: identifier },
       update: { name, phone, address },
-      create: { email, name, phone, address },
+      create: { email: identifier, name, phone, address },
       include: { orders: true },
     });
     let session = await prisma.chatSession.findFirst({
@@ -23,7 +28,8 @@ export async function POST(request: Request) {
         data: { userId: user.id, messages: [] },
       });
     }
-    return new Response(JSON.stringify({ user, session }), { status: 200 });
+    const summary = await redis.get(identifier);
+    return new Response(JSON.stringify({ user, session, summary }), { status: 200 });
   } catch (error) {
     console.error("Error starting session:", error);
     return new Response("Error starting session", { status: 500 });

@@ -4,19 +4,33 @@ import { fileSearch } from '@/lib/tools/fileSearch';
 import { localVectorStore } from '../localVectorStore';
 import { generateSearchQueries } from '../generateSearchQueries';
 
+const OLLAMA_SEARCH_THRESHOLD = Number(
+  process.env.OLLAMA_SEARCH_THRESHOLD ?? 0.3,
+);
+
 /**
  * Search the knowledge base using one or multiple queries.
  * If `queries` is not provided, the single `query` string will be split into
- * shorter phrases to broaden the search.
+ * shorter phrases to broaden the search. Optional parameters can tune the
+ * vector search:
+ * - `limit` controls the maximum number of results.
+ * - `threshold` sets the minimum cosine similarity score.
+ * - `topKOnly` ignores the threshold and returns only the top `limit` items.
  */
 export async function search_knowledge_base({
   query,
   queries,
   provider,
+  limit,
+  threshold,
+  topKOnly,
 }: {
   query?: string;
   queries?: string[];
   provider?: string;
+  limit?: number | string;
+  threshold?: number | string;
+  topKOnly?: boolean;
 }) {
   try {
     const baseParts =
@@ -28,17 +42,31 @@ export async function search_knowledge_base({
 
     const searchParts = Array.from(new Set(baseParts.map((p) => p.trim())));
 
-    const max_results = 10;
+    const limitNum = typeof limit === "string" ? parseInt(limit, 10) : limit;
+    const thresholdNum =
+      typeof threshold === "string" ? parseFloat(threshold) : threshold;
+
+    const max_results = limitNum ?? 10;
     let collected: any[] = [];
 
     try {
       const arrays = await Promise.all(
         searchParts.map(async (q) => {
-          if (provider === 'ollama' || provider === 'ollama-openai') {
-            return await localVectorStore.search(q, max_results);
+          if (provider?.includes('ollama')) {
+            return await localVectorStore.search(q, {
+              limit: max_results,
+              threshold: thresholdNum ?? OLLAMA_SEARCH_THRESHOLD,
+              topKOnly,
+            });
           }
 
-          const res = await fileSearch({ query: q, provider });
+          const res = await fileSearch({
+            query: q,
+            provider,
+            limit: max_results,
+            threshold: thresholdNum,
+            topKOnly,
+          });
           if (res.error) throw new Error(res.error);
           return res.results ?? [];
         })
@@ -80,10 +108,9 @@ export async function search_knowledge_base({
     .slice(0, max_results)
     .map((r) => r.item);
 
-  const results =
-    provider === 'ollama' || provider === 'ollama-openai'
-      ? ranked.map((r) => r.text)
-      : ranked;
+  const results = provider?.includes('ollama')
+    ? ranked.map((r) => r.text)
+    : ranked;
 
   return { results };
   } catch (error) {
