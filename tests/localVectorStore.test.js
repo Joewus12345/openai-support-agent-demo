@@ -13,18 +13,18 @@ function setupStore(embeddings) {
   localVectorStore.embedding = async () => [1, 0];
 }
 
-test('defaults to 5 when limit is non-positive', async () => {
+test('defaults to 10 when limit is non-positive', async () => {
   const embeddings = Array.from({ length: 10 }, () => [1, 0]);
   setupStore(embeddings);
   const results = await localVectorStore.search('q', { limit: -3, topKOnly: true });
-  assert.strictEqual(results.length, 5);
+  assert.strictEqual(results.length, 10);
 });
 
-test('defaults to 5 when limit is non-integer', async () => {
+test('defaults to 10 when limit is non-integer', async () => {
   const embeddings = Array.from({ length: 10 }, () => [1, 0]);
   setupStore(embeddings);
   const results = await localVectorStore.search('q', { limit: 2.7, topKOnly: true });
-  assert.strictEqual(results.length, 5);
+  assert.strictEqual(results.length, 10);
 });
 
 test('clamps threshold above 1 to 1', async () => {

@@ -182,7 +182,7 @@ class LocalVectorStore {
   async search(
     query: string,
     {
-      limit: rawLimit = 5,
+      limit: rawLimit = 10,
       threshold: rawThreshold = 0.5,
       topKOnly = false,
     }: { limit?: number; threshold?: number; topKOnly?: boolean } = {},
@@ -194,8 +194,8 @@ class LocalVectorStore {
 
     let limit = rawLimit;
     if (!Number.isInteger(limit) || limit <= 0) {
-      console.warn(`Invalid limit ${rawLimit}; defaulting to 5`);
-      limit = 5;
+      console.warn(`Invalid limit ${rawLimit}; defaulting to 10`);
+      limit = 10;
     }
 
     let threshold = rawThreshold;
