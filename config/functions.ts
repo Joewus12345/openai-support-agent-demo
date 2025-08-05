@@ -441,7 +441,7 @@ export const search_knowledge_base = async ({
     } else if (result.error) {
       setRelevantArticlesError(result.error);
     }
-    return result
+    return result;
   } finally {
     setRelevantArticlesLoading(false);
   }
