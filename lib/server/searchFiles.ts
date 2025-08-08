@@ -1,5 +1,6 @@
 'use server'
 
+import { DEFAULT_SEARCH_LIMIT } from '@/config/constants';
 import { fileSearch } from '@/lib/tools/fileSearch';
 import { localVectorStore } from '../localVectorStore';
 import { generateSearchQueries } from '../generateSearchQueries';
@@ -8,12 +9,17 @@ const OLLAMA_SEARCH_THRESHOLD = Number(
   process.env.OLLAMA_SEARCH_THRESHOLD ?? 0.3,
 );
 
+export interface SearchKnowledgeBaseResponse {
+  results?: any[] | string[];
+  error?: string;
+}
+
 /**
  * Search the knowledge base using one or multiple queries.
  * If `queries` is not provided, the single `query` string will be split into
  * shorter phrases to broaden the search. Optional parameters can tune the
  * vector search:
- * - `limit` controls the maximum number of results.
+ * - `limit` controls the maximum number of results (defaults to 10).
  * - `threshold` sets the minimum cosine similarity score.
  * - `topKOnly` ignores the threshold and returns only the top `limit` items.
  */
@@ -31,7 +37,7 @@ export async function search_knowledge_base({
   limit?: number | string;
   threshold?: number | string;
   topKOnly?: boolean;
-}) {
+}): Promise<SearchKnowledgeBaseResponse> {
   try {
     const baseParts =
       Array.isArray(queries) && queries.length > 0
@@ -46,7 +52,7 @@ export async function search_knowledge_base({
     const thresholdNum =
       typeof threshold === "string" ? parseFloat(threshold) : threshold;
 
-    const max_results = limitNum ?? 10;
+    const max_results = limitNum ?? DEFAULT_SEARCH_LIMIT;
     let collected: any[] = [];
 
     try {

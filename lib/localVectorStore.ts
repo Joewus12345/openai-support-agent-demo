@@ -4,6 +4,7 @@ import crypto from "crypto";
 import ollama from "ollama";
 import { KB_FOLDERS } from "@/config/demoData";
 import { TEXT_SPLITTER_CONFIG } from "@/config/vectorStore";
+import { DEFAULT_SEARCH_LIMIT } from "@/config/constants";
 import cleanMarkdown from "./cleanMarkdown";
 import { splitText } from "./textSplitter";
 import pLimit from "p-limit";
@@ -174,15 +175,16 @@ class LocalVectorStore {
    * Search the local vector store.
    *
    * By default, returns up to `limit` entries with a cosine similarity score
-   * of at least `threshold` (defaults to `0.5`).
-   * Set `topKOnly` to `true` to ignore the threshold and rely solely on the
-   * highest scoring `limit` matches. Lowering the threshold increases recall,
-   * while raising it can improve precision.
+   * of at least `threshold` (defaults to `0.5`). When `limit` is omitted,
+   * the search returns up to 10 results. Set `topKOnly` to `true` to ignore
+   * the threshold and rely solely on the highest scoring `limit` matches.
+   * Lowering the threshold increases recall, while raising it can improve
+   * precision.
    */
   async search(
     query: string,
     {
-      limit: rawLimit = 10,
+      limit: rawLimit = DEFAULT_SEARCH_LIMIT,
       threshold: rawThreshold = 0.5,
       topKOnly = false,
     }: { limit?: number; threshold?: number; topKOnly?: boolean } = {},
@@ -194,8 +196,10 @@ class LocalVectorStore {
 
     let limit = rawLimit;
     if (!Number.isInteger(limit) || limit <= 0) {
-      console.warn(`Invalid limit ${rawLimit}; defaulting to 10`);
-      limit = 10;
+      console.warn(
+        `Invalid limit ${rawLimit}; defaulting to ${DEFAULT_SEARCH_LIMIT}`
+      );
+      limit = DEFAULT_SEARCH_LIMIT;
     }
 
     let threshold = rawThreshold;
