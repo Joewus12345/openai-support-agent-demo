@@ -7,6 +7,7 @@ import { Annotation } from "@/components/Annotations";
 import { functionsMap, create_ticket, start_chat_session } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
+import { encodingForModel } from "js-tiktoken";
 
 // generateId uses browser crypto if available, otherwise Math.random
 export function generateId() {
@@ -67,6 +68,66 @@ export interface ToolCallItem {
 
 export type Item = ChatMessage | ToolCallItem;
 
+const TOKEN_THRESHOLD = 25_000;
+
+function estimateMessageTokens(messages: any[], modelName = "gpt-4o-mini") {
+  const encoding = encodingForModel(modelName);
+  let total = 0;
+  for (const msg of messages) {
+    const content = (msg as any).content;
+    if (Array.isArray(content)) {
+      for (const part of content) {
+        if (typeof part?.text === "string") {
+          total += encoding.encode(part.text).length;
+        }
+      }
+    } else if (typeof content === "string") {
+      total += encoding.encode(content).length;
+    }
+  }
+  return total;
+}
+
+function trimMessagesToTokenLimit(
+  allMessages: any[],
+  limit: number,
+  summary: string | null,
+  systemCount: number,
+  modelName?: string
+) {
+  let trimmed = [...allMessages];
+  let tokenEstimate = estimateMessageTokens(trimmed, modelName);
+
+  const removed: any[] = [];
+
+  while (tokenEstimate > limit && trimmed.length > systemCount + 1) {
+    removed.push(trimmed[systemCount]);
+    trimmed.splice(systemCount, 1);
+    tokenEstimate = estimateMessageTokens(trimmed, modelName);
+  }
+
+  if (removed.length > 0 && !summary) {
+    const removedText = removed
+      .map((m) =>
+        Array.isArray(m.content)
+          ? m.content.map((c: any) => c.text ?? "").join(" ")
+          : m.content ?? ""
+      )
+      .join(" ");
+    trimmed.unshift({
+      role: "system",
+      content: [
+        {
+          type: "input_text",
+          text: `Previous conversation summary: ${removedText}`,
+        },
+      ],
+    });
+  }
+
+  return trimmed;
+}
+
 export const handleTurn = async (
   messages: any[],
   onMessage: (data: any) => void,
@@ -104,6 +165,14 @@ export const handleTurn = async (
     const messagesWithTicket =
       systemMessages.length > 0 ? [...systemMessages, ...messages] : messages;
 
+    const limitedMessages = trimMessagesToTokenLimit(
+      messagesWithTicket,
+      TOKEN_THRESHOLD,
+      summary,
+      systemMessages.length,
+      model
+    );
+
     // Get response from the API (app/api/turn_response/route.ts).
     // This endpoint streams the assistant's reply and persists the turn
     // using saveSessionMessages on the server.
@@ -111,7 +180,7 @@ export const handleTurn = async (
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        messages: messagesWithTicket,
+        messages: limitedMessages,
         tools: toolsArg,
         provider,
         model,
