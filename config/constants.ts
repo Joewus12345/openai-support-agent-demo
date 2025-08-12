@@ -37,3 +37,6 @@ export const VECTOR_STORE_ID = "vs_688149954aa08191841d645c1b839941";
 
 // Default maximum number of search results returned when no limit is specified
 export const DEFAULT_SEARCH_LIMIT = 10;
+
+// Maximum number of past session messages to return to the client
+export const MAX_SESSION_MESSAGES = 20;

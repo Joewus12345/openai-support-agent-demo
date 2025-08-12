@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
+import { MAX_SESSION_MESSAGES } from "@/config/constants";
 
 export async function POST(request: Request) {
   try {
@@ -29,7 +30,13 @@ export async function POST(request: Request) {
       });
     }
     const summary = await redis.get(identifier);
-    return new Response(JSON.stringify({ user, session, summary }), { status: 200 });
+    const trimmedSession = session
+      ? { ...session, messages: (session.messages as any[]).slice(-MAX_SESSION_MESSAGES) }
+      : session;
+    return new Response(
+      JSON.stringify({ user, session: trimmedSession, summary }),
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error starting session:", error);
     return new Response("Error starting session", { status: 500 });
