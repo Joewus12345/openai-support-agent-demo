@@ -127,7 +127,7 @@ function trimMessagesToTokenLimit(
   systemCount: number,
   modelName?: string
 ) {
-  let trimmed = [...allMessages];
+  const trimmed = [...allMessages];
   let tokenEstimate = estimateMessageTokens(trimmed, modelName);
 
   const removed: any[] = [];
