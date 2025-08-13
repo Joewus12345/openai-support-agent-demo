@@ -7,7 +7,7 @@ import { Annotation } from "@/components/Annotations";
 import { functionsMap, create_ticket, start_chat_session } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
-import { encodingForModel, getEncoding } from "js-tiktoken";
+import { encodingForModel, getEncoding, TiktokenModel } from "js-tiktoken";
 
 // generateId uses browser crypto if available, otherwise Math.random
 export function generateId() {
@@ -88,7 +88,10 @@ function mapModelToEncoding(modelName: string) {
   return modelName;
 }
 
-export function estimateMessageTokens(messages: any[], modelName = MODEL) {
+export function estimateMessageTokens(
+  messages: any[],
+  modelName: TiktokenModel = MODEL as TiktokenModel
+) {
   let encoding;
   const mapped = mapModelToEncoding(modelName);
   try {
@@ -125,7 +128,7 @@ function trimMessagesToTokenLimit(
   limit: number,
   summary: string | null,
   systemCount: number,
-  modelName?: string
+  modelName?: TiktokenModel
 ) {
   const trimmed = [...allMessages];
   let tokenEstimate = estimateMessageTokens(trimmed, modelName);
@@ -202,7 +205,7 @@ export const handleTurn = async (
       TOKEN_THRESHOLD,
       summary,
       systemMessages.length,
-      model
+      model as TiktokenModel | undefined
     );
 
     // Get response from the API (app/api/turn_response/route.ts).
@@ -310,9 +313,9 @@ export const processMessages = async () => {
   } = useConversationStore.getState();
 
   const tokenModel =
-    modelProvider === "ollama" || modelProvider === "ollama-openai"
+    (modelProvider === "ollama" || modelProvider === "ollama-openai"
       ? ollamaModel
-      : MODEL;
+      : MODEL) as TiktokenModel;
 
   // Show typing indicator immediately when processing starts
   setAgentTyping(true);
