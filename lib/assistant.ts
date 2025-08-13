@@ -95,13 +95,13 @@ export function estimateMessageTokens(
   let encoding;
   const mapped = mapModelToEncoding(modelName);
   try {
-    encoding = encodingForModel(mapped);
+    encoding = encodingForModel(mapped as TiktokenModel);
   } catch {
     const fallbackBase = mapped.startsWith("o") || mapped.includes("gpt-4o")
       ? "o200k_base"
       : "cl100k_base";
     try {
-      encoding = encodingForModel(fallbackBase);
+      encoding = encodingForModel(fallbackBase as TiktokenModel);
     } catch {
       encoding = getEncoding(fallbackBase);
     }
