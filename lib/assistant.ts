@@ -7,7 +7,7 @@ import { Annotation } from "@/components/Annotations";
 import { functionsMap, create_ticket, start_chat_session } from "@/config/functions";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
-import { encodingForModel } from "js-tiktoken";
+import { encodingForModel, getEncoding } from "js-tiktoken";
 
 // generateId uses browser crypto if available, otherwise Math.random
 export function generateId() {
@@ -70,8 +70,40 @@ export type Item = ChatMessage | ToolCallItem;
 
 const TOKEN_THRESHOLD = 25_000;
 
-function estimateMessageTokens(messages: any[], modelName = MODEL) {
-  const encoding = encodingForModel(modelName);
+const OLLAMA_MODEL_PREFIX_TO_ENCODING: Record<string, string> = {
+  llama: "cl100k_base",
+  qwen: "cl100k_base",
+  mistral: "cl100k_base",
+  phi: "cl100k_base",
+  gemma: "cl100k_base",
+};
+
+function mapModelToEncoding(modelName: string) {
+  const lower = modelName.toLowerCase();
+  for (const prefix of Object.keys(OLLAMA_MODEL_PREFIX_TO_ENCODING)) {
+    if (lower.startsWith(prefix)) {
+      return OLLAMA_MODEL_PREFIX_TO_ENCODING[prefix];
+    }
+  }
+  return modelName;
+}
+
+export function estimateMessageTokens(messages: any[], modelName = MODEL) {
+  let encoding;
+  const mapped = mapModelToEncoding(modelName);
+  try {
+    encoding = encodingForModel(mapped);
+  } catch {
+    const fallbackBase = mapped.startsWith("o") || mapped.includes("gpt-4o")
+      ? "o200k_base"
+      : "cl100k_base";
+    try {
+      encoding = encodingForModel(fallbackBase);
+    } catch {
+      encoding = getEncoding(fallbackBase);
+    }
+  }
+
   let total = 0;
   for (const msg of messages) {
     const content = (msg as any).content;
