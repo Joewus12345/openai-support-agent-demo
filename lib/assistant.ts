@@ -1,4 +1,4 @@
-import { DEVELOPER_PROMPT } from "@/config/constants";
+import { DEVELOPER_PROMPT, MODEL } from "@/config/constants";
 import { parse } from "partial-json";
 import { handleTool } from "@/lib/tools/tools-handling";
 import useConversationStore from "@/stores/useConversationStore";
@@ -70,7 +70,7 @@ export type Item = ChatMessage | ToolCallItem;
 
 const TOKEN_THRESHOLD = 25_000;
 
-function estimateMessageTokens(messages: any[], modelName = "gpt-4o-mini") {
+function estimateMessageTokens(messages: any[], modelName = MODEL) {
   const encoding = encodingForModel(modelName);
   let total = 0;
   for (const msg of messages) {
@@ -276,6 +276,11 @@ export const processMessages = async () => {
     modelProvider,
     ollamaModel,
   } = useConversationStore.getState();
+
+  const tokenModel =
+    modelProvider === "ollama" || modelProvider === "ollama-openai"
+      ? ollamaModel
+      : MODEL;
 
   // Show typing indicator immediately when processing starts
   setAgentTyping(true);
@@ -702,7 +707,5 @@ export const processMessages = async () => {
   },
   modelProvider,
   activeTools as any,
-  modelProvider === "ollama" || modelProvider === "ollama-openai"
-    ? ollamaModel
-    : undefined);
+  tokenModel);
 };
