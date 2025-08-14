@@ -29,12 +29,22 @@ export async function POST(request: Request) {
         data: { userId: user.id, messages: [] },
       });
     }
-    const summary = await redis.get(identifier);
+    let summary = session?.summary;
+    if (!summary) {
+      summary = await redis.get(identifier);
+    }
+    if (summary) {
+      await redis.set(identifier, summary);
+    }
     const trimmedSession = session
-      ? { ...session, messages: (session.messages as any[]).slice(-MAX_SESSION_MESSAGES) }
+      ? {
+          ...session,
+          summary,
+          messages: (session.messages as any[]).slice(-MAX_SESSION_MESSAGES),
+        }
       : session;
     return new Response(
-      JSON.stringify({ user, session: trimmedSession, summary }),
+      JSON.stringify({ user, session: trimmedSession }),
       { status: 200 }
     );
   } catch (error) {
