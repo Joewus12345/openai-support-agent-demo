@@ -380,9 +380,9 @@ export const start_chat_session = async ({
           contactId: identifier,
         });
       }
-      setSummary(res.summary || null);
+      setSummary(res.session?.summary || null);
     }
-    return res;
+    return { session: res.session, user: res.user };
   } catch (error) {
     console.error(error);
     return { error: "Failed to start chat session" };

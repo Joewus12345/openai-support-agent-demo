@@ -282,7 +282,7 @@ test('start_chat_session triggered by ticket ID', async () => {
   global.fetch = async (url, options = {}) => {
     if (url === '/api/sessions/start') {
       sessionBody = options.body;
-      return new Response('{"user":{},"summary":"old summary"}', {
+      return new Response('{"user":{},"session":{"summary":"old summary"}}', {
         headers: { 'Content-Type': 'application/json' },
         status: 200,
       });
