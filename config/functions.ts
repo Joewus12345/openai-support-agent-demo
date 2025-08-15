@@ -382,7 +382,11 @@ export const start_chat_session = async ({
       }
       setSummary(res.session?.summary || null);
     }
-    return { session: res.session, user: res.user };
+    return {
+      user: res.user,
+      session: { id: res.session?.id },
+      summary: res.session?.summary,
+    };
   } catch (error) {
     console.error(error);
     return { error: "Failed to start chat session" };
