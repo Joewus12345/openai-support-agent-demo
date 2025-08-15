@@ -1,7 +1,8 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 
-const MESSAGE_CACHE_TTL = 60 * 60; // 1 hour
+// Cached session messages no longer have an expiry and are retained
+// until the associated session is cleaned up.
 
 export async function saveSessionMessages(
   session_id: string,
@@ -31,9 +32,7 @@ export async function saveSessionMessages(
 
     await redis.set(
       `session:${session_id}:messages`,
-      JSON.stringify(updatedMessages),
-      "EX",
-      MESSAGE_CACHE_TTL
+      JSON.stringify(updatedMessages)
     );
 
     return { success: true };
