@@ -17,7 +17,6 @@ export async function POST(request: Request) {
       provider,
       model,
       session_id,
-      identifier,
     } = await request.json();
     console.log("Received messages:", messages);
 
@@ -105,8 +104,7 @@ export async function POST(request: Request) {
               } as any;
               const result = await saveSessionMessages(
                 session_id,
-                [lastMessage, assistantMessage],
-                identifier
+                [lastMessage, assistantMessage]
               );
               if (result && "error" in result) {
                 console.error("Error saving session messages:", result.error);

@@ -12,7 +12,7 @@ export async function POST(
     const { messages = [], identifier } = await request.json();
 
     if (Array.isArray(messages) && messages.length > 0) {
-      await saveSessionMessages(session_id, messages, identifier);
+      await saveSessionMessages(session_id, messages);
     }
 
     const session = await prisma.chatSession.findUnique({

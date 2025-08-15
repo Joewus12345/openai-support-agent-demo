@@ -2,8 +2,7 @@ import prisma from "@/lib/prisma";
 
 export async function saveSessionMessages(
   session_id: string,
-  messages: any[],
-  identifier?: string
+  messages: any[]
 ) {
   if (!Array.isArray(messages)) {
     return { error: "Messages must be an array" };
