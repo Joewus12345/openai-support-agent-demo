@@ -30,11 +30,10 @@ export async function POST(request: Request) {
       });
     }
     let summary = session?.summary;
-    if (!summary) {
-      summary = await redis.get(identifier);
-    }
     if (summary) {
       await redis.set(identifier, summary);
+    } else {
+      summary = await redis.get(identifier);
     }
     const trimmedSession = session
       ? {
