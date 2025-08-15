@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import type { EasyInputMessage } from "openai/resources/responses";
 import cleanMarkdown from "../cleanMarkdown";
 
 type SummaryMessage = {
@@ -30,16 +31,15 @@ export async function summarizeSession(messages: any[]): Promise<string> {
       };
     });
 
+  const extraPrompt: EasyInputMessage = {
+    type: "message",
+    role: "user",
+    content: [{ type: "input_text", text: prompt }],
+  };
+
   const response = await openai.responses.create({
     model: "gpt-4o-mini",
-    input: [
-      ...filteredMessages,
-      {
-        type: "message",
-        role: "user",
-        content: [{ type: "input_text", text: prompt }],
-      },
-    ],
+    input: [...filteredMessages, extraPrompt] as EasyInputMessage[],
   });
 
   const text = response.output_text ?? "";
