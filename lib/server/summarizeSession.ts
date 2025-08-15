@@ -17,7 +17,12 @@ const filteredMessages = (Array.isArray(messages) ? messages : [])
       : typeof content === "string"
         ? content
         : content?.text ?? String(content ?? "");
-    return { role, content: [{ type: "input_text" as const, text: textContent }] };
+    return {
+      role,
+      content: [
+        { type: role === "assistant" ? "output_text" : "input_text", text: textContent },
+      ],
+    };
   });
 
   const response = await openai.responses.create({
