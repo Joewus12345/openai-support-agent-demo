@@ -20,10 +20,39 @@ export async function saveSessionMessages(
       return { error: "Session not found" };
     }
 
-    const updatedMessages = [
-      ...((session.messages as any[]) || []),
-      ...messages,
-    ];
+    const existingMessages = Array.isArray(session.messages)
+      ? (session.messages as any[])
+      : [];
+
+    const existingIds = new Set(
+      existingMessages.map((m: any) => m.id).filter(Boolean)
+    );
+
+    const dedupedMessages: any[] = [];
+    let lastMessage = existingMessages[existingMessages.length - 1];
+    let duplicateDetected = false;
+
+    for (const msg of messages) {
+      if (msg.id && existingIds.has(msg.id)) {
+        duplicateDetected = true;
+        continue;
+      }
+      if (
+        lastMessage &&
+        msg.role === lastMessage.role &&
+        JSON.stringify(msg.content) === JSON.stringify(lastMessage.content)
+      ) {
+        duplicateDetected = true;
+        continue;
+      }
+      dedupedMessages.push(msg);
+      lastMessage = msg;
+      if (msg.id) {
+        existingIds.add(msg.id);
+      }
+    }
+
+    const updatedMessages = [...existingMessages, ...dedupedMessages];
 
     await prisma.chatSession.update({
       where: { id: session_id },
@@ -34,6 +63,10 @@ export async function saveSessionMessages(
       `session:${session_id}:messages`,
       JSON.stringify(updatedMessages)
     );
+
+    if (duplicateDetected) {
+      return { error: "Duplicate messages detected" };
+    }
 
     return { success: true };
   } catch (error) {
