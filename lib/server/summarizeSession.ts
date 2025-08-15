@@ -18,12 +18,16 @@ export async function summarizeSession(messages: any[]): Promise<string> {
         : typeof content === "string"
         ? content
         : content?.text ?? String(content ?? "");
-      return { role, content: textContent };
+      const contentType = role === "assistant" ? "output_text" : "input_text";
+      return { role, content: [{ type: contentType, text: textContent }] };
     });
 
   const response = await openai.responses.create({
     model: "gpt-4o-mini",
-    input: [...filteredMessages, { role: "user", content: prompt }],
+    input: [
+      ...filteredMessages,
+      { role: "user", content: [{ type: "input_text", text: prompt }] },
+    ],
   });
 
   const text = response.output_text ?? "";
