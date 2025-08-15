@@ -15,13 +15,17 @@ export default function SessionTimer() {
       timerRef.current = setTimeout(async () => {
         const { pendingMessages, clearPendingMessages } =
           useConversationStore.getState();
-        const sessionId = (useDataStore.getState() as any).sessionId;
+        const { sessionId, contactId } =
+          useDataStore.getState() as any;
         if (sessionId) {
           try {
             await fetch(`/api/sessions/${sessionId}/end`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ messages: pendingMessages }),
+              body: JSON.stringify({
+                messages: pendingMessages,
+                identifier: contactId,
+              }),
             });
             clearPendingMessages();
           } catch (err) {
