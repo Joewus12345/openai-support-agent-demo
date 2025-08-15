@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { MAX_SESSION_MESSAGES } from "@/config/constants";
 
-const MESSAGE_CACHE_TTL = 60 * 60; // 1 hour
+// Session message caches are kept indefinitely until sessions are cleaned up.
 
 export async function POST(request: Request) {
   try {
@@ -45,9 +45,7 @@ export async function POST(request: Request) {
       });
       await redis.set(
         `session:${session.id}:messages`,
-        JSON.stringify([]),
-        "EX",
-        MESSAGE_CACHE_TTL
+        JSON.stringify([])
       );
     }
 
@@ -63,9 +61,7 @@ export async function POST(request: Request) {
       messages = (sessionWithMessages?.messages as any[]) || [];
       await redis.set(
         `session:${session.id}:messages`,
-        JSON.stringify(messages),
-        "EX",
-        MESSAGE_CACHE_TTL
+        JSON.stringify(messages)
       );
     }
 
