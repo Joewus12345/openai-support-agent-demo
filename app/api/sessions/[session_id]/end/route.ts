@@ -23,6 +23,8 @@ export async function POST(
       : [];
     const summary = await summarizeSession(sessionMessages);
 
+    await redis.set(`session:${session_id}:summary`, summary);
+
     await prisma.chatSession.update({
       where: { id: session_id },
       data: { endedAt: new Date(), summary },

@@ -70,6 +70,9 @@ export async function POST(request: Request) {
     }
 
     let summary = session.summary;
+    if (!summary) {
+      summary = await redis.get(`session:${session.id}:summary`);
+    }
     if (summary) {
       await redis.set(identifier, summary);
     } else {
