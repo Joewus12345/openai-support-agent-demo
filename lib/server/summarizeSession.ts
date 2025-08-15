@@ -5,7 +5,7 @@ import cleanMarkdown from "../cleanMarkdown";
 type SummaryMessage = {
   type: "message";
   role: "user" | "assistant";
-  content: [{ type: "input_text"; text: string }];
+  content: [{ type: "input_text" | "output_text"; text: string }];
 };
 
 export async function summarizeSession(messages: any[]): Promise<string> {
@@ -27,7 +27,9 @@ export async function summarizeSession(messages: any[]): Promise<string> {
       return {
         type: "message",
         role,
-        content: [{ type: "input_text", text: textContent }],
+        content: [
+          { type: role === "user" ? "input_text" : "output_text", text: textContent },
+        ],
       };
     });
 
