@@ -21,9 +21,15 @@ export async function POST(request: Request) {
     } = await request.json();
     console.log("Received messages:", messages);
 
+    const normalizedMessages = Array.isArray(messages)
+      ? messages.map((m: any) =>
+          m?.type === "message" ? { role: m.role, content: m.content } : m
+        )
+      : [];
+
     const lastMessage =
-      Array.isArray(messages) && messages.length > 0
-        ? messages[messages.length - 1]
+      normalizedMessages.length > 0
+        ? normalizedMessages[normalizedMessages.length - 1]
         : null;
 
     let userInput = "";
@@ -31,8 +37,8 @@ export async function POST(request: Request) {
     let relevance = { tripwireTriggered: false };
     let jailbreak = { tripwireTriggered: false };
 
-    if (Array.isArray(messages)) {
-      conversationInput = messages
+    if (Array.isArray(normalizedMessages)) {
+      conversationInput = normalizedMessages
         .filter((m) => m.role !== "developer")
         .map((m) =>
           Array.isArray(m.content)
@@ -70,7 +76,7 @@ export async function POST(request: Request) {
     }
 
     const providerFn = getProvider(provider);
-    const events = providerFn(messages, tools, { model });
+    const events = providerFn(normalizedMessages, tools, { model });
 
     const stream = new ReadableStream({
       async start(controller) {
@@ -173,7 +179,7 @@ export async function POST(request: Request) {
             try {
               const assistantMessage: any = {
                 role: "assistant",
-                content: assistantText,
+                content: [{ type: "output_text", text: assistantText }],
               };
               if (functionCalls.length > 0) {
                 assistantMessage.tool_calls = functionCalls.map((c) => ({
