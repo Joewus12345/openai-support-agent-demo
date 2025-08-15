@@ -1,17 +1,11 @@
 import OpenAI from "openai";
 import cleanMarkdown from "../cleanMarkdown";
 
-type SummaryMessage =
-  | {
-      type: "message";
-      role: "user";
-      content: [{ type: "input_text"; text: string }];
-    }
-  | {
-      type: "message";
-      role: "assistant";
-      content: [{ type: "output_text"; text: string }];
-    };
+type SummaryMessage = {
+  type: "message";
+  role: "user" | "assistant";
+  content: [{ type: "input_text"; text: string }];
+};
 
 export async function summarizeSession(messages: any[]): Promise<string> {
   const openai = new OpenAI();
@@ -32,12 +26,7 @@ export async function summarizeSession(messages: any[]): Promise<string> {
       return {
         type: "message",
         role,
-        content: [
-          {
-            type: role === "assistant" ? "output_text" : "input_text",
-            text: textContent,
-          },
-        ],
+        content: [{ type: "input_text", text: textContent }],
       };
     });
 
