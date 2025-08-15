@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { runRelevanceGuardrail, runJailbreakGuardrail } from "@/lib/guardrails";
 import { getProvider } from "@/lib/providers";
 import { saveSessionMessages } from "@/lib/server/saveSessionMessages";
+import { randomUUID } from "crypto";
 
 /**
  * Handle a single conversation turn and stream the model response.
@@ -76,6 +77,16 @@ export async function POST(request: Request) {
         try {
           let first = true;
           let assistantText = "";
+          const functionCalls: {
+            id: string;
+            name: string;
+            arguments: string;
+          }[] = [];
+          const callMap = new Map<string, {
+            id: string;
+            name: string;
+            arguments: string;
+          }>();
           for await (const { event, data } of events) {
             if (first) {
               first = false;
@@ -89,6 +100,68 @@ export async function POST(request: Request) {
               assistantText += data.delta;
             }
 
+            if (event === "response.output_item.added" && data?.item?.type === "function_call") {
+              const id = randomUUID();
+              const call = {
+                id,
+                name: data.item.name || "",
+                arguments: "",
+              };
+              functionCalls.push(call);
+              callMap.set(data.item.id, call);
+            }
+
+            if (event.startsWith("response.function_call")) {
+              const itemId = data?.item_id || data?.id;
+              let call = itemId ? callMap.get(itemId) : undefined;
+              if (!call) {
+                const id = randomUUID();
+                call = { id, name: "", arguments: "" };
+                functionCalls.push(call);
+                if (itemId) callMap.set(itemId, call);
+              }
+
+              if (
+                event.endsWith("name.delta") &&
+                typeof data?.delta === "string"
+              ) {
+                call.name += data.delta;
+              } else if (
+                event.endsWith("name.done") &&
+                typeof data?.name === "string"
+              ) {
+                call.name = data.name;
+              } else if (
+                event.endsWith("arguments.delta") &&
+                typeof data?.delta === "string"
+              ) {
+                call.arguments += data.delta;
+              } else if (
+                event.endsWith("arguments.done") &&
+                typeof data?.arguments === "string"
+              ) {
+                call.arguments = data.arguments;
+              }
+            }
+
+            if (event === "response.output_item.done" && data?.item?.type === "function_call") {
+              const itemId = data.item.id;
+              let call = callMap.get(itemId);
+              if (!call) {
+                const id = randomUUID();
+                call = {
+                  id,
+                  name: data.item.name || "",
+                  arguments: data.item.arguments || "",
+                };
+                functionCalls.push(call);
+                callMap.set(itemId, call);
+              } else {
+                call.name = data.item.name || call.name;
+                call.arguments = data.item.arguments || call.arguments;
+              }
+            }
+
             const payload = JSON.stringify({ event, data });
             controller.enqueue(`data: ${payload}\n\n`);
           }
@@ -98,10 +171,20 @@ export async function POST(request: Request) {
 
           if (session_id && lastMessage) {
             try {
-              const assistantMessage = {
+              const assistantMessage: any = {
                 role: "assistant",
                 content: assistantText,
-              } as any;
+              };
+              if (functionCalls.length > 0) {
+                assistantMessage.tool_calls = functionCalls.map((c) => ({
+                  id: c.id,
+                  type: "function",
+                  function: {
+                    name: c.name,
+                    arguments: c.arguments,
+                  },
+                }));
+              }
               const result = await saveSessionMessages(
                 session_id,
                 [lastMessage, assistantMessage]
