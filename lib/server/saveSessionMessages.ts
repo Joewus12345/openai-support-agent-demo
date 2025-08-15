@@ -1,4 +1,7 @@
 import prisma from "@/lib/prisma";
+import redis from "@/lib/redis";
+
+const MESSAGE_CACHE_TTL = 60 * 60; // 1 hour
 
 export async function saveSessionMessages(
   session_id: string,
@@ -25,6 +28,14 @@ export async function saveSessionMessages(
       where: { id: session_id },
       data: { messages: updatedMessages },
     });
+
+    await redis.set(
+      `session:${session_id}:messages`,
+      JSON.stringify(updatedMessages),
+      "EX",
+      MESSAGE_CACHE_TTL
+    );
+
     return { success: true };
   } catch (error) {
     console.error("Error saving session messages:", error);
