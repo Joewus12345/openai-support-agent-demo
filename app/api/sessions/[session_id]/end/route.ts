@@ -27,12 +27,15 @@ export async function POST(
     const sessionMessages = Array.isArray(session?.messages)
       ? (session!.messages as any[])
       : [];
-    const startIndex = (session as any)?.summaryIndex ?? 0;
+    const startIndex = (session as any)?.lastSummarizedIndex ?? 0;
     const newMessages = sessionMessages.slice(startIndex);
-    const summary = await summarizeSession({
+    const newSummary = await summarizeSession({
       priorSummary: (session as any)?.summary ?? null,
       newMessages,
     });
+    const summary = [(session as any)?.summary, newSummary]
+      .filter(Boolean)
+      .join("\n");
 
     await redis.set(`session:${session_id}:summary`, summary);
 
@@ -41,19 +44,22 @@ export async function POST(
       data: {
         endedAt: new Date(),
         summary,
-        summaryIndex: sessionMessages.length,
+        lastSummarizedIndex: sessionMessages.length,
       },
     });
 
-    const longSummary = await summarizeSession({
+    const longSummaryFragment = await summarizeSession({
       priorSummary: (session as any)?.user?.longSummary ?? null,
       newMessages: [
         {
           role: "assistant",
-          content: [{ type: "output_text", text: summary }],
+          content: [{ type: "output_text", text: newSummary }],
         },
       ],
     });
+    const longSummary = [(session as any)?.user?.longSummary, longSummaryFragment]
+      .filter(Boolean)
+      .join("\n");
 
     await prisma.user.update({
       where: { id: (session as any)?.userId },

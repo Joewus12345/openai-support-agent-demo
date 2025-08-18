@@ -9,7 +9,7 @@ const session = {
   userId: 'u1',
   messages: [],
   summary: null,
-  summaryIndex: 0,
+  lastSummarizedIndex: 0,
   user,
 };
 
@@ -40,13 +40,13 @@ async function saveSessionMessages(_id, msgs) {
   return { success: true };
 }
 
-// Mock summarizeSession to concat prior summary and new message texts
+// Mock summarizeSession to concat new message texts only
 const summarizeSession = mock.fn(async ({ priorSummary, newMessages }) => {
   const text = newMessages
     .map((m) => m.content?.[0]?.text || '')
     .join(' ')
     .trim();
-  return [priorSummary, text].filter(Boolean).join(' ').trim();
+  return text;
 });
 
 // Mock redis set
@@ -77,7 +77,7 @@ test('session summary only includes new messages and updates long summary', asyn
     { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
   ]);
   assert.strictEqual(session.summary, 'hello');
-  assert.strictEqual(session.summaryIndex, 1);
+  assert.strictEqual(session.lastSummarizedIndex, 1);
   assert.strictEqual(user.longSummary, 'hello');
   assert.strictEqual(summarizeSession.mock.calls.length, 2);
   assert.deepStrictEqual(
@@ -96,9 +96,9 @@ test('session summary only includes new messages and updates long summary', asyn
   await endSession([
     { role: 'assistant', content: [{ type: 'output_text', text: 'there' }] },
   ]);
-  assert.strictEqual(session.summary, 'hello there');
-  assert.strictEqual(session.summaryIndex, 2);
-  assert.strictEqual(user.longSummary, 'hello hello there');
+  assert.strictEqual(session.summary, 'hello\nthere');
+  assert.strictEqual(session.lastSummarizedIndex, 2);
+  assert.strictEqual(user.longSummary, 'hello\nthere');
   assert.strictEqual(summarizeSession.mock.calls.length, 4);
   assert.deepStrictEqual(
     summarizeSession.mock.calls[2].arguments[0].newMessages.map((m) => m.content[0].text),
@@ -106,7 +106,7 @@ test('session summary only includes new messages and updates long summary', asyn
   );
   assert.deepStrictEqual(
     summarizeSession.mock.calls[3].arguments[0].newMessages.map((m) => m.content[0].text),
-    ['hello there']
+    ['there']
   );
   assert.strictEqual(
     summarizeSession.mock.calls[3].arguments[0].priorSummary,
