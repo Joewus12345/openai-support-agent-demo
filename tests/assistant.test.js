@@ -317,3 +317,23 @@ test('start_chat_session triggered by ticket ID', async () => {
     useDataStore.setState({ contactType: null, contactId: null, summary: null });
   }
 });
+
+test('start_chat_session returns long summary', async () => {
+  const { start_chat_session } = require('../config/functions');
+  const originalFetch = global.fetch;
+  global.fetch = async (url, options = {}) => {
+    if (url === '/api/sessions/start') {
+      return new Response('{"user":{"longSummary":"prefs"},"session":{}}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      });
+    }
+    return originalFetch(url, options);
+  };
+  try {
+    const res = await start_chat_session({ email: 'foo@example.com' });
+    assert.strictEqual(res.longSummary, 'prefs');
+  } finally {
+    global.fetch = originalFetch;
+  }
+});

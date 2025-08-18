@@ -386,6 +386,7 @@ export const start_chat_session = async ({
       user: res.user,
       session: { id: res.session?.id },
       summary: res.session?.summary,
+      longSummary: res.user?.longSummary ?? null,
     };
   } catch (error) {
     console.error(error);

@@ -15,15 +15,16 @@ datasource db {
 }
 
 model User {
-  id        String        @id @default(uuid())
-  email     String        @unique
-  name      String?
-  phone     String?
-  address   String?
-  createdAt DateTime      @default(now())
-  orders    Order[]
-  sessions  ChatSession[]
-  tickets   Ticket[]
+  id          String        @id @default(uuid())
+  email       String        @unique
+  name        String?
+  phone       String?
+  address     String?
+  longSummary String?       @db.Text
+  createdAt   DateTime      @default(now())
+  orders      Order[]
+  sessions    ChatSession[]
+  tickets     Ticket[]
 }
 
 model Order {

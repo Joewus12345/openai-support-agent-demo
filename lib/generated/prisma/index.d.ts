@@ -1206,6 +1206,7 @@ export namespace Prisma {
     name: string | null
     phone: string | null
     address: string | null
+    longSummary: string | null
     createdAt: Date | null
   }
 
@@ -1215,6 +1216,7 @@ export namespace Prisma {
     name: string | null
     phone: string | null
     address: string | null
+    longSummary: string | null
     createdAt: Date | null
   }
 
@@ -1224,6 +1226,7 @@ export namespace Prisma {
     name: number
     phone: number
     address: number
+    longSummary: number
     createdAt: number
     _all: number
   }
@@ -1235,6 +1238,7 @@ export namespace Prisma {
     name?: true
     phone?: true
     address?: true
+    longSummary?: true
     createdAt?: true
   }
 
@@ -1244,6 +1248,7 @@ export namespace Prisma {
     name?: true
     phone?: true
     address?: true
+    longSummary?: true
     createdAt?: true
   }
 
@@ -1253,6 +1258,7 @@ export namespace Prisma {
     name?: true
     phone?: true
     address?: true
+    longSummary?: true
     createdAt?: true
     _all?: true
   }
@@ -1335,6 +1341,7 @@ export namespace Prisma {
     name: string | null
     phone: string | null
     address: string | null
+    longSummary: string | null
     createdAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -1361,6 +1368,7 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     address?: boolean
+    longSummary?: boolean
     createdAt?: boolean
     orders?: boolean | User$ordersArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -1374,6 +1382,7 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     address?: boolean
+    longSummary?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1383,6 +1392,7 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     address?: boolean
+    longSummary?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1392,10 +1402,11 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     address?: boolean
+    longSummary?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "phone" | "address" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "phone" | "address" | "longSummary" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | User$ordersArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -1418,6 +1429,7 @@ export namespace Prisma {
       name: string | null
       phone: string | null
       address: string | null
+      longSummary: string | null
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1850,6 +1862,7 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
     readonly address: FieldRef<"User", 'String'>
+    readonly longSummary: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -5617,6 +5630,7 @@ export namespace Prisma {
     name: 'name',
     phone: 'phone',
     address: 'address',
+    longSummary: 'longSummary',
     createdAt: 'createdAt'
   };
 
@@ -5785,6 +5799,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
     address?: StringNullableFilter<"User"> | string | null
+    longSummary?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     orders?: OrderListRelationFilter
     sessions?: ChatSessionListRelationFilter
@@ -5797,6 +5812,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    longSummary?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     orders?: OrderOrderByRelationAggregateInput
     sessions?: ChatSessionOrderByRelationAggregateInput
@@ -5812,6 +5828,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
     address?: StringNullableFilter<"User"> | string | null
+    longSummary?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     orders?: OrderListRelationFilter
     sessions?: ChatSessionListRelationFilter
@@ -5824,6 +5841,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    longSummary?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -5839,6 +5857,7 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     address?: StringNullableWithAggregatesFilter<"User"> | string | null
+    longSummary?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -6025,6 +6044,7 @@ export namespace Prisma {
     name?: string | null
     phone?: string | null
     address?: string | null
+    longSummary?: string | null
     createdAt?: Date | string
     orders?: OrderCreateNestedManyWithoutUserInput
     sessions?: ChatSessionCreateNestedManyWithoutUserInput
@@ -6037,6 +6057,7 @@ export namespace Prisma {
     name?: string | null
     phone?: string | null
     address?: string | null
+    longSummary?: string | null
     createdAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     sessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
@@ -6049,6 +6070,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUpdateManyWithoutUserNestedInput
     sessions?: ChatSessionUpdateManyWithoutUserNestedInput
@@ -6061,6 +6083,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     sessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
@@ -6073,6 +6096,7 @@ export namespace Prisma {
     name?: string | null
     phone?: string | null
     address?: string | null
+    longSummary?: string | null
     createdAt?: Date | string
   }
 
@@ -6082,6 +6106,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6091,6 +6116,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6355,6 +6381,7 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
+    longSummary?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -6364,6 +6391,7 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
+    longSummary?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -6373,6 +6401,7 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     address?: SortOrder
+    longSummary?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -7166,6 +7195,7 @@ export namespace Prisma {
     name?: string | null
     phone?: string | null
     address?: string | null
+    longSummary?: string | null
     createdAt?: Date | string
     sessions?: ChatSessionCreateNestedManyWithoutUserInput
     tickets?: TicketCreateNestedManyWithoutUserInput
@@ -7177,6 +7207,7 @@ export namespace Prisma {
     name?: string | null
     phone?: string | null
     address?: string | null
+    longSummary?: string | null
     createdAt?: Date | string
     sessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
     tickets?: TicketUncheckedCreateNestedManyWithoutUserInput
@@ -7204,6 +7235,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: ChatSessionUpdateManyWithoutUserNestedInput
     tickets?: TicketUpdateManyWithoutUserNestedInput
@@ -7215,6 +7247,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutUserNestedInput
@@ -7226,6 +7259,7 @@ export namespace Prisma {
     name?: string | null
     phone?: string | null
     address?: string | null
+    longSummary?: string | null
     createdAt?: Date | string
     orders?: OrderCreateNestedManyWithoutUserInput
     tickets?: TicketCreateNestedManyWithoutUserInput
@@ -7237,6 +7271,7 @@ export namespace Prisma {
     name?: string | null
     phone?: string | null
     address?: string | null
+    longSummary?: string | null
     createdAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     tickets?: TicketUncheckedCreateNestedManyWithoutUserInput
@@ -7264,6 +7299,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUpdateManyWithoutUserNestedInput
     tickets?: TicketUpdateManyWithoutUserNestedInput
@@ -7275,6 +7311,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutUserNestedInput
@@ -7286,6 +7323,7 @@ export namespace Prisma {
     name?: string | null
     phone?: string | null
     address?: string | null
+    longSummary?: string | null
     createdAt?: Date | string
     orders?: OrderCreateNestedManyWithoutUserInput
     sessions?: ChatSessionCreateNestedManyWithoutUserInput
@@ -7297,6 +7335,7 @@ export namespace Prisma {
     name?: string | null
     phone?: string | null
     address?: string | null
+    longSummary?: string | null
     createdAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     sessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
@@ -7324,6 +7363,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUpdateManyWithoutUserNestedInput
     sessions?: ChatSessionUpdateManyWithoutUserNestedInput
@@ -7335,6 +7375,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     sessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
