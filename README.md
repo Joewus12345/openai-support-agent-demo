@@ -56,6 +56,7 @@ Feel free to customize this demo to suit your specific use case.
    ```
 
    `SESSION_RETENTION_DAYS` controls how long ended sessions are kept before cleanup (defaults to 30 days).
+   Session messages cached in Redis are retained indefinitely until the session is cleaned up.
 
 3. **Run database migrations:**
 

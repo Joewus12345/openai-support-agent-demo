@@ -1,10 +1,12 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 
+// Cached session messages no longer have an expiry and are retained
+// until the associated session is cleaned up.
+
 export async function saveSessionMessages(
   session_id: string,
-  messages: any[],
-  identifier?: string
+  messages: any[]
 ) {
   if (!Array.isArray(messages)) {
     return { error: "Messages must be an array" };
@@ -18,31 +20,55 @@ export async function saveSessionMessages(
       return { error: "Session not found" };
     }
 
-    const updatedMessages = [
-      ...((session.messages as any[]) || []),
-      ...messages,
-    ];
+    const existingMessages = Array.isArray(session.messages)
+      ? (session.messages as any[])
+      : [];
+
+    const existingIds = new Set(
+      existingMessages.map((m: any) => m.id).filter(Boolean)
+    );
+
+    const dedupedMessages: any[] = [];
+    let lastMessage = existingMessages[existingMessages.length - 1];
+    let duplicateDetected = false;
+
+    for (const msg of messages) {
+      if (msg.id && existingIds.has(msg.id)) {
+        duplicateDetected = true;
+        continue;
+      }
+      if (
+        lastMessage &&
+        msg.role === lastMessage.role &&
+        JSON.stringify(msg.content) === JSON.stringify(lastMessage.content)
+      ) {
+        duplicateDetected = true;
+        continue;
+      }
+      dedupedMessages.push(msg);
+      lastMessage = msg;
+      if (msg.id) {
+        existingIds.add(msg.id);
+      }
+    }
+
+    const updatedMessages = [...existingMessages, ...dedupedMessages];
 
     await prisma.chatSession.update({
       where: { id: session_id },
       data: { messages: updatedMessages },
     });
-    const last = updatedMessages
-      .slice(-Math.min(updatedMessages.length, 5))
-      .map((m: any) =>
-        Array.isArray(m.content)
-          ? m.content.map((c: any) => c.text ?? "").join(" ")
-          : String(m.content ?? "")
-      )
-      .join(" ");
-    const summary = last.slice(0, 200);
 
-    const key = identifier || session.user.email;
-    if (key) {
-      await redis.set(key, summary);
+    await redis.set(
+      `session:${session_id}:messages`,
+      JSON.stringify(updatedMessages)
+    );
+
+    if (duplicateDetected) {
+      return { error: "Duplicate messages detected" };
     }
 
-    return { success: true, summary };
+    return { success: true };
   } catch (error) {
     console.error("Error saving session messages:", error);
     throw error;

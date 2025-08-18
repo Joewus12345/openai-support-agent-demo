@@ -349,8 +349,28 @@ export const start_chat_session = async ({
     }).then((res) => res.json());
     const { setCustomerDetails, setContact, setSummary, setSessionId } =
       useDataStore.getState();
+    const { setConversationItems } =
+      useConversationStore.getState();
     if (res.session?.id) {
       setSessionId(res.session.id);
+    }
+    if (Array.isArray(res.session?.messages) && res.session.messages.length > 0) {
+      setConversationItems(res.session.messages);
+      // const chatMsgs = res.session.messages
+      //   .filter((m: any) => m.role === "user" || m.role === "assistant")
+      //   .map((m: any) => ({
+      //     type: "message",
+      //     role: m.role === "assistant" ? "agent" : "user",
+      //     content: Array.isArray(m.content)
+      //       ? m.content
+      //       : [
+      //           {
+      //             type: m.role === "assistant" ? "output_text" : "input_text",
+      //             text: m.content,
+      //           },
+      //         ],
+      //   }));
+      // setChatMessages(chatMsgs);
     }
     if (res.user && !res.user.error) {
       setCustomerDetails(setDetailsFromUser(res.user));
@@ -360,9 +380,13 @@ export const start_chat_session = async ({
           contactId: identifier,
         });
       }
-      setSummary(res.summary || null);
+      setSummary(res.session?.summary || null);
     }
-    return res;
+    return {
+      user: res.user,
+      session: { id: res.session?.id },
+      summary: res.session?.summary,
+    };
   } catch (error) {
     console.error(error);
     return { error: "Failed to start chat session" };

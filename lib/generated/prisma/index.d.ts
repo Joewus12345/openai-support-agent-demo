@@ -3422,6 +3422,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     endedAt: Date | null
+    summary: string | null
   }
 
   export type ChatSessionMaxAggregateOutputType = {
@@ -3430,6 +3431,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     endedAt: Date | null
+    summary: string | null
   }
 
   export type ChatSessionCountAggregateOutputType = {
@@ -3439,6 +3441,7 @@ export namespace Prisma {
     updatedAt: number
     endedAt: number
     messages: number
+    summary: number
     _all: number
   }
 
@@ -3449,6 +3452,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     endedAt?: true
+    summary?: true
   }
 
   export type ChatSessionMaxAggregateInputType = {
@@ -3457,6 +3461,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     endedAt?: true
+    summary?: true
   }
 
   export type ChatSessionCountAggregateInputType = {
@@ -3466,6 +3471,7 @@ export namespace Prisma {
     updatedAt?: true
     endedAt?: true
     messages?: true
+    summary?: true
     _all?: true
   }
 
@@ -3548,6 +3554,7 @@ export namespace Prisma {
     updatedAt: Date
     endedAt: Date | null
     messages: JsonValue
+    summary: string | null
     _count: ChatSessionCountAggregateOutputType | null
     _min: ChatSessionMinAggregateOutputType | null
     _max: ChatSessionMaxAggregateOutputType | null
@@ -3574,6 +3581,7 @@ export namespace Prisma {
     updatedAt?: boolean
     endedAt?: boolean
     messages?: boolean
+    summary?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
@@ -3584,6 +3592,7 @@ export namespace Prisma {
     updatedAt?: boolean
     endedAt?: boolean
     messages?: boolean
+    summary?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
@@ -3594,6 +3603,7 @@ export namespace Prisma {
     updatedAt?: boolean
     endedAt?: boolean
     messages?: boolean
+    summary?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
@@ -3604,9 +3614,10 @@ export namespace Prisma {
     updatedAt?: boolean
     endedAt?: boolean
     messages?: boolean
+    summary?: boolean
   }
 
-  export type ChatSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt" | "endedAt" | "messages", ExtArgs["result"]["chatSession"]>
+  export type ChatSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt" | "endedAt" | "messages" | "summary", ExtArgs["result"]["chatSession"]>
   export type ChatSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -3629,6 +3640,7 @@ export namespace Prisma {
       updatedAt: Date
       endedAt: Date | null
       messages: Prisma.JsonValue
+      summary: string | null
     }, ExtArgs["result"]["chatSession"]>
     composites: {}
   }
@@ -4059,6 +4071,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"ChatSession", 'DateTime'>
     readonly endedAt: FieldRef<"ChatSession", 'DateTime'>
     readonly messages: FieldRef<"ChatSession", 'Json'>
+    readonly summary: FieldRef<"ChatSession", 'String'>
   }
     
 
@@ -5580,7 +5593,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     endedAt: 'endedAt',
-    messages: 'messages'
+    messages: 'messages',
+    summary: 'summary'
   };
 
   export type ChatSessionScalarFieldEnum = (typeof ChatSessionScalarFieldEnum)[keyof typeof ChatSessionScalarFieldEnum]
@@ -5831,6 +5845,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ChatSession"> | Date | string
     endedAt?: DateTimeNullableFilter<"ChatSession"> | Date | string | null
     messages?: JsonFilter<"ChatSession">
+    summary?: StringNullableFilter<"ChatSession"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -5841,6 +5856,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     endedAt?: SortOrderInput | SortOrder
     messages?: SortOrder
+    summary?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -5854,6 +5870,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ChatSession"> | Date | string
     endedAt?: DateTimeNullableFilter<"ChatSession"> | Date | string | null
     messages?: JsonFilter<"ChatSession">
+    summary?: StringNullableFilter<"ChatSession"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -5864,6 +5881,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     endedAt?: SortOrderInput | SortOrder
     messages?: SortOrder
+    summary?: SortOrderInput | SortOrder
     _count?: ChatSessionCountOrderByAggregateInput
     _max?: ChatSessionMaxOrderByAggregateInput
     _min?: ChatSessionMinOrderByAggregateInput
@@ -5879,6 +5897,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ChatSession"> | Date | string
     endedAt?: DateTimeNullableWithAggregatesFilter<"ChatSession"> | Date | string | null
     messages?: JsonWithAggregatesFilter<"ChatSession">
+    summary?: StringNullableWithAggregatesFilter<"ChatSession"> | string | null
   }
 
   export type TicketWhereInput = {
@@ -6067,6 +6086,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
+    summary?: string | null
     user: UserCreateNestedOneWithoutSessionsInput
   }
 
@@ -6077,6 +6097,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
+    summary?: string | null
   }
 
   export type ChatSessionUpdateInput = {
@@ -6085,6 +6106,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
 
@@ -6095,6 +6117,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChatSessionCreateManyInput = {
@@ -6104,6 +6127,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
+    summary?: string | null
   }
 
   export type ChatSessionUpdateManyMutationInput = {
@@ -6112,6 +6136,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChatSessionUncheckedUpdateManyInput = {
@@ -6121,6 +6146,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketCreateInput = {
@@ -6399,6 +6425,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     endedAt?: SortOrder
     messages?: SortOrder
+    summary?: SortOrder
   }
 
   export type ChatSessionMaxOrderByAggregateInput = {
@@ -6407,6 +6434,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     endedAt?: SortOrder
+    summary?: SortOrder
   }
 
   export type ChatSessionMinOrderByAggregateInput = {
@@ -6415,6 +6443,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     endedAt?: SortOrder
+    summary?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6853,6 +6882,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
+    summary?: string | null
   }
 
   export type ChatSessionUncheckedCreateWithoutUserInput = {
@@ -6861,6 +6891,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
+    summary?: string | null
   }
 
   export type ChatSessionCreateOrConnectWithoutUserInput = {
@@ -6948,6 +6979,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ChatSession"> | Date | string
     endedAt?: DateTimeNullableFilter<"ChatSession"> | Date | string | null
     messages?: JsonFilter<"ChatSession">
+    summary?: StringNullableFilter<"ChatSession"> | string | null
   }
 
   export type TicketUpsertWithWhereUniqueWithoutUserInput = {
@@ -7169,6 +7201,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
+    summary?: string | null
   }
 
   export type TicketCreateManyUserInput = {
@@ -7204,6 +7237,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChatSessionUncheckedUpdateWithoutUserInput = {
@@ -7212,6 +7246,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChatSessionUncheckedUpdateManyWithoutUserInput = {
@@ -7220,6 +7255,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketUpdateWithoutUserInput = {
