@@ -385,7 +385,7 @@ export const start_chat_session = async ({
           contactId: identifier,
         });
       }
-      setSummary(res.summary ?? res.session?.summary || null);
+      setSummary(res.summary ?? res.session?.summary ?? null);
       setLongSummary(res.longSummary ?? res.user?.longSummary ?? null);
     }
     return {
