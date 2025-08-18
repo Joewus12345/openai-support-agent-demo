@@ -349,28 +349,28 @@ export const start_chat_session = async ({
     }).then((res) => res.json());
     const { setCustomerDetails, setContact, setSummary, setSessionId } =
       useDataStore.getState();
-    const { setConversationItems, setChatMessages } =
+    const { setConversationItems } =
       useConversationStore.getState();
     if (res.session?.id) {
       setSessionId(res.session.id);
     }
     if (Array.isArray(res.session?.messages) && res.session.messages.length > 0) {
       setConversationItems(res.session.messages);
-      const chatMsgs = res.session.messages
-        .filter((m: any) => m.role === "user" || m.role === "assistant")
-        .map((m: any) => ({
-          type: "message",
-          role: m.role === "assistant" ? "agent" : "user",
-          content: Array.isArray(m.content)
-            ? m.content
-            : [
-                {
-                  type: m.role === "assistant" ? "output_text" : "input_text",
-                  text: m.content,
-                },
-              ],
-        }));
-      setChatMessages(chatMsgs);
+      // const chatMsgs = res.session.messages
+      //   .filter((m: any) => m.role === "user" || m.role === "assistant")
+      //   .map((m: any) => ({
+      //     type: "message",
+      //     role: m.role === "assistant" ? "agent" : "user",
+      //     content: Array.isArray(m.content)
+      //       ? m.content
+      //       : [
+      //           {
+      //             type: m.role === "assistant" ? "output_text" : "input_text",
+      //             text: m.content,
+      //           },
+      //         ],
+      //   }));
+      // setChatMessages(chatMsgs);
     }
     if (res.user && !res.user.error) {
       setCustomerDetails(setDetailsFromUser(res.user));
