@@ -171,10 +171,21 @@ export const handleTurn = async (
   model?: string
 ) => {
   try {
-    const { contactType, contactId, summary, sessionId } =
+    const { contactType, contactId, summary, sessionId, longSummary } =
       useDataStore.getState();
     const session_id = sessionId;
     const systemMessages: any[] = [];
+    if (longSummary) {
+      systemMessages.push({
+        role: "system",
+        content: [
+          {
+            type: "input_text",
+            text: `Customer summary: ${longSummary}`,
+          },
+        ],
+      });
+    }
     if (summary) {
       systemMessages.push({
         role: "system",

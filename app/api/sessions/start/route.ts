@@ -104,7 +104,12 @@ export async function POST(request: Request) {
     };
 
     return new Response(
-      JSON.stringify({ user, session: trimmedSession }),
+      JSON.stringify({
+        user,
+        session: trimmedSession,
+        summary,
+        longSummary: user.longSummary ?? null,
+      }),
       { status: 200 }
     );
   } catch (error) {
