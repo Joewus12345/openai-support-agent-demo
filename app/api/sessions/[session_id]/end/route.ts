@@ -22,6 +22,7 @@ export async function POST(
 
     const session = await prisma.chatSession.findUnique({
       where: { id: session_id },
+      include: { user: true },
     });
     const sessionMessages = Array.isArray(session?.messages)
       ? (session!.messages as any[])
@@ -44,11 +45,26 @@ export async function POST(
       },
     });
 
+    const longSummary = await summarizeSession({
+      priorSummary: (session as any)?.user?.longSummary ?? null,
+      newMessages: [
+        {
+          role: "assistant",
+          content: [{ type: "output_text", text: summary }],
+        },
+      ],
+    });
+
+    await prisma.user.update({
+      where: { id: (session as any)?.userId },
+      data: { longSummary },
+    });
+
     if (identifier) {
       await redis.set(identifier, summary);
     }
 
-    return new Response(JSON.stringify({ success: true, summary }), {
+    return new Response(JSON.stringify({ success: true, summary, longSummary }), {
       status: 200,
     });
   } catch (error) {

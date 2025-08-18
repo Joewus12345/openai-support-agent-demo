@@ -3,7 +3,15 @@ const test = require('node:test');
 const { mock } = test;
 
 // Simulated session storage
-const session = { id: 's1', messages: [], summary: null, summaryIndex: 0 };
+const user = { id: 'u1', longSummary: null };
+const session = {
+  id: 's1',
+  userId: 'u1',
+  messages: [],
+  summary: null,
+  summaryIndex: 0,
+  user,
+};
 
 // Mock prisma client with minimal ticket model for other tests
 const prismaMock = {
@@ -12,6 +20,12 @@ const prismaMock = {
     update: async ({ data }) => {
       Object.assign(session, data);
       return session;
+    },
+  },
+  user: {
+    update: async ({ data }) => {
+      Object.assign(user, data);
+      return user;
     },
   },
   ticket: {
@@ -58,16 +72,25 @@ async function endSession(messages) {
   await POST(req, { params: Promise.resolve({ session_id: 's1' }) });
 }
 
-test('session summary only includes new messages', async () => {
+test('session summary only includes new messages and updates long summary', async () => {
   await endSession([
     { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
   ]);
   assert.strictEqual(session.summary, 'hello');
   assert.strictEqual(session.summaryIndex, 1);
-  assert.strictEqual(summarizeSession.mock.calls.length, 1);
+  assert.strictEqual(user.longSummary, 'hello');
+  assert.strictEqual(summarizeSession.mock.calls.length, 2);
   assert.deepStrictEqual(
     summarizeSession.mock.calls[0].arguments[0].newMessages.map((m) => m.content[0].text),
     ['hello']
+  );
+  assert.deepStrictEqual(
+    summarizeSession.mock.calls[1].arguments[0].newMessages.map((m) => m.content[0].text),
+    ['hello']
+  );
+  assert.strictEqual(
+    summarizeSession.mock.calls[1].arguments[0].priorSummary,
+    null
   );
 
   await endSession([
@@ -75,13 +98,18 @@ test('session summary only includes new messages', async () => {
   ]);
   assert.strictEqual(session.summary, 'hello there');
   assert.strictEqual(session.summaryIndex, 2);
-  assert.strictEqual(summarizeSession.mock.calls.length, 2);
+  assert.strictEqual(user.longSummary, 'hello hello there');
+  assert.strictEqual(summarizeSession.mock.calls.length, 4);
   assert.deepStrictEqual(
-    summarizeSession.mock.calls[1].arguments[0].newMessages.map((m) => m.content[0].text),
+    summarizeSession.mock.calls[2].arguments[0].newMessages.map((m) => m.content[0].text),
     ['there']
   );
+  assert.deepStrictEqual(
+    summarizeSession.mock.calls[3].arguments[0].newMessages.map((m) => m.content[0].text),
+    ['hello there']
+  );
   assert.strictEqual(
-    summarizeSession.mock.calls[1].arguments[0].priorSummary,
+    summarizeSession.mock.calls[3].arguments[0].priorSummary,
     'hello'
   );
 });
