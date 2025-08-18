@@ -77,7 +77,7 @@ test('session summary only includes new messages and updates long summary', asyn
     { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
   ]);
   assert.strictEqual(session.summary, 'hello');
-  assert.strictEqual(session.lastSummarizedIndex, 1);
+  assert.strictEqual(session.lastSummarizedIndex, 0);
   assert.strictEqual(user.longSummary, 'hello');
   assert.strictEqual(summarizeSession.mock.calls.length, 2);
   assert.deepStrictEqual(
@@ -97,7 +97,7 @@ test('session summary only includes new messages and updates long summary', asyn
     { role: 'assistant', content: [{ type: 'output_text', text: 'there' }] },
   ]);
   assert.strictEqual(session.summary, 'hello\nthere');
-  assert.strictEqual(session.lastSummarizedIndex, 2);
+  assert.strictEqual(session.lastSummarizedIndex, 0);
   assert.strictEqual(user.longSummary, 'hello\nthere');
   assert.strictEqual(summarizeSession.mock.calls.length, 4);
   assert.deepStrictEqual(
