@@ -7,6 +7,7 @@ import {
   search_knowledge_base as serverSearchKnowledgeBase,
   type SearchKnowledgeBaseResponse,
 } from "@/lib/server/searchFiles";
+import { INITIAL_MESSAGE } from "./constants";
 
 // simple in-memory cache for file search results
 const fileSearchCache = new Map<string, SearchKnowledgeBaseResponse["results"]>();
@@ -356,22 +357,14 @@ export const start_chat_session = async ({
     }
     if (Array.isArray(res.session?.messages) && res.session.messages.length > 0) {
       setConversationItems(res.session.messages);
-      const chatMsgs = res.session.messages
-        .filter((m: any) => m.role === "user" || m.role === "assistant")
-        .map((m: any) => ({
-          type: "message",
-          role: m.role === "assistant" ? "agent" : "user",
-          content: Array.isArray(m.content)
-            ? m.content
-            : [
-                {
-                  type: m.role === "assistant" ? "output_text" : "input_text",
-                  text: m.content,
-                },
-              ],
-        }));
-      setChatMessages(chatMsgs);
     }
+    setChatMessages([
+      {
+        type: "message",
+        role: "agent",
+        content: [{ type: "output_text", text: INITIAL_MESSAGE }],
+      },
+    ]);
     if (res.user && !res.user.error) {
       setCustomerDetails(setDetailsFromUser(res.user));
       if (identifier) {
