@@ -8,12 +8,37 @@ type SummaryMessage = {
   content: [{ type: "input_text" | "output_text"; text: string }];
 };
 
-export async function summarizeSession(messages: any[]): Promise<string> {
+export async function summarizeSession({
+  priorSummary,
+  newMessages,
+}: {
+  priorSummary?: string | null;
+  newMessages: any[];
+}): Promise<string> {
+  if (!Array.isArray(newMessages) || newMessages.length === 0) {
+    return priorSummary ?? "";
+  }
+
   const openai = new OpenAI();
   const prompt =
     "Summarize the conversation in 3–5 bullet points, capturing the user's issue/questions asked, actions taken, and pending follow-ups.";
 
-  const filteredMessages: SummaryMessage[] = (Array.isArray(messages) ? messages : [])
+  const summaryIntro: SummaryMessage[] = priorSummary
+    ? [
+        {
+          type: "message",
+          role: "user",
+          content: [
+            {
+              type: "input_text",
+              text: `Previous conversation summary: ${priorSummary}`,
+            },
+          ],
+        },
+      ]
+    : [];
+
+  const filteredMessages: SummaryMessage[] = newMessages
     .filter(
       (m): m is { role: "user" | "assistant"; content: any } =>
         m && (m.role === "user" || m.role === "assistant"),
@@ -41,7 +66,7 @@ export async function summarizeSession(messages: any[]): Promise<string> {
 
   const response = await openai.responses.create({
     model: "gpt-4o-mini",
-    input: [...filteredMessages, extraPrompt] as EasyInputMessage[],
+    input: [...summaryIntro, ...filteredMessages, extraPrompt] as EasyInputMessage[],
   });
 
   const text = response.output_text ?? "";

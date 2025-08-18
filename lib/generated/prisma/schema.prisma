@@ -36,14 +36,15 @@ model Order {
 }
 
 model ChatSession {
-  id        String    @id @default(uuid())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  endedAt   DateTime?
-  messages  Json // or a separate Message model
-  summary   String?   @db.Text
+  id           String    @id @default(uuid())
+  user         User      @relation(fields: [userId], references: [id])
+  userId       String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  endedAt      DateTime?
+  messages     Json // or a separate Message model
+  summary      String?   @db.Text
+  summaryIndex Int       @default(0)
 }
 
 model Ticket {
