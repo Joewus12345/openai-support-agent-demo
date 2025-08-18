@@ -279,6 +279,18 @@ The new API endpoints under `/api/users` and `/api/sessions/start` allow the age
 - Run `npm run cleanup:sessions` to remove ended sessions older than the number of days specified in `SESSION_RETENTION_DAYS`.
 - By default, sessions are retained for 30 days. Change the value of `SESSION_RETENTION_DAYS` in your `.env` file to adjust the retention period.
 
+### Session summarization & pruning
+
+Sessions automatically summarize and prune older messages once the number of unsummarized messages exceeds the `MAX_UNSUMMARIZED_MESSAGES` limit (default 50). This keeps active sessions lightweight while preserving a running summary of prior context.
+
+Set the `MAX_UNSUMMARIZED_MESSAGES` environment variable to control how many recent messages are kept verbatim.
+
+To prune existing sessions to the current limit, run:
+
+```bash
+npm run prune:sessions
+```
+
 ## Contributing
 
 You are welcome to open issues or submit PRs to improve this app, however, please note that we may not review all suggestions.
