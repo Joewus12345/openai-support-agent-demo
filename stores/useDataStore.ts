@@ -50,6 +50,7 @@ interface DataState {
   contactId: string | null;
   sessionId: string | null;
   summary: string | null;
+  longSummary: string | null;
   emailRefused: boolean;
   setCustomerDetails: (details: CustomerDetails) => void;
   setFAQExtracts: (searchResults: any[], provider?: string) => void;
@@ -62,6 +63,7 @@ interface DataState {
   ) => void;
   setSessionId: (id: string | null) => void;
   setSummary: (summary: string | null) => void;
+  setLongSummary: (longSummary: string | null) => void;
   setEmailRefused: (refused: boolean) => void;
 }
 
@@ -85,6 +87,7 @@ const useDataStore = create<DataState>((set) => ({
   contactId: null,
   sessionId: null,
   summary: null,
+  longSummary: null,
   emailRefused: false,
   setCustomerDetails: (details) => set({ customerDetails: details }),
   setFAQExtracts: (searchResults, provider?: string) => {
@@ -131,6 +134,7 @@ const useDataStore = create<DataState>((set) => ({
     }),
   setSessionId: (id) => set({ sessionId: id }),
   setSummary: (summary) => set({ summary }),
+  setLongSummary: (longSummary) => set({ longSummary }),
   setEmailRefused: (refused) => set({ emailRefused: refused }),
 }));
 

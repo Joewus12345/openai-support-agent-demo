@@ -347,8 +347,13 @@ export const start_chat_session = async ({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: identifier, ticket_id, name, phone, address }),
     }).then((res) => res.json());
-    const { setCustomerDetails, setContact, setSummary, setSessionId } =
-      useDataStore.getState();
+    const {
+      setCustomerDetails,
+      setContact,
+      setSummary,
+      setSessionId,
+      setLongSummary,
+    } = useDataStore.getState();
     const { setConversationItems } =
       useConversationStore.getState();
     if (res.session?.id) {
@@ -380,14 +385,15 @@ export const start_chat_session = async ({
           contactId: identifier,
         });
       }
-      setSummary(res.session?.summary || null);
+      setSummary(res.summary ?? res.session?.summary || null);
+      setLongSummary(res.longSummary ?? res.user?.longSummary ?? null);
     }
     return {
       user: res.user,
       session: { id: res.session?.id },
-      summary: res.session?.summary,
+      summary: res.summary ?? res.session?.summary,
       unsummarizedMessages: res.session?.messages || [],
-      longSummary: res.user?.longSummary ?? null,
+      longSummary: res.longSummary ?? res.user?.longSummary ?? null,
     };
   } catch (error) {
     console.error(error);

@@ -128,6 +128,7 @@ test('handleTurn prefixes ticket system message', async () => {
       contactType: 'ticket',
       contactId: 'TICK123',
       summary: null,
+      longSummary: null,
     });
     const messages = [
       { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
@@ -137,7 +138,12 @@ test('handleTurn prefixes ticket system message', async () => {
     assert.match(body.messages[0].content[0].text, /TICK123/);
   } finally {
     global.fetch = originalFetch;
-    useDataStore.setState({ contactType: null, contactId: null, summary: null });
+    useDataStore.setState({
+      contactType: null,
+      contactId: null,
+      summary: null,
+      longSummary: null,
+    });
   }
 });
 
@@ -158,6 +164,7 @@ test('handleTurn prefixes summary before ticket message', async () => {
       contactType: 'ticket',
       contactId: 'TICK123',
       summary: 'old summary',
+      longSummary: null,
     });
     const messages = [
       { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
@@ -172,7 +179,50 @@ test('handleTurn prefixes summary before ticket message', async () => {
     assert.match(body.messages[1].content[0].text, /TICK123/);
   } finally {
     global.fetch = originalFetch;
-    useDataStore.setState({ contactType: null, contactId: null, summary: null });
+    useDataStore.setState({
+      contactType: null,
+      contactId: null,
+      summary: null,
+      longSummary: null,
+    });
+  }
+});
+
+test('handleTurn includes long summary before session summary and ticket message', async () => {
+  const { handleTurn } = require('../lib/assistant');
+  const useDataStore = require('../stores/useDataStore').default;
+  const originalFetch = global.fetch;
+  let body;
+  global.fetch = async (_url, options) => {
+    body = JSON.parse(options.body);
+    return new Response('data: [DONE]\n\n', {
+      headers: { 'Content-Type': 'text/plain' },
+      status: 200,
+    });
+  };
+  try {
+    useDataStore.setState({
+      contactType: 'ticket',
+      contactId: 'TICK123',
+      summary: 'old summary',
+      longSummary: 'prefs',
+    });
+    const messages = [
+      { role: 'user', content: [{ type: 'input_text', text: 'hello' }] },
+    ];
+    await handleTurn(messages, () => {});
+    assert.strictEqual(body.messages[0].role, 'system');
+    assert.match(body.messages[0].content[0].text, /prefs/);
+    assert.match(body.messages[1].content[0].text, /old summary/);
+    assert.match(body.messages[2].content[0].text, /TICK123/);
+  } finally {
+    global.fetch = originalFetch;
+    useDataStore.setState({
+      contactType: null,
+      contactId: null,
+      summary: null,
+      longSummary: null,
+    });
   }
 });
 
@@ -212,6 +262,7 @@ test('create_ticket sends empty body when using placeholder ID', async () => {
       contactId: null,
       emailRefused: false,
       customerDetails: { id: CUSTOMER_DETAILS.id },
+      longSummary: null,
     });
     useConversationStore.setState({
       conversationItems: [
@@ -260,6 +311,7 @@ test('create_ticket still sends empty body when profile updated', async () => {
       contactId: null,
       emailRefused: false,
       customerDetails: { id: 'cus_real' },
+      longSummary: null,
     });
     useConversationStore.setState({
       conversationItems: [
@@ -297,7 +349,12 @@ test('start_chat_session triggered by ticket ID', async () => {
   };
 
   try {
-    useDataStore.setState({ contactType: null, contactId: null, summary: null });
+    useDataStore.setState({
+      contactType: null,
+      contactId: null,
+      summary: null,
+      longSummary: null,
+    });
     useConversationStore.setState({
       conversationItems: [
         { role: 'user', content: '#12345/2024-01-01' },
@@ -314,7 +371,12 @@ test('start_chat_session triggered by ticket ID', async () => {
     assert.strictEqual(state.summary, 'old summary');
   } finally {
     global.fetch = originalFetch;
-    useDataStore.setState({ contactType: null, contactId: null, summary: null });
+    useDataStore.setState({
+      contactType: null,
+      contactId: null,
+      summary: null,
+      longSummary: null,
+    });
   }
 });
 
@@ -335,5 +397,7 @@ test('start_chat_session returns long summary', async () => {
     assert.strictEqual(res.longSummary, 'prefs');
   } finally {
     global.fetch = originalFetch;
+    const useDataStore = require('../stores/useDataStore').default;
+    useDataStore.setState({ longSummary: null });
   }
 });
