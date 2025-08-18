@@ -26,13 +26,22 @@ export async function POST(
     const sessionMessages = Array.isArray(session?.messages)
       ? (session!.messages as any[])
       : [];
-    const summary = await summarizeSession(sessionMessages);
+    const startIndex = (session as any)?.summaryIndex ?? 0;
+    const newMessages = sessionMessages.slice(startIndex);
+    const summary = await summarizeSession({
+      priorSummary: (session as any)?.summary ?? null,
+      newMessages,
+    });
 
     await redis.set(`session:${session_id}:summary`, summary);
 
     await prisma.chatSession.update({
       where: { id: session_id },
-      data: { endedAt: new Date(), summary },
+      data: {
+        endedAt: new Date(),
+        summary,
+        summaryIndex: sessionMessages.length,
+      },
     });
 
     if (identifier) {

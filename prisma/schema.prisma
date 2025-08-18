@@ -44,6 +44,7 @@ model ChatSession {
   endedAt   DateTime?
   messages  Json // or a separate Message model
   summary   String?  @db.Text
+  summaryIndex Int    @default(0)
 }
 
 model Ticket {

@@ -3,8 +3,11 @@ const test = require('node:test');
 require('ts-node/register/transpile-only');
 require('tsconfig-paths/register');
 
+// Provide a lightweight Prisma stub to avoid loading native engine
+const prisma = { ticket: { count: async () => 0, create: async () => ({}) } };
+require.cache[require.resolve('../lib/prisma.ts')] = { exports: prisma };
+
 const { POST } = require('../app/api/tickets/create/route.ts');
-const prisma = require('../lib/prisma').default;
 const { create_ticket } = require('../config/functions.ts');
 const useDataStore = require('../stores/useDataStore').default;
 

@@ -3412,8 +3412,18 @@ export namespace Prisma {
 
   export type AggregateChatSession = {
     _count: ChatSessionCountAggregateOutputType | null
+    _avg: ChatSessionAvgAggregateOutputType | null
+    _sum: ChatSessionSumAggregateOutputType | null
     _min: ChatSessionMinAggregateOutputType | null
     _max: ChatSessionMaxAggregateOutputType | null
+  }
+
+  export type ChatSessionAvgAggregateOutputType = {
+    summaryIndex: number | null
+  }
+
+  export type ChatSessionSumAggregateOutputType = {
+    summaryIndex: number | null
   }
 
   export type ChatSessionMinAggregateOutputType = {
@@ -3423,6 +3433,7 @@ export namespace Prisma {
     updatedAt: Date | null
     endedAt: Date | null
     summary: string | null
+    summaryIndex: number | null
   }
 
   export type ChatSessionMaxAggregateOutputType = {
@@ -3432,6 +3443,7 @@ export namespace Prisma {
     updatedAt: Date | null
     endedAt: Date | null
     summary: string | null
+    summaryIndex: number | null
   }
 
   export type ChatSessionCountAggregateOutputType = {
@@ -3442,9 +3454,18 @@ export namespace Prisma {
     endedAt: number
     messages: number
     summary: number
+    summaryIndex: number
     _all: number
   }
 
+
+  export type ChatSessionAvgAggregateInputType = {
+    summaryIndex?: true
+  }
+
+  export type ChatSessionSumAggregateInputType = {
+    summaryIndex?: true
+  }
 
   export type ChatSessionMinAggregateInputType = {
     id?: true
@@ -3453,6 +3474,7 @@ export namespace Prisma {
     updatedAt?: true
     endedAt?: true
     summary?: true
+    summaryIndex?: true
   }
 
   export type ChatSessionMaxAggregateInputType = {
@@ -3462,6 +3484,7 @@ export namespace Prisma {
     updatedAt?: true
     endedAt?: true
     summary?: true
+    summaryIndex?: true
   }
 
   export type ChatSessionCountAggregateInputType = {
@@ -3472,6 +3495,7 @@ export namespace Prisma {
     endedAt?: true
     messages?: true
     summary?: true
+    summaryIndex?: true
     _all?: true
   }
 
@@ -3513,6 +3537,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ChatSessionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ChatSessionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ChatSessionMinAggregateInputType
@@ -3543,6 +3579,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ChatSessionCountAggregateInputType | true
+    _avg?: ChatSessionAvgAggregateInputType
+    _sum?: ChatSessionSumAggregateInputType
     _min?: ChatSessionMinAggregateInputType
     _max?: ChatSessionMaxAggregateInputType
   }
@@ -3555,7 +3593,10 @@ export namespace Prisma {
     endedAt: Date | null
     messages: JsonValue
     summary: string | null
+    summaryIndex: number
     _count: ChatSessionCountAggregateOutputType | null
+    _avg: ChatSessionAvgAggregateOutputType | null
+    _sum: ChatSessionSumAggregateOutputType | null
     _min: ChatSessionMinAggregateOutputType | null
     _max: ChatSessionMaxAggregateOutputType | null
   }
@@ -3582,6 +3623,7 @@ export namespace Prisma {
     endedAt?: boolean
     messages?: boolean
     summary?: boolean
+    summaryIndex?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
@@ -3593,6 +3635,7 @@ export namespace Prisma {
     endedAt?: boolean
     messages?: boolean
     summary?: boolean
+    summaryIndex?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
@@ -3604,6 +3647,7 @@ export namespace Prisma {
     endedAt?: boolean
     messages?: boolean
     summary?: boolean
+    summaryIndex?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
@@ -3615,9 +3659,10 @@ export namespace Prisma {
     endedAt?: boolean
     messages?: boolean
     summary?: boolean
+    summaryIndex?: boolean
   }
 
-  export type ChatSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt" | "endedAt" | "messages" | "summary", ExtArgs["result"]["chatSession"]>
+  export type ChatSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt" | "endedAt" | "messages" | "summary" | "summaryIndex", ExtArgs["result"]["chatSession"]>
   export type ChatSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -3641,6 +3686,7 @@ export namespace Prisma {
       endedAt: Date | null
       messages: Prisma.JsonValue
       summary: string | null
+      summaryIndex: number
     }, ExtArgs["result"]["chatSession"]>
     composites: {}
   }
@@ -4072,6 +4118,7 @@ export namespace Prisma {
     readonly endedAt: FieldRef<"ChatSession", 'DateTime'>
     readonly messages: FieldRef<"ChatSession", 'Json'>
     readonly summary: FieldRef<"ChatSession", 'String'>
+    readonly summaryIndex: FieldRef<"ChatSession", 'Int'>
   }
     
 
@@ -5594,7 +5641,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     endedAt: 'endedAt',
     messages: 'messages',
-    summary: 'summary'
+    summary: 'summary',
+    summaryIndex: 'summaryIndex'
   };
 
   export type ChatSessionScalarFieldEnum = (typeof ChatSessionScalarFieldEnum)[keyof typeof ChatSessionScalarFieldEnum]
@@ -5708,6 +5756,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -5846,6 +5908,7 @@ export namespace Prisma {
     endedAt?: DateTimeNullableFilter<"ChatSession"> | Date | string | null
     messages?: JsonFilter<"ChatSession">
     summary?: StringNullableFilter<"ChatSession"> | string | null
+    summaryIndex?: IntFilter<"ChatSession"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -5857,6 +5920,7 @@ export namespace Prisma {
     endedAt?: SortOrderInput | SortOrder
     messages?: SortOrder
     summary?: SortOrderInput | SortOrder
+    summaryIndex?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -5871,6 +5935,7 @@ export namespace Prisma {
     endedAt?: DateTimeNullableFilter<"ChatSession"> | Date | string | null
     messages?: JsonFilter<"ChatSession">
     summary?: StringNullableFilter<"ChatSession"> | string | null
+    summaryIndex?: IntFilter<"ChatSession"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -5882,9 +5947,12 @@ export namespace Prisma {
     endedAt?: SortOrderInput | SortOrder
     messages?: SortOrder
     summary?: SortOrderInput | SortOrder
+    summaryIndex?: SortOrder
     _count?: ChatSessionCountOrderByAggregateInput
+    _avg?: ChatSessionAvgOrderByAggregateInput
     _max?: ChatSessionMaxOrderByAggregateInput
     _min?: ChatSessionMinOrderByAggregateInput
+    _sum?: ChatSessionSumOrderByAggregateInput
   }
 
   export type ChatSessionScalarWhereWithAggregatesInput = {
@@ -5898,6 +5966,7 @@ export namespace Prisma {
     endedAt?: DateTimeNullableWithAggregatesFilter<"ChatSession"> | Date | string | null
     messages?: JsonWithAggregatesFilter<"ChatSession">
     summary?: StringNullableWithAggregatesFilter<"ChatSession"> | string | null
+    summaryIndex?: IntWithAggregatesFilter<"ChatSession"> | number
   }
 
   export type TicketWhereInput = {
@@ -6087,6 +6156,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
     summary?: string | null
+    summaryIndex?: number
     user: UserCreateNestedOneWithoutSessionsInput
   }
 
@@ -6098,6 +6168,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
     summary?: string | null
+    summaryIndex?: number
   }
 
   export type ChatSessionUpdateInput = {
@@ -6107,6 +6178,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    summaryIndex?: IntFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
 
@@ -6118,6 +6190,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    summaryIndex?: IntFieldUpdateOperationsInput | number
   }
 
   export type ChatSessionCreateManyInput = {
@@ -6128,6 +6201,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
     summary?: string | null
+    summaryIndex?: number
   }
 
   export type ChatSessionUpdateManyMutationInput = {
@@ -6137,6 +6211,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    summaryIndex?: IntFieldUpdateOperationsInput | number
   }
 
   export type ChatSessionUncheckedUpdateManyInput = {
@@ -6147,6 +6222,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    summaryIndex?: IntFieldUpdateOperationsInput | number
   }
 
   export type TicketCreateInput = {
@@ -6413,6 +6489,17 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -6426,6 +6513,11 @@ export namespace Prisma {
     endedAt?: SortOrder
     messages?: SortOrder
     summary?: SortOrder
+    summaryIndex?: SortOrder
+  }
+
+  export type ChatSessionAvgOrderByAggregateInput = {
+    summaryIndex?: SortOrder
   }
 
   export type ChatSessionMaxOrderByAggregateInput = {
@@ -6435,6 +6527,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     endedAt?: SortOrder
     summary?: SortOrder
+    summaryIndex?: SortOrder
   }
 
   export type ChatSessionMinOrderByAggregateInput = {
@@ -6444,6 +6537,11 @@ export namespace Prisma {
     updatedAt?: SortOrder
     endedAt?: SortOrder
     summary?: SortOrder
+    summaryIndex?: SortOrder
+  }
+
+  export type ChatSessionSumOrderByAggregateInput = {
+    summaryIndex?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6484,6 +6582,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type TicketCountOrderByAggregateInput = {
@@ -6671,6 +6785,14 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
     create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
@@ -6852,6 +6974,33 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type OrderCreateWithoutUserInput = {
     id?: string
     orderId: string
@@ -6883,6 +7032,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
     summary?: string | null
+    summaryIndex?: number
   }
 
   export type ChatSessionUncheckedCreateWithoutUserInput = {
@@ -6892,6 +7042,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
     summary?: string | null
+    summaryIndex?: number
   }
 
   export type ChatSessionCreateOrConnectWithoutUserInput = {
@@ -6980,6 +7131,7 @@ export namespace Prisma {
     endedAt?: DateTimeNullableFilter<"ChatSession"> | Date | string | null
     messages?: JsonFilter<"ChatSession">
     summary?: StringNullableFilter<"ChatSession"> | string | null
+    summaryIndex?: IntFilter<"ChatSession"> | number
   }
 
   export type TicketUpsertWithWhereUniqueWithoutUserInput = {
@@ -7202,6 +7354,7 @@ export namespace Prisma {
     endedAt?: Date | string | null
     messages: JsonNullValueInput | InputJsonValue
     summary?: string | null
+    summaryIndex?: number
   }
 
   export type TicketCreateManyUserInput = {
@@ -7238,6 +7391,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    summaryIndex?: IntFieldUpdateOperationsInput | number
   }
 
   export type ChatSessionUncheckedUpdateWithoutUserInput = {
@@ -7247,6 +7401,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    summaryIndex?: IntFieldUpdateOperationsInput | number
   }
 
   export type ChatSessionUncheckedUpdateManyWithoutUserInput = {
@@ -7256,6 +7411,7 @@ export namespace Prisma {
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: JsonNullValueInput | InputJsonValue
     summary?: NullableStringFieldUpdateOperationsInput | string | null
+    summaryIndex?: IntFieldUpdateOperationsInput | number
   }
 
   export type TicketUpdateWithoutUserInput = {
