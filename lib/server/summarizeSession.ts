@@ -16,12 +16,12 @@ export async function summarizeSession({
   newMessages: any[];
 }): Promise<string> {
   if (!Array.isArray(newMessages) || newMessages.length === 0) {
-    return priorSummary ?? "";
+    return "";
   }
 
   const openai = new OpenAI();
   const prompt =
-    "Summarize the conversation in 3–5 bullet points, capturing the user's issue/questions asked, actions taken, and pending follow-ups.";
+    "Summarize the following new messages in 3–5 bullet points, capturing the user's issue/questions asked, actions taken, and pending follow-ups.";
 
   const summaryIntro: SummaryMessage[] = priorSummary
     ? [
