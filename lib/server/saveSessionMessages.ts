@@ -1,5 +1,7 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
+import { summarizeSession } from "@/lib/server/summarizeSession";
+import { MAX_UNSUMMARIZED_MESSAGES } from "@/config/constants";
 
 // Cached session messages no longer have an expiry and are retained
 // until the associated session is cleaned up.
@@ -14,15 +16,21 @@ export async function saveSessionMessages(
   try {
     const session = await prisma.chatSession.findUnique({
       where: { id: session_id },
-      include: { user: true },
+      select: {
+        messages: true,
+        summary: true,
+        lastSummarizedIndex: true,
+      },
     });
     if (!session) {
       return { error: "Session not found" };
     }
 
+    const lastSummarizedIndex = (session as any)?.lastSummarizedIndex ?? 0;
     const existingMessages = Array.isArray(session.messages)
-      ? (session.messages as any[])
+      ? (session.messages as any[]).slice(lastSummarizedIndex)
       : [];
+    let summary = (session as any)?.summary ?? null;
 
     const existingIds = new Set(
       existingMessages.map((m: any) => m.id).filter(Boolean)
@@ -52,11 +60,31 @@ export async function saveSessionMessages(
       }
     }
 
-    const updatedMessages = [...existingMessages, ...dedupedMessages];
+    let updatedMessages = [...existingMessages, ...dedupedMessages];
+
+    if (updatedMessages.length > MAX_UNSUMMARIZED_MESSAGES) {
+      const overflow =
+        updatedMessages.length - MAX_UNSUMMARIZED_MESSAGES;
+      const messagesToSummarize = updatedMessages.slice(0, overflow);
+      const summaryFragment = await summarizeSession({
+        priorSummary: summary,
+        newMessages: messagesToSummarize,
+      });
+      summary = [summary, summaryFragment].filter(Boolean).join("\n");
+      updatedMessages = updatedMessages.slice(-MAX_UNSUMMARIZED_MESSAGES);
+      await redis.set(
+        `session:${session_id}:summary`,
+        summary
+      );
+    }
 
     await prisma.chatSession.update({
       where: { id: session_id },
-      data: { messages: updatedMessages },
+      data: {
+        messages: updatedMessages,
+        summary,
+        lastSummarizedIndex: 0,
+      },
     });
 
     await redis.set(
