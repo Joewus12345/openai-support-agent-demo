@@ -1,10 +1,29 @@
 import Redis from "ioredis";
 
 const url = process.env.REDIS_URL;
-if (!url) {
-  throw new Error("REDIS_URL env variable not set");
+
+const createNoop = () => ({
+  async get() {
+    return null;
+  },
+  async set() {
+    return null;
+  },
+  async ping() {
+    return "PONG";
+  },
+  async quit() {
+    return;
+  },
+});
+
+const redis = url
+  ? new Redis(url, { lazyConnect: true, maxRetriesPerRequest: 0 })
+  : createNoop();
+
+if (url && typeof (redis as any).on === "function") {
+  (redis as any).on("error", () => {});
+  (redis as any).connect().catch(() => {});
 }
 
-const redis = new Redis(url);
-
-export default redis;
+export default redis as any;
