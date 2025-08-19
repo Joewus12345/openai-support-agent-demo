@@ -123,7 +123,7 @@ export function estimateMessageTokens(
   return total;
 }
 
-function trimMessagesToTokenLimit(
+async function trimMessagesToTokenLimit(
   allMessages: any[],
   limit: number,
   summary: string | null,
@@ -149,12 +149,16 @@ function trimMessagesToTokenLimit(
           : m.content ?? ""
       )
       .join(" ");
+
+    const { summarizeText } = await import("./server/summarizeText");
+    const cachedSummary = await summarizeText(removedText);
+
     trimmed.unshift({
       role: "system",
       content: [
         {
           type: "input_text",
-          text: `Previous conversation summary: ${removedText}`,
+          text: `Previous conversation summary: ${cachedSummary}`,
         },
       ],
     });
@@ -211,7 +215,7 @@ export const handleTurn = async (
     const messagesWithTicket =
       systemMessages.length > 0 ? [...systemMessages, ...messages] : messages;
 
-    const limitedMessages = trimMessagesToTokenLimit(
+    const limitedMessages = await trimMessagesToTokenLimit(
       messagesWithTicket,
       TOKEN_THRESHOLD,
       summary,
