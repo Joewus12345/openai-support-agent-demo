@@ -52,6 +52,7 @@ export async function POST(
         summary,
         lastSummarizedIndex: 0,
         messages: remainingMessages,
+        unsummarizedLimit: MAX_UNSUMMARIZED_MESSAGES,
       },
     });
     await redis.set(

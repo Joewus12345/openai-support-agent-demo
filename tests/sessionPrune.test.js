@@ -81,8 +81,9 @@ test('saveSessionMessages prunes old unsummarized messages', async () => {
   assert.strictEqual(summarizeSession.mock.calls.length, 1);
 });
 
-test('end session removes messages after summarization', async () => {
+test('end session removes messages after summarization and resets limit', async () => {
   reset();
+  session.unsummarizedLimit = 1;
   session.messages = [
     { role: 'user', content: [{ type: 'input_text', text: 'hi' }] },
     { role: 'assistant', content: [{ type: 'output_text', text: 'there' }] },
@@ -97,6 +98,10 @@ test('end session removes messages after summarization', async () => {
   assert.deepStrictEqual(session.messages, []);
   assert.strictEqual(session.summary, 'hi there');
   assert.strictEqual(session.lastSummarizedIndex, 0);
+  assert.strictEqual(
+    session.unsummarizedLimit,
+    constants.MAX_UNSUMMARIZED_MESSAGES
+  );
 });
 
 test('unsummarized limit shrinks after repeated large messages and prunes', async () => {
