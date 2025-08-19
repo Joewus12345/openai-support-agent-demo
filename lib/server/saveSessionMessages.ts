@@ -6,8 +6,7 @@ import {
   LARGE_MESSAGE_THRESHOLD,
 } from "@/config/constants";
 
-// Cached session messages no longer have an expiry and are retained
-// until the associated session is cleaned up.
+// Cached session messages expire after 24 hours to allow cleanup.
 
 export async function saveSessionMessages(
   session_id: string,
@@ -93,7 +92,9 @@ export async function saveSessionMessages(
       updatedMessages = updatedMessages.slice(-unsummarizedLimit);
       await redis.set(
         `session:${session_id}:summary`,
-        summary
+        summary,
+        "EX",
+        86400
       );
     }
 
@@ -109,7 +110,9 @@ export async function saveSessionMessages(
 
     await redis.set(
       `session:${session_id}:messages`,
-      JSON.stringify(updatedMessages)
+      JSON.stringify(updatedMessages),
+      "EX",
+      86400
     );
 
     if (duplicateDetected) {
