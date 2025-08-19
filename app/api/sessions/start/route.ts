@@ -32,6 +32,7 @@ export async function POST(request: Request) {
       endedAt: true,
       summary: true,
       lastSummarizedIndex: true,
+      unsummarizedLimit: true,
     } as const;
 
     let session = await prisma.chatSession.findFirst({

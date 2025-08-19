@@ -46,6 +46,7 @@ model ChatSession {
   messages            Json // or a separate Message model
   summary             String?   @db.Text
   lastSummarizedIndex Int       @default(0)
+  unsummarizedLimit   Int       @default(50)
 }
 
 model Ticket {

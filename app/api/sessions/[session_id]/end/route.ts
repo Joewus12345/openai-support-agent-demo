@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { saveSessionMessages } from "@/lib/server/saveSessionMessages";
 import { summarizeSession } from "@/lib/server/summarizeSession";
+import { MAX_UNSUMMARIZED_MESSAGES } from "@/config/constants";
 
 export async function POST(
   request: Request,
@@ -39,9 +40,11 @@ export async function POST(
 
     await redis.set(`session:${session_id}:summary`, summary);
 
-    const remainingMessages: any[] = sessionMessages.slice(
-      startIndex + newMessages.length
-    );
+    const limit =
+      (session as any)?.unsummarizedLimit ?? MAX_UNSUMMARIZED_MESSAGES;
+    const remainingMessages: any[] = sessionMessages
+      .slice(startIndex + newMessages.length)
+      .slice(-limit);
     await prisma.chatSession.update({
       where: { id: session_id },
       data: {

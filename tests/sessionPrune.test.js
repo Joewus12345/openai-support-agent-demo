@@ -4,6 +4,7 @@ const { mock } = test;
 
 const constants = require('../config/constants');
 constants.MAX_UNSUMMARIZED_MESSAGES = 3;
+constants.LARGE_MESSAGE_THRESHOLD = 50;
 
 const user = { id: 'u1', longSummary: null };
 const session = {
@@ -12,6 +13,7 @@ const session = {
   messages: [],
   summary: null,
   lastSummarizedIndex: 0,
+  unsummarizedLimit: constants.MAX_UNSUMMARIZED_MESSAGES,
   user,
 };
 
@@ -54,6 +56,7 @@ function reset() {
   session.messages = [];
   session.summary = null;
   session.lastSummarizedIndex = 0;
+  session.unsummarizedLimit = constants.MAX_UNSUMMARIZED_MESSAGES;
   user.longSummary = null;
   summarizeSession.mock.resetCalls();
 }
@@ -74,6 +77,7 @@ test('saveSessionMessages prunes old unsummarized messages', async () => {
     session.messages.map((m) => m.content[0].text),
     ['m3', 'm4', 'm5']
   );
+  assert.strictEqual(session.unsummarizedLimit, 3);
   assert.strictEqual(summarizeSession.mock.calls.length, 1);
 });
 
@@ -93,4 +97,28 @@ test('end session removes messages after summarization', async () => {
   assert.deepStrictEqual(session.messages, []);
   assert.strictEqual(session.summary, 'hi there');
   assert.strictEqual(session.lastSummarizedIndex, 0);
+});
+
+test('unsummarized limit shrinks after repeated large messages and prunes', async () => {
+  reset();
+  const large1 = { id: 'l1', role: 'assistant', content: [{ type: 'output_text', text: 'x'.repeat(60) }] };
+  const large2 = { id: 'l2', role: 'assistant', content: [{ type: 'output_text', text: 'y'.repeat(60) }] };
+  const large3 = { id: 'l3', role: 'assistant', content: [{ type: 'output_text', text: 'z'.repeat(60) }] };
+  await saveSessionMessages('s1', [large1]);
+  assert.strictEqual(session.unsummarizedLimit, 3);
+  await saveSessionMessages('s1', [large2]);
+  assert.strictEqual(session.unsummarizedLimit, 2);
+  await saveSessionMessages('s1', [large3]);
+  assert.strictEqual(session.unsummarizedLimit, 1);
+  await saveSessionMessages('s1', [
+    { id: '4', role: 'user', content: [{ type: 'input_text', text: 'ok' }] },
+  ]);
+  assert.strictEqual(session.unsummarizedLimit, 1);
+  assert.ok(session.summary.includes('x'));
+  assert.ok(session.summary.includes('y'));
+  assert.ok(session.summary.includes('z'));
+  assert.deepStrictEqual(
+    session.messages.map((m) => m.content[0].text),
+    ['ok']
+  );
 });
