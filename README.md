@@ -291,6 +291,10 @@ To prune existing sessions to the current limit, run:
 npm run prune:sessions
 ```
 
+The pruning script also updates each user's `longSummary` retroactively. After a session's message log is reduced and its summary
+is refreshed, that summary is itself summarized and appended to the user's existing long-term summary so historical context
+is preserved.
+
 ## Contributing
 
 You are welcome to open issues or submit PRs to improve this app, however, please note that we may not review all suggestions.
