@@ -150,8 +150,12 @@ async function trimMessagesToTokenLimit(
       )
       .join(" ");
 
-    const { summarizeText } = await import("./server/summarizeText");
-    const cachedSummary = await summarizeText(removedText);
+    const resp = await fetch("/api/summarize-text", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: removedText }),
+    });
+    const { summary: cachedSummary } = await resp.json();
 
     trimmed.unshift({
       role: "system",
