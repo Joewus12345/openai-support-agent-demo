@@ -150,10 +150,14 @@ async function trimMessagesToTokenLimit(
       )
       .join(" ");
 
+    const MAX_REMOVED_CHARS = 100_000;
+    // Limit text sent for summarization to avoid excessively large payloads.
+    const truncated = removedText.slice(0, MAX_REMOVED_CHARS);
+
     const resp = await fetch("/api/summarize-text", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: removedText }),
+      body: JSON.stringify({ text: truncated }),
     });
     const { summary: cachedSummary } = await resp.json();
 
