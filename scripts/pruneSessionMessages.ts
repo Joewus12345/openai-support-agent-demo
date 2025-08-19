@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { summarizeSession } from "@/lib/server/summarizeSession";
 import { MAX_UNSUMMARIZED_MESSAGES } from "@/config/constants";
 
-async function run() {
+export async function run() {
   const sessions = await prisma.chatSession.findMany({ include: { user: true } });
   for (const s of sessions) {
     const messages = Array.isArray(s.messages) ? (s.messages as any[]) : [];
@@ -55,11 +55,13 @@ async function run() {
   }
 }
 
-run()
-  .catch((err) => {
-    console.error("Prune failed", err);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+if (require.main === module) {
+  run()
+    .catch((err) => {
+      console.error("Prune failed", err);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
