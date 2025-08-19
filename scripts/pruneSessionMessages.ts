@@ -10,19 +10,18 @@ async function run() {
     const startIndex = (s as any)?.lastSummarizedIndex ?? 0;
     let summary = (s as any)?.summary ?? null;
     let unsummarized = messages.slice(startIndex);
-    if (startIndex > 0 || unsummarized.length > MAX_UNSUMMARIZED_MESSAGES) {
-      if (unsummarized.length > MAX_UNSUMMARIZED_MESSAGES) {
-        const toSummarize = unsummarized.slice(
-          0,
-          unsummarized.length - MAX_UNSUMMARIZED_MESSAGES
-        );
+    const limit =
+      (s as any)?.unsummarizedLimit ?? MAX_UNSUMMARIZED_MESSAGES;
+    if (startIndex > 0 || unsummarized.length > limit) {
+      if (unsummarized.length > limit) {
+        const toSummarize = unsummarized.slice(0, unsummarized.length - limit);
         if (toSummarize.length > 0) {
           const fragment = await summarizeSession({
             priorSummary: summary,
             newMessages: toSummarize,
           });
           summary = [summary, fragment].filter(Boolean).join("\n");
-          unsummarized = unsummarized.slice(-MAX_UNSUMMARIZED_MESSAGES);
+          unsummarized = unsummarized.slice(-limit);
         }
       }
       await prisma.chatSession.update({

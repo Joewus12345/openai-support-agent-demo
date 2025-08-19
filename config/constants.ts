@@ -46,3 +46,10 @@ export const MAX_UNSUMMARIZED_MESSAGES = parseInt(
   process.env.MAX_UNSUMMARIZED_MESSAGES || "50",
   10
 );
+
+// Character length beyond which a message is considered large. Consecutive
+// large messages trigger a reduction in the unsummarized message cap.
+export const LARGE_MESSAGE_THRESHOLD = parseInt(
+  process.env.LARGE_MESSAGE_THRESHOLD || "8000",
+  10
+);
