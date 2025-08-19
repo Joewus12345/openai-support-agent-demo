@@ -38,7 +38,7 @@ export async function POST(
       .filter(Boolean)
       .join("\n");
 
-    await redis.set(`session:${session_id}:summary`, summary);
+    await redis.set(`session:${session_id}:summary`, summary, "EX", 86400);
 
     const limit =
       (session as any)?.unsummarizedLimit ?? MAX_UNSUMMARIZED_MESSAGES;
@@ -57,7 +57,9 @@ export async function POST(
     });
     await redis.set(
       `session:${session_id}:messages`,
-      JSON.stringify(remainingMessages)
+      JSON.stringify(remainingMessages),
+      "EX",
+      86400
     );
 
     const longSummaryFragment = await summarizeSession({
@@ -79,7 +81,7 @@ export async function POST(
     });
 
     if (identifier) {
-      await redis.set(identifier, summary);
+      await redis.set(identifier, summary, "EX", 86400);
     }
 
     return new Response(JSON.stringify({ success: true, summary, longSummary }), {

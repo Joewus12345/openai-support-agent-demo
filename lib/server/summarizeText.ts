@@ -4,7 +4,7 @@ import redis from "@/lib/redis";
 
 /**
  * Summarize arbitrary text to roughly the given number of tokens.
- * Results are cached in Redis for reuse.
+ * Results are cached in Redis for 24 hours for reuse.
  */
 export async function summarizeText(text: string, maxTokens = 200): Promise<string> {
   const hash = crypto.createHash("sha256").update(text).digest("hex");
@@ -32,7 +32,7 @@ export async function summarizeText(text: string, maxTokens = 200): Promise<stri
 
     const summary = response.output_text ?? "";
     try {
-      await redis.set(key, summary);
+      await redis.set(key, summary, "EX", 86400);
     } catch (err) {
       console.error("Redis set error:", err);
     }
