@@ -45,7 +45,6 @@ export async function summarizeText(text: string, maxTokens = 200): Promise<stri
     return summary;
   } catch (err) {
     console.error("summarizeText error:", err);
-    const maxChars = maxTokens * 4;
-    return truncated.slice(0, maxChars);
+    return truncated;
   }
 }
