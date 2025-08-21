@@ -3,10 +3,10 @@
 // Parameters for a tool call are passed as an object to the corresponding function
 import useDataStore from "@/stores/useDataStore";
 import useConversationStore from "@/stores/useConversationStore";
-import {
-  search_knowledge_base as serverSearchKnowledgeBase,
-  type SearchKnowledgeBaseResponse,
-} from "@/lib/server/searchFiles";
+interface SearchKnowledgeBaseResponse {
+  results?: any[] | string[];
+  error?: string;
+}
 
 // simple in-memory cache for file search results
 const fileSearchCache = new Map<string, SearchKnowledgeBaseResponse["results"]>();
@@ -459,14 +459,21 @@ export const search_knowledge_base = async ({
       return { results: cached };
     }
 
-    const result = await serverSearchKnowledgeBase({
-      query,
-      queries,
-      provider,
-      limit: limitNum,
-      threshold: thresholdNum,
-      topKOnly,
-    });
+    const result: SearchKnowledgeBaseResponse = await fetch(
+      "/api/search-knowledge-base",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query,
+          queries,
+          provider,
+          limit: limitNum,
+          threshold: thresholdNum,
+          topKOnly,
+        }),
+      }
+    ).then((res) => res.json());
     if (result.results) {
       setFAQExtracts(result.results, provider);
       setLastSearchQuery(queryKey);
