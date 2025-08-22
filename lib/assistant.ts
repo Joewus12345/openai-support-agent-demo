@@ -170,6 +170,14 @@ async function trimMessagesToTokenLimit(
         },
       ],
     });
+
+    systemCount++;
+    tokenEstimate = estimateMessageTokens(trimmed, modelName);
+
+    while (tokenEstimate > limit && trimmed.length > systemCount + 1) {
+      trimmed.splice(systemCount, 1);
+      tokenEstimate = estimateMessageTokens(trimmed, modelName);
+    }
   }
 
   return trimmed;
