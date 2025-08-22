@@ -8,11 +8,12 @@ import redis from "@/lib/redis";
  * Summaries are cached in Redis with a 24 hour TTL ("EX" 86400) to avoid
  * recomputation of identical inputs.
  *
- * Large inputs can cause hashing/summarization to be expensive, so the text is
- * truncated to a maximum of 100k characters before any processing.
+ * To keep hashing and summarization cheap, we only operate on the first
+ * 100k characters of the input. Anything beyond that point is ignored both when
+ * generating the cache key and when creating the summary.
  */
 export async function summarizeText(text: string, maxTokens = 200): Promise<string> {
-  const MAX_INPUT_CHARS = 100_000;
+  const MAX_INPUT_CHARS = 100_000; // process only this many characters
   // Cache summaries for 24 hours to keep them relatively fresh.
   const CACHE_TTL_SECONDS = 60 * 60 * 24; // 24h
   const truncated = text.slice(0, MAX_INPUT_CHARS);
