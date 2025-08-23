@@ -1,0 +1,77 @@
+import { NextResponse } from "next/server";
+import { getProvider } from "@/lib/providers";
+
+/**
+ * Handle Chatwoot webhook payloads and generate automated replies.
+ * Expects CHATWOOT_URL and CHATWOOT_APP_TOKEN env vars.
+ */
+export async function POST(request: Request) {
+  try {
+    const payload = await request.json();
+
+    const message = payload.message || payload;
+    const messageType = message.message_type || message.type;
+    if (messageType && messageType !== "incoming") {
+      return NextResponse.json({ status: "ignored" });
+    }
+
+    const content = message.content;
+    const conversation = message.conversation || payload.conversation;
+    const account = message.account || payload.account || conversation?.account;
+
+    if (!content || !conversation || !account) {
+      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    }
+
+    const messages = [
+      {
+        role: "user",
+        content: [{ type: "text", text: content }],
+      },
+    ];
+
+    const providerFn = getProvider(process.env.LLM_PROVIDER);
+    const events = providerFn(messages, undefined, { model: process.env.OPENAI_MODEL });
+
+    let assistantText = "";
+    for await (const { event, data } of events) {
+      if (event === "response.output_text.delta" && typeof data?.delta === "string") {
+        assistantText += data.delta;
+      }
+    }
+
+    const url = process.env.CHATWOOT_URL;
+    const token = process.env.CHATWOOT_APP_TOKEN;
+    if (!url || !token) {
+      console.error("CHATWOOT_URL or CHATWOOT_APP_TOKEN not set");
+      return NextResponse.json({ error: "Chatwoot not configured" }, { status: 500 });
+    }
+
+    const accountId = account.id || account.account_id;
+    const conversationId = conversation.id;
+
+    const chatwootRes = await fetch(
+      `${url}/api/v1/accounts/${accountId}/conversations/${conversationId}/messages`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          api_access_token: token,
+        },
+        body: JSON.stringify({ content: assistantText }),
+      }
+    );
+
+    if (!chatwootRes.ok) {
+      const text = await chatwootRes.text();
+      console.error("Failed to post Chatwoot reply", chatwootRes.status, text);
+      return NextResponse.json({ error: "Failed to send message" }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Chatwoot webhook error", error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
+
