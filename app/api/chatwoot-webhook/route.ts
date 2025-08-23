@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 import { getProvider } from "@/lib/providers";
+import type {
+  ChatwootEvent,
+  Conversation,
+  Message,
+} from "@/types/chatwoot";
 
 /**
  * Handle Chatwoot webhook payloads and generate automated replies.
@@ -7,17 +12,19 @@ import { getProvider } from "@/lib/providers";
  */
 export async function POST(request: Request) {
   try {
-    const payload = await request.json();
+    const payload = (await request.json()) as ChatwootEvent;
 
-    const message = payload.message || payload;
+    const message: Message = payload.message || (payload as Message);
     const messageType = message.message_type || message.type;
     if (messageType && messageType !== "incoming") {
       return NextResponse.json({ status: "ignored" });
     }
 
     const content = message.content;
-    const conversation = message.conversation || payload.conversation;
-    const account = message.account || payload.account || conversation?.account;
+    const conversation: Conversation =
+      message.conversation || payload.conversation!;
+    const account =
+      message.account || payload.account || conversation?.account;
 
     if (!content || !conversation || !account) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
