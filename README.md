@@ -60,6 +60,7 @@ Feel free to customize this demo to suit your specific use case.
    `SESSION_RETENTION_DAYS` controls how long ended sessions are kept before cleanup (defaults to 30 days).
    Session messages cached in Redis are retained indefinitely until the session is cleaned up.
    The Chatwoot variables configure the webhook endpoint to send automated replies back to your Chatwoot instance.
+   When Chatwoot and the AI service run inside the same Docker Compose network, use `http://ai-agent:3001/api/chatwoot-webhook` as the webhook endpoint.
 
 3. **Run database migrations:**
 
