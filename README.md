@@ -62,6 +62,14 @@ Feel free to customize this demo to suit your specific use case.
    The Chatwoot variables configure the webhook endpoint to send automated replies back to your Chatwoot instance.
    When Chatwoot and the AI service run inside the same Docker Compose network, use `http://ai-agent:3001/api/chatwoot-webhook` as the webhook endpoint.
 
+   A standalone Docker setup is available to test the service in isolation:
+
+   ```bash
+   docker compose -f docker-compose.agent.yml up --build
+   ```
+
+   This starts the AI agent on `http://localhost:3001` along with PostgreSQL, Redis, and Ollama.
+
 3. **Run database migrations:**
 
    ```bash
