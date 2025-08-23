@@ -47,16 +47,19 @@ Feel free to customize this demo to suit your specific use case.
 
 2. **Configure environment:**
 
-   Create a `.env` file with your database connection string, Redis URL, and session retention setting:
+   Create a `.env` file with your database connection string, Redis URL, session retention setting, and (optionally) Chatwoot credentials:
 
    ```bash
    DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
    REDIS_URL=redis://localhost:6379
    SESSION_RETENTION_DAYS=30 # How many days to retain ended sessions
+   CHATWOOT_URL=http://<chatwoot-host>:<port>
+   CHATWOOT_APP_TOKEN=<chatwoot-app-token>
    ```
 
    `SESSION_RETENTION_DAYS` controls how long ended sessions are kept before cleanup (defaults to 30 days).
    Session messages cached in Redis are retained indefinitely until the session is cleaned up.
+   The Chatwoot variables configure the webhook endpoint to send automated replies back to your Chatwoot instance.
 
 3. **Run database migrations:**
 
