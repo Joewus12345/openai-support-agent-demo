@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getProvider } from "@/lib/providers";
+import { INBOX_MODE } from "@/config/inboxMode";
 import type {
   ChatwootEvent,
   Conversation,
@@ -12,7 +13,12 @@ import type {
  */
 export async function POST(request: Request) {
   try {
-    const payload = (await request.json()) as ChatwootEvent;
+    const incomingEvent = (await request.json()) as any;
+    const payload: ChatwootEvent = incomingEvent.data ?? incomingEvent;
+    const inboxId: number | undefined =
+      incomingEvent.data?.conversation?.inbox_id;
+    const mode =
+      inboxId !== undefined ? INBOX_MODE[inboxId] ?? "suggest" : "suggest";
 
     const message: Message = payload.message || (payload as Message);
     const messageType = message.message_type || message.type;
@@ -38,7 +44,9 @@ export async function POST(request: Request) {
     ];
 
     const providerFn = getProvider(process.env.LLM_PROVIDER);
-    const events = providerFn(messages, undefined, { model: process.env.OPENAI_MODEL });
+    const events = providerFn(messages, undefined, {
+      model: process.env.OPENAI_MODEL,
+    });
 
     let assistantText = "";
     for await (const { event, data } of events) {
@@ -65,7 +73,11 @@ export async function POST(request: Request) {
           "Content-Type": "application/json",
           api_access_token: token,
         },
-        body: JSON.stringify({ content: assistantText }),
+        body: JSON.stringify(
+          mode === "auto"
+            ? { content: assistantText }
+            : { content: assistantText, private: true }
+        ),
       }
     );
 
