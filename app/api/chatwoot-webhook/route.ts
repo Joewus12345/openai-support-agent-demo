@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     const messages = [
       {
         role: "user",
-        content: [{ type: "text", text: content }],
+        content: [{ type: "input_text", text: content }],
       },
     ];
 
