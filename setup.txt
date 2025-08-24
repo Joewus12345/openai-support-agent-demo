@@ -1,0 +1,69 @@
+Status
+Your previous commands never launched the Redis container and the AI agent failed to start because the DATABASE_URL and REDIS_URL values were placeholders (…). The setup is not complete yet.
+
+Guided setup (manual docker run commands)
+Check Docker is running
+
+docker info
+Build the AI agent image (run inside the openai-support-agent-demo folder)
+
+docker build -t ai-agent -f Dockerfile.agent .
+This bundles the app code and the Prisma schema into an image called ai-agent.
+
+Create the shared network
+
+docker network create support-net
+Containers on this network can reach each other by name.
+
+Start PostgreSQL
+
+docker run -d --name demo-db --network support-net `
+  -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres `
+  -e POSTGRES_DB=support_agent_demo -p 5434:5432 postgres:16
+Host port 5434 forwards to PostgreSQL’s 5432 inside the container.
+
+Start Redis
+
+docker run -d --name demo-redis --network support-net `
+  -p 6380:6379 redis:7
+The missing redis:7 image in your earlier command caused the “requires at least 1 argument” error.
+
+Confirm both services are running
+
+docker ps
+Run the AI agent
+
+docker run --rm --network support-net -p 3001:3001 `
+  -e OPENAI_API_KEY=<your-openai-key> `
+  -e CHATWOOT_APP_TOKEN=<your-chatwoot-token> `
+  -e DATABASE_URL=postgresql://postgres:postgres@demo-db:5432/support_agent_demo `
+  -e REDIS_URL=redis://demo-redis:6379 `
+  ai-agent
+Replace the placeholders with real keys. The previous P1012 Prisma error came from using … instead of a proper postgresql:// URL.
+
+Test the agent
+
+Visit http://localhost:3001 in your browser.
+
+If everything worked, you should see the agent’s API responding.
+
+Optional: Use docker-compose
+Fix the last line of docker-compose.agent.yml so it ends with:
+
+networks:
+  support-net:
+    external: true
+Launch the whole stack:
+
+docker network create support-net   # run once
+docker compose -f docker-compose.agent.yml up -d
+This automatically starts PostgreSQL (demo-db), Redis (demo-redis), Ollama, and the AI agent on the same network.
+
+Next steps
+If you want to publish the image, tag and push:
+docker tag ai-agent yourname/ai-agent:latest
+docker push yourname/ai-agent:latest
+
+You can then pull this image into your Chatwoot setup or run it separately behind ngrok/Cloudflare Tunnel as needed.
+
+Let me know if any command fails or if you’d like guidance integrating with Chatwoot.
