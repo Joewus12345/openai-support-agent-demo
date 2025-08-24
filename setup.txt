@@ -67,3 +67,25 @@ docker push yourname/ai-agent:latest
 You can then pull this image into your Chatwoot setup or run it separately behind ngrok/Cloudflare Tunnel as needed.
 
 Let me know if any command fails or if you’d like guidance integrating with Chatwoot.
+
+
+Stop running containers
+List the containers
+
+docker ps
+Shows the running containers and their names.
+
+Stop individual containers
+
+docker stop demo-db demo-redis ai-agent
+Use the names from docker ps. Stopping kills the running process but keeps the container for later.
+
+Remove containers (optional)
+
+docker rm demo-db demo-redis ai-agent
+Removes the containers entirely so they won’t restart accidentally.
+
+Tear down the shared network (optional)
+
+docker network rm support-net
+Only needed if you want to clean up the custom network.
