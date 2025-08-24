@@ -74,22 +74,31 @@ const converted = convertMessages(messages);
     console.log("ollama.chat payload", payload);
     stream = await ollama.chat(payload);
   } catch (error) {
-    console.error("ollama.chat failed", error, "finalText length", 0);
+    const message =
+      error instanceof Error ? error.message : String(error);
+    console.error(
+      "ollama.chat failed",
+      message,
+      error,
+      "finalText length",
+      0
+    );
     yield {
       event: "error",
-      data: { message: (error as Error).message },
+      data: { message },
     } as ProviderEvent;
     return;
   }
 
   const calls = new Map<string, { type: string; name?: string; args: string }>();
 
-  for await (const chunk of stream) {
-    console.log(
-      "Stream chunk:",
-      JSON.stringify(chunk).slice(0, 80),
-      "tool calls detected:",
-      (chunk.message?.tool_calls || []).length > 0
+  try {
+    for await (const chunk of stream) {
+      console.log(
+        "Stream chunk:",
+        JSON.stringify(chunk).slice(0, 80),
+        "tool calls detected:",
+        (chunk.message?.tool_calls || []).length > 0
     );
     const content = chunk.message?.content ?? "";
     if (content) {
@@ -218,6 +227,12 @@ const converted = convertMessages(messages);
         yield { event: "response.output_text.done", data: {} } as ProviderEvent;
       }
     }
+  }
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : String(error);
+    console.error("ollama.chat stream error", message, error);
+    yield { event: "error", data: { message } } as ProviderEvent;
   }
 }
 

@@ -221,6 +221,9 @@ export async function* ollamaOpenAIProvider(
       }
     }
   } catch (error) {
-    yield { event: "error", data: { message: (error as Error).message } } as ProviderEvent;
+    const message =
+      error instanceof Error ? error.message : String(error);
+    console.error("ollamaOpenAI.chat failed", message, error);
+    yield { event: "error", data: { message } } as ProviderEvent;
   }
 }
