@@ -12,6 +12,7 @@ services:
       - postgres
       - redis
       - ollama
+    entrypoint: docker/entrypoints/ai-agent.sh
 
   postgres:
     image: pgvector/pgvector:pg16
