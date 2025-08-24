@@ -7,7 +7,7 @@ import { webSearch } from "@/lib/tools/webSearch";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
-const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "32768", 10);
+const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "16384", 10);
 const host = process.env.OLLAMA_HOST;
 
 if (host) {
