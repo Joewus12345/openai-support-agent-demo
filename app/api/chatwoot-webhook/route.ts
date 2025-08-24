@@ -87,7 +87,13 @@ export async function POST(request: Request) {
 
     if (!chatwootRes.ok) {
       const text = await chatwootRes.text();
-      console.error("Failed to post Chatwoot reply", chatwootRes.status, text);
+      console.error("Failed to post Chatwoot reply", {
+        status: chatwootRes.status,
+        assistantText,
+        accountId,
+        conversationId,
+        body: text,
+      });
       return NextResponse.json({ error: "Failed to send message" }, { status: 500 });
     }
 
