@@ -57,6 +57,15 @@ Feel free to customize this demo to suit your specific use case.
    CHATWOOT_APP_TOKEN=<chatwoot-app-token>
    ```
 
+   If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compose port`), first determine the host port and then point `REDIS_URL` to it:
+
+   ```bash
+   docker compose port redis 6379
+   # or: docker port <container_name> 6379
+   # Suppose it prints 0.0.0.0:49153
+   REDIS_URL=redis://localhost:49153
+   ```
+
    `SESSION_RETENTION_DAYS` controls how long ended sessions are kept before cleanup (defaults to 30 days).
    Session messages cached in Redis are retained indefinitely until the session is cleaned up.
    The Chatwoot variables configure the webhook endpoint to send automated replies back to your Chatwoot instance.
