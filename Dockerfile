@@ -6,4 +6,4 @@ COPY . .
 RUN npm run build
 ENV PORT=3001
 EXPOSE 3001
-CMD ["npm", "run", "start"]
+CMD ["./docker/entrypoints/ai-agent.sh"]
