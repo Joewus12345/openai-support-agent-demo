@@ -12,9 +12,12 @@ services:
       - redis
       - ollama
     entrypoint: docker/entrypoints/ai-agent.sh
+    networks:
+      - support-net
 
   postgres:
     image: pgvector/pgvector:pg16
+    container_name: demo-db
     restart: always
     ports:
       - '5434:5432'
@@ -24,16 +27,19 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    networks:
+      - support-net
 
   redis:
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env.ai
     ports:
       - '6380:6379'
     volumes:
       - redis_data:/data
+    container_name: demo-redis
+    networks:
+      - support-net
 
   ollama:
     image: ollama/ollama:latest
@@ -41,8 +47,14 @@ services:
       - '11434:11434'
     volumes:
       - ollama:/root/.ollama
+    networks:
+      - support-net
 
 volumes:
   postgres_data:
   redis_data:
   ollama:
+
+networks:
+  support-net:
+    external: true
