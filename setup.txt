@@ -89,3 +89,44 @@ Tear down the shared network (optional)
 
 docker network rm support-net
 Only needed if you want to clean up the custom network.
+
+
+*Running only the AI agent stack*
+Create the network once (if not already present):
+
+docker network create support-net
+Build the agent image from the agent‑only compose file:
+
+docker compose -f docker-compose.agent.yml build ai-agent
+Start the agent and its dependencies (Postgres 5434, Redis 6380, Ollama 11434):
+
+docker compose -f docker-compose.agent.yml up -d
+This file maps the ports so they do not conflict with your existing Chatwoot stack
+
+Follow the logs to verify startup:
+
+docker compose -f docker-compose.agent.yml logs -f ai-agent
+Populate .env.ai with your actual keys and Chatwoot URL before building (OpenAI key, Chatwoot tokens, etc.)
+
+
+Safely stopping the stack
+To halt the containers and remove them (but keep volumes/data):
+
+docker compose -f docker-compose.agent.yml down
+This stops the agent, Postgres, Redis, and Ollama services and detaches from the support-net network.
+
+If you only want to pause the containers without removing them:
+
+docker compose -f docker-compose.agent.yml stop
+Restarting later
+To bring everything back up in the background:
+
+docker compose -f docker-compose.agent.yml up -d
+Cleaning up (optional)
+If you no longer need the volumes or network, you can remove them explicitly:
+
+docker volume rm openai-support-agent-demo_postgres_data \
+                 openai-support-agent-demo_redis_data \
+                 openai-support-agent-demo_ollama
+docker network rm support-net
+Use the down/stop commands when you're done working; up -d will start the stack again when you're ready.
