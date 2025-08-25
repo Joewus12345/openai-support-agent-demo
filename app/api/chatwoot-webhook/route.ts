@@ -4,6 +4,7 @@ import { listAgents, updateConversation } from "@/lib/chatwoot";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
+import { tools } from "@/lib/tools/tools";
 
 export async function POST(request: Request) {
   try {
@@ -87,7 +88,7 @@ export async function POST(request: Request) {
             content: [{ type: "input_text", text: content }],
           },
         ],
-        undefined,
+        tools,
         {}
       );
       for await (const { event, data } of events) {
