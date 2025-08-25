@@ -3,10 +3,10 @@
 // Parameters for a tool call are passed as an object to the corresponding function
 import useDataStore from "@/stores/useDataStore";
 import useConversationStore from "@/stores/useConversationStore";
-import {
-  search_knowledge_base as serverSearchKnowledgeBase,
-  type SearchKnowledgeBaseResponse,
-} from "@/lib/server/searchFiles";
+interface SearchKnowledgeBaseResponse {
+  results?: any[] | string[];
+  error?: string;
+}
 
 // simple in-memory cache for file search results
 const fileSearchCache = new Map<string, SearchKnowledgeBaseResponse["results"]>();
@@ -347,8 +347,13 @@ export const start_chat_session = async ({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: identifier, ticket_id, name, phone, address }),
     }).then((res) => res.json());
-    const { setCustomerDetails, setContact, setSummary, setSessionId } =
-      useDataStore.getState();
+    const {
+      setCustomerDetails,
+      setContact,
+      setSummary,
+      setSessionId,
+      setLongSummary,
+    } = useDataStore.getState();
     const { setConversationItems } =
       useConversationStore.getState();
     if (res.session?.id) {
@@ -380,12 +385,15 @@ export const start_chat_session = async ({
           contactId: identifier,
         });
       }
-      setSummary(res.session?.summary || null);
+      setSummary(res.summary ?? res.session?.summary ?? null);
+      setLongSummary(res.longSummary ?? res.user?.longSummary ?? null);
     }
     return {
       user: res.user,
       session: { id: res.session?.id },
-      summary: res.session?.summary,
+      summary: res.summary ?? res.session?.summary,
+      unsummarizedMessages: res.session?.messages || [],
+      longSummary: res.longSummary ?? res.user?.longSummary ?? null,
     };
   } catch (error) {
     console.error(error);
@@ -451,14 +459,21 @@ export const search_knowledge_base = async ({
       return { results: cached };
     }
 
-    const result = await serverSearchKnowledgeBase({
-      query,
-      queries,
-      provider,
-      limit: limitNum,
-      threshold: thresholdNum,
-      topKOnly,
-    });
+    const result: SearchKnowledgeBaseResponse = await fetch(
+      "/api/search-knowledge-base",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query,
+          queries,
+          provider,
+          limit: limitNum,
+          threshold: thresholdNum,
+          topKOnly,
+        }),
+      }
+    ).then((res) => res.json());
     if (result.results) {
       setFAQExtracts(result.results, provider);
       setLastSearchQuery(queryKey);

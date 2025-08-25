@@ -1,8 +1,12 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
+import { summarizeSession } from "@/lib/server/summarizeSession";
+import {
+  MAX_UNSUMMARIZED_MESSAGES,
+  LARGE_MESSAGE_THRESHOLD,
+} from "@/config/constants";
 
-// Cached session messages no longer have an expiry and are retained
-// until the associated session is cleaned up.
+// Cached session messages expire after 24 hours to allow cleanup.
 
 export async function saveSessionMessages(
   session_id: string,
@@ -14,15 +18,24 @@ export async function saveSessionMessages(
   try {
     const session = await prisma.chatSession.findUnique({
       where: { id: session_id },
-      include: { user: true },
+      select: {
+        messages: true,
+        summary: true,
+        lastSummarizedIndex: true,
+        unsummarizedLimit: true,
+      },
     });
     if (!session) {
       return { error: "Session not found" };
     }
 
+    const lastSummarizedIndex = (session as any)?.lastSummarizedIndex ?? 0;
     const existingMessages = Array.isArray(session.messages)
-      ? (session.messages as any[])
+      ? (session.messages as any[]).slice(lastSummarizedIndex)
       : [];
+    let summary = (session as any)?.summary ?? null;
+    let unsummarizedLimit =
+      (session as any)?.unsummarizedLimit ?? MAX_UNSUMMARIZED_MESSAGES;
 
     const existingIds = new Set(
       existingMessages.map((m: any) => m.id).filter(Boolean)
@@ -31,6 +44,15 @@ export async function saveSessionMessages(
     const dedupedMessages: any[] = [];
     let lastMessage = existingMessages[existingMessages.length - 1];
     let duplicateDetected = false;
+
+    const messageSize = (msg: any) =>
+      Array.isArray(msg?.content)
+        ? msg.content.reduce(
+            (t: number, c: any) => t + (c.text ? c.text.length : 0),
+            0
+          )
+        : 0;
+    let lastSize = lastMessage ? messageSize(lastMessage) : 0;
 
     for (const msg of messages) {
       if (msg.id && existingIds.has(msg.id)) {
@@ -45,23 +67,52 @@ export async function saveSessionMessages(
         duplicateDetected = true;
         continue;
       }
+      const size = messageSize(msg);
+      if (lastSize > LARGE_MESSAGE_THRESHOLD && size > LARGE_MESSAGE_THRESHOLD) {
+        unsummarizedLimit = Math.max(1, unsummarizedLimit - 1);
+      }
       dedupedMessages.push(msg);
       lastMessage = msg;
+      lastSize = size;
       if (msg.id) {
         existingIds.add(msg.id);
       }
     }
 
-    const updatedMessages = [...existingMessages, ...dedupedMessages];
+    let updatedMessages = [...existingMessages, ...dedupedMessages];
+
+    if (updatedMessages.length > unsummarizedLimit) {
+      const overflow = updatedMessages.length - unsummarizedLimit;
+      const messagesToSummarize = updatedMessages.slice(0, overflow);
+      const summaryFragment = await summarizeSession({
+        priorSummary: summary,
+        newMessages: messagesToSummarize,
+      });
+      summary = [summary, summaryFragment].filter(Boolean).join("\n");
+      updatedMessages = updatedMessages.slice(-unsummarizedLimit);
+      await redis.set(
+        `session:${session_id}:summary`,
+        summary,
+        "EX",
+        86400
+      );
+    }
 
     await prisma.chatSession.update({
       where: { id: session_id },
-      data: { messages: updatedMessages },
+      data: {
+        messages: updatedMessages,
+        summary,
+        lastSummarizedIndex: 0,
+        unsummarizedLimit,
+      },
     });
 
     await redis.set(
       `session:${session_id}:messages`,
-      JSON.stringify(updatedMessages)
+      JSON.stringify(updatedMessages),
+      "EX",
+      86400
     );
 
     if (duplicateDetected) {

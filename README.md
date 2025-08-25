@@ -37,6 +37,47 @@ Feel free to customize this demo to suit your specific use case.
 - `scripts/` for maintenance tasks like `cleanupSessions.ts`
 - `prisma/` for schema & migrations, etc.
 
+## Docker Quickstart
+
+Copy [`.env.ai`](./.env.ai) and adjust credentials or port mappings as needed. This file is used when running the container.
+
+The easiest way to run the entire stack with the baked-in port mappings is:
+
+```bash
+docker compose -f docker-compose.agent.yml up --build
+```
+
+The steps below show how to build and run each container manually.
+
+1. **Build the image**
+
+   ```bash
+   docker build -t ai-agent .
+   ```
+
+2. **Create a network and start PostgreSQL and Redis on free ports**
+
+   ```bash
+   docker network create support-net
+   docker run --rm -d --name demo-db --network support-net -e POSTGRES_PASSWORD=postgres -p 5433:5432 postgres
+   docker run --rm -d --name demo-redis --network support-net -p 6380:6379 redis
+   ```
+
+3. **Run the AI agent**
+
+   ```bash
+   docker run --rm -p 3001:3001 --network support-net --env-file .env.ai \
+     -e DATABASE_URL=postgresql://postgres:postgres@demo-db:5432/support_agent_demo \
+     -e REDIS_URL=redis://demo-redis:6379 ai-agent
+   ```
+
+## Troubleshooting
+
+- **`P1001: Can't reach database server`** – verify container names/ports and ensure the `support-net` network exists.
+- **`P1000: Authentication failed`** – check the database credentials in [`.env.ai`](./.env.ai).
+- **`network support-net not found`** – create the network first: `docker network create support-net`.
+- **`port already allocated`** – choose unused host ports or stop conflicting services.
+
 ## Getting Started
 
 1. **Install dependencies:**
@@ -47,16 +88,38 @@ Feel free to customize this demo to suit your specific use case.
 
 2. **Configure environment:**
 
-   Create a `.env` file with your database connection string, Redis URL, and session retention setting:
+   Create a `.env` file with your database connection string, Redis URL, session retention setting, and (optionally) Chatwoot credentials:
 
    ```bash
    DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
    REDIS_URL=redis://localhost:6379
    SESSION_RETENTION_DAYS=30 # How many days to retain ended sessions
+   CHATWOOT_URL=https://e245e7cb03bc.ngrok-free.app
+   CHATWOOT_APP_TOKEN=<chatwoot-app-token>
+   CHATWOOT_BOT_TOKEN=<bot access token>
+  ```
+
+   If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compose port`), first determine the host port and then point `REDIS_URL` to it:
+
+   ```bash
+   docker compose port redis 6379
+   # or: docker port <container_name> 6379
+   # Suppose it prints 0.0.0.0:49153
+   REDIS_URL=redis://localhost:49153
    ```
 
    `SESSION_RETENTION_DAYS` controls how long ended sessions are kept before cleanup (defaults to 30 days).
    Session messages cached in Redis are retained indefinitely until the session is cleaned up.
+   The Chatwoot variables configure the webhook endpoint to send automated replies back to your Chatwoot instance.
+   When Chatwoot and the AI service run inside the same Docker Compose network, use `http://ai-agent:3001/api/chatwoot-webhook` as the webhook endpoint.
+
+   A standalone Docker setup is available to test the service in isolation:
+
+   ```bash
+   docker compose -f docker-compose.agent.yml up --build
+   ```
+
+   This starts the AI agent on `http://localhost:3001` along with PostgreSQL, Redis, and Ollama.
 
 3. **Run database migrations:**
 
@@ -278,6 +341,22 @@ The new API endpoints under `/api/users` and `/api/sessions/start` allow the age
 - Sessions automatically end after 4 minutes of inactivity.
 - Run `npm run cleanup:sessions` to remove ended sessions older than the number of days specified in `SESSION_RETENTION_DAYS`.
 - By default, sessions are retained for 30 days. Change the value of `SESSION_RETENTION_DAYS` in your `.env` file to adjust the retention period.
+
+### Session summarization & pruning
+
+Sessions automatically summarize and prune older messages once the number of unsummarized messages exceeds the `MAX_UNSUMMARIZED_MESSAGES` limit (default 50). This keeps active sessions lightweight while preserving a running summary of prior context.
+
+Set the `MAX_UNSUMMARIZED_MESSAGES` environment variable to control how many recent messages are kept verbatim.
+
+To prune existing sessions to the current limit, run:
+
+```bash
+npm run prune:sessions
+```
+
+The pruning script also updates each user's `longSummary` retroactively. After a session's message log is reduced and its summary
+is refreshed, that summary is itself summarized and appended to the user's existing long-term summary so historical context
+is preserved.
 
 ## Contributing
 

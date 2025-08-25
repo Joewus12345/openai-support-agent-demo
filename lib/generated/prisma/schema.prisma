@@ -5,8 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../lib/generated/prisma"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -15,15 +16,16 @@ datasource db {
 }
 
 model User {
-  id        String        @id @default(uuid())
-  email     String        @unique
-  name      String?
-  phone     String?
-  address   String?
-  createdAt DateTime      @default(now())
-  orders    Order[]
-  sessions  ChatSession[]
-  tickets   Ticket[]
+  id          String        @id @default(uuid())
+  email       String        @unique
+  name        String?
+  phone       String?
+  address     String?
+  longSummary String?       @db.Text
+  createdAt   DateTime      @default(now())
+  orders      Order[]
+  sessions    ChatSession[]
+  tickets     Ticket[]
 }
 
 model Order {
@@ -36,14 +38,16 @@ model Order {
 }
 
 model ChatSession {
-  id        String    @id @default(uuid())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  endedAt   DateTime?
-  messages  Json // or a separate Message model
-  summary   String?   @db.Text
+  id                  String    @id @default(uuid())
+  user                User      @relation(fields: [userId], references: [id])
+  userId              String
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  endedAt             DateTime?
+  messages            Json // or a separate Message model
+  summary             String?   @db.Text
+  lastSummarizedIndex Int       @default(0)
+  unsummarizedLimit   Int       @default(50)
 }
 
 model Ticket {

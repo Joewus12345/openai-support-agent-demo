@@ -123,7 +123,7 @@ export function estimateMessageTokens(
   return total;
 }
 
-function trimMessagesToTokenLimit(
+async function trimMessagesToTokenLimit(
   allMessages: any[],
   limit: number,
   summary: string | null,
@@ -149,15 +149,36 @@ function trimMessagesToTokenLimit(
           : m.content ?? ""
       )
       .join(" ");
+
+    const MAX_REMOVED_CHARS = 100_000;
+    // Limit text sent for summarization to avoid excessively large payloads.
+    const truncated = removedText.slice(0, MAX_REMOVED_CHARS);
+
+    // Ask the server to summarize instead of importing server modules in the browser.
+    const resp = await fetch("/api/summarize-text", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: truncated }),
+    });
+    const { summary: cachedSummary } = await resp.json();
+
     trimmed.unshift({
       role: "system",
       content: [
         {
           type: "input_text",
-          text: `Previous conversation summary: ${removedText}`,
+          text: `Previous conversation summary: ${cachedSummary}`,
         },
       ],
     });
+
+    systemCount++;
+    tokenEstimate = estimateMessageTokens(trimmed, modelName);
+
+    while (tokenEstimate > limit && trimmed.length > systemCount + 1) {
+      trimmed.splice(systemCount, 1);
+      tokenEstimate = estimateMessageTokens(trimmed, modelName);
+    }
   }
 
   return trimmed;
@@ -171,10 +192,21 @@ export const handleTurn = async (
   model?: string
 ) => {
   try {
-    const { contactType, contactId, summary, sessionId } =
+    const { contactType, contactId, summary, sessionId, longSummary } =
       useDataStore.getState();
     const session_id = sessionId;
     const systemMessages: any[] = [];
+    if (longSummary) {
+      systemMessages.push({
+        role: "system",
+        content: [
+          {
+            type: "input_text",
+            text: `Customer summary: ${longSummary}`,
+          },
+        ],
+      });
+    }
     if (summary) {
       systemMessages.push({
         role: "system",
@@ -200,7 +232,7 @@ export const handleTurn = async (
     const messagesWithTicket =
       systemMessages.length > 0 ? [...systemMessages, ...messages] : messages;
 
-    const limitedMessages = trimMessagesToTokenLimit(
+    const limitedMessages = await trimMessagesToTokenLimit(
       messagesWithTicket,
       TOKEN_THRESHOLD,
       summary,

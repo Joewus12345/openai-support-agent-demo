@@ -1,8 +1,9 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { MAX_SESSION_MESSAGES } from "@/config/constants";
+import { summarizeSession } from "@/lib/server/summarizeSession";
 
-// Session message caches are kept indefinitely until sessions are cleaned up.
+// Session message caches expire after 24 hours for cleanup.
 
 export async function POST(request: Request) {
   try {
@@ -30,6 +31,8 @@ export async function POST(request: Request) {
       updatedAt: true,
       endedAt: true,
       summary: true,
+      lastSummarizedIndex: true,
+      unsummarizedLimit: true,
     } as const;
 
     let session = await prisma.chatSession.findFirst({
@@ -45,7 +48,9 @@ export async function POST(request: Request) {
       });
       await redis.set(
         `session:${session.id}:messages`,
-        JSON.stringify([])
+        JSON.stringify([]),
+        "EX",
+        86400
       );
     }
 
@@ -61,7 +66,9 @@ export async function POST(request: Request) {
       messages = (sessionWithMessages?.messages as any[]) || [];
       await redis.set(
         `session:${session.id}:messages`,
-        JSON.stringify(messages)
+        JSON.stringify(messages),
+        "EX",
+        86400
       );
     }
 
@@ -69,8 +76,33 @@ export async function POST(request: Request) {
     if (!summary) {
       summary = await redis.get(`session:${session.id}:summary`);
     }
+
+    let lastSummarizedIndex = (session as any)?.lastSummarizedIndex ?? 0;
+    const unsummarized = messages.slice(lastSummarizedIndex);
+    const contextMessages = unsummarized.slice(-MAX_SESSION_MESSAGES);
+    const messagesToSummarize = unsummarized.slice(0, unsummarized.length - contextMessages.length);
+    if (messagesToSummarize.length > 0) {
+      const newSummary = await summarizeSession({
+        priorSummary: summary,
+        newMessages: messagesToSummarize,
+      });
+      summary = [summary, newSummary].filter(Boolean).join("\n");
+      lastSummarizedIndex = messages.length - contextMessages.length;
+      await prisma.chatSession.update({
+        where: { id: session.id },
+        data: { summary, lastSummarizedIndex },
+      });
+      await redis.set(`session:${session.id}:summary`, summary, "EX", 86400);
+      await redis.set(
+        `session:${session.id}:messages`,
+        JSON.stringify(messages),
+        "EX",
+        86400
+      );
+    }
+
     if (summary) {
-      await redis.set(identifier, summary);
+      await redis.set(identifier, summary, "EX", 86400);
     } else {
       summary = await redis.get(identifier);
     }
@@ -78,11 +110,16 @@ export async function POST(request: Request) {
     const trimmedSession = {
       ...session,
       summary,
-      messages: messages.slice(-MAX_SESSION_MESSAGES),
+      messages: contextMessages,
     };
 
     return new Response(
-      JSON.stringify({ user, session: trimmedSession }),
+      JSON.stringify({
+        user,
+        session: trimmedSession,
+        summary,
+        longSummary: user.longSummary ?? null,
+      }),
       { status: 200 }
     );
   } catch (error) {

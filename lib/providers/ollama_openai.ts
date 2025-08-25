@@ -8,7 +8,7 @@ import { serializeToolCallArgs } from "./ollama";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
-const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "32768", 10);
+const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "16384", 10);
 
 /**
  * Provider that uses the OpenAI client against Ollama's
@@ -221,6 +221,9 @@ export async function* ollamaOpenAIProvider(
       }
     }
   } catch (error) {
-    yield { event: "error", data: { message: (error as Error).message } } as ProviderEvent;
+    const message =
+      error instanceof Error ? error.message : String(error);
+    console.error("ollamaOpenAI.chat failed", message, error);
+    yield { event: "error", data: { message } } as ProviderEvent;
   }
 }
