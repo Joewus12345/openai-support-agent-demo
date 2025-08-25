@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
-import { sendMessage, listAgents, updateConversation } from "@/lib/chatwoot";
+import { listAgents, updateConversation } from "@/lib/chatwoot";
+import { sendBotMessage } from "@/lib/chatwootBot";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 
@@ -57,13 +58,13 @@ export async function POST(request: Request) {
             status: "open",
             assignee_id: onlineAgent.id,
           });
-          await sendMessage(
+          await sendBotMessage(
             accountId,
             conversationId,
             "A human agent will join shortly."
           );
         } else {
-          await sendMessage(
+          await sendBotMessage(
             accountId,
             conversationId,
             "No human agents are currently available."
@@ -92,7 +93,7 @@ export async function POST(request: Request) {
           replyText += data.delta;
         }
       }
-      await sendMessage(accountId, conversationId, replyText, {
+      await sendBotMessage(accountId, conversationId, replyText, {
         private: mode !== "auto",
       });
     } catch (err) {
