@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
 import { sendMessage } from "@/lib/chatwoot";
+import { getProvider } from "@/lib/providers";
+import { INBOX_MODE } from "@/config/inboxMode";
 
 export async function POST(request: Request) {
   try {
@@ -42,10 +44,25 @@ export async function POST(request: Request) {
     ) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
-    // Example of sending an automated reply back to Chatwoot
+    const mode = INBOX_MODE[inboxId] ?? "auto";
+
     try {
-      await sendMessage(accountId, conversationId, {
-        content: "Received: " + content,
+      let replyText = "";
+      const events = getProvider(undefined)(
+        [{ role: "user", content }],
+        undefined,
+        {}
+      );
+      for await (const { event, data } of events) {
+        if (
+          event === "response.output_text.delta" &&
+          typeof data?.delta === "string"
+        ) {
+          replyText += data.delta;
+        }
+      }
+      await sendMessage(accountId, conversationId, replyText, {
+        private: mode !== "auto",
       });
     } catch (err) {
       console.error("sendMessage error", err);
@@ -56,6 +73,7 @@ export async function POST(request: Request) {
       conversationId,
       inboxId,
       content,
+      mode,
     });
   } catch (error) {
     console.error("Chatwoot webhook error", error);

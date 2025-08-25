@@ -17,14 +17,15 @@ async function chatwootFetch(path: string, init: RequestInit = {}) {
 export async function sendMessage(
   accountId: number,
   conversationId: number,
-  body: Record<string, any>
+  content: string,
+  options: Record<string, any> = {}
 ) {
   return chatwootFetch(
     `/api/v1/accounts/${accountId}/conversations/${conversationId}/messages`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ content, ...options }),
     }
   );
 }
@@ -50,4 +51,5 @@ export async function listAgents(accountId: number) {
   });
 }
 
-export default { sendMessage, updateConversation, listAgents };
+const chatwoot = { sendMessage, updateConversation, listAgents };
+export default chatwoot;
