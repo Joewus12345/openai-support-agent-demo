@@ -37,6 +37,45 @@ Feel free to customize this demo to suit your specific use case.
 - `scripts/` for maintenance tasks like `cleanupSessions.ts`
 - `prisma/` for schema & migrations, etc.
 
+## Docker Quickstart
+
+Copy [`.env.ai`](./.env.ai) and adjust credentials or port mappings as needed. This file is used when running the container.
+
+1. **Build the image**
+
+   ```bash
+   docker build -t ai-agent .
+   ```
+
+2. **Create a network and start PostgreSQL and Redis on free ports**
+
+   ```bash
+   docker network create support-net
+   docker run --rm -d --name demo-db --network support-net -e POSTGRES_PASSWORD=postgres -p 5433:5432 postgres
+   docker run --rm -d --name demo-redis --network support-net -p 6380:6379 redis
+   ```
+
+3. **Run the AI agent**
+
+   ```bash
+   docker run --rm -p 3001:3001 --network support-net --env-file .env.ai \
+     -e DATABASE_URL=postgresql://postgres:postgres@demo-db:5432/support_agent_demo \
+     -e REDIS_URL=redis://demo-redis:6379 ai-agent
+   ```
+
+4. **Alternatively, use Docker Compose**
+
+   ```bash
+   docker compose -f docker-compose.agent.yml up --build
+   ```
+
+## Troubleshooting
+
+- **`P1001: Can't reach database server`** – verify container names/ports and ensure the `support-net` network exists.
+- **`P1000: Authentication failed`** – check the database credentials in [`.env.ai`](./.env.ai).
+- **`network support-net not found`** – create the network first: `docker network create support-net`.
+- **`port already allocated`** – choose unused host ports or stop conflicting services.
+
 ## Getting Started
 
 1. **Install dependencies:**
