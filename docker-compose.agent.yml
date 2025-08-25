@@ -7,7 +7,7 @@ services:
       - .env.ai
     ports:
       - '3001:3001'
-    depends_on:
+    depends_on: # services reference each other via these container names
       - postgres
       - redis
       - ollama
@@ -20,7 +20,7 @@ services:
     container_name: demo-db
     restart: always
     ports:
-      - '5434:5432'
+      - '5434:5432' # use host port 5434 to avoid conflicts with local Postgres on 5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -34,7 +34,7 @@ services:
     image: redis:alpine
     restart: always
     ports:
-      - '6380:6379'
+      - '6380:6379' # use host port 6380 to avoid conflicts with local Redis on 6379
     volumes:
       - redis_data:/data
     container_name: demo-redis
