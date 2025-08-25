@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
-import { sendMessage } from "@/lib/chatwoot";
+import { sendMessage, listAgents, updateConversation } from "@/lib/chatwoot";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 
@@ -44,6 +44,37 @@ export async function POST(request: Request) {
     ) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
+
+    const triggerPattern = /\b(human|agent|representative)\b/i;
+    if (triggerPattern.test(content)) {
+      try {
+        const agents = await listAgents(accountId);
+        const onlineAgent = agents?.data?.find(
+          (a: any) => a.availability_status === "online"
+        );
+        if (onlineAgent) {
+          await updateConversation(accountId, conversationId, {
+            status: "open",
+            assignee_id: onlineAgent.id,
+          });
+          await sendMessage(
+            accountId,
+            conversationId,
+            "A human agent will join shortly."
+          );
+        } else {
+          await sendMessage(
+            accountId,
+            conversationId,
+            "No human agents are currently available."
+          );
+        }
+      } catch (err) {
+        console.error("agent escalation error", err);
+      }
+      return NextResponse.json({ status: "handoff" });
+    }
+
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
     try {
