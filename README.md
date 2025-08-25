@@ -41,6 +41,14 @@ Feel free to customize this demo to suit your specific use case.
 
 Copy [`.env.ai`](./.env.ai) and adjust credentials or port mappings as needed. This file is used when running the container.
 
+The easiest way to run the entire stack with the baked-in port mappings is:
+
+```bash
+docker compose -f docker-compose.agent.yml up --build
+```
+
+The steps below show how to build and run each container manually.
+
 1. **Build the image**
 
    ```bash
@@ -61,12 +69,6 @@ Copy [`.env.ai`](./.env.ai) and adjust credentials or port mappings as needed. T
    docker run --rm -p 3001:3001 --network support-net --env-file .env.ai \
      -e DATABASE_URL=postgresql://postgres:postgres@demo-db:5432/support_agent_demo \
      -e REDIS_URL=redis://demo-redis:6379 ai-agent
-   ```
-
-4. **Alternatively, use Docker Compose**
-
-   ```bash
-   docker compose -f docker-compose.agent.yml up --build
    ```
 
 ## Troubleshooting
