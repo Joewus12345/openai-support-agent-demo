@@ -51,5 +51,5 @@ export async function listAgents(accountId: number) {
   });
 }
 
-const chatwoot = { sendMessage, updateConversation, listAgents };
-export default chatwoot;
+const chatwootClient = { sendMessage, updateConversation, listAgents };
+export default chatwootClient;
