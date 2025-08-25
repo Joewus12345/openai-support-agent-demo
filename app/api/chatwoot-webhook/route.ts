@@ -81,7 +81,12 @@ export async function POST(request: Request) {
     try {
       let replyText = "";
       const events = getProvider(undefined)(
-        [{ role: "user", content }],
+        [
+          {
+            role: "user",
+            content: [{ type: "input_text", text: content }],
+          },
+        ],
         undefined,
         {}
       );

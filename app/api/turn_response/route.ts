@@ -22,9 +22,16 @@ export async function POST(request: Request) {
     console.log("Received messages:", messages);
 
     const normalizedMessages = Array.isArray(messages)
-      ? messages.map((m: any) =>
-          m?.type === "message" ? { role: m.role, content: m.content } : m
-        )
+      ? messages.map((m: any) => {
+          if (m?.type === "message") {
+            const content =
+              m.role === "user" && typeof m.content === "string"
+                ? [{ type: "input_text", text: m.content }]
+                : m.content;
+            return { role: m.role, content };
+          }
+          return m;
+        })
       : [];
 
     const lastMessage =
