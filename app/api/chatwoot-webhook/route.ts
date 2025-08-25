@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
+import { sendMessage } from "@/lib/chatwoot";
 
 export async function POST(request: Request) {
   try {
@@ -40,6 +41,14 @@ export async function POST(request: Request) {
       !content
     ) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    }
+    // Example of sending an automated reply back to Chatwoot
+    try {
+      await sendMessage(accountId, conversationId, {
+        content: "Received: " + content,
+      });
+    } catch (err) {
+      console.error("sendMessage error", err);
     }
 
     return NextResponse.json({
