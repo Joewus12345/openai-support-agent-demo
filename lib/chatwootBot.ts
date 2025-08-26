@@ -25,7 +25,7 @@ export async function sendBotMessage(
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content, ...options }),
+      body: JSON.stringify({ content, message_type: "outgoing", ...options }),
     }
   );
 }
