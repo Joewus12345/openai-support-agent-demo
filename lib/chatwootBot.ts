@@ -30,5 +30,39 @@ export async function sendBotMessage(
   );
 }
 
-const chatwootBot = { sendBotMessage };
+export async function assignConversation(
+  accountId: number,
+  conversationId: number,
+  assigneeId: number
+) {
+  return chatwootBotFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}/assignments`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ assignee_id: assigneeId })
+    }
+  );
+}
+
+export async function toggleConversationStatus(
+  accountId: number,
+  conversationId: number,
+  status: string
+) {
+  return chatwootBotFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}/toggle_status`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status })
+    }
+  );
+}
+
+const chatwootBot = {
+  sendBotMessage,
+  assignConversation,
+  toggleConversationStatus
+};
 export default chatwootBot;
