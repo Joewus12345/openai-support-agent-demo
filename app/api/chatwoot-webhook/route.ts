@@ -57,7 +57,7 @@ export async function POST(request: Request) {
       try {
         const agents = await listAgents(accountId);
         const onlineAgent = agents.find(
-          (a: any) => a.availability_status === "available"
+          (a: any) => a.availability_status === "online"
         );
         if (onlineAgent) {
           await toggleConversationStatus(accountId, conversationId, "open");
