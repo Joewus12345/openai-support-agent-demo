@@ -5,6 +5,7 @@ import { sendBotMessage } from "@/lib/chatwootBot";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
+import { toResponseMessage } from "@/lib/utils/toResponseMessage";
 
 export async function POST(request: Request) {
   try {
@@ -82,12 +83,7 @@ export async function POST(request: Request) {
     try {
       let replyText = "";
       const events = getProvider(undefined)(
-        [
-          {
-            role: "user",
-            content: [{ type: "input_text", text: content }],
-          },
-        ],
+        [toResponseMessage("user", content)],
         tools,
         {}
       );
