@@ -52,8 +52,8 @@ export async function POST(request: Request) {
     if (triggerPattern.test(content)) {
       try {
         const agents = await listAgents(accountId);
-        const onlineAgent = agents?.data?.find(
-          (a: any) => a.availability_status === "online"
+        const onlineAgent = agents.find(
+          (a: any) => a.availability_status === "available"
         );
         if (onlineAgent) {
           await updateConversation(accountId, conversationId, {
