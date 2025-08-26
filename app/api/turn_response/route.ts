@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { runRelevanceGuardrail, runJailbreakGuardrail } from "@/lib/guardrails";
 import { getProvider } from "@/lib/providers";
 import { saveSessionMessages } from "@/lib/server/saveSessionMessages";
+import { toResponseMessage } from "@/lib/utils/toResponseMessage";
 import { randomUUID } from "crypto";
 
 /**
@@ -24,11 +25,9 @@ export async function POST(request: Request) {
     const normalizedMessages = Array.isArray(messages)
       ? messages.map((m: any) => {
           if (m?.type === "message") {
-            const content =
-              m.role === "user" && typeof m.content === "string"
-                ? [{ type: "input_text", text: m.content }]
-                : m.content;
-            return { role: m.role, content };
+            return m.role === "user" && typeof m.content === "string"
+              ? toResponseMessage(m.role, m.content)
+              : { role: m.role, content: m.content };
           }
           return m;
         })
