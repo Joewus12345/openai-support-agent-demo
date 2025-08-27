@@ -38,6 +38,29 @@ export type Ticket = $Result.DefaultSelection<Prisma.$TicketPayload>
  * 
  */
 export type AgentAssignment = $Result.DefaultSelection<Prisma.$AgentAssignmentPayload>
+/**
+ * Model HandoffRequest
+ * 
+ */
+export type HandoffRequest = $Result.DefaultSelection<Prisma.$HandoffRequestPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const HandoffRequestStatus: {
+  pending: 'pending',
+  awaiting_confirmation: 'awaiting_confirmation',
+  assigned: 'assigned'
+};
+
+export type HandoffRequestStatus = (typeof HandoffRequestStatus)[keyof typeof HandoffRequestStatus]
+
+}
+
+export type HandoffRequestStatus = $Enums.HandoffRequestStatus
+
+export const HandoffRequestStatus: typeof $Enums.HandoffRequestStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -206,6 +229,16 @@ export class PrismaClient<
     * ```
     */
   get agentAssignment(): Prisma.AgentAssignmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.handoffRequest`: Exposes CRUD operations for the **HandoffRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HandoffRequests
+    * const handoffRequests = await prisma.handoffRequest.findMany()
+    * ```
+    */
+  get handoffRequest(): Prisma.HandoffRequestDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -650,7 +683,8 @@ export namespace Prisma {
     Order: 'Order',
     ChatSession: 'ChatSession',
     Ticket: 'Ticket',
-    AgentAssignment: 'AgentAssignment'
+    AgentAssignment: 'AgentAssignment',
+    HandoffRequest: 'HandoffRequest'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -669,7 +703,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "order" | "chatSession" | "ticket" | "agentAssignment"
+      modelProps: "user" | "order" | "chatSession" | "ticket" | "agentAssignment" | "handoffRequest"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1043,6 +1077,80 @@ export namespace Prisma {
           }
         }
       }
+      HandoffRequest: {
+        payload: Prisma.$HandoffRequestPayload<ExtArgs>
+        fields: Prisma.HandoffRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HandoffRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HandoffRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.HandoffRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HandoffRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload>
+          }
+          findMany: {
+            args: Prisma.HandoffRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload>[]
+          }
+          create: {
+            args: Prisma.HandoffRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload>
+          }
+          createMany: {
+            args: Prisma.HandoffRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HandoffRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.HandoffRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload>
+          }
+          update: {
+            args: Prisma.HandoffRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.HandoffRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HandoffRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HandoffRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.HandoffRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HandoffRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.HandoffRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHandoffRequest>
+          }
+          groupBy: {
+            args: Prisma.HandoffRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HandoffRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HandoffRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<HandoffRequestCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1140,6 +1248,7 @@ export namespace Prisma {
     chatSession?: ChatSessionOmit
     ticket?: TicketOmit
     agentAssignment?: AgentAssignmentOmit
+    handoffRequest?: HandoffRequestOmit
   }
 
   /* Types for Logging */
@@ -6730,6 +6839,1026 @@ export namespace Prisma {
 
 
   /**
+   * Model HandoffRequest
+   */
+
+  export type AggregateHandoffRequest = {
+    _count: HandoffRequestCountAggregateOutputType | null
+    _avg: HandoffRequestAvgAggregateOutputType | null
+    _sum: HandoffRequestSumAggregateOutputType | null
+    _min: HandoffRequestMinAggregateOutputType | null
+    _max: HandoffRequestMaxAggregateOutputType | null
+  }
+
+  export type HandoffRequestAvgAggregateOutputType = {
+    conversationId: number | null
+    agentId: number | null
+  }
+
+  export type HandoffRequestSumAggregateOutputType = {
+    conversationId: number | null
+    agentId: number | null
+  }
+
+  export type HandoffRequestMinAggregateOutputType = {
+    conversationId: number | null
+    requestedAt: Date | null
+    status: $Enums.HandoffRequestStatus | null
+    agentId: number | null
+  }
+
+  export type HandoffRequestMaxAggregateOutputType = {
+    conversationId: number | null
+    requestedAt: Date | null
+    status: $Enums.HandoffRequestStatus | null
+    agentId: number | null
+  }
+
+  export type HandoffRequestCountAggregateOutputType = {
+    conversationId: number
+    requestedAt: number
+    status: number
+    agentId: number
+    _all: number
+  }
+
+
+  export type HandoffRequestAvgAggregateInputType = {
+    conversationId?: true
+    agentId?: true
+  }
+
+  export type HandoffRequestSumAggregateInputType = {
+    conversationId?: true
+    agentId?: true
+  }
+
+  export type HandoffRequestMinAggregateInputType = {
+    conversationId?: true
+    requestedAt?: true
+    status?: true
+    agentId?: true
+  }
+
+  export type HandoffRequestMaxAggregateInputType = {
+    conversationId?: true
+    requestedAt?: true
+    status?: true
+    agentId?: true
+  }
+
+  export type HandoffRequestCountAggregateInputType = {
+    conversationId?: true
+    requestedAt?: true
+    status?: true
+    agentId?: true
+    _all?: true
+  }
+
+  export type HandoffRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HandoffRequest to aggregate.
+     */
+    where?: HandoffRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HandoffRequests to fetch.
+     */
+    orderBy?: HandoffRequestOrderByWithRelationInput | HandoffRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HandoffRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HandoffRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HandoffRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HandoffRequests
+    **/
+    _count?: true | HandoffRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: HandoffRequestAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: HandoffRequestSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HandoffRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HandoffRequestMaxAggregateInputType
+  }
+
+  export type GetHandoffRequestAggregateType<T extends HandoffRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateHandoffRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHandoffRequest[P]>
+      : GetScalarType<T[P], AggregateHandoffRequest[P]>
+  }
+
+
+
+
+  export type HandoffRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HandoffRequestWhereInput
+    orderBy?: HandoffRequestOrderByWithAggregationInput | HandoffRequestOrderByWithAggregationInput[]
+    by: HandoffRequestScalarFieldEnum[] | HandoffRequestScalarFieldEnum
+    having?: HandoffRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HandoffRequestCountAggregateInputType | true
+    _avg?: HandoffRequestAvgAggregateInputType
+    _sum?: HandoffRequestSumAggregateInputType
+    _min?: HandoffRequestMinAggregateInputType
+    _max?: HandoffRequestMaxAggregateInputType
+  }
+
+  export type HandoffRequestGroupByOutputType = {
+    conversationId: number
+    requestedAt: Date
+    status: $Enums.HandoffRequestStatus
+    agentId: number | null
+    _count: HandoffRequestCountAggregateOutputType | null
+    _avg: HandoffRequestAvgAggregateOutputType | null
+    _sum: HandoffRequestSumAggregateOutputType | null
+    _min: HandoffRequestMinAggregateOutputType | null
+    _max: HandoffRequestMaxAggregateOutputType | null
+  }
+
+  type GetHandoffRequestGroupByPayload<T extends HandoffRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HandoffRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HandoffRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HandoffRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], HandoffRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HandoffRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    conversationId?: boolean
+    requestedAt?: boolean
+    status?: boolean
+    agentId?: boolean
+  }, ExtArgs["result"]["handoffRequest"]>
+
+  export type HandoffRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    conversationId?: boolean
+    requestedAt?: boolean
+    status?: boolean
+    agentId?: boolean
+  }, ExtArgs["result"]["handoffRequest"]>
+
+  export type HandoffRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    conversationId?: boolean
+    requestedAt?: boolean
+    status?: boolean
+    agentId?: boolean
+  }, ExtArgs["result"]["handoffRequest"]>
+
+  export type HandoffRequestSelectScalar = {
+    conversationId?: boolean
+    requestedAt?: boolean
+    status?: boolean
+    agentId?: boolean
+  }
+
+  export type HandoffRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"conversationId" | "requestedAt" | "status" | "agentId", ExtArgs["result"]["handoffRequest"]>
+
+  export type $HandoffRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HandoffRequest"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      conversationId: number
+      requestedAt: Date
+      status: $Enums.HandoffRequestStatus
+      agentId: number | null
+    }, ExtArgs["result"]["handoffRequest"]>
+    composites: {}
+  }
+
+  type HandoffRequestGetPayload<S extends boolean | null | undefined | HandoffRequestDefaultArgs> = $Result.GetResult<Prisma.$HandoffRequestPayload, S>
+
+  type HandoffRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HandoffRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HandoffRequestCountAggregateInputType | true
+    }
+
+  export interface HandoffRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HandoffRequest'], meta: { name: 'HandoffRequest' } }
+    /**
+     * Find zero or one HandoffRequest that matches the filter.
+     * @param {HandoffRequestFindUniqueArgs} args - Arguments to find a HandoffRequest
+     * @example
+     * // Get one HandoffRequest
+     * const handoffRequest = await prisma.handoffRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HandoffRequestFindUniqueArgs>(args: SelectSubset<T, HandoffRequestFindUniqueArgs<ExtArgs>>): Prisma__HandoffRequestClient<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one HandoffRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HandoffRequestFindUniqueOrThrowArgs} args - Arguments to find a HandoffRequest
+     * @example
+     * // Get one HandoffRequest
+     * const handoffRequest = await prisma.handoffRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HandoffRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, HandoffRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HandoffRequestClient<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HandoffRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HandoffRequestFindFirstArgs} args - Arguments to find a HandoffRequest
+     * @example
+     * // Get one HandoffRequest
+     * const handoffRequest = await prisma.handoffRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HandoffRequestFindFirstArgs>(args?: SelectSubset<T, HandoffRequestFindFirstArgs<ExtArgs>>): Prisma__HandoffRequestClient<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HandoffRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HandoffRequestFindFirstOrThrowArgs} args - Arguments to find a HandoffRequest
+     * @example
+     * // Get one HandoffRequest
+     * const handoffRequest = await prisma.handoffRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HandoffRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, HandoffRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__HandoffRequestClient<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more HandoffRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HandoffRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HandoffRequests
+     * const handoffRequests = await prisma.handoffRequest.findMany()
+     * 
+     * // Get first 10 HandoffRequests
+     * const handoffRequests = await prisma.handoffRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `conversationId`
+     * const handoffRequestWithConversationIdOnly = await prisma.handoffRequest.findMany({ select: { conversationId: true } })
+     * 
+     */
+    findMany<T extends HandoffRequestFindManyArgs>(args?: SelectSubset<T, HandoffRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a HandoffRequest.
+     * @param {HandoffRequestCreateArgs} args - Arguments to create a HandoffRequest.
+     * @example
+     * // Create one HandoffRequest
+     * const HandoffRequest = await prisma.handoffRequest.create({
+     *   data: {
+     *     // ... data to create a HandoffRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends HandoffRequestCreateArgs>(args: SelectSubset<T, HandoffRequestCreateArgs<ExtArgs>>): Prisma__HandoffRequestClient<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many HandoffRequests.
+     * @param {HandoffRequestCreateManyArgs} args - Arguments to create many HandoffRequests.
+     * @example
+     * // Create many HandoffRequests
+     * const handoffRequest = await prisma.handoffRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HandoffRequestCreateManyArgs>(args?: SelectSubset<T, HandoffRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HandoffRequests and returns the data saved in the database.
+     * @param {HandoffRequestCreateManyAndReturnArgs} args - Arguments to create many HandoffRequests.
+     * @example
+     * // Create many HandoffRequests
+     * const handoffRequest = await prisma.handoffRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HandoffRequests and only return the `conversationId`
+     * const handoffRequestWithConversationIdOnly = await prisma.handoffRequest.createManyAndReturn({
+     *   select: { conversationId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HandoffRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, HandoffRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a HandoffRequest.
+     * @param {HandoffRequestDeleteArgs} args - Arguments to delete one HandoffRequest.
+     * @example
+     * // Delete one HandoffRequest
+     * const HandoffRequest = await prisma.handoffRequest.delete({
+     *   where: {
+     *     // ... filter to delete one HandoffRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HandoffRequestDeleteArgs>(args: SelectSubset<T, HandoffRequestDeleteArgs<ExtArgs>>): Prisma__HandoffRequestClient<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one HandoffRequest.
+     * @param {HandoffRequestUpdateArgs} args - Arguments to update one HandoffRequest.
+     * @example
+     * // Update one HandoffRequest
+     * const handoffRequest = await prisma.handoffRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HandoffRequestUpdateArgs>(args: SelectSubset<T, HandoffRequestUpdateArgs<ExtArgs>>): Prisma__HandoffRequestClient<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more HandoffRequests.
+     * @param {HandoffRequestDeleteManyArgs} args - Arguments to filter HandoffRequests to delete.
+     * @example
+     * // Delete a few HandoffRequests
+     * const { count } = await prisma.handoffRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HandoffRequestDeleteManyArgs>(args?: SelectSubset<T, HandoffRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HandoffRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HandoffRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HandoffRequests
+     * const handoffRequest = await prisma.handoffRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HandoffRequestUpdateManyArgs>(args: SelectSubset<T, HandoffRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HandoffRequests and returns the data updated in the database.
+     * @param {HandoffRequestUpdateManyAndReturnArgs} args - Arguments to update many HandoffRequests.
+     * @example
+     * // Update many HandoffRequests
+     * const handoffRequest = await prisma.handoffRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more HandoffRequests and only return the `conversationId`
+     * const handoffRequestWithConversationIdOnly = await prisma.handoffRequest.updateManyAndReturn({
+     *   select: { conversationId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HandoffRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, HandoffRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one HandoffRequest.
+     * @param {HandoffRequestUpsertArgs} args - Arguments to update or create a HandoffRequest.
+     * @example
+     * // Update or create a HandoffRequest
+     * const handoffRequest = await prisma.handoffRequest.upsert({
+     *   create: {
+     *     // ... data to create a HandoffRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HandoffRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HandoffRequestUpsertArgs>(args: SelectSubset<T, HandoffRequestUpsertArgs<ExtArgs>>): Prisma__HandoffRequestClient<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of HandoffRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HandoffRequestCountArgs} args - Arguments to filter HandoffRequests to count.
+     * @example
+     * // Count the number of HandoffRequests
+     * const count = await prisma.handoffRequest.count({
+     *   where: {
+     *     // ... the filter for the HandoffRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends HandoffRequestCountArgs>(
+      args?: Subset<T, HandoffRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HandoffRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HandoffRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HandoffRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HandoffRequestAggregateArgs>(args: Subset<T, HandoffRequestAggregateArgs>): Prisma.PrismaPromise<GetHandoffRequestAggregateType<T>>
+
+    /**
+     * Group by HandoffRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HandoffRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HandoffRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HandoffRequestGroupByArgs['orderBy'] }
+        : { orderBy?: HandoffRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HandoffRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHandoffRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HandoffRequest model
+   */
+  readonly fields: HandoffRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HandoffRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HandoffRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HandoffRequest model
+   */
+  interface HandoffRequestFieldRefs {
+    readonly conversationId: FieldRef<"HandoffRequest", 'Int'>
+    readonly requestedAt: FieldRef<"HandoffRequest", 'DateTime'>
+    readonly status: FieldRef<"HandoffRequest", 'HandoffRequestStatus'>
+    readonly agentId: FieldRef<"HandoffRequest", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HandoffRequest findUnique
+   */
+  export type HandoffRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which HandoffRequest to fetch.
+     */
+    where: HandoffRequestWhereUniqueInput
+  }
+
+  /**
+   * HandoffRequest findUniqueOrThrow
+   */
+  export type HandoffRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which HandoffRequest to fetch.
+     */
+    where: HandoffRequestWhereUniqueInput
+  }
+
+  /**
+   * HandoffRequest findFirst
+   */
+  export type HandoffRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which HandoffRequest to fetch.
+     */
+    where?: HandoffRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HandoffRequests to fetch.
+     */
+    orderBy?: HandoffRequestOrderByWithRelationInput | HandoffRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HandoffRequests.
+     */
+    cursor?: HandoffRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HandoffRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HandoffRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HandoffRequests.
+     */
+    distinct?: HandoffRequestScalarFieldEnum | HandoffRequestScalarFieldEnum[]
+  }
+
+  /**
+   * HandoffRequest findFirstOrThrow
+   */
+  export type HandoffRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which HandoffRequest to fetch.
+     */
+    where?: HandoffRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HandoffRequests to fetch.
+     */
+    orderBy?: HandoffRequestOrderByWithRelationInput | HandoffRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HandoffRequests.
+     */
+    cursor?: HandoffRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HandoffRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HandoffRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HandoffRequests.
+     */
+    distinct?: HandoffRequestScalarFieldEnum | HandoffRequestScalarFieldEnum[]
+  }
+
+  /**
+   * HandoffRequest findMany
+   */
+  export type HandoffRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which HandoffRequests to fetch.
+     */
+    where?: HandoffRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HandoffRequests to fetch.
+     */
+    orderBy?: HandoffRequestOrderByWithRelationInput | HandoffRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HandoffRequests.
+     */
+    cursor?: HandoffRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HandoffRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HandoffRequests.
+     */
+    skip?: number
+    distinct?: HandoffRequestScalarFieldEnum | HandoffRequestScalarFieldEnum[]
+  }
+
+  /**
+   * HandoffRequest create
+   */
+  export type HandoffRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * The data needed to create a HandoffRequest.
+     */
+    data: XOR<HandoffRequestCreateInput, HandoffRequestUncheckedCreateInput>
+  }
+
+  /**
+   * HandoffRequest createMany
+   */
+  export type HandoffRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HandoffRequests.
+     */
+    data: HandoffRequestCreateManyInput | HandoffRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HandoffRequest createManyAndReturn
+   */
+  export type HandoffRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many HandoffRequests.
+     */
+    data: HandoffRequestCreateManyInput | HandoffRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HandoffRequest update
+   */
+  export type HandoffRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * The data needed to update a HandoffRequest.
+     */
+    data: XOR<HandoffRequestUpdateInput, HandoffRequestUncheckedUpdateInput>
+    /**
+     * Choose, which HandoffRequest to update.
+     */
+    where: HandoffRequestWhereUniqueInput
+  }
+
+  /**
+   * HandoffRequest updateMany
+   */
+  export type HandoffRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HandoffRequests.
+     */
+    data: XOR<HandoffRequestUpdateManyMutationInput, HandoffRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which HandoffRequests to update
+     */
+    where?: HandoffRequestWhereInput
+    /**
+     * Limit how many HandoffRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HandoffRequest updateManyAndReturn
+   */
+  export type HandoffRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update HandoffRequests.
+     */
+    data: XOR<HandoffRequestUpdateManyMutationInput, HandoffRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which HandoffRequests to update
+     */
+    where?: HandoffRequestWhereInput
+    /**
+     * Limit how many HandoffRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HandoffRequest upsert
+   */
+  export type HandoffRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * The filter to search for the HandoffRequest to update in case it exists.
+     */
+    where: HandoffRequestWhereUniqueInput
+    /**
+     * In case the HandoffRequest found by the `where` argument doesn't exist, create a new HandoffRequest with this data.
+     */
+    create: XOR<HandoffRequestCreateInput, HandoffRequestUncheckedCreateInput>
+    /**
+     * In case the HandoffRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HandoffRequestUpdateInput, HandoffRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * HandoffRequest delete
+   */
+  export type HandoffRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Filter which HandoffRequest to delete.
+     */
+    where: HandoffRequestWhereUniqueInput
+  }
+
+  /**
+   * HandoffRequest deleteMany
+   */
+  export type HandoffRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HandoffRequests to delete
+     */
+    where?: HandoffRequestWhereInput
+    /**
+     * Limit how many HandoffRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * HandoffRequest without action
+   */
+  export type HandoffRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6800,6 +7929,16 @@ export namespace Prisma {
   };
 
   export type AgentAssignmentScalarFieldEnum = (typeof AgentAssignmentScalarFieldEnum)[keyof typeof AgentAssignmentScalarFieldEnum]
+
+
+  export const HandoffRequestScalarFieldEnum: {
+    conversationId: 'conversationId',
+    requestedAt: 'requestedAt',
+    status: 'status',
+    agentId: 'agentId'
+  };
+
+  export type HandoffRequestScalarFieldEnum = (typeof HandoffRequestScalarFieldEnum)[keyof typeof HandoffRequestScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6900,6 +8039,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'HandoffRequestStatus'
+   */
+  export type EnumHandoffRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HandoffRequestStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'HandoffRequestStatus[]'
+   */
+  export type ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HandoffRequestStatus[]'>
     
 
 
@@ -7222,6 +8375,55 @@ export namespace Prisma {
     activeConversationId?: IntNullableWithAggregatesFilter<"AgentAssignment"> | number | null
   }
 
+  export type HandoffRequestWhereInput = {
+    AND?: HandoffRequestWhereInput | HandoffRequestWhereInput[]
+    OR?: HandoffRequestWhereInput[]
+    NOT?: HandoffRequestWhereInput | HandoffRequestWhereInput[]
+    conversationId?: IntFilter<"HandoffRequest"> | number
+    requestedAt?: DateTimeFilter<"HandoffRequest"> | Date | string
+    status?: EnumHandoffRequestStatusFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
+    agentId?: IntNullableFilter<"HandoffRequest"> | number | null
+  }
+
+  export type HandoffRequestOrderByWithRelationInput = {
+    conversationId?: SortOrder
+    requestedAt?: SortOrder
+    status?: SortOrder
+    agentId?: SortOrderInput | SortOrder
+  }
+
+  export type HandoffRequestWhereUniqueInput = Prisma.AtLeast<{
+    conversationId?: number
+    AND?: HandoffRequestWhereInput | HandoffRequestWhereInput[]
+    OR?: HandoffRequestWhereInput[]
+    NOT?: HandoffRequestWhereInput | HandoffRequestWhereInput[]
+    requestedAt?: DateTimeFilter<"HandoffRequest"> | Date | string
+    status?: EnumHandoffRequestStatusFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
+    agentId?: IntNullableFilter<"HandoffRequest"> | number | null
+  }, "conversationId">
+
+  export type HandoffRequestOrderByWithAggregationInput = {
+    conversationId?: SortOrder
+    requestedAt?: SortOrder
+    status?: SortOrder
+    agentId?: SortOrderInput | SortOrder
+    _count?: HandoffRequestCountOrderByAggregateInput
+    _avg?: HandoffRequestAvgOrderByAggregateInput
+    _max?: HandoffRequestMaxOrderByAggregateInput
+    _min?: HandoffRequestMinOrderByAggregateInput
+    _sum?: HandoffRequestSumOrderByAggregateInput
+  }
+
+  export type HandoffRequestScalarWhereWithAggregatesInput = {
+    AND?: HandoffRequestScalarWhereWithAggregatesInput | HandoffRequestScalarWhereWithAggregatesInput[]
+    OR?: HandoffRequestScalarWhereWithAggregatesInput[]
+    NOT?: HandoffRequestScalarWhereWithAggregatesInput | HandoffRequestScalarWhereWithAggregatesInput[]
+    conversationId?: IntWithAggregatesFilter<"HandoffRequest"> | number
+    requestedAt?: DateTimeWithAggregatesFilter<"HandoffRequest"> | Date | string
+    status?: EnumHandoffRequestStatusWithAggregatesFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
+    agentId?: IntNullableWithAggregatesFilter<"HandoffRequest"> | number | null
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -7537,6 +8739,55 @@ export namespace Prisma {
     agentId?: NullableIntFieldUpdateOperationsInput | number | null
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type HandoffRequestCreateInput = {
+    conversationId: number
+    requestedAt?: Date | string
+    status?: $Enums.HandoffRequestStatus
+    agentId?: number | null
+  }
+
+  export type HandoffRequestUncheckedCreateInput = {
+    conversationId: number
+    requestedAt?: Date | string
+    status?: $Enums.HandoffRequestStatus
+    agentId?: number | null
+  }
+
+  export type HandoffRequestUpdateInput = {
+    conversationId?: IntFieldUpdateOperationsInput | number
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type HandoffRequestUncheckedUpdateInput = {
+    conversationId?: IntFieldUpdateOperationsInput | number
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type HandoffRequestCreateManyInput = {
+    conversationId: number
+    requestedAt?: Date | string
+    status?: $Enums.HandoffRequestStatus
+    agentId?: number | null
+  }
+
+  export type HandoffRequestUpdateManyMutationInput = {
+    conversationId?: IntFieldUpdateOperationsInput | number
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type HandoffRequestUncheckedUpdateManyInput = {
+    conversationId?: IntFieldUpdateOperationsInput | number
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -7955,6 +9206,54 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type EnumHandoffRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.HandoffRequestStatus | EnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.HandoffRequestStatus[] | ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.HandoffRequestStatus[] | ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumHandoffRequestStatusFilter<$PrismaModel> | $Enums.HandoffRequestStatus
+  }
+
+  export type HandoffRequestCountOrderByAggregateInput = {
+    conversationId?: SortOrder
+    requestedAt?: SortOrder
+    status?: SortOrder
+    agentId?: SortOrder
+  }
+
+  export type HandoffRequestAvgOrderByAggregateInput = {
+    conversationId?: SortOrder
+    agentId?: SortOrder
+  }
+
+  export type HandoffRequestMaxOrderByAggregateInput = {
+    conversationId?: SortOrder
+    requestedAt?: SortOrder
+    status?: SortOrder
+    agentId?: SortOrder
+  }
+
+  export type HandoffRequestMinOrderByAggregateInput = {
+    conversationId?: SortOrder
+    requestedAt?: SortOrder
+    status?: SortOrder
+    agentId?: SortOrder
+  }
+
+  export type HandoffRequestSumOrderByAggregateInput = {
+    conversationId?: SortOrder
+    agentId?: SortOrder
+  }
+
+  export type EnumHandoffRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.HandoffRequestStatus | EnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.HandoffRequestStatus[] | ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.HandoffRequestStatus[] | ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumHandoffRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.HandoffRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumHandoffRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumHandoffRequestStatusFilter<$PrismaModel>
+  }
+
   export type OrderCreateNestedManyWithoutUserInput = {
     create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
@@ -8157,6 +9456,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type EnumHandoffRequestStatusFieldUpdateOperationsInput = {
+    set?: $Enums.HandoffRequestStatus
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8368,6 +9671,23 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumHandoffRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.HandoffRequestStatus | EnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.HandoffRequestStatus[] | ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.HandoffRequestStatus[] | ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumHandoffRequestStatusFilter<$PrismaModel> | $Enums.HandoffRequestStatus
+  }
+
+  export type NestedEnumHandoffRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.HandoffRequestStatus | EnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.HandoffRequestStatus[] | ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.HandoffRequestStatus[] | ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumHandoffRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.HandoffRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumHandoffRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumHandoffRequestStatusFilter<$PrismaModel>
   }
 
   export type OrderCreateWithoutUserInput = {

@@ -64,3 +64,16 @@ model AgentAssignment {
   lastAssignedAt       DateTime?
   activeConversationId Int?
 }
+
+enum HandoffRequestStatus {
+  pending
+  awaiting_confirmation
+  assigned
+}
+
+model HandoffRequest {
+  conversationId Int                  @id
+  requestedAt    DateTime             @default(now())
+  status         HandoffRequestStatus @default(pending)
+  agentId        Int?
+}

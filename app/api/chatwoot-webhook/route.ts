@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
-import { getNextAgent } from "@/lib/agentRotation";
+import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import {
   sendBotMessage,
   assignConversation,
@@ -10,6 +10,7 @@ import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
 import { toResponseMessage } from "@/lib/utils/toResponseMessage";
+import { enqueueRequest } from "@/lib/handoffQueue";
 
 export async function POST(request: Request) {
   try {
@@ -57,18 +58,21 @@ export async function POST(request: Request) {
       try {
         const agent = await getNextAgent(inboxId);
         if (agent) {
+          await enqueueRequest(conversationId, "assigned", agent.id);
           await toggleConversationStatus(accountId, conversationId, "open");
           await assignConversation(accountId, conversationId, agent.id);
+          await setActiveConversation(agent.id, conversationId);
           await sendBotMessage(
             accountId,
             conversationId,
             "A human agent will join shortly."
           );
         } else {
+          await enqueueRequest(conversationId);
           await sendBotMessage(
             accountId,
             conversationId,
-            "No human agents are currently available."
+            "All human agents are currently busy. Please wait for the next available agent."
           );
         }
       } catch (err) {
