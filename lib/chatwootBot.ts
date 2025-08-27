@@ -30,6 +30,16 @@ export async function sendBotMessage(
   );
 }
 
+export async function getConversation(
+  accountId: number,
+  conversationId: number
+) {
+  return chatwootBotFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}`,
+    { method: "GET" }
+  );
+}
+
 export async function assignConversation(
   accountId: number,
   conversationId: number,
@@ -62,6 +72,7 @@ export async function toggleConversationStatus(
 
 const chatwootBot = {
   sendBotMessage,
+  getConversation,
   assignConversation,
   toggleConversationStatus
 };

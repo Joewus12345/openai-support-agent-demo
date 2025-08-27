@@ -1,21 +1,110 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
-import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
+import prisma from "@/lib/prisma";
+import {
+  getNextAgent,
+  setActiveConversation,
+  clearActiveConversation,
+} from "@/lib/agentRotation";
 import {
   sendBotMessage,
   assignConversation,
   toggleConversationStatus,
+  getConversation,
 } from "@/lib/chatwootBot";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
 import { toResponseMessage } from "@/lib/utils/toResponseMessage";
-import { enqueueRequest } from "@/lib/handoffQueue";
+import {
+  enqueueRequest,
+  dequeueRequest,
+  updateRequest,
+} from "@/lib/handoffQueue";
 
 export async function POST(request: Request) {
   try {
     const incoming = (await request.json()) as any;
     const payload: ChatwootEvent = incoming.data ?? incoming;
+
+    if (incoming.event === "conversation_status_changed") {
+      const conversation: Conversation | undefined = payload.conversation;
+      const accountId =
+        payload.account?.id ?? (payload as any)?.account_id;
+      const conversationId =
+        conversation?.id ?? (payload as any)?.conversation_id;
+      let status =
+        (conversation as any)?.status ?? (payload as any)?.status;
+
+      if (accountId === undefined || conversationId === undefined) {
+        return NextResponse.json(
+          { error: "Invalid payload" },
+          { status: 400 }
+        );
+      }
+
+      if (!status) {
+        try {
+          const convo = await getConversation(accountId, conversationId);
+          status = convo?.status;
+        } catch (err) {
+          console.error("fetch conversation error", err);
+        }
+      }
+
+      if (status !== "open") {
+        try {
+          const assignment = await prisma.agentAssignment.findFirst({
+            where: { activeConversationId: conversationId },
+          });
+          if (assignment?.agentId) {
+            await clearActiveConversation(assignment.agentId);
+          }
+
+          const request = await dequeueRequest();
+          if (request) {
+            try {
+              const nextConv = await getConversation(
+                accountId,
+                request.conversationId
+              );
+              const nextInboxId = nextConv?.inbox_id;
+              if (nextInboxId !== undefined) {
+                const agent = await getNextAgent(nextInboxId);
+                if (agent) {
+                  await toggleConversationStatus(
+                    accountId,
+                    request.conversationId,
+                    "open"
+                  );
+                  await assignConversation(
+                    accountId,
+                    request.conversationId,
+                    agent.id
+                  );
+                  await setActiveConversation(agent.id, request.conversationId);
+                  await updateRequest(request.conversationId, {
+                    status: "assigned",
+                    agentId: agent.id,
+                  });
+                  await sendBotMessage(
+                    accountId,
+                    request.conversationId,
+                    "A human agent will join shortly."
+                  );
+                }
+              }
+            } catch (err) {
+              console.error("handoff queue processing error", err);
+            }
+          }
+        } catch (err) {
+          console.error("conversation status change handling error", err);
+        }
+      }
+
+      return NextResponse.json({ status: "handled" });
+    }
 
     if (incoming.event !== "message_created") {
       return NextResponse.json({ status: "ignored" });
