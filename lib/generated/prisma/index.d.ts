@@ -33,6 +33,11 @@ export type ChatSession = $Result.DefaultSelection<Prisma.$ChatSessionPayload>
  * 
  */
 export type Ticket = $Result.DefaultSelection<Prisma.$TicketPayload>
+/**
+ * Model AgentAssignment
+ * 
+ */
+export type AgentAssignment = $Result.DefaultSelection<Prisma.$AgentAssignmentPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -50,7 +55,7 @@ export type Ticket = $Result.DefaultSelection<Prisma.$TicketPayload>
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -82,13 +87,6 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
-
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -198,6 +196,16 @@ export class PrismaClient<
     * ```
     */
   get ticket(): Prisma.TicketDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.agentAssignment`: Exposes CRUD operations for the **AgentAssignment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AgentAssignments
+    * const agentAssignments = await prisma.agentAssignment.findMany()
+    * ```
+    */
+  get agentAssignment(): Prisma.AgentAssignmentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -256,8 +264,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.11.1
-   * Query Engine version: f40f79ec31188888a2e33acda0ecc8fd10a853a9
+   * Prisma Client JS version: 6.14.0
+   * Query Engine version: 717184b7b35ea05dfa71a3236b7af656013e1e49
    */
   export type PrismaVersion = {
     client: string
@@ -641,7 +649,8 @@ export namespace Prisma {
     User: 'User',
     Order: 'Order',
     ChatSession: 'ChatSession',
-    Ticket: 'Ticket'
+    Ticket: 'Ticket',
+    AgentAssignment: 'AgentAssignment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -660,7 +669,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "order" | "chatSession" | "ticket"
+      modelProps: "user" | "order" | "chatSession" | "ticket" | "agentAssignment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -960,6 +969,80 @@ export namespace Prisma {
           }
         }
       }
+      AgentAssignment: {
+        payload: Prisma.$AgentAssignmentPayload<ExtArgs>
+        fields: Prisma.AgentAssignmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AgentAssignmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AgentAssignmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload>
+          }
+          findFirst: {
+            args: Prisma.AgentAssignmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AgentAssignmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload>
+          }
+          findMany: {
+            args: Prisma.AgentAssignmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload>[]
+          }
+          create: {
+            args: Prisma.AgentAssignmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload>
+          }
+          createMany: {
+            args: Prisma.AgentAssignmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AgentAssignmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload>[]
+          }
+          delete: {
+            args: Prisma.AgentAssignmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload>
+          }
+          update: {
+            args: Prisma.AgentAssignmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.AgentAssignmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AgentAssignmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AgentAssignmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.AgentAssignmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAssignmentPayload>
+          }
+          aggregate: {
+            args: Prisma.AgentAssignmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAgentAssignment>
+          }
+          groupBy: {
+            args: Prisma.AgentAssignmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AgentAssignmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AgentAssignmentCountArgs<ExtArgs>
+            result: $Utils.Optional<AgentAssignmentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1003,16 +1086,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -1048,6 +1139,7 @@ export namespace Prisma {
     order?: OrderOmit
     chatSession?: ChatSessionOmit
     ticket?: TicketOmit
+    agentAssignment?: AgentAssignmentOmit
   }
 
   /* Types for Logging */
@@ -1057,10 +1149,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -1100,25 +1197,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -5628,6 +5706,1030 @@ export namespace Prisma {
 
 
   /**
+   * Model AgentAssignment
+   */
+
+  export type AggregateAgentAssignment = {
+    _count: AgentAssignmentCountAggregateOutputType | null
+    _avg: AgentAssignmentAvgAggregateOutputType | null
+    _sum: AgentAssignmentSumAggregateOutputType | null
+    _min: AgentAssignmentMinAggregateOutputType | null
+    _max: AgentAssignmentMaxAggregateOutputType | null
+  }
+
+  export type AgentAssignmentAvgAggregateOutputType = {
+    inboxId: number | null
+    agentId: number | null
+    activeConversationId: number | null
+  }
+
+  export type AgentAssignmentSumAggregateOutputType = {
+    inboxId: number | null
+    agentId: number | null
+    activeConversationId: number | null
+  }
+
+  export type AgentAssignmentMinAggregateOutputType = {
+    inboxId: number | null
+    agentId: number | null
+    lastAssignedAt: Date | null
+    activeConversationId: number | null
+  }
+
+  export type AgentAssignmentMaxAggregateOutputType = {
+    inboxId: number | null
+    agentId: number | null
+    lastAssignedAt: Date | null
+    activeConversationId: number | null
+  }
+
+  export type AgentAssignmentCountAggregateOutputType = {
+    inboxId: number
+    agentId: number
+    lastAssignedAt: number
+    activeConversationId: number
+    _all: number
+  }
+
+
+  export type AgentAssignmentAvgAggregateInputType = {
+    inboxId?: true
+    agentId?: true
+    activeConversationId?: true
+  }
+
+  export type AgentAssignmentSumAggregateInputType = {
+    inboxId?: true
+    agentId?: true
+    activeConversationId?: true
+  }
+
+  export type AgentAssignmentMinAggregateInputType = {
+    inboxId?: true
+    agentId?: true
+    lastAssignedAt?: true
+    activeConversationId?: true
+  }
+
+  export type AgentAssignmentMaxAggregateInputType = {
+    inboxId?: true
+    agentId?: true
+    lastAssignedAt?: true
+    activeConversationId?: true
+  }
+
+  export type AgentAssignmentCountAggregateInputType = {
+    inboxId?: true
+    agentId?: true
+    lastAssignedAt?: true
+    activeConversationId?: true
+    _all?: true
+  }
+
+  export type AgentAssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentAssignment to aggregate.
+     */
+    where?: AgentAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentAssignments to fetch.
+     */
+    orderBy?: AgentAssignmentOrderByWithRelationInput | AgentAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AgentAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AgentAssignments
+    **/
+    _count?: true | AgentAssignmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AgentAssignmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AgentAssignmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgentAssignmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgentAssignmentMaxAggregateInputType
+  }
+
+  export type GetAgentAssignmentAggregateType<T extends AgentAssignmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgentAssignment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgentAssignment[P]>
+      : GetScalarType<T[P], AggregateAgentAssignment[P]>
+  }
+
+
+
+
+  export type AgentAssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentAssignmentWhereInput
+    orderBy?: AgentAssignmentOrderByWithAggregationInput | AgentAssignmentOrderByWithAggregationInput[]
+    by: AgentAssignmentScalarFieldEnum[] | AgentAssignmentScalarFieldEnum
+    having?: AgentAssignmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgentAssignmentCountAggregateInputType | true
+    _avg?: AgentAssignmentAvgAggregateInputType
+    _sum?: AgentAssignmentSumAggregateInputType
+    _min?: AgentAssignmentMinAggregateInputType
+    _max?: AgentAssignmentMaxAggregateInputType
+  }
+
+  export type AgentAssignmentGroupByOutputType = {
+    inboxId: number
+    agentId: number | null
+    lastAssignedAt: Date | null
+    activeConversationId: number | null
+    _count: AgentAssignmentCountAggregateOutputType | null
+    _avg: AgentAssignmentAvgAggregateOutputType | null
+    _sum: AgentAssignmentSumAggregateOutputType | null
+    _min: AgentAssignmentMinAggregateOutputType | null
+    _max: AgentAssignmentMaxAggregateOutputType | null
+  }
+
+  type GetAgentAssignmentGroupByPayload<T extends AgentAssignmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AgentAssignmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgentAssignmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgentAssignmentGroupByOutputType[P]>
+            : GetScalarType<T[P], AgentAssignmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AgentAssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    inboxId?: boolean
+    agentId?: boolean
+    lastAssignedAt?: boolean
+    activeConversationId?: boolean
+  }, ExtArgs["result"]["agentAssignment"]>
+
+  export type AgentAssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    inboxId?: boolean
+    agentId?: boolean
+    lastAssignedAt?: boolean
+    activeConversationId?: boolean
+  }, ExtArgs["result"]["agentAssignment"]>
+
+  export type AgentAssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    inboxId?: boolean
+    agentId?: boolean
+    lastAssignedAt?: boolean
+    activeConversationId?: boolean
+  }, ExtArgs["result"]["agentAssignment"]>
+
+  export type AgentAssignmentSelectScalar = {
+    inboxId?: boolean
+    agentId?: boolean
+    lastAssignedAt?: boolean
+    activeConversationId?: boolean
+  }
+
+  export type AgentAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"inboxId" | "agentId" | "lastAssignedAt" | "activeConversationId", ExtArgs["result"]["agentAssignment"]>
+
+  export type $AgentAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AgentAssignment"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      inboxId: number
+      agentId: number | null
+      lastAssignedAt: Date | null
+      activeConversationId: number | null
+    }, ExtArgs["result"]["agentAssignment"]>
+    composites: {}
+  }
+
+  type AgentAssignmentGetPayload<S extends boolean | null | undefined | AgentAssignmentDefaultArgs> = $Result.GetResult<Prisma.$AgentAssignmentPayload, S>
+
+  type AgentAssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AgentAssignmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AgentAssignmentCountAggregateInputType | true
+    }
+
+  export interface AgentAssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AgentAssignment'], meta: { name: 'AgentAssignment' } }
+    /**
+     * Find zero or one AgentAssignment that matches the filter.
+     * @param {AgentAssignmentFindUniqueArgs} args - Arguments to find a AgentAssignment
+     * @example
+     * // Get one AgentAssignment
+     * const agentAssignment = await prisma.agentAssignment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AgentAssignmentFindUniqueArgs>(args: SelectSubset<T, AgentAssignmentFindUniqueArgs<ExtArgs>>): Prisma__AgentAssignmentClient<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AgentAssignment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AgentAssignmentFindUniqueOrThrowArgs} args - Arguments to find a AgentAssignment
+     * @example
+     * // Get one AgentAssignment
+     * const agentAssignment = await prisma.agentAssignment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AgentAssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, AgentAssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AgentAssignmentClient<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentAssignment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAssignmentFindFirstArgs} args - Arguments to find a AgentAssignment
+     * @example
+     * // Get one AgentAssignment
+     * const agentAssignment = await prisma.agentAssignment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AgentAssignmentFindFirstArgs>(args?: SelectSubset<T, AgentAssignmentFindFirstArgs<ExtArgs>>): Prisma__AgentAssignmentClient<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentAssignment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAssignmentFindFirstOrThrowArgs} args - Arguments to find a AgentAssignment
+     * @example
+     * // Get one AgentAssignment
+     * const agentAssignment = await prisma.agentAssignment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AgentAssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, AgentAssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AgentAssignmentClient<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AgentAssignments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AgentAssignments
+     * const agentAssignments = await prisma.agentAssignment.findMany()
+     * 
+     * // Get first 10 AgentAssignments
+     * const agentAssignments = await prisma.agentAssignment.findMany({ take: 10 })
+     * 
+     * // Only select the `inboxId`
+     * const agentAssignmentWithInboxIdOnly = await prisma.agentAssignment.findMany({ select: { inboxId: true } })
+     * 
+     */
+    findMany<T extends AgentAssignmentFindManyArgs>(args?: SelectSubset<T, AgentAssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AgentAssignment.
+     * @param {AgentAssignmentCreateArgs} args - Arguments to create a AgentAssignment.
+     * @example
+     * // Create one AgentAssignment
+     * const AgentAssignment = await prisma.agentAssignment.create({
+     *   data: {
+     *     // ... data to create a AgentAssignment
+     *   }
+     * })
+     * 
+     */
+    create<T extends AgentAssignmentCreateArgs>(args: SelectSubset<T, AgentAssignmentCreateArgs<ExtArgs>>): Prisma__AgentAssignmentClient<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AgentAssignments.
+     * @param {AgentAssignmentCreateManyArgs} args - Arguments to create many AgentAssignments.
+     * @example
+     * // Create many AgentAssignments
+     * const agentAssignment = await prisma.agentAssignment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AgentAssignmentCreateManyArgs>(args?: SelectSubset<T, AgentAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AgentAssignments and returns the data saved in the database.
+     * @param {AgentAssignmentCreateManyAndReturnArgs} args - Arguments to create many AgentAssignments.
+     * @example
+     * // Create many AgentAssignments
+     * const agentAssignment = await prisma.agentAssignment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AgentAssignments and only return the `inboxId`
+     * const agentAssignmentWithInboxIdOnly = await prisma.agentAssignment.createManyAndReturn({
+     *   select: { inboxId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AgentAssignmentCreateManyAndReturnArgs>(args?: SelectSubset<T, AgentAssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AgentAssignment.
+     * @param {AgentAssignmentDeleteArgs} args - Arguments to delete one AgentAssignment.
+     * @example
+     * // Delete one AgentAssignment
+     * const AgentAssignment = await prisma.agentAssignment.delete({
+     *   where: {
+     *     // ... filter to delete one AgentAssignment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AgentAssignmentDeleteArgs>(args: SelectSubset<T, AgentAssignmentDeleteArgs<ExtArgs>>): Prisma__AgentAssignmentClient<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AgentAssignment.
+     * @param {AgentAssignmentUpdateArgs} args - Arguments to update one AgentAssignment.
+     * @example
+     * // Update one AgentAssignment
+     * const agentAssignment = await prisma.agentAssignment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AgentAssignmentUpdateArgs>(args: SelectSubset<T, AgentAssignmentUpdateArgs<ExtArgs>>): Prisma__AgentAssignmentClient<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AgentAssignments.
+     * @param {AgentAssignmentDeleteManyArgs} args - Arguments to filter AgentAssignments to delete.
+     * @example
+     * // Delete a few AgentAssignments
+     * const { count } = await prisma.agentAssignment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AgentAssignmentDeleteManyArgs>(args?: SelectSubset<T, AgentAssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgentAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAssignmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AgentAssignments
+     * const agentAssignment = await prisma.agentAssignment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AgentAssignmentUpdateManyArgs>(args: SelectSubset<T, AgentAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgentAssignments and returns the data updated in the database.
+     * @param {AgentAssignmentUpdateManyAndReturnArgs} args - Arguments to update many AgentAssignments.
+     * @example
+     * // Update many AgentAssignments
+     * const agentAssignment = await prisma.agentAssignment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AgentAssignments and only return the `inboxId`
+     * const agentAssignmentWithInboxIdOnly = await prisma.agentAssignment.updateManyAndReturn({
+     *   select: { inboxId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AgentAssignmentUpdateManyAndReturnArgs>(args: SelectSubset<T, AgentAssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AgentAssignment.
+     * @param {AgentAssignmentUpsertArgs} args - Arguments to update or create a AgentAssignment.
+     * @example
+     * // Update or create a AgentAssignment
+     * const agentAssignment = await prisma.agentAssignment.upsert({
+     *   create: {
+     *     // ... data to create a AgentAssignment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AgentAssignment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AgentAssignmentUpsertArgs>(args: SelectSubset<T, AgentAssignmentUpsertArgs<ExtArgs>>): Prisma__AgentAssignmentClient<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AgentAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAssignmentCountArgs} args - Arguments to filter AgentAssignments to count.
+     * @example
+     * // Count the number of AgentAssignments
+     * const count = await prisma.agentAssignment.count({
+     *   where: {
+     *     // ... the filter for the AgentAssignments we want to count
+     *   }
+     * })
+    **/
+    count<T extends AgentAssignmentCountArgs>(
+      args?: Subset<T, AgentAssignmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgentAssignmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AgentAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgentAssignmentAggregateArgs>(args: Subset<T, AgentAssignmentAggregateArgs>): Prisma.PrismaPromise<GetAgentAssignmentAggregateType<T>>
+
+    /**
+     * Group by AgentAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAssignmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgentAssignmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgentAssignmentGroupByArgs['orderBy'] }
+        : { orderBy?: AgentAssignmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgentAssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgentAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AgentAssignment model
+   */
+  readonly fields: AgentAssignmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AgentAssignment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AgentAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AgentAssignment model
+   */
+  interface AgentAssignmentFieldRefs {
+    readonly inboxId: FieldRef<"AgentAssignment", 'Int'>
+    readonly agentId: FieldRef<"AgentAssignment", 'Int'>
+    readonly lastAssignedAt: FieldRef<"AgentAssignment", 'DateTime'>
+    readonly activeConversationId: FieldRef<"AgentAssignment", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AgentAssignment findUnique
+   */
+  export type AgentAssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Filter, which AgentAssignment to fetch.
+     */
+    where: AgentAssignmentWhereUniqueInput
+  }
+
+  /**
+   * AgentAssignment findUniqueOrThrow
+   */
+  export type AgentAssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Filter, which AgentAssignment to fetch.
+     */
+    where: AgentAssignmentWhereUniqueInput
+  }
+
+  /**
+   * AgentAssignment findFirst
+   */
+  export type AgentAssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Filter, which AgentAssignment to fetch.
+     */
+    where?: AgentAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentAssignments to fetch.
+     */
+    orderBy?: AgentAssignmentOrderByWithRelationInput | AgentAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentAssignments.
+     */
+    cursor?: AgentAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentAssignments.
+     */
+    distinct?: AgentAssignmentScalarFieldEnum | AgentAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * AgentAssignment findFirstOrThrow
+   */
+  export type AgentAssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Filter, which AgentAssignment to fetch.
+     */
+    where?: AgentAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentAssignments to fetch.
+     */
+    orderBy?: AgentAssignmentOrderByWithRelationInput | AgentAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentAssignments.
+     */
+    cursor?: AgentAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentAssignments.
+     */
+    distinct?: AgentAssignmentScalarFieldEnum | AgentAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * AgentAssignment findMany
+   */
+  export type AgentAssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Filter, which AgentAssignments to fetch.
+     */
+    where?: AgentAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentAssignments to fetch.
+     */
+    orderBy?: AgentAssignmentOrderByWithRelationInput | AgentAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AgentAssignments.
+     */
+    cursor?: AgentAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentAssignments.
+     */
+    skip?: number
+    distinct?: AgentAssignmentScalarFieldEnum | AgentAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * AgentAssignment create
+   */
+  export type AgentAssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AgentAssignment.
+     */
+    data: XOR<AgentAssignmentCreateInput, AgentAssignmentUncheckedCreateInput>
+  }
+
+  /**
+   * AgentAssignment createMany
+   */
+  export type AgentAssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AgentAssignments.
+     */
+    data: AgentAssignmentCreateManyInput | AgentAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AgentAssignment createManyAndReturn
+   */
+  export type AgentAssignmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many AgentAssignments.
+     */
+    data: AgentAssignmentCreateManyInput | AgentAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AgentAssignment update
+   */
+  export type AgentAssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AgentAssignment.
+     */
+    data: XOR<AgentAssignmentUpdateInput, AgentAssignmentUncheckedUpdateInput>
+    /**
+     * Choose, which AgentAssignment to update.
+     */
+    where: AgentAssignmentWhereUniqueInput
+  }
+
+  /**
+   * AgentAssignment updateMany
+   */
+  export type AgentAssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AgentAssignments.
+     */
+    data: XOR<AgentAssignmentUpdateManyMutationInput, AgentAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which AgentAssignments to update
+     */
+    where?: AgentAssignmentWhereInput
+    /**
+     * Limit how many AgentAssignments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentAssignment updateManyAndReturn
+   */
+  export type AgentAssignmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to update AgentAssignments.
+     */
+    data: XOR<AgentAssignmentUpdateManyMutationInput, AgentAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which AgentAssignments to update
+     */
+    where?: AgentAssignmentWhereInput
+    /**
+     * Limit how many AgentAssignments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentAssignment upsert
+   */
+  export type AgentAssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AgentAssignment to update in case it exists.
+     */
+    where: AgentAssignmentWhereUniqueInput
+    /**
+     * In case the AgentAssignment found by the `where` argument doesn't exist, create a new AgentAssignment with this data.
+     */
+    create: XOR<AgentAssignmentCreateInput, AgentAssignmentUncheckedCreateInput>
+    /**
+     * In case the AgentAssignment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AgentAssignmentUpdateInput, AgentAssignmentUncheckedUpdateInput>
+  }
+
+  /**
+   * AgentAssignment delete
+   */
+  export type AgentAssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Filter which AgentAssignment to delete.
+     */
+    where: AgentAssignmentWhereUniqueInput
+  }
+
+  /**
+   * AgentAssignment deleteMany
+   */
+  export type AgentAssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentAssignments to delete
+     */
+    where?: AgentAssignmentWhereInput
+    /**
+     * Limit how many AgentAssignments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentAssignment without action
+   */
+  export type AgentAssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5688,6 +6790,16 @@ export namespace Prisma {
   };
 
   export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
+
+
+  export const AgentAssignmentScalarFieldEnum: {
+    inboxId: 'inboxId',
+    agentId: 'agentId',
+    lastAssignedAt: 'lastAssignedAt',
+    activeConversationId: 'activeConversationId'
+  };
+
+  export type AgentAssignmentScalarFieldEnum = (typeof AgentAssignmentScalarFieldEnum)[keyof typeof AgentAssignmentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6061,6 +7173,55 @@ export namespace Prisma {
     userId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
   }
 
+  export type AgentAssignmentWhereInput = {
+    AND?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
+    OR?: AgentAssignmentWhereInput[]
+    NOT?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
+    inboxId?: IntFilter<"AgentAssignment"> | number
+    agentId?: IntNullableFilter<"AgentAssignment"> | number | null
+    lastAssignedAt?: DateTimeNullableFilter<"AgentAssignment"> | Date | string | null
+    activeConversationId?: IntNullableFilter<"AgentAssignment"> | number | null
+  }
+
+  export type AgentAssignmentOrderByWithRelationInput = {
+    inboxId?: SortOrder
+    agentId?: SortOrderInput | SortOrder
+    lastAssignedAt?: SortOrderInput | SortOrder
+    activeConversationId?: SortOrderInput | SortOrder
+  }
+
+  export type AgentAssignmentWhereUniqueInput = Prisma.AtLeast<{
+    inboxId?: number
+    AND?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
+    OR?: AgentAssignmentWhereInput[]
+    NOT?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
+    agentId?: IntNullableFilter<"AgentAssignment"> | number | null
+    lastAssignedAt?: DateTimeNullableFilter<"AgentAssignment"> | Date | string | null
+    activeConversationId?: IntNullableFilter<"AgentAssignment"> | number | null
+  }, "inboxId">
+
+  export type AgentAssignmentOrderByWithAggregationInput = {
+    inboxId?: SortOrder
+    agentId?: SortOrderInput | SortOrder
+    lastAssignedAt?: SortOrderInput | SortOrder
+    activeConversationId?: SortOrderInput | SortOrder
+    _count?: AgentAssignmentCountOrderByAggregateInput
+    _avg?: AgentAssignmentAvgOrderByAggregateInput
+    _max?: AgentAssignmentMaxOrderByAggregateInput
+    _min?: AgentAssignmentMinOrderByAggregateInput
+    _sum?: AgentAssignmentSumOrderByAggregateInput
+  }
+
+  export type AgentAssignmentScalarWhereWithAggregatesInput = {
+    AND?: AgentAssignmentScalarWhereWithAggregatesInput | AgentAssignmentScalarWhereWithAggregatesInput[]
+    OR?: AgentAssignmentScalarWhereWithAggregatesInput[]
+    NOT?: AgentAssignmentScalarWhereWithAggregatesInput | AgentAssignmentScalarWhereWithAggregatesInput[]
+    inboxId?: IntWithAggregatesFilter<"AgentAssignment"> | number
+    agentId?: IntNullableWithAggregatesFilter<"AgentAssignment"> | number | null
+    lastAssignedAt?: DateTimeNullableWithAggregatesFilter<"AgentAssignment"> | Date | string | null
+    activeConversationId?: IntNullableWithAggregatesFilter<"AgentAssignment"> | number | null
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -6327,6 +7488,55 @@ export namespace Prisma {
     ticket?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AgentAssignmentCreateInput = {
+    inboxId: number
+    agentId?: number | null
+    lastAssignedAt?: Date | string | null
+    activeConversationId?: number | null
+  }
+
+  export type AgentAssignmentUncheckedCreateInput = {
+    inboxId: number
+    agentId?: number | null
+    lastAssignedAt?: Date | string | null
+    activeConversationId?: number | null
+  }
+
+  export type AgentAssignmentUpdateInput = {
+    inboxId?: IntFieldUpdateOperationsInput | number
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AgentAssignmentUncheckedUpdateInput = {
+    inboxId?: IntFieldUpdateOperationsInput | number
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AgentAssignmentCreateManyInput = {
+    inboxId: number
+    agentId?: number | null
+    lastAssignedAt?: Date | string | null
+    activeConversationId?: number | null
+  }
+
+  export type AgentAssignmentUpdateManyMutationInput = {
+    inboxId?: IntFieldUpdateOperationsInput | number
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AgentAssignmentUncheckedUpdateManyInput = {
+    inboxId?: IntFieldUpdateOperationsInput | number
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -6685,6 +7895,66 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type AgentAssignmentCountOrderByAggregateInput = {
+    inboxId?: SortOrder
+    agentId?: SortOrder
+    lastAssignedAt?: SortOrder
+    activeConversationId?: SortOrder
+  }
+
+  export type AgentAssignmentAvgOrderByAggregateInput = {
+    inboxId?: SortOrder
+    agentId?: SortOrder
+    activeConversationId?: SortOrder
+  }
+
+  export type AgentAssignmentMaxOrderByAggregateInput = {
+    inboxId?: SortOrder
+    agentId?: SortOrder
+    lastAssignedAt?: SortOrder
+    activeConversationId?: SortOrder
+  }
+
+  export type AgentAssignmentMinOrderByAggregateInput = {
+    inboxId?: SortOrder
+    agentId?: SortOrder
+    lastAssignedAt?: SortOrder
+    activeConversationId?: SortOrder
+  }
+
+  export type AgentAssignmentSumOrderByAggregateInput = {
+    inboxId?: SortOrder
+    agentId?: SortOrder
+    activeConversationId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type OrderCreateNestedManyWithoutUserInput = {
     create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
@@ -6881,6 +8151,14 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTicketsInput, UserUpdateWithoutTicketsInput>, UserUncheckedUpdateWithoutTicketsInput>
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -7063,6 +8341,33 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type OrderCreateWithoutUserInput = {

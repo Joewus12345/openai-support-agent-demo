@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
-import { listAgents } from "@/lib/chatwoot";
+import { getNextAgent } from "@/lib/agentRotation";
 import {
   sendBotMessage,
   assignConversation,
@@ -55,13 +55,10 @@ export async function POST(request: Request) {
     const triggerPattern = /\b(human|agent|representative)\b/i;
     if (triggerPattern.test(content)) {
       try {
-        const agents = await listAgents(accountId);
-        const onlineAgent = agents.find(
-          (a: any) => a.availability_status === "online"
-        );
-        if (onlineAgent) {
+        const agent = await getNextAgent(inboxId);
+        if (agent) {
           await toggleConversationStatus(accountId, conversationId, "open");
-          await assignConversation(accountId, conversationId, onlineAgent.id);
+          await assignConversation(accountId, conversationId, agent.id);
           await sendBotMessage(
             accountId,
             conversationId,

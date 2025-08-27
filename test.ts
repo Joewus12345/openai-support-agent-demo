@@ -8,7 +8,7 @@ const url =
     ? `redis://localhost:${process.env.REDIS_PORT}`
     : 'redis://localhost:6379');
 
-test('Redis responds to ping', async (t) => {
+test('Redis responds to ping', async (t: any) => {
   const redis = new Redis(url);
   try {
     const res = await redis.ping();
