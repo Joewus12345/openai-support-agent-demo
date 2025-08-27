@@ -1,5 +1,5 @@
 import prisma from "./prisma";
-import { HandoffRequestStatus } from "@prisma/client";
+import type { HandoffRequestStatus } from "./generated/prisma";
 
 export async function enqueueRequest(
   conversationId: number,
