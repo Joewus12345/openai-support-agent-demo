@@ -21,6 +21,7 @@ import {
   dequeueRequest,
   updateRequest,
 } from "@/lib/handoffQueue";
+import { handoffStrategy } from "@/config/handoffStrategy";
 
 export async function POST(request: Request) {
   try {
@@ -63,39 +64,61 @@ export async function POST(request: Request) {
 
           const request = await dequeueRequest();
           if (request) {
-            try {
-              const nextConv = await getConversation(
-                accountId,
-                request.conversationId
-              );
-              const nextInboxId = nextConv?.inbox_id;
-              if (nextInboxId !== undefined) {
-                const agent = await getNextAgent(nextInboxId);
-                if (agent) {
-                  await toggleConversationStatus(
-                    accountId,
-                    request.conversationId,
-                    "open"
-                  );
-                  await assignConversation(
-                    accountId,
-                    request.conversationId,
-                    agent.id
-                  );
-                  await setActiveConversation(agent.id, request.conversationId);
-                  await updateRequest(request.conversationId, {
-                    status: "assigned",
-                    agentId: agent.id,
-                  });
-                  await sendBotMessage(
-                    accountId,
-                    request.conversationId,
-                    "A human agent will join shortly."
-                  );
-                }
+            if (handoffStrategy.value === "confirm") {
+              try {
+                await sendBotMessage(
+                  accountId,
+                  request.conversationId,
+                  "A human agent is available. Reply 'yes' within 2 minutes to connect."
+                );
+                setTimeout(async () => {
+                  try {
+                    await updateRequest(request.conversationId, {
+                      status: "pending",
+                      agentId: null,
+                    });
+                  } catch (err) {
+                    console.error("handoff confirmation timeout", err);
+                  }
+                }, 2 * 60 * 1000);
+              } catch (err) {
+                console.error("handoff confirmation message error", err);
               }
-            } catch (err) {
-              console.error("handoff queue processing error", err);
+            } else {
+              try {
+                const nextConv = await getConversation(
+                  accountId,
+                  request.conversationId
+                );
+                const nextInboxId = nextConv?.inbox_id;
+                if (nextInboxId !== undefined) {
+                  const agent = await getNextAgent(nextInboxId);
+                  if (agent) {
+                    await toggleConversationStatus(
+                      accountId,
+                      request.conversationId,
+                      "open"
+                    );
+                    await assignConversation(
+                      accountId,
+                      request.conversationId,
+                      agent.id
+                    );
+                    await setActiveConversation(agent.id, request.conversationId);
+                    await updateRequest(request.conversationId, {
+                      status: "assigned",
+                      agentId: agent.id,
+                    });
+                    await sendBotMessage(
+                      accountId,
+                      request.conversationId,
+                      "A human agent will join shortly."
+                    );
+                  }
+                }
+              } catch (err) {
+                console.error("handoff queue processing error", err);
+              }
             }
           }
         } catch (err) {
@@ -140,6 +163,40 @@ export async function POST(request: Request) {
       !content
     ) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    }
+
+    const existingRequest = await prisma.handoffRequest.findUnique({
+      where: { conversationId },
+    });
+    if (
+      handoffStrategy.value === "confirm" &&
+      existingRequest?.status === "awaiting_confirmation"
+    ) {
+      const confirmPattern = /\b(yes|y|sure|confirm|ok)\b/i;
+      if (confirmPattern.test(content)) {
+        try {
+          const agent = await getNextAgent(inboxId);
+          if (agent) {
+            await toggleConversationStatus(accountId, conversationId, "open");
+            await assignConversation(accountId, conversationId, agent.id);
+            await setActiveConversation(agent.id, conversationId);
+            await updateRequest(conversationId, {
+              status: "assigned",
+              agentId: agent.id,
+            });
+            await sendBotMessage(
+              accountId,
+              conversationId,
+              "A human agent will join shortly."
+            );
+            return NextResponse.json({ status: "handoff_confirmed" });
+          }
+        } catch (err) {
+          console.error("handoff confirmation error", err);
+        }
+      } else {
+        await updateRequest(conversationId, { status: "pending", agentId: null });
+      }
     }
 
     const triggerPattern = /\b(human|agent|representative)\b/i;
