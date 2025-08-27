@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
-import { listAgents, updateConversation } from "@/lib/chatwoot";
-import { sendBotMessage } from "@/lib/chatwootBot";
+import { listAgents } from "@/lib/chatwoot";
+import {
+  sendBotMessage,
+  assignConversation,
+  toggleConversationStatus,
+} from "@/lib/chatwootBot";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
+import { toResponseMessage } from "@/lib/utils/toResponseMessage";
 
 export async function POST(request: Request) {
   try {
@@ -51,14 +56,12 @@ export async function POST(request: Request) {
     if (triggerPattern.test(content)) {
       try {
         const agents = await listAgents(accountId);
-        const onlineAgent = agents?.data?.find(
+        const onlineAgent = agents.find(
           (a: any) => a.availability_status === "online"
         );
         if (onlineAgent) {
-          await updateConversation(accountId, conversationId, {
-            status: "open",
-            assignee_id: onlineAgent.id,
-          });
+          await toggleConversationStatus(accountId, conversationId, "open");
+          await assignConversation(accountId, conversationId, onlineAgent.id);
           await sendBotMessage(
             accountId,
             conversationId,
@@ -82,12 +85,7 @@ export async function POST(request: Request) {
     try {
       let replyText = "";
       const events = getProvider(undefined)(
-        [
-          {
-            role: "user",
-            content: [{ type: "input_text", text: content }],
-          },
-        ],
+        [toResponseMessage("user", content)],
         tools,
         {}
       );
