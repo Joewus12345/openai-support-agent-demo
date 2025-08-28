@@ -6,8 +6,10 @@ export async function enqueueRequest(
   status: HandoffRequestStatus = "pending",
   agentId?: number
 ) {
-  return prisma.handoffRequest.create({
-    data: { conversationId, status, agentId },
+  return prisma.handoffRequest.upsert({
+    where: { conversationId },
+    update: { status, agentId },
+    create: { conversationId, status, agentId },
   });
 }
 

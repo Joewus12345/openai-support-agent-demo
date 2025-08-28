@@ -51,7 +51,8 @@ export namespace $Enums {
   export const HandoffRequestStatus: {
   pending: 'pending',
   awaiting_confirmation: 'awaiting_confirmation',
-  assigned: 'assigned'
+  assigned: 'assigned',
+  expired: 'expired'
 };
 
 export type HandoffRequestStatus = (typeof HandoffRequestStatus)[keyof typeof HandoffRequestStatus]

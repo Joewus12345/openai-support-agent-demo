@@ -69,14 +69,19 @@ export async function POST(request: Request) {
                 await sendBotMessage(
                   accountId,
                   request.conversationId,
-                  "A human agent is available. Reply 'yes' within 2 minutes to connect."
+                  "An agent is now available—reply within 2 minutes to connect."
                 );
                 setTimeout(async () => {
                   try {
-                    await updateRequest(request.conversationId, {
-                      status: "pending",
-                      agentId: null,
+                    const current = await prisma.handoffRequest.findUnique({
+                      where: { conversationId: request.conversationId },
                     });
+                    if (current?.status === "awaiting_confirmation") {
+                      await updateRequest(request.conversationId, {
+                        status: "expired",
+                        agentId: null,
+                      });
+                    }
                   } catch (err) {
                     console.error("handoff confirmation timeout", err);
                   }
@@ -195,7 +200,7 @@ export async function POST(request: Request) {
           console.error("handoff confirmation error", err);
         }
       } else {
-        await updateRequest(conversationId, { status: "pending", agentId: null });
+        await updateRequest(conversationId, { status: "expired", agentId: null });
       }
     }
 

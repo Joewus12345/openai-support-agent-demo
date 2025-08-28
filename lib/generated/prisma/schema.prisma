@@ -69,6 +69,7 @@ enum HandoffRequestStatus {
   pending
   awaiting_confirmation
   assigned
+  expired
 }
 
 model HandoffRequest {
