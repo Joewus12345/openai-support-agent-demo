@@ -12,6 +12,7 @@ import {
   toggleConversationStatus,
   getConversation,
   setConversationLabels,
+  getConversationLabels,
 } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
@@ -56,12 +57,16 @@ export async function POST(request: Request) {
       }
 
       if (status !== "open") {
-        if (status === "resolved") {
-          try {
-            await setConversationLabels(accountId, conversationId, []);
-          } catch (err) {
-            console.error("clear labels error", err);
-          }
+        try {
+          const current = await getConversationLabels(accountId, conversationId);
+          const labels = Array.isArray((current as any)?.payload)
+            ? (current as any).payload.filter(
+                (l: string) => l !== CONVO_LABELS.assigned
+              )
+            : [];
+          await setConversationLabels(accountId, conversationId, labels);
+        } catch (err) {
+          console.error("remove assigned label error", err);
         }
         try {
           const assignment = await prisma.agentAssignment.findFirst({
@@ -75,14 +80,14 @@ export async function POST(request: Request) {
           if (request) {
             if (handoffStrategy.value === "confirm") {
               try {
+                await setConversationLabels(accountId, request.conversationId, [
+                  CONVO_LABELS.awaiting,
+                ]);
                 await sendBotMessage(
                   accountId,
                   request.conversationId,
                   "An agent is now available—reply within 2 minutes to connect."
                 );
-                await setConversationLabels(accountId, request.conversationId, [
-                  CONVO_LABELS.awaiting,
-                ]);
                 setTimeout(async () => {
                   try {
                     const current = await prisma.handoffRequest.findUnique({
@@ -114,6 +119,9 @@ export async function POST(request: Request) {
                 if (nextInboxId !== undefined) {
                   const agent = await getNextAgent(nextInboxId);
                   if (agent) {
+                    await setConversationLabels(accountId, request.conversationId, [
+                      CONVO_LABELS.assigned,
+                    ]);
                     await toggleConversationStatus(
                       accountId,
                       request.conversationId,
@@ -134,9 +142,6 @@ export async function POST(request: Request) {
                       request.conversationId,
                       "A human agent will join shortly."
                     );
-                    await setConversationLabels(accountId, request.conversationId, [
-                      CONVO_LABELS.assigned,
-                    ]);
                   }
                 }
               } catch (err) {
@@ -247,14 +252,14 @@ export async function POST(request: Request) {
           ]);
         } else {
           await enqueueRequest(conversationId);
+          await setConversationLabels(accountId, conversationId, [
+            CONVO_LABELS.waiting,
+          ]);
           await sendBotMessage(
             accountId,
             conversationId,
             "All human agents are currently busy. Please wait for the next available agent."
           );
-          await setConversationLabels(accountId, conversationId, [
-            CONVO_LABELS.waiting,
-          ]);
         }
       } catch (err) {
         console.error("agent escalation error", err);
