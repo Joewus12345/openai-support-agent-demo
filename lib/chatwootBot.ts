@@ -24,11 +24,15 @@ async function chatwootBotFetch(path: string, init: RequestInit = {}) {
     api_access_token: CHATWOOT_BOT_TOKEN,
     ...(init.headers || {}),
   } as Record<string, string>;
+  const { method = "GET", body } = init;
+  console.info("[chatwoot]", method, url, body);
   const res = await fetch(url, { ...init, headers });
+  const text = await res.text();
   if (!res.ok) {
-    throw new Error(`Chatwoot bot request failed: ${res.status}`);
+    console.error("[chatwoot]", res.status, text);
+    throw new Error(`Chatwoot request failed: ${res.status}`);
   }
-  return res.json();
+  return JSON.parse(text || "{}");
 }
 
 export async function sendBotMessage(
