@@ -1,20 +1,193 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
-import { listAgents } from "@/lib/chatwoot";
+import prisma from "@/lib/prisma";
+import {
+  getNextAgent,
+  setActiveConversation,
+  clearActiveConversation,
+} from "@/lib/agentRotation";
 import {
   sendBotMessage,
   assignConversation,
   toggleConversationStatus,
+  getConversation,
+  setConversationLabels,
+  getConversationLabels,
 } from "@/lib/chatwootBot";
+import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
 import { toResponseMessage } from "@/lib/utils/toResponseMessage";
+import {
+  enqueueRequest,
+  dequeueRequest,
+  updateRequest,
+} from "@/lib/handoffQueue";
+import { handoffStrategy } from "@/config/handoffStrategy";
 
 export async function POST(request: Request) {
   try {
     const incoming = (await request.json()) as any;
     const payload: ChatwootEvent = incoming.data ?? incoming;
+
+    if (incoming.event === "conversation_status_changed") {
+      const conversation: Conversation | undefined = payload.conversation;
+      const accountId =
+        payload.account?.id ?? (payload as any)?.account_id;
+      const conversationId =
+        conversation?.id ?? (payload as any)?.conversation_id;
+      let status =
+        (conversation as any)?.status ?? (payload as any)?.status;
+
+      if (accountId === undefined || conversationId === undefined) {
+        return NextResponse.json(
+          { error: "Invalid payload" },
+          { status: 400 }
+        );
+      }
+
+      if (!status) {
+        try {
+          const convo = await getConversation(accountId, conversationId);
+          status = convo?.status;
+        } catch (err) {
+          console.error("fetch conversation error", err);
+        }
+      }
+
+      if (status !== "open") {
+        try {
+          const current = await getConversationLabels(accountId, conversationId);
+          const labels = Array.isArray((current as any)?.payload)
+            ? (current as any).payload.filter(
+                (l: string) => l !== CONVO_LABELS.assigned
+              )
+            : [];
+          await setConversationLabels(accountId, conversationId, labels);
+        } catch (err) {
+          console.error("remove assigned label error", err);
+        }
+        try {
+          const assignment = await prisma.agentAssignment.findFirst({
+            where: { activeConversationId: conversationId },
+          });
+          if (assignment?.agentId) {
+            await clearActiveConversation(assignment.agentId);
+          }
+
+          const request = await dequeueRequest();
+          if (request) {
+          if (handoffStrategy.value === "confirm") {
+            try {
+              const current = await getConversationLabels(
+                accountId,
+                request.conversationId
+              );
+              const labels = Array.isArray((current as any)?.payload)
+                ? Array.from(
+                    new Set([
+                      ...(current as any).payload,
+                      CONVO_LABELS.awaiting,
+                    ])
+                  )
+                : [CONVO_LABELS.awaiting];
+              await setConversationLabels(
+                accountId,
+                request.conversationId,
+                labels
+              );
+              await sendBotMessage(
+                accountId,
+                request.conversationId,
+                "An agent is now available—reply within 2 minutes to connect."
+              );
+              setTimeout(async () => {
+                try {
+                  const current = await prisma.handoffRequest.findUnique({
+                    where: { conversationId: request.conversationId },
+                  });
+                  if (current?.status === "awaiting_confirmation") {
+                    await updateRequest(request.conversationId, {
+                      status: "expired",
+                      agentId: null,
+                    });
+                    const existing = await getConversationLabels(
+                      accountId,
+                      request.conversationId
+                    );
+                    const labels = Array.isArray((existing as any)?.payload)
+                      ? Array.from(
+                          new Set(
+                            [
+                              ...(existing as any).payload.filter(
+                                (l: string) => l !== CONVO_LABELS.awaiting
+                              ),
+                              CONVO_LABELS.expired,
+                            ]
+                          )
+                        )
+                      : [CONVO_LABELS.expired];
+                    await setConversationLabels(
+                      accountId,
+                      request.conversationId,
+                      labels
+                    );
+                  }
+                } catch (err) {
+                  console.error("handoff confirmation timeout", err);
+                }
+              }, 2 * 60 * 1000);
+            } catch (err) {
+              console.error("handoff confirmation message error", err);
+            }
+          } else {
+              try {
+                const nextConv = await getConversation(
+                  accountId,
+                  request.conversationId
+                );
+                const nextInboxId = nextConv?.inbox_id;
+                if (nextInboxId !== undefined) {
+                  const agent = await getNextAgent(nextInboxId);
+                  if (agent) {
+                    await setConversationLabels(accountId, request.conversationId, [
+                      CONVO_LABELS.assigned,
+                    ]);
+                    await toggleConversationStatus(
+                      accountId,
+                      request.conversationId,
+                      "open"
+                    );
+                    await assignConversation(
+                      accountId,
+                      request.conversationId,
+                      agent.id
+                    );
+                    await setActiveConversation(agent.id, request.conversationId);
+                    await updateRequest(request.conversationId, {
+                      status: "assigned",
+                      agentId: agent.id,
+                    });
+                    await sendBotMessage(
+                      accountId,
+                      request.conversationId,
+                      "A human agent will join shortly."
+                    );
+                  }
+                }
+              } catch (err) {
+                console.error("handoff queue processing error", err);
+              }
+            }
+          }
+        } catch (err) {
+          console.error("conversation status change handling error", err);
+        }
+      }
+
+      return NextResponse.json({ status: "handled" });
+    }
 
     if (incoming.event !== "message_created") {
       return NextResponse.json({ status: "ignored" });
@@ -52,26 +225,100 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
+    const existingRequest = await prisma.handoffRequest.findUnique({
+      where: { conversationId },
+    });
+    if (
+      handoffStrategy.value === "confirm" &&
+      existingRequest?.status === "awaiting_confirmation"
+    ) {
+      const confirmPattern = /\b(yes|y|sure|confirm|ok)\b/i;
+      if (confirmPattern.test(content)) {
+        try {
+          const agent = await getNextAgent(inboxId);
+          if (agent) {
+            await toggleConversationStatus(accountId, conversationId, "open");
+            await assignConversation(accountId, conversationId, agent.id);
+            await setActiveConversation(agent.id, conversationId);
+            await updateRequest(conversationId, {
+              status: "assigned",
+              agentId: agent.id,
+            });
+            await sendBotMessage(
+              accountId,
+              conversationId,
+              "A human agent will join shortly."
+            );
+            const current = await getConversationLabels(
+              accountId,
+              conversationId
+            );
+            const labels = Array.isArray((current as any)?.payload)
+              ? Array.from(
+                  new Set(
+                    [
+                      ...(current as any).payload.filter(
+                        (l: string) => l !== CONVO_LABELS.awaiting
+                      ),
+                      CONVO_LABELS.assigned,
+                    ]
+                  )
+                )
+              : [CONVO_LABELS.assigned];
+            await setConversationLabels(accountId, conversationId, labels);
+            return NextResponse.json({ status: "handoff_confirmed" });
+          }
+        } catch (err) {
+          console.error("handoff confirmation error", err);
+        }
+      } else {
+        await updateRequest(conversationId, {
+          status: "expired",
+          agentId: null,
+        });
+        const current = await getConversationLabels(accountId, conversationId);
+        const labels = Array.isArray((current as any)?.payload)
+          ? Array.from(
+              new Set(
+                [
+                  ...(current as any).payload.filter(
+                    (l: string) => l !== CONVO_LABELS.awaiting
+                  ),
+                  CONVO_LABELS.expired,
+                ]
+              )
+            )
+          : [CONVO_LABELS.expired];
+        await setConversationLabels(accountId, conversationId, labels);
+      }
+    }
+
     const triggerPattern = /\b(human|agent|representative)\b/i;
     if (triggerPattern.test(content)) {
       try {
-        const agents = await listAgents(accountId);
-        const onlineAgent = agents.find(
-          (a: any) => a.availability_status === "online"
-        );
-        if (onlineAgent) {
+        const agent = await getNextAgent(inboxId);
+        if (agent) {
+          await enqueueRequest(conversationId, "assigned", agent.id);
           await toggleConversationStatus(accountId, conversationId, "open");
-          await assignConversation(accountId, conversationId, onlineAgent.id);
+          await assignConversation(accountId, conversationId, agent.id);
+          await setActiveConversation(agent.id, conversationId);
           await sendBotMessage(
             accountId,
             conversationId,
             "A human agent will join shortly."
           );
+          await setConversationLabels(accountId, conversationId, [
+            CONVO_LABELS.assigned,
+          ]);
         } else {
+          await enqueueRequest(conversationId);
+          await setConversationLabels(accountId, conversationId, [
+            CONVO_LABELS.waiting,
+          ]);
           await sendBotMessage(
             accountId,
             conversationId,
-            "No human agents are currently available."
+            "All human agents are currently busy. Please wait for the next available agent."
           );
         }
       } catch (err) {

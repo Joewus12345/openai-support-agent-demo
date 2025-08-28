@@ -57,3 +57,26 @@ model Ticket {
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?
 }
+
+model AgentAssignment {
+  inboxId             Int
+  agentId             Int
+  lastAssignedAt      DateTime?
+  activeConversationId Int?
+
+  @@id([inboxId, agentId])
+}
+
+enum HandoffRequestStatus {
+  pending
+  awaiting_confirmation
+  assigned
+  expired
+}
+
+model HandoffRequest {
+  conversationId Int @id
+  requestedAt   DateTime           @default(now())
+  status        HandoffRequestStatus @default(pending)
+  agentId       Int?
+}
