@@ -350,6 +350,30 @@ export async function POST(request: Request) {
 
     const triggerPattern = /\b(human|agent|representative)\b/i;
     if (triggerPattern.test(content)) {
+      console.info("handoff", {
+        step: "get-conversation",
+        accountId,
+        conversationId,
+      });
+      let currentConversation;
+      try {
+        currentConversation = await getConversation(accountId, conversationId);
+        console.info("handoff", "conversation fetched", currentConversation);
+      } catch (err) {
+        console.error("handoff", "conversation fetch error", err);
+        return NextResponse.json(
+          { error: "Failed to fetch conversation for escalation" },
+          { status: 500 }
+        );
+      }
+      if (!currentConversation) {
+        console.error("handoff", "conversation not found");
+        return NextResponse.json(
+          { error: "Conversation not found" },
+          { status: 404 }
+        );
+      }
+
       try {
         const agent = await getNextAgent(inboxId);
         if (agent) {
