@@ -11,7 +11,9 @@ import {
   assignConversation,
   toggleConversationStatus,
   getConversation,
+  setConversationLabels,
 } from "@/lib/chatwootBot";
+import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
@@ -54,6 +56,13 @@ export async function POST(request: Request) {
       }
 
       if (status !== "open") {
+        if (status === "resolved") {
+          try {
+            await setConversationLabels(accountId, conversationId, []);
+          } catch (err) {
+            console.error("clear labels error", err);
+          }
+        }
         try {
           const assignment = await prisma.agentAssignment.findFirst({
             where: { activeConversationId: conversationId },
@@ -71,6 +80,9 @@ export async function POST(request: Request) {
                   request.conversationId,
                   "An agent is now available—reply within 2 minutes to connect."
                 );
+                await setConversationLabels(accountId, request.conversationId, [
+                  CONVO_LABELS.awaiting,
+                ]);
                 setTimeout(async () => {
                   try {
                     const current = await prisma.handoffRequest.findUnique({
@@ -81,6 +93,9 @@ export async function POST(request: Request) {
                         status: "expired",
                         agentId: null,
                       });
+                      await setConversationLabels(accountId, request.conversationId, [
+                        CONVO_LABELS.expired,
+                      ]);
                     }
                   } catch (err) {
                     console.error("handoff confirmation timeout", err);
@@ -119,6 +134,9 @@ export async function POST(request: Request) {
                       request.conversationId,
                       "A human agent will join shortly."
                     );
+                    await setConversationLabels(accountId, request.conversationId, [
+                      CONVO_LABELS.assigned,
+                    ]);
                   }
                 }
               } catch (err) {
@@ -194,6 +212,9 @@ export async function POST(request: Request) {
               conversationId,
               "A human agent will join shortly."
             );
+            await setConversationLabels(accountId, conversationId, [
+              CONVO_LABELS.assigned,
+            ]);
             return NextResponse.json({ status: "handoff_confirmed" });
           }
         } catch (err) {
@@ -201,6 +222,9 @@ export async function POST(request: Request) {
         }
       } else {
         await updateRequest(conversationId, { status: "expired", agentId: null });
+        await setConversationLabels(accountId, conversationId, [
+          CONVO_LABELS.expired,
+        ]);
       }
     }
 
@@ -218,6 +242,9 @@ export async function POST(request: Request) {
             conversationId,
             "A human agent will join shortly."
           );
+          await setConversationLabels(accountId, conversationId, [
+            CONVO_LABELS.assigned,
+          ]);
         } else {
           await enqueueRequest(conversationId);
           await sendBotMessage(
@@ -225,6 +252,9 @@ export async function POST(request: Request) {
             conversationId,
             "All human agents are currently busy. Please wait for the next available agent."
           );
+          await setConversationLabels(accountId, conversationId, [
+            CONVO_LABELS.waiting,
+          ]);
         }
       } catch (err) {
         console.error("agent escalation error", err);
