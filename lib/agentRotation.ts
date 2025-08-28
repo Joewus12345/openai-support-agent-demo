@@ -18,27 +18,56 @@ export async function getNextAgent(
     return null;
   }
 
-  const assignment = await prisma.agentAssignment.findUnique({
+  const existing = await prisma.agentAssignment.findMany({
     where: { inboxId },
   });
-  const lastAgentId = assignment?.agentId;
-  let nextIndex = 0;
-  if (lastAgentId !== undefined && lastAgentId !== null) {
-    const lastIndex = onlineAgents.findIndex((a) => a.id === lastAgentId);
-    if (lastIndex >= 0) {
-      nextIndex = (lastIndex + 1) % onlineAgents.length;
-    }
+  const onlineIds = new Set(onlineAgents.map((a) => a.id));
+  const existingIds = new Set(existing.map((a) => a.agentId));
+
+  const newAgents = onlineAgents.filter((a) => !existingIds.has(a.id));
+  if (newAgents.length > 0) {
+    await prisma.agentAssignment.createMany({
+      data: newAgents.map((a) => ({
+        inboxId,
+        agentId: a.id,
+        lastAssignedAt: new Date(0),
+      })),
+    });
   }
 
-  const nextAgent = onlineAgents[nextIndex];
-  await prisma.agentAssignment.upsert({
+  const offlineIds = existing
+    .filter((a) => !onlineIds.has(a.agentId))
+    .map((a) => a.agentId);
+  if (offlineIds.length > 0) {
+    await prisma.agentAssignment.deleteMany({
+      where: {
+        inboxId,
+        agentId: { in: offlineIds },
+      },
+    });
+  }
+
+  const nextAssignment = await prisma.agentAssignment.findFirst({
     where: { inboxId },
-    update: { agentId: nextAgent.id, lastAssignedAt: new Date() },
-    create: {
-      inboxId,
-      agentId: nextAgent.id,
-      lastAssignedAt: new Date(),
+    orderBy: { lastAssignedAt: "asc" },
+  });
+  if (!nextAssignment) {
+    return null;
+  }
+
+  const nextAgent = onlineAgents.find((a) => a.id === nextAssignment.agentId);
+  if (!nextAgent) {
+    return null;
+  }
+
+  await prisma.agentAssignment.update({
+    where: {
+      inboxId_agentId: {
+        inboxId,
+        agentId: nextAssignment.agentId,
+      },
     },
+    data: { lastAssignedAt: new Date() },
   });
 
   return nextAgent;

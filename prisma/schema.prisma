@@ -59,10 +59,12 @@ model Ticket {
 }
 
 model AgentAssignment {
-  inboxId             Int      @id
-  agentId             Int?
+  inboxId             Int
+  agentId             Int
   lastAssignedAt      DateTime?
   activeConversationId Int?
+
+  @@id([inboxId, agentId])
 }
 
 enum HandoffRequestStatus {

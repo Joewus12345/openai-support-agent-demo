@@ -5984,7 +5984,7 @@ export namespace Prisma {
 
   export type AgentAssignmentGroupByOutputType = {
     inboxId: number
-    agentId: number | null
+    agentId: number
     lastAssignedAt: Date | null
     activeConversationId: number | null
     _count: AgentAssignmentCountAggregateOutputType | null
@@ -6043,7 +6043,7 @@ export namespace Prisma {
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       inboxId: number
-      agentId: number | null
+      agentId: number
       lastAssignedAt: Date | null
       activeConversationId: number | null
     }, ExtArgs["result"]["agentAssignment"]>
@@ -8332,31 +8332,32 @@ export namespace Prisma {
     OR?: AgentAssignmentWhereInput[]
     NOT?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
     inboxId?: IntFilter<"AgentAssignment"> | number
-    agentId?: IntNullableFilter<"AgentAssignment"> | number | null
+    agentId?: IntFilter<"AgentAssignment"> | number
     lastAssignedAt?: DateTimeNullableFilter<"AgentAssignment"> | Date | string | null
     activeConversationId?: IntNullableFilter<"AgentAssignment"> | number | null
   }
 
   export type AgentAssignmentOrderByWithRelationInput = {
     inboxId?: SortOrder
-    agentId?: SortOrderInput | SortOrder
+    agentId?: SortOrder
     lastAssignedAt?: SortOrderInput | SortOrder
     activeConversationId?: SortOrderInput | SortOrder
   }
 
   export type AgentAssignmentWhereUniqueInput = Prisma.AtLeast<{
-    inboxId?: number
+    inboxId_agentId?: AgentAssignmentInboxIdAgentIdCompoundUniqueInput
     AND?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
     OR?: AgentAssignmentWhereInput[]
     NOT?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
-    agentId?: IntNullableFilter<"AgentAssignment"> | number | null
+    inboxId?: IntFilter<"AgentAssignment"> | number
+    agentId?: IntFilter<"AgentAssignment"> | number
     lastAssignedAt?: DateTimeNullableFilter<"AgentAssignment"> | Date | string | null
     activeConversationId?: IntNullableFilter<"AgentAssignment"> | number | null
-  }, "inboxId">
+  }, "inboxId_agentId">
 
   export type AgentAssignmentOrderByWithAggregationInput = {
     inboxId?: SortOrder
-    agentId?: SortOrderInput | SortOrder
+    agentId?: SortOrder
     lastAssignedAt?: SortOrderInput | SortOrder
     activeConversationId?: SortOrderInput | SortOrder
     _count?: AgentAssignmentCountOrderByAggregateInput
@@ -8371,7 +8372,7 @@ export namespace Prisma {
     OR?: AgentAssignmentScalarWhereWithAggregatesInput[]
     NOT?: AgentAssignmentScalarWhereWithAggregatesInput | AgentAssignmentScalarWhereWithAggregatesInput[]
     inboxId?: IntWithAggregatesFilter<"AgentAssignment"> | number
-    agentId?: IntNullableWithAggregatesFilter<"AgentAssignment"> | number | null
+    agentId?: IntWithAggregatesFilter<"AgentAssignment"> | number
     lastAssignedAt?: DateTimeNullableWithAggregatesFilter<"AgentAssignment"> | Date | string | null
     activeConversationId?: IntNullableWithAggregatesFilter<"AgentAssignment"> | number | null
   }
@@ -8695,49 +8696,49 @@ export namespace Prisma {
 
   export type AgentAssignmentCreateInput = {
     inboxId: number
-    agentId?: number | null
+    agentId: number
     lastAssignedAt?: Date | string | null
     activeConversationId?: number | null
   }
 
   export type AgentAssignmentUncheckedCreateInput = {
     inboxId: number
-    agentId?: number | null
+    agentId: number
     lastAssignedAt?: Date | string | null
     activeConversationId?: number | null
   }
 
   export type AgentAssignmentUpdateInput = {
     inboxId?: IntFieldUpdateOperationsInput | number
-    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type AgentAssignmentUncheckedUpdateInput = {
     inboxId?: IntFieldUpdateOperationsInput | number
-    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type AgentAssignmentCreateManyInput = {
     inboxId: number
-    agentId?: number | null
+    agentId: number
     lastAssignedAt?: Date | string | null
     activeConversationId?: number | null
   }
 
   export type AgentAssignmentUpdateManyMutationInput = {
     inboxId?: IntFieldUpdateOperationsInput | number
-    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type AgentAssignmentUncheckedUpdateManyInput = {
     inboxId?: IntFieldUpdateOperationsInput | number
-    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -9156,6 +9157,11 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type AgentAssignmentInboxIdAgentIdCompoundUniqueInput = {
+    inboxId: number
+    agentId: number
   }
 
   export type AgentAssignmentCountOrderByAggregateInput = {
