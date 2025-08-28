@@ -26,7 +26,7 @@ export async function dequeueRequest() {
 
 export async function updateRequest(
   conversationId: number,
-  data: { status?: HandoffRequestStatus; agentId?: number }
+  data: { status?: HandoffRequestStatus; agentId?: number | null }
 ) {
   return prisma.handoffRequest.update({
     where: { conversationId },
