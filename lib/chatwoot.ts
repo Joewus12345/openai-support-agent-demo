@@ -7,11 +7,15 @@ async function chatwootFetch(path: string, init: RequestInit = {}) {
     "api_access_token": CHATWOOT_TOKEN,
     ...(init.headers || {}),
   } as Record<string, string>;
+  const { method = "GET", body } = init;
+  console.info("[chatwoot]", method, url, body);
   const res = await fetch(url, { ...init, headers });
+  const text = await res.text();
   if (!res.ok) {
+    console.error("[chatwoot]", res.status, text);
     throw new Error(`Chatwoot request failed: ${res.status}`);
   }
-  return res.json();
+  return JSON.parse(text || "{}");
 }
 
 export async function sendMessage(
