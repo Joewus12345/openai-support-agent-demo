@@ -95,11 +95,16 @@ The steps below show how to build and run each container manually.
    REDIS_URL=redis://localhost:6379
    SESSION_RETENTION_DAYS=30 # How many days to retain ended sessions
    CHATWOOT_URL=https://e245e7cb03bc.ngrok-free.app
-   CHATWOOT_APP_TOKEN=<chatwoot-app-token>
-   CHATWOOT_BOT_TOKEN=<bot access token>
-  ```
+CHATWOOT_APP_TOKEN=<chatwoot-app-token>
+CHATWOOT_BOT_TOKEN=<bot access token>
+```
 
-   If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compose port`), first determine the host port and then point `REDIS_URL` to it:
+When running this service inside Docker, `CHATWOOT_URL` must be a fully
+qualified address reachable from the container (for example, a public
+ngrok or Cloudflare Tunnel URL) so that the agent can resolve the
+Chatwoot instance.
+
+If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compose port`), first determine the host port and then point `REDIS_URL` to it:
 
    ```bash
    docker compose port redis 6379
