@@ -13,6 +13,7 @@ import {
 import { Info } from "lucide-react";
 import Chat from "./Chat";
 import { Switch } from "./ui/switch";
+import HandoffStrategyToggle from "./HandoffStrategyToggle";
 
 export default function AgentView() {
   const {
@@ -99,6 +100,7 @@ export default function AgentView() {
             ))}
           </select>
         )}
+        <HandoffStrategyToggle />
       </div>
       <div className="w-full md:w-3/5">
         <Chat
