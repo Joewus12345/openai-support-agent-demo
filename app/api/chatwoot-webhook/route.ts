@@ -78,38 +78,70 @@ export async function POST(request: Request) {
 
           const request = await dequeueRequest();
           if (request) {
-            if (handoffStrategy.value === "confirm") {
-              try {
-                await setConversationLabels(accountId, request.conversationId, [
-                  CONVO_LABELS.awaiting,
-                ]);
-                await sendBotMessage(
-                  accountId,
-                  request.conversationId,
-                  "An agent is now available—reply within 2 minutes to connect."
-                );
-                setTimeout(async () => {
-                  try {
-                    const current = await prisma.handoffRequest.findUnique({
-                      where: { conversationId: request.conversationId },
+          if (handoffStrategy.value === "confirm") {
+            try {
+              const current = await getConversationLabels(
+                accountId,
+                request.conversationId
+              );
+              const labels = Array.isArray((current as any)?.payload)
+                ? Array.from(
+                    new Set([
+                      ...(current as any).payload,
+                      CONVO_LABELS.awaiting,
+                    ])
+                  )
+                : [CONVO_LABELS.awaiting];
+              await setConversationLabels(
+                accountId,
+                request.conversationId,
+                labels
+              );
+              await sendBotMessage(
+                accountId,
+                request.conversationId,
+                "An agent is now available—reply within 2 minutes to connect."
+              );
+              setTimeout(async () => {
+                try {
+                  const current = await prisma.handoffRequest.findUnique({
+                    where: { conversationId: request.conversationId },
+                  });
+                  if (current?.status === "awaiting_confirmation") {
+                    await updateRequest(request.conversationId, {
+                      status: "expired",
+                      agentId: null,
                     });
-                    if (current?.status === "awaiting_confirmation") {
-                      await updateRequest(request.conversationId, {
-                        status: "expired",
-                        agentId: null,
-                      });
-                      await setConversationLabels(accountId, request.conversationId, [
-                        CONVO_LABELS.expired,
-                      ]);
-                    }
-                  } catch (err) {
-                    console.error("handoff confirmation timeout", err);
+                    const existing = await getConversationLabels(
+                      accountId,
+                      request.conversationId
+                    );
+                    const labels = Array.isArray((existing as any)?.payload)
+                      ? Array.from(
+                          new Set(
+                            [
+                              ...(existing as any).payload.filter(
+                                (l: string) => l !== CONVO_LABELS.awaiting
+                              ),
+                              CONVO_LABELS.expired,
+                            ]
+                          )
+                        )
+                      : [CONVO_LABELS.expired];
+                    await setConversationLabels(
+                      accountId,
+                      request.conversationId,
+                      labels
+                    );
                   }
-                }, 2 * 60 * 1000);
-              } catch (err) {
-                console.error("handoff confirmation message error", err);
-              }
-            } else {
+                } catch (err) {
+                  console.error("handoff confirmation timeout", err);
+                }
+              }, 2 * 60 * 1000);
+            } catch (err) {
+              console.error("handoff confirmation message error", err);
+            }
+          } else {
               try {
                 const nextConv = await getConversation(
                   accountId,
@@ -217,19 +249,47 @@ export async function POST(request: Request) {
               conversationId,
               "A human agent will join shortly."
             );
-            await setConversationLabels(accountId, conversationId, [
-              CONVO_LABELS.assigned,
-            ]);
+            const current = await getConversationLabels(
+              accountId,
+              conversationId
+            );
+            const labels = Array.isArray((current as any)?.payload)
+              ? Array.from(
+                  new Set(
+                    [
+                      ...(current as any).payload.filter(
+                        (l: string) => l !== CONVO_LABELS.awaiting
+                      ),
+                      CONVO_LABELS.assigned,
+                    ]
+                  )
+                )
+              : [CONVO_LABELS.assigned];
+            await setConversationLabels(accountId, conversationId, labels);
             return NextResponse.json({ status: "handoff_confirmed" });
           }
         } catch (err) {
           console.error("handoff confirmation error", err);
         }
       } else {
-        await updateRequest(conversationId, { status: "expired", agentId: null });
-        await setConversationLabels(accountId, conversationId, [
-          CONVO_LABELS.expired,
-        ]);
+        await updateRequest(conversationId, {
+          status: "expired",
+          agentId: null,
+        });
+        const current = await getConversationLabels(accountId, conversationId);
+        const labels = Array.isArray((current as any)?.payload)
+          ? Array.from(
+              new Set(
+                [
+                  ...(current as any).payload.filter(
+                    (l: string) => l !== CONVO_LABELS.awaiting
+                  ),
+                  CONVO_LABELS.expired,
+                ]
+              )
+            )
+          : [CONVO_LABELS.expired];
+        await setConversationLabels(accountId, conversationId, labels);
       }
     }
 
