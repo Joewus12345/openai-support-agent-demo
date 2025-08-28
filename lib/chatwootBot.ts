@@ -1,5 +1,22 @@
 const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
 const CHATWOOT_BOT_TOKEN = process.env.CHATWOOT_BOT_TOKEN || "";
+const CHATWOOT_APP_TOKEN = process.env.CHATWOOT_APP_TOKEN || "";
+
+if (!CHATWOOT_URL) {
+  console.warn(
+    "CHATWOOT_URL is not set. Chatwoot integration will be disabled."
+  );
+}
+if (!CHATWOOT_BOT_TOKEN) {
+  console.warn(
+    "CHATWOOT_BOT_TOKEN is not set. Bot messaging and labeling will not work."
+  );
+}
+if (!CHATWOOT_APP_TOKEN) {
+  console.warn(
+    "CHATWOOT_APP_TOKEN is not set. Agent listing will be unavailable."
+  );
+}
 
 async function chatwootBotFetch(path: string, init: RequestInit = {}) {
   const url = `${CHATWOOT_URL}${path}`;
