@@ -10,10 +10,12 @@ import {
   sendBotMessage,
   assignConversation,
   toggleConversationStatus,
+} from "@/lib/chatwootBot";
+import {
   getConversation,
   setConversationLabels,
   getConversationLabels,
-} from "@/lib/chatwootBot";
+} from "@/lib/chatwoot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
@@ -78,82 +80,91 @@ export async function POST(request: Request) {
 
           const request = await dequeueRequest();
           if (request) {
-          if (handoffStrategy.value === "confirm") {
-            try {
-              const current = await getConversationLabels(
-                accountId,
-                request.conversationId
-              );
-              const labels = Array.isArray((current as any)?.payload)
-                ? Array.from(
-                    new Set([
-                      ...(current as any).payload,
-                      CONVO_LABELS.awaiting,
-                    ])
-                  )
-                : [CONVO_LABELS.awaiting];
-              await setConversationLabels(
-                accountId,
-                request.conversationId,
-                labels
-              );
-              await sendBotMessage(
-                accountId,
-                request.conversationId,
-                "An agent is now available—reply within 2 minutes to connect."
-              );
-              setTimeout(async () => {
-                try {
-                  const current = await prisma.handoffRequest.findUnique({
-                    where: { conversationId: request.conversationId },
-                  });
-                  if (current?.status === "awaiting_confirmation") {
-                    await updateRequest(request.conversationId, {
-                      status: "expired",
-                      agentId: null,
-                    });
-                    const existing = await getConversationLabels(
-                      accountId,
-                      request.conversationId
-                    );
-                    const labels = Array.isArray((existing as any)?.payload)
-                      ? Array.from(
-                          new Set(
-                            [
-                              ...(existing as any).payload.filter(
-                                (l: string) => l !== CONVO_LABELS.awaiting
-                              ),
-                              CONVO_LABELS.expired,
-                            ]
-                          )
-                        )
-                      : [CONVO_LABELS.expired];
-                    await setConversationLabels(
-                      accountId,
-                      request.conversationId,
-                      labels
-                    );
-                  }
-                } catch (err) {
-                  console.error("handoff confirmation timeout", err);
-                }
-              }, 2 * 60 * 1000);
-            } catch (err) {
-              console.error("handoff confirmation message error", err);
-            }
-          } else {
+            if (handoffStrategy.value === "confirm") {
               try {
-                const nextConv = await getConversation(
+                let labels = [CONVO_LABELS.awaiting];
+                try {
+                  const current = await getConversationLabels(
+                    accountId,
+                    request.conversationId
+                  );
+                  labels = Array.isArray((current as any)?.payload)
+                    ? Array.from(
+                        new Set([
+                          ...(current as any).payload,
+                          CONVO_LABELS.awaiting,
+                        ])
+                      )
+                    : [CONVO_LABELS.awaiting];
+                } catch (err) {
+                  console.error("fetch awaiting label error", err);
+                }
+                try {
+                  await setConversationLabels(
+                    accountId,
+                    request.conversationId,
+                    labels
+                  );
+                } catch (err) {
+                  console.error("set awaiting label error", err);
+                }
+                await sendBotMessage(
                   accountId,
-                  request.conversationId
+                  request.conversationId,
+                  "An agent is now available—reply within 2 minutes to connect."
                 );
-                const nextInboxId = nextConv?.inbox_id;
-                if (nextInboxId !== undefined) {
-                  const agent = await getNextAgent(nextInboxId);
+                setTimeout(async () => {
+                  try {
+                    const current = await prisma.handoffRequest.findUnique({
+                      where: { conversationId: request.conversationId },
+                    });
+                    if (current?.status === "awaiting_confirmation") {
+                      await updateRequest(request.conversationId, {
+                        status: "expired",
+                        agentId: null,
+                      });
+                      const existing = await getConversationLabels(
+                        accountId,
+                        request.conversationId
+                      );
+                      const labels = Array.isArray((existing as any)?.payload)
+                        ? Array.from(
+                            new Set(
+                              [
+                                ...(existing as any).payload.filter(
+                                  (l: string) => l !== CONVO_LABELS.awaiting
+                                ),
+                                CONVO_LABELS.expired,
+                              ]
+                            )
+                          )
+                        : [CONVO_LABELS.expired];
+                      await setConversationLabels(
+                        accountId,
+                        request.conversationId,
+                        labels
+                      );
+                    }
+                  } catch (err) {
+                    console.error("handoff confirmation timeout", err);
+                  }
+                }, 2 * 60 * 1000);
+              } catch (err) {
+                console.error("handoff confirmation message error", err);
+              }
+            } else {
+                try {
+                  const agent = await getNextAgent(accountId);
                   if (agent) {
-                    await setConversationLabels(accountId, request.conversationId, [
-                      CONVO_LABELS.assigned,
-                    ]);
+                    try {
+                      await setConversationLabels(
+                        accountId,
+                        request.conversationId,
+                        [CONVO_LABELS.assigned]
+                      );
+                    } catch (err) {
+                      console.error("set assigned label error", err);
+                    }
                     await toggleConversationStatus(
                       accountId,
                       request.conversationId,
@@ -175,11 +186,10 @@ export async function POST(request: Request) {
                       "A human agent will join shortly."
                     );
                   }
+                } catch (err) {
+                  console.error("handoff queue processing error", err);
                 }
-              } catch (err) {
-                console.error("handoff queue processing error", err);
               }
-            }
           }
         } catch (err) {
           console.error("conversation status change handling error", err);
@@ -237,7 +247,7 @@ export async function POST(request: Request) {
       const confirmPattern = /\b(yes|y|sure|confirm|ok)\b/i;
       if (confirmPattern.test(content)) {
         try {
-          const agent = await getNextAgent(inboxId);
+          const agent = await getNextAgent(accountId);
           if (agent) {
             console.info("handoff", { step: "toggle", accountId, conversationId });
             await toggleConversationStatus(accountId, conversationId, "open");
@@ -278,44 +288,53 @@ export async function POST(request: Request) {
               "A human agent will join shortly."
             );
             console.info("handoff", "message sent");
-            console.info("handoff", {
-              step: "get-labels",
-              accountId,
-              conversationId,
-            });
-            const current = await getConversationLabels(
-              accountId,
-              conversationId
-            );
-            console.info(
-              "handoff",
-              "labels fetched",
-              (current as any)?.payload
-            );
-            const labels = Array.isArray((current as any)?.payload)
-              ? Array.from(
-                  new Set(
-                    [
-                      ...(current as any).payload.filter(
-                        (l: string) => l !== CONVO_LABELS.awaiting
-                      ),
-                      CONVO_LABELS.assigned,
-                    ]
-                  )
-                )
-              : [CONVO_LABELS.assigned];
-            console.info("handoff", {
-              step: "set-labels",
-              accountId,
-              conversationId,
-            });
-            await setConversationLabels(accountId, conversationId, labels);
-            console.info("handoff", "labels set", labels);
-            return NextResponse.json({ status: "handoff_confirmed" });
+              let labels = [CONVO_LABELS.assigned];
+              try {
+                console.info("handoff", {
+                  step: "get-labels",
+                  accountId,
+                  conversationId,
+                });
+                const current = await getConversationLabels(
+                  accountId,
+                  conversationId
+                );
+                console.info(
+                  "handoff",
+                  "labels fetched",
+                  (current as any)?.payload
+                );
+                labels = Array.isArray((current as any)?.payload)
+                  ? Array.from(
+                      new Set(
+                        [
+                          ...(current as any).payload.filter(
+                            (l: string) => l !== CONVO_LABELS.awaiting
+                          ),
+                          CONVO_LABELS.assigned,
+                        ]
+                      )
+                    )
+                  : [CONVO_LABELS.assigned];
+              } catch (err) {
+                console.error("handoff fetch labels error", err);
+              }
+              console.info("handoff", {
+                step: "set-labels",
+                accountId,
+                conversationId,
+              });
+              try {
+                await setConversationLabels(accountId, conversationId, labels);
+                console.info("handoff", "labels set", labels);
+              } catch (err) {
+                console.error("handoff set labels error", err);
+              }
+              return NextResponse.json({ status: "handoff_confirmed" });
+            }
+          } catch (err) {
+            console.error("handoff confirmation error", err);
           }
-        } catch (err) {
-          console.error("handoff confirmation error", err);
-        }
       } else {
         console.info("handoff", { step: "update-request", conversationId });
         await updateRequest(conversationId, {
@@ -323,28 +342,37 @@ export async function POST(request: Request) {
           agentId: null,
         });
         console.info("handoff", "request updated");
-        console.info("handoff", { step: "get-labels", accountId, conversationId });
-        const current = await getConversationLabels(accountId, conversationId);
-        console.info(
-          "handoff",
-          "labels fetched",
-          (current as any)?.payload
-        );
-        const labels = Array.isArray((current as any)?.payload)
-          ? Array.from(
-              new Set(
-                [
-                  ...(current as any).payload.filter(
-                    (l: string) => l !== CONVO_LABELS.awaiting
-                  ),
-                  CONVO_LABELS.expired,
-                ]
+        let labels = [CONVO_LABELS.expired];
+        try {
+          console.info("handoff", { step: "get-labels", accountId, conversationId });
+          const current = await getConversationLabels(accountId, conversationId);
+          console.info(
+            "handoff",
+            "labels fetched",
+            (current as any)?.payload
+          );
+          labels = Array.isArray((current as any)?.payload)
+            ? Array.from(
+                new Set(
+                  [
+                    ...(current as any).payload.filter(
+                      (l: string) => l !== CONVO_LABELS.awaiting
+                    ),
+                    CONVO_LABELS.expired,
+                  ]
+                )
               )
-            )
-          : [CONVO_LABELS.expired];
+            : [CONVO_LABELS.expired];
+        } catch (err) {
+          console.error("handoff fetch labels error", err);
+        }
         console.info("handoff", { step: "set-labels", accountId, conversationId });
-        await setConversationLabels(accountId, conversationId, labels);
-        console.info("handoff", "labels set", labels);
+        try {
+          await setConversationLabels(accountId, conversationId, labels);
+          console.info("handoff", "labels set", labels);
+        } catch (err) {
+          console.error("handoff set labels error", err);
+        }
       }
     }
 
@@ -375,7 +403,7 @@ export async function POST(request: Request) {
       }
 
       try {
-        const agent = await getNextAgent(inboxId);
+        const agent = await getNextAgent(accountId);
         if (agent) {
           console.info("handoff", {
             step: "enqueue",
@@ -413,31 +441,39 @@ export async function POST(request: Request) {
             "A human agent will join shortly."
           );
           console.info("handoff", "message sent");
-          const labels = [CONVO_LABELS.assigned];
-          console.info("handoff", {
-            step: "set-labels",
-            accountId,
-            conversationId,
-          });
-          await setConversationLabels(accountId, conversationId, labels);
-          console.info("handoff", "labels set", labels);
+            const labels = [CONVO_LABELS.assigned];
+            console.info("handoff", {
+              step: "set-labels",
+              accountId,
+              conversationId,
+            });
+            try {
+              await setConversationLabels(accountId, conversationId, labels);
+              console.info("handoff", "labels set", labels);
+            } catch (err) {
+              console.error("handoff set labels error", err);
+            }
         } else {
           console.info("handoff", { step: "enqueue", conversationId });
           await enqueueRequest(conversationId);
           console.info("handoff", "request enqueued");
-          const labels = [CONVO_LABELS.waiting];
-          console.info("handoff", {
-            step: "set-labels",
-            accountId,
-            conversationId,
-          });
-          await setConversationLabels(accountId, conversationId, labels);
-          console.info("handoff", "labels set", labels);
-          console.info("handoff", {
-            step: "send-message",
-            accountId,
-            conversationId,
-          });
+            const labels = [CONVO_LABELS.waiting];
+            console.info("handoff", {
+              step: "set-labels",
+              accountId,
+              conversationId,
+            });
+            try {
+              await setConversationLabels(accountId, conversationId, labels);
+              console.info("handoff", "labels set", labels);
+            } catch (err) {
+              console.error("handoff set labels error", err);
+            }
+            console.info("handoff", {
+              step: "send-message",
+              accountId,
+              conversationId,
+            });
           await sendBotMessage(
             accountId,
             conversationId,

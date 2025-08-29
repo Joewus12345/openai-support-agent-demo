@@ -1,6 +1,5 @@
 const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
 const CHATWOOT_BOT_TOKEN = process.env.CHATWOOT_BOT_TOKEN || "";
-const CHATWOOT_APP_TOKEN = process.env.CHATWOOT_APP_TOKEN || "";
 
 if (!CHATWOOT_URL) {
   console.warn(
@@ -10,11 +9,6 @@ if (!CHATWOOT_URL) {
 if (!CHATWOOT_BOT_TOKEN) {
   console.warn(
     "CHATWOOT_BOT_TOKEN is not set. Bot messaging and labeling will not work."
-  );
-}
-if (!CHATWOOT_APP_TOKEN) {
-  console.warn(
-    "CHATWOOT_APP_TOKEN is not set. Agent listing will be unavailable."
   );
 }
 
@@ -51,16 +45,6 @@ export async function sendBotMessage(
   );
 }
 
-export async function getConversation(
-  accountId: number,
-  conversationId: number
-) {
-  return chatwootBotFetch(
-    `/api/v1/accounts/${accountId}/conversations/${conversationId}`,
-    { method: "GET" }
-  );
-}
-
 export async function assignConversation(
   accountId: number,
   conversationId: number,
@@ -91,37 +75,9 @@ export async function toggleConversationStatus(
   );
 }
 
-export async function setConversationLabels(
-  accountId: number,
-  conversationId: number,
-  labels: string[]
-) {
-  return chatwootBotFetch(
-    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ labels }),
-    }
-  );
-}
-
-export async function getConversationLabels(
-  accountId: number,
-  conversationId: number
-) {
-  return chatwootBotFetch(
-    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
-    { method: "GET" }
-  );
-}
-
 const chatwootBot = {
   sendBotMessage,
-  getConversation,
   assignConversation,
   toggleConversationStatus,
-  setConversationLabels,
-  getConversationLabels,
 };
 export default chatwootBot;
