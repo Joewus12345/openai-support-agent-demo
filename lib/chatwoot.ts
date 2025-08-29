@@ -65,11 +65,38 @@ export async function listAgents(accountId: number) {
   });
 }
 
+export async function setConversationLabels(
+  accountId: number,
+  conversationId: number,
+  labels: string[]
+) {
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ labels }),
+    }
+  );
+}
+
+export async function getConversationLabels(
+  accountId: number,
+  conversationId: number
+) {
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
+    { method: "GET" }
+  );
+}
+
 const chatwoot = {
   getConversation,
   sendMessage,
   updateConversation,
   listAgents,
+  setConversationLabels,
+  getConversationLabels,
 };
 export default chatwoot;
 

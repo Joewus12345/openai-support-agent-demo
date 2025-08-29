@@ -75,36 +75,9 @@ export async function toggleConversationStatus(
   );
 }
 
-export async function setConversationLabels(
-  accountId: number,
-  conversationId: number,
-  labels: string[]
-) {
-  return chatwootBotFetch(
-    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ labels }),
-    }
-  );
-}
-
-export async function getConversationLabels(
-  accountId: number,
-  conversationId: number
-) {
-  return chatwootBotFetch(
-    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
-    { method: "GET" }
-  );
-}
-
 const chatwootBot = {
   sendBotMessage,
   assignConversation,
   toggleConversationStatus,
-  setConversationLabels,
-  getConversationLabels,
 };
 export default chatwootBot;
