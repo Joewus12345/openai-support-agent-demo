@@ -11,6 +11,12 @@ export async function getNextAgent(
   inboxId: number
 ): Promise<AgentRecord | null> {
   const agents: AgentRecord[] = await listAgents(inboxId);
+  // Log agent availability to verify Chatwoot's status strings
+  console.info(
+    "[agentRotation] fetched agents",
+    agents.map((a) => ({ id: a.id, availability_status: a.availability_status }))
+  );
+  // Chatwoot marks active agents with "online" rather than "available"
   const onlineAgents = agents.filter(
     (a) => a.availability_status === "online"
   );

@@ -216,6 +216,8 @@ export async function POST(request: Request) {
       (payload as any)?.inbox_id;
     const content = message?.content;
 
+    console.info("handoff", { accountId, conversationId, inboxId, content });
+
     if (
       accountId === undefined ||
       conversationId === undefined ||
@@ -237,21 +239,58 @@ export async function POST(request: Request) {
         try {
           const agent = await getNextAgent(inboxId);
           if (agent) {
+            console.info("handoff", { step: "toggle", accountId, conversationId });
             await toggleConversationStatus(accountId, conversationId, "open");
+            console.info("handoff", "status toggled");
+            console.info("handoff", {
+              step: "assign",
+              accountId,
+              conversationId,
+              agentId: agent.id,
+            });
             await assignConversation(accountId, conversationId, agent.id);
+            console.info("handoff", "conversation assigned", agent.id);
+            console.info("handoff", {
+              step: "set-active",
+              agentId: agent.id,
+              conversationId,
+            });
             await setActiveConversation(agent.id, conversationId);
+            console.info("handoff", "active set", agent.id);
+            console.info("handoff", {
+              step: "update-request",
+              conversationId,
+              agentId: agent.id,
+            });
             await updateRequest(conversationId, {
               status: "assigned",
               agentId: agent.id,
+            });
+            console.info("handoff", "request updated");
+            console.info("handoff", {
+              step: "send-message",
+              accountId,
+              conversationId,
             });
             await sendBotMessage(
               accountId,
               conversationId,
               "A human agent will join shortly."
             );
+            console.info("handoff", "message sent");
+            console.info("handoff", {
+              step: "get-labels",
+              accountId,
+              conversationId,
+            });
             const current = await getConversationLabels(
               accountId,
               conversationId
+            );
+            console.info(
+              "handoff",
+              "labels fetched",
+              (current as any)?.payload
             );
             const labels = Array.isArray((current as any)?.payload)
               ? Array.from(
@@ -265,18 +304,32 @@ export async function POST(request: Request) {
                   )
                 )
               : [CONVO_LABELS.assigned];
+            console.info("handoff", {
+              step: "set-labels",
+              accountId,
+              conversationId,
+            });
             await setConversationLabels(accountId, conversationId, labels);
+            console.info("handoff", "labels set", labels);
             return NextResponse.json({ status: "handoff_confirmed" });
           }
         } catch (err) {
           console.error("handoff confirmation error", err);
         }
       } else {
+        console.info("handoff", { step: "update-request", conversationId });
         await updateRequest(conversationId, {
           status: "expired",
           agentId: null,
         });
+        console.info("handoff", "request updated");
+        console.info("handoff", { step: "get-labels", accountId, conversationId });
         const current = await getConversationLabels(accountId, conversationId);
+        console.info(
+          "handoff",
+          "labels fetched",
+          (current as any)?.payload
+        );
         const labels = Array.isArray((current as any)?.payload)
           ? Array.from(
               new Set(
@@ -289,37 +342,108 @@ export async function POST(request: Request) {
               )
             )
           : [CONVO_LABELS.expired];
+        console.info("handoff", { step: "set-labels", accountId, conversationId });
         await setConversationLabels(accountId, conversationId, labels);
+        console.info("handoff", "labels set", labels);
       }
     }
 
     const triggerPattern = /\b(human|agent|representative)\b/i;
     if (triggerPattern.test(content)) {
+      console.info("handoff", {
+        step: "get-conversation",
+        accountId,
+        conversationId,
+      });
+      let currentConversation;
+      try {
+        currentConversation = await getConversation(accountId, conversationId);
+        console.info("handoff", "conversation fetched", currentConversation);
+      } catch (err) {
+        console.error("handoff", "conversation fetch error", err);
+        return NextResponse.json(
+          { error: "Failed to fetch conversation for escalation" },
+          { status: 500 }
+        );
+      }
+      if (!currentConversation) {
+        console.error("handoff", "conversation not found");
+        return NextResponse.json(
+          { error: "Conversation not found" },
+          { status: 404 }
+        );
+      }
+
       try {
         const agent = await getNextAgent(inboxId);
         if (agent) {
+          console.info("handoff", {
+            step: "enqueue",
+            conversationId,
+            agentId: agent.id,
+          });
           await enqueueRequest(conversationId, "assigned", agent.id);
+          console.info("handoff", "request enqueued", agent.id);
+          console.info("handoff", { step: "toggle", accountId, conversationId });
           await toggleConversationStatus(accountId, conversationId, "open");
+          console.info("handoff", "status toggled");
+          console.info("handoff", {
+            step: "assign",
+            accountId,
+            conversationId,
+            agentId: agent.id,
+          });
           await assignConversation(accountId, conversationId, agent.id);
+          console.info("handoff", "conversation assigned", agent.id);
+          console.info("handoff", {
+            step: "set-active",
+            agentId: agent.id,
+            conversationId,
+          });
           await setActiveConversation(agent.id, conversationId);
+          console.info("handoff", "active set", agent.id);
+          console.info("handoff", {
+            step: "send-message",
+            accountId,
+            conversationId,
+          });
           await sendBotMessage(
             accountId,
             conversationId,
             "A human agent will join shortly."
           );
-          await setConversationLabels(accountId, conversationId, [
-            CONVO_LABELS.assigned,
-          ]);
+          console.info("handoff", "message sent");
+          const labels = [CONVO_LABELS.assigned];
+          console.info("handoff", {
+            step: "set-labels",
+            accountId,
+            conversationId,
+          });
+          await setConversationLabels(accountId, conversationId, labels);
+          console.info("handoff", "labels set", labels);
         } else {
+          console.info("handoff", { step: "enqueue", conversationId });
           await enqueueRequest(conversationId);
-          await setConversationLabels(accountId, conversationId, [
-            CONVO_LABELS.waiting,
-          ]);
+          console.info("handoff", "request enqueued");
+          const labels = [CONVO_LABELS.waiting];
+          console.info("handoff", {
+            step: "set-labels",
+            accountId,
+            conversationId,
+          });
+          await setConversationLabels(accountId, conversationId, labels);
+          console.info("handoff", "labels set", labels);
+          console.info("handoff", {
+            step: "send-message",
+            accountId,
+            conversationId,
+          });
           await sendBotMessage(
             accountId,
             conversationId,
             "All human agents are currently busy. Please wait for the next available agent."
           );
+          console.info("handoff", "message sent");
         }
       } catch (err) {
         console.error("agent escalation error", err);
