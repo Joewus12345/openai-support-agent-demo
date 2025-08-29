@@ -18,6 +18,16 @@ async function chatwootFetch(path: string, init: RequestInit = {}) {
   return JSON.parse(text || "{}");
 }
 
+export async function getConversation(
+  accountId: number,
+  conversationId: number
+) {
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}`,
+    { method: "GET" }
+  );
+}
+
 export async function sendMessage(
   accountId: number,
   conversationId: number,
@@ -55,5 +65,11 @@ export async function listAgents(accountId: number) {
   });
 }
 
-const chatwoot = { sendMessage, updateConversation, listAgents };
+const chatwoot = {
+  getConversation,
+  sendMessage,
+  updateConversation,
+  listAgents,
+};
 export default chatwoot;
+
