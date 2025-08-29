@@ -8,13 +8,13 @@ export interface AgentRecord {
 }
 
 export async function getNextAgent(
-  inboxId: number
+  accountId: number
 ): Promise<AgentRecord | null> {
-  const agents: AgentRecord[] = await listAgents(inboxId);
+  const agents: AgentRecord[] = await listAgents(accountId);
   // Log agent availability to verify Chatwoot's status strings
   console.info(
     "[agentRotation] fetched agents",
-    agents.map((a) => ({ id: a.id, availability_status: a.availability_status }))
+    { accountId, agents: agents.map((a) => ({ id: a.id, availability_status: a.availability_status })) }
   );
   // Chatwoot marks active agents with "online" rather than "available"
   const onlineAgents = agents.filter(
@@ -25,7 +25,7 @@ export async function getNextAgent(
   }
 
   const existing = await prisma.agentAssignment.findMany({
-    where: { inboxId },
+    where: { inboxId: accountId },
   });
   const onlineIds = new Set(onlineAgents.map((a) => a.id));
   const existingIds = new Set(existing.map((a) => a.agentId));
@@ -34,7 +34,7 @@ export async function getNextAgent(
   if (newAgents.length > 0) {
     await prisma.agentAssignment.createMany({
       data: newAgents.map((a) => ({
-        inboxId,
+        inboxId: accountId,
         agentId: a.id,
         lastAssignedAt: new Date(0),
       })),
@@ -47,14 +47,14 @@ export async function getNextAgent(
   if (offlineIds.length > 0) {
     await prisma.agentAssignment.deleteMany({
       where: {
-        inboxId,
+        inboxId: accountId,
         agentId: { in: offlineIds },
       },
     });
   }
 
   const nextAssignment = await prisma.agentAssignment.findFirst({
-    where: { inboxId },
+    where: { inboxId: accountId },
     orderBy: { lastAssignedAt: "asc" },
   });
   if (!nextAssignment) {
@@ -69,7 +69,7 @@ export async function getNextAgent(
   await prisma.agentAssignment.update({
     where: {
       inboxId_agentId: {
-        inboxId,
+        inboxId: accountId,
         agentId: nextAssignment.agentId,
       },
     },
