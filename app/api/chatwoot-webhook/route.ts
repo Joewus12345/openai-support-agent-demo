@@ -10,10 +10,10 @@ import {
   sendBotMessage,
   assignConversation,
   toggleConversationStatus,
-  getConversation,
   setConversationLabels,
   getConversationLabels,
 } from "@/lib/chatwootBot";
+import { getConversation } from "@/lib/chatwoot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
