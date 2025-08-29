@@ -143,38 +143,31 @@ export async function POST(request: Request) {
             }
           } else {
               try {
-                const nextConv = await getConversation(
-                  accountId,
-                  request.conversationId
-                );
-                const nextInboxId = nextConv?.inbox_id;
-                if (nextInboxId !== undefined) {
-                  const agent = await getNextAgent(nextInboxId);
-                  if (agent) {
-                    await setConversationLabels(accountId, request.conversationId, [
-                      CONVO_LABELS.assigned,
-                    ]);
-                    await toggleConversationStatus(
-                      accountId,
-                      request.conversationId,
-                      "open"
-                    );
-                    await assignConversation(
-                      accountId,
-                      request.conversationId,
-                      agent.id
-                    );
-                    await setActiveConversation(agent.id, request.conversationId);
-                    await updateRequest(request.conversationId, {
-                      status: "assigned",
-                      agentId: agent.id,
-                    });
-                    await sendBotMessage(
-                      accountId,
-                      request.conversationId,
-                      "A human agent will join shortly."
-                    );
-                  }
+                const agent = await getNextAgent(accountId);
+                if (agent) {
+                  await setConversationLabels(accountId, request.conversationId, [
+                    CONVO_LABELS.assigned,
+                  ]);
+                  await toggleConversationStatus(
+                    accountId,
+                    request.conversationId,
+                    "open"
+                  );
+                  await assignConversation(
+                    accountId,
+                    request.conversationId,
+                    agent.id
+                  );
+                  await setActiveConversation(agent.id, request.conversationId);
+                  await updateRequest(request.conversationId, {
+                    status: "assigned",
+                    agentId: agent.id,
+                  });
+                  await sendBotMessage(
+                    accountId,
+                    request.conversationId,
+                    "A human agent will join shortly."
+                  );
                 }
               } catch (err) {
                 console.error("handoff queue processing error", err);
@@ -237,7 +230,7 @@ export async function POST(request: Request) {
       const confirmPattern = /\b(yes|y|sure|confirm|ok)\b/i;
       if (confirmPattern.test(content)) {
         try {
-          const agent = await getNextAgent(inboxId);
+          const agent = await getNextAgent(accountId);
           if (agent) {
             console.info("handoff", { step: "toggle", accountId, conversationId });
             await toggleConversationStatus(accountId, conversationId, "open");
@@ -375,7 +368,7 @@ export async function POST(request: Request) {
       }
 
       try {
-        const agent = await getNextAgent(inboxId);
+        const agent = await getNextAgent(accountId);
         if (agent) {
           console.info("handoff", {
             step: "enqueue",
