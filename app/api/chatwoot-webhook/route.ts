@@ -363,7 +363,7 @@ export async function POST(request: Request) {
         private: mode !== "auto",
       });
     } catch (err) {
-      console.error("sendMessage error", err);
+      console.error("sendBotMessage error", err);
     }
 
     return NextResponse.json({

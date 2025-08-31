@@ -6,10 +6,10 @@ import {
   getConversation,
   getConversationLabels,
   updateAgentAvailability,
-  sendMessage,
   updateConversation,
   setConversationLabels,
 } from "@/lib/chatwoot";
+import { sendBotMessage } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
 
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
             status: "assigned",
             agentId: freedAgentId,
           });
-          await sendMessage(
+          await sendBotMessage(
             accountId,
             request.conversationId,
             "A human agent will join shortly."
