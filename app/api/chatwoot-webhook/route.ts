@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
-import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
+import {
+  getNextAgent,
+  setActiveConversation,
+  clearActiveConversation,
+} from "@/lib/agentRotation";
 import {
   sendBotMessage,
   assignConversation,
@@ -112,9 +116,15 @@ export async function POST(request: Request) {
             });
             await setActiveConversation(agent.id, conversationId);
             try {
-              await updateAgentAvailability(agent.id, "busy");
+              const response = await updateAgentAvailability(
+                accountId,
+                agent.id,
+                "busy"
+              );
+              console.info("set agent busy response", response);
             } catch (err) {
               console.error("set agent busy error", err);
+              await clearActiveConversation(agent.id);
             }
             console.info("handoff", "active set", agent.id);
             console.info("handoff", {
@@ -280,9 +290,15 @@ export async function POST(request: Request) {
           });
           await setActiveConversation(agent.id, conversationId);
           try {
-            await updateAgentAvailability(agent.id, "busy");
+            const response = await updateAgentAvailability(
+              accountId,
+              agent.id,
+              "busy"
+            );
+            console.info("set agent busy response", response);
           } catch (err) {
             console.error("set agent busy error", err);
+            await clearActiveConversation(agent.id);
           }
           console.info("handoff", "active set", agent.id);
           console.info("handoff", {
