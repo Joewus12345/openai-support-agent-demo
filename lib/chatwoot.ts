@@ -28,22 +28,6 @@ export async function getConversation(
   );
 }
 
-export async function sendMessage(
-  accountId: number,
-  conversationId: number,
-  content: string,
-  options: Record<string, any> = {}
-) {
-  return chatwootFetch(
-    `/api/v1/accounts/${accountId}/conversations/${conversationId}/messages`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content, message_type: "outgoing", ...options }),
-    }
-  );
-}
-
 export async function updateConversation(
   accountId: number,
   conversationId: number,
@@ -76,9 +60,16 @@ export async function updateAgentAvailability(
   agentId: number,
   availability_status: string
 ) {
+  console.info(
+    "[chatwoot] patch availability using CHATWOOT_APP_TOKEN",
+    { agentId, availability_status }
+  );
   return chatwootFetch(`/platform/api/v1/users/${agentId}`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      api_access_token: CHATWOOT_TOKEN,
+    },
     body: JSON.stringify({ availability_status }),
   });
 }
@@ -110,7 +101,6 @@ export async function setConversationLabels(
 
 const chatwoot = {
   getConversation,
-  sendMessage,
   updateConversation,
   listAgents,
   updateAgentAvailability,
