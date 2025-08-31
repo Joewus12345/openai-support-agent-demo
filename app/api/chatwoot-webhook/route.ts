@@ -1,20 +1,12 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
-import {
-  getNextAgent,
-  setActiveConversation,
-  clearActiveConversation,
-} from "@/lib/agentRotation";
-import {
-  sendBotMessage,
-  assignConversation,
-  toggleConversationStatus,
-} from "@/lib/chatwootBot";
+import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
+import { sendBotMessage } from "@/lib/chatwootBot";
+import handOff from "@/lib/handoff";
 import {
   getConversation,
   getConversationLabels,
-  updateAgentAvailability,
   setConversationLabels,
 } from "@/lib/chatwoot";
 import { CONVO_LABELS } from "@/lib/constants";
@@ -96,40 +88,21 @@ export async function POST(request: Request) {
       const confirmPattern = /\b(yes|y|sure|confirm|ok)\b/i;
       if (confirmPattern.test(content)) {
         try {
-          const agent = await getNextAgent(accountId);
-          if (agent) {
-            console.info("handoff", { step: "toggle", accountId, conversationId });
-            await toggleConversationStatus(accountId, conversationId, "open");
-            console.info("handoff", "status toggled");
-            console.info("handoff", {
-              step: "assign",
-              accountId,
-              conversationId,
-              agentId: agent.id,
-            });
-            await assignConversation(accountId, conversationId, agent.id);
-            console.info("handoff", "conversation assigned", agent.id);
-            console.info("handoff", {
-              step: "set-active",
-              agentId: agent.id,
-              conversationId,
-            });
-            await setActiveConversation(agent.id, conversationId);
-            try {
+            const agent = await getNextAgent(accountId);
+            if (agent) {
               const role =
                 agent.role === "administrator" ? "administrator" : "agent";
-              const response = await updateAgentAvailability(
+              const success = await handOff(
                 accountId,
+                conversationId,
                 agent.id,
-                "busy",
                 role
               );
-              console.info("set agent busy response", response);
-            } catch (err) {
-              console.error("set agent busy error", err);
-              await clearActiveConversation(agent.id);
-            }
-            console.info("handoff", "active set", agent.id);
+              if (!success) {
+                return NextResponse.json({ status: "handoff_failed" });
+              }
+              await setActiveConversation(agent.id, conversationId);
+              console.info("handoff", "active set", agent.id);
             console.info("handoff", {
               step: "update-request",
               conversationId,
@@ -275,38 +248,19 @@ export async function POST(request: Request) {
           });
           await enqueueRequest(conversationId, "assigned", agent.id);
           console.info("handoff", "request enqueued", agent.id);
-          console.info("handoff", { step: "toggle", accountId, conversationId });
-          await toggleConversationStatus(accountId, conversationId, "open");
-          console.info("handoff", "status toggled");
-          console.info("handoff", {
-            step: "assign",
-            accountId,
-            conversationId,
-            agentId: agent.id,
-          });
-          await assignConversation(accountId, conversationId, agent.id);
-          console.info("handoff", "conversation assigned", agent.id);
-          console.info("handoff", {
-            step: "set-active",
-            agentId: agent.id,
-            conversationId,
-          });
-          await setActiveConversation(agent.id, conversationId);
-          try {
             const role =
               agent.role === "administrator" ? "administrator" : "agent";
-            const response = await updateAgentAvailability(
+            const success = await handOff(
               accountId,
+              conversationId,
               agent.id,
-              "busy",
               role
             );
-            console.info("set agent busy response", response);
-          } catch (err) {
-            console.error("set agent busy error", err);
-            await clearActiveConversation(agent.id);
-          }
-          console.info("handoff", "active set", agent.id);
+            if (!success) {
+              return NextResponse.json({ status: "handoff_failed" });
+            }
+            await setActiveConversation(agent.id, conversationId);
+            console.info("handoff", "active set", agent.id);
           console.info("handoff", {
             step: "send-message",
             accountId,
