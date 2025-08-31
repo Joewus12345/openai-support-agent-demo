@@ -4,12 +4,12 @@ import prisma from "@/lib/prisma";
 import { setActiveConversation, clearActiveConversation } from "@/lib/agentRotation";
 import {
   getConversation,
-  setConversationLabels,
   getConversationLabels,
   updateAgentAvailability,
   sendMessage,
   updateConversation,
 } from "@/lib/chatwoot";
+import { setConversationLabels } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
 
@@ -53,7 +53,13 @@ export async function POST(request: Request) {
       const current = await getConversationLabels(accountId, conversationId);
       const labels = Array.isArray((current as any)?.payload)
         ? (current as any).payload.filter(
-            (l: string) => l !== CONVO_LABELS.assigned
+            (l: string) =>
+              ![
+                CONVO_LABELS.assigned,
+                CONVO_LABELS.waiting,
+                CONVO_LABELS.awaiting,
+                CONVO_LABELS.expired,
+              ].includes(l)
           )
         : [];
       await setConversationLabels(accountId, conversationId, labels);
