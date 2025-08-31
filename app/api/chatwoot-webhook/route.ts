@@ -237,6 +237,24 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
+    let status = conversation?.status;
+    if (!status) {
+      try {
+        const convo = await getConversation(accountId, conversationId);
+        status = convo?.status;
+      } catch (err) {
+        console.error("fetch conversation error", err);
+      }
+    }
+
+    if (status === "open") {
+      return NextResponse.json({ status: "ignored" });
+    }
+
+    if (status !== "pending" && status !== "resolved") {
+      return NextResponse.json({ status: "ignored" });
+    }
+
     const existingRequest = await prisma.handoffRequest.findUnique({
       where: { conversationId },
     });
