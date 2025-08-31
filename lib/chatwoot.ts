@@ -93,6 +93,21 @@ export async function getConversationLabels(
   );
 }
 
+export async function setConversationLabels(
+  accountId: number,
+  conversationId: number,
+  labels: string[]
+) {
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ labels }),
+    }
+  );
+}
+
 const chatwoot = {
   getConversation,
   sendMessage,
@@ -100,6 +115,7 @@ const chatwoot = {
   listAgents,
   updateAgentAvailability,
   getConversationLabels,
+  setConversationLabels,
 };
 export default chatwoot;
 
