@@ -115,8 +115,8 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
 
    `SESSION_RETENTION_DAYS` controls how long ended sessions are kept before cleanup (defaults to 30 days).
    Session messages cached in Redis are retained indefinitely until the session is cleaned up.
-   The Chatwoot variables configure the webhook endpoint to send automated replies back to your Chatwoot instance.
-   When Chatwoot and the AI service run inside the same Docker Compose network, use `http://ai-agent:3001/api/chatwoot-webhook` as the webhook endpoint.
+   The Chatwoot variables configure the webhook endpoints to send automated replies and handle status changes in your Chatwoot instance.
+   When Chatwoot and the AI service run inside the same Docker Compose network, use `http://ai-agent:3001/api/chatwoot-webhook` for message events and add another webhook subscribed to `conversation_status_changed` pointing to `http://ai-agent:3001/api/chatwoot-status-webhook`.
 
    A standalone Docker setup is available to test the service in isolation:
 
