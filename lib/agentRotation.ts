@@ -10,15 +10,14 @@ export interface AgentRecord {
 export async function getNextAgent(
   accountId: number
 ): Promise<AgentRecord | null> {
-  const agents: AgentRecord[] = await listAgents(accountId);
-  // Log agent availability to verify Chatwoot's status strings
-  console.info(
-    "[agentRotation] fetched agents",
-    { accountId, agents: agents.map((a) => ({ id: a.id, availability_status: a.availability_status })) }
-  );
-  // Chatwoot marks active agents with "online" rather than "available"
+  const agents: AgentRecord[] = await listAgents(accountId, "online");
+  // Double-check the API response to ensure only online agents are considered
   const onlineAgents = agents.filter(
     (a) => a.availability_status === "online"
+  );
+  console.info(
+    "[agentRotation] fetched agents",
+    { accountId, agents: onlineAgents.map((a) => ({ id: a.id, availability_status: a.availability_status })) }
   );
   if (onlineAgents.length === 0) {
     return null;

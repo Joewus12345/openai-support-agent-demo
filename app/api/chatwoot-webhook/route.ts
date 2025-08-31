@@ -15,6 +15,7 @@ import {
   getConversation,
   setConversationLabels,
   getConversationLabels,
+  updateAgentAvailability,
 } from "@/lib/chatwoot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
@@ -76,6 +77,11 @@ export async function POST(request: Request) {
           });
           if (assignment?.agentId) {
             await clearActiveConversation(assignment.agentId);
+            try {
+              await updateAgentAvailability(assignment.agentId, "online");
+            } catch (err) {
+              console.error("set agent online error", err);
+            }
           }
 
           const request = await dequeueRequest();
@@ -176,6 +182,11 @@ export async function POST(request: Request) {
                       agent.id
                     );
                     await setActiveConversation(agent.id, request.conversationId);
+                    try {
+                      await updateAgentAvailability(agent.id, "busy");
+                    } catch (err) {
+                      console.error("set agent busy error", err);
+                    }
                     await updateRequest(request.conversationId, {
                       status: "assigned",
                       agentId: agent.id,
@@ -284,6 +295,11 @@ export async function POST(request: Request) {
               conversationId,
             });
             await setActiveConversation(agent.id, conversationId);
+            try {
+              await updateAgentAvailability(agent.id, "busy");
+            } catch (err) {
+              console.error("set agent busy error", err);
+            }
             console.info("handoff", "active set", agent.id);
             console.info("handoff", {
               step: "update-request",
@@ -447,6 +463,11 @@ export async function POST(request: Request) {
             conversationId,
           });
           await setActiveConversation(agent.id, conversationId);
+          try {
+            await updateAgentAvailability(agent.id, "busy");
+          } catch (err) {
+            console.error("set agent busy error", err);
+          }
           console.info("handoff", "active set", agent.id);
           console.info("handoff", {
             step: "send-message",

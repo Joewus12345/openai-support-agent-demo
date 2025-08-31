@@ -59,9 +59,27 @@ export async function updateConversation(
   );
 }
 
-export async function listAgents(accountId: number) {
-  return chatwootFetch(`/api/v1/accounts/${accountId}/agents`, {
-    method: "GET",
+export async function listAgents(
+  accountId: number,
+  availability?: string
+) {
+  const query = availability ? `?availability_status=${availability}` : "";
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/agents${query}`,
+    {
+      method: "GET",
+    }
+  );
+}
+
+export async function updateAgentAvailability(
+  agentId: number,
+  availability_status: string
+) {
+  return chatwootFetch(`/platform/api/v1/users/${agentId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ availability_status }),
   });
 }
 
@@ -95,6 +113,7 @@ const chatwoot = {
   sendMessage,
   updateConversation,
   listAgents,
+  updateAgentAvailability,
   setConversationLabels,
   getConversationLabels,
 };
