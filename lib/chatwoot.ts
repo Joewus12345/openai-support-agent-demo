@@ -56,6 +56,13 @@ export async function listAgents(
   );
 }
 
+export async function getAgent(accountId: number, agentId: number) {
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/agents/${agentId}`,
+    { method: "GET" }
+  );
+}
+
 export async function updateAgentAvailability(
   accountId: number,
   agentId: number,
@@ -101,6 +108,7 @@ const chatwoot = {
   getConversation,
   updateConversation,
   listAgents,
+  getAgent,
   updateAgentAvailability,
   getConversationLabels,
   setConversationLabels,

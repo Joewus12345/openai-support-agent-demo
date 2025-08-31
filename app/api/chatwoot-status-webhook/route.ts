@@ -4,11 +4,11 @@ import prisma from "@/lib/prisma";
 import { setActiveConversation, clearActiveConversation } from "@/lib/agentRotation";
 import {
   getConversation,
+  getAgent,
   getConversationLabels,
   updateAgentAvailability,
   updateConversation,
   setConversationLabels,
-  listAgents,
 } from "@/lib/chatwoot";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
@@ -64,23 +64,32 @@ export async function POST(request: Request) {
     }
 
     try {
-      const assignment = await prisma.agentAssignment.findFirst({
-        where: { activeConversationId: conversationId },
-      });
-      const freedAgentId = assignment?.agentId;
-      if (freedAgentId) {
-        let role = "agent";
+      let freedAgentId =
+        (conversation as any)?.assignee_id ?? (payload as any)?.assignee_id;
+      if (freedAgentId === undefined) {
         try {
-          const agents = await listAgents(accountId);
-          const freedAgent = agents.find((a: any) => a.id === freedAgentId);
-          if (freedAgent?.role === "administrator") {
-            role = "administrator";
-          }
+          const convo = await getConversation(accountId, conversationId);
+          freedAgentId = (convo as any)?.assignee_id;
+        } catch (err) {
+          console.error("fetch assignee error", err);
+        }
+      }
+      if (freedAgentId === undefined) {
+        const assignment = await prisma.agentAssignment.findFirst({
+          where: { activeConversationId: conversationId },
+        });
+        freedAgentId = assignment?.agentId;
+      }
+
+      if (freedAgentId) {
+        await clearActiveConversation(freedAgentId);
+        let role: "agent" | "administrator" = "agent";
+        try {
+          const agent = await getAgent(accountId, freedAgentId);
+          role = agent.role === "administrator" ? "administrator" : "agent";
         } catch (err) {
           console.error("fetch agent role error", err);
         }
-
-        await clearActiveConversation(freedAgentId);
         try {
           const response = await updateAgentAvailability(
             accountId,
