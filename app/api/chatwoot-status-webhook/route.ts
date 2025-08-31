@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Conversation } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
-import {
-  getNextAgent,
-  setActiveConversation,
-  clearActiveConversation,
-} from "@/lib/agentRotation";
+import { setActiveConversation, clearActiveConversation } from "@/lib/agentRotation";
 import {
   getConversation,
   setConversationLabels,
@@ -16,7 +12,6 @@ import {
 } from "@/lib/chatwoot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
-import { handoffStrategy } from "@/config/handoffStrategy";
 
 export async function POST(request: Request) {
   try {
@@ -70,123 +65,43 @@ export async function POST(request: Request) {
       const assignment = await prisma.agentAssignment.findFirst({
         where: { activeConversationId: conversationId },
       });
-      if (assignment?.agentId) {
-        await clearActiveConversation(assignment.agentId);
+      const freedAgentId = assignment?.agentId;
+      if (freedAgentId) {
+        await clearActiveConversation(freedAgentId);
         try {
-          await updateAgentAvailability(assignment.agentId, "online");
+          await updateAgentAvailability(freedAgentId, "online");
         } catch (err) {
           console.error("set agent online error", err);
         }
-      }
 
-      const request = await dequeueRequest();
-      if (request) {
-        if (handoffStrategy.value === "confirm") {
+        const request = await dequeueRequest();
+        if (request) {
           try {
-            let labels = [CONVO_LABELS.awaiting];
-            try {
-              const current = await getConversationLabels(
-                accountId,
-                request.conversationId
-              );
-              labels = Array.isArray((current as any)?.payload)
-                ? Array.from(
-                    new Set([
-                      ...(current as any).payload,
-                      CONVO_LABELS.awaiting,
-                    ])
-                  )
-                : [CONVO_LABELS.awaiting];
-            } catch (err) {
-              console.error("fetch awaiting label error", err);
-            }
-            try {
-              await setConversationLabels(
-                accountId,
-                request.conversationId,
-                labels
-              );
-            } catch (err) {
-              console.error("set awaiting label error", err);
-            }
-            await sendMessage(
-              accountId,
-              request.conversationId,
-              "An agent is now available—reply within 2 minutes to connect."
-            );
-            setTimeout(async () => {
-              try {
-                const current = await prisma.handoffRequest.findUnique({
-                  where: { conversationId: request.conversationId },
-                });
-                if (current?.status === "awaiting_confirmation") {
-                  await updateRequest(request.conversationId, {
-                    status: "expired",
-                    agentId: null,
-                  });
-                  const existing = await getConversationLabels(
-                    accountId,
-                    request.conversationId
-                  );
-                  const labels = Array.isArray((existing as any)?.payload)
-                    ? Array.from(
-                        new Set([
-                          ...(existing as any).payload.filter(
-                            (l: string) => l !== CONVO_LABELS.awaiting
-                          ),
-                          CONVO_LABELS.expired,
-                        ])
-                      )
-                    : [CONVO_LABELS.expired];
-                  await setConversationLabels(
-                    accountId,
-                    request.conversationId,
-                    labels
-                  );
-                }
-              } catch (err) {
-                console.error("handoff confirmation timeout", err);
-              }
-            }, 2 * 60 * 1000);
+            await setConversationLabels(accountId, request.conversationId, [
+              CONVO_LABELS.assigned,
+            ]);
           } catch (err) {
-            console.error("handoff confirmation message error", err);
+            console.error("set assigned label error", err);
           }
-        } else {
+          await updateConversation(accountId, request.conversationId, {
+            status: "open",
+            assignee_id: freedAgentId,
+          });
+          await setActiveConversation(freedAgentId, request.conversationId);
           try {
-            const agent = await getNextAgent(accountId);
-            if (agent) {
-              try {
-                await setConversationLabels(
-                  accountId,
-                  request.conversationId,
-                  [CONVO_LABELS.assigned]
-                );
-              } catch (err) {
-                console.error("set assigned label error", err);
-              }
-              await updateConversation(accountId, request.conversationId, {
-                status: "open",
-                assignee_id: agent.id,
-              });
-              await setActiveConversation(agent.id, request.conversationId);
-              try {
-                await updateAgentAvailability(agent.id, "busy");
-              } catch (err) {
-                console.error("set agent busy error", err);
-              }
-              await updateRequest(request.conversationId, {
-                status: "assigned",
-                agentId: agent.id,
-              });
-              await sendMessage(
-                accountId,
-                request.conversationId,
-                "A human agent will join shortly."
-              );
-            }
+            await updateAgentAvailability(freedAgentId, "busy");
           } catch (err) {
-            console.error("handoff queue processing error", err);
+            console.error("set agent busy error", err);
           }
+          await updateRequest(request.conversationId, {
+            status: "assigned",
+            agentId: freedAgentId,
+          });
+          await sendMessage(
+            accountId,
+            request.conversationId,
+            "A human agent will join shortly."
+          );
         }
       }
     } catch (err) {
