@@ -116,10 +116,13 @@ export async function POST(request: Request) {
             });
             await setActiveConversation(agent.id, conversationId);
             try {
+              const role =
+                agent.role === "administrator" ? "administrator" : "agent";
               const response = await updateAgentAvailability(
                 accountId,
                 agent.id,
-                "busy"
+                "busy",
+                role
               );
               console.info("set agent busy response", response);
             } catch (err) {
@@ -290,10 +293,13 @@ export async function POST(request: Request) {
           });
           await setActiveConversation(agent.id, conversationId);
           try {
+            const role =
+              agent.role === "administrator" ? "administrator" : "agent";
             const response = await updateAgentAvailability(
               accountId,
               agent.id,
-              "busy"
+              "busy",
+              role
             );
             console.info("set agent busy response", response);
           } catch (err) {

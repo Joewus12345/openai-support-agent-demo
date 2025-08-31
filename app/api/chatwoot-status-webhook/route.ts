@@ -8,6 +8,7 @@ import {
   updateAgentAvailability,
   updateConversation,
   setConversationLabels,
+  listAgents,
 } from "@/lib/chatwoot";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
@@ -68,16 +69,28 @@ export async function POST(request: Request) {
       });
       const freedAgentId = assignment?.agentId;
       if (freedAgentId) {
+        let role = "agent";
+        try {
+          const agents = await listAgents(accountId);
+          const freedAgent = agents.find((a: any) => a.id === freedAgentId);
+          if (freedAgent?.role === "administrator") {
+            role = "administrator";
+          }
+        } catch (err) {
+          console.error("fetch agent role error", err);
+        }
+
         await clearActiveConversation(freedAgentId);
         try {
           const response = await updateAgentAvailability(
             accountId,
             freedAgentId,
-            "online"
+            "available",
+            role
           );
-          console.info("set agent online response", response);
+          console.info("set agent available response", response);
         } catch (err) {
-          console.error("set agent online error", err);
+          console.error("set agent available error", err);
           await setActiveConversation(freedAgentId, conversationId);
         }
 
@@ -99,7 +112,8 @@ export async function POST(request: Request) {
             const response = await updateAgentAvailability(
               accountId,
               freedAgentId,
-              "busy"
+              "busy",
+              role
             );
             console.info("set agent busy response", response);
           } catch (err) {
