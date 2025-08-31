@@ -6,12 +6,12 @@ import {
   sendBotMessage,
   assignConversation,
   toggleConversationStatus,
-  setConversationLabels,
 } from "@/lib/chatwootBot";
 import {
   getConversation,
   getConversationLabels,
   updateAgentAvailability,
+  setConversationLabels,
 } from "@/lib/chatwoot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";

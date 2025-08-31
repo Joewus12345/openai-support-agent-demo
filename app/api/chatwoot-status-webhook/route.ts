@@ -8,8 +8,8 @@ import {
   updateAgentAvailability,
   sendMessage,
   updateConversation,
+  setConversationLabels,
 } from "@/lib/chatwoot";
-import { setConversationLabels } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
 

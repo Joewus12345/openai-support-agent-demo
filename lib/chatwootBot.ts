@@ -60,21 +60,6 @@ export async function assignConversation(
   );
 }
 
-export async function setConversationLabels(
-  accountId: number,
-  conversationId: number,
-  labels: string[]
-) {
-  return chatwootBotFetch(
-    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ labels }),
-    }
-  );
-}
-
 export async function toggleConversationStatus(
   accountId: number,
   conversationId: number,
@@ -93,7 +78,6 @@ export async function toggleConversationStatus(
 const chatwootBot = {
   sendBotMessage,
   assignConversation,
-  setConversationLabels,
   toggleConversationStatus,
 };
 export default chatwootBot;
