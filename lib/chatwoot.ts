@@ -57,21 +57,18 @@ export async function listAgents(
 }
 
 export async function updateAgentAvailability(
+  accountId: number,
   agentId: number,
-  availability_status: string
+  availability_status: "available" | "busy" | "offline"
 ) {
-  console.info(
-    "[chatwoot] patch availability using CHATWOOT_APP_TOKEN",
-    { agentId, availability_status }
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/agents/${agentId}`,
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role: "agent", availability_status }),
+    }
   );
-  return chatwootFetch(`/platform/api/v1/users/${agentId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      api_access_token: CHATWOOT_TOKEN,
-    },
-    body: JSON.stringify({ availability_status }),
-  });
 }
 
 export async function getConversationLabels(

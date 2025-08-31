@@ -70,9 +70,15 @@ export async function POST(request: Request) {
       if (freedAgentId) {
         await clearActiveConversation(freedAgentId);
         try {
-          await updateAgentAvailability(freedAgentId, "online");
+          const response = await updateAgentAvailability(
+            accountId,
+            freedAgentId,
+            "online"
+          );
+          console.info("set agent online response", response);
         } catch (err) {
           console.error("set agent online error", err);
+          await setActiveConversation(freedAgentId, conversationId);
         }
 
         const request = await dequeueRequest();
@@ -90,9 +96,15 @@ export async function POST(request: Request) {
           });
           await setActiveConversation(freedAgentId, request.conversationId);
           try {
-            await updateAgentAvailability(freedAgentId, "busy");
+            const response = await updateAgentAvailability(
+              accountId,
+              freedAgentId,
+              "busy"
+            );
+            console.info("set agent busy response", response);
           } catch (err) {
             console.error("set agent busy error", err);
+            await clearActiveConversation(freedAgentId);
           }
           await updateRequest(request.conversationId, {
             status: "assigned",
