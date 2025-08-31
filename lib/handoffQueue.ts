@@ -14,16 +14,10 @@ export async function enqueueRequest(
 }
 
 export async function dequeueRequest() {
-  const request = await prisma.handoffRequest.findFirst({
+  return prisma.handoffRequest.findFirst({
     where: { status: "pending" },
     orderBy: { requestedAt: "asc" },
   });
-  if (!request) return null;
-  await prisma.handoffRequest.update({
-    where: { conversationId: request.conversationId },
-    data: { status: "awaiting_confirmation" },
-  });
-  return request;
 }
 
 export async function updateRequest(
