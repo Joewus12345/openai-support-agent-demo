@@ -51,15 +51,10 @@ export async function POST(request: Request) {
 
     try {
       const current = await getConversationLabels(accountId, conversationId);
+      const reserved = Object.values(CONVO_LABELS) as string[];
       const labels = Array.isArray((current as any)?.payload)
         ? (current as any).payload.filter(
-            (l: string) =>
-              ![
-                CONVO_LABELS.assigned,
-                CONVO_LABELS.waiting,
-                CONVO_LABELS.awaiting,
-                CONVO_LABELS.expired,
-              ].includes(l)
+            (l: string) => !reserved.includes(l)
           )
         : [];
       await setConversationLabels(accountId, conversationId, labels);
