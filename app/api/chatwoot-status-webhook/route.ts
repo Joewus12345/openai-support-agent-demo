@@ -5,14 +5,13 @@ import { setActiveConversation, clearActiveConversation } from "@/lib/agentRotat
 import {
   getConversation,
   getConversationLabels,
-  updateAgentAvailability,
+  setAgentAvailability,
   updateConversation,
   setConversationLabels,
 } from "@/lib/chatwoot";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
-import { getAgentToken } from "@/config/agentTokens";
 
 export async function POST(request: Request) {
   try {
@@ -83,15 +82,10 @@ export async function POST(request: Request) {
 
       if (freedAgentId) {
         await clearActiveConversation(freedAgentId);
-        const freedAgentToken = getAgentToken(freedAgentId);
-        if (!freedAgentToken) {
-          console.error("agent token not found", freedAgentId);
-          await setActiveConversation(freedAgentId, conversationId);
-          return NextResponse.json({ error: "Agent token missing" }, { status: 500 });
-        }
         try {
-          const response = await updateAgentAvailability(
-            freedAgentToken,
+          const response = await setAgentAvailability(
+            accountId,
+            freedAgentId,
             "online"
           );
           console.info("set agent online response", response);
@@ -115,15 +109,10 @@ export async function POST(request: Request) {
             assignee_id: freedAgentId,
           });
           await setActiveConversation(freedAgentId, request.conversationId);
-          const busyToken = getAgentToken(freedAgentId);
-          if (!busyToken) {
-            console.error("agent token not found", freedAgentId);
-            await clearActiveConversation(freedAgentId);
-            return NextResponse.json({ error: "Agent token missing" }, { status: 500 });
-          }
           try {
-            const response = await updateAgentAvailability(
-              busyToken,
+            const response = await setAgentAvailability(
+              accountId,
+              freedAgentId,
               "busy"
             );
             console.info("set agent busy response", response);
