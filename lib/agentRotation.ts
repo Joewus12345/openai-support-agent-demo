@@ -11,10 +11,10 @@ export interface AgentRecord {
 export async function getNextAgent(
   accountId: number
 ): Promise<AgentRecord | null> {
-  const agents: AgentRecord[] = await listAgents(accountId, "available");
+  const agents: AgentRecord[] = await listAgents(accountId, "online");
   // Double-check the API response to ensure only available agents are considered
   const availableAgents = agents.filter(
-    (a) => a.availability_status === "available"
+    (a) => a.availability_status === "online"
   );
   console.info(
     "[agentRotation] fetched agents",

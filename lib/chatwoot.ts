@@ -66,7 +66,7 @@ export async function getAgent(accountId: number, agentId: number) {
 export async function updateAgentAvailability(
   accountId: number,
   agentId: number,
-  availability_status: "available" | "busy" | "offline",
+  availability_status: "online" | "busy" | "offline",
   role: "agent" | "administrator" = "agent"
 ) {
   return chatwootFetch(

@@ -94,7 +94,7 @@ export async function POST(request: Request) {
           const response = await updateAgentAvailability(
             accountId,
             freedAgentId,
-            "available",
+            "online",
             role
           );
           console.info("set agent available response", response);

@@ -15,7 +15,7 @@ export async function handOff(
   } catch (err) {
     console.error("handoff error", err);
     try {
-      await updateAgentAvailability(accountId, agentId, "available", role);
+      await updateAgentAvailability(accountId, agentId, "online", role);
     } catch (error) {
       console.error("rollback availability error", error);
     }
