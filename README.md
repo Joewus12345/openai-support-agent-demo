@@ -95,9 +95,10 @@ The steps below show how to build and run each container manually.
    REDIS_URL=redis://localhost:6379
    SESSION_RETENTION_DAYS=30 # How many days to retain ended sessions
    CHATWOOT_URL=https://e245e7cb03bc.ngrok-free.app
-CHATWOOT_APP_TOKEN=<chatwoot-app-token>
-CHATWOOT_BOT_TOKEN=<bot access token>
-```
+   CHATWOOT_APP_TOKEN=<chatwoot-app-token>
+   CHATWOOT_BOT_TOKEN=<bot access token>
+   AGENT_TOKENS='{"1":"agent-1-secret","2":"agent-2-secret"}'
+  ```
 
 When running this service inside Docker, `CHATWOOT_URL` must be a fully
 qualified address reachable from the container (for example, a public
@@ -117,6 +118,8 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
    Session messages cached in Redis are retained indefinitely until the session is cleaned up.
    The Chatwoot variables configure the webhook endpoints to send automated replies and handle status changes in your Chatwoot instance.
    When Chatwoot and the AI service run inside the same Docker Compose network, use `http://ai-agent:3001/api/chatwoot-webhook` for message events and add another webhook subscribed to `conversation_status_changed` pointing to `http://ai-agent:3001/api/chatwoot-status-webhook`.
+
+   The `AGENT_TOKENS` environment variable supplies per-agent access tokens in JSON form, e.g. `{ "1": "secret" }`. Store these secrets outside of source control (such as a `.env` file or your hosting platform's secret manager). To rotate a token, update the JSON with the new value and redeploy or restart the service so it reads the updated mapping.
 
    A standalone Docker setup is available to test the service in isolation:
 
