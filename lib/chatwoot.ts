@@ -28,22 +28,6 @@ export async function getConversation(
   );
 }
 
-export async function sendMessage(
-  accountId: number,
-  conversationId: number,
-  content: string,
-  options: Record<string, any> = {}
-) {
-  return chatwootFetch(
-    `/api/v1/accounts/${accountId}/conversations/${conversationId}/messages`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content, message_type: "outgoing", ...options }),
-    }
-  );
-}
-
 export async function updateConversation(
   accountId: number,
   conversationId: number,
@@ -59,10 +43,61 @@ export async function updateConversation(
   );
 }
 
-export async function listAgents(accountId: number) {
-  return chatwootFetch(`/api/v1/accounts/${accountId}/agents`, {
-    method: "GET",
-  });
+export async function listAgents(
+  accountId: number,
+  availability?: "online" | "busy" | "offline"
+) {
+  const query = availability ? `?availability_status=${availability}` : "";
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/agents${query}`,
+    {
+      method: "GET",
+    }
+  );
+}
+
+export async function getAgent(accountId: number, agentId: number) {
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/agents/${agentId}`,
+    { method: "GET" }
+  );
+}
+
+export async function setAgentAvailability(
+  accountId: number,
+  agentId: number,
+  availability: "online" | "busy" | "offline"
+) {
+  const path = `/api/v1/accounts/${accountId}/agents/${agentId}`;
+  try {
+    return await chatwootFetch(path, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ availability }),
+    });
+  } catch (err) {
+    if (err instanceof Error && err.message.includes("404")) {
+      const url = `${CHATWOOT_URL}${path}`;
+      console.error("[chatwoot] setAgentAvailability 404", {
+        url,
+        body: { availability },
+      });
+      console.error(
+        "[chatwoot] ensure Chatwoot version supports PATCH /api/v1/accounts/{accountId}/agents/{agentId}"
+      );
+    }
+    throw err;
+  }
+}
+
+export async function getConversationLabels(
+  accountId: number,
+  conversationId: number
+) {
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
+    { method: "GET" }
+  );
 }
 
 export async function setConversationLabels(
@@ -80,23 +115,14 @@ export async function setConversationLabels(
   );
 }
 
-export async function getConversationLabels(
-  accountId: number,
-  conversationId: number
-) {
-  return chatwootFetch(
-    `/api/v1/accounts/${accountId}/conversations/${conversationId}/labels`,
-    { method: "GET" }
-  );
-}
-
 const chatwoot = {
   getConversation,
-  sendMessage,
   updateConversation,
   listAgents,
-  setConversationLabels,
+  getAgent,
+  setAgentAvailability,
   getConversationLabels,
+  setConversationLabels,
 };
 export default chatwoot;
 
