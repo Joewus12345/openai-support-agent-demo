@@ -3,7 +3,7 @@ import { listAgents } from "./chatwoot";
 
 export interface AgentRecord {
   id: number;
-  availability_status: string;
+  availability_status: "online" | "busy" | "offline";
   role?: "agent" | "administrator";
   [key: string]: any;
 }
@@ -12,25 +12,25 @@ export async function getNextAgent(
   accountId: number
 ): Promise<AgentRecord | null> {
   const agents: AgentRecord[] = await listAgents(accountId, "online");
-  // Double-check the API response to ensure only available agents are considered
-  const availableAgents = agents.filter(
+  // Double-check the API response to ensure only online agents are considered
+  const onlineAgents = agents.filter(
     (a) => a.availability_status === "online"
   );
   console.info(
     "[agentRotation] fetched agents",
-    { accountId, agents: availableAgents.map((a) => ({ id: a.id, availability_status: a.availability_status })) }
+    { accountId, agents: onlineAgents.map((a) => ({ id: a.id, availability_status: a.availability_status })) }
   );
-  if (availableAgents.length === 0) {
+  if (onlineAgents.length === 0) {
     return null;
   }
 
   const existing = await prisma.agentAssignment.findMany({
     where: { inboxId: accountId },
   });
-  const availableIds = new Set(availableAgents.map((a) => a.id));
+  const onlineIds = new Set(onlineAgents.map((a) => a.id));
   const existingIds = new Set(existing.map((a) => a.agentId));
 
-  const newAgents = availableAgents.filter((a) => !existingIds.has(a.id));
+  const newAgents = onlineAgents.filter((a) => !existingIds.has(a.id));
   if (newAgents.length > 0) {
     await prisma.agentAssignment.createMany({
       data: newAgents.map((a) => ({
@@ -42,7 +42,7 @@ export async function getNextAgent(
   }
 
   const offlineIds = existing
-    .filter((a) => !availableIds.has(a.agentId))
+    .filter((a) => !onlineIds.has(a.agentId))
     .map((a) => a.agentId);
   if (offlineIds.length > 0) {
     await prisma.agentAssignment.deleteMany({
@@ -61,7 +61,7 @@ export async function getNextAgent(
     return null;
   }
 
-  const nextAgent = availableAgents.find(
+  const nextAgent = onlineAgents.find(
     (a) => a.id === nextAssignment.agentId
   );
   if (!nextAgent) {
