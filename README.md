@@ -39,7 +39,7 @@ Feel free to customize this demo to suit your specific use case.
 
 ## Docker Quickstart
 
-Copy [`.env.ai`](./.env.ai) and adjust credentials or port mappings as needed. This file is used when running the container.
+Copy [`.env.ai`](./.env.ai), adjust credentials or port mappings, and add your `AGENT_TOKENS` mapping. This file is used when running the container.
 
 The easiest way to run the entire stack with the baked-in port mappings is:
 
@@ -99,6 +99,8 @@ The steps below show how to build and run each container manually.
    CHATWOOT_BOT_TOKEN=<bot access token>
    AGENT_TOKENS='{"1":"agent-1-secret","2":"agent-2-secret"}'
   ```
+
+When running this service inside Docker, copy the same `AGENT_TOKENS` mapping into `.env.ai`.
 
 When running this service inside Docker, `CHATWOOT_URL` must be a fully
 qualified address reachable from the container (for example, a public
