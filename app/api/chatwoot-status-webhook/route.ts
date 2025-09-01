@@ -1,139 +1,80 @@
 import { NextResponse } from "next/server";
-import type { ChatwootEvent, Conversation } from "@/types/chatwoot";
-import prisma from "@/lib/prisma";
-import { setActiveConversation, clearActiveConversation } from "@/lib/agentRotation";
-import {
-  getConversation,
-  getConversationLabels,
-  setAgentAvailability,
-  updateConversation,
-  setConversationLabels,
-} from "@/lib/chatwoot";
-import { sendBotMessage } from "@/lib/chatwootBot";
-import { CONVO_LABELS } from "@/lib/constants";
-import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
+import type { ChatwootEvent, Conversation, Message } from "@/types/chatwoot";
+import { releaseAgent } from "@/lib/conversationResolution";
 
 export async function POST(request: Request) {
   try {
     const incoming = (await request.json()) as any;
     const payload: ChatwootEvent = incoming.data ?? incoming;
 
-    if (incoming.event !== "conversation_status_changed") {
+    const event = incoming.event;
+    const changedAttributes = (payload as any)?.changed_attributes;
+    const message: Message | undefined = (payload as any)?.message;
+    console.info("chatwoot status webhook", {
+      event,
+      changed_attributes: changedAttributes,
+    });
+
+    let shouldRelease = false;
+
+    if (event === "conversation_updated") {
+      const status = changedAttributes?.status?.current_value;
+      if (status === "resolved" || status === "pending") {
+        shouldRelease = true;
+      } else {
+        return NextResponse.json({ status: "ignored" });
+      }
+    } else if (event === "message_created") {
+      const content = message?.content;
+      if (
+        (message as any)?.message_type === 2 &&
+        typeof content === "string" &&
+        (content.startsWith("Conversation was marked resolved") ||
+          content.startsWith("Conversation was marked pending"))
+      ) {
+        const convoId =
+          (message as any)?.conversation_id ??
+          (payload as any)?.conversation_id;
+        console.info("chatwoot status webhook resolution message", {
+          messageId: message?.id,
+          conversationId: convoId,
+          content,
+        });
+        shouldRelease = true;
+      } else {
+        return NextResponse.json({ status: "ignored" });
+      }
+    } else {
       return NextResponse.json({ status: "ignored" });
     }
 
-    const conversation: Conversation | undefined = payload.conversation;
+    const conversation: Conversation | undefined =
+      payload.conversation || message?.conversation;
     const accountId =
-      payload.account?.id ?? (payload as any)?.account_id;
+      payload.account?.id ??
+      (payload as any)?.account_id ??
+      message?.account?.id ??
+      (message as any)?.account_id;
     const conversationId =
-      conversation?.id ?? (payload as any)?.conversation_id;
-    let status = (conversation as any)?.status ?? (payload as any)?.status;
+      conversation?.id ??
+      (payload as any)?.conversation_id ??
+      (message as any)?.conversation_id;
 
     if (accountId === undefined || conversationId === undefined) {
-      return NextResponse.json(
-        { error: "Invalid payload" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
-    if (!status) {
-      try {
-        const convo = await getConversation(accountId, conversationId);
-        status = convo?.status;
-      } catch (err) {
-        console.error("fetch conversation error", err);
-      }
-    }
-
-    if (status === "open") {
+    if (!shouldRelease) {
       return NextResponse.json({ status: "ignored" });
     }
 
     try {
-      const current = await getConversationLabels(accountId, conversationId);
-      const reserved = Object.values(CONVO_LABELS) as string[];
-      const labels = Array.isArray((current as any)?.payload)
-        ? (current as any).payload.filter(
-            (l: string) => !reserved.includes(l)
-          )
-        : [];
-      await setConversationLabels(accountId, conversationId, labels);
-    } catch (err) {
-      console.error("remove assigned label error", err);
-    }
-
-    try {
-      let freedAgentId =
-        (conversation as any)?.assignee_id ?? (payload as any)?.assignee_id;
-      if (freedAgentId === undefined) {
-        try {
-          const convo = await getConversation(accountId, conversationId);
-          freedAgentId = (convo as any)?.assignee_id;
-        } catch (err) {
-          console.error("fetch assignee error", err);
-        }
-      }
-      if (freedAgentId === undefined) {
-        const assignment = await prisma.agentAssignment.findFirst({
-          where: { activeConversationId: conversationId },
-        });
-        freedAgentId = assignment?.agentId;
-      }
-
-      if (freedAgentId) {
-        await clearActiveConversation(freedAgentId);
-        try {
-          const response = await setAgentAvailability(
-            accountId,
-            freedAgentId,
-            "online"
-          );
-          console.info("set agent online response", response);
-        } catch (err) {
-          console.error("set agent online error", err);
-          await setActiveConversation(freedAgentId, conversationId);
-          return NextResponse.json({ error: "Agent availability update failed" }, { status: 500 });
-        }
-
-        const request = await dequeueRequest();
-        if (request) {
-          try {
-            await setConversationLabels(accountId, request.conversationId, [
-              CONVO_LABELS.assigned,
-            ]);
-          } catch (err) {
-            console.error("set assigned label error", err);
-          }
-          await updateConversation(accountId, request.conversationId, {
-            status: "open",
-            assignee_id: freedAgentId,
-          });
-          await setActiveConversation(freedAgentId, request.conversationId);
-          try {
-            const response = await setAgentAvailability(
-              accountId,
-              freedAgentId,
-              "busy"
-            );
-            console.info("set agent busy response", response);
-          } catch (err) {
-            console.error("set agent busy error", err);
-            await clearActiveConversation(freedAgentId);
-            return NextResponse.json({ error: "Agent availability update failed" }, { status: 500 });
-          }
-          await updateRequest(request.conversationId, {
-            status: "assigned",
-            agentId: freedAgentId,
-          });
-          await sendBotMessage(
-            accountId,
-            request.conversationId,
-            "A human agent will join shortly."
-          );
-        }
-      }
-    } catch (err) {
-      console.error("conversation status change handling error", err);
+      await releaseAgent(accountId, conversationId, conversation);
+    } catch {
+      return NextResponse.json(
+        { error: "Agent availability update failed" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ status: "handled" });
@@ -142,4 +83,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
-
