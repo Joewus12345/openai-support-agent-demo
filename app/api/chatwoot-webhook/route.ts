@@ -16,6 +16,7 @@ import { tools } from "@/lib/tools/tools";
 import { toResponseMessage } from "@/lib/utils/toResponseMessage";
 import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
+import { releaseAgent } from "@/lib/conversationResolution";
 
 export async function POST(request: Request) {
   try {
@@ -27,11 +28,6 @@ export async function POST(request: Request) {
     }
 
     const message: Message | undefined = payload.message || (payload as Message);
-    const messageType = message?.message_type || message?.type;
-    if (messageType !== "incoming") {
-      return NextResponse.json({ status: "ignored" });
-    }
-
     const conversation: Conversation | undefined =
       message?.conversation || payload.conversation;
     const accountId =
@@ -48,6 +44,33 @@ export async function POST(request: Request) {
       (message as any)?.inbox_id ??
       (payload as any)?.inbox_id;
     const content = message?.content;
+    const messageId = message?.id;
+    const messageType = message?.message_type || message?.type;
+
+    if (
+      (message as any)?.message_type === 2 &&
+      typeof content === "string" &&
+      (content.startsWith("Conversation was marked resolved") ||
+        content.startsWith("Conversation was marked pending"))
+    ) {
+      console.info("resolution message", { messageId, conversationId, content });
+      if (accountId === undefined || conversationId === undefined) {
+        return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+      }
+      try {
+        await releaseAgent(accountId, conversationId, conversation);
+      } catch {
+        return NextResponse.json(
+          { error: "Agent availability update failed" },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json({ status: "handled" });
+    }
+
+    if (messageType !== "incoming") {
+      return NextResponse.json({ status: "ignored" });
+    }
 
     console.info("handoff", { accountId, conversationId, inboxId, content });
 
