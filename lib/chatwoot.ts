@@ -45,7 +45,7 @@ export async function updateConversation(
 
 export async function listAgents(
   accountId: number,
-  availability?: string
+  availability?: "online" | "busy" | "offline"
 ) {
   const query = availability ? `?availability_status=${availability}` : "";
   return chatwootFetch(

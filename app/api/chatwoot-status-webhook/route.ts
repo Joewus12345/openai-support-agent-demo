@@ -94,9 +94,9 @@ export async function POST(request: Request) {
             freedAgentToken,
             "online"
           );
-          console.info("set agent available response", response);
+          console.info("set agent online response", response);
         } catch (err) {
-          console.error("set agent available error", err);
+          console.error("set agent online error", err);
           await setActiveConversation(freedAgentId, conversationId);
           return NextResponse.json({ error: "Agent availability update failed" }, { status: 500 });
         }
