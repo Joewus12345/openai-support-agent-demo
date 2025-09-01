@@ -64,17 +64,18 @@ export async function getAgent(accountId: number, agentId: number) {
 }
 
 export async function updateAgentAvailability(
-  accountId: number,
-  agentId: number,
-  availability_status: "online" | "busy" | "offline",
-  role: "agent" | "administrator" = "agent"
+  agentToken: string,
+  availability: "online" | "busy" | "offline"
 ) {
   return chatwootFetch(
-    `/api/v1/accounts/${accountId}/agents/${agentId}`,
+    `/api/v1/profile/availability`,
     {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ role, availability_status }),
+      headers: {
+        "api_access_token": agentToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ availability }),
     }
   );
 }
