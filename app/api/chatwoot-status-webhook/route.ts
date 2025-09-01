@@ -4,7 +4,6 @@ import prisma from "@/lib/prisma";
 import { setActiveConversation, clearActiveConversation } from "@/lib/agentRotation";
 import {
   getConversation,
-  getAgent,
   getConversationLabels,
   updateAgentAvailability,
   updateConversation,
@@ -13,6 +12,7 @@ import {
 import { sendBotMessage } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
+import { getAgentToken } from "@/config/agentTokens";
 
 export async function POST(request: Request) {
   try {
@@ -83,24 +83,22 @@ export async function POST(request: Request) {
 
       if (freedAgentId) {
         await clearActiveConversation(freedAgentId);
-        let role: "agent" | "administrator" = "agent";
-        try {
-          const agent = await getAgent(accountId, freedAgentId);
-          role = agent.role === "administrator" ? "administrator" : "agent";
-        } catch (err) {
-          console.error("fetch agent role error", err);
+        const freedAgentToken = getAgentToken(freedAgentId);
+        if (!freedAgentToken) {
+          console.error("agent token not found", freedAgentId);
+          await setActiveConversation(freedAgentId, conversationId);
+          return NextResponse.json({ error: "Agent token missing" }, { status: 500 });
         }
         try {
           const response = await updateAgentAvailability(
-            accountId,
-            freedAgentId,
-            "online",
-            role
+            freedAgentToken,
+            "online"
           );
           console.info("set agent available response", response);
         } catch (err) {
           console.error("set agent available error", err);
           await setActiveConversation(freedAgentId, conversationId);
+          return NextResponse.json({ error: "Agent availability update failed" }, { status: 500 });
         }
 
         const request = await dequeueRequest();
@@ -117,17 +115,22 @@ export async function POST(request: Request) {
             assignee_id: freedAgentId,
           });
           await setActiveConversation(freedAgentId, request.conversationId);
+          const busyToken = getAgentToken(freedAgentId);
+          if (!busyToken) {
+            console.error("agent token not found", freedAgentId);
+            await clearActiveConversation(freedAgentId);
+            return NextResponse.json({ error: "Agent token missing" }, { status: 500 });
+          }
           try {
             const response = await updateAgentAvailability(
-              accountId,
-              freedAgentId,
-              "busy",
-              role
+              busyToken,
+              "busy"
             );
             console.info("set agent busy response", response);
           } catch (err) {
             console.error("set agent busy error", err);
             await clearActiveConversation(freedAgentId);
+            return NextResponse.json({ error: "Agent availability update failed" }, { status: 500 });
           }
           await updateRequest(request.conversationId, {
             status: "assigned",
