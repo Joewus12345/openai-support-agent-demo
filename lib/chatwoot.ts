@@ -63,21 +63,31 @@ export async function getAgent(accountId: number, agentId: number) {
   );
 }
 
-export async function updateAgentAvailability(
-  agentToken: string,
+export async function setAgentAvailability(
+  accountId: number,
+  agentId: number,
   availability: "online" | "busy" | "offline"
 ) {
-  return chatwootFetch(
-    `/api/v1/profile/availability`,
-    {
+  const path = `/api/v1/accounts/${accountId}/agents/${agentId}`;
+  try {
+    return await chatwootFetch(path, {
       method: "PATCH",
-      headers: {
-        "api_access_token": agentToken,
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ availability }),
+    });
+  } catch (err) {
+    if (err instanceof Error && err.message.includes("404")) {
+      const url = `${CHATWOOT_URL}${path}`;
+      console.error("[chatwoot] setAgentAvailability 404", {
+        url,
+        body: { availability },
+      });
+      console.error(
+        "[chatwoot] ensure Chatwoot version supports PATCH /api/v1/accounts/{accountId}/agents/{agentId}"
+      );
     }
-  );
+    throw err;
+  }
 }
 
 export async function getConversationLabels(
@@ -110,7 +120,7 @@ const chatwoot = {
   updateConversation,
   listAgents,
   getAgent,
-  updateAgentAvailability,
+  setAgentAvailability,
   getConversationLabels,
   setConversationLabels,
 };

@@ -257,6 +257,10 @@ export async function POST(request: Request) {
               role
             );
             if (!success) {
+              await updateRequest(conversationId, {
+                status: "pending",
+                agentId: null,
+              });
               return NextResponse.json({ status: "handoff_failed" });
             }
             await setActiveConversation(agent.id, conversationId);
