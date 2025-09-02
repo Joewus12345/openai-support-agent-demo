@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
+import type {
+  ChatwootEvent,
+  MessageCreatedPayload,
+  Conversation,
+} from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
@@ -20,35 +24,36 @@ import { releaseAgent } from "@/lib/conversationResolution";
 
 export async function POST(request: Request) {
   try {
-    const incoming = (await request.json()) as any;
+    const incoming = await request.json();
     const payload: ChatwootEvent = incoming.data ?? incoming;
 
-    if (incoming.event !== "message_created") {
+    if (payload.event !== "message_created") {
       return NextResponse.json({ status: "ignored" });
     }
 
-    const message: Message | undefined = payload.message || (payload as Message);
+    const {
+      message,
+      conversation: payloadConversation,
+      account,
+      account_id,
+      conversation_id,
+      inbox_id,
+    } = payload as MessageCreatedPayload;
+
     const conversation: Conversation | undefined =
-      message?.conversation || payload.conversation;
+      message.conversation || payloadConversation;
     const accountId =
-      payload.account?.id ??
-      message?.account?.id ??
-      (message as any)?.account_id ??
-      (payload as any)?.account_id;
+      account?.id ?? message.account?.id ?? message.account_id ?? account_id;
     const conversationId =
-      conversation?.id ??
-      (message as any)?.conversation_id ??
-      (payload as any)?.conversation_id;
+      conversation?.id ?? message.conversation_id ?? conversation_id;
     const inboxId =
-      (conversation as any)?.inbox_id ??
-      (message as any)?.inbox_id ??
-      (payload as any)?.inbox_id;
-    const content = message?.content;
-    const messageId = message?.id;
-    const messageType = message?.message_type || message?.type;
+      conversation?.inbox_id ?? message.inbox_id ?? inbox_id;
+    const content = message.content;
+    const messageId = message.id;
+    const messageType = message.message_type ?? message.type;
 
     if (
-      (message as any)?.message_type === 2 &&
+      message.message_type === 2 &&
       typeof content === "string" &&
       (content.startsWith("Conversation was marked resolved") ||
         content.startsWith("Conversation was marked as pending"))
