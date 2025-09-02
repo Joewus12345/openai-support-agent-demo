@@ -14,6 +14,7 @@ test('chatwoot status webhook handles pending system message', async () => {
   const payload = {
     event: 'message_created',
     data: {
+      event: 'message_created',
       message: {
         message_type: 2,
         content: 'Conversation was marked as pending',
@@ -37,6 +38,7 @@ test('chatwoot webhook handles pending system message', async () => {
   const payload = {
     event: 'message_created',
     data: {
+      event: 'message_created',
       message: {
         message_type: 2,
         content: 'Conversation was marked as pending',
@@ -53,4 +55,46 @@ test('chatwoot webhook handles pending system message', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  releaseAgentMock.mock.resetCalls();
+});
+
+test('chatwoot status webhook handles conversation_status_changed', async () => {
+  const payload = {
+    data: {
+      event: 'conversation_status_changed',
+      status: 'resolved',
+      previous_status: 'open',
+      account: { id: 3 },
+      conversation: { id: 3 },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusPost(req);
+  const data = await res.json();
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  releaseAgentMock.mock.resetCalls();
+});
+
+test('chatwoot status webhook handles label removal', async () => {
+  const payload = {
+    data: {
+      event: 'conversation_updated',
+      changed_attributes: [{ labels: [] }],
+      account: { id: 4 },
+      conversation: { id: 4 },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusPost(req);
+  const data = await res.json();
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  releaseAgentMock.mock.resetCalls();
 });
