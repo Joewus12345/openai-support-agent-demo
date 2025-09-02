@@ -15,14 +15,8 @@ export async function POST(request: Request) {
       incoming.data ?? incoming;
 
     const event = "event" in payload ? payload.event : payload.type;
-    const changedAttributes =
-      "changed_attributes" in payload ? payload.changed_attributes : undefined;
     const message: Message | undefined =
       "message" in payload ? payload.message : undefined;
-    console.info("chatwoot status webhook", {
-      event,
-      changed_attributes: changedAttributes,
-    });
 
     const accountId =
       payload.account?.id ??
@@ -40,6 +34,11 @@ export async function POST(request: Request) {
     }
 
     if (event === "conversation_status_changed") {
+      console.info("chatwoot status webhook", {
+        event,
+        conversationId,
+        changed_attributes: (payload as any).changed_attributes,
+      });
       const { status, previous_status: previous } =
         payload as ConversationStatusChangedPayload;
       if (
@@ -57,9 +56,19 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
     } else if (event === "conversation_updated") {
+      console.info("chatwoot status webhook", {
+        event,
+        conversationId,
+        changed_attributes: (payload as any).changed_attributes,
+      });
       const { changed_attributes } =
         payload as ConversationUpdatedPayload;
       const changes = Object.assign({}, ...(changed_attributes ?? []));
+      console.info("chatwoot status webhook changes", {
+        event,
+        conversationId,
+        changes,
+      });
       const status = changes?.status?.current_value;
       const labels = changes?.labels;
       if (
@@ -78,6 +87,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
     } else if (event === "message_created" && message) {
+      console.info("chatwoot status webhook", {
+        event,
+        conversationId,
+        changed_attributes: (payload as any).changed_attributes,
+      });
       const content = message.content;
       if (
         message.message_type === 2 &&

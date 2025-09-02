@@ -21,6 +21,8 @@ export async function releaseAgent(
   conversationId: number,
   conversation?: Conversation
 ) {
+  let freedAgentId: number | undefined;
+  let outcome = "no-agent";
   try {
     const current = await getConversationLabels(accountId, conversationId);
     const reserved = Object.values(CONVO_LABELS) as string[];
@@ -33,7 +35,7 @@ export async function releaseAgent(
   }
 
   try {
-    let freedAgentId = (conversation as any)?.assignee_id;
+    freedAgentId = (conversation as any)?.assignee_id;
     if (freedAgentId === undefined) {
       try {
         const convo = await getConversation(accountId, conversationId);
@@ -99,11 +101,21 @@ export async function releaseAgent(
           request.conversationId,
           "A human agent will join shortly."
         );
+        outcome = "assigned";
+      } else {
+        outcome = "released";
       }
     }
   } catch (err) {
     console.error("conversation status change handling error", err);
+    outcome = "error";
     throw err;
+  } finally {
+    console.info("releaseAgent", {
+      agentId: freedAgentId,
+      conversationId,
+      outcome,
+    });
   }
 }
 
