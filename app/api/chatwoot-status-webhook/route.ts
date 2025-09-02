@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type {
   ChatwootEvent,
-  Conversation,
   Message,
   ConversationUpdatedPayload,
   ConversationStatusChangedPayload,
@@ -24,7 +23,20 @@ export async function POST(request: Request) {
       changed_attributes: changedAttributes,
     });
 
-    let shouldRelease = false;
+    const accountId =
+      payload.account?.id ??
+      payload.account_id ??
+      message?.account?.id ??
+      message?.account_id;
+    const conversationId =
+      payload.conversation?.id ??
+      payload.conversation_id ??
+      message?.conversation?.id ??
+      message?.conversation_id;
+
+    if (accountId === undefined || conversationId === undefined) {
+      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    }
 
     if (event === "conversation_status_changed") {
       const { status, previous_status: previous } =
@@ -33,7 +45,15 @@ export async function POST(request: Request) {
         (status === "resolved" || status === "pending") &&
         status !== previous
       ) {
-        shouldRelease = true;
+        try {
+          await releaseAgent(accountId, conversationId, payload.conversation);
+        } catch {
+          return NextResponse.json(
+            { error: "Agent availability update failed" },
+            { status: 500 }
+          );
+        }
+        return NextResponse.json({ status: "handled" });
       }
     } else if (event === "conversation_updated") {
       const { changed_attributes } =
@@ -41,13 +61,20 @@ export async function POST(request: Request) {
       const changes = Object.assign({}, ...(changed_attributes ?? []));
       const status = changes?.status?.current_value;
       const labels = changes?.labels;
-      if (status === "resolved" || status === "pending") {
-        shouldRelease = true;
-      } else if (
-        Array.isArray(labels) &&
-        !labels.includes(CONVO_LABELS.assigned)
+      if (
+        status === "resolved" ||
+        status === "pending" ||
+        (Array.isArray(labels) && !labels.includes(CONVO_LABELS.assigned))
       ) {
-        shouldRelease = true;
+        try {
+          await releaseAgent(accountId, conversationId, payload.conversation);
+        } catch {
+          return NextResponse.json(
+            { error: "Agent availability update failed" },
+            { status: 500 }
+          );
+        }
+        return NextResponse.json({ status: "handled" });
       }
     } else if (event === "message_created" && message) {
       const content = message.content;
@@ -56,48 +83,24 @@ export async function POST(request: Request) {
         typeof content === "string" &&
         content.startsWith("Conversation was marked")
       ) {
-        shouldRelease = true;
+        console.info("chatwoot status webhook resolution message", {
+          messageId: message.id,
+          conversationId,
+          content: message.content,
+        });
+        try {
+          await releaseAgent(accountId, conversationId, payload.conversation);
+        } catch {
+          return NextResponse.json(
+            { error: "Agent availability update failed" },
+            { status: 500 }
+          );
+        }
+        return NextResponse.json({ status: "handled" });
       }
     }
 
-    const conversation: Conversation | undefined =
-      payload.conversation || message?.conversation;
-    const accountId =
-      payload.account?.id ??
-      payload.account_id ??
-      message?.account?.id ??
-      message?.account_id;
-    const conversationId =
-      conversation?.id ??
-      payload.conversation_id ??
-      message?.conversation_id;
-
-    if (accountId === undefined || conversationId === undefined) {
-      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
-    }
-
-    if (!shouldRelease) {
-      return NextResponse.json({ status: "ignored" });
-    }
-
-    if (event === "message_created" && message) {
-      console.info("chatwoot status webhook resolution message", {
-        messageId: message.id,
-        conversationId,
-        content: message.content,
-      });
-    }
-
-    try {
-      await releaseAgent(accountId, conversationId, conversation);
-    } catch {
-      return NextResponse.json(
-        { error: "Agent availability update failed" },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ status: "handled" });
+    return NextResponse.json({ status: "ignored" });
   } catch (error) {
     console.error("Chatwoot status webhook error", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
