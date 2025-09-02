@@ -29,8 +29,9 @@ export async function POST(request: Request) {
       message?.conversation?.id ??
       message?.conversation_id;
 
-    if (accountId === undefined || conversationId === undefined) {
-      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    if (!conversationId || !accountId) {
+      console.warn("chatwoot webhook: missing IDs", payload);
+      return NextResponse.json({ status: "ignored" }, { status: 400 });
     }
 
     if (event === "conversation_status_changed") {
