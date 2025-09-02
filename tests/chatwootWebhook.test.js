@@ -98,3 +98,38 @@ test('chatwoot status webhook handles label removal', async () => {
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
   releaseAgentMock.mock.resetCalls();
 });
+
+test('chatwoot status webhook returns 400 for missing IDs', async () => {
+  const payload = { data: { event: 'conversation_status_changed' } };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 400);
+  assert.strictEqual(data.status, 'ignored');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  releaseAgentMock.mock.resetCalls();
+});
+
+test('chatwoot webhook returns 400 for missing IDs', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        message_type: 2,
+        content: 'Conversation was marked as pending',
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  assert.strictEqual(res.status, 400);
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  releaseAgentMock.mock.resetCalls();
+});
