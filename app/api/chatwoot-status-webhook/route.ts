@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import type { ChatwootEvent, Conversation, Message } from "@/types/chatwoot";
 import { releaseAgent } from "@/lib/conversationResolution";
+import { CONVO_LABELS } from "@/lib/constants";
 
 export async function POST(request: Request) {
   try {
     const incoming = (await request.json()) as any;
     const payload: ChatwootEvent = incoming.data ?? incoming;
 
-    const event = incoming.event;
+    const event = (payload as any)?.event || (payload as any)?.type;
     const changedAttributes = (payload as any)?.changed_attributes;
     const message: Message | undefined = (payload as any)?.message;
     console.info("chatwoot status webhook", {
@@ -17,35 +18,39 @@ export async function POST(request: Request) {
 
     let shouldRelease = false;
 
-    if (event === "conversation_updated") {
-      const status = changedAttributes?.status?.current_value;
+    if (event === "conversation_status_changed") {
+      const status = (payload as any)?.status;
+      const previous = (payload as any)?.previous_status;
+      if (
+        (status === "resolved" || status === "pending") &&
+        status !== previous
+      ) {
+        shouldRelease = true;
+      }
+    } else if (event === "conversation_updated") {
+      const changes = Object.assign(
+        {},
+        ...((changedAttributes as any[]) ?? [])
+      );
+      const status = changes?.status?.current_value;
+      const labels = changes?.labels;
       if (status === "resolved" || status === "pending") {
         shouldRelease = true;
-      } else {
-        return NextResponse.json({ status: "ignored" });
+      } else if (
+        Array.isArray(labels) &&
+        !labels.includes(CONVO_LABELS.assigned)
+      ) {
+        shouldRelease = true;
       }
     } else if (event === "message_created") {
       const content = message?.content;
       if (
         (message as any)?.message_type === 2 &&
         typeof content === "string" &&
-        (content.startsWith("Conversation was marked resolved") ||
-          content.startsWith("Conversation was marked as pending"))
+        content.startsWith("Conversation was marked")
       ) {
-        const convoId =
-          (message as any)?.conversation_id ??
-          (payload as any)?.conversation_id;
-        console.info("chatwoot status webhook resolution message", {
-          messageId: message?.id,
-          conversationId: convoId,
-          content,
-        });
         shouldRelease = true;
-      } else {
-        return NextResponse.json({ status: "ignored" });
       }
-    } else {
-      return NextResponse.json({ status: "ignored" });
     }
 
     const conversation: Conversation | undefined =
@@ -66,6 +71,14 @@ export async function POST(request: Request) {
 
     if (!shouldRelease) {
       return NextResponse.json({ status: "ignored" });
+    }
+
+    if (event === "message_created") {
+      console.info("chatwoot status webhook resolution message", {
+        messageId: message?.id,
+        conversationId,
+        content: message?.content,
+      });
     }
 
     try {
