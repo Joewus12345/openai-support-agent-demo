@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         (message as any)?.message_type === 2 &&
         typeof content === "string" &&
         (content.startsWith("Conversation was marked resolved") ||
-          content.startsWith("Conversation was marked pending"))
+          content.startsWith("Conversation was marked as pending"))
       ) {
         const convoId =
           (message as any)?.conversation_id ??
