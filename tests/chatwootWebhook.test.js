@@ -58,6 +58,49 @@ test('chatwoot webhook handles pending system message', async () => {
   releaseAgentMock.mock.resetCalls();
 });
 
+test('chatwoot webhook handles conversation_status_changed', async () => {
+  const payload = {
+    event: 'conversation_status_changed',
+    data: {
+      event: 'conversation_status_changed',
+      status: 'resolved',
+      previous_status: 'open',
+      account: { id: 5 },
+      conversation: { id: 5 },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  releaseAgentMock.mock.resetCalls();
+});
+
+test('chatwoot webhook handles label removal', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      changed_attributes: [{ labels: [] }],
+      account: { id: 6 },
+      conversation: { id: 6 },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  releaseAgentMock.mock.resetCalls();
+});
+
 test('chatwoot status webhook handles conversation_status_changed', async () => {
   const payload = {
     data: {
