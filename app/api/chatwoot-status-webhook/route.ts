@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type {
   ChatwootEvent,
   Message,
-  ConversationUpdatedPayload,
   ConversationStatusChangedPayload,
 } from "@/types/chatwoot";
 import { releaseAgent } from "@/lib/conversationResolution";
@@ -54,20 +53,37 @@ export async function POST(request: Request) {
         conversationId,
         changed_attributes: (payload as any).changed_attributes,
       });
-      const { changed_attributes } =
-        payload as ConversationUpdatedPayload;
-      const changes = Object.assign({}, ...(changed_attributes ?? []));
+      const changes = Object.assign(
+        {},
+        ...(payload.changed_attributes || [])
+      );
       console.info("chatwoot status webhook changes", {
         event,
         conversationId,
         changes,
       });
-      const status = changes?.status?.current_value;
-      const labels = changes?.labels;
+      const statusChange = changes.status as
+        | { current_value?: string; previous_value?: string }
+        | undefined;
+      const labelListChange =
+        (changes.label_list ?? changes.cached_label_list) as
+          | { current_value?: string[]; previous_value?: string[] }
+          | undefined;
+      const statusCurrent = statusChange?.current_value;
+      const statusPrevious = statusChange?.previous_value;
+      const labelsCurrent = Array.isArray(labelListChange?.current_value)
+        ? labelListChange?.current_value
+        : undefined;
+      const labelsPrevious = Array.isArray(labelListChange?.previous_value)
+        ? labelListChange?.previous_value
+        : undefined;
       if (
-        status === "resolved" ||
-        status === "pending" ||
-        (Array.isArray(labels) && !labels.includes(CONVO_LABELS.assigned))
+        (statusChange &&
+          (statusCurrent === "resolved" || statusCurrent === "pending") &&
+          statusCurrent !== statusPrevious) ||
+        (Array.isArray(labelsCurrent) &&
+          labelsPrevious?.includes(CONVO_LABELS.assigned) &&
+          !labelsCurrent.includes(CONVO_LABELS.assigned))
       ) {
         try {
           await releaseAgent(accountId, conversationId, payload.conversation);
