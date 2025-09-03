@@ -38,13 +38,15 @@ export async function POST(request: Request) {
     if (event !== "message_created" || !conversation) {
       return NextResponse.json({ status: "ignored" });
     }
+    if (!message) {
+      return NextResponse.json({ status: "ignored" });
+    }
     const accountId =
       conversation.account?.id ?? conversation.account_id;
     const conversationId = conversation.id;
     const inboxId = conversation.inbox_id;
     const content = message.content;
     const messageId = message.id;
-    const messageType = message.message_type ?? message.type;
 
     if (
       message.message_type === 2 &&
@@ -67,7 +69,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "handled" });
     }
 
-    if (messageType !== "incoming") {
+    if (
+      message?.message_type !== 0 &&
+      message?.message_type !== "incoming"
+    ) {
       return NextResponse.json({ status: "ignored" });
     }
 
