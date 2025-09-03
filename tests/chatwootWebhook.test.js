@@ -142,7 +142,7 @@ test('chatwoot webhook escalates when agent available', async () => {
         message_type: 0,
         content: 'I need a human',
         account: { id: 1 },
-        conversation: { id: 1, inbox_id: 1, status: 'resolved' },
+        conversation: { id: 1, inbox_id: 1, status: 'resolved', account_id: 1 },
       },
     },
   };
@@ -175,7 +175,7 @@ test('chatwoot webhook queues request when no agent available', async () => {
         message_type: 0,
         content: 'Need human assistance',
         account: { id: 2 },
-        conversation: { id: 2, inbox_id: 1, status: 'resolved' },
+        conversation: { id: 2, inbox_id: 1, status: 'resolved', account_id: 2 },
       },
     },
   };
@@ -226,8 +226,10 @@ test('chatwoot webhook returns 400 for missing IDs', async () => {
     data: {
       event: 'message_created',
       message: {
+        id: 3,
         message_type: 0,
         content: 'hi',
+        conversation: { id: 3, inbox_id: 1, status: 'resolved' },
       },
     },
   };
@@ -251,7 +253,7 @@ test('chatwoot webhook processes incoming message', async () => {
         message_type: 0,
         content: 'Hello',
         account: { id: 7 },
-        conversation: { id: 7, inbox_id: 1, status: 'resolved' },
+        conversation: { id: 7, inbox_id: 1, status: 'resolved', account_id: 7 },
       },
     },
   };
@@ -267,5 +269,31 @@ test('chatwoot webhook processes incoming message', async () => {
   assert.strictEqual(call[0], 7);
   assert.strictEqual(call[1], 7);
   assert.strictEqual(call[2], 'hi');
+  resetMocks();
+});
+
+test('chatwoot webhook returns 500 when sendBotMessage fails', async () => {
+  sendBotMessageMock.mock.mockImplementationOnce(async () => {
+    throw new Error('fail');
+  });
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        message_type: 0,
+        content: 'Hello',
+        account: { id: 8 },
+        conversation: { id: 8, inbox_id: 1, status: 'resolved', account_id: 8 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  assert.strictEqual(res.status, 500);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   resetMocks();
 });
