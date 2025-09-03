@@ -21,37 +21,35 @@ import { toResponseMessage } from "@/lib/utils/toResponseMessage";
 import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
+import { extractIds } from "@/lib/extractIds";
 
 export async function POST(request: Request) {
   try {
     const payload = (await request.json()) as ChatwootWebhookPayload;
     const event = payload.event;
     const data = "data" in payload ? payload.data : payload;
+    const { message } = data as MessageCreatedPayload;
+    let { accountId, conversationId } = extractIds(data);
     const conversation: Conversation | undefined =
-      data.conversation ?? (event.startsWith("conversation_") ? (data as any) : undefined);
-    if (!conversation) {
-      console.info("chatwoot webhook", { event });
-    }
-    if (event !== "message_created" || !conversation) {
+      data.conversation ??
+      (event.startsWith("conversation_") ? (data as any) : undefined) ??
+      message?.conversation;
+    if (event !== "message_created") {
       return NextResponse.json({ status: "ignored" });
     }
-    const accountId =
-      conversation.account?.id ?? conversation.account_id;
-    const conversationId = conversation.id;
-    const inboxId = conversation.inbox_id;
-    const { message } = data as MessageCreatedPayload;
-    const content = message.content;
-    const messageId = message.id;
-    const messageType = message.message_type ?? message.type;
+    const content = message?.content;
+    const messageId = message?.id;
+    const messageType = message?.message_type ?? message?.type;
 
     if (
-      message.message_type === 2 &&
+      message?.message_type === 2 &&
       typeof content === "string" &&
       (content.startsWith("Conversation was marked resolved") ||
         content.startsWith("Conversation was marked as pending"))
     ) {
       console.info("resolution message", { messageId, conversationId, content });
       if (accountId === undefined || conversationId === undefined) {
+        console.warn("chatwoot webhook: missing IDs", data);
         return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
       }
       try {
@@ -64,6 +62,14 @@ export async function POST(request: Request) {
       }
       return NextResponse.json({ status: "handled" });
     }
+
+    if (!conversation) {
+      console.info("chatwoot webhook", { event });
+      return NextResponse.json({ status: "ignored" });
+    }
+    accountId ??= conversation.account?.id ?? conversation.account_id;
+    conversationId ??= conversation.id;
+    const inboxId = conversation.inbox_id;
 
     if (messageType !== "incoming") {
       return NextResponse.json({ status: "ignored" });

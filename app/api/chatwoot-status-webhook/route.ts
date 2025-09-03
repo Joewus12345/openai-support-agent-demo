@@ -7,6 +7,7 @@ import type {
 } from "@/types/chatwoot";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CONVO_LABELS } from "@/lib/constants";
+import { extractIds } from "@/lib/extractIds";
 
 export async function POST(request: Request) {
   try {
@@ -18,16 +19,7 @@ export async function POST(request: Request) {
     const message: Message | undefined =
       "message" in payload ? payload.message : undefined;
 
-    const accountId =
-      payload.account?.id ??
-      payload.account_id ??
-      message?.account?.id ??
-      message?.account_id;
-    const conversationId =
-      payload.conversation?.id ??
-      payload.conversation_id ??
-      message?.conversation?.id ??
-      message?.conversation_id;
+    const { accountId, conversationId } = extractIds(payload);
 
     if (!conversationId || !accountId) {
       console.warn("chatwoot webhook: missing IDs", payload);
