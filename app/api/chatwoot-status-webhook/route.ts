@@ -26,17 +26,15 @@ export async function POST(request: Request) {
     }
 
     if (event === "conversation_status_changed") {
-      console.info("chatwoot status webhook", {
-        event,
-        conversationId,
-        changed_attributes: (payload as any).changed_attributes,
-      });
       const { status, previous_status: previous } =
         payload as ConversationStatusChangedPayload;
-      if (
-        (status === "resolved" || status === "pending") &&
-        status !== previous
-      ) {
+      console.info("chatwoot status webhook status change", {
+        event,
+        conversationId,
+        status,
+        previous_status: previous,
+      });
+      if (previous === "open" && status !== "open") {
         try {
           await releaseAgent(accountId, conversationId, payload.conversation);
         } catch {
@@ -48,7 +46,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
     } else if (event === "conversation_updated") {
-      console.info("chatwoot status webhook", {
+      console.info("chatwoot status webhook conversation update", {
         event,
         conversationId,
         changed_attributes: (payload as any).changed_attributes,
@@ -96,10 +94,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
     } else if (event === "message_created" && message) {
-      console.info("chatwoot status webhook", {
+      console.info("chatwoot status webhook message", {
         event,
         conversationId,
-        changed_attributes: (payload as any).changed_attributes,
+        messageId: message.id,
+        message_type: message.message_type,
       });
       const content = message.content;
       if (
@@ -110,7 +109,7 @@ export async function POST(request: Request) {
         console.info("chatwoot status webhook resolution message", {
           messageId: message.id,
           conversationId,
-          content: message.content,
+          content,
         });
         try {
           await releaseAgent(accountId, conversationId, payload.conversation);

@@ -57,7 +57,7 @@ test('chatwoot webhook releases agent on conversation_status_changed', async () 
     event: 'conversation_status_changed',
     data: {
       event: 'conversation_status_changed',
-      status: 'resolved',
+      status: 'snoozed',
       previous_status: 'open',
       account: { id: 1 },
       conversation: { id: 1 },
@@ -71,6 +71,8 @@ test('chatwoot webhook releases agent on conversation_status_changed', async () 
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
   resetMocks();
 });
 
@@ -193,7 +195,7 @@ test('chatwoot webhook queues request when no agent available', async () => {
   resetMocks();
 });
 
-test('chatwoot webhook ignores system message', async () => {
+test('chatwoot webhook releases agent on resolution system message', async () => {
   const payload = {
     event: 'message_created',
     data: {
@@ -212,9 +214,8 @@ test('chatwoot webhook ignores system message', async () => {
   });
   const res = await webhookPost(req);
   const data = await res.json();
-  assert.strictEqual(data.status, 'ignored');
-  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
-  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
   resetMocks();
 });
 

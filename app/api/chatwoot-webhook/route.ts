@@ -38,6 +38,43 @@ export async function POST(request: Request) {
 
     switch (event) {
       case "message_created": {
+        if (message?.message_type === 2) {
+          const content = message.content;
+          if (
+            typeof content === "string" &&
+            content.startsWith("Conversation was marked")
+          ) {
+            accountId ??= message.account?.id;
+            conversationId ??= message.conversation?.id;
+            console.info("chatwoot webhook resolution message", {
+              event,
+              conversationId,
+              messageId: message.id,
+              content,
+            });
+            if (accountId === undefined || conversationId === undefined) {
+              console.warn("chatwoot webhook: missing IDs", payload);
+              return NextResponse.json(
+                { error: "Invalid payload" },
+                { status: 400 }
+              );
+            }
+            try {
+              await releaseAgent(
+                accountId,
+                conversationId,
+                conversation ?? message.conversation
+              );
+            } catch {
+              return NextResponse.json(
+                { error: "Agent availability update failed" },
+                { status: 500 }
+              );
+            }
+            return NextResponse.json({ status: "handled" });
+          }
+          return NextResponse.json({ status: "ignored" });
+        }
         if (message?.message_type !== 0) {
           return NextResponse.json({ status: "ignored" });
         }
@@ -57,19 +94,16 @@ export async function POST(request: Request) {
             status: 400,
           });
         }
-        console.info("chatwoot webhook", {
-          event,
-          conversationId,
-          changed_attributes: (payload as any).changed_attributes,
-        });
-
         if (event === "conversation_status_changed") {
           const { status, previous_status: previous } =
             payload as ConversationStatusChangedPayload;
-          if (
-            (status === "resolved" || status === "pending") &&
-            status !== previous
-          ) {
+          console.info("chatwoot webhook status change", {
+            event,
+            conversationId,
+            status,
+            previous_status: previous,
+          });
+          if (previous === "open" && status !== "open") {
             try {
               await releaseAgent(accountId, conversationId, conversation);
             } catch {
@@ -81,6 +115,11 @@ export async function POST(request: Request) {
             return NextResponse.json({ status: "handled" });
           }
         } else {
+          console.info("chatwoot webhook conversation update", {
+            event,
+            conversationId,
+            changed_attributes: (payload as any).changed_attributes,
+          });
           const changes = Object.assign(
             {},
             ...(payload.changed_attributes || [])
