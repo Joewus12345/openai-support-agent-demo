@@ -3,70 +3,64 @@ const { test, mock } = require('node:test');
 require('ts-node/register/transpile-only');
 require('tsconfig-paths/register');
 
-// Mock releaseAgent to avoid hitting Prisma or external services
+// Mock external dependencies
 const conversationResolution = require('../lib/conversationResolution.ts');
 const releaseAgentMock = mock.method(conversationResolution, 'releaseAgent', async () => {});
 
-const { POST: statusPost } = require('../app/api/chatwoot-status-webhook/route.ts');
+const chatwootBot = require('../lib/chatwootBot.ts');
+const sendBotMessageMock = mock.method(chatwootBot, 'sendBotMessage', async () => {});
+
+const providers = require('../lib/providers/index.ts');
+const getProviderMock = mock.method(providers, 'getProvider', () => {
+  return () =>
+    (async function* () {
+      yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+    })();
+});
+
+const agentRotation = require('../lib/agentRotation.ts');
+const getNextAgentMock = mock.method(agentRotation, 'getNextAgent', async () => null);
+const setActiveConversationMock = mock.method(agentRotation, 'setActiveConversation', async () => {});
+
+const handoff = require('../lib/handoff.ts');
+const handOffMock = mock.method(handoff, 'default', async () => true);
+
+const handoffQueue = require('../lib/handoffQueue.ts');
+const enqueueRequestMock = mock.method(handoffQueue, 'enqueueRequest', async () => {});
+
+const chatwoot = require('../lib/chatwoot.ts');
+const getConversationMock = mock.method(chatwoot, 'getConversation', async () => ({ id: 1, status: 'resolved', inbox_id: 1 }));
+const setConversationLabelsMock = mock.method(chatwoot, 'setConversationLabels', async () => {});
+
+const { CONVO_LABELS } = require('../lib/constants.ts');
+
+const prisma = require('../lib/prisma.ts').default;
+prisma.handoffRequest.findUnique = mock.fn(async () => null);
+
 const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
 
-test('chatwoot status webhook handles pending system message', async () => {
-  const payload = {
-    event: 'message_created',
-    data: {
-      event: 'message_created',
-      message: {
-        message_type: 2,
-        content: 'Conversation was marked as pending',
-        account: { id: 1 },
-        conversation: { id: 1 },
-      },
-    },
-  };
-  const req = new Request('http://localhost', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
-  const res = await statusPost(req);
-  const data = await res.json();
-  assert.strictEqual(data.status, 'handled');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+function resetMocks() {
   releaseAgentMock.mock.resetCalls();
-});
+  sendBotMessageMock.mock.resetCalls();
+  getProviderMock.mock.resetCalls();
+  getNextAgentMock.mock.resetCalls();
+  setActiveConversationMock.mock.resetCalls();
+  handOffMock.mock.resetCalls();
+  enqueueRequestMock.mock.resetCalls();
+  getConversationMock.mock.resetCalls();
+  setConversationLabelsMock.mock.resetCalls();
+  prisma.handoffRequest.findUnique.mock.resetCalls();
+}
 
-test('chatwoot webhook handles pending system message', async () => {
-  const payload = {
-    event: 'message_created',
-    data: {
-      event: 'message_created',
-      message: {
-        message_type: 2,
-        content: 'Conversation was marked as pending',
-        account: { id: 2 },
-        conversation: { id: 2 },
-      },
-    },
-  };
-  const req = new Request('http://localhost', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
-  const res = await webhookPost(req);
-  const data = await res.json();
-  assert.strictEqual(data.status, 'handled');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
-  releaseAgentMock.mock.resetCalls();
-});
-
-test('chatwoot webhook handles conversation_status_changed', async () => {
+test('chatwoot webhook releases agent on conversation_status_changed', async () => {
   const payload = {
     event: 'conversation_status_changed',
     data: {
       event: 'conversation_status_changed',
       status: 'resolved',
       previous_status: 'open',
-      account: { id: 5 },
-      conversation: { id: 5 },
+      account: { id: 1 },
+      conversation: { id: 1 },
     },
   };
   const req = new Request('http://localhost', {
@@ -77,17 +71,17 @@ test('chatwoot webhook handles conversation_status_changed', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
-  releaseAgentMock.mock.resetCalls();
+  resetMocks();
 });
 
-test('chatwoot webhook handles label removal', async () => {
+test('chatwoot webhook releases agent on label removal', async () => {
   const payload = {
     event: 'conversation_updated',
     data: {
       event: 'conversation_updated',
       changed_attributes: [{ labels: [] }],
-      account: { id: 6 },
-      conversation: { id: 6 },
+      account: { id: 2 },
+      conversation: { id: 2 },
     },
   };
   const req = new Request('http://localhost', {
@@ -98,62 +92,98 @@ test('chatwoot webhook handles label removal', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
-  releaseAgentMock.mock.resetCalls();
+  resetMocks();
 });
 
-test('chatwoot status webhook handles conversation_status_changed', async () => {
+test('chatwoot webhook escalates when agent available', async () => {
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({ id: 10, role: 'agent' }));
+  getConversationMock.mock.mockImplementationOnce(async () => ({ id: 1, status: 'resolved', inbox_id: 1 }));
   const payload = {
+    event: 'message_created',
     data: {
-      event: 'conversation_status_changed',
-      status: 'resolved',
-      previous_status: 'open',
-      account: { id: 3 },
-      conversation: { id: 3 },
+      event: 'message_created',
+      message: {
+        id: 1,
+        message_type: 0,
+        content: 'I need a human',
+        account: { id: 1 },
+        conversation: { id: 1, inbox_id: 1, status: 'resolved' },
+      },
     },
   };
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  const res = await statusPost(req);
-  const data = await res.json();
-  assert.strictEqual(data.status, 'handled');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
-  releaseAgentMock.mock.resetCalls();
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'handoff');
+  assert.strictEqual(handOffMock.mock.calls.length, 1);
+  assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
+  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [1, 'assigned', 10]);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.assigned]);
+  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'A human agent will join shortly.');
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  resetMocks();
 });
 
-test('chatwoot status webhook handles label removal', async () => {
+test('chatwoot webhook queues request when no agent available', async () => {
+  getNextAgentMock.mock.mockImplementationOnce(async () => null);
+  getConversationMock.mock.mockImplementationOnce(async () => ({ id: 2, status: 'resolved', inbox_id: 1 }));
   const payload = {
+    event: 'message_created',
     data: {
-      event: 'conversation_updated',
-      changed_attributes: [{ labels: [] }],
-      account: { id: 4 },
-      conversation: { id: 4 },
+      event: 'message_created',
+      message: {
+        id: 2,
+        message_type: 0,
+        content: 'Need human assistance',
+        account: { id: 2 },
+        conversation: { id: 2, inbox_id: 1, status: 'resolved' },
+      },
     },
   };
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  const res = await statusPost(req);
-  const data = await res.json();
-  assert.strictEqual(data.status, 'handled');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
-  releaseAgentMock.mock.resetCalls();
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'handoff');
+  assert.strictEqual(handOffMock.mock.calls.length, 0);
+  assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
+  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [2]);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
+  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'All human agents are currently busy. Please wait for the next available agent.');
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  resetMocks();
 });
 
-test('chatwoot status webhook returns 400 for missing IDs', async () => {
-  const payload = { data: { event: 'conversation_status_changed' } };
+test('chatwoot webhook ignores system message', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        message_type: 2,
+        content: 'Conversation was marked as pending',
+        account: { id: 3 },
+        conversation: { id: 3 },
+      },
+    },
+  };
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  const res = await statusPost(req);
+  const res = await webhookPost(req);
   const data = await res.json();
-  assert.strictEqual(res.status, 400);
   assert.strictEqual(data.status, 'ignored');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
-  releaseAgentMock.mock.resetCalls();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  resetMocks();
 });
 
 test('chatwoot webhook returns 400 for missing IDs', async () => {
@@ -162,8 +192,8 @@ test('chatwoot webhook returns 400 for missing IDs', async () => {
     data: {
       event: 'message_created',
       message: {
-        message_type: 2,
-        content: 'Conversation was marked as pending',
+        message_type: 0,
+        content: 'hi',
       },
     },
   };
@@ -173,6 +203,35 @@ test('chatwoot webhook returns 400 for missing IDs', async () => {
   });
   const res = await webhookPost(req);
   assert.strictEqual(res.status, 400);
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
-  releaseAgentMock.mock.resetCalls();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  resetMocks();
+});
+
+test('chatwoot webhook processes incoming message', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        message_type: 0,
+        content: 'Hello',
+        account: { id: 7 },
+        conversation: { id: 7, inbox_id: 1, status: 'resolved' },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  const call = sendBotMessageMock.mock.calls[0].arguments;
+  assert.strictEqual(call[0], 7);
+  assert.strictEqual(call[1], 7);
+  assert.strictEqual(call[2], 'hi');
+  resetMocks();
 });
