@@ -4,7 +4,6 @@ import type {
   MessageCreatedPayload,
   Conversation,
   ConversationStatusChangedPayload,
-  ConversationUpdatedPayload,
 } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
@@ -27,14 +26,14 @@ import { extractIds } from "@/lib/extractIds";
 
 export async function POST(request: Request) {
   try {
-    const payload = (await request.json()) as ChatwootWebhookPayload;
-    const event = payload.event;
-    const data = "data" in payload ? payload.data : payload;
-    const { message } = data as MessageCreatedPayload;
-    let { accountId, conversationId } = extractIds(data);
+    const incoming = (await request.json()) as ChatwootWebhookPayload;
+    const event = incoming.event;
+    const payload = "data" in incoming ? incoming.data : incoming;
+    const { message } = payload as MessageCreatedPayload;
+    let { accountId, conversationId } = extractIds(payload);
     const conversation: Conversation | undefined =
-      data.conversation ??
-      (event?.startsWith("conversation_") ? (data as any) : undefined) ??
+      payload.conversation ??
+      (event?.startsWith("conversation_") ? (payload as any) : undefined) ??
       message?.conversation;
 
     switch (event) {
@@ -53,7 +52,7 @@ export async function POST(request: Request) {
         accountId ??= conversation.account?.id ?? conversation.account_id;
         conversationId ??= conversation.id;
         if (accountId === undefined || conversationId === undefined) {
-          console.warn("chatwoot webhook: missing IDs", data);
+          console.warn("chatwoot webhook: missing IDs", payload);
           return NextResponse.json({ error: "Invalid payload" }, {
             status: 400,
           });
@@ -61,12 +60,12 @@ export async function POST(request: Request) {
         console.info("chatwoot webhook", {
           event,
           conversationId,
-          changed_attributes: (data as any).changed_attributes,
+          changed_attributes: (payload as any).changed_attributes,
         });
 
         if (event === "conversation_status_changed") {
           const { status, previous_status: previous } =
-            data as ConversationStatusChangedPayload;
+            payload as ConversationStatusChangedPayload;
           if (
             (status === "resolved" || status === "pending") &&
             status !== previous
@@ -82,14 +81,32 @@ export async function POST(request: Request) {
             return NextResponse.json({ status: "handled" });
           }
         } else {
-          const { changed_attributes } = data as ConversationUpdatedPayload;
-          const changes = Object.assign({}, ...(changed_attributes ?? []));
-          const status = changes?.status?.current_value;
-          const labels = changes?.labels;
+          const changes = Object.assign(
+            {},
+            ...(payload.changed_attributes || [])
+          );
+          const statusChange = changes.status as
+            | { current_value?: string; previous_value?: string }
+            | undefined;
+          const labelListChange =
+            (changes.label_list ?? changes.cached_label_list) as
+              | { current_value?: string[]; previous_value?: string[] }
+              | undefined;
+          const statusCurrent = statusChange?.current_value;
+          const statusPrevious = statusChange?.previous_value;
+          const labelsCurrent = Array.isArray(labelListChange?.current_value)
+            ? labelListChange?.current_value
+            : undefined;
+          const labelsPrevious = Array.isArray(labelListChange?.previous_value)
+            ? labelListChange?.previous_value
+            : undefined;
           if (
-            status === "resolved" ||
-            status === "pending" ||
-            (Array.isArray(labels) && !labels.includes(CONVO_LABELS.assigned))
+            (statusChange &&
+              (statusCurrent === "resolved" || statusCurrent === "pending") &&
+              statusCurrent !== statusPrevious) ||
+            (Array.isArray(labelsCurrent) &&
+              labelsPrevious?.includes(CONVO_LABELS.assigned) &&
+              !labelsCurrent.includes(CONVO_LABELS.assigned))
           ) {
             try {
               await releaseAgent(accountId, conversationId, conversation);
@@ -118,7 +135,7 @@ export async function POST(request: Request) {
     if (!conversation) {
       console.info("chatwoot webhook", { event });
       if (accountId === undefined || conversationId === undefined) {
-        console.warn("chatwoot webhook: missing IDs", data);
+        console.warn("chatwoot webhook: missing IDs", payload);
         return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
       }
       return NextResponse.json({ status: "ignored" });
@@ -136,7 +153,7 @@ export async function POST(request: Request) {
       typeof content !== "string" ||
       !content
     ) {
-      console.warn("chatwoot webhook: missing IDs", data);
+      console.warn("chatwoot webhook: missing IDs", payload);
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
