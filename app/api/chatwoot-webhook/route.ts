@@ -357,6 +357,7 @@ export async function POST(request: Request) {
 
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
+    let replySent = false;
     try {
       let replyText = "";
       const events = getProvider(undefined)(
@@ -375,8 +376,16 @@ export async function POST(request: Request) {
       await sendBotMessage(accountId, conversationId, replyText, {
         private: mode !== "auto",
       });
+      replySent = true;
     } catch (err) {
       console.error("sendBotMessage error", err);
+    }
+
+    if (!replySent) {
+      return NextResponse.json(
+        { error: "Failed to send reply" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({
