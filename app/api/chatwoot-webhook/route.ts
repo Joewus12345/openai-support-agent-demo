@@ -48,6 +48,12 @@ export async function POST(request: Request) {
         }
         accountId ??= conversation.account?.id ?? conversation.account_id;
         conversationId ??= conversation.id;
+        if (accountId === undefined || conversationId === undefined) {
+          console.warn("chatwoot webhook: missing IDs", data);
+          return NextResponse.json({ error: "Invalid payload" }, {
+            status: 400,
+          });
+        }
         console.info("chatwoot webhook", {
           event,
           conversationId,
