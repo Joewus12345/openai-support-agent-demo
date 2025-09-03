@@ -24,30 +24,22 @@ import { releaseAgent } from "@/lib/conversationResolution";
 
 export async function POST(request: Request) {
   try {
-    const incoming = await request.json();
-    const payload: ChatwootEvent = incoming.data ?? incoming;
-
-    if (payload.event !== "message_created") {
+    const payload: ChatwootEvent = await request.json();
+    const event = payload.event;
+    const data = payload.data ?? payload;
+    const conversation: Conversation | undefined =
+      data.conversation ?? (event.startsWith("conversation_") ? (data as any) : undefined);
+    if (!conversation) {
+      console.info("chatwoot webhook", { event });
+    }
+    if (event !== "message_created" || !conversation) {
       return NextResponse.json({ status: "ignored" });
     }
-
-    const {
-      message,
-      conversation: payloadConversation,
-      account,
-      account_id,
-      conversation_id,
-      inbox_id,
-    } = payload as MessageCreatedPayload;
-
-    const conversation: Conversation | undefined =
-      message.conversation || payloadConversation;
     const accountId =
-      account?.id ?? message.account?.id ?? message.account_id ?? account_id;
-    const conversationId =
-      conversation?.id ?? message.conversation_id ?? conversation_id;
-    const inboxId =
-      conversation?.inbox_id ?? message.inbox_id ?? inbox_id;
+      conversation.account?.id ?? conversation.account_id;
+    const conversationId = conversation.id;
+    const inboxId = conversation.inbox_id;
+    const { message } = data as MessageCreatedPayload;
     const content = message.content;
     const messageId = message.id;
     const messageType = message.message_type ?? message.type;
