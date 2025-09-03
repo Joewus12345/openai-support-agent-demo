@@ -38,8 +38,12 @@ export async function POST(request: Request) {
       message?.conversation;
 
     switch (event) {
-      case "message_created":
+      case "message_created": {
+        if (message?.message_type !== 0) {
+          return NextResponse.json({ status: "ignored" });
+        }
         break;
+      }
       case "conversation_status_changed":
       case "conversation_updated": {
         if (!conversation) {
@@ -105,46 +109,23 @@ export async function POST(request: Request) {
     }
 
     const content = message?.content;
-    const messageId = message?.id;
     const messageType = message?.message_type ?? message?.type;
 
-    if (
-      message?.message_type === 2 &&
-      typeof content === "string" &&
-      (content.startsWith("Conversation was marked resolved") ||
-        content.startsWith("Conversation was marked as pending"))
-    ) {
-      console.info("resolution message", { messageId, conversationId, content });
-      if (
-        accountId === undefined ||
-        conversationId === undefined ||
-        !conversation
-      ) {
-        console.warn("chatwoot webhook: missing IDs", data);
-        return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
-      }
-      try {
-        await releaseAgent(accountId, conversationId, conversation);
-      } catch {
-        return NextResponse.json(
-          { error: "Agent availability update failed" },
-          { status: 500 }
-        );
-      }
-      return NextResponse.json({ status: "handled" });
+    if (messageType !== 0 && messageType !== "incoming") {
+      return NextResponse.json({ status: "ignored" });
     }
 
     if (!conversation) {
       console.info("chatwoot webhook", { event });
+      if (accountId === undefined || conversationId === undefined) {
+        console.warn("chatwoot webhook: missing IDs", data);
+        return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+      }
       return NextResponse.json({ status: "ignored" });
     }
     accountId ??= conversation.account?.id ?? conversation.account_id;
     conversationId ??= conversation.id;
     const inboxId = conversation.inbox_id;
-
-    if (messageType !== "incoming") {
-      return NextResponse.json({ status: "ignored" });
-    }
 
     console.info("handoff", { accountId, conversationId, inboxId, content });
 
@@ -152,8 +133,10 @@ export async function POST(request: Request) {
       accountId === undefined ||
       conversationId === undefined ||
       inboxId === undefined ||
+      typeof content !== "string" ||
       !content
     ) {
+      console.warn("chatwoot webhook: missing IDs", data);
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
@@ -185,21 +168,21 @@ export async function POST(request: Request) {
       const confirmPattern = /\b(yes|y|sure|confirm|ok)\b/i;
       if (confirmPattern.test(content)) {
         try {
-            const agent = await getNextAgent(accountId);
-            if (agent) {
-              const role =
-                agent.role === "administrator" ? "administrator" : "agent";
-              const success = await handOff(
-                accountId,
-                conversationId,
-                agent.id,
-                role
-              );
-              if (!success) {
-                return NextResponse.json({ status: "handoff_failed" });
-              }
-              await setActiveConversation(agent.id, conversationId);
-              console.info("handoff", "active set", agent.id);
+          const agent = await getNextAgent(accountId);
+          if (agent) {
+            const role =
+              agent.role === "administrator" ? "administrator" : "agent";
+            const success = await handOff(
+              accountId,
+              conversationId,
+              agent.id,
+              role
+            );
+            if (!success) {
+              return NextResponse.json({ status: "handoff_failed" });
+            }
+            await setActiveConversation(agent.id, conversationId);
+            console.info("handoff", "active set", agent.id);
             console.info("handoff", {
               step: "update-request",
               conversationId,
@@ -221,53 +204,53 @@ export async function POST(request: Request) {
               "A human agent will join shortly."
             );
             console.info("handoff", "message sent");
-              let labels = [CONVO_LABELS.assigned];
-              try {
-                console.info("handoff", {
-                  step: "get-labels",
-                  accountId,
-                  conversationId,
-                });
-                const current = await getConversationLabels(
-                  accountId,
-                  conversationId
-                );
-                console.info(
-                  "handoff",
-                  "labels fetched",
-                  (current as any)?.payload
-                );
-                labels = Array.isArray((current as any)?.payload)
-                  ? Array.from(
-                      new Set(
-                        [
-                          ...(current as any).payload.filter(
-                            (l: string) => l !== CONVO_LABELS.awaiting
-                          ),
-                          CONVO_LABELS.assigned,
-                        ]
-                      )
-                    )
-                  : [CONVO_LABELS.assigned];
-              } catch (err) {
-                console.error("handoff fetch labels error", err);
-              }
+            let labels = [CONVO_LABELS.assigned];
+            try {
               console.info("handoff", {
-                step: "set-labels",
+                step: "get-labels",
                 accountId,
                 conversationId,
               });
-              try {
-                await setConversationLabels(accountId, conversationId, labels);
-                console.info("handoff", "labels set", labels);
-              } catch (err) {
-                console.error("handoff set labels error", err);
-              }
-              return NextResponse.json({ status: "handoff_confirmed" });
+              const current = await getConversationLabels(
+                accountId,
+                conversationId
+              );
+              console.info(
+                "handoff",
+                "labels fetched",
+                (current as any)?.payload
+              );
+              labels = Array.isArray((current as any)?.payload)
+                ? Array.from(
+                    new Set(
+                      [
+                        ...(current as any).payload.filter(
+                          (l: string) => l !== CONVO_LABELS.awaiting
+                        ),
+                        CONVO_LABELS.assigned,
+                      ]
+                    )
+                  )
+                : [CONVO_LABELS.assigned];
+            } catch (err) {
+              console.error("handoff fetch labels error", err);
             }
-          } catch (err) {
-            console.error("handoff confirmation error", err);
+            console.info("handoff", {
+              step: "set-labels",
+              accountId,
+              conversationId,
+            });
+            try {
+              await setConversationLabels(accountId, conversationId, labels);
+              console.info("handoff", "labels set", labels);
+            } catch (err) {
+              console.error("handoff set labels error", err);
+            }
+            return NextResponse.json({ status: "handoff_confirmed" });
           }
+        } catch (err) {
+          console.error("handoff confirmation error", err);
+        }
       } else {
         console.info("handoff", { step: "update-request", conversationId });
         await updateRequest(conversationId, {
@@ -345,23 +328,23 @@ export async function POST(request: Request) {
           });
           await enqueueRequest(conversationId, "assigned", agent.id);
           console.info("handoff", "request enqueued", agent.id);
-            const role =
-              agent.role === "administrator" ? "administrator" : "agent";
-            const success = await handOff(
-              accountId,
-              conversationId,
-              agent.id,
-              role
-            );
-            if (!success) {
-              await updateRequest(conversationId, {
-                status: "pending",
-                agentId: null,
-              });
-              return NextResponse.json({ status: "handoff_failed" });
-            }
-            await setActiveConversation(agent.id, conversationId);
-            console.info("handoff", "active set", agent.id);
+          const role =
+            agent.role === "administrator" ? "administrator" : "agent";
+          const success = await handOff(
+            accountId,
+            conversationId,
+            agent.id,
+            role
+          );
+          if (!success) {
+            await updateRequest(conversationId, {
+              status: "pending",
+              agentId: null,
+            });
+            return NextResponse.json({ status: "handoff_failed" });
+          }
+          await setActiveConversation(agent.id, conversationId);
+          console.info("handoff", "active set", agent.id);
           console.info("handoff", {
             step: "send-message",
             accountId,
@@ -373,39 +356,39 @@ export async function POST(request: Request) {
             "A human agent will join shortly."
           );
           console.info("handoff", "message sent");
-            const labels = [CONVO_LABELS.assigned];
-            console.info("handoff", {
-              step: "set-labels",
-              accountId,
-              conversationId,
-            });
-            try {
-              await setConversationLabels(accountId, conversationId, labels);
-              console.info("handoff", "labels set", labels);
-            } catch (err) {
-              console.error("handoff set labels error", err);
-            }
+          const labels = [CONVO_LABELS.assigned];
+          console.info("handoff", {
+            step: "set-labels",
+            accountId,
+            conversationId,
+          });
+          try {
+            await setConversationLabels(accountId, conversationId, labels);
+            console.info("handoff", "labels set", labels);
+          } catch (err) {
+            console.error("handoff set labels error", err);
+          }
         } else {
           console.info("handoff", { step: "enqueue", conversationId });
           await enqueueRequest(conversationId);
           console.info("handoff", "request enqueued");
-            const labels = [CONVO_LABELS.waiting];
-            console.info("handoff", {
-              step: "set-labels",
-              accountId,
-              conversationId,
-            });
-            try {
-              await setConversationLabels(accountId, conversationId, labels);
-              console.info("handoff", "labels set", labels);
-            } catch (err) {
-              console.error("handoff set labels error", err);
-            }
-            console.info("handoff", {
-              step: "send-message",
-              accountId,
-              conversationId,
-            });
+          const labels = [CONVO_LABELS.waiting];
+          console.info("handoff", {
+            step: "set-labels",
+            accountId,
+            conversationId,
+          });
+          try {
+            await setConversationLabels(accountId, conversationId, labels);
+            console.info("handoff", "labels set", labels);
+          } catch (err) {
+            console.error("handoff set labels error", err);
+          }
+          console.info("handoff", {
+            step: "send-message",
+            accountId,
+            conversationId,
+          });
           await sendBotMessage(
             accountId,
             conversationId,
@@ -455,4 +438,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
-
