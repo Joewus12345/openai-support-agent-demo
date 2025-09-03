@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type {
-  ChatwootEvent,
+  ChatwootWebhookPayload,
   MessageCreatedPayload,
   Conversation,
 } from "@/types/chatwoot";
@@ -24,9 +24,9 @@ import { releaseAgent } from "@/lib/conversationResolution";
 
 export async function POST(request: Request) {
   try {
-    const payload: ChatwootEvent = await request.json();
+    const payload = (await request.json()) as ChatwootWebhookPayload;
     const event = payload.event;
-    const data = payload.data ?? payload;
+    const data = "data" in payload ? payload.data : payload;
     const conversation: Conversation | undefined =
       data.conversation ?? (event.startsWith("conversation_") ? (data as any) : undefined);
     if (!conversation) {

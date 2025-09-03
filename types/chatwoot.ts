@@ -56,3 +56,7 @@ export type ChatwootEvent =
   | ConversationUpdatedPayload
   | ConversationStatusChangedPayload;
 
+export type ChatwootWebhookPayload =
+  | ChatwootEvent
+  | { event: ChatwootEvent["event"]; data: ChatwootEvent };
+
