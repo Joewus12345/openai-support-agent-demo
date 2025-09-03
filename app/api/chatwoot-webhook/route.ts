@@ -3,8 +3,6 @@ import type {
   ChatwootWebhookPayload,
   MessageCreatedPayload,
   Conversation,
-  ConversationStatusChangedPayload,
-  ConversationUpdatedPayload,
 } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
@@ -22,7 +20,6 @@ import { tools } from "@/lib/tools/tools";
 import { toResponseMessage } from "@/lib/utils/toResponseMessage";
 import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
-import { releaseAgent } from "@/lib/conversationResolution";
 import { extractIds } from "@/lib/extractIds";
 
 export async function POST(request: Request) {
@@ -33,143 +30,17 @@ export async function POST(request: Request) {
     const { message } = payload as MessageCreatedPayload;
     let { accountId, conversationId } = extractIds(payload);
     const conversation: Conversation | undefined =
-      payload.conversation ??
-      (event?.startsWith("conversation_") ? (payload as any) : undefined) ??
-      message?.conversation;
+      payload.conversation ?? message?.conversation;
 
-    switch (event) {
-      case "message_created": {
-        if (message?.message_type === 2) {
-          const content = message.content;
-          if (
-            typeof content === "string" &&
-            content.startsWith("Conversation was marked")
-          ) {
-            accountId ??= message.account?.id;
-            conversationId ??= message.conversation?.id;
-            console.info("chatwoot webhook resolution message", {
-              event,
-              conversationId,
-              messageId: message.id,
-              content,
-            });
-            if (accountId === undefined || conversationId === undefined) {
-              console.warn("chatwoot webhook: missing IDs", payload);
-              return NextResponse.json(
-                { error: "Invalid payload" },
-                { status: 400 }
-              );
-            }
-            try {
-              await releaseAgent(
-                accountId,
-                conversationId,
-                conversation ?? message.conversation
-              );
-            } catch {
-              return NextResponse.json(
-                { error: "Agent availability update failed" },
-                { status: 500 }
-              );
-            }
-            return NextResponse.json({ status: "handled" });
-          }
-          return NextResponse.json({ status: "ignored" });
-        }
-        if (message?.message_type !== 0) {
-          return NextResponse.json({ status: "ignored" });
-        }
-        break;
-      }
-      case "conversation_status_changed":
-      case "conversation_updated": {
-        if (!conversation) {
-          console.info("chatwoot webhook", { event });
-          return NextResponse.json({ status: "ignored" });
-        }
-        accountId ??= conversation.account?.id ?? conversation.account_id;
-        conversationId ??= conversation.id;
-        if (accountId === undefined || conversationId === undefined) {
-          console.warn("chatwoot webhook: missing IDs", payload);
-          return NextResponse.json({ error: "Invalid payload" }, {
-            status: 400,
-          });
-        }
-        if (event === "conversation_status_changed") {
-          const { status, previous_status: previous } =
-            payload as ConversationStatusChangedPayload;
-          console.info("chatwoot webhook status change", {
-            event,
-            conversationId,
-            status,
-            previous_status: previous,
-          });
-          if (previous === "open" && status !== "open") {
-            try {
-              await releaseAgent(accountId, conversationId, conversation);
-            } catch {
-              return NextResponse.json(
-                { error: "Agent availability update failed" },
-                { status: 500 }
-              );
-            }
-            return NextResponse.json({ status: "handled" });
-          }
-        } else {
-          console.info("chatwoot webhook conversation update", {
-            event,
-            conversationId,
-            changed_attributes: (payload as any).changed_attributes,
-          });
-          const { changed_attributes = [] } =
-            payload as ConversationUpdatedPayload;
-          const changes = Object.assign({}, ...changed_attributes);
-          const statusChange = changes.status as
-            | { current_value?: string; previous_value?: string }
-            | undefined;
-          const labelListChange =
-            (changes.label_list ?? changes.cached_label_list) as
-              | { current_value?: string[]; previous_value?: string[] }
-              | undefined;
-          const statusCurrent = statusChange?.current_value;
-          const statusPrevious = statusChange?.previous_value;
-          const labelsCurrent = Array.isArray(labelListChange?.current_value)
-            ? labelListChange?.current_value
-            : undefined;
-          const labelsPrevious = Array.isArray(labelListChange?.previous_value)
-            ? labelListChange?.previous_value
-            : undefined;
-          if (
-            (statusChange &&
-              (statusCurrent === "resolved" || statusCurrent === "pending") &&
-              statusCurrent !== statusPrevious) ||
-            (Array.isArray(labelsCurrent) &&
-              labelsPrevious?.includes(CONVO_LABELS.assigned) &&
-              !labelsCurrent.includes(CONVO_LABELS.assigned))
-          ) {
-            try {
-              await releaseAgent(accountId, conversationId, conversation);
-            } catch {
-              return NextResponse.json(
-                { error: "Agent availability update failed" },
-                { status: 500 }
-              );
-            }
-            return NextResponse.json({ status: "handled" });
-          }
-        }
-        return NextResponse.json({ status: "ignored" });
-      }
-      default:
-        return NextResponse.json({ status: "ignored" });
+    if (event !== "message_created") {
+      return NextResponse.json({ status: "ignored" });
+    }
+
+    if (message?.message_type !== 0 && message?.message_type !== "incoming") {
+      return NextResponse.json({ status: "ignored" });
     }
 
     const content = message?.content;
-    const messageType = message?.message_type ?? message?.type;
-
-    if (messageType !== 0 && messageType !== "incoming") {
-      return NextResponse.json({ status: "ignored" });
-    }
 
     if (!conversation) {
       console.info("chatwoot webhook", { event });

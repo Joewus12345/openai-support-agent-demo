@@ -38,6 +38,7 @@ const prisma = require('../lib/prisma.ts').default;
 prisma.handoffRequest.findUnique = mock.fn(async () => null);
 
 const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
+const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
 
 function resetMocks() {
   releaseAgentMock.mock.resetCalls();
@@ -52,7 +53,7 @@ function resetMocks() {
   prisma.handoffRequest.findUnique.mock.resetCalls();
 }
 
-test('chatwoot webhook releases agent on conversation_status_changed', async () => {
+test('chatwoot status webhook releases agent on conversation_status_changed', async () => {
   const payload = {
     event: 'conversation_status_changed',
     data: {
@@ -67,7 +68,7 @@ test('chatwoot webhook releases agent on conversation_status_changed', async () 
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  const res = await webhookPost(req);
+  const res = await statusWebhookPost(req);
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
@@ -76,7 +77,7 @@ test('chatwoot webhook releases agent on conversation_status_changed', async () 
   resetMocks();
 });
 
-test('chatwoot webhook releases agent on label removal', async () => {
+test('chatwoot status webhook releases agent on label removal', async () => {
   const payload = {
     event: 'conversation_updated',
     data: {
@@ -97,14 +98,14 @@ test('chatwoot webhook releases agent on label removal', async () => {
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  const res = await webhookPost(req);
+  const res = await statusWebhookPost(req);
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
   resetMocks();
 });
 
-test('chatwoot webhook releases agent on status update', async () => {
+test('chatwoot status webhook releases agent on status update', async () => {
   const payload = {
     event: 'conversation_updated',
     data: {
@@ -122,7 +123,7 @@ test('chatwoot webhook releases agent on status update', async () => {
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  const res = await webhookPost(req);
+  const res = await statusWebhookPost(req);
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
@@ -195,7 +196,7 @@ test('chatwoot webhook queues request when no agent available', async () => {
   resetMocks();
 });
 
-test('chatwoot webhook releases agent on resolution system message', async () => {
+test('chatwoot status webhook releases agent on resolution system message', async () => {
   const payload = {
     event: 'message_created',
     data: {
@@ -212,7 +213,7 @@ test('chatwoot webhook releases agent on resolution system message', async () =>
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  const res = await webhookPost(req);
+  const res = await statusWebhookPost(req);
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
