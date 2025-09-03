@@ -4,6 +4,7 @@ import type {
   MessageCreatedPayload,
   Conversation,
   ConversationStatusChangedPayload,
+  ConversationUpdatedPayload,
 } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
@@ -120,10 +121,9 @@ export async function POST(request: Request) {
             conversationId,
             changed_attributes: (payload as any).changed_attributes,
           });
-          const changes = Object.assign(
-            {},
-            ...(payload.changed_attributes || [])
-          );
+          const { changed_attributes = [] } =
+            payload as ConversationUpdatedPayload;
+          const changes = Object.assign({}, ...changed_attributes);
           const statusChange = changes.status as
             | { current_value?: string; previous_value?: string }
             | undefined;

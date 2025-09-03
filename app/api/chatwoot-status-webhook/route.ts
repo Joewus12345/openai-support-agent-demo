@@ -3,6 +3,7 @@ import type {
   ChatwootEvent,
   Message,
   ConversationStatusChangedPayload,
+  ConversationUpdatedPayload,
 } from "@/types/chatwoot";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CONVO_LABELS } from "@/lib/constants";
@@ -51,10 +52,9 @@ export async function POST(request: Request) {
         conversationId,
         changed_attributes: (payload as any).changed_attributes,
       });
-      const changes = Object.assign(
-        {},
-        ...(payload.changed_attributes || [])
-      );
+      const { changed_attributes = [] } =
+        payload as ConversationUpdatedPayload;
+      const changes = Object.assign({}, ...changed_attributes);
       console.info("chatwoot status webhook changes", {
         event,
         conversationId,
