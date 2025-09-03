@@ -27,8 +27,11 @@ export async function POST(request: Request) {
     const payload = (await request.json()) as ChatwootWebhookPayload;
     const event = payload.event;
     const data = "data" in payload ? payload.data : payload;
+    const { message } = data as MessageCreatedPayload;
     const conversation: Conversation | undefined =
-      data.conversation ?? (event.startsWith("conversation_") ? (data as any) : undefined);
+      message?.conversation ??
+      (data as any).conversation ??
+      (event.startsWith("conversation_") ? (data as any) : undefined);
     if (!conversation) {
       console.info("chatwoot webhook", { event });
     }
@@ -39,7 +42,6 @@ export async function POST(request: Request) {
       conversation.account?.id ?? conversation.account_id;
     const conversationId = conversation.id;
     const inboxId = conversation.inbox_id;
-    const { message } = data as MessageCreatedPayload;
     const content = message.content;
     const messageId = message.id;
     const messageType = message.message_type ?? message.type;
@@ -77,6 +79,12 @@ export async function POST(request: Request) {
       inboxId === undefined ||
       !content
     ) {
+      console.error("chatwoot webhook missing ids", {
+        accountId,
+        conversationId,
+        inboxId,
+        hasContent: !!content,
+      });
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
