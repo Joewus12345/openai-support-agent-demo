@@ -21,8 +21,13 @@ export async function POST(request: Request) {
 
     const { accountId, conversationId } = extractIds(payload);
 
-    if (!conversationId || !accountId) {
-      console.warn("chatwoot webhook: missing IDs", payload);
+    if (accountId === undefined) {
+      console.warn("chatwoot status webhook missing account ID", payload);
+      return NextResponse.json({ status: "ignored" });
+    }
+
+    if (conversationId === undefined) {
+      console.warn("chatwoot status webhook missing conversation ID", payload);
       return NextResponse.json({ status: "ignored" }, { status: 400 });
     }
 
