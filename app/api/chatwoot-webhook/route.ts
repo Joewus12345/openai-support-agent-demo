@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
-import type {
-  ChatwootWebhookPayload,
-  MessageCreatedPayload,
-  Conversation,
-} from "@/types/chatwoot";
+import type { ChatwootWebhookPayload, Conversation } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
@@ -24,21 +20,18 @@ import { releaseAgent } from "@/lib/conversationResolution";
 
 export async function POST(request: Request) {
   try {
-    const payload = (await request.json()) as ChatwootWebhookPayload;
-    const event = payload.event;
-    const data = "data" in payload ? payload.data : payload;
-    const { message } = data as MessageCreatedPayload;
-    const conversation: Conversation | undefined =
-      message?.conversation ??
-      (data as any).conversation ??
-      (event.startsWith("conversation_") ? (data as any) : undefined);
-    if (!conversation) {
-      console.info("chatwoot webhook", { event });
-    }
-    if (event !== "message_created" || !conversation) {
+    const incoming = (await request.json()) as ChatwootWebhookPayload;
+    if (incoming.event !== "message_created") {
       return NextResponse.json({ status: "ignored" });
     }
-    if (!message) {
+    const payload = "data" in incoming ? incoming.data : incoming;
+    const message = (payload as any).message ?? payload;
+    const conversation: Conversation | undefined =
+      (message as any)?.conversation ??
+      (payload as any).conversation ??
+      (incoming.event.startsWith("conversation_") ? (payload as any) : undefined);
+    if (!conversation) {
+      console.info("chatwoot webhook", { event: incoming.event });
       return NextResponse.json({ status: "ignored" });
     }
     const accountId =
@@ -47,7 +40,6 @@ export async function POST(request: Request) {
     const inboxId = conversation.inbox_id;
     const content = message.content;
     const messageId = message.id;
-
     if (
       message.message_type === 2 &&
       typeof content === "string" &&
@@ -56,7 +48,7 @@ export async function POST(request: Request) {
     ) {
       console.info("resolution message", { messageId, conversationId, content });
       if (accountId === undefined || conversationId === undefined) {
-        return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+        return NextResponse.json({ status: "ignored" });
       }
       try {
         await releaseAgent(accountId, conversationId, conversation);
@@ -68,16 +60,13 @@ export async function POST(request: Request) {
       }
       return NextResponse.json({ status: "handled" });
     }
-
     if (
       message?.message_type !== 0 &&
       message?.message_type !== "incoming"
     ) {
       return NextResponse.json({ status: "ignored" });
     }
-
     console.info("handoff", { accountId, conversationId, inboxId, content });
-
     if (
       accountId === undefined ||
       conversationId === undefined ||
@@ -90,7 +79,7 @@ export async function POST(request: Request) {
         inboxId,
         hasContent: !!content,
       });
-      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+      return NextResponse.json({ status: "ignored" });
     }
 
     let status = conversation?.status;
