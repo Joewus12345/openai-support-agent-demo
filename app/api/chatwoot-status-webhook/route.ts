@@ -52,23 +52,20 @@ export async function POST(request: Request) {
         conversationId,
         changed_attributes: (payload as any).changed_attributes,
       });
-      const { changed_attributes = [] } =
-        payload as ConversationUpdatedPayload;
-      const changes = Object.assign({}, ...changed_attributes);
+      const changes = Object.assign(
+        {},
+        ...((payload as ConversationUpdatedPayload).changed_attributes || [])
+      );
       console.info("chatwoot status webhook changes", {
         event,
         conversationId,
         changes,
       });
-      const statusChange = changes.status as
-        | { current_value?: string; previous_value?: string }
+      const statusCurrent = changes.status?.current_value as
+        | string
         | undefined;
       const labelListChange =
-        (changes.label_list ?? changes.cached_label_list) as
-          | { current_value?: string[]; previous_value?: string[] }
-          | undefined;
-      const statusCurrent = statusChange?.current_value;
-      const statusPrevious = statusChange?.previous_value;
+        changes.label_list ?? changes.cached_label_list;
       const labelsCurrent = Array.isArray(labelListChange?.current_value)
         ? labelListChange?.current_value
         : undefined;
@@ -76,9 +73,8 @@ export async function POST(request: Request) {
         ? labelListChange?.previous_value
         : undefined;
       if (
-        (statusChange &&
-          (statusCurrent === "resolved" || statusCurrent === "pending") &&
-          statusCurrent !== statusPrevious) ||
+        statusCurrent === "resolved" ||
+        statusCurrent === "pending" ||
         (Array.isArray(labelsCurrent) &&
           labelsPrevious?.includes(CONVO_LABELS.assigned) &&
           !labelsCurrent.includes(CONVO_LABELS.assigned))
