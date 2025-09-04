@@ -26,18 +26,24 @@ export async function POST(request: Request) {
     }
     const payload = "data" in incoming ? incoming.data : incoming;
     const message = (payload as any).message ?? payload;
+    const conversationId =
+      (message as any).conversation_id ??
+      (message as any).conversation?.id ??
+      (payload as any).id;
+    const accountId =
+      (message as any).account_id ??
+      (message as any).account?.id ??
+      (payload as any).account?.id;
+    if (conversationId === undefined || accountId === undefined) {
+      console.warn("chatwoot webhook missing ids", { accountId, conversationId });
+      return NextResponse.json({ status: "ignored" });
+    }
     const conversation: Conversation | undefined =
       (message as any)?.conversation ??
       (payload as any).conversation ??
       (incoming.event.startsWith("conversation_") ? (payload as any) : undefined);
-    if (!conversation) {
-      console.info("chatwoot webhook", { event: incoming.event });
-      return NextResponse.json({ status: "ignored" });
-    }
-    const accountId =
-      conversation.account?.id ?? conversation.account_id;
-    const conversationId = conversation.id;
-    const inboxId = conversation.inbox_id;
+    const inboxId =
+      (message as any).inbox_id ?? conversation?.inbox_id;
     const content = message.content;
     const messageId = message.id;
     if (

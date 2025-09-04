@@ -220,7 +220,7 @@ test('chatwoot status webhook releases agent on resolution system message', asyn
   resetMocks();
 });
 
-test('chatwoot webhook returns 400 for missing IDs', async () => {
+test('chatwoot webhook ignores request for missing IDs', async () => {
   const payload = {
     event: 'message_created',
     data: {
@@ -238,7 +238,9 @@ test('chatwoot webhook returns 400 for missing IDs', async () => {
     body: JSON.stringify(payload),
   });
   const res = await webhookPost(req);
-  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(body.status, 'ignored');
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   resetMocks();
