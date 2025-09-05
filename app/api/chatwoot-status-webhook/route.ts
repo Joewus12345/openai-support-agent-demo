@@ -11,12 +11,13 @@ import { CONVO_LABELS } from "@/lib/constants";
 export async function POST(request: Request) {
   try {
     const incoming = await request.json();
-    const payload: ChatwootEvent | { type?: string; [key: string]: any } =
-      incoming.data ?? incoming;
+    const payload = (incoming.data ?? incoming) as ChatwootEvent & Record<
+      string,
+      any
+    >;
 
-    const event = "event" in payload ? payload.event : payload.type;
-    const message: Message | undefined =
-      "message" in payload ? payload.message : undefined;
+    const event = payload.event ?? payload.type;
+    const message: Message | undefined = payload.message;
 
     const accountId: number | undefined =
       payload.account_id ??
@@ -47,8 +48,7 @@ export async function POST(request: Request) {
     }
 
     if (event === "conversation_status_changed") {
-      const { status, previous_status: previous } =
-        payload as ConversationStatusChangedPayload;
+      const { status, previous_status: previous } = payload;
       console.info("chatwoot status webhook status change", {
         event,
         conversationId,
@@ -70,11 +70,11 @@ export async function POST(request: Request) {
       console.info("chatwoot status webhook conversation update", {
         event,
         conversationId,
-        changed_attributes: (payload as any).changed_attributes,
+        changed_attributes: payload.changed_attributes,
       });
       const changes = Object.assign(
         {},
-        ...((payload as ConversationUpdatedPayload).changed_attributes || [])
+        ...(payload.changed_attributes || [])
       );
       console.info("chatwoot status webhook changes", {
         event,
