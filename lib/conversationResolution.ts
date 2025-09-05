@@ -4,10 +4,13 @@ import {
   getConversation,
   getConversationLabels,
   setAgentAvailability,
-  updateConversation,
   setConversationLabels,
 } from "@/lib/chatwoot";
-import { sendBotMessage } from "@/lib/chatwootBot";
+import {
+  sendBotMessage,
+  toggleConversationStatus,
+  assignConversation,
+} from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
 import type { Conversation } from "@/types/chatwoot";
@@ -75,10 +78,16 @@ export async function releaseAgent(
         } catch (err) {
           console.error("set assigned label error", err);
         }
-        await updateConversation(accountId, request.conversationId, {
-          status: "open",
-          assignee_id: freedAgentId,
-        });
+        await toggleConversationStatus(
+          accountId,
+          request.conversationId,
+          "open"
+        );
+        await assignConversation(
+          accountId,
+          request.conversationId,
+          freedAgentId
+        );
         await setActiveConversation(freedAgentId, request.conversationId);
         try {
           const response = await setAgentAvailability(
