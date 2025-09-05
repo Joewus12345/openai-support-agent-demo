@@ -11,11 +11,11 @@ import { CONVO_LABELS } from "@/lib/constants";
 export async function POST(request: Request) {
   try {
     const incoming = await request.json();
-    const payload = (incoming.data ?? incoming) as ChatwootEvent & Record<
-      string,
-      any
-    >;
+    // Merge Chatwoot's structured payload with any extra fields we might receive
+    const payload = (incoming.data ?? incoming) as
+      Partial<ChatwootEvent> & Record<string, any>;
 
+    // Chatwoot may send either `event` or `type`; fall back accordingly
     const event = payload.event ?? payload.type;
     const message: Message | undefined = payload.message;
 
