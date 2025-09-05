@@ -7,7 +7,6 @@ import type {
 } from "@/types/chatwoot";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CONVO_LABELS } from "@/lib/constants";
-import { extractIds } from "@/lib/extractIds";
 
 export async function POST(request: Request) {
   try {
@@ -19,7 +18,23 @@ export async function POST(request: Request) {
     const message: Message | undefined =
       "message" in payload ? payload.message : undefined;
 
-    const { accountId, conversationId } = extractIds(payload);
+    const accountId: number | undefined =
+      payload.account_id ??
+      payload.account?.id ??
+      payload.conversation?.account_id ??
+      payload.meta?.assignee?.account_id ??
+      payload.messages?.[0]?.account_id ??
+      payload.message?.account_id ??
+      payload.message?.account?.id ??
+      payload.message?.conversation?.account_id ??
+      payload.message?.conversation?.account?.id;
+
+    const conversationId: number | undefined =
+      payload.id ??
+      payload.conversation?.id ??
+      payload.messages?.[0]?.conversation_id ??
+      payload.message?.conversation_id ??
+      payload.message?.conversation?.id;
 
     if (accountId === undefined) {
       console.warn("chatwoot status webhook missing account ID", payload);
@@ -28,7 +43,7 @@ export async function POST(request: Request) {
 
     if (conversationId === undefined) {
       console.warn("chatwoot status webhook missing conversation ID", payload);
-      return NextResponse.json({ status: "ignored" }, { status: 400 });
+      return NextResponse.json({ status: "ignored" });
     }
 
     if (event === "conversation_status_changed") {
