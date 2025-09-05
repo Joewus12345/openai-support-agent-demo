@@ -25,7 +25,7 @@ export interface Message {
   [key: string]: any;
 }
 
-interface BasePayload {
+export interface BasePayload {
   event: "message_created" | "conversation_updated" | "conversation_status_changed";
   type?: string;
   account?: Account;
@@ -33,6 +33,10 @@ interface BasePayload {
   conversation?: Conversation;
   conversation_id?: number;
   inbox_id?: number;
+  id?: number;
+  meta?: { assignee?: { account_id?: number } } & Record<string, any>;
+  messages?: Message[];
+  message?: Message;
 }
 
 export interface MessageCreatedPayload extends BasePayload {
