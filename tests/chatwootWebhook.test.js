@@ -58,7 +58,7 @@ test('chatwoot status webhook releases agent on conversation_status_changed', as
     event: 'conversation_status_changed',
     data: {
       event: 'conversation_status_changed',
-      status: 'snoozed',
+      status: 'pending',
       previous_status: 'open',
       account: { id: 1 },
       conversation: { id: 1 },
@@ -72,6 +72,8 @@ test('chatwoot status webhook releases agent on conversation_status_changed', as
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], []);
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   resetMocks();
@@ -102,6 +104,8 @@ test('chatwoot status webhook releases agent on label removal', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], []);
   resetMocks();
 });
 
@@ -127,6 +131,8 @@ test('chatwoot status webhook releases agent on status update', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], []);
   resetMocks();
 });
 
@@ -217,6 +223,8 @@ test('chatwoot status webhook releases agent on resolution system message', asyn
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], []);
   resetMocks();
 });
 

@@ -1,12 +1,8 @@
 import { NextResponse } from "next/server";
-import type {
-  ChatwootEvent,
-  Message,
-  ConversationStatusChangedPayload,
-  ConversationUpdatedPayload,
-} from "@/types/chatwoot";
+import type { ChatwootEvent, Message } from "@/types/chatwoot";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CONVO_LABELS } from "@/lib/constants";
+import { setConversationLabels } from "@/lib/chatwoot";
 
 export async function POST(request: Request) {
   try {
@@ -18,6 +14,10 @@ export async function POST(request: Request) {
     // Chatwoot may send either `event` or `type`; fall back accordingly
     const event = payload.event ?? payload.type;
     const message: Message | undefined = payload.message;
+    const changes = Object.assign(
+      {},
+      ...(payload.changed_attributes || [])
+    );
 
     const accountId: number | undefined =
       payload.account_id ??
@@ -48,21 +48,18 @@ export async function POST(request: Request) {
     }
 
     if (event === "conversation_status_changed") {
-      const typedPayload = payload as ConversationStatusChangedPayload;
-      const { status, previous_status: previous } = typedPayload;
+      const status = payload.status;
+      const previous = payload.previous_status;
       console.info("chatwoot status webhook status change", {
         event,
         conversationId,
         status,
         previous_status: previous,
       });
-      if (previous === "open" && status !== "open") {
+      if (status === "resolved" || status === "pending") {
         try {
-          await releaseAgent(
-            accountId,
-            conversationId,
-            typedPayload.conversation
-          );
+          await releaseAgent(accountId, conversationId, payload.conversation);
+          await setConversationLabels(accountId, conversationId, []);
         } catch {
           return NextResponse.json(
             { error: "Agent availability update failed" },
@@ -72,16 +69,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
     } else if (event === "conversation_updated") {
-      const typedPayload = payload as ConversationUpdatedPayload;
       console.info("chatwoot status webhook conversation update", {
         event,
         conversationId,
-        changed_attributes: typedPayload.changed_attributes,
+        changed_attributes: payload.changed_attributes,
       });
-      const changes = Object.assign(
-        {},
-        ...(typedPayload.changed_attributes || [])
-      );
       console.info("chatwoot status webhook changes", {
         event,
         conversationId,
@@ -106,11 +98,8 @@ export async function POST(request: Request) {
           !labelsCurrent.includes(CONVO_LABELS.assigned))
       ) {
         try {
-          await releaseAgent(
-            accountId,
-            conversationId,
-            typedPayload.conversation
-          );
+          await releaseAgent(accountId, conversationId, payload.conversation);
+          await setConversationLabels(accountId, conversationId, []);
         } catch {
           return NextResponse.json(
             { error: "Agent availability update failed" },
@@ -139,6 +128,7 @@ export async function POST(request: Request) {
         });
         try {
           await releaseAgent(accountId, conversationId, payload.conversation);
+          await setConversationLabels(accountId, conversationId, []);
         } catch {
           return NextResponse.json(
             { error: "Agent availability update failed" },
