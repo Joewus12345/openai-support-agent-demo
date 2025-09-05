@@ -48,7 +48,8 @@ export async function POST(request: Request) {
     }
 
     if (event === "conversation_status_changed") {
-      const { status, previous_status: previous } = payload;
+      const typedPayload: ConversationStatusChangedPayload = payload;
+      const { status, previous_status: previous } = typedPayload;
       console.info("chatwoot status webhook status change", {
         event,
         conversationId,
@@ -57,7 +58,11 @@ export async function POST(request: Request) {
       });
       if (previous === "open" && status !== "open") {
         try {
-          await releaseAgent(accountId, conversationId, payload.conversation);
+          await releaseAgent(
+            accountId,
+            conversationId,
+            typedPayload.conversation
+          );
         } catch {
           return NextResponse.json(
             { error: "Agent availability update failed" },
@@ -67,14 +72,15 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
     } else if (event === "conversation_updated") {
+      const typedPayload: ConversationUpdatedPayload = payload;
       console.info("chatwoot status webhook conversation update", {
         event,
         conversationId,
-        changed_attributes: payload.changed_attributes,
+        changed_attributes: typedPayload.changed_attributes,
       });
       const changes = Object.assign(
         {},
-        ...(payload.changed_attributes || [])
+        ...(typedPayload.changed_attributes || [])
       );
       console.info("chatwoot status webhook changes", {
         event,
@@ -100,7 +106,11 @@ export async function POST(request: Request) {
           !labelsCurrent.includes(CONVO_LABELS.assigned))
       ) {
         try {
-          await releaseAgent(accountId, conversationId, payload.conversation);
+          await releaseAgent(
+            accountId,
+            conversationId,
+            typedPayload.conversation
+          );
         } catch {
           return NextResponse.json(
             { error: "Agent availability update failed" },
