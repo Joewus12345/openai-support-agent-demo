@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     }
 
     if (event === "conversation_status_changed") {
-      const typedPayload: ConversationStatusChangedPayload = payload;
+      const typedPayload = payload as ConversationStatusChangedPayload;
       const { status, previous_status: previous } = typedPayload;
       console.info("chatwoot status webhook status change", {
         event,
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
     } else if (event === "conversation_updated") {
-      const typedPayload: ConversationUpdatedPayload = payload;
+      const typedPayload = payload as ConversationUpdatedPayload;
       console.info("chatwoot status webhook conversation update", {
         event,
         conversationId,
