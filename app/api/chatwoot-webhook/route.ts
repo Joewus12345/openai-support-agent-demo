@@ -3,6 +3,7 @@ import type { ChatwootWebhookPayload, Conversation } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
+import redis from "@/lib/redis";
 import handOff from "@/lib/handoff";
 import {
   getConversation,
@@ -81,6 +82,52 @@ export async function POST(request: Request) {
             createdAt,
           },
         });
+        try {
+          if (
+            typeof (redis as any)?.exists === "function" &&
+            typeof (redis as any)?.rpush === "function" &&
+            typeof (redis as any)?.pipeline === "function"
+          ) {
+            const key = `chatwoot:${accountId}:${conversationId}`;
+            const exists = await redis.exists(key);
+            if (!exists) {
+              const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+              const recent = await prisma.conversationMessage.findMany({
+                where: {
+                  conversationId,
+                  createdAt: { gte: since },
+                },
+                orderBy: { createdAt: "asc" },
+              });
+              if (recent.length) {
+                const pipeline = redis.pipeline();
+                for (const m of recent) {
+                  pipeline.rpush(key, JSON.stringify(m));
+                }
+                pipeline.expire(key, 86400);
+                await pipeline.exec();
+              }
+            } else {
+              const pipeline = redis.pipeline();
+              pipeline.rpush(
+                key,
+                JSON.stringify({
+                  id: messageId,
+                  conversationId,
+                  inboxId,
+                  sender,
+                  content:
+                    typeof content === "string" ? content : JSON.stringify(content),
+                  createdAt,
+                })
+              );
+              pipeline.expire(key, 86400);
+              await pipeline.exec();
+            }
+          }
+        } catch (err) {
+          console.error("conversation redis log error", err);
+        }
       } catch (err) {
         console.error("conversation message log error", err);
       }
