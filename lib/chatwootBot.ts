@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import redis from "@/lib/redis";
 
 const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
 const CHATWOOT_BOT_TOKEN = process.env.CHATWOOT_BOT_TOKEN || "";
@@ -65,6 +66,30 @@ export async function sendBotMessage(
           createdAt,
         },
       });
+      try {
+        if (
+          typeof (redis as any)?.rpush === "function" &&
+          typeof (redis as any)?.pipeline === "function"
+        ) {
+          const key = `chatwoot:${accountId}:${conversationId}`;
+          const pipeline = redis.pipeline();
+          pipeline.rpush(
+            key,
+            JSON.stringify({
+              id: res.id,
+              conversationId: res.conversation_id ?? conversationId,
+              inboxId,
+              sender: "bot",
+              content,
+              createdAt,
+            })
+          );
+          pipeline.expire(key, 86400);
+          await pipeline.exec();
+        }
+      } catch (err) {
+        console.error("bot message redis log error", err);
+      }
     }
   } catch (err) {
     console.error("log bot message error", err);
