@@ -20,6 +20,7 @@ import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CHATWOOT_SYSTEM_PROMPT } from "@/config/constants";
 import { getConversationKey } from "@/lib/getConversationKey";
+import { getConversationHistory } from "@/lib/getConversationHistory";
 
 export async function POST(request: Request) {
   try {
@@ -451,11 +452,9 @@ export async function POST(request: Request) {
     let replySent = false;
     try {
       let replyText = "";
+      const history = await getConversationHistory(conversationKey);
       const events = getProvider(undefined)(
-        [
-          toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT),
-          toResponseMessage("user", content),
-        ],
+        [toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT), ...history],
         tools,
         {}
       );
