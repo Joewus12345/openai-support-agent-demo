@@ -56,14 +56,7 @@ export async function POST(request: Request) {
         status,
         previous_status: previous,
       });
-      const isAssigned = Boolean(
-        typedPayload.conversation?.assignee_id ||
-          typedPayload.conversation?.labels?.includes(CONVO_LABELS.assigned) ||
-          typedPayload.conversation?.label_list?.includes(
-            CONVO_LABELS.assigned
-          )
-      );
-      if (previous === "open" && status !== "open" && isAssigned) {
+      if (previous === "open" && status !== "open") {
         try {
           await releaseAgent(
             accountId,
@@ -105,18 +98,9 @@ export async function POST(request: Request) {
       const labelsPrevious = Array.isArray(labelListChange?.previous_value)
         ? labelListChange?.previous_value
         : undefined;
-      const isAssigned = Boolean(
-        typedPayload.conversation?.assignee_id ||
-          labelsCurrent?.includes(CONVO_LABELS.assigned) ||
-          typedPayload.conversation?.labels?.includes(CONVO_LABELS.assigned) ||
-          typedPayload.conversation?.label_list?.includes(
-            CONVO_LABELS.assigned
-          )
-      );
       if (
-        ((statusCurrent === "resolved" || statusCurrent === "pending") &&
-          changes.status?.previous_value === "open" &&
-          isAssigned) ||
+        statusCurrent === "resolved" ||
+        statusCurrent === "pending" ||
         (Array.isArray(labelsCurrent) &&
           labelsPrevious?.includes(CONVO_LABELS.assigned) &&
           !labelsCurrent.includes(CONVO_LABELS.assigned))
