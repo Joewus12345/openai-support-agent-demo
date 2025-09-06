@@ -155,7 +155,7 @@ test('chatwoot webhook escalates when agent available', async () => {
   assert.strictEqual(body.status, 'handoff');
   assert.strictEqual(handOffMock.mock.calls.length, 1);
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
-  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [1, 'assigned', 10]);
+  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [1, 1, 'assigned', 10, 1]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.assigned]);
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'A human agent will join shortly.');
@@ -188,7 +188,7 @@ test('chatwoot webhook queues request when no agent available', async () => {
   assert.strictEqual(body.status, 'handoff');
   assert.strictEqual(handOffMock.mock.calls.length, 0);
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
-  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [2]);
+  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [2, 2, undefined, undefined, 1]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'All human agents are currently busy. Please wait for the next available agent.');

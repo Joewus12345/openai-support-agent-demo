@@ -19,6 +19,7 @@ import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CHATWOOT_SYSTEM_PROMPT } from "@/config/constants";
+import { getConversationKey } from "@/lib/getConversationKey";
 
 export async function POST(request: Request) {
   try {
@@ -46,6 +47,7 @@ export async function POST(request: Request) {
       (incoming.event.startsWith("conversation_") ? (payload as any) : undefined);
     const inboxId =
       (message as any).inbox_id ?? conversation?.inbox_id;
+    const conversationKey = getConversationKey(accountId, conversationId, inboxId);
     const content = message.content;
     const messageId = message.id;
     const sender =
@@ -74,6 +76,7 @@ export async function POST(request: Request) {
             id: messageId,
             conversationId,
             inboxId,
+            conversationKey,
             sender,
             content:
               typeof content === "string"
@@ -88,13 +91,13 @@ export async function POST(request: Request) {
             typeof (redis as any)?.rpush === "function" &&
             typeof (redis as any)?.pipeline === "function"
           ) {
-            const key = `chatwoot:${accountId}:${conversationId}`;
+            const key = conversationKey;
             const exists = await redis.exists(key);
             if (!exists) {
               const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
               const recent = await prisma.conversationMessage.findMany({
                 where: {
-                  conversationId,
+                  conversationKey,
                   createdAt: { gte: since },
                 },
                 orderBy: { createdAt: "asc" },
@@ -115,6 +118,7 @@ export async function POST(request: Request) {
                   id: messageId,
                   conversationId,
                   inboxId,
+                  conversationKey,
                   sender,
                   content:
                     typeof content === "string" ? content : JSON.stringify(content),
@@ -193,7 +197,7 @@ export async function POST(request: Request) {
     }
 
     const existingRequest = await prisma.handoffRequest.findUnique({
-      where: { conversationId },
+      where: { conversationKey },
     });
     if (
       handoffStrategy.value === "confirm" &&
@@ -222,7 +226,7 @@ export async function POST(request: Request) {
               conversationId,
               agentId: agent.id,
             });
-            await updateRequest(conversationId, {
+            await updateRequest(conversationKey, {
               status: "assigned",
               agentId: agent.id,
             });
@@ -287,7 +291,7 @@ export async function POST(request: Request) {
           }
       } else {
         console.info("handoff", { step: "update-request", conversationId });
-        await updateRequest(conversationId, {
+        await updateRequest(conversationKey, {
           status: "expired",
           agentId: null,
         });
@@ -360,7 +364,13 @@ export async function POST(request: Request) {
             conversationId,
             agentId: agent.id,
           });
-          await enqueueRequest(conversationId, "assigned", agent.id);
+          await enqueueRequest(
+            accountId,
+            conversationId,
+            "assigned",
+            agent.id,
+            inboxId
+          );
           console.info("handoff", "request enqueued", agent.id);
             const role =
               agent.role === "administrator" ? "administrator" : "agent";
@@ -371,7 +381,7 @@ export async function POST(request: Request) {
               role
             );
             if (!success) {
-              await updateRequest(conversationId, {
+              await updateRequest(conversationKey, {
                 status: "pending",
                 agentId: null,
               });
@@ -404,7 +414,7 @@ export async function POST(request: Request) {
             }
         } else {
           console.info("handoff", { step: "enqueue", conversationId });
-          await enqueueRequest(conversationId);
+          await enqueueRequest(accountId, conversationId, undefined, undefined, inboxId);
           console.info("handoff", "request enqueued");
             const labels = [CONVO_LABELS.waiting];
             console.info("handoff", {

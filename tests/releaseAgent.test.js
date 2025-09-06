@@ -24,7 +24,7 @@ const freedAgentId = 5;
 
 let status = 'resolved';
 
-const dequeueRequestMock = mock.method(handoffQueue, 'dequeueRequest', async () => ({ conversationId: queuedConversationId }));
+const dequeueRequestMock = mock.method(handoffQueue, 'dequeueRequest', async () => ({ conversationId: queuedConversationId, conversationKey: `chatwoot:${accountId}:${queuedConversationId}` }));
 const toggleMock = mock.method(chatwootBot, 'toggleConversationStatus', async () => {
   status = 'open';
 });

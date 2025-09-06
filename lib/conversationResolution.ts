@@ -101,7 +101,7 @@ export async function releaseAgent(
           await clearActiveConversation(freedAgentId);
           throw new Error("Agent availability update failed");
         }
-        await updateRequest(request.conversationId, {
+        await updateRequest(request.conversationKey, {
           status: "assigned",
           agentId: freedAgentId,
         });

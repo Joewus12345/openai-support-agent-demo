@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
+import { getConversationKey } from "@/lib/getConversationKey";
 
 const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
 const CHATWOOT_BOT_TOKEN = process.env.CHATWOOT_BOT_TOKEN || "";
@@ -50,6 +51,11 @@ export async function sendBotMessage(
   try {
     const inboxId = (res as any)?.inbox_id ?? (res as any)?.conversation?.inbox_id;
     if (res?.id !== undefined && inboxId !== undefined) {
+      const conversationKey = getConversationKey(
+        accountId,
+        res.conversation_id ?? conversationId,
+        inboxId
+      );
       const createdAtRaw = (res as any)?.created_at;
       const createdAt = createdAtRaw
         ? new Date(
@@ -61,6 +67,7 @@ export async function sendBotMessage(
           id: res.id,
           conversationId: res.conversation_id ?? conversationId,
           inboxId,
+          conversationKey,
           sender: "bot",
           content,
           createdAt,
@@ -71,7 +78,7 @@ export async function sendBotMessage(
           typeof (redis as any)?.rpush === "function" &&
           typeof (redis as any)?.pipeline === "function"
         ) {
-          const key = `chatwoot:${accountId}:${conversationId}`;
+          const key = conversationKey;
           const pipeline = redis.pipeline();
           pipeline.rpush(
             key,
@@ -79,6 +86,7 @@ export async function sendBotMessage(
               id: res.id,
               conversationId: res.conversation_id ?? conversationId,
               inboxId,
+              conversationKey,
               sender: "bot",
               content,
               createdAt,
