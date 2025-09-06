@@ -58,6 +58,15 @@ model Ticket {
   userId    String?
 }
 
+model ConversationMessage {
+  id             Int      @id
+  conversationId Int
+  inboxId        Int
+  sender         String
+  content        String   @db.Text
+  createdAt      DateTime @default(now())
+}
+
 model AgentAssignment {
   inboxId             Int
   agentId             Int

@@ -47,6 +47,44 @@ export async function POST(request: Request) {
       (message as any).inbox_id ?? conversation?.inbox_id;
     const content = message.content;
     const messageId = message.id;
+    const sender =
+      (message as any)?.sender?.type ??
+      (message as any)?.sender_type ??
+      (message as any)?.sender?.name ??
+      "";
+
+    if (
+      messageId !== undefined &&
+      conversationId !== undefined &&
+      inboxId !== undefined &&
+      content !== undefined
+    ) {
+      try {
+        const createdAtRaw = (message as any)?.created_at;
+        const createdAt = createdAtRaw
+          ? new Date(
+              typeof createdAtRaw === "number"
+                ? createdAtRaw * 1000
+                : createdAtRaw
+            )
+          : undefined;
+        await prisma.conversationMessage.create({
+          data: {
+            id: messageId,
+            conversationId,
+            inboxId,
+            sender,
+            content:
+              typeof content === "string"
+                ? content
+                : JSON.stringify(content),
+            createdAt,
+          },
+        });
+      } catch (err) {
+        console.error("conversation message log error", err);
+      }
+    }
     if (
       message.message_type === 2 &&
       typeof content === "string" &&
