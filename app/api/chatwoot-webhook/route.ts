@@ -17,6 +17,7 @@ import { toResponseMessage } from "@/lib/utils/toResponseMessage";
 import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
+import { CHATWOOT_SYSTEM_PROMPT } from "@/config/constants";
 
 export async function POST(request: Request) {
   try {
@@ -356,7 +357,10 @@ export async function POST(request: Request) {
     try {
       let replyText = "";
       const events = getProvider(undefined)(
-        [toResponseMessage("user", content)],
+        [
+          toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT),
+          toResponseMessage("user", content),
+        ],
         tools,
         {}
       );

@@ -2,6 +2,9 @@ import { AGENT_NAME } from "./demoData";
 
 export const MODEL = "gpt-4o";
 
+export const CHATWOOT_SYSTEM_PROMPT =
+  "You are a helpful customer support assistant for The Automation Ghana Group.";
+
 // Developer prompt for the assistant
 export const DEVELOPER_PROMPT = `
 You are an assistant helping a customer service representative named ${AGENT_NAME}.
