@@ -1,15 +1,19 @@
 import prisma from "./prisma";
 import type { HandoffRequestStatus } from "./generated/prisma";
+import { getConversationKey } from "./getConversationKey";
 
 export async function enqueueRequest(
+  accountId: number,
   conversationId: number,
   status: HandoffRequestStatus = "pending",
-  agentId?: number
+  agentId?: number,
+  inboxId?: number
 ) {
+  const conversationKey = getConversationKey(accountId, conversationId, inboxId);
   return prisma.handoffRequest.upsert({
-    where: { conversationId },
+    where: { conversationKey },
     update: { status, agentId },
-    create: { conversationId, status, agentId },
+    create: { conversationKey, conversationId, status, agentId },
   });
 }
 
@@ -21,11 +25,11 @@ export async function dequeueRequest() {
 }
 
 export async function updateRequest(
-  conversationId: number,
+  conversationKey: string,
   data: { status?: HandoffRequestStatus; agentId?: number | null }
 ) {
   return prisma.handoffRequest.update({
-    where: { conversationId },
+    where: { conversationKey },
     data,
   });
 }

@@ -59,12 +59,13 @@ model Ticket {
 }
 
 model ConversationMessage {
-  id             Int      @id
-  conversationId Int
-  inboxId        Int
-  sender         String
-  content        String   @db.Text
-  createdAt      DateTime @default(now())
+  id              Int      @id
+  conversationId  Int
+  inboxId         Int
+  conversationKey String
+  sender          String
+  content         String   @db.Text
+  createdAt       DateTime @default(now())
 }
 
 model AgentAssignment {
@@ -84,8 +85,9 @@ enum HandoffRequestStatus {
 }
 
 model HandoffRequest {
-  conversationId Int                  @id
-  requestedAt    DateTime             @default(now())
-  status         HandoffRequestStatus @default(pending)
-  agentId        Int?
+  conversationKey String               @id
+  conversationId  Int
+  requestedAt     DateTime             @default(now())
+  status          HandoffRequestStatus @default(pending)
+  agentId         Int?
 }
