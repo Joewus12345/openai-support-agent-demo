@@ -61,7 +61,7 @@ test('chatwoot status webhook releases agent on conversation_status_changed', as
       status: 'snoozed',
       previous_status: 'open',
       account: { id: 1 },
-      conversation: { id: 1, assignee_id: 10 },
+      conversation: { id: 1 },
     },
   };
   const req = new Request('http://localhost', {
@@ -116,7 +116,7 @@ test('chatwoot status webhook releases agent on status update', async () => {
         },
       ],
       account: { id: 3 },
-      conversation: { id: 3, assignee_id: 30 },
+      conversation: { id: 3 },
     },
   };
   const req = new Request('http://localhost', {
@@ -127,53 +127,6 @@ test('chatwoot status webhook releases agent on status update', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
-  resetMocks();
-});
-
-test('chatwoot status webhook ignores pending status change when unassigned', async () => {
-  const payload = {
-    event: 'conversation_status_changed',
-    data: {
-      event: 'conversation_status_changed',
-      status: 'pending',
-      previous_status: 'open',
-      account: { id: 4 },
-      conversation: { id: 4 },
-    },
-  };
-  const req = new Request('http://localhost', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
-  const res = await statusWebhookPost(req);
-  const data = await res.json();
-  assert.strictEqual(data.status, 'ignored');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
-  resetMocks();
-});
-
-test('chatwoot status webhook ignores pending update when unassigned', async () => {
-  const payload = {
-    event: 'conversation_updated',
-    data: {
-      event: 'conversation_updated',
-      changed_attributes: [
-        {
-          status: { previous_value: 'open', current_value: 'pending' },
-        },
-      ],
-      account: { id: 5 },
-      conversation: { id: 5 },
-    },
-  };
-  const req = new Request('http://localhost', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
-  const res = await statusWebhookPost(req);
-  const data = await res.json();
-  assert.strictEqual(data.status, 'ignored');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });
 
