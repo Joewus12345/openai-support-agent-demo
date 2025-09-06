@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import type { ChatwootEvent, Message, Conversation } from "@/types/chatwoot";
+import type { ChatwootWebhookPayload, Conversation } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
@@ -20,42 +20,41 @@ import { releaseAgent } from "@/lib/conversationResolution";
 
 export async function POST(request: Request) {
   try {
-    const incoming = (await request.json()) as any;
-    const payload: ChatwootEvent = incoming.data ?? incoming;
-
+    const incoming = (await request.json()) as ChatwootWebhookPayload;
     if (incoming.event !== "message_created") {
       return NextResponse.json({ status: "ignored" });
     }
-
-    const message: Message | undefined = payload.message || (payload as Message);
-    const conversation: Conversation | undefined =
-      message?.conversation || payload.conversation;
-    const accountId =
-      payload.account?.id ??
-      message?.account?.id ??
-      (message as any)?.account_id ??
-      (payload as any)?.account_id;
+    const payload = "data" in incoming ? incoming.data : incoming;
+    const message = (payload as any).message ?? payload;
     const conversationId =
-      conversation?.id ??
-      (message as any)?.conversation_id ??
-      (payload as any)?.conversation_id;
+      (message as any).conversation_id ??
+      (message as any).conversation?.id ??
+      (payload as any).id;
+    const accountId =
+      (message as any).account_id ??
+      (message as any).account?.id ??
+      (payload as any).account?.id;
+    if (conversationId === undefined || accountId === undefined) {
+      console.warn("chatwoot webhook missing ids", { accountId, conversationId });
+      return NextResponse.json({ status: "ignored" });
+    }
+    const conversation: Conversation | undefined =
+      (message as any)?.conversation ??
+      (payload as any).conversation ??
+      (incoming.event.startsWith("conversation_") ? (payload as any) : undefined);
     const inboxId =
-      (conversation as any)?.inbox_id ??
-      (message as any)?.inbox_id ??
-      (payload as any)?.inbox_id;
-    const content = message?.content;
-    const messageId = message?.id;
-    const messageType = message?.message_type || message?.type;
-
+      (message as any).inbox_id ?? conversation?.inbox_id;
+    const content = message.content;
+    const messageId = message.id;
     if (
-      (message as any)?.message_type === 2 &&
+      message.message_type === 2 &&
       typeof content === "string" &&
       (content.startsWith("Conversation was marked resolved") ||
         content.startsWith("Conversation was marked as pending"))
     ) {
       console.info("resolution message", { messageId, conversationId, content });
       if (accountId === undefined || conversationId === undefined) {
-        return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+        return NextResponse.json({ status: "ignored" });
       }
       try {
         await releaseAgent(accountId, conversationId, conversation);
@@ -67,20 +66,26 @@ export async function POST(request: Request) {
       }
       return NextResponse.json({ status: "handled" });
     }
-
-    if (messageType !== "incoming") {
+    if (
+      message?.message_type !== 0 &&
+      message?.message_type !== "incoming"
+    ) {
       return NextResponse.json({ status: "ignored" });
     }
-
     console.info("handoff", { accountId, conversationId, inboxId, content });
-
     if (
       accountId === undefined ||
       conversationId === undefined ||
       inboxId === undefined ||
       !content
     ) {
-      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+      console.error("chatwoot webhook missing ids", {
+        accountId,
+        conversationId,
+        inboxId,
+        hasContent: !!content,
+      });
+      return NextResponse.json({ status: "ignored" });
     }
 
     let status = conversation?.status;
@@ -347,6 +352,7 @@ export async function POST(request: Request) {
 
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
+    let replySent = false;
     try {
       let replyText = "";
       const events = getProvider(undefined)(
@@ -365,8 +371,16 @@ export async function POST(request: Request) {
       await sendBotMessage(accountId, conversationId, replyText, {
         private: mode !== "auto",
       });
+      replySent = true;
     } catch (err) {
       console.error("sendBotMessage error", err);
+    }
+
+    if (!replySent) {
+      return NextResponse.json(
+        { error: "Failed to send reply" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({

@@ -4,10 +4,13 @@ import {
   getConversation,
   getConversationLabels,
   setAgentAvailability,
-  updateConversation,
   setConversationLabels,
 } from "@/lib/chatwoot";
-import { sendBotMessage } from "@/lib/chatwootBot";
+import {
+  sendBotMessage,
+  toggleConversationStatus,
+  assignConversation,
+} from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
 import type { Conversation } from "@/types/chatwoot";
@@ -21,6 +24,8 @@ export async function releaseAgent(
   conversationId: number,
   conversation?: Conversation
 ) {
+  let freedAgentId: number | undefined;
+  let outcome = "no-agent";
   try {
     const current = await getConversationLabels(accountId, conversationId);
     const reserved = Object.values(CONVO_LABELS) as string[];
@@ -33,7 +38,7 @@ export async function releaseAgent(
   }
 
   try {
-    let freedAgentId = (conversation as any)?.assignee_id;
+    freedAgentId = (conversation as any)?.assignee_id;
     if (freedAgentId === undefined) {
       try {
         const convo = await getConversation(accountId, conversationId);
@@ -73,10 +78,16 @@ export async function releaseAgent(
         } catch (err) {
           console.error("set assigned label error", err);
         }
-        await updateConversation(accountId, request.conversationId, {
-          status: "open",
-          assignee_id: freedAgentId,
-        });
+        await toggleConversationStatus(
+          accountId,
+          request.conversationId,
+          "open"
+        );
+        await assignConversation(
+          accountId,
+          request.conversationId,
+          freedAgentId
+        );
         await setActiveConversation(freedAgentId, request.conversationId);
         try {
           const response = await setAgentAvailability(
@@ -99,11 +110,21 @@ export async function releaseAgent(
           request.conversationId,
           "A human agent will join shortly."
         );
+        outcome = "assigned";
+      } else {
+        outcome = "released";
       }
     }
   } catch (err) {
     console.error("conversation status change handling error", err);
+    outcome = "error";
     throw err;
+  } finally {
+    console.info("releaseAgent", {
+      agentId: freedAgentId,
+      conversationId,
+      outcome,
+    });
   }
 }
 
