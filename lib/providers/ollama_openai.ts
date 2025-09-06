@@ -25,29 +25,28 @@ export async function* ollamaOpenAIProvider(
   });
 
   const model = opts?.model || defaultModel;
-
   const converted = (messages || [])
     .map((m: any) => {
-      if (m.role) {
-        const content = Array.isArray(m.content)
-          ? m.content
-              .map((c: any) => (typeof c === "string" ? c : c.text || ""))
-              .join(" ")
-          : String(m.content ?? "");
-        return {
-          role: m.role === "developer" ? "system" : m.role,
-          content,
-        };
-      }
-      if (m.type === "function_call_output") {
-        return {
-          role: "tool",
-          tool_call_id: m.call_id,
-          content: m.output ?? "",
-        };
-      }
-      return undefined;
-    })
+        if (m.role) {
+          const content = Array.isArray(m.content)
+            ? m.content
+                .map((c: any) => (typeof c === "string" ? c : c.text || ""))
+                .join(" ")
+            : String(m.content ?? "");
+          return {
+            role: m.role === "developer" ? "system" : m.role,
+            content,
+          };
+        }
+        if (m.type === "function_call_output") {
+          return {
+            role: "tool",
+            tool_call_id: m.call_id,
+            content: m.output ?? "",
+          };
+        }
+        return undefined;
+      })
     .filter(Boolean);
 
   let finalText = "";

@@ -58,8 +58,7 @@ export async function* ollamaProvider(
   options?: ProviderOptions
 ): AsyncGenerator<ProviderEvent> {
   const model = options?.model || defaultModel;
-
-const converted = convertMessages(messages);
+  const converted = convertMessages(messages);
   let finalText = "";
 
   let stream: any;
