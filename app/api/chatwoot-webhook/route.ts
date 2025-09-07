@@ -21,6 +21,10 @@ import { releaseAgent } from "@/lib/conversationResolution";
 import { CHATWOOT_SYSTEM_PROMPT } from "@/config/constants";
 import { getConversationKey } from "@/lib/getConversationKey";
 import { getConversationHistory } from "@/lib/getConversationHistory";
+import {
+  runRelevanceGuardrail,
+  runJailbreakGuardrail,
+} from "@/lib/guardrails";
 
 export async function POST(request: Request) {
   try {
@@ -453,6 +457,35 @@ export async function POST(request: Request) {
     try {
       let replyText = "";
       const history = await getConversationHistory(conversationKey);
+
+      try {
+        const conversationInput = history
+          .filter((m) => m.role !== "developer")
+          .map((m) => m.content.map((c) => c.text).join(" "))
+          .join(" ");
+        const userInput =
+          typeof content === "string"
+            ? content
+            : typeof content === "object"
+              ? JSON.stringify(content)
+              : String(content ?? "");
+        const relevance = await runRelevanceGuardrail({
+          input: conversationInput,
+        });
+        const jailbreak = await runJailbreakGuardrail({ input: userInput });
+        if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
+          await sendBotMessage(
+            accountId,
+            conversationId,
+            "I can't assist with that request.",
+            { private: mode !== "auto" }
+          );
+          return NextResponse.json({ status: "guardrail" });
+        }
+      } catch (err) {
+        console.error("guardrail check error", err);
+      }
+
       const events = getProvider(undefined)(
         [toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT), ...history],
         tools,

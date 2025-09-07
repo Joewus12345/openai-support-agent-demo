@@ -47,6 +47,18 @@ const setConversationLabelsMock = mock.method(chatwoot, 'setConversationLabels',
 const { CONVO_LABELS } = require('../lib/constants.ts');
 const { CHATWOOT_SYSTEM_PROMPT } = require('../config/constants.ts');
 
+const guardrails = require('../lib/guardrails.ts');
+const runRelevanceGuardrailMock = mock.method(
+  guardrails,
+  'runRelevanceGuardrail',
+  async () => ({ tripwireTriggered: false })
+);
+const runJailbreakGuardrailMock = mock.method(
+  guardrails,
+  'runJailbreakGuardrail',
+  async () => ({ tripwireTriggered: false })
+);
+
 const prisma = require('../lib/prisma.ts').default;
 prisma.handoffRequest.findUnique = mock.fn(async () => null);
 prisma.conversationMessage = {
@@ -95,6 +107,8 @@ function resetMocks() {
   redisPipelineMock.rpush.mock.resetCalls();
   redisPipelineMock.expire.mock.resetCalls();
   redisPipelineMock.exec.mock.resetCalls();
+  runRelevanceGuardrailMock.mock.resetCalls();
+  runJailbreakGuardrailMock.mock.resetCalls();
 }
 
 test('chatwoot status webhook releases agent on conversation_status_changed', async () => {
@@ -325,6 +339,62 @@ test('chatwoot webhook processes incoming message', async () => {
   assert.strictEqual(call[0], 7);
   assert.strictEqual(call[1], 7);
   assert.strictEqual(call[2], 'hi');
+  resetMocks();
+});
+
+test('chatwoot webhook sends fallback when relevance guardrail triggers', async () => {
+  runRelevanceGuardrailMock.mock.mockImplementationOnce(async () => ({
+    tripwireTriggered: true,
+  }));
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        message_type: 0,
+        content: 'off topic',
+        account: { id: 9 },
+        conversation: { id: 9, inbox_id: 1, status: 'resolved', account_id: 9 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'guardrail');
+  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], "I can't assist with that request.");
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  resetMocks();
+});
+
+test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async () => {
+  runJailbreakGuardrailMock.mock.mockImplementationOnce(async () => ({
+    tripwireTriggered: true,
+  }));
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        message_type: 0,
+        content: 'jailbreak attempt',
+        account: { id: 10 },
+        conversation: { id: 10, inbox_id: 1, status: 'resolved', account_id: 10 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'guardrail');
+  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], "I can't assist with that request.");
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
   resetMocks();
 });
 
