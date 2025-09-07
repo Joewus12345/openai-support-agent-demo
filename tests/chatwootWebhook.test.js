@@ -66,6 +66,10 @@ redis.pipeline = mock.fn(() => redisPipelineMock);
 
 const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
 const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
+ 
+test.after(async () => {
+  await prisma.$disconnect();
+});
 
 function resetMocks() {
   releaseAgentMock.mock.resetCalls();
