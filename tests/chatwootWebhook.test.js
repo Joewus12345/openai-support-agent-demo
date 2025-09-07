@@ -50,17 +50,17 @@ const { CHATWOOT_SYSTEM_PROMPT } = require('../config/constants.ts');
 const prisma = require('../lib/prisma.ts').default;
 prisma.handoffRequest.findUnique = mock.fn(async () => null);
 prisma.conversationMessage = {
-  create: mock.fn(async () => {}),
+  create: mock.fn(async () => ({})),
   findMany: mock.fn(async () => []),
 };
 
 const redis = require('../lib/redis.ts').default;
 const redisPipelineMock = {
-  rpush: mock.fn(async () => {}),
-  expire: mock.fn(async () => {}),
+  rpush: mock.fn(() => {}),
+  expire: mock.fn(() => {}),
   exec: mock.fn(async () => {}),
 };
-redis.exists = mock.fn(async () => 1);
+redis.exists = mock.fn(async () => 0);
 redis.rpush = mock.fn(async () => {});
 redis.pipeline = mock.fn(() => redisPipelineMock);
 
