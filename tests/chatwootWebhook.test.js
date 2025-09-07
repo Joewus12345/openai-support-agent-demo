@@ -49,6 +49,20 @@ const { CHATWOOT_SYSTEM_PROMPT } = require('../config/constants.ts');
 
 const prisma = require('../lib/prisma.ts').default;
 prisma.handoffRequest.findUnique = mock.fn(async () => null);
+prisma.conversationMessage = {
+  create: mock.fn(async () => {}),
+  findMany: mock.fn(async () => []),
+};
+
+const redis = require('../lib/redis.ts').default;
+const redisPipelineMock = {
+  rpush: mock.fn(async () => {}),
+  expire: mock.fn(async () => {}),
+  exec: mock.fn(async () => {}),
+};
+redis.exists = mock.fn(async () => 1);
+redis.rpush = mock.fn(async () => {});
+redis.pipeline = mock.fn(() => redisPipelineMock);
 
 const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
 const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
@@ -65,7 +79,15 @@ function resetMocks() {
   getConversationMock.mock.resetCalls();
   setConversationLabelsMock.mock.resetCalls();
   prisma.handoffRequest.findUnique.mock.resetCalls();
+  prisma.conversationMessage.create.mock.resetCalls();
+  prisma.conversationMessage.findMany.mock.resetCalls();
   getConversationHistoryMock.mock.resetCalls();
+  redis.exists.mock.resetCalls();
+  redis.rpush.mock.resetCalls();
+  redis.pipeline.mock.resetCalls();
+  redisPipelineMock.rpush.mock.resetCalls();
+  redisPipelineMock.expire.mock.resetCalls();
+  redisPipelineMock.exec.mock.resetCalls();
 }
 
 test('chatwoot status webhook releases agent on conversation_status_changed', async () => {
