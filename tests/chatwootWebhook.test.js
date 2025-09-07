@@ -11,12 +11,24 @@ const chatwootBot = require('../lib/chatwootBot.ts');
 const sendBotMessageMock = mock.method(chatwootBot, 'sendBotMessage', async () => {});
 
 const providers = require('../lib/providers/index.ts');
-const getProviderMock = mock.method(providers, 'getProvider', () => {
-  return () =>
-    (async function* () {
-      yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
-    })();
-});
+const providerFnMock = mock.fn((messages, toolsArg, options) =>
+  (async function* () {
+    void messages;
+    void toolsArg;
+    void options;
+    yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+  })()
+);
+const getProviderMock = mock.method(providers, 'getProvider', () => providerFnMock);
+
+const conversationHistory = require('../lib/getConversationHistory.ts');
+const getConversationHistoryMock = mock.method(
+  conversationHistory,
+  'getConversationHistory',
+  async () => []
+);
+
+const { toResponseMessage } = require('../lib/utils/toResponseMessage.ts');
 
 const agentRotation = require('../lib/agentRotation.ts');
 const getNextAgentMock = mock.method(agentRotation, 'getNextAgent', async () => null);
@@ -33,6 +45,7 @@ const getConversationMock = mock.method(chatwoot, 'getConversation', async () =>
 const setConversationLabelsMock = mock.method(chatwoot, 'setConversationLabels', async () => {});
 
 const { CONVO_LABELS } = require('../lib/constants.ts');
+const { CHATWOOT_SYSTEM_PROMPT } = require('../config/constants.ts');
 
 const prisma = require('../lib/prisma.ts').default;
 prisma.handoffRequest.findUnique = mock.fn(async () => null);
@@ -44,6 +57,7 @@ function resetMocks() {
   releaseAgentMock.mock.resetCalls();
   sendBotMessageMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
+  providerFnMock.mock.resetCalls();
   getNextAgentMock.mock.resetCalls();
   setActiveConversationMock.mock.resetCalls();
   handOffMock.mock.resetCalls();
@@ -51,6 +65,7 @@ function resetMocks() {
   getConversationMock.mock.resetCalls();
   setConversationLabelsMock.mock.resetCalls();
   prisma.handoffRequest.findUnique.mock.resetCalls();
+  getConversationHistoryMock.mock.resetCalls();
 }
 
 test('chatwoot status webhook releases agent on conversation_status_changed', async () => {
@@ -259,6 +274,12 @@ test('chatwoot webhook processes incoming message', async () => {
       },
     },
   };
+  const history = [
+    toResponseMessage('user', 'hi there'),
+    toResponseMessage('assistant', 'hi'),
+    toResponseMessage('user', 'Hello'),
+  ];
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -267,6 +288,10 @@ test('chatwoot webhook processes incoming message', async () => {
   await res.json();
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  assert.deepStrictEqual(
+    providerFnMock.mock.calls[0].arguments[0],
+    [toResponseMessage('system', CHATWOOT_SYSTEM_PROMPT), ...history]
+  );
   const call = sendBotMessageMock.mock.calls[0].arguments;
   assert.strictEqual(call[0], 7);
   assert.strictEqual(call[1], 7);
