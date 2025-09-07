@@ -69,6 +69,9 @@ const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/
  
 test.after(async () => {
   await prisma.$disconnect();
+  if (typeof redis.disconnect === 'function') {
+    await redis.disconnect();
+  }
 });
 
 function resetMocks() {
