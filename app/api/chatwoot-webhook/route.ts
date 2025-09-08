@@ -68,74 +68,81 @@ export async function POST(request: Request) {
       content !== undefined
     ) {
       try {
-        const createdAtRaw = (message as any)?.created_at;
-        const createdAt = createdAtRaw
-          ? new Date(
-              typeof createdAtRaw === "number"
-                ? createdAtRaw * 1000
-                : createdAtRaw
-            )
-          : undefined;
-        await prisma.conversationMessage.create({
-          data: {
-            id: messageId,
-            conversationId,
-            inboxId,
-            conversationKey,
-            sender,
-            content:
-              typeof content === "string"
-                ? content
-                : JSON.stringify(content),
-            createdAt,
-          },
+        const existing = await prisma.conversationMessage.findUnique({
+          where: { id: messageId },
         });
-        try {
-          if (
-            typeof (redis as any)?.exists === "function" &&
-            typeof (redis as any)?.rpush === "function" &&
-            typeof (redis as any)?.pipeline === "function"
-          ) {
-            const key = conversationKey;
-            const exists = await redis.exists(key);
-            if (!exists) {
-              const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
-              const recent = await prisma.conversationMessage.findMany({
-                where: {
-                  conversationKey,
-                  createdAt: { gte: since },
-                },
-                orderBy: { createdAt: "asc" },
-              });
-              if (recent.length) {
-                const pipeline = redis.pipeline();
-                for (const m of recent) {
-                  pipeline.rpush(key, JSON.stringify(m));
+        if (!existing) {
+          const createdAtRaw = (message as any)?.created_at;
+          const createdAt = createdAtRaw
+            ? new Date(
+                typeof createdAtRaw === "number"
+                  ? createdAtRaw * 1000
+                  : createdAtRaw
+              )
+            : undefined;
+          await prisma.conversationMessage.create({
+            data: {
+              id: messageId,
+              conversationId,
+              inboxId,
+              conversationKey,
+              sender,
+              content:
+                typeof content === "string"
+                  ? content
+                  : JSON.stringify(content),
+              createdAt,
+            },
+          });
+          try {
+            if (
+              typeof (redis as any)?.exists === "function" &&
+              typeof (redis as any)?.rpush === "function" &&
+              typeof (redis as any)?.pipeline === "function"
+            ) {
+              const key = conversationKey;
+              const keyExists = await redis.exists(key);
+              if (!keyExists) {
+                const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+                const recent = await prisma.conversationMessage.findMany({
+                  where: {
+                    conversationKey,
+                    createdAt: { gte: since },
+                  },
+                  orderBy: { createdAt: "asc" },
+                });
+                if (recent.length) {
+                  const pipeline = redis.pipeline();
+                  for (const m of recent) {
+                    pipeline.rpush(key, JSON.stringify(m));
+                  }
+                  pipeline.expire(key, 86400);
+                  await pipeline.exec();
                 }
+              } else {
+                const pipeline = redis.pipeline();
+                pipeline.rpush(
+                  key,
+                  JSON.stringify({
+                    id: messageId,
+                    conversationId,
+                    inboxId,
+                    conversationKey,
+                    sender,
+                    content:
+                      typeof content === "string"
+                        ? content
+                        : JSON.stringify(content),
+                    createdAt,
+                  })
+                );
                 pipeline.expire(key, 86400);
                 await pipeline.exec();
               }
-            } else {
-              const pipeline = redis.pipeline();
-              pipeline.rpush(
-                key,
-                JSON.stringify({
-                  id: messageId,
-                  conversationId,
-                  inboxId,
-                  conversationKey,
-                  sender,
-                  content:
-                    typeof content === "string" ? content : JSON.stringify(content),
-                  createdAt,
-                })
-              );
-              pipeline.expire(key, 86400);
-              await pipeline.exec();
             }
+          } catch (err) {
+            console.error("conversation redis log error", err);
           }
-        } catch (err) {
-          console.error("conversation redis log error", err);
         }
       } catch (err) {
         console.error("conversation message log error", err);
