@@ -32,7 +32,7 @@ export async function getConversationHistory(
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
   const messages = await prisma.conversationMessage.findMany({
     where: { conversationKey, createdAt: { gte: since } },
-    orderBy: { createdAt: "desc" },
+    orderBy: { messageId: "desc" },
     take: limit,
   });
   return messages

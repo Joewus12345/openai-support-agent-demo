@@ -5920,18 +5920,21 @@ export namespace Prisma {
 
   export type ConversationMessageAvgAggregateOutputType = {
     id: number | null
+    messageId: number | null
     conversationId: number | null
     inboxId: number | null
   }
 
   export type ConversationMessageSumAggregateOutputType = {
     id: number | null
+    messageId: number | null
     conversationId: number | null
     inboxId: number | null
   }
 
   export type ConversationMessageMinAggregateOutputType = {
     id: number | null
+    messageId: number | null
     conversationId: number | null
     inboxId: number | null
     conversationKey: string | null
@@ -5942,6 +5945,7 @@ export namespace Prisma {
 
   export type ConversationMessageMaxAggregateOutputType = {
     id: number | null
+    messageId: number | null
     conversationId: number | null
     inboxId: number | null
     conversationKey: string | null
@@ -5952,6 +5956,7 @@ export namespace Prisma {
 
   export type ConversationMessageCountAggregateOutputType = {
     id: number
+    messageId: number
     conversationId: number
     inboxId: number
     conversationKey: number
@@ -5964,18 +5969,21 @@ export namespace Prisma {
 
   export type ConversationMessageAvgAggregateInputType = {
     id?: true
+    messageId?: true
     conversationId?: true
     inboxId?: true
   }
 
   export type ConversationMessageSumAggregateInputType = {
     id?: true
+    messageId?: true
     conversationId?: true
     inboxId?: true
   }
 
   export type ConversationMessageMinAggregateInputType = {
     id?: true
+    messageId?: true
     conversationId?: true
     inboxId?: true
     conversationKey?: true
@@ -5986,6 +5994,7 @@ export namespace Prisma {
 
   export type ConversationMessageMaxAggregateInputType = {
     id?: true
+    messageId?: true
     conversationId?: true
     inboxId?: true
     conversationKey?: true
@@ -5996,6 +6005,7 @@ export namespace Prisma {
 
   export type ConversationMessageCountAggregateInputType = {
     id?: true
+    messageId?: true
     conversationId?: true
     inboxId?: true
     conversationKey?: true
@@ -6093,6 +6103,7 @@ export namespace Prisma {
 
   export type ConversationMessageGroupByOutputType = {
     id: number
+    messageId: number
     conversationId: number
     inboxId: number
     conversationKey: string
@@ -6122,6 +6133,7 @@ export namespace Prisma {
 
   export type ConversationMessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    messageId?: boolean
     conversationId?: boolean
     inboxId?: boolean
     conversationKey?: boolean
@@ -6132,6 +6144,7 @@ export namespace Prisma {
 
   export type ConversationMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    messageId?: boolean
     conversationId?: boolean
     inboxId?: boolean
     conversationKey?: boolean
@@ -6142,6 +6155,7 @@ export namespace Prisma {
 
   export type ConversationMessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    messageId?: boolean
     conversationId?: boolean
     inboxId?: boolean
     conversationKey?: boolean
@@ -6152,6 +6166,7 @@ export namespace Prisma {
 
   export type ConversationMessageSelectScalar = {
     id?: boolean
+    messageId?: boolean
     conversationId?: boolean
     inboxId?: boolean
     conversationKey?: boolean
@@ -6160,13 +6175,14 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type ConversationMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "conversationId" | "inboxId" | "conversationKey" | "sender" | "content" | "createdAt", ExtArgs["result"]["conversationMessage"]>
+  export type ConversationMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "messageId" | "conversationId" | "inboxId" | "conversationKey" | "sender" | "content" | "createdAt", ExtArgs["result"]["conversationMessage"]>
 
   export type $ConversationMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ConversationMessage"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      messageId: number
       conversationId: number
       inboxId: number
       conversationKey: string
@@ -6597,6 +6613,7 @@ export namespace Prisma {
    */
   interface ConversationMessageFieldRefs {
     readonly id: FieldRef<"ConversationMessage", 'Int'>
+    readonly messageId: FieldRef<"ConversationMessage", 'Int'>
     readonly conversationId: FieldRef<"ConversationMessage", 'Int'>
     readonly inboxId: FieldRef<"ConversationMessage", 'Int'>
     readonly conversationKey: FieldRef<"ConversationMessage", 'String'>
@@ -9091,6 +9108,7 @@ export namespace Prisma {
 
   export const ConversationMessageScalarFieldEnum: {
     id: 'id',
+    messageId: 'messageId',
     conversationId: 'conversationId',
     inboxId: 'inboxId',
     conversationKey: 'conversationKey',
@@ -9513,6 +9531,7 @@ export namespace Prisma {
     OR?: ConversationMessageWhereInput[]
     NOT?: ConversationMessageWhereInput | ConversationMessageWhereInput[]
     id?: IntFilter<"ConversationMessage"> | number
+    messageId?: IntFilter<"ConversationMessage"> | number
     conversationId?: IntFilter<"ConversationMessage"> | number
     inboxId?: IntFilter<"ConversationMessage"> | number
     conversationKey?: StringFilter<"ConversationMessage"> | string
@@ -9523,6 +9542,7 @@ export namespace Prisma {
 
   export type ConversationMessageOrderByWithRelationInput = {
     id?: SortOrder
+    messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
     conversationKey?: SortOrder
@@ -9533,19 +9553,22 @@ export namespace Prisma {
 
   export type ConversationMessageWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    conversationKey_messageId?: ConversationMessageConversationKeyMessageIdCompoundUniqueInput
     AND?: ConversationMessageWhereInput | ConversationMessageWhereInput[]
     OR?: ConversationMessageWhereInput[]
     NOT?: ConversationMessageWhereInput | ConversationMessageWhereInput[]
+    messageId?: IntFilter<"ConversationMessage"> | number
     conversationId?: IntFilter<"ConversationMessage"> | number
     inboxId?: IntFilter<"ConversationMessage"> | number
     conversationKey?: StringFilter<"ConversationMessage"> | string
     sender?: StringFilter<"ConversationMessage"> | string
     content?: StringFilter<"ConversationMessage"> | string
     createdAt?: DateTimeFilter<"ConversationMessage"> | Date | string
-  }, "id">
+  }, "id" | "conversationKey_messageId">
 
   export type ConversationMessageOrderByWithAggregationInput = {
     id?: SortOrder
+    messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
     conversationKey?: SortOrder
@@ -9564,6 +9587,7 @@ export namespace Prisma {
     OR?: ConversationMessageScalarWhereWithAggregatesInput[]
     NOT?: ConversationMessageScalarWhereWithAggregatesInput | ConversationMessageScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"ConversationMessage"> | number
+    messageId?: IntWithAggregatesFilter<"ConversationMessage"> | number
     conversationId?: IntWithAggregatesFilter<"ConversationMessage"> | number
     inboxId?: IntWithAggregatesFilter<"ConversationMessage"> | number
     conversationKey?: StringWithAggregatesFilter<"ConversationMessage"> | string
@@ -9945,7 +9969,7 @@ export namespace Prisma {
   }
 
   export type ConversationMessageCreateInput = {
-    id: number
+    messageId: number
     conversationId: number
     inboxId: number
     conversationKey: string
@@ -9955,7 +9979,8 @@ export namespace Prisma {
   }
 
   export type ConversationMessageUncheckedCreateInput = {
-    id: number
+    id?: number
+    messageId: number
     conversationId: number
     inboxId: number
     conversationKey: string
@@ -9965,7 +9990,7 @@ export namespace Prisma {
   }
 
   export type ConversationMessageUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    messageId?: IntFieldUpdateOperationsInput | number
     conversationId?: IntFieldUpdateOperationsInput | number
     inboxId?: IntFieldUpdateOperationsInput | number
     conversationKey?: StringFieldUpdateOperationsInput | string
@@ -9976,6 +10001,7 @@ export namespace Prisma {
 
   export type ConversationMessageUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    messageId?: IntFieldUpdateOperationsInput | number
     conversationId?: IntFieldUpdateOperationsInput | number
     inboxId?: IntFieldUpdateOperationsInput | number
     conversationKey?: StringFieldUpdateOperationsInput | string
@@ -9985,7 +10011,8 @@ export namespace Prisma {
   }
 
   export type ConversationMessageCreateManyInput = {
-    id: number
+    id?: number
+    messageId: number
     conversationId: number
     inboxId: number
     conversationKey: string
@@ -9995,7 +10022,7 @@ export namespace Prisma {
   }
 
   export type ConversationMessageUpdateManyMutationInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    messageId?: IntFieldUpdateOperationsInput | number
     conversationId?: IntFieldUpdateOperationsInput | number
     inboxId?: IntFieldUpdateOperationsInput | number
     conversationKey?: StringFieldUpdateOperationsInput | string
@@ -10006,6 +10033,7 @@ export namespace Prisma {
 
   export type ConversationMessageUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    messageId?: IntFieldUpdateOperationsInput | number
     conversationId?: IntFieldUpdateOperationsInput | number
     inboxId?: IntFieldUpdateOperationsInput | number
     conversationKey?: StringFieldUpdateOperationsInput | string
@@ -10475,8 +10503,14 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type ConversationMessageConversationKeyMessageIdCompoundUniqueInput = {
+    conversationKey: string
+    messageId: number
+  }
+
   export type ConversationMessageCountOrderByAggregateInput = {
     id?: SortOrder
+    messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
     conversationKey?: SortOrder
@@ -10487,12 +10521,14 @@ export namespace Prisma {
 
   export type ConversationMessageAvgOrderByAggregateInput = {
     id?: SortOrder
+    messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
   }
 
   export type ConversationMessageMaxOrderByAggregateInput = {
     id?: SortOrder
+    messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
     conversationKey?: SortOrder
@@ -10503,6 +10539,7 @@ export namespace Prisma {
 
   export type ConversationMessageMinOrderByAggregateInput = {
     id?: SortOrder
+    messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
     conversationKey?: SortOrder
@@ -10513,6 +10550,7 @@ export namespace Prisma {
 
   export type ConversationMessageSumOrderByAggregateInput = {
     id?: SortOrder
+    messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
   }

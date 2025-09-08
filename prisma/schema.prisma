@@ -59,13 +59,16 @@ model Ticket {
 }
 
 model ConversationMessage {
-  id             Int      @id
+  id             Int      @id @default(autoincrement())
+  messageId      Int
   conversationId Int
   inboxId        Int
   conversationKey String
   sender         String
   content        String   @db.Text
   createdAt      DateTime @default(now())
+
+  @@unique([conversationKey, messageId])
 }
 
 model AgentAssignment {
