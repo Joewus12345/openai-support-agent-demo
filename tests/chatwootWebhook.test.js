@@ -62,7 +62,7 @@ const runJailbreakGuardrailMock = mock.method(
 const prisma = require('../lib/prisma.ts').default;
 prisma.handoffRequest.findUnique = mock.fn(async () => null);
 prisma.conversationMessage = {
-  create: mock.fn(async () => ({})),
+  upsert: mock.fn(async () => ({})),
   findMany: mock.fn(async () => []),
 };
 
@@ -98,7 +98,7 @@ function resetMocks() {
   getConversationMock.mock.resetCalls();
   setConversationLabelsMock.mock.resetCalls();
   prisma.handoffRequest.findUnique.mock.resetCalls();
-  prisma.conversationMessage.create.mock.resetCalls();
+  prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
   getConversationHistoryMock.mock.resetCalls();
   redis.exists.mock.resetCalls();

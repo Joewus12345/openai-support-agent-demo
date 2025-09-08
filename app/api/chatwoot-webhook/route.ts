@@ -68,33 +68,36 @@ export async function POST(request: Request) {
       content !== undefined
     ) {
       try {
-        const existing = await prisma.conversationMessage.findUnique({
-          where: { id: messageId },
-        });
-        if (!existing) {
-          const createdAtRaw = (message as any)?.created_at;
-          const createdAt = createdAtRaw
-            ? new Date(
-                typeof createdAtRaw === "number"
-                  ? createdAtRaw * 1000
-                  : createdAtRaw
-              )
-            : undefined;
-          await prisma.conversationMessage.create({
-            data: {
-              id: messageId,
-              conversationId,
-              inboxId,
+        const createdAtRaw = (message as any)?.created_at;
+        const createdAt = createdAtRaw
+          ? new Date(
+              typeof createdAtRaw === "number"
+                ? createdAtRaw * 1000
+                : createdAtRaw
+            )
+          : undefined;
+        await prisma.conversationMessage.upsert({
+          where: {
+            conversationKey_messageId: {
               conversationKey,
-              sender,
-              content:
-                typeof content === "string"
-                  ? content
-                  : JSON.stringify(content),
-              createdAt,
+              messageId,
             },
-          });
-          try {
+          },
+          update: {},
+          create: {
+            messageId,
+            conversationId,
+            inboxId,
+            conversationKey,
+            sender,
+            content:
+              typeof content === "string"
+                ? content
+                : JSON.stringify(content),
+            createdAt,
+          },
+        });
+        try {
             if (
               typeof (redis as any)?.exists === "function" &&
               typeof (redis as any)?.rpush === "function" &&
@@ -109,7 +112,7 @@ export async function POST(request: Request) {
                     conversationKey,
                     createdAt: { gte: since },
                   },
-                  orderBy: { createdAt: "asc" },
+                  orderBy: { messageId: "asc" },
                 });
                 if (recent.length) {
                   const pipeline = redis.pipeline();
@@ -124,7 +127,7 @@ export async function POST(request: Request) {
                 pipeline.rpush(
                   key,
                   JSON.stringify({
-                    id: messageId,
+                    messageId,
                     conversationId,
                     inboxId,
                     conversationKey,
@@ -143,11 +146,10 @@ export async function POST(request: Request) {
           } catch (err) {
             console.error("conversation redis log error", err);
           }
+        } catch (err) {
+          console.error("conversation message log error", err);
         }
-      } catch (err) {
-        console.error("conversation message log error", err);
       }
-    }
     if (
       message.message_type === 2 &&
       typeof content === "string" &&
