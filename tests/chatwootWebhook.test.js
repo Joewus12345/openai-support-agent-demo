@@ -398,6 +398,44 @@ test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async 
   resetMocks();
 });
 
+test("chatwoot webhook allows legitimate product questions", async () => {
+  const question = "Do you sell ATS panels?";
+  const payload = {
+    event: "message_created",
+    data: {
+      event: "message_created",
+      message: {
+        message_type: 0,
+        content: question,
+        account: { id: 11 },
+        conversation: { id: 11, inbox_id: 1, status: "resolved", account_id: 11 },
+      },
+    },
+  };
+  const history = [
+    toResponseMessage("user", "random chatter"),
+    toResponseMessage("assistant", "..."),
+    toResponseMessage("user", question),
+  ];
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+  runRelevanceGuardrailMock.mock.mockImplementationOnce(async ({ input }) => {
+    assert.strictEqual(input, question);
+    return { tripwireTriggered: false };
+  });
+
+  const req = new Request("http://localhost", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 1);
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], "hi");
+  resetMocks();
+});
+
 test('chatwoot webhook returns 500 when sendBotMessage fails', async () => {
   sendBotMessageMock.mock.mockImplementationOnce(async () => {
     throw new Error('fail');

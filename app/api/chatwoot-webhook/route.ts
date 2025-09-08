@@ -466,19 +466,15 @@ export async function POST(request: Request) {
       const history = await getConversationHistory(conversationKey);
 
       try {
-        const conversationInput = history
-          .filter((m) => m.role !== "developer")
-          .map((m) => m.content.map((c) => c.text).join(" "))
-          .join(" ");
         const userInput =
           typeof content === "string"
             ? content
             : typeof content === "object"
               ? JSON.stringify(content)
               : String(content ?? "");
-        const relevance = await runRelevanceGuardrail({
-          input: conversationInput,
-        });
+
+        // Only pass the latest user message (or a shortened context) to the relevance guardrail
+        const relevance = await runRelevanceGuardrail({ input: userInput });
         const jailbreak = await runJailbreakGuardrail({ input: userInput });
         if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
           await sendBotMessage(
