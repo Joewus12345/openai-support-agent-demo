@@ -254,7 +254,7 @@ test('chatwoot webhook queues request when no agent available', async () => {
   resetMocks();
 });
 
-test('chatwoot status webhook releases agent on resolution system message', async () => {
+test('chatwoot status webhook ignores resolution system message', async () => {
   const payload = {
     event: 'message_created',
     data: {
@@ -273,8 +273,8 @@ test('chatwoot status webhook releases agent on resolution system message', asyn
   });
   const res = await statusWebhookPost(req);
   const data = await res.json();
-  assert.strictEqual(data.status, 'handled');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assert.strictEqual(data.status, 'ignored');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });
 
