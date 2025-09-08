@@ -1,7 +1,3 @@
-import prisma from "@/lib/prisma";
-import redis from "@/lib/redis";
-import { getConversationKey } from "@/lib/getConversationKey";
-
 const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
 const CHATWOOT_BOT_TOKEN = process.env.CHATWOOT_BOT_TOKEN || "";
 
@@ -39,7 +35,7 @@ export async function sendBotMessage(
   content: string,
   options: Record<string, any> = {}
 ) {
-  const res = await chatwootBotFetch(
+  return chatwootBotFetch(
     `/api/v1/accounts/${accountId}/conversations/${conversationId}/messages`,
     {
       method: "POST",
@@ -47,63 +43,6 @@ export async function sendBotMessage(
       body: JSON.stringify({ content, message_type: "outgoing", ...options }),
     }
   );
-
-  try {
-    const inboxId = (res as any)?.inbox_id ?? (res as any)?.conversation?.inbox_id;
-    if (res?.id !== undefined && inboxId !== undefined) {
-      const conversationKey = getConversationKey(
-        accountId,
-        res.conversation_id ?? conversationId,
-        inboxId
-      );
-      const createdAtRaw = (res as any)?.created_at;
-      const createdAt = createdAtRaw
-        ? new Date(
-            typeof createdAtRaw === "number" ? createdAtRaw * 1000 : createdAtRaw
-          )
-        : undefined;
-      await prisma.conversationMessage.create({
-        data: {
-          id: res.id,
-          conversationId: res.conversation_id ?? conversationId,
-          inboxId,
-          conversationKey,
-          sender: "bot",
-          content,
-          createdAt,
-        },
-      });
-      try {
-        if (
-          typeof (redis as any)?.rpush === "function" &&
-          typeof (redis as any)?.pipeline === "function"
-        ) {
-          const key = conversationKey;
-          const pipeline = redis.pipeline();
-          pipeline.rpush(
-            key,
-            JSON.stringify({
-              id: res.id,
-              conversationId: res.conversation_id ?? conversationId,
-              inboxId,
-              conversationKey,
-              sender: "bot",
-              content,
-              createdAt,
-            })
-          );
-          pipeline.expire(key, 86400);
-          await pipeline.exec();
-        }
-      } catch (err) {
-        console.error("bot message redis log error", err);
-      }
-    }
-  } catch (err) {
-    console.error("log bot message error", err);
-  }
-
-  return res;
 }
 
 export async function assignConversation(
