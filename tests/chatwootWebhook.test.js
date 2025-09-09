@@ -149,7 +149,35 @@ test('chatwoot status webhook releases agent on label removal', async () => {
         },
       ],
       account: { id: 2 },
-      conversation: { id: 2, assignee_id: 42 },
+      conversation: { id: 2 },
+      assignee_id: 42,
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  resetMocks();
+});
+
+test('chatwoot status webhook releases agent on status-only update with top-level labels', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      changed_attributes: [
+        {
+          status: { previous_value: 'open', current_value: 'pending' },
+        },
+      ],
+      account: { id: 6 },
+      conversation: { id: 6 },
+      assignee_id: 44,
+      labels: [CONVO_LABELS.assigned, 'other'],
     },
   };
   const req = new Request('http://localhost', {
@@ -174,7 +202,8 @@ test('chatwoot status webhook releases agent on status update', async () => {
         },
       ],
       account: { id: 3 },
-      conversation: { id: 3, assignee_id: 43 },
+      conversation: { id: 3 },
+      assignee_id: 43,
     },
   };
   const req = new Request('http://localhost', {
