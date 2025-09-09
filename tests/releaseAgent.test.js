@@ -15,6 +15,7 @@ const redis = require('../lib/redis.ts').default;
 mock.method(chatwoot, 'getConversationLabels', async () => ({ payload: [] }));
 mock.method(chatwoot, 'setConversationLabels', async () => {});
 mock.method(chatwoot, 'setAgentAvailability', async () => {});
+const getConversationMock = mock.method(chatwoot, 'getConversation', async () => ({}));
 mock.method(agentRotation, 'clearActiveConversation', async () => {});
 mock.method(agentRotation, 'setActiveConversation', async () => {});
 mock.method(handoffQueue, 'updateRequest', async () => {});
@@ -53,4 +54,23 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
   assert.strictEqual(assignMock.mock.calls.length, 1);
   assert.deepStrictEqual(assignMock.mock.calls[0].arguments, [accountId, queuedConversationId, freedAgentId]);
   assert.strictEqual(sendMock.mock.calls.length, 1);
+});
+
+test('releaseAgent throws when freed agent cannot be resolved', async () => {
+  const fetchErr = new Error('fetch failed');
+  getConversationMock.mock.mockImplementationOnce(async () => {
+    throw fetchErr;
+  });
+  prisma.agentAssignment.findFirst.mock.mockImplementationOnce(async () => null);
+  await assert.rejects(
+    async () => {
+      await conversationResolution.releaseAgent(accountId, releasedConversationId);
+    },
+    (err) => {
+      assert.strictEqual(err.conversationId, releasedConversationId);
+      assert.ok(err.message.includes(`conversation ${releasedConversationId}`));
+      assert.ok(err.message.includes(fetchErr.message));
+      return true;
+    }
+  );
 });

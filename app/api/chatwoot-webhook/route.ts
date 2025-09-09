@@ -162,11 +162,10 @@ export async function POST(request: Request) {
       }
       try {
         await releaseAgent(accountId, conversationId, conversation);
-      } catch {
-        return NextResponse.json(
-          { error: "Agent availability update failed" },
-          { status: 500 }
-        );
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "Agent release failed";
+        return NextResponse.json({ error: message }, { status: 500 });
       }
       return NextResponse.json({ status: "handled" });
     }

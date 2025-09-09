@@ -65,6 +65,9 @@ export async function POST(request: Request) {
           );
         } catch (err) {
           console.error("Agent availability update failed", err);
+          const message =
+            err instanceof Error ? err.message : "Agent release failed";
+          return NextResponse.json({ error: message }, { status: 500 });
         }
         return NextResponse.json({ status: "handled" });
       }
@@ -171,6 +174,9 @@ export async function POST(request: Request) {
             );
           } catch (err) {
             console.error("Agent availability update failed", err);
+            const message =
+              err instanceof Error ? err.message : "Agent release failed";
+            return NextResponse.json({ error: message }, { status: 500 });
           }
         }
         return NextResponse.json({ status: "handled" });
