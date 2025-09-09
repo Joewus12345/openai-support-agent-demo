@@ -107,7 +107,11 @@ export async function POST(request: Request) {
       const labelsPrevious = Array.isArray(labelListChange?.previous_value)
         ? labelListChange?.previous_value
         : undefined;
-      const assigneeId = (typedPayload.conversation as any)?.assignee_id;
+      const assigneeId =
+        payload.assignee_id ??
+        (changes.assignee_id?.current_value as number | undefined) ??
+        payload.meta?.assignee?.id ??
+        (typedPayload.conversation as any)?.assignee_id;
       const hasAssignedLabel =
         Array.isArray(labelsCurrent) &&
         labelsCurrent.includes(CONVO_LABELS.assigned);
