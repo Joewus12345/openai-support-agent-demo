@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import type {
   ChatwootEvent,
-  Message,
   ConversationStatusChangedPayload,
   ConversationUpdatedPayload,
 } from "@/types/chatwoot";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CONVO_LABELS } from "@/lib/constants";
+import { setAgentAvailability } from "@/lib/chatwoot";
+import { setActiveConversation } from "@/lib/agentRotation";
 
 export async function POST(request: Request) {
   try {
@@ -17,7 +18,6 @@ export async function POST(request: Request) {
 
     // Chatwoot may send either `event` or `type`; fall back accordingly
     const event = payload.event ?? payload.type;
-    const message: Message | undefined = payload.message;
 
     const accountId: number | undefined =
       payload.account_id ??
@@ -63,11 +63,20 @@ export async function POST(request: Request) {
             conversationId,
             typedPayload.conversation
           );
-        } catch {
-          return NextResponse.json(
-            { error: "Agent availability update failed" },
-            { status: 500 }
-          );
+        } catch (err) {
+          console.error("Agent availability update failed", err);
+        }
+        return NextResponse.json({ status: "handled" });
+      }
+      if (status === "open") {
+        const agentId = (typedPayload.conversation as any)?.assignee_id;
+        if (agentId !== undefined) {
+          try {
+            await setActiveConversation(agentId, conversationId);
+            await setAgentAvailability(accountId, agentId, "busy");
+          } catch (err) {
+            console.error("set agent busy error", err);
+          }
         }
         return NextResponse.json({ status: "handled" });
       }
@@ -111,39 +120,8 @@ export async function POST(request: Request) {
             conversationId,
             typedPayload.conversation
           );
-        } catch {
-          return NextResponse.json(
-            { error: "Agent availability update failed" },
-            { status: 500 }
-          );
-        }
-        return NextResponse.json({ status: "handled" });
-      }
-    } else if (event === "message_created" && message) {
-      console.info("chatwoot status webhook message", {
-        event,
-        conversationId,
-        messageId: message.id,
-        message_type: message.message_type,
-      });
-      const content = message.content;
-      if (
-        message.message_type === 2 &&
-        typeof content === "string" &&
-        content.startsWith("Conversation was marked")
-      ) {
-        console.info("chatwoot status webhook resolution message", {
-          messageId: message.id,
-          conversationId,
-          content,
-        });
-        try {
-          await releaseAgent(accountId, conversationId, payload.conversation);
-        } catch {
-          return NextResponse.json(
-            { error: "Agent availability update failed" },
-            { status: 500 }
-          );
+        } catch (err) {
+          console.error("Agent availability update failed", err);
         }
         return NextResponse.json({ status: "handled" });
       }
@@ -152,6 +130,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ status: "ignored" });
   } catch (error) {
     console.error("Chatwoot status webhook error", error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ status: "error" });
   }
 }
