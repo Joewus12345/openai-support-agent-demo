@@ -127,6 +127,14 @@ export async function POST(request: Request) {
       const hasAssignedLabel =
         Array.isArray(labelsCurrent) &&
         labelsCurrent.includes(CONVO_LABELS.assigned);
+      console.info("chatwoot status webhook resolved fields", {
+        event,
+        conversationId,
+        assigneeId,
+        labels_current: labelsCurrent,
+        labels_previous: labelsPrevious,
+        status_current: statusCurrent,
+      });
       if (
         statusCurrent === "resolved" ||
         statusCurrent === "pending" ||
@@ -137,9 +145,24 @@ export async function POST(request: Request) {
         if (assigneeId === undefined && !hasAssignedLabel) {
           console.info(
             "chatwoot status webhook skipping release: no assignee",
-            { event, conversationId }
+            {
+              event,
+              conversationId,
+              assigneeId,
+              labels_current: labelsCurrent,
+              labels_previous: labelsPrevious,
+              status_current: statusCurrent,
+            }
           );
         } else {
+          console.info("chatwoot status webhook releasing agent", {
+            event,
+            conversationId,
+            assigneeId,
+            labels_current: labelsCurrent,
+            labels_previous: labelsPrevious,
+            status_current: statusCurrent,
+          });
           try {
             await releaseAgent(
               accountId,
