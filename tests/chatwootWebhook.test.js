@@ -11,12 +11,24 @@ const chatwootBot = require('../lib/chatwootBot.ts');
 const sendBotMessageMock = mock.method(chatwootBot, 'sendBotMessage', async () => {});
 
 const providers = require('../lib/providers/index.ts');
-const getProviderMock = mock.method(providers, 'getProvider', () => {
-  return () =>
-    (async function* () {
-      yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
-    })();
-});
+const providerFnMock = mock.fn((messages, toolsArg, options) =>
+  (async function* () {
+    void messages;
+    void toolsArg;
+    void options;
+    yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+  })()
+);
+const getProviderMock = mock.method(providers, 'getProvider', () => providerFnMock);
+
+const conversationHistory = require('../lib/getConversationHistory.ts');
+const getConversationHistoryMock = mock.method(
+  conversationHistory,
+  'getConversationHistory',
+  async () => []
+);
+
+const { toResponseMessage } = require('../lib/utils/toResponseMessage.ts');
 
 const agentRotation = require('../lib/agentRotation.ts');
 const getNextAgentMock = mock.method(agentRotation, 'getNextAgent', async () => null);
@@ -33,17 +45,52 @@ const getConversationMock = mock.method(chatwoot, 'getConversation', async () =>
 const setConversationLabelsMock = mock.method(chatwoot, 'setConversationLabels', async () => {});
 
 const { CONVO_LABELS } = require('../lib/constants.ts');
+const { CHATWOOT_SYSTEM_PROMPT } = require('../config/constants.ts');
+
+const guardrails = require('../lib/guardrails.ts');
+const runRelevanceGuardrailMock = mock.method(
+  guardrails,
+  'runRelevanceGuardrail',
+  async () => ({ tripwireTriggered: false })
+);
+const runJailbreakGuardrailMock = mock.method(
+  guardrails,
+  'runJailbreakGuardrail',
+  async () => ({ tripwireTriggered: false })
+);
 
 const prisma = require('../lib/prisma.ts').default;
 prisma.handoffRequest.findUnique = mock.fn(async () => null);
+prisma.conversationMessage = {
+  upsert: mock.fn(async () => ({})),
+  findMany: mock.fn(async () => []),
+};
+
+const redis = require('../lib/redis.ts').default;
+const redisPipelineMock = {
+  rpush: mock.fn(() => {}),
+  expire: mock.fn(() => {}),
+  exec: mock.fn(async () => {}),
+};
+redis.exists = mock.fn(async () => 0);
+redis.rpush = mock.fn(async () => {});
+redis.pipeline = mock.fn(() => redisPipelineMock);
 
 const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
 const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
+ 
+test.after(async () => {
+  await prisma.$disconnect();
+  if (typeof redis.disconnect === 'function') {
+    await redis.disconnect();
+  }
+});
 
 function resetMocks() {
   releaseAgentMock.mock.resetCalls();
   sendBotMessageMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
+  providerFnMock.mock.resetCalls();
   getNextAgentMock.mock.resetCalls();
   setActiveConversationMock.mock.resetCalls();
   handOffMock.mock.resetCalls();
@@ -51,6 +98,17 @@ function resetMocks() {
   getConversationMock.mock.resetCalls();
   setConversationLabelsMock.mock.resetCalls();
   prisma.handoffRequest.findUnique.mock.resetCalls();
+  prisma.conversationMessage.upsert.mock.resetCalls();
+  prisma.conversationMessage.findMany.mock.resetCalls();
+  getConversationHistoryMock.mock.resetCalls();
+  redis.exists.mock.resetCalls();
+  redis.rpush.mock.resetCalls();
+  redis.pipeline.mock.resetCalls();
+  redisPipelineMock.rpush.mock.resetCalls();
+  redisPipelineMock.expire.mock.resetCalls();
+  redisPipelineMock.exec.mock.resetCalls();
+  runRelevanceGuardrailMock.mock.resetCalls();
+  runJailbreakGuardrailMock.mock.resetCalls();
 }
 
 test('chatwoot status webhook releases agent on conversation_status_changed', async () => {
@@ -155,7 +213,7 @@ test('chatwoot webhook escalates when agent available', async () => {
   assert.strictEqual(body.status, 'handoff');
   assert.strictEqual(handOffMock.mock.calls.length, 1);
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
-  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [1, 'assigned', 10]);
+  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [1, 1, 'assigned', 10, 1]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.assigned]);
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'A human agent will join shortly.');
@@ -188,7 +246,7 @@ test('chatwoot webhook queues request when no agent available', async () => {
   assert.strictEqual(body.status, 'handoff');
   assert.strictEqual(handOffMock.mock.calls.length, 0);
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
-  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [2]);
+  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [2, 2, undefined, undefined, 1]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'All human agents are currently busy. Please wait for the next available agent.');
@@ -196,7 +254,7 @@ test('chatwoot webhook queues request when no agent available', async () => {
   resetMocks();
 });
 
-test('chatwoot status webhook releases agent on resolution system message', async () => {
+test('chatwoot status webhook ignores resolution system message', async () => {
   const payload = {
     event: 'message_created',
     data: {
@@ -215,8 +273,8 @@ test('chatwoot status webhook releases agent on resolution system message', asyn
   });
   const res = await statusWebhookPost(req);
   const data = await res.json();
-  assert.strictEqual(data.status, 'handled');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assert.strictEqual(data.status, 'ignored');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });
 
@@ -259,6 +317,12 @@ test('chatwoot webhook processes incoming message', async () => {
       },
     },
   };
+  const history = [
+    toResponseMessage('user', 'hi there'),
+    toResponseMessage('assistant', 'hi'),
+    toResponseMessage('user', 'Hello'),
+  ];
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -267,10 +331,70 @@ test('chatwoot webhook processes incoming message', async () => {
   await res.json();
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  assert.deepStrictEqual(
+    providerFnMock.mock.calls[0].arguments[0],
+    [toResponseMessage('system', CHATWOOT_SYSTEM_PROMPT), ...history]
+  );
   const call = sendBotMessageMock.mock.calls[0].arguments;
   assert.strictEqual(call[0], 7);
   assert.strictEqual(call[1], 7);
   assert.strictEqual(call[2], 'hi');
+  resetMocks();
+});
+
+test('chatwoot webhook sends fallback when relevance guardrail triggers', async () => {
+  runRelevanceGuardrailMock.mock.mockImplementationOnce(async () => ({
+    tripwireTriggered: true,
+  }));
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        message_type: 0,
+        content: 'off topic',
+        account: { id: 9 },
+        conversation: { id: 9, inbox_id: 1, status: 'resolved', account_id: 9 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'guardrail');
+  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], "I can't assist with that request.");
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  resetMocks();
+});
+
+test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async () => {
+  runJailbreakGuardrailMock.mock.mockImplementationOnce(async () => ({
+    tripwireTriggered: true,
+  }));
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        message_type: 0,
+        content: 'jailbreak attempt',
+        account: { id: 10 },
+        conversation: { id: 10, inbox_id: 1, status: 'resolved', account_id: 10 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'guardrail');
+  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], "I can't assist with that request.");
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
   resetMocks();
 });
 

@@ -8,6 +8,8 @@ const chatwoot = require('../lib/chatwoot.ts');
 const chatwootBot = require('../lib/chatwootBot.ts');
 const agentRotation = require('../lib/agentRotation.ts');
 const handoffQueue = require('../lib/handoffQueue.ts');
+const prisma = require('../lib/prisma.ts').default;
+const redis = require('../lib/redis.ts').default;
 
 // Mock external dependencies
 mock.method(chatwoot, 'getConversationLabels', async () => ({ payload: [] }));
@@ -22,9 +24,18 @@ const releasedConversationId = 1;
 const queuedConversationId = 2;
 const freedAgentId = 5;
 
+prisma.agentAssignment.findFirst = mock.fn(async () => ({ agentId: freedAgentId }));
+
+test.after(async () => {
+  await prisma.$disconnect();
+  if (typeof redis.disconnect === 'function') {
+    redis.disconnect();
+  }
+});
+
 let status = 'resolved';
 
-const dequeueRequestMock = mock.method(handoffQueue, 'dequeueRequest', async () => ({ conversationId: queuedConversationId }));
+const dequeueRequestMock = mock.method(handoffQueue, 'dequeueRequest', async () => ({ conversationId: queuedConversationId, conversationKey: `chatwoot:${accountId}:${queuedConversationId}` }));
 const toggleMock = mock.method(chatwootBot, 'toggleConversationStatus', async () => {
   status = 'open';
 });

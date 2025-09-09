@@ -3,6 +3,7 @@ import type { ChatwootWebhookPayload, Conversation } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
+import redis from "@/lib/redis";
 import handOff from "@/lib/handoff";
 import {
   getConversation,
@@ -17,6 +18,13 @@ import { toResponseMessage } from "@/lib/utils/toResponseMessage";
 import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
+import { CHATWOOT_SYSTEM_PROMPT } from "@/config/constants";
+import { getConversationKey } from "@/lib/getConversationKey";
+import { getConversationHistory } from "@/lib/getConversationHistory";
+import {
+  runRelevanceGuardrail,
+  runJailbreakGuardrail,
+} from "@/lib/guardrails";
 
 export async function POST(request: Request) {
   try {
@@ -44,8 +52,104 @@ export async function POST(request: Request) {
       (incoming.event.startsWith("conversation_") ? (payload as any) : undefined);
     const inboxId =
       (message as any).inbox_id ?? conversation?.inbox_id;
+    const conversationKey = getConversationKey(accountId, conversationId, inboxId);
     const content = message.content;
     const messageId = message.id;
+    const sender =
+      (message as any)?.sender?.type ??
+      (message as any)?.sender_type ??
+      (message as any)?.sender?.name ??
+      "";
+
+    if (
+      messageId !== undefined &&
+      conversationId !== undefined &&
+      inboxId !== undefined &&
+      content !== undefined
+    ) {
+      try {
+        const createdAtRaw = (message as any)?.created_at;
+        const createdAt = createdAtRaw
+          ? new Date(
+              typeof createdAtRaw === "number"
+                ? createdAtRaw * 1000
+                : createdAtRaw
+            )
+          : undefined;
+        await prisma.conversationMessage.upsert({
+          where: {
+            conversationKey_messageId: {
+              conversationKey,
+              messageId,
+            },
+          },
+          update: {},
+          create: {
+            messageId,
+            conversationId,
+            inboxId,
+            conversationKey,
+            sender,
+            content:
+              typeof content === "string"
+                ? content
+                : JSON.stringify(content),
+            createdAt,
+          },
+        });
+        try {
+            if (
+              typeof (redis as any)?.exists === "function" &&
+              typeof (redis as any)?.rpush === "function" &&
+              typeof (redis as any)?.pipeline === "function"
+            ) {
+              const key = conversationKey;
+              const keyExists = await redis.exists(key);
+              if (!keyExists) {
+                const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+                const recent = await prisma.conversationMessage.findMany({
+                  where: {
+                    conversationKey,
+                    createdAt: { gte: since },
+                  },
+                  orderBy: { messageId: "asc" },
+                });
+                if (recent.length) {
+                  const pipeline = redis.pipeline();
+                  for (const m of recent) {
+                    pipeline.rpush(key, JSON.stringify(m));
+                  }
+                  pipeline.expire(key, 86400);
+                  await pipeline.exec();
+                }
+              } else {
+                const pipeline = redis.pipeline();
+                pipeline.rpush(
+                  key,
+                  JSON.stringify({
+                    messageId,
+                    conversationId,
+                    inboxId,
+                    conversationKey,
+                    sender,
+                    content:
+                      typeof content === "string"
+                        ? content
+                        : JSON.stringify(content),
+                    createdAt,
+                  })
+                );
+                pipeline.expire(key, 86400);
+                await pipeline.exec();
+              }
+            }
+          } catch (err) {
+            console.error("conversation redis log error", err);
+          }
+        } catch (err) {
+          console.error("conversation message log error", err);
+        }
+      }
     if (
       message.message_type === 2 &&
       typeof content === "string" &&
@@ -107,7 +211,7 @@ export async function POST(request: Request) {
     }
 
     const existingRequest = await prisma.handoffRequest.findUnique({
-      where: { conversationId },
+      where: { conversationKey },
     });
     if (
       handoffStrategy.value === "confirm" &&
@@ -136,7 +240,7 @@ export async function POST(request: Request) {
               conversationId,
               agentId: agent.id,
             });
-            await updateRequest(conversationId, {
+            await updateRequest(conversationKey, {
               status: "assigned",
               agentId: agent.id,
             });
@@ -201,7 +305,7 @@ export async function POST(request: Request) {
           }
       } else {
         console.info("handoff", { step: "update-request", conversationId });
-        await updateRequest(conversationId, {
+        await updateRequest(conversationKey, {
           status: "expired",
           agentId: null,
         });
@@ -274,7 +378,13 @@ export async function POST(request: Request) {
             conversationId,
             agentId: agent.id,
           });
-          await enqueueRequest(conversationId, "assigned", agent.id);
+          await enqueueRequest(
+            accountId,
+            conversationId,
+            "assigned",
+            agent.id,
+            inboxId
+          );
           console.info("handoff", "request enqueued", agent.id);
             const role =
               agent.role === "administrator" ? "administrator" : "agent";
@@ -285,7 +395,7 @@ export async function POST(request: Request) {
               role
             );
             if (!success) {
-              await updateRequest(conversationId, {
+              await updateRequest(conversationKey, {
                 status: "pending",
                 agentId: null,
               });
@@ -318,7 +428,7 @@ export async function POST(request: Request) {
             }
         } else {
           console.info("handoff", { step: "enqueue", conversationId });
-          await enqueueRequest(conversationId);
+          await enqueueRequest(accountId, conversationId, undefined, undefined, inboxId);
           console.info("handoff", "request enqueued");
             const labels = [CONVO_LABELS.waiting];
             console.info("handoff", {
@@ -355,8 +465,38 @@ export async function POST(request: Request) {
     let replySent = false;
     try {
       let replyText = "";
+      const history = await getConversationHistory(conversationKey);
+
+      try {
+        const conversationInput = history
+          .filter((m) => m.role !== "developer")
+          .map((m) => m.content.map((c) => c.text).join(" "))
+          .join(" ");
+        const userInput =
+          typeof content === "string"
+            ? content
+            : typeof content === "object"
+              ? JSON.stringify(content)
+              : String(content ?? "");
+        const relevance = await runRelevanceGuardrail({
+          input: conversationInput,
+        });
+        const jailbreak = await runJailbreakGuardrail({ input: userInput });
+        if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
+          await sendBotMessage(
+            accountId,
+            conversationId,
+            "I can't assist with that request.",
+            { private: mode !== "auto" }
+          );
+          return NextResponse.json({ status: "guardrail" });
+        }
+      } catch (err) {
+        console.error("guardrail check error", err);
+      }
+
       const events = getProvider(undefined)(
-        [toResponseMessage("user", content)],
+        [toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT), ...history],
         tools,
         {}
       );
