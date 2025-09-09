@@ -101,12 +101,24 @@ export async function POST(request: Request) {
         | undefined;
       const labelListChange =
         changes.label_list ?? changes.cached_label_list;
-      const labelsCurrent = Array.isArray(labelListChange?.current_value)
+      let labelsCurrent = Array.isArray(labelListChange?.current_value)
         ? labelListChange?.current_value
         : undefined;
       const labelsPrevious = Array.isArray(labelListChange?.previous_value)
         ? labelListChange?.previous_value
         : undefined;
+      if (!labelListChange) {
+        const labelSource =
+          payload.label_list ?? payload.cached_label_list ?? payload.labels;
+        if (Array.isArray(labelSource)) {
+          labelsCurrent = labelSource;
+        } else if (typeof labelSource === "string") {
+          labelsCurrent = labelSource
+            .split(",")
+            .map((l) => l.trim())
+            .filter(Boolean);
+        }
+      }
       const assigneeId =
         payload.assignee_id ??
         (changes.assignee_id?.current_value as number | undefined) ??
