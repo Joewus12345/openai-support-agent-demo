@@ -731,7 +731,7 @@ test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async 
   resetMocks();
 });
 
-test('chatwoot webhook returns 500 when sendBotMessage fails', async () => {
+test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   sendBotMessageMock.mock.mockImplementationOnce(async () => {
     throw new Error('fail');
   });
@@ -752,7 +752,13 @@ test('chatwoot webhook returns 500 when sendBotMessage fails', async () => {
     body: JSON.stringify(payload),
   });
   const res = await webhookPost(req);
-  assert.strictEqual(res.status, 500);
-  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const body = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(body.status, 'fallback');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+  assert.strictEqual(
+    sendBotMessageMock.mock.calls[1].arguments[2],
+    'We ran into a hiccup processing your message. Please wait and try again.'
+  );
   resetMocks();
 });
