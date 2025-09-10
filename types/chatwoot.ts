@@ -4,6 +4,11 @@ interface Account {
   [key: string]: any;
 }
 
+interface Assignee {
+  id?: number;
+  account_id?: number;
+}
+
 export interface Conversation {
   id: number;
   status?: string;
@@ -34,7 +39,7 @@ export interface BasePayload {
   conversation_id?: number;
   inbox_id?: number;
   id?: number;
-  meta?: { assignee?: { account_id?: number } } & Record<string, any>;
+  meta?: { assignee?: Assignee } & Record<string, any>;
   messages?: Message[];
   message?: Message;
 }

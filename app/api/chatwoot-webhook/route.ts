@@ -25,6 +25,10 @@ import {
   runRelevanceGuardrail,
   runJailbreakGuardrail,
 } from "@/lib/guardrails";
+import {
+  recordReleaseFailure,
+  clearReleaseAttempts,
+} from "@/lib/releaseAttempts";
 
 export async function POST(request: Request) {
   try {
@@ -160,12 +164,44 @@ export async function POST(request: Request) {
       if (accountId === undefined || conversationId === undefined) {
         return NextResponse.json({ status: "ignored" });
       }
+      let labels = Array.isArray((conversation as any)?.label_list)
+        ? (conversation as any).label_list
+        : undefined;
+      if (!Array.isArray(labels)) {
+        try {
+          const current = await getConversationLabels(accountId, conversationId);
+          labels = Array.isArray((current as any)?.payload)
+            ? (current as any).payload
+            : undefined;
+        } catch (err) {
+          console.error("resolution labels fetch error", err);
+        }
+      }
+      const hasAssigned =
+        Array.isArray(labels) && labels.includes(CONVO_LABELS.assigned);
+      if (!hasAssigned) {
+        console.info("resolution message skipping release", {
+          conversationId,
+          labels,
+        });
+        return NextResponse.json({ status: "handled" });
+      }
       try {
         await releaseAgent(accountId, conversationId, conversation);
-      } catch {
+        clearReleaseAttempts(conversationId);
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "Agent release failed";
+        const { shouldRetry } = await recordReleaseFailure(
+          conversationId,
+          err
+        );
+        if (shouldRetry) {
+          return NextResponse.json({ error: message }, { status: 500 });
+        }
         return NextResponse.json(
-          { error: "Agent availability update failed" },
-          { status: 500 }
+          { status: "unreleased", error: message },
+          { status: 200 }
         );
       }
       return NextResponse.json({ status: "handled" });

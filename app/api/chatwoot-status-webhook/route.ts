@@ -8,6 +8,10 @@ import { releaseAgent } from "@/lib/conversationResolution";
 import { CONVO_LABELS } from "@/lib/constants";
 import { setAgentAvailability } from "@/lib/chatwoot";
 import { setActiveConversation } from "@/lib/agentRotation";
+import {
+  recordReleaseFailure,
+  clearReleaseAttempts,
+} from "@/lib/releaseAttempts";
 
 export async function POST(request: Request) {
   try {
@@ -63,13 +67,30 @@ export async function POST(request: Request) {
             conversationId,
             typedPayload.conversation
           );
+          clearReleaseAttempts(conversationId);
         } catch (err) {
           console.error("Agent availability update failed", err);
+          const message =
+            err instanceof Error ? err.message : "Agent release failed";
+          const { shouldRetry } = await recordReleaseFailure(
+            conversationId,
+            err
+          );
+          if (shouldRetry) {
+            return NextResponse.json({ error: message }, { status: 500 });
+          }
+          return NextResponse.json(
+            { status: "unreleased", error: message },
+            { status: 200 }
+          );
         }
         return NextResponse.json({ status: "handled" });
       }
       if (status === "open") {
-        const agentId = (typedPayload.conversation as any)?.assignee_id;
+        const agentId =
+          payload.assignee_id ??
+          payload.meta?.assignee?.id ??
+          (typedPayload.conversation as any)?.assignee_id;
         if (agentId !== undefined) {
           try {
             await setActiveConversation(agentId, conversationId);
@@ -99,32 +120,95 @@ export async function POST(request: Request) {
       const statusCurrent = changes.status?.current_value as
         | string
         | undefined;
+      const statusPrevious = changes.status?.previous_value as
+        | string
+        | undefined;
       const labelListChange =
         changes.label_list ?? changes.cached_label_list;
-      const labelsCurrent = Array.isArray(labelListChange?.current_value)
+      let labelsCurrent = Array.isArray(labelListChange?.current_value)
         ? labelListChange?.current_value
         : undefined;
       const labelsPrevious = Array.isArray(labelListChange?.previous_value)
         ? labelListChange?.previous_value
         : undefined;
-      if (
-        statusCurrent === "resolved" ||
-        statusCurrent === "pending" ||
-        (Array.isArray(labelsCurrent) &&
-          labelsPrevious?.includes(CONVO_LABELS.assigned) &&
-          !labelsCurrent.includes(CONVO_LABELS.assigned))
-      ) {
+      if (!labelListChange) {
+        const labelSource =
+          payload.label_list ?? payload.cached_label_list ?? payload.labels;
+        if (Array.isArray(labelSource)) {
+          labelsCurrent = labelSource;
+        } else if (typeof labelSource === "string") {
+          labelsCurrent = labelSource
+            .split(",")
+            .map((l) => l.trim())
+            .filter(Boolean);
+        }
+      }
+      const assigneeId =
+        payload.assignee_id ??
+        (changes.assignee_id?.current_value as number | undefined) ??
+        payload.meta?.assignee?.id ??
+        (typedPayload.conversation as any)?.assignee_id;
+      const hasAssignedLabel =
+        Array.isArray(labelsCurrent) &&
+        labelsCurrent.includes(CONVO_LABELS.assigned);
+      console.info("chatwoot status webhook resolved fields", {
+        event,
+        conversationId,
+        assigneeId,
+        labels_current: labelsCurrent,
+        labels_previous: labelsPrevious,
+        status_current: statusCurrent,
+        status_previous: statusPrevious,
+      });
+      const shouldRelease =
+        (statusCurrent === "pending" || statusCurrent === "resolved") &&
+        statusPrevious === "open" &&
+        hasAssignedLabel;
+      if (shouldRelease) {
+        console.info("chatwoot status webhook releasing agent", {
+          event,
+          conversationId,
+          assigneeId,
+          labels_current: labelsCurrent,
+          labels_previous: labelsPrevious,
+          status_current: statusCurrent,
+          status_previous: statusPrevious,
+        });
         try {
           await releaseAgent(
             accountId,
             conversationId,
             typedPayload.conversation
           );
+          clearReleaseAttempts(conversationId);
         } catch (err) {
           console.error("Agent availability update failed", err);
+          const message =
+            err instanceof Error ? err.message : "Agent release failed";
+          const { shouldRetry } = await recordReleaseFailure(
+            conversationId,
+            err
+          );
+          if (shouldRetry) {
+            return NextResponse.json({ error: message }, { status: 500 });
+          }
+          return NextResponse.json(
+            { status: "unreleased", error: message },
+            { status: 200 }
+          );
         }
-        return NextResponse.json({ status: "handled" });
+      } else {
+        console.info("chatwoot status webhook skipping release", {
+          event,
+          conversationId,
+          assigneeId,
+          labels_current: labelsCurrent,
+          labels_previous: labelsPrevious,
+          status_current: statusCurrent,
+          status_previous: statusPrevious,
+        });
       }
+      return NextResponse.json({ status: "handled" });
     }
 
     return NextResponse.json({ status: "ignored" });
