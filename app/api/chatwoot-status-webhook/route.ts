@@ -120,6 +120,9 @@ export async function POST(request: Request) {
       const statusCurrent = changes.status?.current_value as
         | string
         | undefined;
+      const statusPrevious = changes.status?.previous_value as
+        | string
+        | undefined;
       const labelListChange =
         changes.label_list ?? changes.cached_label_list;
       let labelsCurrent = Array.isArray(labelListChange?.current_value)
@@ -155,61 +158,57 @@ export async function POST(request: Request) {
         labels_current: labelsCurrent,
         labels_previous: labelsPrevious,
         status_current: statusCurrent,
+        status_previous: statusPrevious,
       });
-      if (
-        statusCurrent === "resolved" ||
-        statusCurrent === "pending" ||
-        (Array.isArray(labelsCurrent) &&
-          labelsPrevious?.includes(CONVO_LABELS.assigned) &&
-          !labelsCurrent.includes(CONVO_LABELS.assigned))
-      ) {
-        if (assigneeId === undefined && !hasAssignedLabel) {
-          console.info(
-            "chatwoot status webhook skipping release: no assignee",
-            {
-              event,
-              conversationId,
-              assigneeId,
-              labels_current: labelsCurrent,
-              labels_previous: labelsPrevious,
-              status_current: statusCurrent,
-            }
-          );
-        } else {
-          console.info("chatwoot status webhook releasing agent", {
-            event,
+      const shouldRelease =
+        (statusCurrent === "pending" || statusCurrent === "resolved") &&
+        statusPrevious === "open" &&
+        hasAssignedLabel;
+      if (shouldRelease) {
+        console.info("chatwoot status webhook releasing agent", {
+          event,
+          conversationId,
+          assigneeId,
+          labels_current: labelsCurrent,
+          labels_previous: labelsPrevious,
+          status_current: statusCurrent,
+          status_previous: statusPrevious,
+        });
+        try {
+          await releaseAgent(
+            accountId,
             conversationId,
-            assigneeId,
-            labels_current: labelsCurrent,
-            labels_previous: labelsPrevious,
-            status_current: statusCurrent,
-          });
-          try {
-            await releaseAgent(
-              accountId,
-              conversationId,
-              typedPayload.conversation
-            );
-            clearReleaseAttempts(conversationId);
-          } catch (err) {
-            console.error("Agent availability update failed", err);
-            const message =
-              err instanceof Error ? err.message : "Agent release failed";
-            const { shouldRetry } = await recordReleaseFailure(
-              conversationId,
-              err
-            );
-            if (shouldRetry) {
-              return NextResponse.json({ error: message }, { status: 500 });
-            }
-            return NextResponse.json(
-              { status: "unreleased", error: message },
-              { status: 200 }
-            );
+            typedPayload.conversation
+          );
+          clearReleaseAttempts(conversationId);
+        } catch (err) {
+          console.error("Agent availability update failed", err);
+          const message =
+            err instanceof Error ? err.message : "Agent release failed";
+          const { shouldRetry } = await recordReleaseFailure(
+            conversationId,
+            err
+          );
+          if (shouldRetry) {
+            return NextResponse.json({ error: message }, { status: 500 });
           }
+          return NextResponse.json(
+            { status: "unreleased", error: message },
+            { status: 200 }
+          );
         }
-        return NextResponse.json({ status: "handled" });
+      } else {
+        console.info("chatwoot status webhook skipping release", {
+          event,
+          conversationId,
+          assigneeId,
+          labels_current: labelsCurrent,
+          labels_previous: labelsPrevious,
+          status_current: statusCurrent,
+          status_previous: statusPrevious,
+        });
       }
+      return NextResponse.json({ status: "handled" });
     }
 
     return NextResponse.json({ status: "ignored" });

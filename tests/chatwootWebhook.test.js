@@ -196,7 +196,7 @@ test('chatwoot status webhook stops returning 500 after retry limit', async () =
   resetMocks();
 });
 
-test('chatwoot status webhook releases agent on label removal', async () => {
+test('chatwoot status webhook skips release on label removal', async () => {
   const payload = {
     event: 'conversation_updated',
     data: {
@@ -221,7 +221,7 @@ test('chatwoot status webhook releases agent on label removal', async () => {
   const res = await statusWebhookPost(req);
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
-  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });
 
@@ -265,6 +265,7 @@ test('chatwoot status webhook releases agent on status update', async () => {
       account: { id: 3 },
       conversation: { id: 3 },
       assignee_id: 43,
+      labels: [CONVO_LABELS.assigned],
     },
   };
   const req = new Request('http://localhost', {
