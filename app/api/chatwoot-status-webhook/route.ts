@@ -12,8 +12,24 @@ import {
   recordReleaseFailure,
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
+import { sendBotMessage } from "@/lib/chatwootBot";
 
 export async function POST(request: Request) {
+  let accountId: number | undefined;
+  let conversationId: number | undefined;
+  const fallbackMessage =
+    "We're updating your conversation. Please wait and try again in a moment.";
+  let fallbackSent = false;
+  const sendFallback = async () => {
+    if (fallbackSent || accountId === undefined || conversationId === undefined)
+      return;
+    fallbackSent = true;
+    try {
+      await sendBotMessage(accountId, conversationId, fallbackMessage);
+    } catch (err) {
+      console.error("fallback sendBotMessage error", err);
+    }
+  };
   try {
     const incoming = await request.json();
     // Merge Chatwoot's structured payload with any extra fields we might receive
@@ -23,7 +39,7 @@ export async function POST(request: Request) {
     // Chatwoot may send either `event` or `type`; fall back accordingly
     const event = payload.event ?? payload.type;
 
-    const accountId: number | undefined =
+    accountId =
       payload.account_id ??
       payload.account?.id ??
       payload.conversation?.account_id ??
@@ -34,7 +50,7 @@ export async function POST(request: Request) {
       payload.message?.conversation?.account_id ??
       payload.message?.conversation?.account?.id;
 
-    const conversationId: number | undefined =
+    conversationId =
       payload.id ??
       payload.conversation?.id ??
       payload.messages?.[0]?.conversation_id ??
@@ -76,6 +92,7 @@ export async function POST(request: Request) {
             conversationId,
             err
           );
+          await sendFallback();
           if (shouldRetry) {
             return NextResponse.json({ error: message }, { status: 500 });
           }
@@ -99,6 +116,7 @@ export async function POST(request: Request) {
             await setAgentAvailability(accountId, agentId, "busy");
           } catch (err) {
             console.error("set agent busy error", err);
+            await sendFallback();
           }
         }
         return NextResponse.json({ status: "handled" });
@@ -191,6 +209,7 @@ export async function POST(request: Request) {
             conversationId,
             err
           );
+          await sendFallback();
           if (shouldRetry) {
             return NextResponse.json({ error: message }, { status: 500 });
           }
@@ -216,6 +235,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ status: "ignored" });
   } catch (error) {
     console.error("Chatwoot status webhook error", error);
+    await sendFallback();
     return NextResponse.json({ status: "error" });
   }
 }

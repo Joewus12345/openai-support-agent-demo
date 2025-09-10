@@ -166,6 +166,11 @@ test('chatwoot status webhook returns error when releaseAgent fails', async () =
   const data = await res.json();
   assert.strictEqual(res.status, 500);
   assert.ok(data.error.includes('Unable to resolve freed agent'));
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  assert.strictEqual(
+    sendBotMessageMock.mock.calls[0].arguments[2],
+    "We're updating your conversation. Please wait and try again in a moment."
+  );
   resetMocks();
 });
 
@@ -199,6 +204,15 @@ test('chatwoot status webhook stops returning 500 after retry limit', async () =
   const data = await res.json();
   assert.strictEqual(res.status, 200);
   assert.strictEqual(data.status, 'unreleased');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+  assert.strictEqual(
+    sendBotMessageMock.mock.calls[0].arguments[2],
+    "We're updating your conversation. Please wait and try again in a moment."
+  );
+  assert.strictEqual(
+    sendBotMessageMock.mock.calls[1].arguments[2],
+    "We're updating your conversation. Please wait and try again in a moment."
+  );
   resetMocks();
 });
 
