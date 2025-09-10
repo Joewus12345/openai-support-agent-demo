@@ -228,6 +228,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "ignored" });
     }
 
+    // Reuse conversation data from the payload when possible.
+    // Only fetch from Chatwoot if we are missing critical fields like `status`.
     let status = conversation?.status;
     if (!status) {
       try {
@@ -235,6 +237,22 @@ export async function POST(request: Request) {
         status = convo?.status;
       } catch (err) {
         console.error("fetch conversation error", err);
+        try {
+          // Retry once more before falling back
+          const retry = await getConversation(accountId, conversationId);
+          status = retry?.status;
+        } catch (retryErr) {
+          console.error("retry fetch conversation error", retryErr);
+          await sendBotMessage(
+            accountId,
+            conversationId,
+            "We're having trouble retrieving conversation details. Please try again later."
+          );
+          return NextResponse.json(
+            { status: "conversation_fetch_failed" },
+            { status: 200 }
+          );
+        }
       }
     }
 
@@ -387,16 +405,24 @@ export async function POST(request: Request) {
         accountId,
         conversationId,
       });
-      let currentConversation;
-      try {
-        currentConversation = await getConversation(accountId, conversationId);
-        console.info("handoff", "conversation fetched", currentConversation);
-      } catch (err) {
-        console.error("handoff", "conversation fetch error", err);
-        return NextResponse.json(
-          { error: "Failed to fetch conversation for escalation" },
-          { status: 500 }
-        );
+      // Prefer conversation details from the webhook payload
+      let currentConversation = conversation;
+      if (!currentConversation || !currentConversation.id) {
+        try {
+          currentConversation = await getConversation(accountId, conversationId);
+          console.info("handoff", "conversation fetched", currentConversation);
+        } catch (err) {
+          console.error("handoff", "conversation fetch error", err);
+          await sendBotMessage(
+            accountId,
+            conversationId,
+            "We're having trouble retrieving conversation details. Please try again later."
+          );
+          return NextResponse.json(
+            { status: "conversation_fetch_failed" },
+            { status: 200 }
+          );
+        }
       }
       if (!currentConversation) {
         console.error("handoff", "conversation not found");
