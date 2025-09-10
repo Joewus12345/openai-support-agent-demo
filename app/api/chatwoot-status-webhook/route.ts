@@ -87,7 +87,10 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
       if (status === "open") {
-        const agentId = (typedPayload.conversation as any)?.assignee_id;
+        const agentId =
+          payload.assignee_id ??
+          payload.meta?.assignee?.id ??
+          (typedPayload.conversation as any)?.assignee_id;
         if (agentId !== undefined) {
           try {
             await setActiveConversation(agentId, conversationId);
