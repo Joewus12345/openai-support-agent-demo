@@ -10,6 +10,8 @@ const agentRotation = require('../lib/agentRotation.ts');
 const handoffQueue = require('../lib/handoffQueue.ts');
 const prisma = require('../lib/prisma.ts').default;
 const redis = require('../lib/redis.ts').default;
+const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
+const { CONVO_LABELS } = require('../lib/constants.ts');
 
 // Mock external dependencies
 mock.method(chatwoot, 'getConversationLabels', async () => ({ payload: [] }));
@@ -73,4 +75,145 @@ test('releaseAgent throws when freed agent cannot be resolved', async () => {
       return true;
     }
   );
+});
+
+test('status change without label skips releaseAgent call', async () => {
+  const consoleInfoMock = mock.method(console, 'info', () => {});
+  const releaseAgentMock = mock.method(
+    conversationResolution,
+    'releaseAgent',
+    async () => {}
+  );
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      changed_attributes: [
+        {
+          status: { previous_value: 'open', current_value: 'pending' },
+        },
+      ],
+      account: { id: 10 },
+      conversation: { id: 10 },
+      assignee_id: 60,
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  const resolvedFieldsCall = consoleInfoMock.mock.calls.find(
+    (c) => c.arguments[0] === 'chatwoot status webhook resolved fields'
+  );
+  assert.ok(resolvedFieldsCall);
+  assert.strictEqual(resolvedFieldsCall.arguments[1].status_previous, 'open');
+  assert.strictEqual(resolvedFieldsCall.arguments[1].status_current, 'pending');
+  assert.strictEqual(resolvedFieldsCall.arguments[1].labels_current, undefined);
+  assert.strictEqual(resolvedFieldsCall.arguments[1].labels_previous, undefined);
+  consoleInfoMock.mock.restore();
+  releaseAgentMock.mock.restore();
+});
+
+test('label removed with status open skips releaseAgent call', async () => {
+  const consoleInfoMock = mock.method(console, 'info', () => {});
+  const releaseAgentMock = mock.method(
+    conversationResolution,
+    'releaseAgent',
+    async () => {}
+  );
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      changed_attributes: [
+        {
+          status: { previous_value: 'open', current_value: 'open' },
+        },
+        {
+          label_list: {
+            previous_value: [CONVO_LABELS.assigned],
+            current_value: [],
+          },
+        },
+      ],
+      account: { id: 11 },
+      conversation: { id: 11 },
+      assignee_id: 61,
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  const resolvedFieldsCall = consoleInfoMock.mock.calls.find(
+    (c) => c.arguments[0] === 'chatwoot status webhook resolved fields'
+  );
+  assert.ok(resolvedFieldsCall);
+  assert.strictEqual(resolvedFieldsCall.arguments[1].status_previous, 'open');
+  assert.strictEqual(resolvedFieldsCall.arguments[1].status_current, 'open');
+  assert.deepStrictEqual(resolvedFieldsCall.arguments[1].labels_previous, [
+    CONVO_LABELS.assigned,
+  ]);
+  assert.deepStrictEqual(resolvedFieldsCall.arguments[1].labels_current, []);
+  consoleInfoMock.mock.restore();
+  releaseAgentMock.mock.restore();
+});
+
+test('status change with label triggers releaseAgent', async () => {
+  const consoleInfoMock = mock.method(console, 'info', () => {});
+  const releaseAgentMock = mock.method(
+    conversationResolution,
+    'releaseAgent',
+    async () => {}
+  );
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      changed_attributes: [
+        {
+          status: { previous_value: 'open', current_value: 'resolved' },
+        },
+        {
+          label_list: {
+            previous_value: [CONVO_LABELS.assigned],
+            current_value: [CONVO_LABELS.assigned],
+          },
+        },
+      ],
+      account: { id: 12 },
+      conversation: { id: 12 },
+      assignee_id: 62,
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  const resolvedFieldsCall = consoleInfoMock.mock.calls.find(
+    (c) => c.arguments[0] === 'chatwoot status webhook resolved fields'
+  );
+  assert.ok(resolvedFieldsCall);
+  assert.strictEqual(resolvedFieldsCall.arguments[1].status_previous, 'open');
+  assert.strictEqual(resolvedFieldsCall.arguments[1].status_current, 'resolved');
+  assert.deepStrictEqual(resolvedFieldsCall.arguments[1].labels_previous, [
+    CONVO_LABELS.assigned,
+  ]);
+  assert.deepStrictEqual(resolvedFieldsCall.arguments[1].labels_current, [
+    CONVO_LABELS.assigned,
+  ]);
+  consoleInfoMock.mock.restore();
+  releaseAgentMock.mock.restore();
 });
