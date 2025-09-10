@@ -524,40 +524,72 @@ export async function POST(request: Request) {
 
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
-    let replySent = false;
-    try {
-      let replyText = "";
-      const history = await getConversationHistory(conversationKey);
-
+    const fallbackMessage =
+      "We ran into a hiccup processing your message. Please wait and try again.";
+    let fallbackSent = false;
+    const sendFallback = async () => {
+      if (fallbackSent) return;
+      fallbackSent = true;
       try {
-        const conversationInput = history
-          .filter((m) => m.role !== "developer")
-          .map((m) => m.content.map((c) => c.text).join(" "))
-          .join(" ");
-        const userInput =
-          typeof content === "string"
-            ? content
-            : typeof content === "object"
-              ? JSON.stringify(content)
-              : String(content ?? "");
-        const relevance = await runRelevanceGuardrail({
-          input: conversationInput,
+        await sendBotMessage(accountId, conversationId, fallbackMessage, {
+          private: mode !== "auto",
         });
-        const jailbreak = await runJailbreakGuardrail({ input: userInput });
-        if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
-          await sendBotMessage(
-            accountId,
-            conversationId,
-            "I can't assist with that request.",
-            { private: mode !== "auto" }
-          );
-          return NextResponse.json({ status: "guardrail" });
-        }
       } catch (err) {
-        console.error("guardrail check error", err);
+        console.error("fallback sendBotMessage error", err);
       }
+    };
 
-      const events = getProvider(undefined)(
+    let history = [] as any;
+    try {
+      history = await getConversationHistory(conversationKey);
+    } catch (err) {
+      console.error("conversation history error", err);
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
+    }
+
+    try {
+      const conversationInput = history
+        .filter((m) => m.role !== "developer")
+        .map((m) => m.content.map((c) => c.text).join(" "))
+        .join(" ");
+      const userInput =
+        typeof content === "string"
+          ? content
+          : typeof content === "object"
+            ? JSON.stringify(content)
+            : String(content ?? "");
+      const relevance = await runRelevanceGuardrail({
+        input: conversationInput,
+      });
+      const jailbreak = await runJailbreakGuardrail({ input: userInput });
+      if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
+        await sendBotMessage(
+          accountId,
+          conversationId,
+          "I can't assist with that request.",
+          { private: mode !== "auto" }
+        );
+        return NextResponse.json({ status: "guardrail" });
+      }
+    } catch (err) {
+      console.error("guardrail check error", err);
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
+    }
+
+    let provider;
+    try {
+      provider = getProvider(undefined);
+    } catch (err) {
+      console.error("getProvider error", err);
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
+    }
+
+    let replyText = "";
+    try {
+      const events = provider(
         [toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT), ...history],
         tools,
         {}
@@ -570,19 +602,20 @@ export async function POST(request: Request) {
           replyText += data.delta;
         }
       }
+    } catch (err) {
+      console.error("tool execution error", err);
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
+    }
+
+    try {
       await sendBotMessage(accountId, conversationId, replyText, {
         private: mode !== "auto",
       });
-      replySent = true;
     } catch (err) {
       console.error("sendBotMessage error", err);
-    }
-
-    if (!replySent) {
-      return NextResponse.json(
-        { error: "Failed to send reply" },
-        { status: 500 }
-      );
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
     }
 
     return NextResponse.json({
