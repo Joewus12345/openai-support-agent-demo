@@ -123,7 +123,15 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
     - `http://ai-agent:3001/api/chatwoot-webhook` subscribed only to `message_created`.
     - `http://ai-agent:3001/api/chatwoot-status-webhook` subscribed to `conversation_status_changed`, `conversation_updated`, and `message_created` (system events).
 
+    Release retries for these endpoints are controlled by `RELEASE_MAX_ATTEMPTS`, `RELEASE_RETRY_BASE_MS`, and `CHATWOOT_TIMEOUT_MS`.
+
    The `AGENT_TOKENS` environment variable supplies per-agent access tokens in JSON form, e.g. `{ "1": "secret" }`. Store these secrets outside of source control (such as a `.env` file or your hosting platform's secret manager). To rotate a token, update the JSON with the new value and redeploy or restart the service so it reads the updated mapping.
+
+   #### Release retry settings
+
+   - `RELEASE_MAX_ATTEMPTS` (default `5`) – number of retry attempts when releasing an agent fails.
+   - `RELEASE_RETRY_BASE_MS` (default `1000`) – base delay for exponential backoff.
+   - `CHATWOOT_TIMEOUT_MS` (default `15000`) – API request timeout before retries.
 
    A standalone Docker setup is available to test the service in isolation:
 
@@ -155,6 +163,8 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
 ## Agent release workflow
 
 Releases are triggered only when a conversation moves from `open` to either `pending` or `resolved` **and** still carries the `agent-assigned` label. The `chatwoot-status-webhook` checks for this combination before calling `releaseAgent`. Inside `releaseAgent`, the label is removed, which generates additional webhook events to handle follow-up processing.
+
+Retry behavior for this release process is governed by the `RELEASE_MAX_ATTEMPTS`, `RELEASE_RETRY_BASE_MS`, and `CHATWOOT_TIMEOUT_MS` environment variables.
 
 ## How to use
 
