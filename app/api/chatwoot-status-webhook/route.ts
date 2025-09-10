@@ -8,6 +8,10 @@ import { releaseAgent } from "@/lib/conversationResolution";
 import { CONVO_LABELS } from "@/lib/constants";
 import { setAgentAvailability } from "@/lib/chatwoot";
 import { setActiveConversation } from "@/lib/agentRotation";
+import {
+  recordReleaseFailure,
+  clearReleaseAttempts,
+} from "@/lib/releaseAttempts";
 
 export async function POST(request: Request) {
   try {
@@ -63,11 +67,22 @@ export async function POST(request: Request) {
             conversationId,
             typedPayload.conversation
           );
+          clearReleaseAttempts(conversationId);
         } catch (err) {
           console.error("Agent availability update failed", err);
           const message =
             err instanceof Error ? err.message : "Agent release failed";
-          return NextResponse.json({ error: message }, { status: 500 });
+          const { shouldRetry } = await recordReleaseFailure(
+            conversationId,
+            err
+          );
+          if (shouldRetry) {
+            return NextResponse.json({ error: message }, { status: 500 });
+          }
+          return NextResponse.json(
+            { status: "unreleased", error: message },
+            { status: 200 }
+          );
         }
         return NextResponse.json({ status: "handled" });
       }
@@ -172,11 +187,22 @@ export async function POST(request: Request) {
               conversationId,
               typedPayload.conversation
             );
+            clearReleaseAttempts(conversationId);
           } catch (err) {
             console.error("Agent availability update failed", err);
             const message =
               err instanceof Error ? err.message : "Agent release failed";
-            return NextResponse.json({ error: message }, { status: 500 });
+            const { shouldRetry } = await recordReleaseFailure(
+              conversationId,
+              err
+            );
+            if (shouldRetry) {
+              return NextResponse.json({ error: message }, { status: 500 });
+            }
+            return NextResponse.json(
+              { status: "unreleased", error: message },
+              { status: 200 }
+            );
           }
         }
         return NextResponse.json({ status: "handled" });

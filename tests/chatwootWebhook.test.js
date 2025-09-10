@@ -1,5 +1,7 @@
 const assert = require('assert');
 const { test, mock } = require('node:test');
+process.env.RELEASE_MAX_ATTEMPTS = '2';
+process.env.RELEASE_RETRY_BASE_MS = '1';
 require('ts-node/register/transpile-only');
 require('tsconfig-paths/register');
 
@@ -88,6 +90,7 @@ test.after(async () => {
 
 function resetMocks() {
   releaseAgentMock.mock.resetCalls();
+  releaseAgentMock.mock.mockImplementation(async () => {});
   sendBotMessageMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
   providerFnMock.mock.resetCalls();
@@ -157,6 +160,39 @@ test('chatwoot status webhook returns error when releaseAgent fails', async () =
   const data = await res.json();
   assert.strictEqual(res.status, 500);
   assert.ok(data.error.includes('Unable to resolve freed agent'));
+  resetMocks();
+});
+
+test('chatwoot status webhook stops returning 500 after retry limit', async () => {
+  const payload = {
+    event: 'conversation_status_changed',
+    data: {
+      event: 'conversation_status_changed',
+      status: 'snoozed',
+      previous_status: 'open',
+      account: { id: 3 },
+      conversation: { id: 3 },
+    },
+  };
+  releaseAgentMock.mock.mockImplementation(async () => {
+    throw new Error('fail');
+  });
+  // first attempt => 500
+  let req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  let res = await statusWebhookPost(req);
+  assert.strictEqual(res.status, 500);
+  // second attempt => limit reached, no 500
+  req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'unreleased');
   resetMocks();
 });
 
