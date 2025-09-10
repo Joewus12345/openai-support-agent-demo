@@ -26,6 +26,7 @@ export async function releaseAgent(
 ) {
   let freedAgentId: number | undefined;
   let outcome = "no-agent";
+  let resolveError: unknown;
   try {
     const current = await getConversationLabels(accountId, conversationId);
     const reserved = Object.values(CONVO_LABELS) as string[];
@@ -45,13 +46,34 @@ export async function releaseAgent(
         freedAgentId = (convo as any)?.assignee_id;
       } catch (err) {
         console.error("fetch assignee error", err);
+        resolveError = err;
       }
     }
     if (freedAgentId === undefined) {
-      const assignment = await prisma.agentAssignment.findFirst({
-        where: { activeConversationId: conversationId },
-      });
-      freedAgentId = assignment?.agentId;
+      try {
+        const assignment = await prisma.agentAssignment.findFirst({
+          where: { activeConversationId: conversationId },
+        });
+        freedAgentId = assignment?.agentId;
+      } catch (err) {
+        console.error("lookup assignment error", err);
+        resolveError = err;
+      }
+    }
+    if (freedAgentId === undefined) {
+      const error = new Error(
+        `Unable to resolve freed agent for conversation ${conversationId}`
+      );
+      (error as any).conversationId = conversationId;
+      if (resolveError) {
+        (error as any).cause = resolveError;
+        error.message += `: ${
+          resolveError instanceof Error
+            ? resolveError.message
+            : String(resolveError)
+        }`;
+      }
+      throw error;
     }
 
     if (freedAgentId) {

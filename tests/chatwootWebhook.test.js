@@ -135,6 +135,31 @@ test('chatwoot status webhook releases agent on conversation_status_changed', as
   resetMocks();
 });
 
+test('chatwoot status webhook returns error when releaseAgent fails', async () => {
+  const payload = {
+    event: 'conversation_status_changed',
+    data: {
+      event: 'conversation_status_changed',
+      status: 'snoozed',
+      previous_status: 'open',
+      account: { id: 2 },
+      conversation: { id: 2 },
+    },
+  };
+  releaseAgentMock.mock.mockImplementationOnce(async () => {
+    throw new Error('Unable to resolve freed agent for conversation 2');
+  });
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 500);
+  assert.ok(data.error.includes('Unable to resolve freed agent'));
+  resetMocks();
+});
+
 test('chatwoot status webhook releases agent on label removal', async () => {
   const payload = {
     event: 'conversation_updated',
