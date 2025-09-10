@@ -134,7 +134,8 @@ export async function POST(request: Request) {
         ? labelListChange?.previous_value
         : undefined;
       if (!labelListChange) {
-        const labelSource = payload.label_list ?? payload.cached_label_list;
+        const labelSource =
+          payload.label_list ?? payload.cached_label_list ?? payload.labels;
         if (Array.isArray(labelSource)) {
           labelsCurrent = labelSource;
         } else if (typeof labelSource === "string") {
