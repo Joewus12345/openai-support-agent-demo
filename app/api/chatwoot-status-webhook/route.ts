@@ -87,8 +87,10 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
       if (status === "open") {
+        const changes = (payload as any)?.changes ?? {};
         const agentId =
           payload.assignee_id ??
+          (changes.assignee_id?.current_value as number | undefined) ??
           payload.meta?.assignee?.id ??
           (typedPayload.conversation as any)?.assignee_id;
         if (agentId !== undefined) {
@@ -132,8 +134,7 @@ export async function POST(request: Request) {
         ? labelListChange?.previous_value
         : undefined;
       if (!labelListChange) {
-        const labelSource =
-          payload.label_list ?? payload.cached_label_list ?? payload.labels;
+        const labelSource = payload.label_list ?? payload.cached_label_list;
         if (Array.isArray(labelSource)) {
           labelsCurrent = labelSource;
         } else if (typeof labelSource === "string") {
