@@ -550,8 +550,8 @@ export async function POST(request: Request) {
 
     try {
       const conversationInput = history
-        .filter((m) => m.role !== "developer")
-        .map((m) => m.content.map((c) => c.text).join(" "))
+        .filter((m: { role: string; }) => m.role !== "developer")
+        .map((m: { content: any[]; }) => m.content.map((c: { text: any; }) => c.text).join(" "))
         .join(" ");
       const userInput =
         typeof content === "string"
