@@ -152,6 +152,10 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
 
    When a customer does not share an email, the `create_ticket` tool generates a ticket ID in the format `#<index>/<date>` (for example `#1/2024-05-01`). The ID is stored with the chat session so the conversation can be resumed later using that ticket number.
 
+## Agent release workflow
+
+Releases are triggered only when a conversation moves from `open` to either `pending` or `resolved` **and** still carries the `agent-assigned` label. The `chatwoot-status-webhook` checks for this combination before calling `releaseAgent`. Inside `releaseAgent`, the label is removed, which generates additional webhook events to handle follow-up processing.
+
 ## How to use
 
 1. **Set up the OpenAI API:**
