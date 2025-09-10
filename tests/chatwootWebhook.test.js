@@ -45,6 +45,11 @@ const enqueueRequestMock = mock.method(handoffQueue, 'enqueueRequest', async () 
 const chatwoot = require('../lib/chatwoot.ts');
 const getConversationMock = mock.method(chatwoot, 'getConversation', async () => ({ id: 1, status: 'resolved', inbox_id: 1 }));
 const setConversationLabelsMock = mock.method(chatwoot, 'setConversationLabels', async () => {});
+const getConversationLabelsMock = mock.method(
+  chatwoot,
+  'getConversationLabels',
+  async () => ({ payload: [] })
+);
 
 const { CONVO_LABELS } = require('../lib/constants.ts');
 const { CHATWOOT_SYSTEM_PROMPT } = require('../config/constants.ts');
@@ -100,6 +105,7 @@ function resetMocks() {
   enqueueRequestMock.mock.resetCalls();
   getConversationMock.mock.resetCalls();
   setConversationLabelsMock.mock.resetCalls();
+  getConversationLabelsMock.mock.resetCalls();
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
@@ -419,6 +425,62 @@ test('chatwoot status webhook ignores resolution system message', async () => {
   const res = await statusWebhookPost(req);
   const data = await res.json();
   assert.strictEqual(data.status, 'ignored');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  resetMocks();
+});
+
+test('chatwoot webhook releases agent on resolution with assigned label', async () => {
+  getConversationLabelsMock.mock.mockImplementationOnce(async () => ({
+    payload: [CONVO_LABELS.assigned],
+  }));
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 11,
+        message_type: 2,
+        content: 'Conversation was marked resolved',
+        account: { id: 11 },
+        conversation: { id: 11, inbox_id: 1, account_id: 11 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  resetMocks();
+});
+
+test('chatwoot webhook skips release when assigned label missing', async () => {
+  getConversationLabelsMock.mock.mockImplementationOnce(async () => ({
+    payload: [],
+  }));
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 12,
+        message_type: 2,
+        content: 'Conversation was marked resolved',
+        account: { id: 12 },
+        conversation: { id: 12, inbox_id: 1, account_id: 12 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });

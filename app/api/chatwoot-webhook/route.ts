@@ -164,6 +164,28 @@ export async function POST(request: Request) {
       if (accountId === undefined || conversationId === undefined) {
         return NextResponse.json({ status: "ignored" });
       }
+      let labels = Array.isArray((conversation as any)?.label_list)
+        ? (conversation as any).label_list
+        : undefined;
+      if (!Array.isArray(labels)) {
+        try {
+          const current = await getConversationLabels(accountId, conversationId);
+          labels = Array.isArray((current as any)?.payload)
+            ? (current as any).payload
+            : undefined;
+        } catch (err) {
+          console.error("resolution labels fetch error", err);
+        }
+      }
+      const hasAssigned =
+        Array.isArray(labels) && labels.includes(CONVO_LABELS.assigned);
+      if (!hasAssigned) {
+        console.info("resolution message skipping release", {
+          conversationId,
+          labels,
+        });
+        return NextResponse.json({ status: "handled" });
+      }
       try {
         await releaseAgent(accountId, conversationId, conversation);
         clearReleaseAttempts(conversationId);
