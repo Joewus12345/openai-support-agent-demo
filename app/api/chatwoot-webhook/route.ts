@@ -29,6 +29,7 @@ import {
   recordReleaseFailure,
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
+import { notifyTemporaryIssue } from "@/lib/friendlyErrors";
 
 export async function POST(request: Request) {
   try {
@@ -243,11 +244,7 @@ export async function POST(request: Request) {
           status = retry?.status;
         } catch (retryErr) {
           console.error("retry fetch conversation error", retryErr);
-          await sendBotMessage(
-            accountId,
-            conversationId,
-            "We're having trouble retrieving conversation details. Please try again later."
-          );
+          await notifyTemporaryIssue(accountId, conversationId);
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
             { status: 200 }
@@ -413,11 +410,7 @@ export async function POST(request: Request) {
           console.info("handoff", "conversation fetched", currentConversation);
         } catch (err) {
           console.error("handoff", "conversation fetch error", err);
-          await sendBotMessage(
-            accountId,
-            conversationId,
-            "We're having trouble retrieving conversation details. Please try again later."
-          );
+          await notifyTemporaryIssue(accountId, conversationId);
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
             { status: 200 }
@@ -524,18 +517,16 @@ export async function POST(request: Request) {
 
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
-    const fallbackMessage =
-      "We ran into a hiccup processing your message. Please wait and try again.";
     let fallbackSent = false;
     const sendFallback = async () => {
       if (fallbackSent) return;
       fallbackSent = true;
       try {
-        await sendBotMessage(accountId, conversationId, fallbackMessage, {
+        await notifyTemporaryIssue(accountId, conversationId, {
           private: mode !== "auto",
         });
       } catch (err) {
-        console.error("fallback sendBotMessage error", err);
+        console.error("fallback notifyTemporaryIssue error", err);
       }
     };
 
