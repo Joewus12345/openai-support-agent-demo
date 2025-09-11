@@ -8,6 +8,7 @@ const chatwoot = require('../lib/chatwoot.ts');
 const chatwootBot = require('../lib/chatwootBot.ts');
 const agentRotation = require('../lib/agentRotation.ts');
 const handoffQueue = require('../lib/handoffQueue.ts');
+const friendlyErrors = require('../lib/friendlyErrors.ts');
 const prisma = require('../lib/prisma.ts').default;
 const redis = require('../lib/redis.ts').default;
 const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
@@ -56,6 +57,16 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
   assert.strictEqual(assignMock.mock.calls.length, 1);
   assert.deepStrictEqual(assignMock.mock.calls[0].arguments, [accountId, queuedConversationId, freedAgentId]);
   assert.strictEqual(sendMock.mock.calls.length, 1);
+});
+
+test('releaseAgent sends fallback when updateRequest fails', async () => {
+  sendMock.mock.resetCalls();
+  handoffQueue.updateRequest.mock.mockImplementationOnce(async () => { throw new Error('fail'); });
+  const notifyMock = mock.method(friendlyErrors, 'notifyHandoffIssue', async () => {});
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, { assignee_id: freedAgentId });
+  assert.strictEqual(notifyMock.mock.calls.length, 1);
+  assert.strictEqual(sendMock.mock.calls.length, 0);
+  notifyMock.mock.restore();
 });
 
 test('releaseAgent throws when freed agent cannot be resolved', async () => {
