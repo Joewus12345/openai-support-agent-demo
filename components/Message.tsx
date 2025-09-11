@@ -3,7 +3,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import ImageModal from "./ImageModal";
 import { ImageProps } from "next/image";
-import type { Components } from 'react-markdown';
+import type { Components } from "react-markdown";
 import ChatImage from "./ChatImage";
 
 const markdownComponents: Components = {
@@ -16,6 +16,14 @@ const markdownComponents: Components = {
       />
     </ImageModal>
   ),
+  a: ({ node, ...props }) => {
+    void node;
+    return (
+      <a {...props} target="_blank" rel="noopener noreferrer">
+        {props.children}
+      </a>
+    );
+  },
 };
 
 interface MessageProps {
