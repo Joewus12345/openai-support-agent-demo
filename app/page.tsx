@@ -11,7 +11,7 @@ export default function Main() {
   return (
     <>
       <SessionTimer />
-      <div className="flex flex-col h-screen bg-[#ED6A5E] p-2">
+      <div className="flex flex-col h-screen bg-[#2B83F6] p-2">
       {/* Small screens */}
       <div className="flex gap-2 justify-center pt-2 pb-4 md:hidden">
         <div
