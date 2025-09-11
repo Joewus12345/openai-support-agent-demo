@@ -29,7 +29,7 @@ import {
   recordReleaseFailure,
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
-import { notifyMessageIssue } from "@/lib/friendlyErrors";
+import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
 
 export async function POST(request: Request) {
   try {
@@ -291,11 +291,21 @@ export async function POST(request: Request) {
               conversationId,
               agentId: agent.id,
             });
-            await updateRequest(conversationKey, {
-              status: "assigned",
-              agentId: agent.id,
-            });
-            console.info("handoff", "request updated");
+            try {
+              await updateRequest(conversationKey, {
+                status: "assigned",
+                agentId: agent.id,
+              });
+              console.info("handoff", "request updated");
+            } catch (err) {
+              console.error("updateRequest error", err);
+              try {
+                await notifyHandoffIssue(accountId, conversationId);
+              } catch (err2) {
+                console.error("fallback notifyHandoffIssue error", err2);
+              }
+              return NextResponse.json({ status: "fallback" });
+            }
             console.info("handoff", {
               step: "send-message",
               accountId,
@@ -356,11 +366,21 @@ export async function POST(request: Request) {
           }
       } else {
         console.info("handoff", { step: "update-request", conversationId });
-        await updateRequest(conversationKey, {
-          status: "expired",
-          agentId: null,
-        });
-        console.info("handoff", "request updated");
+        try {
+          await updateRequest(conversationKey, {
+            status: "expired",
+            agentId: null,
+          });
+          console.info("handoff", "request updated");
+        } catch (err) {
+          console.error("updateRequest error", err);
+          try {
+            await notifyHandoffIssue(accountId, conversationId);
+          } catch (err2) {
+            console.error("fallback notifyHandoffIssue error", err2);
+          }
+          return NextResponse.json({ status: "fallback" });
+        }
         let labels = [CONVO_LABELS.expired];
         try {
           console.info("handoff", { step: "get-labels", accountId, conversationId });
@@ -433,14 +453,24 @@ export async function POST(request: Request) {
             conversationId,
             agentId: agent.id,
           });
-          await enqueueRequest(
-            accountId,
-            conversationId,
-            "assigned",
-            agent.id,
-            inboxId
-          );
-          console.info("handoff", "request enqueued", agent.id);
+          try {
+            await enqueueRequest(
+              accountId,
+              conversationId,
+              "assigned",
+              agent.id,
+              inboxId
+            );
+            console.info("handoff", "request enqueued", agent.id);
+          } catch (err) {
+            console.error("enqueueRequest error", err);
+            try {
+              await notifyHandoffIssue(accountId, conversationId);
+            } catch (err2) {
+              console.error("fallback notifyHandoffIssue error", err2);
+            }
+            return NextResponse.json({ status: "fallback" });
+          }
             const role =
               agent.role === "administrator" ? "administrator" : "agent";
             const success = await handOff(
@@ -450,10 +480,20 @@ export async function POST(request: Request) {
               role
             );
             if (!success) {
-              await updateRequest(conversationKey, {
-                status: "pending",
-                agentId: null,
-              });
+              try {
+                await updateRequest(conversationKey, {
+                  status: "pending",
+                  agentId: null,
+                });
+              } catch (err) {
+                console.error("updateRequest error", err);
+                try {
+                  await notifyHandoffIssue(accountId, conversationId);
+                } catch (err2) {
+                  console.error("fallback notifyHandoffIssue error", err2);
+                }
+                return NextResponse.json({ status: "fallback" });
+              }
               return NextResponse.json({ status: "handoff_failed" });
             }
             await setActiveConversation(agent.id, conversationId);
@@ -483,8 +523,24 @@ export async function POST(request: Request) {
             }
         } else {
           console.info("handoff", { step: "enqueue", conversationId });
-          await enqueueRequest(accountId, conversationId, undefined, undefined, inboxId);
-          console.info("handoff", "request enqueued");
+          try {
+            await enqueueRequest(
+              accountId,
+              conversationId,
+              undefined,
+              undefined,
+              inboxId
+            );
+            console.info("handoff", "request enqueued");
+          } catch (err) {
+            console.error("enqueueRequest error", err);
+            try {
+              await notifyHandoffIssue(accountId, conversationId);
+            } catch (err2) {
+              console.error("fallback notifyHandoffIssue error", err2);
+            }
+            return NextResponse.json({ status: "fallback" });
+          }
             const labels = [CONVO_LABELS.waiting];
             console.info("handoff", {
               step: "set-labels",
