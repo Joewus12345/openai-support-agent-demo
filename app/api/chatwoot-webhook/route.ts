@@ -29,7 +29,7 @@ import {
   recordReleaseFailure,
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
-import { notifyTemporaryIssue } from "@/lib/friendlyErrors";
+import { notifyMessageIssue } from "@/lib/friendlyErrors";
 
 export async function POST(request: Request) {
   try {
@@ -244,7 +244,7 @@ export async function POST(request: Request) {
           status = retry?.status;
         } catch (retryErr) {
           console.error("retry fetch conversation error", retryErr);
-          await notifyTemporaryIssue(accountId, conversationId);
+          await notifyMessageIssue(accountId, conversationId);
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
             { status: 200 }
@@ -410,7 +410,7 @@ export async function POST(request: Request) {
           console.info("handoff", "conversation fetched", currentConversation);
         } catch (err) {
           console.error("handoff", "conversation fetch error", err);
-          await notifyTemporaryIssue(accountId, conversationId);
+          await notifyMessageIssue(accountId, conversationId);
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
             { status: 200 }
@@ -522,11 +522,11 @@ export async function POST(request: Request) {
       if (fallbackSent) return;
       fallbackSent = true;
       try {
-        await notifyTemporaryIssue(accountId, conversationId, {
+        await notifyMessageIssue(accountId, conversationId, {
           private: mode !== "auto",
         });
       } catch (err) {
-        console.error("fallback notifyTemporaryIssue error", err);
+        console.error("fallback notifyMessageIssue error", err);
       }
     };
 
