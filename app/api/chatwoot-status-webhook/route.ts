@@ -12,22 +12,20 @@ import {
   recordReleaseFailure,
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
-import { sendBotMessage } from "@/lib/chatwootBot";
+import { notifyTemporaryIssue } from "@/lib/friendlyErrors";
 
 export async function POST(request: Request) {
   let accountId: number | undefined;
   let conversationId: number | undefined;
-  const fallbackMessage =
-    "We're updating your conversation. Please wait and try again in a moment.";
   let fallbackSent = false;
   const sendFallback = async () => {
     if (fallbackSent || accountId === undefined || conversationId === undefined)
       return;
     fallbackSent = true;
     try {
-      await sendBotMessage(accountId, conversationId, fallbackMessage);
+      await notifyTemporaryIssue(accountId, conversationId);
     } catch (err) {
-      console.error("fallback sendBotMessage error", err);
+      console.error("fallback notifyTemporaryIssue error", err);
     }
   };
   try {
