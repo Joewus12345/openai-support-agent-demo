@@ -61,7 +61,7 @@ export default function Action({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="bg-black hover:bg-zinc-800 text-white px-3 py-1.5 text-sm rounded-lg cursor-pointer">
+          <div className="bg-[#2B83F6] hover:bg-[#2B83F6]/90 text-white px-3 py-1.5 text-sm rounded-lg cursor-pointer">
           {name}
         </div>
       </DialogTrigger>
