@@ -78,7 +78,7 @@ export default function ListArticles({
             {title}
             <Link
               size={16}
-              className="text-[#ED6A5E] cursor-pointer hover:size-[18px] transition-all duration-100"
+              className="text-[#2B83F6] cursor-pointer hover:size-[18px] transition-all duration-100"
               onClick={() => {
                 getLink(id);
               }}
