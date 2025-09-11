@@ -37,7 +37,7 @@ const Message: React.FC<MessageProps> = ({
         <div className="flex justify-end">
           <div>
             <div
-              className={`ml-4 rounded-[16px] rounded-br-[4px] px-4 py-2 md:ml-24 bg-black text-white  font-light ${
+              className={`ml-4 rounded-[16px] rounded-br-[4px] px-4 py-2 md:ml-24 bg-[#2781F7] text-white font-light ${
                 suggestion
                   ? "bg-zinc-50 text-zinc-900 shadow-lg border border-zinc-100"
                   : ""
