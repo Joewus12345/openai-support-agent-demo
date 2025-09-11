@@ -12,7 +12,10 @@ const releaseAgentMock = mock.method(conversationResolution, 'releaseAgent', asy
 const chatwootBot = require('../lib/chatwootBot.ts');
 const sendBotMessageMock = mock.method(chatwootBot, 'sendBotMessage', async () => {});
 
-const { TEMPORARY_ISSUE_MESSAGE } = require('../lib/friendlyErrors.ts');
+const {
+  MESSAGE_FALLBACK_TEXT,
+  HANDOFF_FALLBACK_TEXT,
+} = require('../lib/friendlyErrors.ts');
 
 const providers = require('../lib/providers/index.ts');
 const providerFnMock = mock.fn((messages, toolsArg, options) =>
@@ -171,7 +174,7 @@ test('chatwoot status webhook returns error when releaseAgent fails', async () =
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[0].arguments[2],
-    TEMPORARY_ISSUE_MESSAGE
+    HANDOFF_FALLBACK_TEXT
   );
   resetMocks();
 });
@@ -209,11 +212,11 @@ test('chatwoot status webhook stops returning 500 after retry limit', async () =
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[0].arguments[2],
-    TEMPORARY_ISSUE_MESSAGE
+    HANDOFF_FALLBACK_TEXT
   );
   assert.strictEqual(
     sendBotMessageMock.mock.calls[1].arguments[2],
-    TEMPORARY_ISSUE_MESSAGE
+    HANDOFF_FALLBACK_TEXT
   );
   resetMocks();
 });
@@ -774,7 +777,7 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[1].arguments[2],
-    TEMPORARY_ISSUE_MESSAGE
+    MESSAGE_FALLBACK_TEXT
   );
   resetMocks();
 });

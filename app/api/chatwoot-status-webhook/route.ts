@@ -12,7 +12,7 @@ import {
   recordReleaseFailure,
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
-import { notifyTemporaryIssue } from "@/lib/friendlyErrors";
+import { notifyHandoffIssue } from "@/lib/friendlyErrors";
 
 export async function POST(request: Request) {
   let accountId: number | undefined;
@@ -23,9 +23,9 @@ export async function POST(request: Request) {
       return;
     fallbackSent = true;
     try {
-      await notifyTemporaryIssue(accountId, conversationId);
+      await notifyHandoffIssue(accountId, conversationId);
     } catch (err) {
-      console.error("fallback notifyTemporaryIssue error", err);
+      console.error("fallback notifyHandoffIssue error", err);
     }
   };
   try {
