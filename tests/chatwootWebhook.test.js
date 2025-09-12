@@ -758,6 +758,36 @@ test('chatwoot webhook processes incoming message', async () => {
   resetMocks();
 });
 
+test('chatwoot webhook treats lone greeting as relevant', async () => {
+  let guardrailOutput;
+  runRelevanceGuardrailMock.mock.mockImplementationOnce(async ({ input }) => {
+    guardrailOutput = { tripwireTriggered: false, outputInfo: { relevant: true } };
+    return guardrailOutput;
+  });
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        message_type: 0,
+        content: 'hello',
+        account: { id: 11 },
+        conversation: { id: 11, inbox_id: 1, status: 'resolved', account_id: 11 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 1);
+  assert.ok(guardrailOutput);
+  assert.strictEqual(guardrailOutput.outputInfo.relevant, true);
+  resetMocks();
+});
+
 test('chatwoot webhook sends fallback when relevance guardrail triggers', async () => {
   runRelevanceGuardrailMock.mock.mockImplementationOnce(async () => ({
     tripwireTriggered: true,
