@@ -29,6 +29,7 @@ import {
   recordReleaseFailure,
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
+import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
 
 export async function POST(request: Request) {
   try {
@@ -228,6 +229,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "ignored" });
     }
 
+    // Reuse conversation data from the payload when possible.
+    // Only fetch from Chatwoot if we are missing critical fields like `status`.
     let status = conversation?.status;
     if (!status) {
       try {
@@ -235,6 +238,18 @@ export async function POST(request: Request) {
         status = convo?.status;
       } catch (err) {
         console.error("fetch conversation error", err);
+        try {
+          // Retry once more before falling back
+          const retry = await getConversation(accountId, conversationId);
+          status = retry?.status;
+        } catch (retryErr) {
+          console.error("retry fetch conversation error", retryErr);
+          await notifyMessageIssue(accountId, conversationId);
+          return NextResponse.json(
+            { status: "conversation_fetch_failed" },
+            { status: 200 }
+          );
+        }
       }
     }
 
@@ -276,11 +291,21 @@ export async function POST(request: Request) {
               conversationId,
               agentId: agent.id,
             });
-            await updateRequest(conversationKey, {
-              status: "assigned",
-              agentId: agent.id,
-            });
-            console.info("handoff", "request updated");
+            try {
+              await updateRequest(conversationKey, {
+                status: "assigned",
+                agentId: agent.id,
+              });
+              console.info("handoff", "request updated");
+            } catch (err) {
+              console.error("updateRequest error", err);
+              try {
+                await notifyHandoffIssue(accountId, conversationId);
+              } catch (err2) {
+                console.error("fallback notifyHandoffIssue error", err2);
+              }
+              return NextResponse.json({ status: "fallback" });
+            }
             console.info("handoff", {
               step: "send-message",
               accountId,
@@ -341,11 +366,21 @@ export async function POST(request: Request) {
           }
       } else {
         console.info("handoff", { step: "update-request", conversationId });
-        await updateRequest(conversationKey, {
-          status: "expired",
-          agentId: null,
-        });
-        console.info("handoff", "request updated");
+        try {
+          await updateRequest(conversationKey, {
+            status: "expired",
+            agentId: null,
+          });
+          console.info("handoff", "request updated");
+        } catch (err) {
+          console.error("updateRequest error", err);
+          try {
+            await notifyHandoffIssue(accountId, conversationId);
+          } catch (err2) {
+            console.error("fallback notifyHandoffIssue error", err2);
+          }
+          return NextResponse.json({ status: "fallback" });
+        }
         let labels = [CONVO_LABELS.expired];
         try {
           console.info("handoff", { step: "get-labels", accountId, conversationId });
@@ -387,16 +422,20 @@ export async function POST(request: Request) {
         accountId,
         conversationId,
       });
-      let currentConversation;
-      try {
-        currentConversation = await getConversation(accountId, conversationId);
-        console.info("handoff", "conversation fetched", currentConversation);
-      } catch (err) {
-        console.error("handoff", "conversation fetch error", err);
-        return NextResponse.json(
-          { error: "Failed to fetch conversation for escalation" },
-          { status: 500 }
-        );
+      // Prefer conversation details from the webhook payload
+      let currentConversation = conversation;
+      if (!currentConversation || !currentConversation.id) {
+        try {
+          currentConversation = await getConversation(accountId, conversationId);
+          console.info("handoff", "conversation fetched", currentConversation);
+        } catch (err) {
+          console.error("handoff", "conversation fetch error", err);
+          await notifyMessageIssue(accountId, conversationId);
+          return NextResponse.json(
+            { status: "conversation_fetch_failed" },
+            { status: 200 }
+          );
+        }
       }
       if (!currentConversation) {
         console.error("handoff", "conversation not found");
@@ -414,14 +453,24 @@ export async function POST(request: Request) {
             conversationId,
             agentId: agent.id,
           });
-          await enqueueRequest(
-            accountId,
-            conversationId,
-            "assigned",
-            agent.id,
-            inboxId
-          );
-          console.info("handoff", "request enqueued", agent.id);
+          try {
+            await enqueueRequest(
+              accountId,
+              conversationId,
+              "assigned",
+              agent.id,
+              inboxId
+            );
+            console.info("handoff", "request enqueued", agent.id);
+          } catch (err) {
+            console.error("enqueueRequest error", err);
+            try {
+              await notifyHandoffIssue(accountId, conversationId);
+            } catch (err2) {
+              console.error("fallback notifyHandoffIssue error", err2);
+            }
+            return NextResponse.json({ status: "fallback" });
+          }
             const role =
               agent.role === "administrator" ? "administrator" : "agent";
             const success = await handOff(
@@ -431,10 +480,20 @@ export async function POST(request: Request) {
               role
             );
             if (!success) {
-              await updateRequest(conversationKey, {
-                status: "pending",
-                agentId: null,
-              });
+              try {
+                await updateRequest(conversationKey, {
+                  status: "pending",
+                  agentId: null,
+                });
+              } catch (err) {
+                console.error("updateRequest error", err);
+                try {
+                  await notifyHandoffIssue(accountId, conversationId);
+                } catch (err2) {
+                  console.error("fallback notifyHandoffIssue error", err2);
+                }
+                return NextResponse.json({ status: "fallback" });
+              }
               return NextResponse.json({ status: "handoff_failed" });
             }
             await setActiveConversation(agent.id, conversationId);
@@ -464,8 +523,24 @@ export async function POST(request: Request) {
             }
         } else {
           console.info("handoff", { step: "enqueue", conversationId });
-          await enqueueRequest(accountId, conversationId, undefined, undefined, inboxId);
-          console.info("handoff", "request enqueued");
+          try {
+            await enqueueRequest(
+              accountId,
+              conversationId,
+              undefined,
+              undefined,
+              inboxId
+            );
+            console.info("handoff", "request enqueued");
+          } catch (err) {
+            console.error("enqueueRequest error", err);
+            try {
+              await notifyHandoffIssue(accountId, conversationId);
+            } catch (err2) {
+              console.error("fallback notifyHandoffIssue error", err2);
+            }
+            return NextResponse.json({ status: "fallback" });
+          }
             const labels = [CONVO_LABELS.waiting];
             console.info("handoff", {
               step: "set-labels",
@@ -498,40 +573,70 @@ export async function POST(request: Request) {
 
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
-    let replySent = false;
-    try {
-      let replyText = "";
-      const history = await getConversationHistory(conversationKey);
-
+    let fallbackSent = false;
+    const sendFallback = async () => {
+      if (fallbackSent) return;
+      fallbackSent = true;
       try {
-        const conversationInput = history
-          .filter((m) => m.role !== "developer")
-          .map((m) => m.content.map((c) => c.text).join(" "))
-          .join(" ");
-        const userInput =
-          typeof content === "string"
-            ? content
-            : typeof content === "object"
-              ? JSON.stringify(content)
-              : String(content ?? "");
-        const relevance = await runRelevanceGuardrail({
-          input: conversationInput,
+        await notifyMessageIssue(accountId, conversationId, {
+          private: mode !== "auto",
         });
-        const jailbreak = await runJailbreakGuardrail({ input: userInput });
-        if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
-          await sendBotMessage(
-            accountId,
-            conversationId,
-            "I can't assist with that request.",
-            { private: mode !== "auto" }
-          );
-          return NextResponse.json({ status: "guardrail" });
-        }
       } catch (err) {
-        console.error("guardrail check error", err);
+        console.error("fallback notifyMessageIssue error", err);
       }
+    };
 
-      const events = getProvider(undefined)(
+    let history = [] as any;
+    try {
+      history = await getConversationHistory(conversationKey);
+    } catch (err) {
+      console.error("conversation history error", err);
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
+    }
+
+    try {
+      const conversationInput = history
+        .filter((m: { role: string; }) => m.role !== "developer")
+        .map((m: { content: any[]; }) => m.content.map((c: { text: any; }) => c.text).join(" "))
+        .join(" ");
+      const userInput =
+        typeof content === "string"
+          ? content
+          : typeof content === "object"
+            ? JSON.stringify(content)
+            : String(content ?? "");
+      const relevance = await runRelevanceGuardrail({
+        input: conversationInput,
+      });
+      const jailbreak = await runJailbreakGuardrail({ input: userInput });
+      if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
+        await sendBotMessage(
+          accountId,
+          conversationId,
+          "I can't assist with that request.",
+          { private: mode !== "auto" }
+        );
+        return NextResponse.json({ status: "guardrail" });
+      }
+    } catch (err) {
+      console.error("guardrail check error", err);
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
+    }
+
+    let provider;
+    try {
+      provider = getProvider(undefined);
+    } catch (err) {
+      console.error("getProvider error", err);
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
+    }
+
+    let replyText = "";
+    try {
+      const events = provider(
         [toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT), ...history],
         tools,
         {}
@@ -544,19 +649,20 @@ export async function POST(request: Request) {
           replyText += data.delta;
         }
       }
+    } catch (err) {
+      console.error("tool execution error", err);
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
+    }
+
+    try {
       await sendBotMessage(accountId, conversationId, replyText, {
         private: mode !== "auto",
       });
-      replySent = true;
     } catch (err) {
       console.error("sendBotMessage error", err);
-    }
-
-    if (!replySent) {
-      return NextResponse.json(
-        { error: "Failed to send reply" },
-        { status: 500 }
-      );
+      await sendFallback();
+      return NextResponse.json({ status: "fallback" });
     }
 
     return NextResponse.json({

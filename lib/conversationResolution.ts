@@ -13,6 +13,7 @@ import {
 } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
+import { notifyHandoffIssue } from "@/lib/friendlyErrors";
 import type { Conversation } from "@/types/chatwoot";
 
 /**
@@ -123,10 +124,21 @@ export async function releaseAgent(
           await clearActiveConversation(freedAgentId);
           throw new Error("Agent availability update failed");
         }
-        await updateRequest(request.conversationKey, {
-          status: "assigned",
-          agentId: freedAgentId,
-        });
+        try {
+          await updateRequest(request.conversationKey, {
+            status: "assigned",
+            agentId: freedAgentId,
+          });
+        } catch (err) {
+          console.error("updateRequest error", err);
+          try {
+            await notifyHandoffIssue(accountId, request.conversationId);
+          } catch (err2) {
+            console.error("fallback notifyHandoffIssue error", err2);
+          }
+          outcome = "error";
+          return;
+        }
         await sendBotMessage(
           accountId,
           request.conversationId,

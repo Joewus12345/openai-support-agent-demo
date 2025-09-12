@@ -143,7 +143,7 @@ export default function InitVS() {
         <div className="flex gap-4">
           {!loadingOpenAI ? (
             <div
-              className="bg-black text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-800 cursor-pointer"
+              className="bg-[#2B83F6] text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-[#2B83F6]/90 cursor-pointer"
               onClick={handleInitializeOpenAI}
             >
               Initialize with OpenAI
@@ -153,7 +153,7 @@ export default function InitVS() {
           )}
         {!loadingOllama ? (
             <div
-              className="bg-black text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-800 cursor-pointer"
+              className="bg-[#2B83F6] text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-[#2B83F6]/90 cursor-pointer"
               onClick={handleInitializeOllama}
             >
               Initialize with Ollama
@@ -163,7 +163,7 @@ export default function InitVS() {
           )}
           {!loadingOllama ? (
             <div
-              className="bg-black text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-800 cursor-pointer"
+              className="bg-[#2B83F6] text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-[#2B83F6]/90 cursor-pointer"
               onClick={handleRebuildOllama}
             >
               Rebuild Ollama

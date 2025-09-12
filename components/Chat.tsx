@@ -170,14 +170,14 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
                   <div className="mt-2 flex gap-2">
                     <div
                       onClick={handleSendNow}
-                      className="cursor-pointer flex items-center gap-1 px-3 py-1 font-medium rounded-md bg-black text-white hover:bg-zinc-800"
+                      className="cursor-pointer flex items-center gap-1 px-3 py-1 font-medium rounded-md bg-[#2B83F6] text-white hover:bg-[#2B83F6]/90"
                     >
                       <SendIcon className="w-3 h-3" />
                       Send now
                     </div>
                     <div
                       onClick={handleEdit}
-                      className="cursor-pointer flex items-center gap-1 px-3 py-1 font-medium rounded-md bg-black text-white hover:bg-zinc-800"
+                      className="cursor-pointer flex items-center gap-1 px-3 py-1 font-medium rounded-md bg-[#2B83F6] text-white hover:bg-[#2B83F6]/90"
                     >
                       <PencilIcon className="w-3 h-3" />
                       Edit
@@ -230,7 +230,7 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
                       : !inputMessageText.trim()
                   }
                   data-testid="send-button"
-                  className="flex h-8 w-8 items-end justify-center rounded-full bg-black text-white hover:opacity-70 disabled:bg-gray-300 disabled:text-gray-400 transition-colors focus:outline-none"
+                    className="flex h-8 w-8 items-end justify-center rounded-full bg-[#2B83F6] text-white hover:bg-[#2B83F6]/90 disabled:bg-gray-300 disabled:text-gray-400 transition-colors focus:outline-none"
                   onClick={handleSendMessage}
                 >
                   <svg

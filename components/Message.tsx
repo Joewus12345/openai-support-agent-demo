@@ -3,7 +3,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import ImageModal from "./ImageModal";
 import { ImageProps } from "next/image";
-import type { Components } from 'react-markdown';
+import type { Components } from "react-markdown";
 import ChatImage from "./ChatImage";
 
 const markdownComponents: Components = {
@@ -16,6 +16,14 @@ const markdownComponents: Components = {
       />
     </ImageModal>
   ),
+  a: ({ node, ...props }) => {
+    void node;
+    return (
+      <a {...props} target="_blank" rel="noopener noreferrer">
+        {props.children}
+      </a>
+    );
+  },
 };
 
 interface MessageProps {
@@ -37,7 +45,7 @@ const Message: React.FC<MessageProps> = ({
         <div className="flex justify-end">
           <div>
             <div
-              className={`ml-4 rounded-[16px] rounded-br-[4px] px-4 py-2 md:ml-24 bg-black text-white  font-light ${
+              className={`ml-4 rounded-[16px] rounded-br-[4px] px-4 py-2 md:ml-24 bg-[#2781F7] text-white font-light ${
                 suggestion
                   ? "bg-zinc-50 text-zinc-900 shadow-lg border border-zinc-100"
                   : ""
