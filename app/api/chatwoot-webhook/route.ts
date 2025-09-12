@@ -596,18 +596,25 @@ export async function POST(request: Request) {
     }
 
     try {
-      const conversationInput = history
-        .filter((m: { role: string; }) => m.role !== "developer")
-        .map((m: { content: any[]; }) => m.content.map((c: { text: any; }) => c.text).join(" "))
-        .join(" ");
       const userInput =
         typeof content === "string"
           ? content
           : typeof content === "object"
             ? JSON.stringify(content)
             : String(content ?? "");
+      const historyTurns = history
+        .filter((m: { role: string }) => m.role !== "developer")
+        .map((m: { role: string; content: any[] }) => ({
+          role: m.role,
+          content: m.content.map((c: { text: any }) => c.text).join(" "),
+        }));
+      const recentTurns = historyTurns.slice(-6);
+      const relevanceInput = JSON.stringify([
+        ...recentTurns,
+        { role: "user", content: userInput },
+      ]);
       const relevance = await runRelevanceGuardrail({
-        input: conversationInput,
+        input: relevanceInput,
       });
       const jailbreak = await runJailbreakGuardrail({ input: userInput });
       if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
