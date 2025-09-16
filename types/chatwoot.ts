@@ -26,6 +26,11 @@ export interface Message {
   conversation_id?: number;
   account?: Account;
   account_id?: number;
+  content_attributes?: {
+    in_reply_to?: number | string;
+    in_reply_to_external_id?: number | string;
+    [key: string]: any;
+  };
   inbox_id?: number;
   [key: string]: any;
 }
