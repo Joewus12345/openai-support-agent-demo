@@ -77,6 +77,7 @@ prisma.handoffRequest.findUnique = mock.fn(async () => null);
 prisma.conversationMessage = {
   upsert: mock.fn(async () => ({})),
   findMany: mock.fn(async () => []),
+  findUnique: mock.fn(async () => null),
 };
 
 const redis = require('../lib/redis.ts').default;
@@ -88,6 +89,7 @@ const redisPipelineMock = {
 redis.exists = mock.fn(async () => 0);
 redis.rpush = mock.fn(async () => {});
 redis.pipeline = mock.fn(() => redisPipelineMock);
+redis.lrange = mock.fn(async () => []);
 
 const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
 const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
@@ -116,10 +118,12 @@ function resetMocks() {
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
+  prisma.conversationMessage.findUnique.mock.resetCalls();
   getConversationHistoryMock.mock.resetCalls();
   redis.exists.mock.resetCalls();
   redis.rpush.mock.resetCalls();
   redis.pipeline.mock.resetCalls();
+  redis.lrange.mock.resetCalls();
   redisPipelineMock.rpush.mock.resetCalls();
   redisPipelineMock.expire.mock.resetCalls();
   redisPipelineMock.exec.mock.resetCalls();
@@ -785,6 +789,59 @@ test('chatwoot webhook treats lone greeting as relevant', async () => {
   assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 1);
   assert.ok(guardrailOutput);
   assert.strictEqual(guardrailOutput.outputInfo.relevant, true);
+  resetMocks();
+});
+
+test('chatwoot webhook includes referenced message in guardrail input', async () => {
+  let guardrailInput;
+  runRelevanceGuardrailMock.mock.mockImplementationOnce(async ({ input }) => {
+    guardrailInput = input;
+    return { tripwireTriggered: false };
+  });
+  const referencedMessageId = 1234;
+  redis.lrange.mock.mockImplementationOnce(async () => [
+    JSON.stringify({
+      messageId: referencedMessageId,
+      sender: 'contact',
+      content: 'Original order number was 5678.',
+    }),
+  ]);
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    toResponseMessage('assistant', 'Could you share more details?'),
+  ]);
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 4321,
+        message_type: 0,
+        content: 'Sure, here are the details you asked for.',
+        content_attributes: { in_reply_to: referencedMessageId },
+        account: { id: 12 },
+        conversation: {
+          id: 21,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 12,
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 1);
+  assert.ok(guardrailInput);
+  const turns = JSON.parse(guardrailInput);
+  assert.ok(Array.isArray(turns));
+  assert.strictEqual(turns[0].role, 'user');
+  assert.strictEqual(turns[0].content, 'Original order number was 5678.');
+  assert.strictEqual(turns[turns.length - 1].role, 'user');
+  assert.strictEqual(turns[turns.length - 1].content, 'Sure, here are the details you asked for.');
   resetMocks();
 });
 

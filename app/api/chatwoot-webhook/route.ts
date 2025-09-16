@@ -31,6 +31,148 @@ import {
 } from "@/lib/releaseAttempts";
 import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
 
+type HistoryTurn = { role: string; content: string };
+
+function parseMessageId(value: unknown): number | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return undefined;
+    }
+    const parsed = Number.parseInt(trimmed, 10);
+    if (!Number.isNaN(parsed)) {
+      return parsed;
+    }
+  }
+  return undefined;
+}
+
+function extractReferencedMessageId(message: any): number | undefined {
+  const attributes = message?.content_attributes;
+  if (!attributes || typeof attributes !== "object") {
+    return undefined;
+  }
+
+  const candidateKeys = [
+    "in_reply_to",
+    "in_reply_to_id",
+    "in_reply_to_message_id",
+    "in_reply_to_source_id",
+    "reply_to_id",
+    "reply_to_message_id",
+    "replied_to_message_id",
+    "quoted_message",
+    "quoted_message_id",
+    "referenced_message_id",
+    "reference_message_id",
+  ];
+
+  for (const key of candidateKeys) {
+    const value = (attributes as Record<string, unknown>)[key];
+    const direct = parseMessageId(value);
+    if (direct !== undefined) {
+      return direct;
+    }
+    if (value && typeof value === "object") {
+      const nested =
+        parseMessageId((value as Record<string, unknown>).id) ??
+        parseMessageId((value as Record<string, unknown>).message_id) ??
+        parseMessageId((value as Record<string, unknown>).messageId) ??
+        parseMessageId((value as Record<string, unknown>).messageID);
+      if (nested !== undefined) {
+        return nested;
+      }
+    }
+  }
+
+  for (const value of Object.values(attributes as Record<string, unknown>)) {
+    if (value && typeof value === "object") {
+      const nested =
+        parseMessageId((value as Record<string, unknown>).id) ??
+        parseMessageId((value as Record<string, unknown>).message_id) ??
+        parseMessageId((value as Record<string, unknown>).messageId) ??
+        parseMessageId((value as Record<string, unknown>).messageID);
+      if (nested !== undefined) {
+        return nested;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+async function getReferencedHistoryTurn(
+  conversationKey: string,
+  messageId: number
+): Promise<HistoryTurn | undefined> {
+  if (!Number.isFinite(messageId)) {
+    return undefined;
+  }
+
+  let stored:
+    | { sender?: string | null; content?: unknown }
+    | undefined;
+
+  try {
+    const redisClient = redis as unknown as {
+      lrange?: (
+        key: string,
+        start: number,
+        stop: number
+      ) => Promise<string[] | null | undefined>;
+    };
+    if (typeof redisClient?.lrange === "function") {
+      const entries = await redisClient.lrange(conversationKey, 0, -1);
+      if (Array.isArray(entries)) {
+        for (let i = entries.length - 1; i >= 0; i -= 1) {
+          const entry = entries[i];
+          if (!entry) {
+            continue;
+          }
+          try {
+            const parsed = JSON.parse(entry);
+            if (Number(parsed?.messageId) === messageId) {
+              stored = { sender: parsed?.sender, content: parsed?.content };
+              break;
+            }
+          } catch {
+            // ignore malformed entries
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.error("referenced message redis fetch error", err);
+  }
+
+  if (!stored) {
+    try {
+      const record = await prisma.conversationMessage.findUnique({
+        where: { conversationKey_messageId: { conversationKey, messageId } },
+      });
+      if (record) {
+        stored = { sender: record.sender, content: record.content };
+      }
+    } catch (err) {
+      console.error("referenced message prisma fetch error", err);
+    }
+  }
+
+  if (!stored?.content) {
+    return undefined;
+  }
+
+  const role = stored.sender === "bot" ? "assistant" : "user";
+  const content =
+    typeof stored.content === "string"
+      ? stored.content
+      : JSON.stringify(stored.content);
+  return { role, content };
+}
+
 export async function POST(request: Request) {
   try {
     const incoming = (await request.json()) as ChatwootWebhookPayload;
@@ -602,13 +744,41 @@ export async function POST(request: Request) {
           : typeof content === "object"
             ? JSON.stringify(content)
             : String(content ?? "");
-      const historyTurns = history
+      const baseHistoryTurns: HistoryTurn[] = history
         .filter((m: { role: string }) => m.role !== "developer")
         .map((m: { role: string; content: any[] }) => ({
           role: m.role,
           content: m.content.map((c: { text: any }) => c.text).join(" "),
         }));
-      const recentTurns = historyTurns.slice(-6);
+      const normalizedMessageId = parseMessageId(messageId);
+      const referencedMessageId = extractReferencedMessageId(message);
+      let referencedTurn: HistoryTurn | undefined;
+      if (
+        typeof referencedMessageId === "number" &&
+        referencedMessageId !== normalizedMessageId
+      ) {
+        referencedTurn = await getReferencedHistoryTurn(
+          conversationKey,
+          referencedMessageId
+        );
+      }
+      const historyTurns = referencedTurn
+        ? [referencedTurn, ...baseHistoryTurns]
+        : baseHistoryTurns;
+      let recentTurns = historyTurns.slice(-6);
+      if (
+        referencedTurn &&
+        !recentTurns.some(
+          (turn) =>
+            turn.role === referencedTurn.role &&
+            turn.content === referencedTurn.content
+        )
+      ) {
+        recentTurns =
+          recentTurns.length >= 6
+            ? [...recentTurns.slice(1), referencedTurn]
+            : [...recentTurns, referencedTurn];
+      }
       const relevanceInput = JSON.stringify([
         ...recentTurns,
         { role: "user", content: userInput },
