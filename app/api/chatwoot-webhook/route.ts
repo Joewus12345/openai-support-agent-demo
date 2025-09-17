@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import redis from "@/lib/redis";
+import { storeAssistantMessage } from "@/lib/storeConversationMessage";
 import handOff from "@/lib/handoff";
 import {
   getConversation,
@@ -496,6 +497,65 @@ export async function POST(request: Request) {
       return options;
     };
 
+    const logAssistantResponse = async (
+      response: unknown,
+      fallbackContent: string
+    ) => {
+      if (!response || typeof response !== "object") {
+        console.warn("sendBotMessage response missing payload", {
+          accountId,
+          conversationId,
+        });
+        return;
+      }
+
+      const messageId =
+        parseMessageId((response as any)?.id) ??
+        parseMessageId((response as any)?.message_id) ??
+        parseMessageId((response as any)?.source_id);
+      const responseInboxId =
+        parseMessageId((response as any)?.inbox_id) ??
+        parseMessageId((response as any)?.conversation?.inbox_id) ??
+        parseMessageId((response as any)?.inboxId);
+      const resolvedInboxId =
+        typeof responseInboxId === "number"
+          ? responseInboxId
+          : typeof inboxId === "number"
+            ? inboxId
+            : undefined;
+
+      if (typeof messageId !== "number" || typeof resolvedInboxId !== "number") {
+        console.warn("sendBotMessage response missing identifiers", {
+          hasMessageId: typeof messageId === "number",
+          hasInboxId: typeof resolvedInboxId === "number",
+          accountId,
+          conversationId,
+        });
+        return;
+      }
+
+      const resolvedContent =
+        typeof (response as any)?.content === "string"
+          ? (response as any).content
+          : fallbackContent;
+      const createdAt =
+        (response as any)?.created_at ?? (response as any)?.createdAt ?? undefined;
+      const resolvedConversationKey =
+        typeof inboxId === "number" && inboxId === resolvedInboxId
+          ? conversationKey
+          : getConversationKey(accountId, conversationId, resolvedInboxId);
+
+      await storeAssistantMessage({
+        accountId,
+        conversationId,
+        inboxId: resolvedInboxId,
+        conversationKey: resolvedConversationKey,
+        messageId,
+        content: resolvedContent,
+        createdAt,
+      });
+    };
+
     // Reuse conversation data from the payload when possible.
     // Only fetch from Chatwoot if we are missing critical fields like `status`.
     let status = conversation?.status;
@@ -586,11 +646,15 @@ export async function POST(request: Request) {
               accountId,
               conversationId,
             });
-            await sendBotMessage(
+            const botResponse = await sendBotMessage(
               accountId,
               conversationId,
               "A human agent will join shortly.",
               buildReplyOptions()
+            );
+            await logAssistantResponse(
+              botResponse,
+              "A human agent will join shortly."
             );
             console.info("handoff", "message sent");
               let labels = [CONVO_LABELS.assigned];
@@ -795,11 +859,15 @@ export async function POST(request: Request) {
             accountId,
             conversationId,
           });
-          await sendBotMessage(
+          const confirmationResponse = await sendBotMessage(
             accountId,
             conversationId,
             "A human agent will join shortly.",
             buildReplyOptions()
+          );
+          await logAssistantResponse(
+            confirmationResponse,
+            "A human agent will join shortly."
           );
           console.info("handoff", "message sent");
             const labels = [CONVO_LABELS.assigned];
@@ -855,11 +923,15 @@ export async function POST(request: Request) {
               accountId,
               conversationId,
             });
-          await sendBotMessage(
+          const botResponse = await sendBotMessage(
             accountId,
             conversationId,
             "All human agents are currently busy. Please wait for the next available agent.",
             buildReplyOptions()
+          );
+          await logAssistantResponse(
+            botResponse,
+            "All human agents are currently busy. Please wait for the next available agent."
           );
           console.info("handoff", "message sent");
         }
@@ -959,11 +1031,15 @@ export async function POST(request: Request) {
       });
       const jailbreak = await runJailbreakGuardrail({ input: guardrailUserInput });
       if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
-        await sendBotMessage(
+        const guardrailResponse = await sendBotMessage(
           accountId,
           conversationId,
           "I can't assist with that request.",
           buildReplyOptions()
+        );
+        await logAssistantResponse(
+          guardrailResponse,
+          "I can't assist with that request."
         );
         return NextResponse.json({ status: "guardrail" });
       }
@@ -1004,12 +1080,13 @@ export async function POST(request: Request) {
     }
 
     try {
-      await sendBotMessage(
+      const finalResponse = await sendBotMessage(
         accountId,
         conversationId,
         replyText,
         buildReplyOptions()
       );
+      await logAssistantResponse(finalResponse, replyText);
     } catch (err) {
       console.error("sendBotMessage error", err);
       await sendFallback();
