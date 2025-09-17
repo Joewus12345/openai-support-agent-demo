@@ -4,6 +4,10 @@ import {
   sendBotMessage,
 } from "@/lib/chatwootBot";
 import { setAgentAvailability, updateConversation } from "@/lib/chatwoot";
+import {
+  getNumericId,
+  storeAssistantMessage,
+} from "@/lib/storeConversationMessage";
 
 export async function handOff(
   accountId: number,
@@ -33,11 +37,42 @@ export async function handOff(
       console.error("rollback conversation error", error);
     }
     try {
-      await sendBotMessage(
+      const fallbackContent =
+        "We're unable to connect you to a human agent right now. Please try again later.";
+      const response = await sendBotMessage(
         accountId,
         conversationId,
-        "We're unable to connect you to a human agent right now. Please try again later."
+        fallbackContent
       );
+      const messageId =
+        getNumericId((response as any)?.id) ??
+        getNumericId((response as any)?.message_id) ??
+        getNumericId((response as any)?.source_id);
+      const inboxId =
+        getNumericId((response as any)?.inbox_id) ??
+        getNumericId((response as any)?.conversation?.inbox_id) ??
+        getNumericId((response as any)?.inboxId);
+      if (typeof messageId === "number" && typeof inboxId === "number") {
+        await storeAssistantMessage({
+          accountId,
+          conversationId,
+          inboxId,
+          messageId,
+          content:
+            typeof (response as any)?.content === "string"
+              ? (response as any).content
+              : fallbackContent,
+          createdAt:
+            (response as any)?.created_at ?? (response as any)?.createdAt,
+        });
+      } else {
+        console.warn("handoff fallback message missing identifiers", {
+          hasMessageId: typeof messageId === "number",
+          hasInboxId: typeof inboxId === "number",
+          accountId,
+          conversationId,
+        });
+      }
     } catch (error) {
       console.error("send fallback message error", error);
     }

@@ -10,7 +10,26 @@ const conversationResolution = require('../lib/conversationResolution.ts');
 const releaseAgentMock = mock.method(conversationResolution, 'releaseAgent', async () => {});
 
 const chatwootBot = require('../lib/chatwootBot.ts');
-const sendBotMessageMock = mock.method(chatwootBot, 'sendBotMessage', async () => {});
+let nextMessageId = 0;
+const sendBotMessageMock = mock.method(
+  chatwootBot,
+  'sendBotMessage',
+  async (accountId, conversationId, content) => ({
+    id: ++nextMessageId,
+    inbox_id: 1,
+    content,
+    conversation_id: conversationId,
+    account_id: accountId,
+    created_at: Math.floor(Date.now() / 1000),
+  })
+);
+
+const storeConversationMessage = require('../lib/storeConversationMessage.ts');
+const storeAssistantMessageMock = mock.method(
+  storeConversationMessage,
+  'storeAssistantMessage',
+  async () => {}
+);
 
 const {
   MESSAGE_FALLBACK_TEXT,
@@ -105,6 +124,8 @@ function resetMocks() {
   releaseAgentMock.mock.resetCalls();
   releaseAgentMock.mock.mockImplementation(async () => {});
   sendBotMessageMock.mock.resetCalls();
+  nextMessageId = 0;
+  storeAssistantMessageMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
   providerFnMock.mock.resetCalls();
   getNextAgentMock.mock.resetCalls();
@@ -131,6 +152,14 @@ function resetMocks() {
   runJailbreakGuardrailMock.mock.resetCalls();
 }
 
+function assertLoggedIds(...expectedIds) {
+  assert.strictEqual(storeAssistantMessageMock.mock.calls.length, expectedIds.length);
+  expectedIds.forEach((id, index) => {
+    const call = storeAssistantMessageMock.mock.calls[index];
+    assert.strictEqual(call.arguments[0].messageId, id);
+  });
+}
+
 test('chatwoot status webhook releases agent on conversation_status_changed', async () => {
   const payload = {
     event: 'conversation_status_changed',
@@ -152,6 +181,7 @@ test('chatwoot status webhook releases agent on conversation_status_changed', as
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -182,6 +212,7 @@ test('chatwoot status webhook returns error when releaseAgent fails', async () =
     sendBotMessageMock.mock.calls[0].arguments[2],
     HANDOFF_FALLBACK_TEXT
   );
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -224,6 +255,7 @@ test('chatwoot status webhook stops returning 500 after retry limit', async () =
     sendBotMessageMock.mock.calls[1].arguments[2],
     HANDOFF_FALLBACK_TEXT
   );
+  assertLoggedIds(1, 2);
   resetMocks();
 });
 
@@ -253,6 +285,7 @@ test('chatwoot status webhook skips release on label removal', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -280,6 +313,7 @@ test('chatwoot status webhook releases agent on status-only update with top-leve
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -307,6 +341,7 @@ test('chatwoot status webhook releases agent on status update', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -333,6 +368,7 @@ test('chatwoot status webhook releases agent when label present without change',
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -369,6 +405,7 @@ test('chatwoot status webhook skips release when status changes without label', 
   assert.strictEqual(resolvedFieldsCall.arguments[1].labels_current, undefined);
   assert.strictEqual(resolvedFieldsCall.arguments[1].labels_previous, undefined);
   consoleInfoMock.mock.restore();
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -413,6 +450,7 @@ test('chatwoot status webhook skips release when label removed but status open',
   ]);
   assert.deepStrictEqual(resolvedFieldsCall.arguments[1].labels_current, []);
   consoleInfoMock.mock.restore();
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -459,6 +497,7 @@ test('chatwoot status webhook releases agent when status changes with label', as
     CONVO_LABELS.assigned,
   ]);
   consoleInfoMock.mock.restore();
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -487,6 +526,7 @@ test('chatwoot status webhook skips release when no assignee', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -524,6 +564,7 @@ test('chatwoot webhook escalates when agent available', async () => {
     inReplyTo: 1,
   });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -561,6 +602,7 @@ test('chatwoot webhook queues request when no agent available', async () => {
     inReplyTo: 2,
   });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -595,6 +637,7 @@ test('chatwoot webhook sends fallback when enqueueRequest fails', async () => {
     private: false,
     inReplyTo: 1,
   });
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -631,6 +674,7 @@ test('chatwoot webhook sends fallback when updateRequest fails', async () => {
     inReplyTo: 1,
   });
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 0);
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -683,6 +727,7 @@ test('chatwoot webhook releases agent on resolution with assigned label', async 
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -711,6 +756,7 @@ test('chatwoot webhook skips release when assigned label missing', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -737,6 +783,7 @@ test('chatwoot webhook ignores request for missing IDs', async () => {
   assert.strictEqual(body.status, 'ignored');
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assertLoggedIds();
   resetMocks();
 });
 
@@ -777,6 +824,7 @@ test('chatwoot webhook processes incoming message', async () => {
   assert.strictEqual(call[1], 7);
   assert.strictEqual(call[2], 'hi');
   assert.deepStrictEqual(call[3], { private: false, inReplyTo: 700 });
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -807,6 +855,7 @@ test('chatwoot webhook treats lone greeting as relevant', async () => {
   assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 1);
   assert.ok(guardrailOutput);
   assert.strictEqual(guardrailOutput.outputInfo.relevant, true);
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -877,6 +926,7 @@ test('chatwoot webhook includes referenced message in guardrail input', async ()
     redisPipelineMock.rpush.mock.calls[0].arguments[1]
   );
   assert.strictEqual(storedRedisEntry.content, expectedEnrichedText);
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -922,6 +972,7 @@ test('chatwoot webhook replies to referenced message when available', async () =
     private: false,
     inReplyTo: referencedMessageId,
   });
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -955,6 +1006,7 @@ test('chatwoot webhook sends fallback when relevance guardrail triggers', async 
     inReplyTo: 901,
   });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -988,6 +1040,7 @@ test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async 
     inReplyTo: 902,
   });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assertLoggedIds(1);
   resetMocks();
 });
 
@@ -1029,5 +1082,6 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
     private: false,
     inReplyTo: 800,
   });
+  assertLoggedIds(1);
   resetMocks();
 });
