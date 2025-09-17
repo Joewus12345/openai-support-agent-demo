@@ -519,6 +519,10 @@ test('chatwoot webhook escalates when agent available', async () => {
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.assigned]);
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'A human agent will join shortly.');
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: 1,
+  });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   resetMocks();
 });
@@ -552,6 +556,10 @@ test('chatwoot webhook queues request when no agent available', async () => {
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'All human agents are currently busy. Please wait for the next available agent.');
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: 2,
+  });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   resetMocks();
 });
@@ -583,6 +591,10 @@ test('chatwoot webhook sends fallback when enqueueRequest fails', async () => {
   assert.strictEqual(handOffMock.mock.calls.length, 0);
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], HANDOFF_FALLBACK_TEXT);
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: 1,
+  });
   resetMocks();
 });
 
@@ -614,6 +626,10 @@ test('chatwoot webhook sends fallback when updateRequest fails', async () => {
   assert.strictEqual(updateRequestMock.mock.calls.length, 1);
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], HANDOFF_FALLBACK_TEXT);
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: 1,
+  });
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 0);
   resetMocks();
 });
@@ -730,6 +746,7 @@ test('chatwoot webhook processes incoming message', async () => {
     data: {
       event: 'message_created',
       message: {
+        id: 700,
         message_type: 0,
         content: 'Hello',
         account: { id: 7 },
@@ -759,6 +776,7 @@ test('chatwoot webhook processes incoming message', async () => {
   assert.strictEqual(call[0], 7);
   assert.strictEqual(call[1], 7);
   assert.strictEqual(call[2], 'hi');
+  assert.deepStrictEqual(call[3], { private: false, inReplyTo: 700 });
   resetMocks();
 });
 
@@ -871,6 +889,7 @@ test('chatwoot webhook sends fallback when relevance guardrail triggers', async 
     data: {
       event: 'message_created',
       message: {
+        id: 901,
         message_type: 0,
         content: 'off topic',
         account: { id: 9 },
@@ -886,6 +905,10 @@ test('chatwoot webhook sends fallback when relevance guardrail triggers', async 
   const body = await res.json();
   assert.strictEqual(body.status, 'guardrail');
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], "I can't assist with that request.");
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: 901,
+  });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   resetMocks();
 });
@@ -899,6 +922,7 @@ test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async 
     data: {
       event: 'message_created',
       message: {
+        id: 902,
         message_type: 0,
         content: 'jailbreak attempt',
         account: { id: 10 },
@@ -914,6 +938,10 @@ test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async 
   const body = await res.json();
   assert.strictEqual(body.status, 'guardrail');
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], "I can't assist with that request.");
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: 902,
+  });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   resetMocks();
 });
@@ -927,6 +955,7 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
     data: {
       event: 'message_created',
       message: {
+        id: 800,
         message_type: 0,
         content: 'Hello',
         account: { id: 8 },
@@ -943,9 +972,17 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   assert.strictEqual(res.status, 200);
   assert.strictEqual(body.status, 'fallback');
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: 800,
+  });
   assert.strictEqual(
     sendBotMessageMock.mock.calls[1].arguments[2],
     MESSAGE_FALLBACK_TEXT
   );
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[1].arguments[3], {
+    private: false,
+    inReplyTo: 800,
+  });
   resetMocks();
 });

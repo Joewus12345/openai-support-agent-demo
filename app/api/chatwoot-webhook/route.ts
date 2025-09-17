@@ -479,6 +479,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "ignored" });
     }
 
+    const mode = INBOX_MODE[inboxId] ?? "auto";
+
+    const buildReplyOptions = () => {
+      const options: { private?: boolean; inReplyTo?: number } = {
+        private: mode !== "auto",
+      };
+      if (typeof normalizedMessageId === "number") {
+        options.inReplyTo = normalizedMessageId;
+      }
+      return options;
+    };
+
     // Reuse conversation data from the payload when possible.
     // Only fetch from Chatwoot if we are missing critical fields like `status`.
     let status = conversation?.status;
@@ -494,7 +506,11 @@ export async function POST(request: Request) {
           status = retry?.status;
         } catch (retryErr) {
           console.error("retry fetch conversation error", retryErr);
-          await notifyMessageIssue(accountId, conversationId);
+          await notifyMessageIssue(
+            accountId,
+            conversationId,
+            buildReplyOptions()
+          );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
             { status: 200 }
@@ -550,7 +566,11 @@ export async function POST(request: Request) {
             } catch (err) {
               console.error("updateRequest error", err);
               try {
-                await notifyHandoffIssue(accountId, conversationId);
+                await notifyHandoffIssue(
+                  accountId,
+                  conversationId,
+                  buildReplyOptions()
+                );
               } catch (err2) {
                 console.error("fallback notifyHandoffIssue error", err2);
               }
@@ -564,7 +584,8 @@ export async function POST(request: Request) {
             await sendBotMessage(
               accountId,
               conversationId,
-              "A human agent will join shortly."
+              "A human agent will join shortly.",
+              buildReplyOptions()
             );
             console.info("handoff", "message sent");
               let labels = [CONVO_LABELS.assigned];
@@ -625,7 +646,11 @@ export async function POST(request: Request) {
         } catch (err) {
           console.error("updateRequest error", err);
           try {
-            await notifyHandoffIssue(accountId, conversationId);
+            await notifyHandoffIssue(
+              accountId,
+              conversationId,
+              buildReplyOptions()
+            );
           } catch (err2) {
             console.error("fallback notifyHandoffIssue error", err2);
           }
@@ -680,7 +705,11 @@ export async function POST(request: Request) {
           console.info("handoff", "conversation fetched", currentConversation);
         } catch (err) {
           console.error("handoff", "conversation fetch error", err);
-          await notifyMessageIssue(accountId, conversationId);
+          await notifyMessageIssue(
+            accountId,
+            conversationId,
+            buildReplyOptions()
+          );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
             { status: 200 }
@@ -715,7 +744,11 @@ export async function POST(request: Request) {
           } catch (err) {
             console.error("enqueueRequest error", err);
             try {
-              await notifyHandoffIssue(accountId, conversationId);
+              await notifyHandoffIssue(
+                accountId,
+                conversationId,
+                buildReplyOptions()
+              );
             } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
             }
@@ -738,7 +771,11 @@ export async function POST(request: Request) {
               } catch (err) {
                 console.error("updateRequest error", err);
                 try {
-                  await notifyHandoffIssue(accountId, conversationId);
+                  await notifyHandoffIssue(
+                    accountId,
+                    conversationId,
+                    buildReplyOptions()
+                  );
                 } catch (err2) {
                   console.error("fallback notifyHandoffIssue error", err2);
                 }
@@ -756,7 +793,8 @@ export async function POST(request: Request) {
           await sendBotMessage(
             accountId,
             conversationId,
-            "A human agent will join shortly."
+            "A human agent will join shortly.",
+            buildReplyOptions()
           );
           console.info("handoff", "message sent");
             const labels = [CONVO_LABELS.assigned];
@@ -785,7 +823,11 @@ export async function POST(request: Request) {
           } catch (err) {
             console.error("enqueueRequest error", err);
             try {
-              await notifyHandoffIssue(accountId, conversationId);
+              await notifyHandoffIssue(
+                accountId,
+                conversationId,
+                buildReplyOptions()
+              );
             } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
             }
@@ -811,7 +853,8 @@ export async function POST(request: Request) {
           await sendBotMessage(
             accountId,
             conversationId,
-            "All human agents are currently busy. Please wait for the next available agent."
+            "All human agents are currently busy. Please wait for the next available agent.",
+            buildReplyOptions()
           );
           console.info("handoff", "message sent");
         }
@@ -821,16 +864,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "handoff" });
     }
 
-    const mode = INBOX_MODE[inboxId] ?? "auto";
-
     let fallbackSent = false;
     const sendFallback = async () => {
       if (fallbackSent) return;
       fallbackSent = true;
       try {
-        await notifyMessageIssue(accountId, conversationId, {
-          private: mode !== "auto",
-        });
+        await notifyMessageIssue(
+          accountId,
+          conversationId,
+          buildReplyOptions()
+        );
       } catch (err) {
         console.error("fallback notifyMessageIssue error", err);
       }
@@ -915,7 +958,7 @@ export async function POST(request: Request) {
           accountId,
           conversationId,
           "I can't assist with that request.",
-          { private: mode !== "auto" }
+          buildReplyOptions()
         );
         return NextResponse.json({ status: "guardrail" });
       }
@@ -956,9 +999,12 @@ export async function POST(request: Request) {
     }
 
     try {
-      await sendBotMessage(accountId, conversationId, replyText, {
-        private: mode !== "auto",
-      });
+      await sendBotMessage(
+        accountId,
+        conversationId,
+        replyText,
+        buildReplyOptions()
+      );
     } catch (err) {
       console.error("sendBotMessage error", err);
       await sendFallback();
