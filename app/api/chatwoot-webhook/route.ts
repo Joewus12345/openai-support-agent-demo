@@ -7,6 +7,7 @@ import redis from "@/lib/redis";
 import handOff from "@/lib/handoff";
 import {
   getConversation,
+  getConversationMessages,
   getConversationLabels,
   setConversationLabels,
 } from "@/lib/chatwoot";
@@ -32,6 +33,44 @@ import {
 import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
 
 type HistoryTurn = { role: string; content: string };
+
+function normalizeHistoryTurnFromMessage(message: any): HistoryTurn | undefined {
+  if (!message) {
+    return undefined;
+  }
+
+  const rawContent = (message as any)?.content;
+  if (rawContent === undefined || rawContent === null) {
+    return undefined;
+  }
+
+  const content =
+    typeof rawContent === "string" ? rawContent : JSON.stringify(rawContent);
+
+  const senderRaw =
+    (message as any)?.sender?.type ??
+    (message as any)?.sender_type ??
+    (message as any)?.sender?.role ??
+    (message as any)?.sender_role ??
+    (message as any)?.sender?.name ??
+    (message as any)?.senderName ??
+    undefined;
+
+  const senderLower =
+    typeof senderRaw === "string" ? senderRaw.toLowerCase() : undefined;
+  const messageType = (message as any)?.message_type;
+
+  let role: HistoryTurn["role"] = "user";
+  if (senderLower && senderLower.includes("bot")) {
+    role = "assistant";
+  } else if (typeof messageType === "string") {
+    role = messageType.toLowerCase() === "outgoing" ? "assistant" : "user";
+  } else if (typeof messageType === "number") {
+    role = messageType === 1 ? "assistant" : "user";
+  }
+
+  return { role, content };
+}
 
 function parseMessageId(value: unknown): number | undefined {
   if (typeof value === "number" && Number.isFinite(value)) {
@@ -761,6 +800,57 @@ export async function POST(request: Request) {
           conversationKey,
           referencedMessageId
         );
+        if (!referencedTurn) {
+          try {
+            const remoteMessagesResponse = await getConversationMessages(
+              accountId,
+              conversationId
+            );
+            const candidateLists = [
+              (remoteMessagesResponse as any)?.payload,
+              (remoteMessagesResponse as any)?.data,
+              remoteMessagesResponse,
+            ];
+            let remoteMessages: any[] = [];
+            for (const candidate of candidateLists) {
+              if (Array.isArray(candidate)) {
+                remoteMessages = candidate;
+                break;
+              }
+            }
+            const referencedMessage = remoteMessages.find((m: any) => {
+              const id = parseMessageId(m?.id);
+              const sourceId = parseMessageId((m as any)?.source_id);
+              const idString =
+                typeof (m as any)?.id === "string"
+                  ? (m as any).id.trim()
+                  : undefined;
+              const sourceIdString =
+                typeof (m as any)?.source_id === "string"
+                  ? (m as any).source_id.trim()
+                  : undefined;
+              const referencedMessageIdString = String(referencedMessageId);
+              return (
+                (typeof id === "number" && id === referencedMessageId) ||
+                (typeof sourceId === "number" && sourceId === referencedMessageId) ||
+                (idString !== undefined &&
+                  idString === referencedMessageIdString) ||
+                (sourceIdString !== undefined &&
+                  sourceIdString === referencedMessageIdString)
+              );
+            });
+            referencedTurn = normalizeHistoryTurnFromMessage(referencedMessage);
+          } catch (err) {
+            console.error("referenced message remote fetch error", err);
+          }
+        }
+        if (!referencedTurn) {
+          console.warn("referenced message not found", {
+            accountId,
+            conversationId,
+            referencedMessageId,
+          });
+        }
       }
       const historyTurns = referencedTurn
         ? [referencedTurn, ...baseHistoryTurns]
