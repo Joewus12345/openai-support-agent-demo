@@ -247,6 +247,81 @@ export async function POST(request: Request) {
       (message as any)?.sender?.name ??
       "";
 
+    const userInput =
+      typeof content === "string"
+        ? content
+        : typeof content === "object"
+          ? JSON.stringify(content)
+          : String(content ?? "");
+    const normalizedMessageId = parseMessageId(messageId);
+    const referencedMessageId = extractReferencedMessageId(message);
+    let referencedTurn: HistoryTurn | undefined;
+
+    if (
+      accountId !== undefined &&
+      conversationId !== undefined &&
+      typeof referencedMessageId === "number" &&
+      referencedMessageId !== normalizedMessageId
+    ) {
+      referencedTurn = await getReferencedHistoryTurn(
+        conversationKey,
+        referencedMessageId
+      );
+      if (!referencedTurn) {
+        try {
+          const remoteMessagesResponse = await getConversationMessages(
+            accountId,
+            conversationId
+          );
+          const candidateLists = [
+            (remoteMessagesResponse as any)?.payload,
+            (remoteMessagesResponse as any)?.data,
+            remoteMessagesResponse,
+          ];
+          let remoteMessages: any[] = [];
+          for (const candidate of candidateLists) {
+            if (Array.isArray(candidate)) {
+              remoteMessages = candidate;
+              break;
+            }
+          }
+          const referencedMessage = remoteMessages.find((m: any) => {
+            const id = parseMessageId(m?.id);
+            const sourceId = parseMessageId((m as any)?.source_id);
+            const idString =
+              typeof (m as any)?.id === "string" ? (m as any).id.trim() : undefined;
+            const sourceIdString =
+              typeof (m as any)?.source_id === "string"
+                ? (m as any).source_id.trim()
+                : undefined;
+            const referencedMessageIdString = String(referencedMessageId);
+            return (
+              (typeof id === "number" && id === referencedMessageId) ||
+              (typeof sourceId === "number" && sourceId === referencedMessageId) ||
+              (idString !== undefined && idString === referencedMessageIdString) ||
+              (sourceIdString !== undefined &&
+                sourceIdString === referencedMessageIdString)
+            );
+          });
+          referencedTurn = normalizeHistoryTurnFromMessage(referencedMessage);
+        } catch (err) {
+          console.error("referenced message remote fetch error", err);
+        }
+      }
+      if (!referencedTurn) {
+        console.warn("referenced message not found", {
+          accountId,
+          conversationId,
+          referencedMessageId,
+        });
+      }
+    }
+
+    const enrichedContent = referencedTurn
+      ? `Customer referenced: "${referencedTurn.content}"\n\n${userInput}`
+      : undefined;
+    const storedContent = enrichedContent ?? userInput;
+
     if (
       messageId !== undefined &&
       conversationId !== undefined &&
@@ -276,10 +351,7 @@ export async function POST(request: Request) {
             inboxId,
             conversationKey,
             sender,
-            content:
-              typeof content === "string"
-                ? content
-                : JSON.stringify(content),
+            content: storedContent,
             createdAt,
           },
         });
@@ -318,10 +390,7 @@ export async function POST(request: Request) {
                     inboxId,
                     conversationKey,
                     sender,
-                    content:
-                      typeof content === "string"
-                        ? content
-                        : JSON.stringify(content),
+                    content: storedContent,
                     createdAt,
                   })
                 );
@@ -776,82 +845,46 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "fallback" });
     }
 
+    if (enrichedContent && Array.isArray(history)) {
+      let updatedHistory = [...history];
+      const hasEnrichedTurn = updatedHistory.some(
+        (turn: any) =>
+          turn?.role === "user" &&
+          Array.isArray(turn?.content) &&
+          turn.content.some((c: any) => c?.text === enrichedContent)
+      );
+      if (!hasEnrichedTurn) {
+        let replaced = false;
+        for (let i = updatedHistory.length - 1; i >= 0; i -= 1) {
+          const turn = updatedHistory[i];
+          if (
+            turn?.role === "user" &&
+            Array.isArray(turn?.content) &&
+            turn.content.some((c: any) => c?.text === userInput)
+          ) {
+            updatedHistory[i] = toResponseMessage("user", enrichedContent);
+            replaced = true;
+            break;
+          }
+        }
+        if (!replaced) {
+          updatedHistory = [
+            ...updatedHistory,
+            toResponseMessage("user", enrichedContent),
+          ];
+        }
+      }
+      history = updatedHistory;
+    }
+
     try {
-      const userInput =
-        typeof content === "string"
-          ? content
-          : typeof content === "object"
-            ? JSON.stringify(content)
-            : String(content ?? "");
+      const guardrailUserInput = enrichedContent ?? userInput;
       const baseHistoryTurns: HistoryTurn[] = history
         .filter((m: { role: string }) => m.role !== "developer")
         .map((m: { role: string; content: any[] }) => ({
           role: m.role,
           content: m.content.map((c: { text: any }) => c.text).join(" "),
         }));
-      const normalizedMessageId = parseMessageId(messageId);
-      const referencedMessageId = extractReferencedMessageId(message);
-      let referencedTurn: HistoryTurn | undefined;
-      if (
-        typeof referencedMessageId === "number" &&
-        referencedMessageId !== normalizedMessageId
-      ) {
-        referencedTurn = await getReferencedHistoryTurn(
-          conversationKey,
-          referencedMessageId
-        );
-        if (!referencedTurn) {
-          try {
-            const remoteMessagesResponse = await getConversationMessages(
-              accountId,
-              conversationId
-            );
-            const candidateLists = [
-              (remoteMessagesResponse as any)?.payload,
-              (remoteMessagesResponse as any)?.data,
-              remoteMessagesResponse,
-            ];
-            let remoteMessages: any[] = [];
-            for (const candidate of candidateLists) {
-              if (Array.isArray(candidate)) {
-                remoteMessages = candidate;
-                break;
-              }
-            }
-            const referencedMessage = remoteMessages.find((m: any) => {
-              const id = parseMessageId(m?.id);
-              const sourceId = parseMessageId((m as any)?.source_id);
-              const idString =
-                typeof (m as any)?.id === "string"
-                  ? (m as any).id.trim()
-                  : undefined;
-              const sourceIdString =
-                typeof (m as any)?.source_id === "string"
-                  ? (m as any).source_id.trim()
-                  : undefined;
-              const referencedMessageIdString = String(referencedMessageId);
-              return (
-                (typeof id === "number" && id === referencedMessageId) ||
-                (typeof sourceId === "number" && sourceId === referencedMessageId) ||
-                (idString !== undefined &&
-                  idString === referencedMessageIdString) ||
-                (sourceIdString !== undefined &&
-                  sourceIdString === referencedMessageIdString)
-              );
-            });
-            referencedTurn = normalizeHistoryTurnFromMessage(referencedMessage);
-          } catch (err) {
-            console.error("referenced message remote fetch error", err);
-          }
-        }
-        if (!referencedTurn) {
-          console.warn("referenced message not found", {
-            accountId,
-            conversationId,
-            referencedMessageId,
-          });
-        }
-      }
       const historyTurns = referencedTurn
         ? [referencedTurn, ...baseHistoryTurns]
         : baseHistoryTurns;
@@ -871,12 +904,12 @@ export async function POST(request: Request) {
       }
       const relevanceInput = JSON.stringify([
         ...recentTurns,
-        { role: "user", content: userInput },
+        { role: "user", content: guardrailUserInput },
       ]);
       const relevance = await runRelevanceGuardrail({
         input: relevanceInput,
       });
-      const jailbreak = await runJailbreakGuardrail({ input: userInput });
+      const jailbreak = await runJailbreakGuardrail({ input: guardrailUserInput });
       if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
         await sendBotMessage(
           accountId,

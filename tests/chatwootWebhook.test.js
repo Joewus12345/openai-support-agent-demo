@@ -798,6 +798,7 @@ test('chatwoot webhook includes referenced message in guardrail input', async ()
     guardrailInput = input;
     return { tripwireTriggered: false };
   });
+  redis.exists.mock.mockImplementationOnce(async () => 1);
   const referencedMessageId = 1234;
   redis.lrange.mock.mockImplementationOnce(async () => [
     JSON.stringify({
@@ -841,7 +842,23 @@ test('chatwoot webhook includes referenced message in guardrail input', async ()
   assert.strictEqual(turns[0].role, 'user');
   assert.strictEqual(turns[0].content, 'Original order number was 5678.');
   assert.strictEqual(turns[turns.length - 1].role, 'user');
-  assert.strictEqual(turns[turns.length - 1].content, 'Sure, here are the details you asked for.');
+  const expectedEnrichedText =
+    'Customer referenced: "Original order number was 5678."\n\nSure, here are the details you asked for.';
+  assert.strictEqual(turns[turns.length - 1].content, expectedEnrichedText);
+  assert.strictEqual(
+    prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content,
+    expectedEnrichedText
+  );
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  assert.strictEqual(
+    providerMessages[providerMessages.length - 1].content[0].text,
+    expectedEnrichedText
+  );
+  assert.strictEqual(redisPipelineMock.rpush.mock.calls.length, 1);
+  const storedRedisEntry = JSON.parse(
+    redisPipelineMock.rpush.mock.calls[0].arguments[1]
+  );
+  assert.strictEqual(storedRedisEntry.content, expectedEnrichedText);
   resetMocks();
 });
 
