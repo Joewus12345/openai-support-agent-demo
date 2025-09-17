@@ -1,4 +1,5 @@
 import { sendBotMessage } from "@/lib/chatwootBot";
+import type { SendBotMessageOptions } from "@/lib/chatwootBot";
 
 // Text shown to users when the assistant cannot send a regular message
 // response. Exported for tests to assert route-specific fallbacks.
@@ -14,7 +15,7 @@ export const HANDOFF_FALLBACK_TEXT =
 export async function notifyMessageIssue(
   accountId: number,
   conversationId: number,
-  options?: { private?: boolean }
+  options?: SendBotMessageOptions
 ) {
   return sendBotMessage(accountId, conversationId, MESSAGE_FALLBACK_TEXT, options);
 }
@@ -22,7 +23,7 @@ export async function notifyMessageIssue(
 export async function notifyHandoffIssue(
   accountId: number,
   conversationId: number,
-  options?: { private?: boolean }
+  options?: SendBotMessageOptions
 ) {
   return sendBotMessage(accountId, conversationId, HANDOFF_FALLBACK_TEXT, options);
 }
