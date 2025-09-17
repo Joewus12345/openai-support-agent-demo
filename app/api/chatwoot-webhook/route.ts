@@ -485,7 +485,12 @@ export async function POST(request: Request) {
       const options: { private?: boolean; inReplyTo?: number } = {
         private: mode !== "auto",
       };
-      if (typeof normalizedMessageId === "number") {
+      if (
+        typeof referencedMessageId === "number" &&
+        Number.isFinite(referencedMessageId)
+      ) {
+        options.inReplyTo = referencedMessageId;
+      } else if (typeof normalizedMessageId === "number") {
         options.inReplyTo = normalizedMessageId;
       }
       return options;
