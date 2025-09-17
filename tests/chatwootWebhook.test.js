@@ -880,6 +880,51 @@ test('chatwoot webhook includes referenced message in guardrail input', async ()
   resetMocks();
 });
 
+test('chatwoot webhook replies to referenced message when available', async () => {
+  const referencedMessageId = 6789;
+  redis.lrange.mock.mockImplementationOnce(async () => [
+    JSON.stringify({
+      messageId: referencedMessageId,
+      sender: 'contact',
+      content: 'Here are the original details.',
+    }),
+  ]);
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    toResponseMessage('assistant', 'Could you provide more information?'),
+  ]);
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 9876,
+        message_type: 0,
+        content: 'Absolutely, here you go.',
+        content_attributes: { in_reply_to: referencedMessageId },
+        account: { id: 20 },
+        conversation: {
+          id: 33,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 20,
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: referencedMessageId,
+  });
+  resetMocks();
+});
+
 test('chatwoot webhook sends fallback when relevance guardrail triggers', async () => {
   runRelevanceGuardrailMock.mock.mockImplementationOnce(async () => ({
     tripwireTriggered: true,
