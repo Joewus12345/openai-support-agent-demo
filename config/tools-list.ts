@@ -341,6 +341,34 @@ export const toolsList = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "set_reply_reference",
+      description:
+        "Control whether the next reply quotes a specific customer message. When use_quotes is false and no message_id is provided, quoting is skipped entirely.",
+      parameters: {
+        type: "object",
+        properties: {
+          message_id: {
+            type: "number",
+            description:
+              "ID of the customer message to quote. Omit to clear any existing reference.",
+          },
+          use_quotes: {
+            type: "boolean",
+            description:
+              "Set to false to disable quoting. When false and message_id is omitted, the assistant will not quote any message.",
+          },
+          reason: {
+            type: "string",
+            description: "Optional explanation for updating the reply reference.",
+          },
+        },
+        additionalProperties: false,
+      },
+    },
+  },
   // add more tools as needed
 ];
 

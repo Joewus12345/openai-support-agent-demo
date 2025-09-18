@@ -401,6 +401,14 @@ export const start_chat_session = async ({
   }
 };
 
+export const set_reply_reference = async (args: {
+  message_id?: number;
+  use_quotes?: boolean;
+  reason?: string;
+}) => {
+  return { ...args };
+};
+
 export const search_knowledge_base = async ({
   query,
   queries,
@@ -504,6 +512,7 @@ export const functionsMap = {
   get_user_profile: get_user_profile,
   create_user_profile: create_user_profile,
   start_chat_session: start_chat_session,
+  set_reply_reference: set_reply_reference,
   search_knowledge_base: search_knowledge_base,
   // add more functions as needed
 };
