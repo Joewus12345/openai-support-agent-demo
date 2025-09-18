@@ -7,7 +7,11 @@ import { VECTOR_STORE_ID } from "@/config/constants";
  * Ollama provider only needs the function tools defined in `toolsList`.
  */
 
-const functionTools = toolsList;
+export const functionTools = toolsList;
+
+export const functionToolNames = functionTools
+  .map((tool) => (tool.type === "function" ? tool.function?.name : null))
+  .filter((name): name is string => typeof name === "string");
 
 // Tools for the OpenAI provider (includes built-in file search)
 export const tools = [
