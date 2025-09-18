@@ -54,6 +54,13 @@ const getConversationHistoryMock = mock.method(
   async () => []
 );
 
+const conversationTranscript = require('../lib/getConversationTranscript.ts');
+const getConversationTranscriptMock = mock.method(
+  conversationTranscript,
+  'getConversationTranscript',
+  async () => []
+);
+
 const { toResponseMessage } = require('../lib/utils/toResponseMessage.ts');
 
 const agentRotation = require('../lib/agentRotation.ts');
@@ -141,6 +148,7 @@ function resetMocks() {
   prisma.conversationMessage.findMany.mock.resetCalls();
   prisma.conversationMessage.findUnique.mock.resetCalls();
   getConversationHistoryMock.mock.resetCalls();
+  getConversationTranscriptMock.mock.resetCalls();
   redis.exists.mock.resetCalls();
   redis.rpush.mock.resetCalls();
   redis.pipeline.mock.resetCalls();
@@ -825,6 +833,77 @@ test('chatwoot webhook processes incoming message', async () => {
   assert.strictEqual(call[2], 'hi');
   assert.deepStrictEqual(call[3], { private: false, inReplyTo: 700 });
   assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook includes developer quote guidance when transcript exists', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 701,
+        message_type: 0,
+        content: 'Need help again',
+        account: { id: 70 },
+        conversation: { id: 70, inbox_id: 1, status: 'resolved', account_id: 70 },
+      },
+    },
+  };
+  const history = [
+    toResponseMessage('user', 'previous question about orders'),
+    toResponseMessage('assistant', 'response from assistant'),
+  ];
+  const transcript = [
+    {
+      messageId: 4321,
+      sender: 'user',
+      contentSnippet: 'Need help with an installation',
+      quoteEligible: true,
+      createdAt: new Date('2024-05-15T10:00:00Z'),
+    },
+    {
+      messageId: 4322,
+      sender: 'assistant',
+      contentSnippet: 'Sure, I can take a look at that for you',
+      quoteEligible: true,
+      createdAt: new Date('2024-05-15T10:05:00Z'),
+    },
+    {
+      messageId: 4323,
+      sender: 'user',
+      contentSnippet: 'WhatsApp follow up that should not be quoted',
+      quoteEligible: false,
+      createdAt: new Date('2024-05-15T10:06:00Z'),
+    },
+  ];
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+  getConversationTranscriptMock.mock.mockImplementationOnce(async () => transcript);
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  assert.strictEqual(getConversationTranscriptMock.mock.calls.length, 1);
+  const transcriptCall = getConversationTranscriptMock.mock.calls[0];
+  assert.strictEqual(transcriptCall.arguments[0], 'chatwoot:70:1:70');
+  assert.deepStrictEqual(transcriptCall.arguments[1], {
+    userLimit: 4,
+    assistantLimit: 2,
+  });
+  const messages = providerFnMock.mock.calls[0].arguments[0];
+  assert.strictEqual(messages[0].role, 'system');
+  assert.strictEqual(messages[1].role, 'developer');
+  const developerText = messages[1].content[0].text;
+  assert.ok(developerText.includes('Quote candidates (newest first):'));
+  assert.ok(developerText.includes('user#4321'));
+  assert.ok(developerText.includes('assistant#4322'));
+  assert.ok(!developerText.includes('4323'));
+  assert.ok(developerText.includes('2024-05-15'));
+  assert.deepStrictEqual(messages.slice(2), history);
   resetMocks();
 });
 

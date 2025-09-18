@@ -24,6 +24,10 @@ import { CHATWOOT_SYSTEM_PROMPT } from "@/config/constants";
 import { getConversationKey } from "@/lib/getConversationKey";
 import { getConversationHistory } from "@/lib/getConversationHistory";
 import {
+  getConversationTranscript,
+  type ConversationTranscriptEntry,
+} from "@/lib/getConversationTranscript";
+import {
   runRelevanceGuardrail,
   runJailbreakGuardrail,
 } from "@/lib/guardrails";
@@ -34,6 +38,48 @@ import {
 import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
 
 type HistoryTurn = { role: string; content: string };
+
+const QUOTE_TRANSCRIPT_USER_LIMIT = 4;
+const QUOTE_TRANSCRIPT_ASSISTANT_LIMIT = 2;
+const MAX_DEVELOPER_QUOTE_LINES = 6;
+
+function formatQuoteTimestamp(date?: Date): string {
+  if (!date || !(date instanceof Date) || Number.isNaN(date.getTime())) {
+    return "unknown-date";
+  }
+  return date.toISOString().slice(0, 10);
+}
+
+function buildQuoteDeveloperPrompt(
+  entries: ConversationTranscriptEntry[]
+): string | undefined {
+  if (!Array.isArray(entries) || !entries.length) {
+    return undefined;
+  }
+  const eligible = entries.filter((entry) => {
+    if (!entry?.quoteEligible) {
+      return false;
+    }
+    if (typeof entry.messageId !== "number" || !Number.isFinite(entry.messageId)) {
+      return false;
+    }
+    if (typeof entry.contentSnippet !== "string") {
+      return false;
+    }
+    return entry.contentSnippet.trim().length > 0;
+  });
+  if (!eligible.length) {
+    return undefined;
+  }
+  const limited = eligible.slice(0, MAX_DEVELOPER_QUOTE_LINES);
+  const lines = limited.map((entry) => {
+    const snippet = entry.contentSnippet.trim();
+    const prefix = `${entry.sender}#${entry.messageId}`;
+    const timestamp = formatQuoteTimestamp(entry.createdAt);
+    return `${prefix} · ${timestamp} · ${snippet}`;
+  });
+  return `Quote candidates (newest first):\n${lines.join("\n")}`;
+}
 
 function normalizeHistoryTurnFromMessage(message: any): HistoryTurn | undefined {
   if (!message) {
@@ -1049,6 +1095,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "fallback" });
     }
 
+    let transcriptEntries: ConversationTranscriptEntry[] = [];
+    try {
+      transcriptEntries = await getConversationTranscript(conversationKey, {
+        userLimit: QUOTE_TRANSCRIPT_USER_LIMIT,
+        assistantLimit: QUOTE_TRANSCRIPT_ASSISTANT_LIMIT,
+      });
+    } catch (err) {
+      console.error("conversation transcript error", err);
+    }
+    const developerPrompt = buildQuoteDeveloperPrompt(transcriptEntries);
+
     let provider;
     try {
       provider = getProvider(undefined);
@@ -1060,11 +1117,12 @@ export async function POST(request: Request) {
 
     let replyText = "";
     try {
-      const events = provider(
-        [toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT), ...history],
-        tools,
-        {}
-      );
+      const providerMessages = [
+        toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT),
+        ...(developerPrompt ? [toResponseMessage("developer", developerPrompt)] : []),
+        ...history,
+      ];
+      const events = provider(providerMessages, tools, {});
       for await (const { event, data } of events) {
         if (
           event === "response.output_text.delta" &&
