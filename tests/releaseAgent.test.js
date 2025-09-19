@@ -6,7 +6,7 @@ require('tsconfig-paths/register');
 const conversationResolution = require('../lib/conversationResolution.ts');
 const chatwoot = require('../lib/chatwoot.ts');
 const chatwootBot = require('../lib/chatwootBot.ts');
-const storeConversationMessage = require('../lib/storeConversationMessage.ts');
+const storeBotMessage = require('../lib/storeBotMessage.ts');
 const agentRotation = require('../lib/agentRotation.ts');
 const handoffQueue = require('../lib/handoffQueue.ts');
 const friendlyErrors = require('../lib/friendlyErrors.ts');
@@ -63,23 +63,39 @@ const sendMock = mock.method(
   }
 );
 
-const storeAssistantMessageMock = mock.method(
-  storeConversationMessage,
-  'storeAssistantMessage',
-  async () => {}
+const storeBotMessageMock = mock.method(
+  storeBotMessage,
+  'storeBotMessage',
+  async (args) => ({
+    stored: true,
+    messageId: args.messageId,
+    inboxId: args.inboxId,
+    sourceId: args.sourceId,
+    conversationKey:
+      args.conversationKey ??
+      `chatwoot:${args.accountId}:${args.conversationId}:${args.inboxId}`,
+    content:
+      typeof args?.payload === 'object' &&
+      args?.payload !== null &&
+      typeof args.payload.content === 'string'
+        ? args.payload.content
+        : typeof args.fallbackContent === 'string'
+          ? args.fallbackContent
+          : '',
+  })
 );
 
 function assertLoggedIds(...expectedIds) {
-  assert.strictEqual(storeAssistantMessageMock.mock.calls.length, expectedIds.length);
+  assert.strictEqual(storeBotMessageMock.mock.calls.length, expectedIds.length);
   expectedIds.forEach((id, index) => {
-    const call = storeAssistantMessageMock.mock.calls[index];
+    const call = storeBotMessageMock.mock.calls[index];
     assert.strictEqual(call.arguments[0].messageId, id);
   });
 }
 
 test('releaseAgent opens and assigns conversation before notifying', async () => {
   nextMessageId = 0;
-  storeAssistantMessageMock.mock.resetCalls();
+  storeBotMessageMock.mock.resetCalls();
   sendMock.mock.resetCalls();
   await conversationResolution.releaseAgent(accountId, releasedConversationId, { assignee_id: freedAgentId });
 
@@ -94,7 +110,7 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
 
 test('releaseAgent sends fallback when updateRequest fails', async () => {
   nextMessageId = 0;
-  storeAssistantMessageMock.mock.resetCalls();
+  storeBotMessageMock.mock.resetCalls();
   sendMock.mock.resetCalls();
   handoffQueue.updateRequest.mock.mockImplementationOnce(async () => { throw new Error('fail'); });
   const notifyMock = mock.method(friendlyErrors, 'notifyHandoffIssue', async () => {});
@@ -107,7 +123,7 @@ test('releaseAgent sends fallback when updateRequest fails', async () => {
 
 test('releaseAgent throws when freed agent cannot be resolved', async () => {
   nextMessageId = 0;
-  storeAssistantMessageMock.mock.resetCalls();
+  storeBotMessageMock.mock.resetCalls();
   sendMock.mock.resetCalls();
   const fetchErr = new Error('fetch failed');
   getConversationMock.mock.mockImplementationOnce(async () => {
@@ -130,7 +146,7 @@ test('releaseAgent throws when freed agent cannot be resolved', async () => {
 
 test('status change without label skips releaseAgent call', async () => {
   nextMessageId = 0;
-  storeAssistantMessageMock.mock.resetCalls();
+  storeBotMessageMock.mock.resetCalls();
   sendMock.mock.resetCalls();
   const consoleInfoMock = mock.method(console, 'info', () => {});
   const releaseAgentMock = mock.method(
@@ -175,7 +191,7 @@ test('status change without label skips releaseAgent call', async () => {
 
 test('label removed with status open skips releaseAgent call', async () => {
   nextMessageId = 0;
-  storeAssistantMessageMock.mock.resetCalls();
+  storeBotMessageMock.mock.resetCalls();
   sendMock.mock.resetCalls();
   const consoleInfoMock = mock.method(console, 'info', () => {});
   const releaseAgentMock = mock.method(
@@ -228,7 +244,7 @@ test('label removed with status open skips releaseAgent call', async () => {
 
 test('status change with label triggers releaseAgent', async () => {
   nextMessageId = 0;
-  storeAssistantMessageMock.mock.resetCalls();
+  storeBotMessageMock.mock.resetCalls();
   sendMock.mock.resetCalls();
   const consoleInfoMock = mock.method(console, 'info', () => {});
   const releaseAgentMock = mock.method(

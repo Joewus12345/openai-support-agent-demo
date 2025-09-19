@@ -1,9 +1,9 @@
 import { sendBotMessage } from "@/lib/chatwootBot";
 import type { SendBotMessageOptions } from "@/lib/chatwootBot";
 import {
-  getNumericId,
-  storeAssistantMessage,
-} from "@/lib/storeConversationMessage";
+  resolveBotMessageIdentifiers,
+  storeBotMessage,
+} from "@/lib/storeBotMessage";
 
 // Text shown to users when the assistant cannot send a regular message
 // response. Exported for tests to assert route-specific fallbacks.
@@ -70,18 +70,19 @@ async function logAssistantFallback(
     return;
   }
 
-  const messageId =
-    getNumericId((response as any)?.id) ??
-    getNumericId((response as any)?.message_id) ??
-    getNumericId((response as any)?.source_id);
-  const inboxId =
-    getNumericId((response as any)?.inbox_id) ??
-    getNumericId((response as any)?.conversation?.inbox_id) ??
-    getNumericId((response as any)?.inboxId);
+  const { messageId: directMessageId, sourceId, inboxId } =
+    resolveBotMessageIdentifiers(response);
+  const resolvedMessageId =
+    typeof directMessageId === "number"
+      ? directMessageId
+      : typeof sourceId === "number"
+        ? sourceId
+        : undefined;
 
-  if (typeof messageId !== "number" || typeof inboxId !== "number") {
+  if (typeof resolvedMessageId !== "number" || typeof inboxId !== "number") {
     console.warn("fallback sendBotMessage missing identifiers", {
-      hasMessageId: typeof messageId === "number",
+      hasMessageId: typeof directMessageId === "number",
+      hasSourceId: typeof sourceId === "number",
       hasInboxId: typeof inboxId === "number",
       accountId,
       conversationId,
@@ -89,16 +90,14 @@ async function logAssistantFallback(
     return;
   }
 
-  await storeAssistantMessage({
+  await storeBotMessage({
     accountId,
     conversationId,
+    messageId: resolvedMessageId,
     inboxId,
-    messageId,
-    content:
-      typeof (response as any)?.content === "string"
-        ? (response as any).content
-        : fallbackContent,
-    createdAt: (response as any)?.created_at ?? (response as any)?.createdAt,
+    payload: response,
+    sourceId,
+    fallbackContent,
   });
 }
 
