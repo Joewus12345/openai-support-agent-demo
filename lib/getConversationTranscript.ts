@@ -132,7 +132,13 @@ function isUnsupportedChannel(channel: string | undefined): boolean {
     return false;
   }
   const normalized = channel.toLowerCase();
-  return normalized.includes("whatsapp") || normalized.includes("sms");
+  if (normalized.includes("sms")) {
+    return true;
+  }
+  if (normalized.includes("twilio") && normalized.includes("whatsapp")) {
+    return true;
+  }
+  return false;
 }
 
 function buildSnippet(content: string): string {
