@@ -1214,3 +1214,137 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   assertLoggedIds(1);
   resetMocks();
 });
+
+test('chatwoot webhook uses set_reply_reference message override', async () => {
+  const overrideMessageId = 54321;
+  providerFnMock.mock.mockImplementationOnce(() =>
+    (async function* () {
+      yield {
+        event: 'response.output_item.added',
+        data: {
+          item: {
+            type: 'function_call',
+            name: 'set_reply_reference',
+            id: 'call-override',
+            call_id: 'call-override',
+            arguments: '',
+          },
+        },
+      };
+      yield {
+        event: 'response.function_call_arguments.delta',
+        data: { item_id: 'call-override', delta: '{"message_id": 54321' },
+      };
+      yield {
+        event: 'response.function_call_arguments.delta',
+        data: { item_id: 'call-override', delta: ', "use_quotes": true}' },
+      };
+      yield {
+        event: 'response.function_call_arguments.done',
+        data: {
+          item_id: 'call-override',
+          arguments: '{"message_id":54321,"use_quotes":true}',
+        },
+      };
+      yield {
+        event: 'response.output_text.delta',
+        data: { delta: 'Custom reply.' },
+      };
+    })()
+  );
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 910,
+        message_type: 0,
+        content: 'Need context',
+        account: { id: 15 },
+        conversation: {
+          id: 910,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 15,
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const options = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.deepStrictEqual(options, { private: false, inReplyTo: overrideMessageId });
+  resetMocks();
+});
+
+test('chatwoot webhook fallback keeps quoting inbound when set_reply_reference skips quotes', async () => {
+  sendBotMessageMock.mock.mockImplementationOnce(async () => {
+    throw new Error('initial send failure');
+  });
+  providerFnMock.mock.mockImplementationOnce(() =>
+    (async function* () {
+      yield {
+        event: 'response.output_item.added',
+        data: {
+          item: {
+            type: 'function_call',
+            name: 'set_reply_reference',
+            id: 'call-skip',
+            call_id: 'call-skip',
+            arguments: '',
+          },
+        },
+      };
+      yield {
+        event: 'response.function_call_arguments.delta',
+        data: { item_id: 'call-skip', delta: '{"use_quotes": false}' },
+      };
+      yield {
+        event: 'response.function_call_arguments.done',
+        data: { item_id: 'call-skip', arguments: '{"use_quotes": false}' },
+      };
+      yield {
+        event: 'response.output_text.delta',
+        data: { delta: 'Working on it.' },
+      };
+    })()
+  );
+  const inboundId = 911;
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: inboundId,
+        message_type: 0,
+        content: 'No quotes please',
+        account: { id: 16 },
+        conversation: {
+          id: inboundId,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 16,
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'fallback');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+  const firstOptions = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.strictEqual(firstOptions.private, false);
+  assert.ok(!Object.prototype.hasOwnProperty.call(firstOptions, 'inReplyTo'));
+  const fallbackOptions = sendBotMessageMock.mock.calls[1].arguments[3];
+  assert.deepStrictEqual(fallbackOptions, { private: false, inReplyTo: inboundId });
+  resetMocks();
+});
