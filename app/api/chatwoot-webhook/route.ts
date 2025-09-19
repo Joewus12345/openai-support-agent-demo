@@ -5,7 +5,10 @@ import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import redis from "@/lib/redis";
-import { storeAssistantMessage } from "@/lib/storeConversationMessage";
+import {
+  resolveBotMessageIdentifiers,
+  storeBotMessage,
+} from "@/lib/storeBotMessage";
 import handOff from "@/lib/handoff";
 import {
   getConversation,
@@ -580,24 +583,28 @@ export async function POST(request: Request) {
         return;
       }
 
-      const messageId =
-        parseMessageId((response as any)?.id) ??
-        parseMessageId((response as any)?.message_id) ??
-        parseMessageId((response as any)?.source_id);
-      const responseInboxId =
-        parseMessageId((response as any)?.inbox_id) ??
-        parseMessageId((response as any)?.conversation?.inbox_id) ??
-        parseMessageId((response as any)?.inboxId);
+      const { messageId: directMessageId, sourceId, inboxId: responseInboxId } =
+        resolveBotMessageIdentifiers(response);
+      const resolvedMessageId =
+        typeof directMessageId === "number"
+          ? directMessageId
+          : typeof sourceId === "number"
+            ? sourceId
+            : undefined;
+      const fallbackInboxId =
+        typeof inboxId === "number" ? inboxId : undefined;
       const resolvedInboxId =
         typeof responseInboxId === "number"
           ? responseInboxId
-          : typeof inboxId === "number"
-            ? inboxId
-            : undefined;
+          : fallbackInboxId;
 
-      if (typeof messageId !== "number" || typeof resolvedInboxId !== "number") {
+      if (
+        typeof resolvedMessageId !== "number" ||
+        typeof resolvedInboxId !== "number"
+      ) {
         console.warn("sendBotMessage response missing identifiers", {
-          hasMessageId: typeof messageId === "number",
+          hasMessageId: typeof directMessageId === "number",
+          hasSourceId: typeof sourceId === "number",
           hasInboxId: typeof resolvedInboxId === "number",
           accountId,
           conversationId,
@@ -605,25 +612,20 @@ export async function POST(request: Request) {
         return;
       }
 
-      const resolvedContent =
-        typeof (response as any)?.content === "string"
-          ? (response as any).content
-          : fallbackContent;
-      const createdAt =
-        (response as any)?.created_at ?? (response as any)?.createdAt ?? undefined;
       const resolvedConversationKey =
         typeof inboxId === "number" && inboxId === resolvedInboxId
           ? conversationKey
-          : getConversationKey(accountId, conversationId, resolvedInboxId);
+          : undefined;
 
-      await storeAssistantMessage({
+      await storeBotMessage({
         accountId,
         conversationId,
+        messageId: resolvedMessageId,
         inboxId: resolvedInboxId,
+        payload: response,
+        sourceId,
+        fallbackContent,
         conversationKey: resolvedConversationKey,
-        messageId,
-        content: resolvedContent,
-        createdAt,
       });
     };
 

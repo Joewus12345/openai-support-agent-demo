@@ -24,11 +24,27 @@ const sendBotMessageMock = mock.method(
   })
 );
 
-const storeConversationMessage = require('../lib/storeConversationMessage.ts');
-const storeAssistantMessageMock = mock.method(
-  storeConversationMessage,
-  'storeAssistantMessage',
-  async () => {}
+const storeBotMessage = require('../lib/storeBotMessage.ts');
+const storeBotMessageMock = mock.method(
+  storeBotMessage,
+  'storeBotMessage',
+  async (args) => ({
+    stored: true,
+    messageId: args.messageId,
+    inboxId: args.inboxId,
+    sourceId: args.sourceId,
+    conversationKey:
+      args.conversationKey ??
+      `chatwoot:${args.accountId}:${args.conversationId}:${args.inboxId}`,
+    content:
+      typeof args?.payload === 'object' &&
+      args?.payload !== null &&
+      typeof args.payload.content === 'string'
+        ? args.payload.content
+        : typeof args.fallbackContent === 'string'
+          ? args.fallbackContent
+          : '',
+  })
 );
 
 const {
@@ -133,7 +149,7 @@ function resetMocks() {
   releaseAgentMock.mock.mockImplementation(async () => {});
   sendBotMessageMock.mock.resetCalls();
   nextMessageId = 0;
-  storeAssistantMessageMock.mock.resetCalls();
+  storeBotMessageMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
   providerFnMock.mock.resetCalls();
   getNextAgentMock.mock.resetCalls();
@@ -163,9 +179,9 @@ function resetMocks() {
 }
 
 function assertLoggedIds(...expectedIds) {
-  assert.strictEqual(storeAssistantMessageMock.mock.calls.length, expectedIds.length);
+  assert.strictEqual(storeBotMessageMock.mock.calls.length, expectedIds.length);
   expectedIds.forEach((id, index) => {
-    const call = storeAssistantMessageMock.mock.calls[index];
+    const call = storeBotMessageMock.mock.calls[index];
     assert.strictEqual(call.arguments[0].messageId, id);
   });
 }

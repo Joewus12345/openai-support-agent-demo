@@ -16,9 +16,9 @@ import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
 import { notifyHandoffIssue } from "@/lib/friendlyErrors";
 import type { Conversation } from "@/types/chatwoot";
 import {
-  getNumericId,
-  storeAssistantMessage,
-} from "@/lib/storeConversationMessage";
+  resolveBotMessageIdentifiers,
+  storeBotMessage,
+} from "@/lib/storeBotMessage";
 
 /**
  * Clear the active conversation for the freed agent and assign the next request in queue.
@@ -148,38 +148,45 @@ export async function releaseAgent(
           request.conversationId,
           "A human agent will join shortly."
         );
-        const confirmationMessageId =
-          getNumericId((confirmationMessage as any)?.id) ??
-          getNumericId((confirmationMessage as any)?.message_id) ??
-          getNumericId((confirmationMessage as any)?.source_id);
-        const confirmationInboxId =
-          getNumericId((confirmationMessage as any)?.inbox_id) ??
-          getNumericId((confirmationMessage as any)?.conversation?.inbox_id) ??
-          getNumericId((confirmationMessage as any)?.inboxId);
-        if (
-          typeof confirmationMessageId === "number" &&
-          typeof confirmationInboxId === "number"
-        ) {
-          await storeAssistantMessage({
+        if (!confirmationMessage || typeof confirmationMessage !== "object") {
+          console.warn("handoff confirmation missing payload", {
             accountId,
             conversationId: request.conversationId,
-            inboxId: confirmationInboxId,
-            messageId: confirmationMessageId,
-            content:
-              typeof (confirmationMessage as any)?.content === "string"
-                ? (confirmationMessage as any).content
-                : "A human agent will join shortly.",
-            createdAt:
-              (confirmationMessage as any)?.created_at ??
-              (confirmationMessage as any)?.createdAt,
           });
         } else {
-          console.warn("handoff confirmation missing identifiers", {
-            hasMessageId: typeof confirmationMessageId === "number",
-            hasInboxId: typeof confirmationInboxId === "number",
-            accountId,
-            conversationId: request.conversationId,
-          });
+          const {
+            messageId: directMessageId,
+            sourceId,
+            inboxId: confirmationInboxId,
+          } = resolveBotMessageIdentifiers(confirmationMessage);
+          const resolvedMessageId =
+            typeof directMessageId === "number"
+              ? directMessageId
+              : typeof sourceId === "number"
+                ? sourceId
+                : undefined;
+          if (
+            typeof resolvedMessageId === "number" &&
+            typeof confirmationInboxId === "number"
+          ) {
+            await storeBotMessage({
+              accountId,
+              conversationId: request.conversationId,
+              messageId: resolvedMessageId,
+              inboxId: confirmationInboxId,
+              payload: confirmationMessage,
+              sourceId,
+              fallbackContent: "A human agent will join shortly.",
+            });
+          } else {
+            console.warn("handoff confirmation missing identifiers", {
+              hasMessageId: typeof directMessageId === "number",
+              hasSourceId: typeof sourceId === "number",
+              hasInboxId: typeof confirmationInboxId === "number",
+              accountId,
+              conversationId: request.conversationId,
+            });
+          }
         }
         outcome = "assigned";
       } else {
