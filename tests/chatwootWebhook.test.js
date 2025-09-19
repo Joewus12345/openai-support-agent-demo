@@ -175,7 +175,13 @@ function resetMocks() {
   redisPipelineMock.expire.mock.resetCalls();
   redisPipelineMock.exec.mock.resetCalls();
   runRelevanceGuardrailMock.mock.resetCalls();
+  runRelevanceGuardrailMock.mock.mockImplementation(async () => ({
+    tripwireTriggered: false,
+  }));
   runJailbreakGuardrailMock.mock.resetCalls();
+  runJailbreakGuardrailMock.mock.mockImplementation(async () => ({
+    tripwireTriggered: false,
+  }));
 }
 
 function assertLoggedIds(...expectedIds) {
@@ -1115,14 +1121,13 @@ test('chatwoot webhook replies to referenced message when available', async () =
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,
-    inReplyTo: referencedMessageId,
   });
   assertLoggedIds(1);
   resetMocks();
 });
 
 test('chatwoot webhook sends fallback when relevance guardrail triggers', async () => {
-  runRelevanceGuardrailMock.mock.mockImplementationOnce(async () => ({
+  runRelevanceGuardrailMock.mock.mockImplementation(async () => ({
     tripwireTriggered: true,
   }));
   const payload = {
@@ -1156,7 +1161,7 @@ test('chatwoot webhook sends fallback when relevance guardrail triggers', async 
 });
 
 test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async () => {
-  runJailbreakGuardrailMock.mock.mockImplementationOnce(async () => ({
+  runJailbreakGuardrailMock.mock.mockImplementation(async () => ({
     tripwireTriggered: true,
   }));
   const payload = {
@@ -1215,10 +1220,9 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   assert.strictEqual(res.status, 200);
   assert.strictEqual(body.status, 'fallback');
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
-  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
-    private: false,
-    inReplyTo: 800,
-  });
+  const initialOptions = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.strictEqual(initialOptions.private, false);
+  assert.ok(!Object.prototype.hasOwnProperty.call(initialOptions, 'inReplyTo'));
   assert.strictEqual(
     sendBotMessageMock.mock.calls[1].arguments[2],
     MESSAGE_FALLBACK_TEXT
@@ -1227,6 +1231,73 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
     private: false,
     inReplyTo: 800,
   });
+  assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook auto quotes acknowledgement when heuristic triggers', async () => {
+  const referencedMessageId = 4123;
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 905,
+        message_type: 0,
+        content: 'Yes',
+        account: { id: 17 },
+        conversation: {
+          id: 905,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 17,
+        },
+        content_attributes: { in_reply_to: referencedMessageId },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const options = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.deepStrictEqual(options, { private: false, inReplyTo: referencedMessageId });
+  assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook leaves inReplyTo unset when heuristic does not trigger', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 906,
+        message_type: 0,
+        content: 'Thanks for the help earlier, here are the details.',
+        account: { id: 18 },
+        conversation: {
+          id: 906,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 18,
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const options = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.strictEqual(options.private, false);
+  assert.ok(!Object.prototype.hasOwnProperty.call(options, 'inReplyTo'));
   assertLoggedIds(1);
   resetMocks();
 });

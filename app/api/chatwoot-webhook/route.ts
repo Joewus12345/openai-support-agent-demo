@@ -40,6 +40,7 @@ import {
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
 import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
+import { shouldQuoteInboundMessage } from "@/lib/quoteHeuristics";
 
 type HistoryTurn = { role: string; content: string };
 
@@ -541,31 +542,42 @@ export async function POST(request: Request) {
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
     const buildReplyOptions = (
-      overrides: { quoteMessageId?: number | null; forcePrivate?: boolean } = {}
+      overrides?: { quoteMessageId?: number | null; forcePrivate?: boolean }
     ) => {
-      const { quoteMessageId, forcePrivate } = overrides;
       const options: { private?: boolean; inReplyTo?: number } = {};
+      const forcePrivate = overrides?.forcePrivate;
+      const quoteMessageId = overrides?.quoteMessageId;
       const privateValue =
         typeof forcePrivate === "boolean" ? forcePrivate : mode !== "auto";
       options.private = privateValue;
 
-      let resolvedQuoteId: number | undefined;
+      const hasOverrides = overrides !== undefined;
+      const hasQuoteProp =
+        hasOverrides &&
+        Object.prototype.hasOwnProperty.call(
+          overrides as Record<string, unknown>,
+          "quoteMessageId"
+        );
+
       if (quoteMessageId === null) {
-        resolvedQuoteId = undefined;
-      } else if (
+        return options;
+      }
+
+      if (
         typeof quoteMessageId === "number" &&
         Number.isFinite(quoteMessageId)
       ) {
-        resolvedQuoteId = quoteMessageId;
-      } else if (
+        options.inReplyTo = quoteMessageId;
+        return options;
+      }
+
+      if (
+        hasOverrides &&
+        !hasQuoteProp &&
         typeof defaultReplyToId === "number" &&
         Number.isFinite(defaultReplyToId)
       ) {
-        resolvedQuoteId = defaultReplyToId;
-      }
-
-      if (resolvedQuoteId !== undefined) {
-        options.inReplyTo = resolvedQuoteId;
+        options.inReplyTo = defaultReplyToId;
       }
 
       return options;
@@ -1269,12 +1281,44 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "fallback" });
     }
 
+    const quoteHistoryTurns: HistoryTurn[] = Array.isArray(history)
+      ? history
+          .filter((m: { role: string }) => m.role !== "developer")
+          .map((m: { role: string; content: any[] }) => ({
+            role: m.role,
+            content: m.content.map((c: { text: any }) => c.text).join(" "),
+          }))
+      : [];
+
+    let finalReplyReference = replyReferenceOverride;
+    if (finalReplyReference === undefined) {
+      const shouldQuote = shouldQuoteInboundMessage({
+        messageText: userInput,
+        referencedMessageId,
+        referencedMessageContent: referencedTurn?.content,
+        history: quoteHistoryTurns,
+      });
+      if (shouldQuote) {
+        const preferredQuoteId =
+          typeof referencedMessageId === "number" &&
+          Number.isFinite(referencedMessageId)
+            ? referencedMessageId
+            : typeof defaultReplyToId === "number" &&
+                Number.isFinite(defaultReplyToId)
+              ? defaultReplyToId
+              : undefined;
+        if (typeof preferredQuoteId === "number") {
+          finalReplyReference = { quoteMessageId: preferredQuoteId };
+        }
+      }
+    }
+
     try {
       const finalResponse = await sendBotMessage(
         accountId,
         conversationId,
         replyText,
-        buildReplyOptions(replyReferenceOverride)
+        buildReplyOptions(finalReplyReference)
       );
       await logAssistantResponse(finalResponse, replyText);
     } catch (err) {
