@@ -55,6 +55,7 @@ const getConversationHistoryMock = mock.method(
 );
 
 const conversationTranscript = require('../lib/getConversationTranscript.ts');
+const originalGetConversationTranscript = conversationTranscript.getConversationTranscript;
 const getConversationTranscriptMock = mock.method(
   conversationTranscript,
   'getConversationTranscript',
@@ -146,6 +147,7 @@ function resetMocks() {
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
+  prisma.conversationMessage.findMany.mock.mockImplementation(async () => []);
   prisma.conversationMessage.findUnique.mock.resetCalls();
   getConversationHistoryMock.mock.resetCalls();
   getConversationTranscriptMock.mock.resetCalls();
@@ -854,31 +856,65 @@ test('chatwoot webhook includes developer quote guidance when transcript exists'
     toResponseMessage('user', 'previous question about orders'),
     toResponseMessage('assistant', 'response from assistant'),
   ];
-  const transcript = [
+  const prismaTranscriptRecords = [
     {
       messageId: 4321,
-      sender: 'user',
-      contentSnippet: 'Need help with an installation',
-      quoteEligible: true,
-      createdAt: new Date('2024-05-15T10:00:00Z'),
+      sender: 'contact',
+      message_type: 0,
+      content: 'Need help with an installation',
+      created_at: new Date('2024-05-15T10:00:00Z'),
+      channel: 'web_widget',
     },
     {
       messageId: 4322,
-      sender: 'assistant',
-      contentSnippet: 'Sure, I can take a look at that for you',
-      quoteEligible: true,
-      createdAt: new Date('2024-05-15T10:05:00Z'),
+      sender: 'Agent Bot',
+      message_type: 1,
+      content: 'Sure, I can take a look at that for you',
+      created_at: new Date('2024-05-15T10:05:00Z'),
+      channel: 'web_widget',
     },
     {
       messageId: 4323,
-      sender: 'user',
-      contentSnippet: 'WhatsApp follow up that should not be quoted',
-      quoteEligible: false,
-      createdAt: new Date('2024-05-15T10:06:00Z'),
+      sender: 'contact',
+      message_type: 0,
+      content: 'Twilio WhatsApp follow up (exclude)',
+      created_at: new Date('2024-05-15T10:06:00Z'),
+      channel: 'twilio_whatsapp',
+    },
+    {
+      messageId: 4324,
+      sender: 'contact',
+      message_type: 0,
+      content: 'Official WhatsApp order update',
+      created_at: new Date('2024-05-15T10:07:00Z'),
+      channel: 'whatsapp_official',
+    },
+    {
+      messageId: 4325,
+      sender: 'contact',
+      message_type: 0,
+      content: 'SMS follow up (exclude)',
+      created_at: new Date('2024-05-15T10:08:00Z'),
+      channel: 'sms',
     },
   ];
   getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
-  getConversationTranscriptMock.mock.mockImplementationOnce(async () => transcript);
+  redis.lrange.mock.mockImplementationOnce(async () => []);
+  prisma.conversationMessage.findMany.mock.mockImplementation(async (args) => {
+    if (
+      args &&
+      typeof args === 'object' &&
+      args.orderBy &&
+      typeof args.orderBy === 'object' &&
+      args.orderBy.messageId === 'desc'
+    ) {
+      return prismaTranscriptRecords;
+    }
+    return [];
+  });
+  getConversationTranscriptMock.mock.mockImplementationOnce(async (...args) =>
+    originalGetConversationTranscript(...args)
+  );
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -894,14 +930,28 @@ test('chatwoot webhook includes developer quote guidance when transcript exists'
     userLimit: 4,
     assistantLimit: 2,
   });
+  const transcriptResult = await transcriptCall.result;
+  assert.ok(Array.isArray(transcriptResult));
+  assert.ok(
+    transcriptResult.some(
+      (entry) => entry?.messageId === 4324 && entry?.sender === 'user'
+    )
+  );
+  assert.ok(!transcriptResult.some((entry) => entry?.messageId === 4323));
+  assert.ok(!transcriptResult.some((entry) => entry?.messageId === 4325));
   const messages = providerFnMock.mock.calls[0].arguments[0];
   assert.strictEqual(messages[0].role, 'system');
   assert.strictEqual(messages[1].role, 'developer');
   const developerText = messages[1].content[0].text;
   assert.ok(developerText.includes('Quote candidates (newest first):'));
+  assert.ok(developerText.includes('user#4324'));
+  assert.ok(developerText.includes('Official WhatsApp order update'));
   assert.ok(developerText.includes('user#4321'));
   assert.ok(developerText.includes('assistant#4322'));
-  assert.ok(!developerText.includes('4323'));
+  assert.ok(!developerText.includes('user#4323'));
+  assert.ok(!developerText.includes('Twilio WhatsApp follow up (exclude)'));
+  assert.ok(!developerText.includes('user#4325'));
+  assert.ok(!developerText.includes('SMS follow up (exclude)'));
   assert.ok(developerText.includes('2024-05-15'));
   assert.deepStrictEqual(messages.slice(2), history);
   resetMocks();
