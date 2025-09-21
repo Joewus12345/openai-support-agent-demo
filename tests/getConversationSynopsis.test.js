@@ -7,6 +7,7 @@ const { toResponseMessage } = require('../lib/utils/toResponseMessage.ts');
 const { getConversationSynopsis } = require('../lib/getConversationSynopsis.ts');
 const conversationHistory = require('../lib/getConversationHistory.ts');
 const redis = require('../lib/redis.ts').default;
+const prisma = require('../lib/prisma.ts').default;
 
 test('getConversationSynopsis summarizes history and caches results', async (t) => {
   const cache = new Map();
@@ -17,9 +18,13 @@ test('getConversationSynopsis summarizes history and caches results', async (t) 
     cache.set(key, value);
     return 'OK';
   };
-  t.after(() => {
+  t.after(async () => {
     redis.get = originalGet;
     redis.set = originalSet;
+    if (typeof redis.disconnect === 'function') {
+      await redis.disconnect();
+    }
+    await prisma.$disconnect();
   });
 
   const sampleHistory = [
