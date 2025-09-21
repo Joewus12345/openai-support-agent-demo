@@ -20,13 +20,14 @@ import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
-import { toResponseMessage } from "@/lib/utils/toResponseMessage";
+import { toResponseMessage, type ResponseMessage } from "@/lib/utils/toResponseMessage";
 import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
-import { CHATWOOT_SYSTEM_PROMPT } from "@/config/constants";
+import { CHATWOOT_SYSTEM_PROMPT, MODEL } from "@/config/constants";
 import { getConversationKey } from "@/lib/getConversationKey";
 import { getConversationHistory } from "@/lib/getConversationHistory";
+import { getConversationSynopsis } from "@/lib/getConversationSynopsis";
 import {
   getConversationTranscript,
   type ConversationTranscriptEntry,
@@ -41,12 +42,19 @@ import {
 } from "@/lib/releaseAttempts";
 import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
 import { shouldQuoteInboundMessage } from "@/lib/quoteHeuristics";
+import {
+  estimateMessageTokens,
+  TOKEN_THRESHOLD,
+  type TiktokenModel,
+} from "@/lib/utils/tokenCounter";
 
 type HistoryTurn = { role: string; content: string };
 
 const QUOTE_TRANSCRIPT_USER_LIMIT = 4;
 const QUOTE_TRANSCRIPT_ASSISTANT_LIMIT = 2;
 const MAX_DEVELOPER_QUOTE_LINES = 6;
+const SYNOPSIS_HISTORY_LIMIT = 50;
+const PROMPT_HISTORY_LIMIT = 20;
 
 function formatQuoteTimestamp(date?: Date): string {
   if (!date || !(date instanceof Date) || Number.isNaN(date.getTime())) {
@@ -1041,17 +1049,20 @@ export async function POST(request: Request) {
       }
     };
 
-    let history = [] as any;
+    let fullHistory: ResponseMessage[] = [];
     try {
-      history = await getConversationHistory(conversationKey);
+      fullHistory = await getConversationHistory(
+        conversationKey,
+        SYNOPSIS_HISTORY_LIMIT
+      );
     } catch (err) {
       console.error("conversation history error", err);
       await sendFallback();
       return NextResponse.json({ status: "fallback" });
     }
 
-    if (enrichedContent && Array.isArray(history)) {
-      let updatedHistory = [...history];
+    if (enrichedContent && Array.isArray(fullHistory)) {
+      let updatedHistory = [...fullHistory];
       const hasEnrichedTurn = updatedHistory.some(
         (turn: any) =>
           turn?.role === "user" &&
@@ -1079,12 +1090,16 @@ export async function POST(request: Request) {
           ];
         }
       }
-      history = updatedHistory;
+      fullHistory = updatedHistory as ResponseMessage[];
     }
+
+    let promptHistory = Array.isArray(fullHistory)
+      ? fullHistory.slice(-PROMPT_HISTORY_LIMIT)
+      : [];
 
     try {
       const guardrailUserInput = enrichedContent ?? userInput;
-      const baseHistoryTurns: HistoryTurn[] = history
+      const baseHistoryTurns: HistoryTurn[] = promptHistory
         .filter((m: { role: string }) => m.role !== "developer")
         .map((m: { role: string; content: any[] }) => ({
           role: m.role,
@@ -1145,6 +1160,21 @@ export async function POST(request: Request) {
     }
     const developerPrompt = buildQuoteDeveloperPrompt(transcriptEntries);
 
+    let conversationSynopsis: string | undefined;
+    try {
+      const synopsisMessageId =
+        normalizedMessageId ??
+        (typeof messageId === "number" || typeof messageId === "string"
+          ? messageId
+          : undefined);
+      conversationSynopsis = await getConversationSynopsis(conversationKey, {
+        latestMessageId: synopsisMessageId,
+        history: fullHistory,
+      });
+    } catch (err) {
+      console.error("conversation synopsis error", err);
+    }
+
     let provider;
     try {
       provider = getProvider(undefined);
@@ -1161,11 +1191,39 @@ export async function POST(request: Request) {
       | { quoteMessageId?: number | null; forcePrivate?: boolean }
       | undefined;
     try {
-      const providerMessages = [
-        toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT),
-        ...(developerPrompt ? [toResponseMessage("developer", developerPrompt)] : []),
-        ...history,
+      const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
+      const synopsisMessages = conversationSynopsis
+        ? [toResponseMessage("developer", conversationSynopsis)]
+        : [];
+      const developerMessages = developerPrompt
+        ? [toResponseMessage("developer", developerPrompt)]
+        : [];
+
+      const buildProviderMessages = (historyEntries: ResponseMessage[]) => [
+        systemMessage,
+        ...synopsisMessages,
+        ...developerMessages,
+        ...historyEntries,
       ];
+
+      let trimmedHistory = [...promptHistory];
+      let providerMessages = buildProviderMessages(trimmedHistory);
+      let tokenEstimate = estimateMessageTokens(
+        providerMessages,
+        MODEL as TiktokenModel
+      );
+
+      while (trimmedHistory.length && tokenEstimate > TOKEN_THRESHOLD) {
+        trimmedHistory = trimmedHistory.slice(1);
+        providerMessages = buildProviderMessages(trimmedHistory);
+        tokenEstimate = estimateMessageTokens(
+          providerMessages,
+          MODEL as TiktokenModel
+        );
+      }
+
+      promptHistory = trimmedHistory;
+
       const events = provider(providerMessages, tools, {});
       for await (const { event, data } of events) {
         if (
@@ -1281,8 +1339,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "fallback" });
     }
 
-    const quoteHistoryTurns: HistoryTurn[] = Array.isArray(history)
-      ? history
+    const quoteHistoryTurns: HistoryTurn[] = Array.isArray(promptHistory)
+      ? promptHistory
           .filter((m: { role: string }) => m.role !== "developer")
           .map((m: { role: string; content: any[] }) => ({
             role: m.role,
