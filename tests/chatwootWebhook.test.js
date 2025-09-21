@@ -70,6 +70,13 @@ const getConversationHistoryMock = mock.method(
   async () => []
 );
 
+const conversationSynopsis = require('../lib/getConversationSynopsis.ts');
+const getConversationSynopsisMock = mock.method(
+  conversationSynopsis,
+  'getConversationSynopsis',
+  async () => undefined
+);
+
 const conversationTranscript = require('../lib/getConversationTranscript.ts');
 const originalGetConversationTranscript = conversationTranscript.getConversationTranscript;
 const getConversationTranscriptMock = mock.method(
@@ -134,6 +141,14 @@ redis.rpush = mock.fn(async () => {});
 redis.pipeline = mock.fn(() => redisPipelineMock);
 redis.lrange = mock.fn(async () => []);
 
+const tokenCounter = require('../lib/utils/tokenCounter.ts');
+const originalEstimateMessageTokens = tokenCounter.estimateMessageTokens;
+const estimateMessageTokensMock = mock.method(
+  tokenCounter,
+  'estimateMessageTokens',
+  (...args) => originalEstimateMessageTokens(...args)
+);
+
 const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
 const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
  
@@ -167,6 +182,8 @@ function resetMocks() {
   prisma.conversationMessage.findUnique.mock.resetCalls();
   getConversationHistoryMock.mock.resetCalls();
   getConversationTranscriptMock.mock.resetCalls();
+  getConversationSynopsisMock.mock.resetCalls();
+  getConversationSynopsisMock.mock.mockImplementation(async () => undefined);
   redis.exists.mock.resetCalls();
   redis.rpush.mock.resetCalls();
   redis.pipeline.mock.resetCalls();
@@ -174,6 +191,10 @@ function resetMocks() {
   redisPipelineMock.rpush.mock.resetCalls();
   redisPipelineMock.expire.mock.resetCalls();
   redisPipelineMock.exec.mock.resetCalls();
+  estimateMessageTokensMock.mock.resetCalls();
+  estimateMessageTokensMock.mock.mockImplementation((...args) =>
+    originalEstimateMessageTokens(...args)
+  );
   runRelevanceGuardrailMock.mock.resetCalls();
   runRelevanceGuardrailMock.mock.mockImplementation(async () => ({
     tripwireTriggered: false,
@@ -839,18 +860,24 @@ test('chatwoot webhook processes incoming message', async () => {
     toResponseMessage('user', 'Hello'),
   ];
   getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+  getConversationSynopsisMock.mock.mockImplementationOnce(async () => 'Mock synopsis');
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
   const res = await webhookPost(req);
-  await res.json();
+  const result = await res.json();
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   assert.strictEqual(getProviderMock.mock.calls.length, 1);
-  assert.deepStrictEqual(
-    providerFnMock.mock.calls[0].arguments[0],
-    [toResponseMessage('system', CHATWOOT_SYSTEM_PROMPT), ...history]
-  );
+  assert.strictEqual(getConversationSynopsisMock.mock.calls.length, 1);
+  const synopsisCall = getConversationSynopsisMock.mock.calls[0];
+  assert.strictEqual(synopsisCall.arguments[0], 'chatwoot:7:1:7');
+  const expectedMessages = [
+    toResponseMessage('system', CHATWOOT_SYSTEM_PROMPT),
+    toResponseMessage('developer', 'Mock synopsis'),
+    ...history,
+  ];
+  assert.deepStrictEqual(providerFnMock.mock.calls[0].arguments[0], expectedMessages);
   const call = sendBotMessageMock.mock.calls[0].arguments;
   assert.strictEqual(call[0], 7);
   assert.strictEqual(call[1], 7);
@@ -941,8 +968,10 @@ test('chatwoot webhook includes developer quote guidance when transcript exists'
     method: 'POST',
     body: JSON.stringify(payload),
   });
+  getConversationSynopsisMock.mock.mockImplementationOnce(async () => 'Quote summary');
   const res = await webhookPost(req);
-  await res.json();
+  const result = await res.json();
+  assert.ok(result);
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   assert.strictEqual(getProviderMock.mock.calls.length, 1);
   assert.strictEqual(getConversationTranscriptMock.mock.calls.length, 1);
@@ -964,7 +993,9 @@ test('chatwoot webhook includes developer quote guidance when transcript exists'
   const messages = providerFnMock.mock.calls[0].arguments[0];
   assert.strictEqual(messages[0].role, 'system');
   assert.strictEqual(messages[1].role, 'developer');
-  const developerText = messages[1].content[0].text;
+  assert.strictEqual(messages[1].content[0].text, 'Quote summary');
+  assert.strictEqual(messages[2].role, 'developer');
+  const developerText = messages[2].content[0].text;
   assert.ok(developerText.includes('Quote candidates (newest first):'));
   assert.ok(developerText.includes('user#4324'));
   assert.ok(developerText.includes('Official WhatsApp order update'));
@@ -975,7 +1006,56 @@ test('chatwoot webhook includes developer quote guidance when transcript exists'
   assert.ok(!developerText.includes('user#4325'));
   assert.ok(!developerText.includes('SMS follow up (exclude)'));
   assert.ok(developerText.includes('2024-05-15'));
-  assert.deepStrictEqual(messages.slice(2), history);
+  assert.deepStrictEqual(messages.slice(3), history);
+  resetMocks();
+});
+
+test('chatwoot webhook trims prompt when token estimate exceeds threshold', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 702,
+        message_type: 0,
+        content: 'Please help again',
+        account: { id: 71 },
+        conversation: { id: 71, inbox_id: 1, status: 'resolved', account_id: 71 },
+      },
+    },
+  };
+  const history = Array.from({ length: 5 }, (_, index) =>
+    toResponseMessage(index % 2 === 0 ? 'user' : 'assistant', `turn-${index}`)
+  );
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+  getConversationSynopsisMock.mock.mockImplementationOnce(async () => 'Token summary');
+  estimateMessageTokensMock.mock.mockImplementation((messages) => {
+    const arr = Array.isArray(messages) ? messages : [];
+    return arr.length * 6000;
+  });
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  const tokenCalls = estimateMessageTokensMock.mock.calls;
+  assert.ok(tokenCalls.length >= 1);
+  const firstMessages = tokenCalls[0].arguments[0];
+  const finalMessages = tokenCalls[tokenCalls.length - 1].arguments[0];
+  assert.ok(Array.isArray(firstMessages));
+  assert.ok(Array.isArray(finalMessages));
+  assert.ok(finalMessages.length < firstMessages.length);
+  assert.strictEqual(finalMessages.length, 4);
+  assert.strictEqual(finalMessages[0].role, 'system');
+  assert.strictEqual(finalMessages[1].role, 'developer');
+  assert.strictEqual(finalMessages[1].content[0].text, 'Token summary');
+  const trimmedHistory = finalMessages.slice(2);
+  assert.strictEqual(trimmedHistory.length, 2);
+  assert.deepStrictEqual(
+    trimmedHistory.map((m) => m.content[0].text),
+    history.slice(-2).map((m) => m.content[0].text)
+  );
   resetMocks();
 });
 
