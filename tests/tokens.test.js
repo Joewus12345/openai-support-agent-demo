@@ -1,6 +1,6 @@
 const assert = require('assert');
 const test = require('node:test');
-const { estimateMessageTokens } = require('../lib/assistant');
+const { estimateMessageTokens } = require('../lib/utils/tokenCounter.ts');
 const { getEncoding } = require('js-tiktoken');
 
 test('estimateMessageTokens falls back to generic encoding on unknown model', () => {

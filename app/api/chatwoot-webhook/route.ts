@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
+import { parse } from "partial-json";
 import type { ChatwootWebhookPayload, Conversation } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import redis from "@/lib/redis";
+import {
+  resolveBotMessageIdentifiers,
+  storeBotMessage,
+} from "@/lib/storeBotMessage";
 import handOff from "@/lib/handoff";
 import {
   getConversation,
+  getConversationMessages,
   getConversationLabels,
   setConversationLabels,
 } from "@/lib/chatwoot";
@@ -14,13 +20,18 @@ import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
-import { toResponseMessage } from "@/lib/utils/toResponseMessage";
+import { toResponseMessage, type ResponseMessage } from "@/lib/utils/toResponseMessage";
 import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
-import { CHATWOOT_SYSTEM_PROMPT } from "@/config/constants";
+import { CHATWOOT_SYSTEM_PROMPT, MODEL } from "@/config/constants";
 import { getConversationKey } from "@/lib/getConversationKey";
 import { getConversationHistory } from "@/lib/getConversationHistory";
+import { getConversationSynopsis } from "@/lib/getConversationSynopsis";
+import {
+  getConversationTranscript,
+  type ConversationTranscriptEntry,
+} from "@/lib/getConversationTranscript";
 import {
   runRelevanceGuardrail,
   runJailbreakGuardrail,
@@ -30,6 +41,236 @@ import {
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
 import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
+import { shouldQuoteInboundMessage } from "@/lib/quoteHeuristics";
+import {
+  estimateMessageTokens,
+  TOKEN_THRESHOLD,
+  type TiktokenModel,
+} from "@/lib/utils/tokenCounter";
+
+type HistoryTurn = { role: string; content: string };
+
+const QUOTE_TRANSCRIPT_USER_LIMIT = 4;
+const QUOTE_TRANSCRIPT_ASSISTANT_LIMIT = 2;
+const MAX_DEVELOPER_QUOTE_LINES = 6;
+const SYNOPSIS_HISTORY_LIMIT = 50;
+const PROMPT_HISTORY_LIMIT = 20;
+
+function formatQuoteTimestamp(date?: Date): string {
+  if (!date || !(date instanceof Date) || Number.isNaN(date.getTime())) {
+    return "unknown-date";
+  }
+  return date.toISOString().slice(0, 10);
+}
+
+function buildQuoteDeveloperPrompt(
+  entries: ConversationTranscriptEntry[]
+): string | undefined {
+  if (!Array.isArray(entries) || !entries.length) {
+    return undefined;
+  }
+  const eligible = entries.filter((entry) => {
+    if (!entry?.quoteEligible) {
+      return false;
+    }
+    if (typeof entry.messageId !== "number" || !Number.isFinite(entry.messageId)) {
+      return false;
+    }
+    if (typeof entry.contentSnippet !== "string") {
+      return false;
+    }
+    return entry.contentSnippet.trim().length > 0;
+  });
+  if (!eligible.length) {
+    return undefined;
+  }
+  const limited = eligible.slice(0, MAX_DEVELOPER_QUOTE_LINES);
+  const lines = limited.map((entry) => {
+    const snippet = entry.contentSnippet.trim();
+    const prefix = `${entry.sender}#${entry.messageId}`;
+    const timestamp = formatQuoteTimestamp(entry.createdAt);
+    return `${prefix} · ${timestamp} · ${snippet}`;
+  });
+  return `Quote candidates (newest first):\n${lines.join("\n")}`;
+}
+
+function normalizeHistoryTurnFromMessage(message: any): HistoryTurn | undefined {
+  if (!message) {
+    return undefined;
+  }
+
+  const rawContent = (message as any)?.content;
+  if (rawContent === undefined || rawContent === null) {
+    return undefined;
+  }
+
+  const content =
+    typeof rawContent === "string" ? rawContent : JSON.stringify(rawContent);
+
+  const senderRaw =
+    (message as any)?.sender?.type ??
+    (message as any)?.sender_type ??
+    (message as any)?.sender?.role ??
+    (message as any)?.sender_role ??
+    (message as any)?.sender?.name ??
+    (message as any)?.senderName ??
+    undefined;
+
+  const senderLower =
+    typeof senderRaw === "string" ? senderRaw.toLowerCase() : undefined;
+  const messageType = (message as any)?.message_type;
+
+  let role: HistoryTurn["role"] = "user";
+  if (senderLower && senderLower.includes("bot")) {
+    role = "assistant";
+  } else if (typeof messageType === "string") {
+    role = messageType.toLowerCase() === "outgoing" ? "assistant" : "user";
+  } else if (typeof messageType === "number") {
+    role = messageType === 1 ? "assistant" : "user";
+  }
+
+  return { role, content };
+}
+
+function parseMessageId(value: unknown): number | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return undefined;
+    }
+    const parsed = Number.parseInt(trimmed, 10);
+    if (!Number.isNaN(parsed)) {
+      return parsed;
+    }
+  }
+  return undefined;
+}
+
+function extractReferencedMessageId(message: any): number | undefined {
+  const attributes = message?.content_attributes;
+  if (!attributes || typeof attributes !== "object") {
+    return undefined;
+  }
+
+  const candidateKeys = [
+    "in_reply_to",
+    "in_reply_to_id",
+    "in_reply_to_message_id",
+    "in_reply_to_source_id",
+    "reply_to_id",
+    "reply_to_message_id",
+    "replied_to_message_id",
+    "quoted_message",
+    "quoted_message_id",
+    "referenced_message_id",
+    "reference_message_id",
+  ];
+
+  for (const key of candidateKeys) {
+    const value = (attributes as Record<string, unknown>)[key];
+    const direct = parseMessageId(value);
+    if (direct !== undefined) {
+      return direct;
+    }
+    if (value && typeof value === "object") {
+      const nested =
+        parseMessageId((value as Record<string, unknown>).id) ??
+        parseMessageId((value as Record<string, unknown>).message_id) ??
+        parseMessageId((value as Record<string, unknown>).messageId) ??
+        parseMessageId((value as Record<string, unknown>).messageID);
+      if (nested !== undefined) {
+        return nested;
+      }
+    }
+  }
+
+  for (const value of Object.values(attributes as Record<string, unknown>)) {
+    if (value && typeof value === "object") {
+      const nested =
+        parseMessageId((value as Record<string, unknown>).id) ??
+        parseMessageId((value as Record<string, unknown>).message_id) ??
+        parseMessageId((value as Record<string, unknown>).messageId) ??
+        parseMessageId((value as Record<string, unknown>).messageID);
+      if (nested !== undefined) {
+        return nested;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+async function getReferencedHistoryTurn(
+  conversationKey: string,
+  messageId: number
+): Promise<HistoryTurn | undefined> {
+  if (!Number.isFinite(messageId)) {
+    return undefined;
+  }
+
+  let stored:
+    | { sender?: string | null; content?: unknown }
+    | undefined;
+
+  try {
+    const redisClient = redis as unknown as {
+      lrange?: (
+        key: string,
+        start: number,
+        stop: number
+      ) => Promise<string[] | null | undefined>;
+    };
+    if (typeof redisClient?.lrange === "function") {
+      const entries = await redisClient.lrange(conversationKey, 0, -1);
+      if (Array.isArray(entries)) {
+        for (let i = entries.length - 1; i >= 0; i -= 1) {
+          const entry = entries[i];
+          if (!entry) {
+            continue;
+          }
+          try {
+            const parsed = JSON.parse(entry);
+            if (Number(parsed?.messageId) === messageId) {
+              stored = { sender: parsed?.sender, content: parsed?.content };
+              break;
+            }
+          } catch {
+            // ignore malformed entries
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.error("referenced message redis fetch error", err);
+  }
+
+  if (!stored) {
+    try {
+      const record = await prisma.conversationMessage.findUnique({
+        where: { conversationKey_messageId: { conversationKey, messageId } },
+      });
+      if (record) {
+        stored = { sender: record.sender, content: record.content };
+      }
+    } catch (err) {
+      console.error("referenced message prisma fetch error", err);
+    }
+  }
+
+  if (!stored?.content) {
+    return undefined;
+  }
+
+  const role = stored.sender === "bot" ? "assistant" : "user";
+  const content =
+    typeof stored.content === "string"
+      ? stored.content
+      : JSON.stringify(stored.content);
+  return { role, content };
+}
 
 export async function POST(request: Request) {
   try {
@@ -66,6 +307,89 @@ export async function POST(request: Request) {
       (message as any)?.sender?.name ??
       "";
 
+    const userInput =
+      typeof content === "string"
+        ? content
+        : typeof content === "object"
+          ? JSON.stringify(content)
+          : String(content ?? "");
+    const normalizedMessageId = parseMessageId(messageId);
+    const referencedMessageId = extractReferencedMessageId(message);
+    const defaultReplyToId =
+      typeof referencedMessageId === "number" &&
+      Number.isFinite(referencedMessageId)
+        ? referencedMessageId
+        : typeof normalizedMessageId === "number" &&
+            Number.isFinite(normalizedMessageId)
+          ? normalizedMessageId
+          : undefined;
+    let referencedTurn: HistoryTurn | undefined;
+
+    if (
+      accountId !== undefined &&
+      conversationId !== undefined &&
+      typeof referencedMessageId === "number" &&
+      referencedMessageId !== normalizedMessageId
+    ) {
+      referencedTurn = await getReferencedHistoryTurn(
+        conversationKey,
+        referencedMessageId
+      );
+      if (!referencedTurn) {
+        try {
+          const remoteMessagesResponse = await getConversationMessages(
+            accountId,
+            conversationId
+          );
+          const candidateLists = [
+            (remoteMessagesResponse as any)?.payload,
+            (remoteMessagesResponse as any)?.data,
+            remoteMessagesResponse,
+          ];
+          let remoteMessages: any[] = [];
+          for (const candidate of candidateLists) {
+            if (Array.isArray(candidate)) {
+              remoteMessages = candidate;
+              break;
+            }
+          }
+          const referencedMessage = remoteMessages.find((m: any) => {
+            const id = parseMessageId(m?.id);
+            const sourceId = parseMessageId((m as any)?.source_id);
+            const idString =
+              typeof (m as any)?.id === "string" ? (m as any).id.trim() : undefined;
+            const sourceIdString =
+              typeof (m as any)?.source_id === "string"
+                ? (m as any).source_id.trim()
+                : undefined;
+            const referencedMessageIdString = String(referencedMessageId);
+            return (
+              (typeof id === "number" && id === referencedMessageId) ||
+              (typeof sourceId === "number" && sourceId === referencedMessageId) ||
+              (idString !== undefined && idString === referencedMessageIdString) ||
+              (sourceIdString !== undefined &&
+                sourceIdString === referencedMessageIdString)
+            );
+          });
+          referencedTurn = normalizeHistoryTurnFromMessage(referencedMessage);
+        } catch (err) {
+          console.error("referenced message remote fetch error", err);
+        }
+      }
+      if (!referencedTurn) {
+        console.warn("referenced message not found", {
+          accountId,
+          conversationId,
+          referencedMessageId,
+        });
+      }
+    }
+
+    const enrichedContent = referencedTurn
+      ? `Customer referenced: "${referencedTurn.content}"\n\n${userInput}`
+      : undefined;
+    const storedContent = enrichedContent ?? userInput;
+
     if (
       messageId !== undefined &&
       conversationId !== undefined &&
@@ -95,10 +419,7 @@ export async function POST(request: Request) {
             inboxId,
             conversationKey,
             sender,
-            content:
-              typeof content === "string"
-                ? content
-                : JSON.stringify(content),
+            content: storedContent,
             createdAt,
           },
         });
@@ -137,10 +458,7 @@ export async function POST(request: Request) {
                     inboxId,
                     conversationKey,
                     sender,
-                    content:
-                      typeof content === "string"
-                        ? content
-                        : JSON.stringify(content),
+                    content: storedContent,
                     createdAt,
                   })
                 );
@@ -229,6 +547,108 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "ignored" });
     }
 
+    const mode = INBOX_MODE[inboxId] ?? "auto";
+
+    const buildReplyOptions = (
+      overrides?: { quoteMessageId?: number | null; forcePrivate?: boolean }
+    ) => {
+      const options: { private?: boolean; inReplyTo?: number } = {};
+      const forcePrivate = overrides?.forcePrivate;
+      const quoteMessageId = overrides?.quoteMessageId;
+      const privateValue =
+        typeof forcePrivate === "boolean" ? forcePrivate : mode !== "auto";
+      options.private = privateValue;
+
+      const hasOverrides = overrides !== undefined;
+      const hasQuoteProp =
+        hasOverrides &&
+        Object.prototype.hasOwnProperty.call(
+          overrides as Record<string, unknown>,
+          "quoteMessageId"
+        );
+
+      if (quoteMessageId === null) {
+        return options;
+      }
+
+      if (
+        typeof quoteMessageId === "number" &&
+        Number.isFinite(quoteMessageId)
+      ) {
+        options.inReplyTo = quoteMessageId;
+        return options;
+      }
+
+      if (
+        hasOverrides &&
+        !hasQuoteProp &&
+        typeof defaultReplyToId === "number" &&
+        Number.isFinite(defaultReplyToId)
+      ) {
+        options.inReplyTo = defaultReplyToId;
+      }
+
+      return options;
+    };
+
+    const logAssistantResponse = async (
+      response: unknown,
+      fallbackContent: string
+    ) => {
+      if (!response || typeof response !== "object") {
+        console.warn("sendBotMessage response missing payload", {
+          accountId,
+          conversationId,
+        });
+        return;
+      }
+
+      const { messageId: directMessageId, sourceId, inboxId: responseInboxId } =
+        resolveBotMessageIdentifiers(response);
+      const resolvedMessageId =
+        typeof directMessageId === "number"
+          ? directMessageId
+          : typeof sourceId === "number"
+            ? sourceId
+            : undefined;
+      const fallbackInboxId =
+        typeof inboxId === "number" ? inboxId : undefined;
+      const resolvedInboxId =
+        typeof responseInboxId === "number"
+          ? responseInboxId
+          : fallbackInboxId;
+
+      if (
+        typeof resolvedMessageId !== "number" ||
+        typeof resolvedInboxId !== "number"
+      ) {
+        console.warn("sendBotMessage response missing identifiers", {
+          hasMessageId: typeof directMessageId === "number",
+          hasSourceId: typeof sourceId === "number",
+          hasInboxId: typeof resolvedInboxId === "number",
+          accountId,
+          conversationId,
+        });
+        return;
+      }
+
+      const resolvedConversationKey =
+        typeof inboxId === "number" && inboxId === resolvedInboxId
+          ? conversationKey
+          : undefined;
+
+      await storeBotMessage({
+        accountId,
+        conversationId,
+        messageId: resolvedMessageId,
+        inboxId: resolvedInboxId,
+        payload: response,
+        sourceId,
+        fallbackContent,
+        conversationKey: resolvedConversationKey,
+      });
+    };
+
     // Reuse conversation data from the payload when possible.
     // Only fetch from Chatwoot if we are missing critical fields like `status`.
     let status = conversation?.status;
@@ -244,7 +664,11 @@ export async function POST(request: Request) {
           status = retry?.status;
         } catch (retryErr) {
           console.error("retry fetch conversation error", retryErr);
-          await notifyMessageIssue(accountId, conversationId);
+          await notifyMessageIssue(
+            accountId,
+            conversationId,
+            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+          );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
             { status: 200 }
@@ -300,7 +724,11 @@ export async function POST(request: Request) {
             } catch (err) {
               console.error("updateRequest error", err);
               try {
-                await notifyHandoffIssue(accountId, conversationId);
+                await notifyHandoffIssue(
+                  accountId,
+                  conversationId,
+                  buildReplyOptions({ quoteMessageId: defaultReplyToId })
+                );
               } catch (err2) {
                 console.error("fallback notifyHandoffIssue error", err2);
               }
@@ -311,9 +739,14 @@ export async function POST(request: Request) {
               accountId,
               conversationId,
             });
-            await sendBotMessage(
+            const botResponse = await sendBotMessage(
               accountId,
               conversationId,
+              "A human agent will join shortly.",
+              buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            );
+            await logAssistantResponse(
+              botResponse,
               "A human agent will join shortly."
             );
             console.info("handoff", "message sent");
@@ -375,7 +808,11 @@ export async function POST(request: Request) {
         } catch (err) {
           console.error("updateRequest error", err);
           try {
-            await notifyHandoffIssue(accountId, conversationId);
+            await notifyHandoffIssue(
+              accountId,
+              conversationId,
+              buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            );
           } catch (err2) {
             console.error("fallback notifyHandoffIssue error", err2);
           }
@@ -430,7 +867,11 @@ export async function POST(request: Request) {
           console.info("handoff", "conversation fetched", currentConversation);
         } catch (err) {
           console.error("handoff", "conversation fetch error", err);
-          await notifyMessageIssue(accountId, conversationId);
+          await notifyMessageIssue(
+            accountId,
+            conversationId,
+            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+          );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
             { status: 200 }
@@ -465,7 +906,11 @@ export async function POST(request: Request) {
           } catch (err) {
             console.error("enqueueRequest error", err);
             try {
-              await notifyHandoffIssue(accountId, conversationId);
+              await notifyHandoffIssue(
+                accountId,
+                conversationId,
+                buildReplyOptions({ quoteMessageId: defaultReplyToId })
+              );
             } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
             }
@@ -488,7 +933,11 @@ export async function POST(request: Request) {
               } catch (err) {
                 console.error("updateRequest error", err);
                 try {
-                  await notifyHandoffIssue(accountId, conversationId);
+                  await notifyHandoffIssue(
+                    accountId,
+                    conversationId,
+                    buildReplyOptions({ quoteMessageId: defaultReplyToId })
+                  );
                 } catch (err2) {
                   console.error("fallback notifyHandoffIssue error", err2);
                 }
@@ -503,9 +952,14 @@ export async function POST(request: Request) {
             accountId,
             conversationId,
           });
-          await sendBotMessage(
+          const confirmationResponse = await sendBotMessage(
             accountId,
             conversationId,
+            "A human agent will join shortly.",
+            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+          );
+          await logAssistantResponse(
+            confirmationResponse,
             "A human agent will join shortly."
           );
           console.info("handoff", "message sent");
@@ -532,11 +986,15 @@ export async function POST(request: Request) {
               inboxId
             );
             console.info("handoff", "request enqueued");
-          } catch (err) {
-            console.error("enqueueRequest error", err);
-            try {
-              await notifyHandoffIssue(accountId, conversationId);
-            } catch (err2) {
+        } catch (err) {
+          console.error("enqueueRequest error", err);
+          try {
+            await notifyHandoffIssue(
+              accountId,
+              conversationId,
+              buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            );
+          } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
             }
             return NextResponse.json({ status: "fallback" });
@@ -558,9 +1016,14 @@ export async function POST(request: Request) {
               accountId,
               conversationId,
             });
-          await sendBotMessage(
+          const botResponse = await sendBotMessage(
             accountId,
             conversationId,
+            "All human agents are currently busy. Please wait for the next available agent.",
+            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+          );
+          await logAssistantResponse(
+            botResponse,
             "All human agents are currently busy. Please wait for the next available agent."
           );
           console.info("handoff", "message sent");
@@ -571,51 +1034,112 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "handoff" });
     }
 
-    const mode = INBOX_MODE[inboxId] ?? "auto";
-
     let fallbackSent = false;
     const sendFallback = async () => {
       if (fallbackSent) return;
       fallbackSent = true;
       try {
-        await notifyMessageIssue(accountId, conversationId, {
-          private: mode !== "auto",
-        });
+        await notifyMessageIssue(
+          accountId,
+          conversationId,
+          buildReplyOptions({ quoteMessageId: defaultReplyToId })
+        );
       } catch (err) {
         console.error("fallback notifyMessageIssue error", err);
       }
     };
 
-    let history = [] as any;
+    let fullHistory: ResponseMessage[] = [];
     try {
-      history = await getConversationHistory(conversationKey);
+      fullHistory = await getConversationHistory(
+        conversationKey,
+        SYNOPSIS_HISTORY_LIMIT
+      );
     } catch (err) {
       console.error("conversation history error", err);
       await sendFallback();
       return NextResponse.json({ status: "fallback" });
     }
 
+    if (enrichedContent && Array.isArray(fullHistory)) {
+      let updatedHistory = [...fullHistory];
+      const hasEnrichedTurn = updatedHistory.some(
+        (turn: any) =>
+          turn?.role === "user" &&
+          Array.isArray(turn?.content) &&
+          turn.content.some((c: any) => c?.text === enrichedContent)
+      );
+      if (!hasEnrichedTurn) {
+        let replaced = false;
+        for (let i = updatedHistory.length - 1; i >= 0; i -= 1) {
+          const turn = updatedHistory[i];
+          if (
+            turn?.role === "user" &&
+            Array.isArray(turn?.content) &&
+            turn.content.some((c: any) => c?.text === userInput)
+          ) {
+            updatedHistory[i] = toResponseMessage("user", enrichedContent);
+            replaced = true;
+            break;
+          }
+        }
+        if (!replaced) {
+          updatedHistory = [
+            ...updatedHistory,
+            toResponseMessage("user", enrichedContent),
+          ];
+        }
+      }
+      fullHistory = updatedHistory as ResponseMessage[];
+    }
+
+    let promptHistory = Array.isArray(fullHistory)
+      ? fullHistory.slice(-PROMPT_HISTORY_LIMIT)
+      : [];
+
     try {
-      const conversationInput = history
-        .filter((m: { role: string; }) => m.role !== "developer")
-        .map((m: { content: any[]; }) => m.content.map((c: { text: any; }) => c.text).join(" "))
-        .join(" ");
-      const userInput =
-        typeof content === "string"
-          ? content
-          : typeof content === "object"
-            ? JSON.stringify(content)
-            : String(content ?? "");
+      const guardrailUserInput = enrichedContent ?? userInput;
+      const baseHistoryTurns: HistoryTurn[] = promptHistory
+        .filter((m: { role: string }) => m.role !== "developer")
+        .map((m: { role: string; content: any[] }) => ({
+          role: m.role,
+          content: m.content.map((c: { text: any }) => c.text).join(" "),
+        }));
+      const historyTurns = referencedTurn
+        ? [referencedTurn, ...baseHistoryTurns]
+        : baseHistoryTurns;
+      let recentTurns = historyTurns.slice(-6);
+      if (
+        referencedTurn &&
+        !recentTurns.some(
+          (turn) =>
+            turn.role === referencedTurn.role &&
+            turn.content === referencedTurn.content
+        )
+      ) {
+        recentTurns =
+          recentTurns.length >= 6
+            ? [...recentTurns.slice(1), referencedTurn]
+            : [...recentTurns, referencedTurn];
+      }
+      const relevanceInput = JSON.stringify([
+        ...recentTurns,
+        { role: "user", content: guardrailUserInput },
+      ]);
       const relevance = await runRelevanceGuardrail({
-        input: conversationInput,
+        input: relevanceInput,
       });
-      const jailbreak = await runJailbreakGuardrail({ input: userInput });
+      const jailbreak = await runJailbreakGuardrail({ input: guardrailUserInput });
       if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
-        await sendBotMessage(
+        const guardrailResponse = await sendBotMessage(
           accountId,
           conversationId,
           "I can't assist with that request.",
-          { private: mode !== "auto" }
+          buildReplyOptions({ quoteMessageId: defaultReplyToId })
+        );
+        await logAssistantResponse(
+          guardrailResponse,
+          "I can't assist with that request."
         );
         return NextResponse.json({ status: "guardrail" });
       }
@@ -623,6 +1147,32 @@ export async function POST(request: Request) {
       console.error("guardrail check error", err);
       await sendFallback();
       return NextResponse.json({ status: "fallback" });
+    }
+
+    let transcriptEntries: ConversationTranscriptEntry[] = [];
+    try {
+      transcriptEntries = await getConversationTranscript(conversationKey, {
+        userLimit: QUOTE_TRANSCRIPT_USER_LIMIT,
+        assistantLimit: QUOTE_TRANSCRIPT_ASSISTANT_LIMIT,
+      });
+    } catch (err) {
+      console.error("conversation transcript error", err);
+    }
+    const developerPrompt = buildQuoteDeveloperPrompt(transcriptEntries);
+
+    let conversationSynopsis: string | undefined;
+    try {
+      const synopsisMessageId =
+        normalizedMessageId ??
+        (typeof messageId === "number" || typeof messageId === "string"
+          ? messageId
+          : undefined);
+      conversationSynopsis = await getConversationSynopsis(conversationKey, {
+        latestMessageId: synopsisMessageId,
+        history: fullHistory,
+      });
+    } catch (err) {
+      console.error("conversation synopsis error", err);
     }
 
     let provider;
@@ -635,18 +1185,152 @@ export async function POST(request: Request) {
     }
 
     let replyText = "";
+    let pendingReplyReferenceId: string | undefined;
+    let pendingReplyReferenceArgs = "";
+    let replyReferenceOverride:
+      | { quoteMessageId?: number | null; forcePrivate?: boolean }
+      | undefined;
     try {
-      const events = provider(
-        [toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT), ...history],
-        tools,
-        {}
+      const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
+      const synopsisMessages = conversationSynopsis
+        ? [toResponseMessage("developer", conversationSynopsis)]
+        : [];
+      const developerMessages = developerPrompt
+        ? [toResponseMessage("developer", developerPrompt)]
+        : [];
+
+      const buildProviderMessages = (historyEntries: ResponseMessage[]) => [
+        systemMessage,
+        ...synopsisMessages,
+        ...developerMessages,
+        ...historyEntries,
+      ];
+
+      let trimmedHistory = [...promptHistory];
+      let providerMessages = buildProviderMessages(trimmedHistory);
+      let tokenEstimate = estimateMessageTokens(
+        providerMessages,
+        MODEL as TiktokenModel
       );
+
+      while (trimmedHistory.length && tokenEstimate > TOKEN_THRESHOLD) {
+        trimmedHistory = trimmedHistory.slice(1);
+        providerMessages = buildProviderMessages(trimmedHistory);
+        tokenEstimate = estimateMessageTokens(
+          providerMessages,
+          MODEL as TiktokenModel
+        );
+      }
+
+      promptHistory = trimmedHistory;
+
+      const events = provider(providerMessages, tools, {});
       for await (const { event, data } of events) {
         if (
           event === "response.output_text.delta" &&
           typeof data?.delta === "string"
         ) {
           replyText += data.delta;
+          continue;
+        }
+
+        if (event === "response.output_item.added") {
+          const item = (data as any)?.item;
+          const itemName = item?.name ?? item?.function?.name;
+          if (
+            item?.type === "function_call" &&
+            itemName === "set_reply_reference"
+          ) {
+            const rawId =
+              item?.call_id ??
+              item?.id ??
+              item?.tool_call_id ??
+              item?.item_id ??
+              item?.callId;
+            pendingReplyReferenceId =
+              typeof rawId === "string"
+                ? rawId
+                : typeof rawId === "number"
+                  ? String(rawId)
+                  : undefined;
+            pendingReplyReferenceArgs =
+              typeof item?.arguments === "string" ? item.arguments : "";
+          }
+          continue;
+        }
+
+        if (event === "response.function_call_arguments.delta") {
+          const itemIdRaw =
+            (data as any)?.item_id ??
+            (data as any)?.id ??
+            (data as any)?.call_id ??
+            (data as any)?.tool_call_id;
+          const normalizedId =
+            typeof itemIdRaw === "string"
+              ? itemIdRaw
+              : typeof itemIdRaw === "number"
+                ? String(itemIdRaw)
+                : undefined;
+          if (
+            pendingReplyReferenceId &&
+            normalizedId === pendingReplyReferenceId &&
+            typeof (data as any)?.delta === "string"
+          ) {
+            pendingReplyReferenceArgs += (data as any).delta;
+          }
+          continue;
+        }
+
+        if (event === "response.function_call_arguments.done") {
+          const itemIdRaw =
+            (data as any)?.item_id ??
+            (data as any)?.id ??
+            (data as any)?.call_id ??
+            (data as any)?.tool_call_id;
+          const normalizedId =
+            typeof itemIdRaw === "string"
+              ? itemIdRaw
+              : typeof itemIdRaw === "number"
+                ? String(itemIdRaw)
+                : undefined;
+          if (pendingReplyReferenceId && normalizedId === pendingReplyReferenceId) {
+            let finalArgs = "";
+            if (typeof (data as any)?.arguments === "string") {
+              finalArgs = (data as any).arguments;
+            }
+            if (!finalArgs) {
+              finalArgs = pendingReplyReferenceArgs;
+            }
+            if (finalArgs) {
+              try {
+                const parsedArgs = parse(finalArgs) as any;
+                const parsedUseQuotes =
+                  typeof parsedArgs?.use_quotes === "boolean"
+                    ? parsedArgs.use_quotes
+                    : typeof parsedArgs?.useQuotes === "boolean"
+                      ? parsedArgs.useQuotes
+                      : undefined;
+                const parsedMessageId = parseMessageId(
+                  parsedArgs?.message_id ??
+                    parsedArgs?.messageId ??
+                    parsedArgs?.messageID
+                );
+                if (parsedUseQuotes === false) {
+                  replyReferenceOverride = { quoteMessageId: null };
+                } else if (typeof parsedMessageId === "number") {
+                  replyReferenceOverride = {
+                    quoteMessageId: parsedMessageId,
+                  };
+                } else if (parsedUseQuotes === true) {
+                  replyReferenceOverride = {};
+                }
+              } catch (err) {
+                console.warn("set_reply_reference parse error", err);
+              }
+            }
+            pendingReplyReferenceId = undefined;
+            pendingReplyReferenceArgs = "";
+          }
         }
       }
     } catch (err) {
@@ -655,10 +1339,46 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "fallback" });
     }
 
-    try {
-      await sendBotMessage(accountId, conversationId, replyText, {
-        private: mode !== "auto",
+    const quoteHistoryTurns: HistoryTurn[] = Array.isArray(promptHistory)
+      ? promptHistory
+          .filter((m: { role: string }) => m.role !== "developer")
+          .map((m: { role: string; content: any[] }) => ({
+            role: m.role,
+            content: m.content.map((c: { text: any }) => c.text).join(" "),
+          }))
+      : [];
+
+    let finalReplyReference = replyReferenceOverride;
+    if (finalReplyReference === undefined) {
+      const shouldQuote = shouldQuoteInboundMessage({
+        messageText: userInput,
+        referencedMessageId,
+        referencedMessageContent: referencedTurn?.content,
+        history: quoteHistoryTurns,
       });
+      if (shouldQuote) {
+        const preferredQuoteId =
+          typeof referencedMessageId === "number" &&
+          Number.isFinite(referencedMessageId)
+            ? referencedMessageId
+            : typeof defaultReplyToId === "number" &&
+                Number.isFinite(defaultReplyToId)
+              ? defaultReplyToId
+              : undefined;
+        if (typeof preferredQuoteId === "number") {
+          finalReplyReference = { quoteMessageId: preferredQuoteId };
+        }
+      }
+    }
+
+    try {
+      const finalResponse = await sendBotMessage(
+        accountId,
+        conversationId,
+        replyText,
+        buildReplyOptions(finalReplyReference)
+      );
+      await logAssistantResponse(finalResponse, replyText);
     } catch (err) {
       console.error("sendBotMessage error", err);
       await sendFallback();

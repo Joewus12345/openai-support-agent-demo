@@ -4,6 +4,10 @@ import {
   sendBotMessage,
 } from "@/lib/chatwootBot";
 import { setAgentAvailability, updateConversation } from "@/lib/chatwoot";
+import {
+  resolveBotMessageIdentifiers,
+  storeBotMessage,
+} from "@/lib/storeBotMessage";
 
 export async function handOff(
   accountId: number,
@@ -33,11 +37,49 @@ export async function handOff(
       console.error("rollback conversation error", error);
     }
     try {
-      await sendBotMessage(
+      const fallbackContent =
+        "We're unable to connect you to a human agent right now. Please try again later.";
+      const response = await sendBotMessage(
         accountId,
         conversationId,
-        "We're unable to connect you to a human agent right now. Please try again later."
+        fallbackContent
       );
+      if (!response || typeof response !== "object") {
+        console.warn("handoff fallback message missing payload", {
+          accountId,
+          conversationId,
+        });
+        return false;
+      }
+
+      const { messageId: directMessageId, sourceId, inboxId } =
+        resolveBotMessageIdentifiers(response);
+      const resolvedMessageId =
+        typeof directMessageId === "number"
+          ? directMessageId
+          : typeof sourceId === "number"
+            ? sourceId
+            : undefined;
+
+      if (typeof resolvedMessageId === "number" && typeof inboxId === "number") {
+        await storeBotMessage({
+          accountId,
+          conversationId,
+          messageId: resolvedMessageId,
+          inboxId,
+          payload: response,
+          sourceId,
+          fallbackContent,
+        });
+      } else {
+        console.warn("handoff fallback message missing identifiers", {
+          hasMessageId: typeof directMessageId === "number",
+          hasSourceId: typeof sourceId === "number",
+          hasInboxId: typeof inboxId === "number",
+          accountId,
+          conversationId,
+        });
+      }
     } catch (error) {
       console.error("send fallback message error", error);
     }

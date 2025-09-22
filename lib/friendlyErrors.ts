@@ -1,4 +1,9 @@
 import { sendBotMessage } from "@/lib/chatwootBot";
+import type { SendBotMessageOptions } from "@/lib/chatwootBot";
+import {
+  resolveBotMessageIdentifiers,
+  storeBotMessage,
+} from "@/lib/storeBotMessage";
 
 // Text shown to users when the assistant cannot send a regular message
 // response. Exported for tests to assert route-specific fallbacks.
@@ -14,16 +19,85 @@ export const HANDOFF_FALLBACK_TEXT =
 export async function notifyMessageIssue(
   accountId: number,
   conversationId: number,
-  options?: { private?: boolean }
+  options?: SendBotMessageOptions
 ) {
-  return sendBotMessage(accountId, conversationId, MESSAGE_FALLBACK_TEXT, options);
+  const response = await sendBotMessage(
+    accountId,
+    conversationId,
+    MESSAGE_FALLBACK_TEXT,
+    options
+  );
+  await logAssistantFallback(
+    accountId,
+    conversationId,
+    MESSAGE_FALLBACK_TEXT,
+    response
+  );
+  return response;
 }
 
 export async function notifyHandoffIssue(
   accountId: number,
   conversationId: number,
-  options?: { private?: boolean }
+  options?: SendBotMessageOptions
 ) {
-  return sendBotMessage(accountId, conversationId, HANDOFF_FALLBACK_TEXT, options);
+  const response = await sendBotMessage(
+    accountId,
+    conversationId,
+    HANDOFF_FALLBACK_TEXT,
+    options
+  );
+  await logAssistantFallback(
+    accountId,
+    conversationId,
+    HANDOFF_FALLBACK_TEXT,
+    response
+  );
+  return response;
+}
+
+async function logAssistantFallback(
+  accountId: number,
+  conversationId: number,
+  fallbackContent: string,
+  response: unknown
+) {
+  if (!response || typeof response !== "object") {
+    console.warn("fallback sendBotMessage response missing payload", {
+      accountId,
+      conversationId,
+    });
+    return;
+  }
+
+  const { messageId: directMessageId, sourceId, inboxId } =
+    resolveBotMessageIdentifiers(response);
+  const resolvedMessageId =
+    typeof directMessageId === "number"
+      ? directMessageId
+      : typeof sourceId === "number"
+        ? sourceId
+        : undefined;
+
+  if (typeof resolvedMessageId !== "number" || typeof inboxId !== "number") {
+    console.warn("fallback sendBotMessage missing identifiers", {
+      hasMessageId: typeof directMessageId === "number",
+      hasSourceId: typeof sourceId === "number",
+      hasInboxId: typeof inboxId === "number",
+      accountId,
+      conversationId,
+    });
+    return;
+  }
+
+  await storeBotMessage({
+    accountId,
+    conversationId,
+    messageId: resolvedMessageId,
+    inboxId,
+    payload: response,
+    sourceId,
+    fallbackContent,
+  });
 }
 

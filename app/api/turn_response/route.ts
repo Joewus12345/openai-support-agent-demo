@@ -39,29 +39,31 @@ export async function POST(request: Request) {
         : null;
 
     let userInput = "";
-    let conversationInput = "";
+    let guardrailInput = "";
     let relevance = { tripwireTriggered: false };
     let jailbreak = { tripwireTriggered: false };
 
     if (Array.isArray(normalizedMessages)) {
-      conversationInput = normalizedMessages
+      const relevant = normalizedMessages
         .filter((m) => m.role !== "developer")
-        .map((m) =>
-          Array.isArray(m.content)
+        .map((m) => ({
+          role: m.role,
+          content: Array.isArray(m.content)
             ? m.content.map((c: any) => c.text ?? "").join(" ")
-            : String(m.content || "")
-        )
-        .join(" ");
+            : String(m.content || ""),
+        }));
+      let recent = relevant.slice(-6);
+      if (lastMessage && lastMessage.role === "user") {
+        const content = lastMessage.content;
+        userInput = Array.isArray(content)
+          ? content.map((c: any) => c.text ?? "").join(" ")
+          : String(content || "");
+        recent = [...recent, { role: "user", content: userInput }];
+      }
+      guardrailInput = JSON.stringify(recent);
     }
 
-    if (lastMessage && lastMessage.role === "user") {
-      const content = lastMessage.content;
-      userInput = Array.isArray(content)
-        ? content.map((c: any) => c.text ?? "").join(" ")
-        : String(content || "");
-    }
-
-    relevance = await runRelevanceGuardrail({ input: conversationInput });
+    relevance = await runRelevanceGuardrail({ input: guardrailInput });
     console.log("Relevance guardrail result:", relevance);
 
     jailbreak = await runJailbreakGuardrail({ input: userInput });

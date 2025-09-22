@@ -29,18 +29,37 @@ async function chatwootBotFetch(path: string, init: RequestInit = {}) {
   return JSON.parse(text || "{}");
 }
 
+export type SendBotMessageOptions = {
+  inReplyTo?: number;
+  private?: boolean;
+};
+
 export async function sendBotMessage(
   accountId: number,
   conversationId: number,
   content: string,
-  options: Record<string, any> = {}
+  options: SendBotMessageOptions = {}
 ) {
+  const { inReplyTo, private: isPrivate } = options;
+  const payload: Record<string, unknown> = {
+    content,
+    message_type: "outgoing",
+  };
+
+  if (typeof isPrivate === "boolean") {
+    payload.private = isPrivate;
+  }
+
+  if (typeof inReplyTo === "number" && Number.isFinite(inReplyTo)) {
+    payload.content_attributes = { in_reply_to: inReplyTo };
+  }
+
   return chatwootBotFetch(
     `/api/v1/accounts/${accountId}/conversations/${conversationId}/messages`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content, message_type: "outgoing", ...options }),
+      body: JSON.stringify(payload),
     }
   );
 }
