@@ -28,10 +28,7 @@ import { CHATWOOT_SYSTEM_PROMPT, MODEL } from "@/config/constants";
 import { getConversationKey } from "@/lib/getConversationKey";
 import { getConversationHistory } from "@/lib/getConversationHistory";
 import { getConversationSynopsis } from "@/lib/getConversationSynopsis";
-import {
-  getConversationTranscript,
-  type ConversationTranscriptEntry,
-} from "@/lib/getConversationTranscript";
+import { getQuoteCandidates, type QuoteCandidate } from "@/lib/getQuoteCandidates";
 import {
   runRelevanceGuardrail,
   runJailbreakGuardrail,
@@ -64,29 +61,14 @@ function formatQuoteTimestamp(date?: Date): string {
 }
 
 function buildQuoteDeveloperPrompt(
-  entries: ConversationTranscriptEntry[]
+  candidates: QuoteCandidate[]
 ): string | undefined {
-  if (!Array.isArray(entries) || !entries.length) {
+  if (!Array.isArray(candidates) || !candidates.length) {
     return undefined;
   }
-  const eligible = entries.filter((entry) => {
-    if (!entry?.quoteEligible) {
-      return false;
-    }
-    if (typeof entry.messageId !== "number" || !Number.isFinite(entry.messageId)) {
-      return false;
-    }
-    if (typeof entry.contentSnippet !== "string") {
-      return false;
-    }
-    return entry.contentSnippet.trim().length > 0;
-  });
-  if (!eligible.length) {
-    return undefined;
-  }
-  const limited = eligible.slice(0, MAX_DEVELOPER_QUOTE_LINES);
+  const limited = candidates.slice(0, MAX_DEVELOPER_QUOTE_LINES);
   const lines = limited.map((entry) => {
-    const snippet = entry.contentSnippet.trim();
+    const snippet = entry.snippet.trim();
     const prefix = `${entry.sender}#${entry.messageId}`;
     const timestamp = formatQuoteTimestamp(entry.createdAt);
     return `${prefix} · ${timestamp} · ${snippet}`;
@@ -1149,16 +1131,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "fallback" });
     }
 
-    let transcriptEntries: ConversationTranscriptEntry[] = [];
+    let quoteCandidates: QuoteCandidate[] = [];
     try {
-      transcriptEntries = await getConversationTranscript(conversationKey, {
+      quoteCandidates = await getQuoteCandidates(conversationKey, {
+        conversation,
+        message: message as any,
         userLimit: QUOTE_TRANSCRIPT_USER_LIMIT,
         assistantLimit: QUOTE_TRANSCRIPT_ASSISTANT_LIMIT,
+        maxCandidates: MAX_DEVELOPER_QUOTE_LINES,
       });
     } catch (err) {
-      console.error("conversation transcript error", err);
+      console.error("quote candidates error", err);
     }
-    const developerPrompt = buildQuoteDeveloperPrompt(transcriptEntries);
+    const developerPrompt = buildQuoteDeveloperPrompt(quoteCandidates);
+    if (developerPrompt) {
+      promptHistory = [
+        toResponseMessage("developer", developerPrompt),
+        ...promptHistory,
+      ];
+    }
 
     let conversationSynopsis: string | undefined;
     try {
@@ -1195,14 +1186,9 @@ export async function POST(request: Request) {
       const synopsisMessages = conversationSynopsis
         ? [toResponseMessage("developer", conversationSynopsis)]
         : [];
-      const developerMessages = developerPrompt
-        ? [toResponseMessage("developer", developerPrompt)]
-        : [];
-
       const buildProviderMessages = (historyEntries: ResponseMessage[]) => [
         systemMessage,
         ...synopsisMessages,
-        ...developerMessages,
         ...historyEntries,
       ];
 
@@ -1213,8 +1199,23 @@ export async function POST(request: Request) {
         MODEL as TiktokenModel
       );
 
+      const stickyDeveloperEntry =
+        trimmedHistory.length && trimmedHistory[0]?.role === "developer"
+          ? trimmedHistory[0]
+          : undefined;
+
       while (trimmedHistory.length && tokenEstimate > TOKEN_THRESHOLD) {
-        trimmedHistory = trimmedHistory.slice(1);
+        if (stickyDeveloperEntry) {
+          if (trimmedHistory.length <= 1) {
+            break;
+          }
+          trimmedHistory = [
+            stickyDeveloperEntry,
+            ...trimmedHistory.slice(2),
+          ];
+        } else {
+          trimmedHistory = trimmedHistory.slice(1);
+        }
         providerMessages = buildProviderMessages(trimmedHistory);
         tokenEstimate = estimateMessageTokens(
           providerMessages,
