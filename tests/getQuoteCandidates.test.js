@@ -6,12 +6,17 @@ require('tsconfig-paths/register');
 
 const { getQuoteCandidates } = require('../lib/getQuoteCandidates.ts');
 const conversationTranscript = require('../lib/getConversationTranscript.ts');
+const prisma = require('../lib/prisma.ts').default;
 
 const getConversationTranscriptMock = mock.method(
   conversationTranscript,
   'getConversationTranscript',
   async () => []
 );
+
+test.after(async () => {
+  await prisma.$disconnect();
+});
 
 test.beforeEach(() => {
   getConversationTranscriptMock.mock.resetCalls();
