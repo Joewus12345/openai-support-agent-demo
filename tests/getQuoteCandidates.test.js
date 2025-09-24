@@ -1,8 +1,28 @@
 const assert = require('assert');
 const { test, mock } = require('node:test');
+const Module = require('module');
+const path = require('path');
 
 require('ts-node/register/transpile-only');
 require('tsconfig-paths/register');
+
+const prismaModulePath = require.resolve('../lib/prisma.ts');
+const originalPrismaModule = require.cache[prismaModulePath];
+
+const prisma = {
+  $disconnect: mock.fn(async () => {}),
+  conversationMessage: {
+    findMany: mock.fn(async () => []),
+  },
+};
+
+const prismaStub = new Module(prismaModulePath, module);
+prismaStub.filename = prismaModulePath;
+prismaStub.paths = Module._nodeModulePaths(path.dirname(prismaModulePath));
+prismaStub.loaded = true;
+prismaStub.exports = { __esModule: true, default: prisma };
+
+require.cache[prismaModulePath] = prismaStub;
 
 const { getQuoteCandidates } = require('../lib/getQuoteCandidates.ts');
 const conversationTranscript = require('../lib/getConversationTranscript.ts');
@@ -12,6 +32,15 @@ const getConversationTranscriptMock = mock.method(
   'getConversationTranscript',
   async () => []
 );
+
+test.after(async () => {
+  await prisma.$disconnect();
+  if (originalPrismaModule) {
+    require.cache[prismaModulePath] = originalPrismaModule;
+  } else {
+    delete require.cache[prismaModulePath];
+  }
+});
 
 test.beforeEach(() => {
   getConversationTranscriptMock.mock.resetCalls();
