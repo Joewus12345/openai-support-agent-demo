@@ -532,22 +532,31 @@ export async function POST(request: Request) {
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
     const buildReplyOptions = (
-      overrides?: { quoteMessageId?: number | null; forcePrivate?: boolean }
+      overrides?: { quoteMessageId?: number | null; private?: boolean }
     ) => {
       const options: { private?: boolean; inReplyTo?: number } = {};
-      const forcePrivate = overrides?.forcePrivate;
-      const quoteMessageId = overrides?.quoteMessageId;
-      const privateValue =
-        typeof forcePrivate === "boolean" ? forcePrivate : mode !== "auto";
-      options.private = privateValue;
 
       const hasOverrides = overrides !== undefined;
+      const hasPrivateProp =
+        hasOverrides &&
+        Object.prototype.hasOwnProperty.call(
+          overrides as Record<string, unknown>,
+          "private"
+        );
+      const privateOverride =
+        hasPrivateProp && typeof overrides?.private === "boolean"
+          ? overrides.private
+          : undefined;
+      options.private =
+        privateOverride !== undefined ? privateOverride : mode !== "auto";
+
       const hasQuoteProp =
         hasOverrides &&
         Object.prototype.hasOwnProperty.call(
           overrides as Record<string, unknown>,
           "quoteMessageId"
         );
+      const quoteMessageId = overrides?.quoteMessageId;
 
       if (quoteMessageId === null) {
         return options;
@@ -1179,7 +1188,7 @@ export async function POST(request: Request) {
     let pendingReplyReferenceId: string | undefined;
     let pendingReplyReferenceArgs = "";
     let replyReferenceOverride:
-      | { quoteMessageId?: number | null; forcePrivate?: boolean }
+      | { quoteMessageId?: number | null; private?: boolean }
       | undefined;
     try {
       const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
@@ -1316,14 +1325,38 @@ export async function POST(request: Request) {
                     parsedArgs?.messageId ??
                     parsedArgs?.messageID
                 );
+                const parsedPrivate =
+                  typeof parsedArgs?.private === "boolean"
+                    ? parsedArgs.private
+                    : typeof parsedArgs?.is_private === "boolean"
+                      ? parsedArgs.is_private
+                      : typeof parsedArgs?.send_private === "boolean"
+                        ? parsedArgs.send_private
+                        : undefined;
+
+                const nextOverride: {
+                  quoteMessageId?: number | null;
+                  private?: boolean;
+                } = {};
+                let hasOverride = false;
+
                 if (parsedUseQuotes === false) {
-                  replyReferenceOverride = { quoteMessageId: null };
+                  nextOverride.quoteMessageId = null;
+                  hasOverride = true;
                 } else if (typeof parsedMessageId === "number") {
-                  replyReferenceOverride = {
-                    quoteMessageId: parsedMessageId,
-                  };
+                  nextOverride.quoteMessageId = parsedMessageId;
+                  hasOverride = true;
                 } else if (parsedUseQuotes === true) {
-                  replyReferenceOverride = {};
+                  hasOverride = true;
+                }
+
+                if (typeof parsedPrivate === "boolean") {
+                  nextOverride.private = parsedPrivate;
+                  hasOverride = true;
+                }
+
+                if (hasOverride) {
+                  replyReferenceOverride = nextOverride;
                 }
               } catch (err) {
                 console.warn("set_reply_reference parse error", err);
@@ -1350,7 +1383,13 @@ export async function POST(request: Request) {
       : [];
 
     let finalReplyReference = replyReferenceOverride;
-    if (finalReplyReference === undefined) {
+    const hasQuoteOverride =
+      finalReplyReference !== undefined &&
+      Object.prototype.hasOwnProperty.call(
+        finalReplyReference as Record<string, unknown>,
+        "quoteMessageId"
+      );
+    if (!hasQuoteOverride) {
       const shouldQuote = shouldQuoteInboundMessage({
         messageText: userInput,
         referencedMessageId,
@@ -1367,7 +1406,10 @@ export async function POST(request: Request) {
               ? defaultReplyToId
               : undefined;
         if (typeof preferredQuoteId === "number") {
-          finalReplyReference = { quoteMessageId: preferredQuoteId };
+          finalReplyReference = {
+            ...(finalReplyReference ?? {}),
+            quoteMessageId: preferredQuoteId,
+          };
         }
       }
     }
