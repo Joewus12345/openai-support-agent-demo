@@ -24,29 +24,6 @@ const sendBotMessageMock = mock.method(
   })
 );
 
-const storeBotMessage = require('../lib/storeBotMessage.ts');
-const storeBotMessageMock = mock.method(
-  storeBotMessage,
-  'storeBotMessage',
-  async (args) => ({
-    stored: true,
-    messageId: args.messageId,
-    inboxId: args.inboxId,
-    sourceId: args.sourceId,
-    conversationKey:
-      args.conversationKey ??
-      `chatwoot:${args.accountId}:${args.conversationId}:${args.inboxId}`,
-    content:
-      typeof args?.payload === 'object' &&
-      args?.payload !== null &&
-      typeof args.payload.content === 'string'
-        ? args.payload.content
-        : typeof args.fallbackContent === 'string'
-          ? args.fallbackContent
-          : '',
-  })
-);
-
 const {
   MESSAGE_FALLBACK_TEXT,
   HANDOFF_FALLBACK_TEXT,
@@ -164,7 +141,6 @@ function resetMocks() {
   releaseAgentMock.mock.mockImplementation(async () => {});
   sendBotMessageMock.mock.resetCalls();
   nextMessageId = 0;
-  storeBotMessageMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
   providerFnMock.mock.resetCalls();
   getNextAgentMock.mock.resetCalls();
@@ -205,11 +181,17 @@ function resetMocks() {
   }));
 }
 
+function getLoggedBotMessages() {
+  return prisma.conversationMessage.upsert.mock.calls
+    .map((call) => call.arguments?.[0]?.create)
+    .filter((create) => create && create.sender === 'bot');
+}
+
 function assertLoggedIds(...expectedIds) {
-  assert.strictEqual(storeBotMessageMock.mock.calls.length, expectedIds.length);
+  const botMessages = getLoggedBotMessages();
+  assert.strictEqual(botMessages.length, expectedIds.length);
   expectedIds.forEach((id, index) => {
-    const call = storeBotMessageMock.mock.calls[index];
-    assert.strictEqual(call.arguments[0].messageId, id);
+    assert.strictEqual(botMessages[index].messageId, id);
   });
 }
 

@@ -14,12 +14,11 @@ export type BotMessageIdentifiers = {
 export type StoreBotMessageParams = {
   accountId: number;
   conversationId: number;
-  messageId: number;
-  inboxId: number;
-  payload?: unknown;
-  sourceId?: number;
+  payload: unknown;
   fallbackContent?: string;
   conversationKey?: string;
+  defaultMessageId?: number;
+  defaultInboxId?: number;
   createdAt?: StoreAssistantMessageParams["createdAt"];
 };
 
@@ -63,18 +62,45 @@ export function resolveBotMessageIdentifiers(payload: unknown): BotMessageIdenti
 export async function storeBotMessage({
   accountId,
   conversationId,
-  messageId,
-  inboxId,
   payload,
-  sourceId,
   fallbackContent,
   conversationKey: providedConversationKey,
+  defaultMessageId,
+  defaultInboxId,
   createdAt: explicitCreatedAt,
-}: StoreBotMessageParams): Promise<StoreBotMessageResult> {
-  const record =
-    payload && typeof payload === "object"
-      ? (payload as Record<string, unknown>)
-      : undefined;
+}: StoreBotMessageParams): Promise<StoreBotMessageResult | undefined> {
+  if (!payload || typeof payload !== "object") {
+    console.warn("storeBotMessage payload missing", {
+      accountId,
+      conversationId,
+    });
+    return undefined;
+  }
+
+  const record = payload as Record<string, unknown>;
+
+  const { messageId, sourceId, inboxId } = resolveBotMessageIdentifiers(record);
+
+  const resolvedMessageId =
+    getNumericId(messageId) ??
+    getNumericId(sourceId) ??
+    getNumericId(defaultMessageId) ??
+    undefined;
+
+  const resolvedInboxId =
+    getNumericId(inboxId) ?? getNumericId(defaultInboxId) ?? undefined;
+
+  if (typeof resolvedMessageId !== "number" || typeof resolvedInboxId !== "number") {
+    console.warn("storeBotMessage missing identifiers", {
+      hasMessageId: typeof messageId === "number",
+      hasSourceId: typeof sourceId === "number",
+      hasInboxId: typeof inboxId === "number", // inboxId maybe undefined
+      hasDefaultInboxId: typeof defaultInboxId === "number",
+      accountId,
+      conversationId,
+    });
+    return undefined;
+  }
 
   const contentValue =
     typeof record?.content === "string"
@@ -92,29 +118,31 @@ export async function storeBotMessage({
       | null
       | undefined);
 
-  const resolvedSourceId =
-    sourceId ?? (record ? getNumericId((record as any)?.source_id) ?? undefined : undefined);
+  const hasConversationKey =
+    typeof providedConversationKey === "string" &&
+    providedConversationKey.trim().length > 0;
 
-  const conversationKey =
-    typeof providedConversationKey === "string" && providedConversationKey.trim().length > 0
-      ? providedConversationKey
-      : getConversationKey(accountId, conversationId, inboxId);
+  const conversationKey = hasConversationKey
+    ? defaultInboxId === undefined || defaultInboxId === resolvedInboxId
+      ? providedConversationKey.trim()
+      : getConversationKey(accountId, conversationId, resolvedInboxId)
+    : getConversationKey(accountId, conversationId, resolvedInboxId);
 
   await storeAssistantMessage({
     accountId,
     conversationId,
-    inboxId,
+    inboxId: resolvedInboxId,
     conversationKey,
-    messageId,
+    messageId: resolvedMessageId,
     content: contentValue,
     createdAt: createdAtValue,
   });
 
   return {
     stored: true,
-    messageId,
-    inboxId,
-    sourceId: resolvedSourceId,
+    messageId: resolvedMessageId,
+    inboxId: resolvedInboxId,
+    sourceId: getNumericId(sourceId) ?? undefined,
     conversationKey,
     content: contentValue,
   };

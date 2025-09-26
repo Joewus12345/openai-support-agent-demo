@@ -15,10 +15,7 @@ import { CONVO_LABELS } from "@/lib/constants";
 import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
 import { notifyHandoffIssue } from "@/lib/friendlyErrors";
 import type { Conversation } from "@/types/chatwoot";
-import {
-  resolveBotMessageIdentifiers,
-  storeBotMessage,
-} from "@/lib/storeBotMessage";
+import { storeBotMessage } from "@/lib/storeBotMessage";
 
 /**
  * Clear the active conversation for the freed agent and assign the next request in queue.
@@ -148,46 +145,12 @@ export async function releaseAgent(
           request.conversationId,
           "A human agent will join shortly."
         );
-        if (!confirmationMessage || typeof confirmationMessage !== "object") {
-          console.warn("handoff confirmation missing payload", {
-            accountId,
-            conversationId: request.conversationId,
-          });
-        } else {
-          const {
-            messageId: directMessageId,
-            sourceId,
-            inboxId: confirmationInboxId,
-          } = resolveBotMessageIdentifiers(confirmationMessage);
-          const resolvedMessageId =
-            typeof directMessageId === "number"
-              ? directMessageId
-              : typeof sourceId === "number"
-                ? sourceId
-                : undefined;
-          if (
-            typeof resolvedMessageId === "number" &&
-            typeof confirmationInboxId === "number"
-          ) {
-            await storeBotMessage({
-              accountId,
-              conversationId: request.conversationId,
-              messageId: resolvedMessageId,
-              inboxId: confirmationInboxId,
-              payload: confirmationMessage,
-              sourceId,
-              fallbackContent: "A human agent will join shortly.",
-            });
-          } else {
-            console.warn("handoff confirmation missing identifiers", {
-              hasMessageId: typeof directMessageId === "number",
-              hasSourceId: typeof sourceId === "number",
-              hasInboxId: typeof confirmationInboxId === "number",
-              accountId,
-              conversationId: request.conversationId,
-            });
-          }
-        }
+        await storeBotMessage({
+          accountId,
+          conversationId: request.conversationId,
+          payload: confirmationMessage,
+          fallbackContent: "A human agent will join shortly.",
+        });
         outcome = "assigned";
       } else {
         outcome = "released";
