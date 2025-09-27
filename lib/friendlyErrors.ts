@@ -1,9 +1,6 @@
 import { sendBotMessage } from "@/lib/chatwootBot";
 import type { SendBotMessageOptions } from "@/lib/chatwootBot";
-import {
-  resolveBotMessageIdentifiers,
-  storeBotMessage,
-} from "@/lib/storeBotMessage";
+import { storeBotMessage } from "@/lib/storeBotMessage";
 
 // Text shown to users when the assistant cannot send a regular message
 // response. Exported for tests to assert route-specific fallbacks.
@@ -62,41 +59,10 @@ async function logAssistantFallback(
   fallbackContent: string,
   response: unknown
 ) {
-  if (!response || typeof response !== "object") {
-    console.warn("fallback sendBotMessage response missing payload", {
-      accountId,
-      conversationId,
-    });
-    return;
-  }
-
-  const { messageId: directMessageId, sourceId, inboxId } =
-    resolveBotMessageIdentifiers(response);
-  const resolvedMessageId =
-    typeof directMessageId === "number"
-      ? directMessageId
-      : typeof sourceId === "number"
-        ? sourceId
-        : undefined;
-
-  if (typeof resolvedMessageId !== "number" || typeof inboxId !== "number") {
-    console.warn("fallback sendBotMessage missing identifiers", {
-      hasMessageId: typeof directMessageId === "number",
-      hasSourceId: typeof sourceId === "number",
-      hasInboxId: typeof inboxId === "number",
-      accountId,
-      conversationId,
-    });
-    return;
-  }
-
   await storeBotMessage({
     accountId,
     conversationId,
-    messageId: resolvedMessageId,
-    inboxId,
     payload: response,
-    sourceId,
     fallbackContent,
   });
 }

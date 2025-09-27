@@ -5,10 +5,7 @@ import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import redis from "@/lib/redis";
-import {
-  resolveBotMessageIdentifiers,
-  storeBotMessage,
-} from "@/lib/storeBotMessage";
+import { storeBotMessage } from "@/lib/storeBotMessage";
 import handOff from "@/lib/handoff";
 import {
   getConversation,
@@ -586,57 +583,18 @@ export async function POST(request: Request) {
       response: unknown,
       fallbackContent: string
     ) => {
-      if (!response || typeof response !== "object") {
-        console.warn("sendBotMessage response missing payload", {
-          accountId,
-          conversationId,
-        });
-        return;
-      }
-
-      const { messageId: directMessageId, sourceId, inboxId: responseInboxId } =
-        resolveBotMessageIdentifiers(response);
-      const resolvedMessageId =
-        typeof directMessageId === "number"
-          ? directMessageId
-          : typeof sourceId === "number"
-            ? sourceId
-            : undefined;
-      const fallbackInboxId =
-        typeof inboxId === "number" ? inboxId : undefined;
-      const resolvedInboxId =
-        typeof responseInboxId === "number"
-          ? responseInboxId
-          : fallbackInboxId;
-
-      if (
-        typeof resolvedMessageId !== "number" ||
-        typeof resolvedInboxId !== "number"
-      ) {
-        console.warn("sendBotMessage response missing identifiers", {
-          hasMessageId: typeof directMessageId === "number",
-          hasSourceId: typeof sourceId === "number",
-          hasInboxId: typeof resolvedInboxId === "number",
-          accountId,
-          conversationId,
-        });
-        return;
-      }
-
-      const resolvedConversationKey =
-        typeof inboxId === "number" && inboxId === resolvedInboxId
-          ? conversationKey
+      const defaultInboxId =
+        typeof inboxId === "number" && Number.isFinite(inboxId)
+          ? inboxId
           : undefined;
 
       await storeBotMessage({
         accountId,
         conversationId,
-        messageId: resolvedMessageId,
-        inboxId: resolvedInboxId,
         payload: response,
-        sourceId,
         fallbackContent,
-        conversationKey: resolvedConversationKey,
+        conversationKey: conversationKey ?? undefined,
+        defaultInboxId,
       });
     };
 
