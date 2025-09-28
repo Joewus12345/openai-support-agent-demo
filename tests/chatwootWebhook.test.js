@@ -1185,9 +1185,10 @@ test('chatwoot webhook replies to referenced message when available', async () =
   const res = await webhookPost(req);
   await res.json();
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
-  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
-    private: false,
-  });
+  const options = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.ok(options);
+  assert.strictEqual(options.private, false);
+  assert.strictEqual(options.inReplyTo, referencedMessageId);
   assertLoggedIds(1);
   resetMocks();
 });
@@ -1288,7 +1289,7 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
   const initialOptions = sendBotMessageMock.mock.calls[0].arguments[3];
   assert.strictEqual(initialOptions.private, false);
-  assert.ok(!Object.prototype.hasOwnProperty.call(initialOptions, 'inReplyTo'));
+  assert.strictEqual(initialOptions.inReplyTo, 800);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[1].arguments[2],
     MESSAGE_FALLBACK_TEXT
@@ -1363,7 +1364,7 @@ test('chatwoot webhook leaves inReplyTo unset when heuristic does not trigger', 
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   const options = sendBotMessageMock.mock.calls[0].arguments[3];
   assert.strictEqual(options.private, false);
-  assert.ok(!Object.prototype.hasOwnProperty.call(options, 'inReplyTo'));
+  assert.strictEqual(options.inReplyTo, 906);
   assertLoggedIds(1);
   resetMocks();
 });
