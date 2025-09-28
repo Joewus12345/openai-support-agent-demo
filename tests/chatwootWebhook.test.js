@@ -1435,6 +1435,77 @@ test('chatwoot webhook uses set_reply_reference message override', async () => {
   resetMocks();
 });
 
+test('chatwoot webhook handles streaming quote override without final arguments', async () => {
+  const overrideMessageId = 65432;
+  providerFnMock.mock.mockImplementationOnce(() =>
+    (async function* () {
+      yield {
+        event: 'response.output_item.added',
+        data: {
+          item: {
+            type: 'function_call',
+            name: 'set_reply_reference',
+            id: 'call-missing-args',
+            call_id: 'call-missing-args',
+            arguments: '',
+          },
+        },
+      };
+      yield {
+        event: 'response.function_call_arguments.delta',
+        data: { item_id: 'call-missing-args', delta: '{"message_id":' },
+      };
+      yield {
+        event: 'response.function_call_arguments.delta',
+        data: { item_id: 'call-missing-args', delta: `${overrideMessageId}` },
+      };
+      yield {
+        event: 'response.function_call_arguments.delta',
+        data: { item_id: 'call-missing-args', delta: ',"use_quotes":true}' },
+      };
+      yield {
+        event: 'response.function_call_arguments.done',
+        data: { item_id: 'call-missing-args' },
+      };
+      yield {
+        event: 'response.output_text.delta',
+        data: { delta: 'Here is the information you requested.' },
+      };
+    })()
+  );
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 913,
+        message_type: 0,
+        content: 'Could you provide those details again?',
+        account: { id: 17 },
+        conversation: {
+          id: 913,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 17,
+        },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const options = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.deepStrictEqual(options, { private: false, inReplyTo: overrideMessageId });
+  resetMocks();
+});
+
 test('chatwoot webhook set_reply_reference streaming controls quoting content attributes', async () => {
   const scenarios = [
     {

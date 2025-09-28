@@ -302,6 +302,11 @@ export async function POST(request: Request) {
             Number.isFinite(normalizedMessageId)
           ? normalizedMessageId
           : undefined;
+    const normalizedDefaultReplyToId =
+      typeof defaultReplyToId === "number" &&
+      Number.isFinite(defaultReplyToId)
+        ? defaultReplyToId
+        : undefined;
     let referencedTurn: HistoryTurn | undefined;
 
     if (
@@ -528,8 +533,13 @@ export async function POST(request: Request) {
 
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
+    const defaultReplyOverride =
+      normalizedDefaultReplyToId !== undefined
+        ? { inReplyTo: normalizedDefaultReplyToId }
+        : undefined;
+
     const buildReplyOptions = (
-      overrides?: { quoteMessageId?: number | null; private?: boolean }
+      overrides?: { inReplyTo?: number | null; private?: boolean }
     ) => {
       const options: { private?: boolean; inReplyTo?: number } = {};
 
@@ -547,33 +557,42 @@ export async function POST(request: Request) {
       options.private =
         privateOverride !== undefined ? privateOverride : mode !== "auto";
 
-      const hasQuoteProp =
+      const hasInReplyProp =
         hasOverrides &&
         Object.prototype.hasOwnProperty.call(
           overrides as Record<string, unknown>,
-          "quoteMessageId"
+          "inReplyTo"
         );
-      const quoteMessageId = overrides?.quoteMessageId;
+      const overrideInReply = overrides?.inReplyTo;
 
-      if (quoteMessageId === null) {
-        return options;
-      }
+      if (hasInReplyProp) {
+        if (overrideInReply === null) {
+          return options;
+        }
 
-      if (
-        typeof quoteMessageId === "number" &&
-        Number.isFinite(quoteMessageId)
-      ) {
-        options.inReplyTo = quoteMessageId;
-        return options;
+        if (
+          typeof overrideInReply === "number" &&
+          Number.isFinite(overrideInReply)
+        ) {
+          options.inReplyTo = overrideInReply;
+          return options;
+        }
+
+        if (
+          overrideInReply === undefined &&
+          normalizedDefaultReplyToId !== undefined
+        ) {
+          options.inReplyTo = normalizedDefaultReplyToId;
+          return options;
+        }
       }
 
       if (
         hasOverrides &&
-        !hasQuoteProp &&
-        typeof defaultReplyToId === "number" &&
-        Number.isFinite(defaultReplyToId)
+        !hasInReplyProp &&
+        normalizedDefaultReplyToId !== undefined
       ) {
-        options.inReplyTo = defaultReplyToId;
+        options.inReplyTo = normalizedDefaultReplyToId;
       }
 
       return options;
@@ -616,7 +635,7 @@ export async function POST(request: Request) {
           await notifyMessageIssue(
             accountId,
             conversationId,
-            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            buildReplyOptions(defaultReplyOverride)
           );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
@@ -676,7 +695,7 @@ export async function POST(request: Request) {
                 await notifyHandoffIssue(
                   accountId,
                   conversationId,
-                  buildReplyOptions({ quoteMessageId: defaultReplyToId })
+                  buildReplyOptions(defaultReplyOverride)
                 );
               } catch (err2) {
                 console.error("fallback notifyHandoffIssue error", err2);
@@ -692,7 +711,7 @@ export async function POST(request: Request) {
               accountId,
               conversationId,
               "A human agent will join shortly.",
-              buildReplyOptions({ quoteMessageId: defaultReplyToId })
+              buildReplyOptions(defaultReplyOverride)
             );
             await logAssistantResponse(
               botResponse,
@@ -760,7 +779,7 @@ export async function POST(request: Request) {
             await notifyHandoffIssue(
               accountId,
               conversationId,
-              buildReplyOptions({ quoteMessageId: defaultReplyToId })
+              buildReplyOptions(defaultReplyOverride)
             );
           } catch (err2) {
             console.error("fallback notifyHandoffIssue error", err2);
@@ -819,7 +838,7 @@ export async function POST(request: Request) {
           await notifyMessageIssue(
             accountId,
             conversationId,
-            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            buildReplyOptions(defaultReplyOverride)
           );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
@@ -858,7 +877,7 @@ export async function POST(request: Request) {
               await notifyHandoffIssue(
                 accountId,
                 conversationId,
-                buildReplyOptions({ quoteMessageId: defaultReplyToId })
+                buildReplyOptions(defaultReplyOverride)
               );
             } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
@@ -885,7 +904,7 @@ export async function POST(request: Request) {
                   await notifyHandoffIssue(
                     accountId,
                     conversationId,
-                    buildReplyOptions({ quoteMessageId: defaultReplyToId })
+                    buildReplyOptions(defaultReplyOverride)
                   );
                 } catch (err2) {
                   console.error("fallback notifyHandoffIssue error", err2);
@@ -905,7 +924,7 @@ export async function POST(request: Request) {
             accountId,
             conversationId,
             "A human agent will join shortly.",
-            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            buildReplyOptions(defaultReplyOverride)
           );
           await logAssistantResponse(
             confirmationResponse,
@@ -941,7 +960,7 @@ export async function POST(request: Request) {
             await notifyHandoffIssue(
               accountId,
               conversationId,
-              buildReplyOptions({ quoteMessageId: defaultReplyToId })
+              buildReplyOptions(defaultReplyOverride)
             );
           } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
@@ -969,7 +988,7 @@ export async function POST(request: Request) {
             accountId,
             conversationId,
             "All human agents are currently busy. Please wait for the next available agent.",
-            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            buildReplyOptions(defaultReplyOverride)
           );
           await logAssistantResponse(
             botResponse,
@@ -991,7 +1010,7 @@ export async function POST(request: Request) {
         await notifyMessageIssue(
           accountId,
           conversationId,
-          buildReplyOptions({ quoteMessageId: defaultReplyToId })
+          buildReplyOptions(defaultReplyOverride)
         );
       } catch (err) {
         console.error("fallback notifyMessageIssue error", err);
@@ -1084,7 +1103,7 @@ export async function POST(request: Request) {
           accountId,
           conversationId,
           "I can't assist with that request.",
-          buildReplyOptions({ quoteMessageId: defaultReplyToId })
+          buildReplyOptions(defaultReplyOverride)
         );
         await logAssistantResponse(
           guardrailResponse,
@@ -1146,7 +1165,7 @@ export async function POST(request: Request) {
     let pendingReplyReferenceId: string | undefined;
     let pendingReplyReferenceArgs = "";
     let replyReferenceOverride:
-      | { quoteMessageId?: number | null; private?: boolean }
+      | { inReplyTo?: number | null; private?: boolean }
       | undefined;
     try {
       const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
@@ -1293,18 +1312,19 @@ export async function POST(request: Request) {
                         : undefined;
 
                 const nextOverride: {
-                  quoteMessageId?: number | null;
+                  inReplyTo?: number | null;
                   private?: boolean;
                 } = {};
                 let hasOverride = false;
 
                 if (parsedUseQuotes === false) {
-                  nextOverride.quoteMessageId = null;
+                  nextOverride.inReplyTo = null;
                   hasOverride = true;
                 } else if (typeof parsedMessageId === "number") {
-                  nextOverride.quoteMessageId = parsedMessageId;
+                  nextOverride.inReplyTo = parsedMessageId;
                   hasOverride = true;
                 } else if (parsedUseQuotes === true) {
+                  nextOverride.inReplyTo = undefined;
                   hasOverride = true;
                 }
 
@@ -1345,7 +1365,7 @@ export async function POST(request: Request) {
       finalReplyReference !== undefined &&
       Object.prototype.hasOwnProperty.call(
         finalReplyReference as Record<string, unknown>,
-        "quoteMessageId"
+        "inReplyTo"
       );
     if (!hasQuoteOverride) {
       const shouldQuote = shouldQuoteInboundMessage({
@@ -1366,7 +1386,7 @@ export async function POST(request: Request) {
         if (typeof preferredQuoteId === "number") {
           finalReplyReference = {
             ...(finalReplyReference ?? {}),
-            quoteMessageId: preferredQuoteId,
+            inReplyTo: preferredQuoteId,
           };
         }
       }
