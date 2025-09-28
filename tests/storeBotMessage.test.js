@@ -3,18 +3,51 @@ const { test, mock } = require('node:test');
 require('ts-node/register/transpile-only');
 require('tsconfig-paths/register');
 
-const storeConversationMessage = require('../lib/storeConversationMessage.ts');
-const storeAssistantMessageMock = mock.method(
-  storeConversationMessage,
-  'storeAssistantMessage',
-  async () => {}
-);
+const Module = require('module');
+const path = require('path');
+
+const storeAssistantMessageMock = mock.fn(async () => {});
+
+const registerModuleMock =
+  typeof mock.module === 'function'
+    ? mock.module.bind(mock)
+    : (specifier, exportsFactory) => {
+        const resolved = require.resolve(specifier);
+        delete require.cache[resolved];
+        const mockedModule = new Module(resolved, module.parent);
+        mockedModule.filename = resolved;
+        mockedModule.paths = Module._nodeModulePaths(path.dirname(resolved));
+        mockedModule.loaded = true;
+        mockedModule.exports = exportsFactory();
+        require.cache[resolved] = mockedModule;
+      };
+
+registerModuleMock('../lib/storeConversationMessage.ts', () => {
+  function getNumericId(value) {
+    if (typeof value === 'number' && Number.isFinite(value)) {
+      return value;
+    }
+    if (typeof value === 'string') {
+      const trimmed = value.trim();
+      if (!trimmed) {
+        return undefined;
+      }
+      const parsed = Number.parseInt(trimmed, 10);
+      if (!Number.isNaN(parsed)) {
+        return parsed;
+      }
+    }
+    return undefined;
+  }
+
+  return {
+    getNumericId,
+    storeAssistantMessage: storeAssistantMessageMock,
+    default: storeAssistantMessageMock,
+  };
+});
 
 const { storeBotMessage } = require('../lib/storeBotMessage.ts');
-
-test.after(() => {
-  storeAssistantMessageMock.mock.restore();
-});
 
 test('storeBotMessage persists Chatwoot response payloads', async () => {
   storeAssistantMessageMock.mock.resetCalls();
