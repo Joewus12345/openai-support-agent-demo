@@ -1383,14 +1383,27 @@ export async function POST(request: Request) {
         history: quoteHistoryTurns,
       });
       if (shouldQuote) {
+        const fallbackQuoteId = (() => {
+          const overrideInReply = defaultReplyOverride?.inReplyTo;
+          if (
+            typeof overrideInReply === "number" &&
+            Number.isFinite(overrideInReply)
+          ) {
+            return overrideInReply;
+          }
+          if (
+            typeof normalizedDefaultReplyToId === "number" &&
+            Number.isFinite(normalizedDefaultReplyToId)
+          ) {
+            return normalizedDefaultReplyToId;
+          }
+          return undefined;
+        })();
         const preferredQuoteId =
           typeof referencedMessageId === "number" &&
           Number.isFinite(referencedMessageId)
             ? referencedMessageId
-            : typeof defaultReplyToId === "number" &&
-                Number.isFinite(defaultReplyToId)
-              ? defaultReplyToId
-              : undefined;
+            : fallbackQuoteId;
         if (typeof preferredQuoteId === "number") {
           finalReplyReference = {
             ...(finalReplyReference ?? {}),
