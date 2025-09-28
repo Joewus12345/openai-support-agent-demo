@@ -70,7 +70,7 @@ function buildQuoteDeveloperPrompt(
     const timestamp = formatQuoteTimestamp(entry.createdAt);
     return `${prefix} · ${timestamp} · ${snippet}`;
   });
-  return `Quote candidates (newest first):\n${lines.join("\n")}`;
+  return `Quote candidates available for set_reply_reference (newest first):\n${lines.join("\n")}`;
 }
 
 function normalizeHistoryTurnFromMessage(message: any): HistoryTurn | undefined {

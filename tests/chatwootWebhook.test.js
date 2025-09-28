@@ -978,7 +978,11 @@ test('chatwoot webhook includes developer quote guidance when transcript exists'
   assert.strictEqual(messages[1].content[0].text, 'Quote summary');
   assert.strictEqual(messages[2].role, 'developer');
   const developerText = messages[2].content[0].text;
-  assert.ok(developerText.includes('Quote candidates (newest first):'));
+  assert.ok(
+    developerText.includes(
+      'Quote candidates available for set_reply_reference (newest first):'
+    )
+  );
   assert.ok(developerText.includes('user#4324'));
   assert.ok(developerText.includes('Official WhatsApp order update'));
   assert.ok(developerText.includes('user#4321'));
