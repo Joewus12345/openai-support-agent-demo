@@ -294,19 +294,18 @@ export async function POST(request: Request) {
           : String(content ?? "");
     const normalizedMessageId = parseMessageId(messageId);
     const referencedMessageId = extractReferencedMessageId(message);
-    const defaultReplyToId =
+    const normalizedReferencedReplyToId =
       typeof referencedMessageId === "number" &&
       Number.isFinite(referencedMessageId)
         ? referencedMessageId
-        : typeof normalizedMessageId === "number" &&
-            Number.isFinite(normalizedMessageId)
-          ? normalizedMessageId
-          : undefined;
-    const normalizedDefaultReplyToId =
-      typeof defaultReplyToId === "number" &&
-      Number.isFinite(defaultReplyToId)
-        ? defaultReplyToId
         : undefined;
+    const normalizedInboundReplyToId =
+      typeof normalizedMessageId === "number" &&
+      Number.isFinite(normalizedMessageId)
+        ? normalizedMessageId
+        : undefined;
+    const normalizedDefaultReplyToId =
+      normalizedReferencedReplyToId ?? normalizedInboundReplyToId;
     let referencedTurn: HistoryTurn | undefined;
 
     if (
@@ -539,9 +538,16 @@ export async function POST(request: Request) {
         : undefined;
 
     const buildReplyOptions = (
-      overrides?: { inReplyTo?: number | null; private?: boolean }
+      overrides?: { inReplyTo?: number | null; private?: boolean },
+      preferredReplyToId: number | undefined = normalizedReferencedReplyToId
     ) => {
       const options: { private?: boolean; inReplyTo?: number } = {};
+
+      const fallbackInReplyToId =
+        typeof preferredReplyToId === "number" &&
+        Number.isFinite(preferredReplyToId)
+          ? preferredReplyToId
+          : normalizedInboundReplyToId;
 
       const hasOverrides = overrides !== undefined;
       const hasPrivateProp =
@@ -580,9 +586,9 @@ export async function POST(request: Request) {
 
         if (
           overrideInReply === undefined &&
-          normalizedDefaultReplyToId !== undefined
+          fallbackInReplyToId !== undefined
         ) {
-          options.inReplyTo = normalizedDefaultReplyToId;
+          options.inReplyTo = fallbackInReplyToId;
           return options;
         }
       }
@@ -590,9 +596,11 @@ export async function POST(request: Request) {
       if (
         hasOverrides &&
         !hasInReplyProp &&
-        normalizedDefaultReplyToId !== undefined
+        fallbackInReplyToId !== undefined
       ) {
-        options.inReplyTo = normalizedDefaultReplyToId;
+        options.inReplyTo = fallbackInReplyToId;
+      } else if (!hasOverrides && fallbackInReplyToId !== undefined) {
+        options.inReplyTo = fallbackInReplyToId;
       }
 
       return options;
@@ -635,7 +643,7 @@ export async function POST(request: Request) {
           await notifyMessageIssue(
             accountId,
             conversationId,
-            buildReplyOptions(defaultReplyOverride)
+            buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
@@ -695,7 +703,7 @@ export async function POST(request: Request) {
                 await notifyHandoffIssue(
                   accountId,
                   conversationId,
-                  buildReplyOptions(defaultReplyOverride)
+                  buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
                 );
               } catch (err2) {
                 console.error("fallback notifyHandoffIssue error", err2);
@@ -711,7 +719,7 @@ export async function POST(request: Request) {
               accountId,
               conversationId,
               "A human agent will join shortly.",
-              buildReplyOptions(defaultReplyOverride)
+              buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
             );
             await logAssistantResponse(
               botResponse,
@@ -779,7 +787,7 @@ export async function POST(request: Request) {
             await notifyHandoffIssue(
               accountId,
               conversationId,
-              buildReplyOptions(defaultReplyOverride)
+              buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
             );
           } catch (err2) {
             console.error("fallback notifyHandoffIssue error", err2);
@@ -838,7 +846,7 @@ export async function POST(request: Request) {
           await notifyMessageIssue(
             accountId,
             conversationId,
-            buildReplyOptions(defaultReplyOverride)
+            buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
@@ -877,7 +885,7 @@ export async function POST(request: Request) {
               await notifyHandoffIssue(
                 accountId,
                 conversationId,
-                buildReplyOptions(defaultReplyOverride)
+                buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
               );
             } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
@@ -904,7 +912,7 @@ export async function POST(request: Request) {
                   await notifyHandoffIssue(
                     accountId,
                     conversationId,
-                    buildReplyOptions(defaultReplyOverride)
+                    buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
                   );
                 } catch (err2) {
                   console.error("fallback notifyHandoffIssue error", err2);
@@ -924,7 +932,7 @@ export async function POST(request: Request) {
             accountId,
             conversationId,
             "A human agent will join shortly.",
-            buildReplyOptions(defaultReplyOverride)
+            buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
           await logAssistantResponse(
             confirmationResponse,
@@ -960,7 +968,7 @@ export async function POST(request: Request) {
             await notifyHandoffIssue(
               accountId,
               conversationId,
-              buildReplyOptions(defaultReplyOverride)
+              buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
             );
           } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
@@ -988,7 +996,7 @@ export async function POST(request: Request) {
             accountId,
             conversationId,
             "All human agents are currently busy. Please wait for the next available agent.",
-            buildReplyOptions(defaultReplyOverride)
+            buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
           await logAssistantResponse(
             botResponse,
@@ -1010,7 +1018,7 @@ export async function POST(request: Request) {
         await notifyMessageIssue(
           accountId,
           conversationId,
-          buildReplyOptions(defaultReplyOverride)
+          buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
         );
       } catch (err) {
         console.error("fallback notifyMessageIssue error", err);
@@ -1103,7 +1111,7 @@ export async function POST(request: Request) {
           accountId,
           conversationId,
           "I can't assist with that request.",
-          buildReplyOptions(defaultReplyOverride)
+          buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
         );
         await logAssistantResponse(
           guardrailResponse,
@@ -1397,7 +1405,7 @@ export async function POST(request: Request) {
         accountId,
         conversationId,
         replyText,
-        buildReplyOptions(finalReplyReference)
+        buildReplyOptions(finalReplyReference, normalizedReferencedReplyToId)
       );
       await logAssistantResponse(finalResponse, replyText);
     } catch (err) {
