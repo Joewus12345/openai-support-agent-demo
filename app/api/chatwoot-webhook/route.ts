@@ -22,6 +22,10 @@ import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CHATWOOT_SYSTEM_PROMPT, MODEL } from "@/config/constants";
+import {
+  RELEVANCE_FOLLOW_UP_MESSAGE,
+  RELEVANCE_REJECTION_MESSAGE,
+} from "@/config/guardrailMessages";
 import { getConversationKey } from "@/lib/getConversationKey";
 import { getConversationHistory } from "@/lib/getConversationHistory";
 import { getConversationSynopsis } from "@/lib/getConversationSynopsis";
@@ -49,6 +53,28 @@ const QUOTE_TRANSCRIPT_ASSISTANT_LIMIT = 2;
 const MAX_DEVELOPER_QUOTE_LINES = 6;
 const SYNOPSIS_HISTORY_LIMIT = 50;
 const PROMPT_HISTORY_LIMIT = 20;
+
+function extractResponseMessageText(message: any): string {
+  if (!message) {
+    return "";
+  }
+  const { content } = message as { content?: unknown };
+  if (typeof content === "string") {
+    return content;
+  }
+  if (Array.isArray(content)) {
+    return content
+      .map((item) => {
+        if (!item) return "";
+        if (typeof item === "string") return item;
+        if (typeof (item as any)?.text === "string") return (item as any).text;
+        return "";
+      })
+      .join(" ")
+      .trim();
+  }
+  return "";
+}
 
 function formatQuoteTimestamp(date?: Date): string {
   if (!date || !(date instanceof Date) || Number.isNaN(date.getTime())) {
@@ -1106,17 +1132,52 @@ export async function POST(request: Request) {
         input: relevanceInput,
       });
       const jailbreak = await runJailbreakGuardrail({ input: guardrailUserInput });
-      if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
+
+      if (jailbreak.tripwireTriggered) {
+        console.log("Guardrail triggered via Chatwoot: jailbreak", {
+          guardrailUserInput,
+          jailbreakOutput: jailbreak.outputInfo,
+          relevanceOutput: relevance.outputInfo,
+        });
         const guardrailResponse = await sendBotMessage(
           accountId,
           conversationId,
-          "I can't assist with that request.",
+          RELEVANCE_REJECTION_MESSAGE,
           buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
         );
-        await logAssistantResponse(
-          guardrailResponse,
-          "I can't assist with that request."
+        await logAssistantResponse(guardrailResponse, RELEVANCE_REJECTION_MESSAGE);
+        return NextResponse.json({ status: "guardrail" });
+      }
+
+      if (relevance.tripwireTriggered) {
+        const lastAssistantMessage = Array.isArray(fullHistory)
+          ? [...fullHistory].reverse().find((entry) => entry?.role === "assistant")
+          : undefined;
+        const previousAssistantText = extractResponseMessageText(
+          lastAssistantMessage
         );
+        const clarificationRequestedPreviously =
+          previousAssistantText === RELEVANCE_FOLLOW_UP_MESSAGE;
+        const outgoingMessage = clarificationRequestedPreviously
+          ? RELEVANCE_REJECTION_MESSAGE
+          : RELEVANCE_FOLLOW_UP_MESSAGE;
+        console.log(
+          clarificationRequestedPreviously
+            ? "Guardrail rejection after clarification via Chatwoot"
+            : "Guardrail follow-up requested via Chatwoot",
+          {
+            guardrailUserInput,
+            relevanceOutput: relevance.outputInfo,
+            conversationId,
+          }
+        );
+        const guardrailResponse = await sendBotMessage(
+          accountId,
+          conversationId,
+          outgoingMessage,
+          buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
+        );
+        await logAssistantResponse(guardrailResponse, outgoingMessage);
         return NextResponse.json({ status: "guardrail" });
       }
     } catch (err) {
