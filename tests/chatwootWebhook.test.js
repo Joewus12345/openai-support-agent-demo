@@ -1147,6 +1147,60 @@ test('chatwoot webhook includes referenced message in guardrail input', async ()
   resetMocks();
 });
 
+test('chatwoot webhook loads referenced message from prisma when redis misses', async () => {
+  const referencedMessageId = 2468;
+  redis.lrange.mock.mockImplementationOnce(async () => []);
+  prisma.conversationMessage.findUnique.mock.mockImplementationOnce(async () => ({
+    sender: 'contact',
+    content: 'Stored in the database.',
+  }));
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    toResponseMessage('assistant', 'Previous turn from assistant.'),
+  ]);
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 4322,
+        message_type: 0,
+        content: 'Following up on the prior details.',
+        content_attributes: { in_reply_to: referencedMessageId },
+        account: { id: 13 },
+        conversation: {
+          id: 22,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 13,
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(prisma.conversationMessage.findUnique.mock.calls.length, 1);
+  const enrichedContent =
+    'Customer referenced: "Stored in the database."\n\nFollowing up on the prior details.';
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  assert.strictEqual(
+    providerMessages[providerMessages.length - 1].content[0].text,
+    enrichedContent
+  );
+  assert.strictEqual(
+    prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content,
+    enrichedContent
+  );
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const replyOptions = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.deepStrictEqual(replyOptions, { private: false, inReplyTo: referencedMessageId });
+  assertLoggedIds(1);
+  resetMocks();
+});
+
 test('chatwoot webhook replies to referenced message when available', async () => {
   const referencedMessageId = 6789;
   redis.lrange.mock.mockImplementationOnce(async () => [
@@ -1189,6 +1243,51 @@ test('chatwoot webhook replies to referenced message when available', async () =
   assert.ok(options);
   assert.strictEqual(options.private, false);
   assert.strictEqual(options.inReplyTo, referencedMessageId);
+  assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook forwards content_attributes.in_reply_to to sendBotMessage', async () => {
+  const referencedMessageId = '13579';
+  redis.lrange.mock.mockImplementationOnce(async () => [
+    JSON.stringify({
+      messageId: Number(referencedMessageId),
+      sender: 'contact',
+      content: 'Details from earlier.',
+    }),
+  ]);
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    toResponseMessage('assistant', 'Could you clarify the request?'),
+  ]);
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 9877,
+        message_type: 0,
+        content: 'Here is what you asked for.',
+        content_attributes: { in_reply_to: referencedMessageId },
+        account: { id: 21 },
+        conversation: {
+          id: 34,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 21,
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const options = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.strictEqual(options.private, false);
+  assert.strictEqual(options.inReplyTo, Number(referencedMessageId));
   assertLoggedIds(1);
   resetMocks();
 });
