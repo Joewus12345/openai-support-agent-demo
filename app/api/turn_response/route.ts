@@ -66,8 +66,14 @@ export async function POST(request: Request) {
 
     let userInput = "";
     let guardrailInput = "";
-    let relevance = { tripwireTriggered: false };
-    let jailbreak = { tripwireTriggered: false };
+    let relevance: Awaited<ReturnType<typeof runRelevanceGuardrail>> = {
+      tripwireTriggered: false,
+      outputInfo: {},
+    };
+    let jailbreak: Awaited<ReturnType<typeof runJailbreakGuardrail>> = {
+      tripwireTriggered: false,
+      outputInfo: {},
+    };
 
     if (Array.isArray(normalizedMessages)) {
       const relevant = normalizedMessages
