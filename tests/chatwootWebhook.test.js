@@ -63,6 +63,10 @@ const getConversationTranscriptMock = mock.method(
 );
 
 const { toResponseMessage } = require('../lib/utils/toResponseMessage.ts');
+const {
+  RELEVANCE_FOLLOW_UP_MESSAGE,
+  RELEVANCE_REJECTION_MESSAGE,
+} = require('../config/guardrailMessages.ts');
 
 const agentRotation = require('../lib/agentRotation.ts');
 const getNextAgentMock = mock.method(agentRotation, 'getNextAgent', async () => null);
@@ -1316,10 +1320,53 @@ test('chatwoot webhook sends fallback when relevance guardrail triggers', async 
   const res = await webhookPost(req);
   const body = await res.json();
   assert.strictEqual(body.status, 'guardrail');
-  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], "I can't assist with that request.");
+  assert.strictEqual(
+    sendBotMessageMock.mock.calls[0].arguments[2],
+    RELEVANCE_FOLLOW_UP_MESSAGE
+  );
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,
     inReplyTo: 901,
+  });
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook rejects after clarification when relevance guardrail triggers again', async () => {
+  runRelevanceGuardrailMock.mock.mockImplementation(async () => ({
+    tripwireTriggered: true,
+  }));
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    toResponseMessage('assistant', RELEVANCE_FOLLOW_UP_MESSAGE),
+  ]);
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 905,
+        message_type: 0,
+        content: 'still off topic',
+        account: { id: 9 },
+        conversation: { id: 9, inbox_id: 1, status: 'resolved', account_id: 9 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'guardrail');
+  assert.strictEqual(
+    sendBotMessageMock.mock.calls[0].arguments[2],
+    RELEVANCE_REJECTION_MESSAGE
+  );
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: 905,
   });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   assertLoggedIds(1);
@@ -1350,7 +1397,10 @@ test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async 
   const res = await webhookPost(req);
   const body = await res.json();
   assert.strictEqual(body.status, 'guardrail');
-  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], "I can't assist with that request.");
+  assert.strictEqual(
+    sendBotMessageMock.mock.calls[0].arguments[2],
+    RELEVANCE_REJECTION_MESSAGE
+  );
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,
     inReplyTo: 902,
