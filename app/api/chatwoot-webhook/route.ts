@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import { parse } from "partial-json";
 import type { ChatwootWebhookPayload, Conversation } from "@/types/chatwoot";
 import prisma from "@/lib/prisma";
-import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
+import {
+  getNextAgent,
+  setActiveConversation,
+  type AgentAvailabilitySummary,
+} from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import redis from "@/lib/redis";
 import { storeBotMessage } from "@/lib/storeBotMessage";
@@ -53,6 +57,20 @@ const QUOTE_TRANSCRIPT_ASSISTANT_LIMIT = 2;
 const MAX_DEVELOPER_QUOTE_LINES = 6;
 const SYNOPSIS_HISTORY_LIMIT = 50;
 const PROMPT_HISTORY_LIMIT = 20;
+
+const BUSY_AGENT_MESSAGE =
+  "All human agents are currently busy. Please wait for the next available agent.";
+const OFFLINE_AGENT_MESSAGE =
+  "No human agents are currently available. Please try again later.";
+
+function getAgentUnavailableMessage(
+  summary: AgentAvailabilitySummary
+): string {
+  if (summary.online > 0 || summary.busy > 0) {
+    return BUSY_AGENT_MESSAGE;
+  }
+  return OFFLINE_AGENT_MESSAGE;
+}
 
 function extractResponseMessageText(message: any): string {
   if (!message) {
@@ -697,7 +715,7 @@ export async function POST(request: Request) {
       const confirmPattern = /\b(yes|y|sure|confirm|ok)\b/i;
       if (confirmPattern.test(content)) {
         try {
-            const agent = await getNextAgent(accountId);
+            const { agent } = await getNextAgent(accountId);
             if (agent) {
               const role =
                 agent.role === "administrator" ? "administrator" : "agent";
@@ -889,7 +907,7 @@ export async function POST(request: Request) {
       }
 
       try {
-        const agent = await getNextAgent(accountId);
+        const { agent, availabilitySummary } = await getNextAgent(accountId);
         if (agent) {
           console.info("handoff", {
             step: "enqueue",
@@ -1018,16 +1036,14 @@ export async function POST(request: Request) {
               accountId,
               conversationId,
             });
+          const unavailableMessage = getAgentUnavailableMessage(availabilitySummary);
           const botResponse = await sendBotMessage(
             accountId,
             conversationId,
-            "All human agents are currently busy. Please wait for the next available agent.",
+            unavailableMessage,
             buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
-          await logAssistantResponse(
-            botResponse,
-            "All human agents are currently busy. Please wait for the next available agent."
-          );
+          await logAssistantResponse(botResponse, unavailableMessage);
           console.info("handoff", "message sent");
         }
       } catch (err) {
