@@ -4,6 +4,32 @@ import { getProvider } from "@/lib/providers";
 import { saveSessionMessages } from "@/lib/server/saveSessionMessages";
 import { toResponseMessage } from "@/lib/utils/toResponseMessage";
 import { randomUUID } from "crypto";
+import {
+  RELEVANCE_FOLLOW_UP_MESSAGE,
+  RELEVANCE_REJECTION_MESSAGE,
+} from "@/config/guardrailMessages";
+
+function extractMessageText(message: any): string {
+  if (!message) {
+    return "";
+  }
+  const { content } = message;
+  if (typeof content === "string") {
+    return content;
+  }
+  if (Array.isArray(content)) {
+    return content
+      .map((item) => {
+        if (!item) return "";
+        if (typeof item === "string") return item;
+        if (typeof item?.text === "string") return item.text;
+        return "";
+      })
+      .join(" ")
+      .trim();
+  }
+  return "";
+}
 
 /**
  * Handle a single conversation turn and stream the model response.
@@ -40,8 +66,14 @@ export async function POST(request: Request) {
 
     let userInput = "";
     let guardrailInput = "";
-    let relevance = { tripwireTriggered: false };
-    let jailbreak = { tripwireTriggered: false };
+    let relevance: Awaited<ReturnType<typeof runRelevanceGuardrail>> = {
+      tripwireTriggered: false,
+      outputInfo: {},
+    };
+    let jailbreak: Awaited<ReturnType<typeof runJailbreakGuardrail>> = {
+      tripwireTriggered: false,
+      outputInfo: {},
+    };
 
     if (Array.isArray(normalizedMessages)) {
       const relevant = normalizedMessages
@@ -69,16 +101,57 @@ export async function POST(request: Request) {
     jailbreak = await runJailbreakGuardrail({ input: userInput });
     console.log("Jailbreak guardrail result:", jailbreak);
 
-    if (relevance.tripwireTriggered || jailbreak.tripwireTriggered) {
-      console.log("Guardrail triggered", {
-        relevanceTriggered: relevance.tripwireTriggered,
-        jailbreakTriggered: jailbreak.tripwireTriggered,
+    const lastMessageIndex = normalizedMessages.lastIndexOf(lastMessage);
+    let previousAssistantText = "";
+    if (
+      typeof lastMessageIndex === "number" &&
+      lastMessageIndex > 0 &&
+      lastMessage?.role === "user"
+    ) {
+      for (let index = lastMessageIndex - 1; index >= 0; index -= 1) {
+        const candidate = normalizedMessages[index];
+        if (candidate?.role === "assistant") {
+          previousAssistantText = extractMessageText(candidate);
+          break;
+        }
+      }
+    }
+
+    if (jailbreak.tripwireTriggered) {
+      console.log("Guardrail triggered: jailbreak", {
+        userInput,
+        jailbreakOutput: jailbreak.outputInfo,
+        relevanceOutput: relevance.outputInfo,
       });
       return NextResponse.json(
-        {
-          guardrail: true,
-          message: "Sorry, I can't help with that request.",
-        },
+        { guardrail: true, message: RELEVANCE_REJECTION_MESSAGE },
+        { status: 200 }
+      );
+    }
+
+    if (relevance.tripwireTriggered) {
+      const clarificationRequestedPreviously =
+        previousAssistantText === RELEVANCE_FOLLOW_UP_MESSAGE;
+
+      if (!clarificationRequestedPreviously) {
+        console.log("Guardrail follow-up requested", {
+          userInput,
+          guardrailInput,
+          relevanceOutput: relevance.outputInfo,
+        });
+        return NextResponse.json(
+          { guardrail: true, message: RELEVANCE_FOLLOW_UP_MESSAGE },
+          { status: 200 }
+        );
+      }
+
+      console.log("Guardrail rejection after clarification", {
+        userInput,
+        guardrailInput,
+        relevanceOutput: relevance.outputInfo,
+      });
+      return NextResponse.json(
+        { guardrail: true, message: RELEVANCE_REJECTION_MESSAGE },
         { status: 200 }
       );
     }
