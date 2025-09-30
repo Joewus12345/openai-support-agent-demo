@@ -6,7 +6,6 @@ require('tsconfig-paths/register');
 const conversationResolution = require('../lib/conversationResolution.ts');
 const chatwoot = require('../lib/chatwoot.ts');
 const chatwootBot = require('../lib/chatwootBot.ts');
-const storeBotMessage = require('../lib/storeBotMessage.ts');
 const agentRotation = require('../lib/agentRotation.ts');
 const handoffQueue = require('../lib/handoffQueue.ts');
 const friendlyErrors = require('../lib/friendlyErrors.ts');
@@ -30,6 +29,18 @@ const queuedConversationId = 2;
 const freedAgentId = 5;
 
 prisma.agentAssignment.findFirst = mock.fn(async () => ({ agentId: freedAgentId }));
+prisma.conversationMessage = {
+  upsert: mock.fn(async () => ({})),
+  findMany: mock.fn(async () => []),
+};
+
+const redisPipelineMock = {
+  rpush: mock.fn(() => {}),
+  expire: mock.fn(() => {}),
+  exec: mock.fn(async () => {}),
+};
+redis.exists = mock.fn(async () => 0);
+redis.pipeline = mock.fn(() => redisPipelineMock);
 
 test.after(async () => {
   await prisma.$disconnect();
@@ -63,39 +74,19 @@ const sendMock = mock.method(
   }
 );
 
-const storeBotMessageMock = mock.method(
-  storeBotMessage,
-  'storeBotMessage',
-  async (args) => ({
-    stored: true,
-    messageId: args.messageId,
-    inboxId: args.inboxId,
-    sourceId: args.sourceId,
-    conversationKey:
-      args.conversationKey ??
-      `chatwoot:${args.accountId}:${args.conversationId}:${args.inboxId}`,
-    content:
-      typeof args?.payload === 'object' &&
-      args?.payload !== null &&
-      typeof args.payload.content === 'string'
-        ? args.payload.content
-        : typeof args.fallbackContent === 'string'
-          ? args.fallbackContent
-          : '',
-  })
-);
-
 function assertLoggedIds(...expectedIds) {
-  assert.strictEqual(storeBotMessageMock.mock.calls.length, expectedIds.length);
+  const botMessages = prisma.conversationMessage.upsert.mock.calls
+    .map((call) => call.arguments?.[0]?.create)
+    .filter((create) => create && create.sender === 'bot');
+  assert.strictEqual(botMessages.length, expectedIds.length);
   expectedIds.forEach((id, index) => {
-    const call = storeBotMessageMock.mock.calls[index];
-    assert.strictEqual(call.arguments[0].messageId, id);
+    assert.strictEqual(botMessages[index].messageId, id);
   });
 }
 
 test('releaseAgent opens and assigns conversation before notifying', async () => {
   nextMessageId = 0;
-  storeBotMessageMock.mock.resetCalls();
+  prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
   await conversationResolution.releaseAgent(accountId, releasedConversationId, { assignee_id: freedAgentId });
 
@@ -110,7 +101,7 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
 
 test('releaseAgent sends fallback when updateRequest fails', async () => {
   nextMessageId = 0;
-  storeBotMessageMock.mock.resetCalls();
+  prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
   handoffQueue.updateRequest.mock.mockImplementationOnce(async () => { throw new Error('fail'); });
   const notifyMock = mock.method(friendlyErrors, 'notifyHandoffIssue', async () => {});
@@ -123,7 +114,7 @@ test('releaseAgent sends fallback when updateRequest fails', async () => {
 
 test('releaseAgent throws when freed agent cannot be resolved', async () => {
   nextMessageId = 0;
-  storeBotMessageMock.mock.resetCalls();
+  prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
   const fetchErr = new Error('fetch failed');
   getConversationMock.mock.mockImplementationOnce(async () => {
@@ -146,7 +137,7 @@ test('releaseAgent throws when freed agent cannot be resolved', async () => {
 
 test('status change without label skips releaseAgent call', async () => {
   nextMessageId = 0;
-  storeBotMessageMock.mock.resetCalls();
+  prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
   const consoleInfoMock = mock.method(console, 'info', () => {});
   const releaseAgentMock = mock.method(
@@ -191,7 +182,7 @@ test('status change without label skips releaseAgent call', async () => {
 
 test('label removed with status open skips releaseAgent call', async () => {
   nextMessageId = 0;
-  storeBotMessageMock.mock.resetCalls();
+  prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
   const consoleInfoMock = mock.method(console, 'info', () => {});
   const releaseAgentMock = mock.method(
@@ -244,7 +235,7 @@ test('label removed with status open skips releaseAgent call', async () => {
 
 test('status change with label triggers releaseAgent', async () => {
   nextMessageId = 0;
-  storeBotMessageMock.mock.resetCalls();
+  prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
   const consoleInfoMock = mock.method(console, 'info', () => {});
   const releaseAgentMock = mock.method(

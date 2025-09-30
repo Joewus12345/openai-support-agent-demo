@@ -4,10 +4,7 @@ import {
   sendBotMessage,
 } from "@/lib/chatwootBot";
 import { setAgentAvailability, updateConversation } from "@/lib/chatwoot";
-import {
-  resolveBotMessageIdentifiers,
-  storeBotMessage,
-} from "@/lib/storeBotMessage";
+import { storeBotMessage } from "@/lib/storeBotMessage";
 
 export async function handOff(
   accountId: number,
@@ -44,42 +41,12 @@ export async function handOff(
         conversationId,
         fallbackContent
       );
-      if (!response || typeof response !== "object") {
-        console.warn("handoff fallback message missing payload", {
-          accountId,
-          conversationId,
-        });
-        return false;
-      }
-
-      const { messageId: directMessageId, sourceId, inboxId } =
-        resolveBotMessageIdentifiers(response);
-      const resolvedMessageId =
-        typeof directMessageId === "number"
-          ? directMessageId
-          : typeof sourceId === "number"
-            ? sourceId
-            : undefined;
-
-      if (typeof resolvedMessageId === "number" && typeof inboxId === "number") {
-        await storeBotMessage({
-          accountId,
-          conversationId,
-          messageId: resolvedMessageId,
-          inboxId,
-          payload: response,
-          sourceId,
-          fallbackContent,
-        });
-      } else {
-        console.warn("handoff fallback message missing identifiers", {
-          hasMessageId: typeof directMessageId === "number",
-          hasSourceId: typeof sourceId === "number",
-          hasInboxId: typeof inboxId === "number",
-          accountId,
-          conversationId,
-        });
-      }
+      await storeBotMessage({
+        accountId,
+        conversationId,
+        payload: response,
+        fallbackContent,
+      });
     } catch (error) {
       console.error("send fallback message error", error);
     }

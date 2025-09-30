@@ -24,29 +24,6 @@ const sendBotMessageMock = mock.method(
   })
 );
 
-const storeBotMessage = require('../lib/storeBotMessage.ts');
-const storeBotMessageMock = mock.method(
-  storeBotMessage,
-  'storeBotMessage',
-  async (args) => ({
-    stored: true,
-    messageId: args.messageId,
-    inboxId: args.inboxId,
-    sourceId: args.sourceId,
-    conversationKey:
-      args.conversationKey ??
-      `chatwoot:${args.accountId}:${args.conversationId}:${args.inboxId}`,
-    content:
-      typeof args?.payload === 'object' &&
-      args?.payload !== null &&
-      typeof args.payload.content === 'string'
-        ? args.payload.content
-        : typeof args.fallbackContent === 'string'
-          ? args.fallbackContent
-          : '',
-  })
-);
-
 const {
   MESSAGE_FALLBACK_TEXT,
   HANDOFF_FALLBACK_TEXT,
@@ -164,7 +141,6 @@ function resetMocks() {
   releaseAgentMock.mock.mockImplementation(async () => {});
   sendBotMessageMock.mock.resetCalls();
   nextMessageId = 0;
-  storeBotMessageMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
   providerFnMock.mock.resetCalls();
   getNextAgentMock.mock.resetCalls();
@@ -205,11 +181,17 @@ function resetMocks() {
   }));
 }
 
+function getLoggedBotMessages() {
+  return prisma.conversationMessage.upsert.mock.calls
+    .map((call) => call.arguments?.[0]?.create)
+    .filter((create) => create && create.sender === 'bot');
+}
+
 function assertLoggedIds(...expectedIds) {
-  assert.strictEqual(storeBotMessageMock.mock.calls.length, expectedIds.length);
+  const botMessages = getLoggedBotMessages();
+  assert.strictEqual(botMessages.length, expectedIds.length);
   expectedIds.forEach((id, index) => {
-    const call = storeBotMessageMock.mock.calls[index];
-    assert.strictEqual(call.arguments[0].messageId, id);
+    assert.strictEqual(botMessages[index].messageId, id);
   });
 }
 
@@ -996,7 +978,11 @@ test('chatwoot webhook includes developer quote guidance when transcript exists'
   assert.strictEqual(messages[1].content[0].text, 'Quote summary');
   assert.strictEqual(messages[2].role, 'developer');
   const developerText = messages[2].content[0].text;
-  assert.ok(developerText.includes('Quote candidates (newest first):'));
+  assert.ok(
+    developerText.includes(
+      'Quote candidates available for set_reply_reference (newest first):'
+    )
+  );
   assert.ok(developerText.includes('user#4324'));
   assert.ok(developerText.includes('Official WhatsApp order update'));
   assert.ok(developerText.includes('user#4321'));
@@ -1161,6 +1147,60 @@ test('chatwoot webhook includes referenced message in guardrail input', async ()
   resetMocks();
 });
 
+test('chatwoot webhook loads referenced message from prisma when redis misses', async () => {
+  const referencedMessageId = 2468;
+  redis.lrange.mock.mockImplementationOnce(async () => []);
+  prisma.conversationMessage.findUnique.mock.mockImplementationOnce(async () => ({
+    sender: 'contact',
+    content: 'Stored in the database.',
+  }));
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    toResponseMessage('assistant', 'Previous turn from assistant.'),
+  ]);
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 4322,
+        message_type: 0,
+        content: 'Following up on the prior details.',
+        content_attributes: { in_reply_to: referencedMessageId },
+        account: { id: 13 },
+        conversation: {
+          id: 22,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 13,
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(prisma.conversationMessage.findUnique.mock.calls.length, 1);
+  const enrichedContent =
+    'Customer referenced: "Stored in the database."\n\nFollowing up on the prior details.';
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  assert.strictEqual(
+    providerMessages[providerMessages.length - 1].content[0].text,
+    enrichedContent
+  );
+  assert.strictEqual(
+    prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content,
+    enrichedContent
+  );
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const replyOptions = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.deepStrictEqual(replyOptions, { private: false, inReplyTo: referencedMessageId });
+  assertLoggedIds(1);
+  resetMocks();
+});
+
 test('chatwoot webhook replies to referenced message when available', async () => {
   const referencedMessageId = 6789;
   redis.lrange.mock.mockImplementationOnce(async () => [
@@ -1199,9 +1239,55 @@ test('chatwoot webhook replies to referenced message when available', async () =
   const res = await webhookPost(req);
   await res.json();
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
-  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
-    private: false,
+  const options = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.ok(options);
+  assert.strictEqual(options.private, false);
+  assert.strictEqual(options.inReplyTo, referencedMessageId);
+  assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook forwards content_attributes.in_reply_to to sendBotMessage', async () => {
+  const referencedMessageId = '13579';
+  redis.lrange.mock.mockImplementationOnce(async () => [
+    JSON.stringify({
+      messageId: Number(referencedMessageId),
+      sender: 'contact',
+      content: 'Details from earlier.',
+    }),
+  ]);
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    toResponseMessage('assistant', 'Could you clarify the request?'),
+  ]);
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 9877,
+        message_type: 0,
+        content: 'Here is what you asked for.',
+        content_attributes: { in_reply_to: referencedMessageId },
+        account: { id: 21 },
+        conversation: {
+          id: 34,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 21,
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
   });
+  const res = await webhookPost(req);
+  await res.json();
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const options = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.strictEqual(options.private, false);
+  assert.strictEqual(options.inReplyTo, Number(referencedMessageId));
   assertLoggedIds(1);
   resetMocks();
 });
@@ -1302,7 +1388,7 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
   const initialOptions = sendBotMessageMock.mock.calls[0].arguments[3];
   assert.strictEqual(initialOptions.private, false);
-  assert.ok(!Object.prototype.hasOwnProperty.call(initialOptions, 'inReplyTo'));
+  assert.strictEqual(initialOptions.inReplyTo, 800);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[1].arguments[2],
     MESSAGE_FALLBACK_TEXT
@@ -1377,7 +1463,7 @@ test('chatwoot webhook leaves inReplyTo unset when heuristic does not trigger', 
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
   const options = sendBotMessageMock.mock.calls[0].arguments[3];
   assert.strictEqual(options.private, false);
-  assert.ok(!Object.prototype.hasOwnProperty.call(options, 'inReplyTo'));
+  assert.strictEqual(options.inReplyTo, 906);
   assertLoggedIds(1);
   resetMocks();
 });
@@ -1447,6 +1533,195 @@ test('chatwoot webhook uses set_reply_reference message override', async () => {
   const options = sendBotMessageMock.mock.calls[0].arguments[3];
   assert.deepStrictEqual(options, { private: false, inReplyTo: overrideMessageId });
   resetMocks();
+});
+
+test('chatwoot webhook handles streaming quote override without final arguments', async () => {
+  const overrideMessageId = 65432;
+  providerFnMock.mock.mockImplementationOnce(() =>
+    (async function* () {
+      yield {
+        event: 'response.output_item.added',
+        data: {
+          item: {
+            type: 'function_call',
+            name: 'set_reply_reference',
+            id: 'call-missing-args',
+            call_id: 'call-missing-args',
+            arguments: '',
+          },
+        },
+      };
+      yield {
+        event: 'response.function_call_arguments.delta',
+        data: { item_id: 'call-missing-args', delta: '{"message_id":' },
+      };
+      yield {
+        event: 'response.function_call_arguments.delta',
+        data: { item_id: 'call-missing-args', delta: `${overrideMessageId}` },
+      };
+      yield {
+        event: 'response.function_call_arguments.delta',
+        data: { item_id: 'call-missing-args', delta: ',"use_quotes":true}' },
+      };
+      yield {
+        event: 'response.function_call_arguments.done',
+        data: { item_id: 'call-missing-args' },
+      };
+      yield {
+        event: 'response.output_text.delta',
+        data: { delta: 'Here is the information you requested.' },
+      };
+    })()
+  );
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 913,
+        message_type: 0,
+        content: 'Could you provide those details again?',
+        account: { id: 17 },
+        conversation: {
+          id: 913,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 17,
+        },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const options = sendBotMessageMock.mock.calls[0].arguments[3];
+  assert.deepStrictEqual(options, { private: false, inReplyTo: overrideMessageId });
+  resetMocks();
+});
+
+test('chatwoot webhook set_reply_reference streaming controls quoting content attributes', async () => {
+  const scenarios = [
+    {
+      name: 'applies quoting override with private flag',
+      callId: 'call-private-quote',
+      arguments: { message_id: 654321, private: true, use_quotes: true },
+      expected: { private: true, inReplyTo: 654321 },
+      accountId: 19,
+      conversationId: 919,
+      messageId: 919,
+      content: 'Here are the latest order details for review.',
+      replyText: 'Sharing the requested details now.',
+    },
+    {
+      name: 'omits content attributes when quoting is disabled',
+      callId: 'call-private-skip',
+      arguments: { private: true, use_quotes: false },
+      expected: { private: true },
+      accountId: 20,
+      conversationId: 920,
+      messageId: 920,
+      content: 'Please send a private note without quoting anything.',
+      replyText: 'Absolutely, sending a private update.',
+    },
+  ];
+
+  for (const scenario of scenarios) {
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'set_reply_reference',
+              id: scenario.callId,
+              call_id: scenario.callId,
+              arguments: '',
+            },
+          },
+        };
+        const argumentString = JSON.stringify(scenario.arguments);
+        const splitIndex = Math.max(1, Math.floor(argumentString.length / 2));
+        const fragments = [
+          argumentString.slice(0, splitIndex),
+          argumentString.slice(splitIndex),
+        ].filter((fragment) => fragment.length > 0);
+        for (const fragment of fragments) {
+          yield {
+            event: 'response.function_call_arguments.delta',
+            data: { item_id: scenario.callId, delta: fragment },
+          };
+        }
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: { item_id: scenario.callId, arguments: argumentString },
+        };
+        yield {
+          event: 'response.output_text.delta',
+          data: { delta: scenario.replyText },
+        };
+      })()
+    );
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: scenario.messageId,
+          message_type: 0,
+          content: scenario.content,
+          account: { id: scenario.accountId },
+          conversation: {
+            id: scenario.conversationId,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: scenario.accountId,
+          },
+        },
+      },
+    };
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+    const res = await webhookPost(req);
+    await res.json();
+
+    assert.strictEqual(
+      sendBotMessageMock.mock.calls.length,
+      1,
+      `${scenario.name} send count`
+    );
+    const options = sendBotMessageMock.mock.calls[0].arguments[3];
+    assert.strictEqual(
+      options.private,
+      scenario.expected.private,
+      `${scenario.name} private flag`
+    );
+    if (Object.prototype.hasOwnProperty.call(scenario.expected, 'inReplyTo')) {
+      assert.strictEqual(
+        options.inReplyTo,
+        scenario.expected.inReplyTo,
+        `${scenario.name} quoting override`
+      );
+    } else {
+      assert.ok(
+        !Object.prototype.hasOwnProperty.call(options, 'inReplyTo'),
+        `${scenario.name} should not include inReplyTo`
+      );
+    }
+
+    resetMocks();
+  }
 });
 
 test('chatwoot webhook fallback keeps quoting inbound when set_reply_reference skips quotes', async () => {

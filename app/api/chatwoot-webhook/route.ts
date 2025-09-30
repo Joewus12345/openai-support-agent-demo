@@ -5,10 +5,7 @@ import prisma from "@/lib/prisma";
 import { getNextAgent, setActiveConversation } from "@/lib/agentRotation";
 import { sendBotMessage } from "@/lib/chatwootBot";
 import redis from "@/lib/redis";
-import {
-  resolveBotMessageIdentifiers,
-  storeBotMessage,
-} from "@/lib/storeBotMessage";
+import { storeBotMessage } from "@/lib/storeBotMessage";
 import handOff from "@/lib/handoff";
 import {
   getConversation,
@@ -28,10 +25,7 @@ import { CHATWOOT_SYSTEM_PROMPT, MODEL } from "@/config/constants";
 import { getConversationKey } from "@/lib/getConversationKey";
 import { getConversationHistory } from "@/lib/getConversationHistory";
 import { getConversationSynopsis } from "@/lib/getConversationSynopsis";
-import {
-  getConversationTranscript,
-  type ConversationTranscriptEntry,
-} from "@/lib/getConversationTranscript";
+import { getQuoteCandidates, type QuoteCandidate } from "@/lib/getQuoteCandidates";
 import {
   runRelevanceGuardrail,
   runJailbreakGuardrail,
@@ -64,34 +58,19 @@ function formatQuoteTimestamp(date?: Date): string {
 }
 
 function buildQuoteDeveloperPrompt(
-  entries: ConversationTranscriptEntry[]
+  candidates: QuoteCandidate[]
 ): string | undefined {
-  if (!Array.isArray(entries) || !entries.length) {
+  if (!Array.isArray(candidates) || !candidates.length) {
     return undefined;
   }
-  const eligible = entries.filter((entry) => {
-    if (!entry?.quoteEligible) {
-      return false;
-    }
-    if (typeof entry.messageId !== "number" || !Number.isFinite(entry.messageId)) {
-      return false;
-    }
-    if (typeof entry.contentSnippet !== "string") {
-      return false;
-    }
-    return entry.contentSnippet.trim().length > 0;
-  });
-  if (!eligible.length) {
-    return undefined;
-  }
-  const limited = eligible.slice(0, MAX_DEVELOPER_QUOTE_LINES);
+  const limited = candidates.slice(0, MAX_DEVELOPER_QUOTE_LINES);
   const lines = limited.map((entry) => {
-    const snippet = entry.contentSnippet.trim();
+    const snippet = entry.snippet.trim();
     const prefix = `${entry.sender}#${entry.messageId}`;
     const timestamp = formatQuoteTimestamp(entry.createdAt);
     return `${prefix} · ${timestamp} · ${snippet}`;
   });
-  return `Quote candidates (newest first):\n${lines.join("\n")}`;
+  return `Quote candidates available for set_reply_reference (newest first):\n${lines.join("\n")}`;
 }
 
 function normalizeHistoryTurnFromMessage(message: any): HistoryTurn | undefined {
@@ -315,14 +294,18 @@ export async function POST(request: Request) {
           : String(content ?? "");
     const normalizedMessageId = parseMessageId(messageId);
     const referencedMessageId = extractReferencedMessageId(message);
-    const defaultReplyToId =
+    const normalizedReferencedReplyToId =
       typeof referencedMessageId === "number" &&
       Number.isFinite(referencedMessageId)
         ? referencedMessageId
-        : typeof normalizedMessageId === "number" &&
-            Number.isFinite(normalizedMessageId)
-          ? normalizedMessageId
-          : undefined;
+        : undefined;
+    const normalizedInboundReplyToId =
+      typeof normalizedMessageId === "number" &&
+      Number.isFinite(normalizedMessageId)
+        ? normalizedMessageId
+        : undefined;
+    const normalizedDefaultReplyToId =
+      normalizedReferencedReplyToId ?? normalizedInboundReplyToId;
     let referencedTurn: HistoryTurn | undefined;
 
     if (
@@ -549,43 +532,75 @@ export async function POST(request: Request) {
 
     const mode = INBOX_MODE[inboxId] ?? "auto";
 
+    const defaultReplyOverride =
+      normalizedDefaultReplyToId !== undefined
+        ? { inReplyTo: normalizedDefaultReplyToId }
+        : undefined;
+
     const buildReplyOptions = (
-      overrides?: { quoteMessageId?: number | null; forcePrivate?: boolean }
+      overrides?: { inReplyTo?: number | null; private?: boolean },
+      preferredReplyToId: number | undefined = normalizedReferencedReplyToId
     ) => {
       const options: { private?: boolean; inReplyTo?: number } = {};
-      const forcePrivate = overrides?.forcePrivate;
-      const quoteMessageId = overrides?.quoteMessageId;
-      const privateValue =
-        typeof forcePrivate === "boolean" ? forcePrivate : mode !== "auto";
-      options.private = privateValue;
+
+      const fallbackInReplyToId =
+        typeof preferredReplyToId === "number" &&
+        Number.isFinite(preferredReplyToId)
+          ? preferredReplyToId
+          : normalizedInboundReplyToId;
 
       const hasOverrides = overrides !== undefined;
-      const hasQuoteProp =
+      const hasPrivateProp =
         hasOverrides &&
         Object.prototype.hasOwnProperty.call(
           overrides as Record<string, unknown>,
-          "quoteMessageId"
+          "private"
         );
+      const privateOverride =
+        hasPrivateProp && typeof overrides?.private === "boolean"
+          ? overrides.private
+          : undefined;
+      options.private =
+        privateOverride !== undefined ? privateOverride : mode !== "auto";
 
-      if (quoteMessageId === null) {
-        return options;
-      }
+      const hasInReplyProp =
+        hasOverrides &&
+        Object.prototype.hasOwnProperty.call(
+          overrides as Record<string, unknown>,
+          "inReplyTo"
+        );
+      const overrideInReply = overrides?.inReplyTo;
 
-      if (
-        typeof quoteMessageId === "number" &&
-        Number.isFinite(quoteMessageId)
-      ) {
-        options.inReplyTo = quoteMessageId;
-        return options;
+      if (hasInReplyProp) {
+        if (overrideInReply === null) {
+          return options;
+        }
+
+        if (
+          typeof overrideInReply === "number" &&
+          Number.isFinite(overrideInReply)
+        ) {
+          options.inReplyTo = overrideInReply;
+          return options;
+        }
+
+        if (
+          overrideInReply === undefined &&
+          fallbackInReplyToId !== undefined
+        ) {
+          options.inReplyTo = fallbackInReplyToId;
+          return options;
+        }
       }
 
       if (
         hasOverrides &&
-        !hasQuoteProp &&
-        typeof defaultReplyToId === "number" &&
-        Number.isFinite(defaultReplyToId)
+        !hasInReplyProp &&
+        fallbackInReplyToId !== undefined
       ) {
-        options.inReplyTo = defaultReplyToId;
+        options.inReplyTo = fallbackInReplyToId;
+      } else if (!hasOverrides && fallbackInReplyToId !== undefined) {
+        options.inReplyTo = fallbackInReplyToId;
       }
 
       return options;
@@ -595,57 +610,18 @@ export async function POST(request: Request) {
       response: unknown,
       fallbackContent: string
     ) => {
-      if (!response || typeof response !== "object") {
-        console.warn("sendBotMessage response missing payload", {
-          accountId,
-          conversationId,
-        });
-        return;
-      }
-
-      const { messageId: directMessageId, sourceId, inboxId: responseInboxId } =
-        resolveBotMessageIdentifiers(response);
-      const resolvedMessageId =
-        typeof directMessageId === "number"
-          ? directMessageId
-          : typeof sourceId === "number"
-            ? sourceId
-            : undefined;
-      const fallbackInboxId =
-        typeof inboxId === "number" ? inboxId : undefined;
-      const resolvedInboxId =
-        typeof responseInboxId === "number"
-          ? responseInboxId
-          : fallbackInboxId;
-
-      if (
-        typeof resolvedMessageId !== "number" ||
-        typeof resolvedInboxId !== "number"
-      ) {
-        console.warn("sendBotMessage response missing identifiers", {
-          hasMessageId: typeof directMessageId === "number",
-          hasSourceId: typeof sourceId === "number",
-          hasInboxId: typeof resolvedInboxId === "number",
-          accountId,
-          conversationId,
-        });
-        return;
-      }
-
-      const resolvedConversationKey =
-        typeof inboxId === "number" && inboxId === resolvedInboxId
-          ? conversationKey
+      const defaultInboxId =
+        typeof inboxId === "number" && Number.isFinite(inboxId)
+          ? inboxId
           : undefined;
 
       await storeBotMessage({
         accountId,
         conversationId,
-        messageId: resolvedMessageId,
-        inboxId: resolvedInboxId,
         payload: response,
-        sourceId,
         fallbackContent,
-        conversationKey: resolvedConversationKey,
+        conversationKey: conversationKey ?? undefined,
+        defaultInboxId,
       });
     };
 
@@ -667,7 +643,7 @@ export async function POST(request: Request) {
           await notifyMessageIssue(
             accountId,
             conversationId,
-            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
@@ -727,7 +703,7 @@ export async function POST(request: Request) {
                 await notifyHandoffIssue(
                   accountId,
                   conversationId,
-                  buildReplyOptions({ quoteMessageId: defaultReplyToId })
+                  buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
                 );
               } catch (err2) {
                 console.error("fallback notifyHandoffIssue error", err2);
@@ -743,7 +719,7 @@ export async function POST(request: Request) {
               accountId,
               conversationId,
               "A human agent will join shortly.",
-              buildReplyOptions({ quoteMessageId: defaultReplyToId })
+              buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
             );
             await logAssistantResponse(
               botResponse,
@@ -811,7 +787,7 @@ export async function POST(request: Request) {
             await notifyHandoffIssue(
               accountId,
               conversationId,
-              buildReplyOptions({ quoteMessageId: defaultReplyToId })
+              buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
             );
           } catch (err2) {
             console.error("fallback notifyHandoffIssue error", err2);
@@ -870,7 +846,7 @@ export async function POST(request: Request) {
           await notifyMessageIssue(
             accountId,
             conversationId,
-            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
           return NextResponse.json(
             { status: "conversation_fetch_failed" },
@@ -909,7 +885,7 @@ export async function POST(request: Request) {
               await notifyHandoffIssue(
                 accountId,
                 conversationId,
-                buildReplyOptions({ quoteMessageId: defaultReplyToId })
+                buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
               );
             } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
@@ -936,7 +912,7 @@ export async function POST(request: Request) {
                   await notifyHandoffIssue(
                     accountId,
                     conversationId,
-                    buildReplyOptions({ quoteMessageId: defaultReplyToId })
+                    buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
                   );
                 } catch (err2) {
                   console.error("fallback notifyHandoffIssue error", err2);
@@ -956,7 +932,7 @@ export async function POST(request: Request) {
             accountId,
             conversationId,
             "A human agent will join shortly.",
-            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
           await logAssistantResponse(
             confirmationResponse,
@@ -992,7 +968,7 @@ export async function POST(request: Request) {
             await notifyHandoffIssue(
               accountId,
               conversationId,
-              buildReplyOptions({ quoteMessageId: defaultReplyToId })
+              buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
             );
           } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
@@ -1020,7 +996,7 @@ export async function POST(request: Request) {
             accountId,
             conversationId,
             "All human agents are currently busy. Please wait for the next available agent.",
-            buildReplyOptions({ quoteMessageId: defaultReplyToId })
+            buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
           await logAssistantResponse(
             botResponse,
@@ -1042,7 +1018,7 @@ export async function POST(request: Request) {
         await notifyMessageIssue(
           accountId,
           conversationId,
-          buildReplyOptions({ quoteMessageId: defaultReplyToId })
+          buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
         );
       } catch (err) {
         console.error("fallback notifyMessageIssue error", err);
@@ -1135,7 +1111,7 @@ export async function POST(request: Request) {
           accountId,
           conversationId,
           "I can't assist with that request.",
-          buildReplyOptions({ quoteMessageId: defaultReplyToId })
+          buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
         );
         await logAssistantResponse(
           guardrailResponse,
@@ -1149,16 +1125,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ status: "fallback" });
     }
 
-    let transcriptEntries: ConversationTranscriptEntry[] = [];
+    let quoteCandidates: QuoteCandidate[] = [];
     try {
-      transcriptEntries = await getConversationTranscript(conversationKey, {
+      quoteCandidates = await getQuoteCandidates(conversationKey, {
+        conversation,
+        message: message as any,
         userLimit: QUOTE_TRANSCRIPT_USER_LIMIT,
         assistantLimit: QUOTE_TRANSCRIPT_ASSISTANT_LIMIT,
+        maxCandidates: MAX_DEVELOPER_QUOTE_LINES,
       });
     } catch (err) {
-      console.error("conversation transcript error", err);
+      console.error("quote candidates error", err);
     }
-    const developerPrompt = buildQuoteDeveloperPrompt(transcriptEntries);
+    const developerPrompt = buildQuoteDeveloperPrompt(quoteCandidates);
+    if (developerPrompt) {
+      promptHistory = [
+        toResponseMessage("developer", developerPrompt),
+        ...promptHistory,
+      ];
+    }
 
     let conversationSynopsis: string | undefined;
     try {
@@ -1188,21 +1173,16 @@ export async function POST(request: Request) {
     let pendingReplyReferenceId: string | undefined;
     let pendingReplyReferenceArgs = "";
     let replyReferenceOverride:
-      | { quoteMessageId?: number | null; forcePrivate?: boolean }
+      | { inReplyTo?: number | null; private?: boolean }
       | undefined;
     try {
       const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
       const synopsisMessages = conversationSynopsis
         ? [toResponseMessage("developer", conversationSynopsis)]
         : [];
-      const developerMessages = developerPrompt
-        ? [toResponseMessage("developer", developerPrompt)]
-        : [];
-
       const buildProviderMessages = (historyEntries: ResponseMessage[]) => [
         systemMessage,
         ...synopsisMessages,
-        ...developerMessages,
         ...historyEntries,
       ];
 
@@ -1213,8 +1193,23 @@ export async function POST(request: Request) {
         MODEL as TiktokenModel
       );
 
+      const stickyDeveloperEntry =
+        trimmedHistory.length && trimmedHistory[0]?.role === "developer"
+          ? trimmedHistory[0]
+          : undefined;
+
       while (trimmedHistory.length && tokenEstimate > TOKEN_THRESHOLD) {
-        trimmedHistory = trimmedHistory.slice(1);
+        if (stickyDeveloperEntry) {
+          if (trimmedHistory.length <= 1) {
+            break;
+          }
+          trimmedHistory = [
+            stickyDeveloperEntry,
+            ...trimmedHistory.slice(2),
+          ];
+        } else {
+          trimmedHistory = trimmedHistory.slice(1);
+        }
         providerMessages = buildProviderMessages(trimmedHistory);
         tokenEstimate = estimateMessageTokens(
           providerMessages,
@@ -1315,14 +1310,39 @@ export async function POST(request: Request) {
                     parsedArgs?.messageId ??
                     parsedArgs?.messageID
                 );
+                const parsedPrivate =
+                  typeof parsedArgs?.private === "boolean"
+                    ? parsedArgs.private
+                    : typeof parsedArgs?.is_private === "boolean"
+                      ? parsedArgs.is_private
+                      : typeof parsedArgs?.send_private === "boolean"
+                        ? parsedArgs.send_private
+                        : undefined;
+
+                const nextOverride: {
+                  inReplyTo?: number | null;
+                  private?: boolean;
+                } = {};
+                let hasOverride = false;
+
                 if (parsedUseQuotes === false) {
-                  replyReferenceOverride = { quoteMessageId: null };
+                  nextOverride.inReplyTo = null;
+                  hasOverride = true;
                 } else if (typeof parsedMessageId === "number") {
-                  replyReferenceOverride = {
-                    quoteMessageId: parsedMessageId,
-                  };
+                  nextOverride.inReplyTo = parsedMessageId;
+                  hasOverride = true;
                 } else if (parsedUseQuotes === true) {
-                  replyReferenceOverride = {};
+                  nextOverride.inReplyTo = undefined;
+                  hasOverride = true;
+                }
+
+                if (typeof parsedPrivate === "boolean") {
+                  nextOverride.private = parsedPrivate;
+                  hasOverride = true;
+                }
+
+                if (hasOverride) {
+                  replyReferenceOverride = nextOverride;
                 }
               } catch (err) {
                 console.warn("set_reply_reference parse error", err);
@@ -1349,7 +1369,13 @@ export async function POST(request: Request) {
       : [];
 
     let finalReplyReference = replyReferenceOverride;
-    if (finalReplyReference === undefined) {
+    const hasQuoteOverride =
+      finalReplyReference !== undefined &&
+      Object.prototype.hasOwnProperty.call(
+        finalReplyReference as Record<string, unknown>,
+        "inReplyTo"
+      );
+    if (!hasQuoteOverride) {
       const shouldQuote = shouldQuoteInboundMessage({
         messageText: userInput,
         referencedMessageId,
@@ -1357,16 +1383,32 @@ export async function POST(request: Request) {
         history: quoteHistoryTurns,
       });
       if (shouldQuote) {
+        const fallbackQuoteId = (() => {
+          const overrideInReply = defaultReplyOverride?.inReplyTo;
+          if (
+            typeof overrideInReply === "number" &&
+            Number.isFinite(overrideInReply)
+          ) {
+            return overrideInReply;
+          }
+          if (
+            typeof normalizedDefaultReplyToId === "number" &&
+            Number.isFinite(normalizedDefaultReplyToId)
+          ) {
+            return normalizedDefaultReplyToId;
+          }
+          return undefined;
+        })();
         const preferredQuoteId =
           typeof referencedMessageId === "number" &&
           Number.isFinite(referencedMessageId)
             ? referencedMessageId
-            : typeof defaultReplyToId === "number" &&
-                Number.isFinite(defaultReplyToId)
-              ? defaultReplyToId
-              : undefined;
+            : fallbackQuoteId;
         if (typeof preferredQuoteId === "number") {
-          finalReplyReference = { quoteMessageId: preferredQuoteId };
+          finalReplyReference = {
+            ...(finalReplyReference ?? {}),
+            inReplyTo: preferredQuoteId,
+          };
         }
       }
     }
@@ -1376,7 +1418,7 @@ export async function POST(request: Request) {
         accountId,
         conversationId,
         replyText,
-        buildReplyOptions(finalReplyReference)
+        buildReplyOptions(finalReplyReference, normalizedReferencedReplyToId)
       );
       await logAssistantResponse(finalResponse, replyText);
     } catch (err) {
