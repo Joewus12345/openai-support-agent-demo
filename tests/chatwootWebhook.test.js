@@ -69,7 +69,14 @@ const {
 } = require('../config/guardrailMessages.ts');
 
 const agentRotation = require('../lib/agentRotation.ts');
-const getNextAgentMock = mock.method(agentRotation, 'getNextAgent', async () => null);
+const getNextAgentMock = mock.method(
+  agentRotation,
+  'getNextAgent',
+  async () => ({
+    agent: null,
+    availabilitySummary: { online: 0, busy: 0, offline: 0 },
+  })
+);
 const setActiveConversationMock = mock.method(agentRotation, 'setActiveConversation', async () => {});
 
 const handoff = require('../lib/handoff.ts');
@@ -148,6 +155,10 @@ function resetMocks() {
   getProviderMock.mock.resetCalls();
   providerFnMock.mock.resetCalls();
   getNextAgentMock.mock.resetCalls();
+  getNextAgentMock.mock.mockImplementation(async () => ({
+    agent: null,
+    availabilitySummary: { online: 0, busy: 0, offline: 0 },
+  }));
   setActiveConversationMock.mock.resetCalls();
   handOffMock.mock.resetCalls();
   enqueueRequestMock.mock.resetCalls();
@@ -570,7 +581,10 @@ test('chatwoot status webhook skips release when no assignee', async () => {
 });
 
 test('chatwoot webhook escalates when agent available', async () => {
-  getNextAgentMock.mock.mockImplementationOnce(async () => ({ id: 10, role: 'agent' }));
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: { id: 10, role: 'agent', availability_status: 'online' },
+    availabilitySummary: { online: 1, busy: 0, offline: 0 },
+  }));
   getConversationMock.mock.mockImplementationOnce(async () => ({ id: 1, status: 'resolved', inbox_id: 1 }));
   const payload = {
     event: 'message_created',
@@ -607,8 +621,11 @@ test('chatwoot webhook escalates when agent available', async () => {
   resetMocks();
 });
 
-test('chatwoot webhook queues request when no agent available', async () => {
-  getNextAgentMock.mock.mockImplementationOnce(async () => null);
+test('chatwoot webhook queues request when agents busy', async () => {
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: null,
+    availabilitySummary: { online: 0, busy: 3, offline: 1 },
+  }));
   getConversationMock.mock.mockImplementationOnce(async () => ({ id: 2, status: 'resolved', inbox_id: 1 }));
   const payload = {
     event: 'message_created',
@@ -635,7 +652,10 @@ test('chatwoot webhook queues request when no agent available', async () => {
   assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [2, 2, undefined, undefined, 1]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
-  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'All human agents are currently busy. Please wait for the next available agent.');
+  assert.strictEqual(
+    sendBotMessageMock.mock.calls[0].arguments[2],
+    'All human agents are currently busy. Please wait for the next available agent.'
+  );
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,
     inReplyTo: 2,
@@ -645,8 +665,59 @@ test('chatwoot webhook queues request when no agent available', async () => {
   resetMocks();
 });
 
+test('chatwoot webhook queues request when agents offline', async () => {
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: null,
+    availabilitySummary: { online: 0, busy: 0, offline: 4 },
+  }));
+  getConversationMock.mock.mockImplementationOnce(async () => ({
+    id: 3,
+    status: 'resolved',
+    inbox_id: 1,
+  }));
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 3,
+        message_type: 0,
+        content: 'Is a human available?',
+        account: { id: 3 },
+        conversation: { id: 3, inbox_id: 1, status: 'resolved', account_id: 3 },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(body.status, 'handoff');
+  assert.strictEqual(handOffMock.mock.calls.length, 0);
+  assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
+  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [3, 3, undefined, undefined, 1]);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
+  assert.strictEqual(
+    sendBotMessageMock.mock.calls[0].arguments[2],
+    'No human agents are currently available. Please try again later.'
+  );
+  assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+    private: false,
+    inReplyTo: 3,
+  });
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assertLoggedIds(1);
+  resetMocks();
+});
+
 test('chatwoot webhook sends fallback when enqueueRequest fails', async () => {
-  getNextAgentMock.mock.mockImplementationOnce(async () => ({ id: 10, role: 'agent' }));
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: { id: 10, role: 'agent', availability_status: 'online' },
+    availabilitySummary: { online: 1, busy: 0, offline: 0 },
+  }));
   getConversationMock.mock.mockImplementationOnce(async () => ({ id: 1, status: 'resolved', inbox_id: 1 }));
   enqueueRequestMock.mock.mockImplementationOnce(async () => { throw new Error('fail'); });
   const payload = {
@@ -681,7 +752,10 @@ test('chatwoot webhook sends fallback when enqueueRequest fails', async () => {
 });
 
 test('chatwoot webhook sends fallback when updateRequest fails', async () => {
-  getNextAgentMock.mock.mockImplementationOnce(async () => ({ id: 10, role: 'agent' }));
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: { id: 10, role: 'agent', availability_status: 'online' },
+    availabilitySummary: { online: 1, busy: 0, offline: 0 },
+  }));
   getConversationMock.mock.mockImplementationOnce(async () => ({ id: 1, status: 'resolved', inbox_id: 1 }));
   handOffMock.mock.mockImplementationOnce(async () => false);
   updateRequestMock.mock.mockImplementationOnce(async () => { throw new Error('fail'); });
