@@ -8,20 +8,60 @@ export interface AgentRecord {
   [key: string]: any;
 }
 
+export interface AgentAvailabilitySummary {
+  online: number;
+  busy: number;
+  offline: number;
+}
+
+export interface AgentSelectionResult {
+  agent: AgentRecord | null;
+  availabilitySummary: AgentAvailabilitySummary;
+}
+
 export async function getNextAgent(
   accountId: number
-): Promise<AgentRecord | null> {
-  const agents: AgentRecord[] = await listAgents(accountId, "online");
-  // Double-check the API response to ensure only online agents are considered
+): Promise<AgentSelectionResult> {
+  const agents: AgentRecord[] = await listAgents(accountId);
+
+  const availabilitySummary: AgentAvailabilitySummary = {
+    online: 0,
+    busy: 0,
+    offline: 0,
+  };
+
+  for (const agent of agents) {
+    switch (agent.availability_status) {
+      case "online":
+        availabilitySummary.online += 1;
+        break;
+      case "busy":
+        availabilitySummary.busy += 1;
+        break;
+      case "offline":
+        availabilitySummary.offline += 1;
+        break;
+      default:
+        break;
+    }
+  }
+
   const onlineAgents = agents.filter(
     (a) => a.availability_status === "online"
   );
   console.info(
     "[agentRotation] fetched agents",
-    { accountId, agents: onlineAgents.map((a) => ({ id: a.id, availability_status: a.availability_status })) }
+    {
+      accountId,
+      availabilitySummary,
+      agents: onlineAgents.map((a) => ({
+        id: a.id,
+        availability_status: a.availability_status,
+      })),
+    }
   );
   if (onlineAgents.length === 0) {
-    return null;
+    return { agent: null, availabilitySummary };
   }
 
   const existing = await prisma.agentAssignment.findMany({
@@ -58,14 +98,14 @@ export async function getNextAgent(
     orderBy: { lastAssignedAt: "asc" },
   });
   if (!nextAssignment) {
-    return null;
+    return { agent: null, availabilitySummary };
   }
 
   const nextAgent = onlineAgents.find(
     (a) => a.id === nextAssignment.agentId
   );
   if (!nextAgent) {
-    return null;
+    return { agent: null, availabilitySummary };
   }
 
   await prisma.agentAssignment.update({
@@ -78,7 +118,7 @@ export async function getNextAgent(
     data: { lastAssignedAt: new Date() },
   });
 
-  return nextAgent;
+  return { agent: nextAgent, availabilitySummary };
 }
 
 export async function setActiveConversation(
