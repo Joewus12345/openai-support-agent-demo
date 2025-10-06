@@ -42,6 +42,13 @@ export async function dequeueRequest(accountId: number, inboxId: number) {
   });
 }
 
+export async function dequeueNextPendingRequest(accountId: number) {
+  return prisma.handoffRequest.findFirst({
+    where: { status: "pending", accountId },
+    orderBy: { requestedAt: "asc" },
+  });
+}
+
 export async function updateRequest(
   conversationKey: string,
   data: {

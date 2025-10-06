@@ -14,6 +14,7 @@ import {
 import { CONVO_LABELS } from "@/lib/constants";
 import {
   dequeueRequest,
+  dequeueNextPendingRequest,
   updateRequest,
   updateQueuePositions,
   formatQueuePositionMessage,
@@ -117,6 +118,9 @@ export async function releaseAgent(
           accountId,
           conversationId
         );
+      }
+      if (!request) {
+        request = await dequeueNextPendingRequest(accountId);
       }
       if (request) {
         try {
