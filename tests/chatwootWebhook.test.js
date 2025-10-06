@@ -85,6 +85,11 @@ const handOffMock = mock.method(handoff, 'default', async () => true);
 const handoffQueue = require('../lib/handoffQueue.ts');
 const enqueueRequestMock = mock.method(handoffQueue, 'enqueueRequest', async () => {});
 const updateRequestMock = mock.method(handoffQueue, 'updateRequest', async () => {});
+const updateQueuePositionsMock = mock.method(
+  handoffQueue,
+  'updateQueuePositions',
+  async () => []
+);
 
 const chatwoot = require('../lib/chatwoot.ts');
 const getConversationMock = mock.method(chatwoot, 'getConversation', async () => ({ id: 1, status: 'resolved', inbox_id: 1 }));
@@ -163,6 +168,8 @@ function resetMocks() {
   handOffMock.mock.resetCalls();
   enqueueRequestMock.mock.resetCalls();
   updateRequestMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.mockImplementation(async () => []);
   getConversationMock.mock.resetCalls();
   setConversationLabelsMock.mock.resetCalls();
   getConversationLabelsMock.mock.resetCalls();
@@ -627,6 +634,19 @@ test('chatwoot webhook queues request when agents busy', async () => {
     availabilitySummary: { online: 0, busy: 3, offline: 1 },
   }));
   getConversationMock.mock.mockImplementationOnce(async () => ({ id: 2, status: 'resolved', inbox_id: 1 }));
+  updateQueuePositionsMock.mock.mockImplementationOnce(async () => [
+    {
+      conversationKey: 'chatwoot:2:1:2',
+      conversationId: 2,
+      accountId: 2,
+      inboxId: 1,
+      requestedAt: new Date(),
+      status: 'pending',
+      agentId: null,
+      lastPositionNotified: 1,
+      position: 1,
+    },
+  ]);
   const payload = {
     event: 'message_created',
     data: {
@@ -650,11 +670,13 @@ test('chatwoot webhook queues request when agents busy', async () => {
   assert.strictEqual(handOffMock.mock.calls.length, 0);
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
   assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [2, 2, undefined, undefined, 1]);
+  assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls[0].arguments, [2, 1]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[0].arguments[2],
-    'All human agents are currently busy. Please wait for the next available agent.'
+    'All human agents are currently busy. Please wait for the next available agent. You are currently number 1 in the queue.'
   );
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,
@@ -675,6 +697,19 @@ test('chatwoot webhook queues request when agents offline', async () => {
     status: 'resolved',
     inbox_id: 1,
   }));
+  updateQueuePositionsMock.mock.mockImplementationOnce(async () => [
+    {
+      conversationKey: 'chatwoot:3:1:3',
+      conversationId: 3,
+      accountId: 3,
+      inboxId: 1,
+      requestedAt: new Date(),
+      status: 'pending',
+      agentId: null,
+      lastPositionNotified: 1,
+      position: 1,
+    },
+  ]);
   const payload = {
     event: 'message_created',
     data: {
@@ -698,11 +733,13 @@ test('chatwoot webhook queues request when agents offline', async () => {
   assert.strictEqual(handOffMock.mock.calls.length, 0);
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
   assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [3, 3, undefined, undefined, 1]);
+  assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls[0].arguments, [3, 1]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[0].arguments[2],
-    'No human agents are currently available. Please try again later.'
+    'No human agents are currently available. Please try again later. You are currently number 1 in the queue.'
   );
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,

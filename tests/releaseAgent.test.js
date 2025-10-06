@@ -18,17 +18,25 @@ const { CONVO_LABELS } = require('../lib/constants.ts');
 mock.method(chatwoot, 'getConversationLabels', async () => ({ payload: [] }));
 mock.method(chatwoot, 'setConversationLabels', async () => {});
 mock.method(chatwoot, 'setAgentAvailability', async () => {});
-const getConversationMock = mock.method(chatwoot, 'getConversation', async () => ({}));
+const getConversationMock = mock.method(
+  chatwoot,
+  'getConversation',
+  async () => ({ inbox_id: inboxId })
+);
 mock.method(agentRotation, 'clearActiveConversation', async () => {});
 mock.method(agentRotation, 'setActiveConversation', async () => {});
 mock.method(handoffQueue, 'updateRequest', async () => {});
 
 const accountId = 1;
+const inboxId = 1;
 const releasedConversationId = 1;
 const queuedConversationId = 2;
 const freedAgentId = 5;
 
-prisma.agentAssignment.findFirst = mock.fn(async () => ({ agentId: freedAgentId }));
+prisma.agentAssignment.findFirst = mock.fn(async () => ({
+  agentId: freedAgentId,
+  inboxId,
+}));
 prisma.conversationMessage = {
   upsert: mock.fn(async () => ({})),
   findMany: mock.fn(async () => []),
@@ -53,7 +61,25 @@ let status = 'resolved';
 
 let nextMessageId = 0;
 
-const dequeueRequestMock = mock.method(handoffQueue, 'dequeueRequest', async () => ({ conversationId: queuedConversationId, conversationKey: `chatwoot:${accountId}:${queuedConversationId}` }));
+const dequeueRequestMock = mock.method(
+  handoffQueue,
+  'dequeueRequest',
+  async () => ({
+    conversationId: queuedConversationId,
+    conversationKey: `chatwoot:${accountId}:${inboxId}:${queuedConversationId}`,
+    accountId,
+    inboxId,
+    requestedAt: new Date(),
+    status: 'pending',
+    agentId: null,
+    lastPositionNotified: null,
+  })
+);
+const updateQueuePositionsMock = mock.method(
+  handoffQueue,
+  'updateQueuePositions',
+  async () => []
+);
 const toggleMock = mock.method(chatwootBot, 'toggleConversationStatus', async () => {
   status = 'open';
 });
@@ -88,15 +114,44 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
   nextMessageId = 0;
   prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
-  await conversationResolution.releaseAgent(accountId, releasedConversationId, { assignee_id: freedAgentId });
+  updateQueuePositionsMock.mock.mockImplementationOnce(async () => [
+    {
+      conversationKey: `chatwoot:${accountId}:${inboxId}:3`,
+      conversationId: 3,
+      accountId,
+      inboxId,
+      requestedAt: new Date(),
+      status: 'pending',
+      agentId: null,
+      lastPositionNotified: 2,
+      position: 1,
+    },
+  ]);
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
 
   assert.strictEqual(dequeueRequestMock.mock.calls.length, 1);
+  assert.deepStrictEqual(dequeueRequestMock.mock.calls[0].arguments, [
+    accountId,
+    inboxId,
+  ]);
   assert.strictEqual(toggleMock.mock.calls.length, 1);
   assert.deepStrictEqual(toggleMock.mock.calls[0].arguments, [accountId, queuedConversationId, 'open']);
   assert.strictEqual(assignMock.mock.calls.length, 1);
   assert.deepStrictEqual(assignMock.mock.calls[0].arguments, [accountId, queuedConversationId, freedAgentId]);
-  assert.strictEqual(sendMock.mock.calls.length, 1);
-  assertLoggedIds(1);
+  assert.strictEqual(sendMock.mock.calls.length, 2);
+  assert.strictEqual(
+    sendMock.mock.calls[1].arguments[2],
+    'All human agents are currently busy. Please wait for the next available agent. You are currently number 1 in the queue.'
+  );
+  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls[0].arguments, [
+    accountId,
+    inboxId,
+  ]);
+  assertLoggedIds(1, 2);
 });
 
 test('releaseAgent sends fallback when updateRequest fails', async () => {
@@ -105,7 +160,10 @@ test('releaseAgent sends fallback when updateRequest fails', async () => {
   sendMock.mock.resetCalls();
   handoffQueue.updateRequest.mock.mockImplementationOnce(async () => { throw new Error('fail'); });
   const notifyMock = mock.method(friendlyErrors, 'notifyHandoffIssue', async () => {});
-  await conversationResolution.releaseAgent(accountId, releasedConversationId, { assignee_id: freedAgentId });
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
   assert.strictEqual(notifyMock.mock.calls.length, 1);
   assert.strictEqual(sendMock.mock.calls.length, 0);
   assertLoggedIds();

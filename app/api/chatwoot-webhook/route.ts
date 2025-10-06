@@ -22,7 +22,12 @@ import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
 import { toResponseMessage, type ResponseMessage } from "@/lib/utils/toResponseMessage";
-import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
+import {
+  enqueueRequest,
+  updateRequest,
+  updateQueuePositions,
+  formatQueuePositionMessage,
+} from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CHATWOOT_SYSTEM_PROMPT, MODEL } from "@/config/constants";
@@ -915,6 +920,9 @@ export async function POST(request: Request) {
             agentId: agent.id,
           });
           try {
+            if (typeof inboxId !== "number") {
+              throw new Error("Missing inboxId for handoff request");
+            }
             await enqueueRequest(
               accountId,
               conversationId,
@@ -998,6 +1006,9 @@ export async function POST(request: Request) {
         } else {
           console.info("handoff", { step: "enqueue", conversationId });
           try {
+            if (typeof inboxId !== "number") {
+              throw new Error("Missing inboxId for handoff request");
+            }
             await enqueueRequest(
               accountId,
               conversationId,
@@ -1037,13 +1048,28 @@ export async function POST(request: Request) {
               conversationId,
             });
           const unavailableMessage = getAgentUnavailableMessage(availabilitySummary);
+          let queueMessage = unavailableMessage;
+          try {
+            const queueUpdates = await updateQueuePositions(accountId, inboxId);
+            const pendingUpdate = queueUpdates.find(
+              (update) => update.conversationId === conversationId
+            );
+            if (pendingUpdate) {
+              queueMessage = formatQueuePositionMessage(
+                unavailableMessage,
+                pendingUpdate.position
+              );
+            }
+          } catch (err) {
+            console.error("updateQueuePositions error", err);
+          }
           const botResponse = await sendBotMessage(
             accountId,
             conversationId,
-            unavailableMessage,
+            queueMessage,
             buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
-          await logAssistantResponse(botResponse, unavailableMessage);
+          await logAssistantResponse(botResponse, queueMessage);
           console.info("handoff", "message sent");
         }
       } catch (err) {

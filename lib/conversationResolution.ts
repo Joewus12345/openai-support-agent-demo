@@ -12,10 +12,18 @@ import {
   assignConversation,
 } from "@/lib/chatwootBot";
 import { CONVO_LABELS } from "@/lib/constants";
-import { dequeueRequest, updateRequest } from "@/lib/handoffQueue";
+import {
+  dequeueRequest,
+  updateRequest,
+  updateQueuePositions,
+  formatQueuePositionMessage,
+} from "@/lib/handoffQueue";
 import { notifyHandoffIssue } from "@/lib/friendlyErrors";
 import type { Conversation } from "@/types/chatwoot";
 import { storeBotMessage } from "@/lib/storeBotMessage";
+
+const BUSY_AGENT_MESSAGE =
+  "All human agents are currently busy. Please wait for the next available agent.";
 
 /**
  * Clear the active conversation for the freed agent and assign the next request in queue.
@@ -27,6 +35,7 @@ export async function releaseAgent(
   conversation?: Conversation
 ) {
   let freedAgentId: number | undefined;
+  let inboxId: number | undefined = (conversation as any)?.inbox_id;
   let outcome = "no-agent";
   let resolveError: unknown;
   try {
@@ -42,10 +51,13 @@ export async function releaseAgent(
 
   try {
     freedAgentId = (conversation as any)?.assignee_id;
-    if (freedAgentId === undefined) {
+    if (freedAgentId === undefined || inboxId === undefined) {
       try {
         const convo = await getConversation(accountId, conversationId);
         freedAgentId = (convo as any)?.assignee_id;
+        if (inboxId === undefined) {
+          inboxId = (convo as any)?.inbox_id;
+        }
       } catch (err) {
         console.error("fetch assignee error", err);
         resolveError = err;
@@ -56,7 +68,10 @@ export async function releaseAgent(
         const assignment = await prisma.agentAssignment.findFirst({
           where: { activeConversationId: conversationId },
         });
-        freedAgentId = assignment?.agentId;
+        freedAgentId = assignment?.agentId ?? freedAgentId;
+        if (inboxId === undefined) {
+          inboxId = assignment?.inboxId;
+        }
       } catch (err) {
         console.error("lookup assignment error", err);
         resolveError = err;
@@ -93,7 +108,16 @@ export async function releaseAgent(
         throw new Error("Agent availability update failed");
       }
 
-      const request = await dequeueRequest();
+      let request: Awaited<ReturnType<typeof dequeueRequest>> | null = null;
+      if (typeof inboxId === "number") {
+        request = await dequeueRequest(accountId, inboxId);
+      } else {
+        console.warn(
+          "releaseAgent missing inboxId for pending queue",
+          accountId,
+          conversationId
+        );
+      }
       if (request) {
         try {
           await setConversationLabels(accountId, request.conversationId, [
@@ -151,6 +175,38 @@ export async function releaseAgent(
           payload: confirmationMessage,
           fallbackContent: "A human agent will join shortly.",
         });
+
+        if (typeof request.inboxId === "number") {
+          try {
+            const queueUpdates = await updateQueuePositions(
+              accountId,
+              request.inboxId
+            );
+            for (const update of queueUpdates) {
+              try {
+                const queueMessage = formatQueuePositionMessage(
+                  BUSY_AGENT_MESSAGE,
+                  update.position
+                );
+                const queueResponse = await sendBotMessage(
+                  accountId,
+                  update.conversationId,
+                  queueMessage
+                );
+                await storeBotMessage({
+                  accountId,
+                  conversationId: update.conversationId,
+                  payload: queueResponse,
+                  fallbackContent: queueMessage,
+                });
+              } catch (err) {
+                console.error("queue position notify error", err);
+              }
+            }
+          } catch (err) {
+            console.error("updateQueuePositions error", err);
+          }
+        }
         outcome = "assigned";
       } else {
         outcome = "released";
