@@ -2,6 +2,11 @@ import prisma from "./prisma";
 import type { HandoffRequest, HandoffRequestStatus } from "./generated/prisma";
 import { getConversationKey } from "./getConversationKey";
 
+export type QueueScope = {
+  accountId: number;
+  inboxId?: number;
+};
+
 export function formatQueuePositionMessage(
   baseMessage: string,
   position: number
@@ -35,18 +40,25 @@ export async function enqueueRequest(
   });
 }
 
-export async function dequeueRequest(accountId: number, inboxId: number) {
-  return prisma.handoffRequest.findFirst({
-    where: { status: "pending", accountId, inboxId },
+async function getPendingRequests(scope: QueueScope): Promise<HandoffRequest[]> {
+  return prisma.handoffRequest.findMany({
+    where: {
+      status: "pending",
+      accountId: scope.accountId,
+      ...(scope.inboxId === undefined ? {} : { inboxId: scope.inboxId }),
+    },
     orderBy: { requestedAt: "asc" },
   });
 }
 
+export async function dequeueRequest(accountId: number, inboxId: number) {
+  const queue = await getPendingRequests({ accountId, inboxId });
+  return queue[0] ?? null;
+}
+
 export async function dequeueNextPendingRequest(accountId: number) {
-  return prisma.handoffRequest.findFirst({
-    where: { status: "pending", accountId },
-    orderBy: { requestedAt: "asc" },
-  });
+  const queue = await getPendingRequests({ accountId });
+  return queue[0] ?? null;
 }
 
 export async function updateRequest(
@@ -67,19 +79,15 @@ export async function getPendingQueue(
   accountId: number,
   inboxId: number
 ): Promise<HandoffRequest[]> {
-  return prisma.handoffRequest.findMany({
-    where: { status: "pending", accountId, inboxId },
-    orderBy: { requestedAt: "asc" },
-  });
+  return getPendingRequests({ accountId, inboxId });
 }
 
 export type QueuePositionUpdate = HandoffRequest & { position: number };
 
 export async function updateQueuePositions(
-  accountId: number,
-  inboxId: number
+  scope: QueueScope
 ): Promise<QueuePositionUpdate[]> {
-  const queue = await getPendingQueue(accountId, inboxId);
+  const queue = await getPendingRequests(scope);
   const updates: QueuePositionUpdate[] = [];
 
   await Promise.all(
