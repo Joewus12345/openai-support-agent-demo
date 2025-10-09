@@ -636,6 +636,17 @@ test('chatwoot webhook queues request when agents busy', async () => {
   getConversationMock.mock.mockImplementationOnce(async () => ({ id: 2, status: 'resolved', inbox_id: 1 }));
   updateQueuePositionsMock.mock.mockImplementationOnce(async () => [
     {
+      conversationKey: 'chatwoot:2:2:99',
+      conversationId: 99,
+      accountId: 2,
+      inboxId: 2,
+      requestedAt: new Date(),
+      status: 'pending',
+      agentId: null,
+      lastPositionNotified: 3,
+      position: 1,
+    },
+    {
       conversationKey: 'chatwoot:2:1:2',
       conversationId: 2,
       accountId: 2,
@@ -644,7 +655,7 @@ test('chatwoot webhook queues request when agents busy', async () => {
       status: 'pending',
       agentId: null,
       lastPositionNotified: 1,
-      position: 1,
+      position: 2,
     },
   ]);
   const payload = {
@@ -671,12 +682,14 @@ test('chatwoot webhook queues request when agents busy', async () => {
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
   assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [2, 2, undefined, undefined, 1]);
   assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 1);
-  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls[0].arguments, [2, 1]);
+  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls[0].arguments, [
+    { accountId: 2 },
+  ]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[0].arguments[2],
-    'All human agents are currently busy. Please wait for the next available agent. You are currently number 1 in the queue.'
+    'All human agents are currently busy. Please wait for the next available agent. You are currently number 2 in the queue.'
   );
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,
@@ -734,7 +747,9 @@ test('chatwoot webhook queues request when agents offline', async () => {
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
   assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [3, 3, undefined, undefined, 1]);
   assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 1);
-  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls[0].arguments, [3, 1]);
+  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls[0].arguments, [
+    { accountId: 3 },
+  ]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
   assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
   assert.strictEqual(

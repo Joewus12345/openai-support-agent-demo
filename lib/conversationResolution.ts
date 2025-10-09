@@ -180,36 +180,31 @@ export async function releaseAgent(
           fallbackContent: "A human agent will join shortly.",
         });
 
-        if (typeof request.inboxId === "number") {
-          try {
-            const queueUpdates = await updateQueuePositions(
-              accountId,
-              request.inboxId
-            );
-            for (const update of queueUpdates) {
-              try {
-                const queueMessage = formatQueuePositionMessage(
-                  BUSY_AGENT_MESSAGE,
-                  update.position
-                );
-                const queueResponse = await sendBotMessage(
-                  accountId,
-                  update.conversationId,
-                  queueMessage
-                );
-                await storeBotMessage({
-                  accountId,
-                  conversationId: update.conversationId,
-                  payload: queueResponse,
-                  fallbackContent: queueMessage,
-                });
-              } catch (err) {
-                console.error("queue position notify error", err);
-              }
+        try {
+          const queueUpdates = await updateQueuePositions({ accountId });
+          for (const update of queueUpdates) {
+            try {
+              const queueMessage = formatQueuePositionMessage(
+                BUSY_AGENT_MESSAGE,
+                update.position
+              );
+              const queueResponse = await sendBotMessage(
+                accountId,
+                update.conversationId,
+                queueMessage
+              );
+              await storeBotMessage({
+                accountId,
+                conversationId: update.conversationId,
+                payload: queueResponse,
+                fallbackContent: queueMessage,
+              });
+            } catch (err) {
+              console.error("queue position notify error", err);
             }
-          } catch (err) {
-            console.error("updateQueuePositions error", err);
           }
+        } catch (err) {
+          console.error("updateQueuePositions error", err);
         }
         outcome = "assigned";
       } else {

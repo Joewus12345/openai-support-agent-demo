@@ -27,6 +27,7 @@ import {
   updateRequest,
   updateQueuePositions,
   formatQueuePositionMessage,
+  type QueuePositionUpdate,
 } from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
@@ -1005,6 +1006,7 @@ export async function POST(request: Request) {
             }
         } else {
           console.info("handoff", { step: "enqueue", conversationId });
+          let queueUpdates: QueuePositionUpdate[] = [];
           try {
             if (typeof inboxId !== "number") {
               throw new Error("Missing inboxId for handoff request");
@@ -1017,18 +1019,23 @@ export async function POST(request: Request) {
               inboxId
             );
             console.info("handoff", "request enqueued");
-        } catch (err) {
-          console.error("enqueueRequest error", err);
-          try {
-            await notifyHandoffIssue(
-              accountId,
-              conversationId,
-              buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
-            );
-          } catch (err2) {
+          } catch (err) {
+            console.error("enqueueRequest error", err);
+            try {
+              await notifyHandoffIssue(
+                accountId,
+                conversationId,
+                buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
+              );
+            } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
             }
             return NextResponse.json({ status: "fallback" });
+          }
+          try {
+            queueUpdates = await updateQueuePositions({ accountId });
+          } catch (err) {
+            console.error("updateQueuePositions error", err);
           }
             const labels = [CONVO_LABELS.waiting];
             console.info("handoff", {
@@ -1049,19 +1056,14 @@ export async function POST(request: Request) {
             });
           const unavailableMessage = getAgentUnavailableMessage(availabilitySummary);
           let queueMessage = unavailableMessage;
-          try {
-            const queueUpdates = await updateQueuePositions(accountId, inboxId);
-            const pendingUpdate = queueUpdates.find(
-              (update) => update.conversationId === conversationId
+          const pendingUpdate = queueUpdates.find(
+            (update) => update.conversationId === conversationId
+          );
+          if (pendingUpdate) {
+            queueMessage = formatQueuePositionMessage(
+              unavailableMessage,
+              pendingUpdate.position
             );
-            if (pendingUpdate) {
-              queueMessage = formatQueuePositionMessage(
-                unavailableMessage,
-                pendingUpdate.position
-              );
-            }
-          } catch (err) {
-            console.error("updateQueuePositions error", err);
           }
           const botResponse = await sendBotMessage(
             accountId,

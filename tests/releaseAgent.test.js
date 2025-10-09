@@ -179,8 +179,7 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
     initialQueueUpdateCalls + 1
   );
   assert.deepStrictEqual(updateQueuePositionsMock.mock.calls.at(-1).arguments, [
-    accountId,
-    inboxId,
+    { accountId },
   ]);
   assertLoggedIds(1, 2);
 });
@@ -250,14 +249,17 @@ test('releaseAgent assigns next pending request from another inbox', async () =>
     initialQueueUpdateCalls + 1
   );
   assert.deepStrictEqual(updateQueuePositionsMock.mock.calls.at(-1).arguments, [
-    accountId,
-    otherInboxId,
+    { accountId },
   ]);
   assert.strictEqual(sendMock.mock.calls.length, initialSendCalls + 2);
   assert.strictEqual(sendMock.mock.calls.at(-2).arguments[1], otherQueuedConversationId);
   assert.strictEqual(
     sendMock.mock.calls.at(-1).arguments[1],
     fallbackRequest.conversationId + 1
+  );
+  assert.strictEqual(
+    sendMock.mock.calls.at(-1).arguments[2],
+    'All human agents are currently busy. Please wait for the next available agent. You are currently number 1 in the queue.'
   );
   assertLoggedIds(1, 2);
 });
