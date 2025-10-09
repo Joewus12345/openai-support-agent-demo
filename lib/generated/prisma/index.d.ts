@@ -8024,72 +8024,102 @@ export namespace Prisma {
 
   export type HandoffRequestAvgAggregateOutputType = {
     conversationId: number | null
+    accountId: number | null
+    inboxId: number | null
     agentId: number | null
+    lastPositionNotified: number | null
   }
 
   export type HandoffRequestSumAggregateOutputType = {
     conversationId: number | null
+    accountId: number | null
+    inboxId: number | null
     agentId: number | null
+    lastPositionNotified: number | null
   }
 
   export type HandoffRequestMinAggregateOutputType = {
     conversationKey: string | null
     conversationId: number | null
+    accountId: number | null
+    inboxId: number | null
     requestedAt: Date | null
     status: $Enums.HandoffRequestStatus | null
     agentId: number | null
+    lastPositionNotified: number | null
   }
 
   export type HandoffRequestMaxAggregateOutputType = {
     conversationKey: string | null
     conversationId: number | null
+    accountId: number | null
+    inboxId: number | null
     requestedAt: Date | null
     status: $Enums.HandoffRequestStatus | null
     agentId: number | null
+    lastPositionNotified: number | null
   }
 
   export type HandoffRequestCountAggregateOutputType = {
     conversationKey: number
     conversationId: number
+    accountId: number
+    inboxId: number
     requestedAt: number
     status: number
     agentId: number
+    lastPositionNotified: number
     _all: number
   }
 
 
   export type HandoffRequestAvgAggregateInputType = {
     conversationId?: true
+    accountId?: true
+    inboxId?: true
     agentId?: true
+    lastPositionNotified?: true
   }
 
   export type HandoffRequestSumAggregateInputType = {
     conversationId?: true
+    accountId?: true
+    inboxId?: true
     agentId?: true
+    lastPositionNotified?: true
   }
 
   export type HandoffRequestMinAggregateInputType = {
     conversationKey?: true
     conversationId?: true
+    accountId?: true
+    inboxId?: true
     requestedAt?: true
     status?: true
     agentId?: true
+    lastPositionNotified?: true
   }
 
   export type HandoffRequestMaxAggregateInputType = {
     conversationKey?: true
     conversationId?: true
+    accountId?: true
+    inboxId?: true
     requestedAt?: true
     status?: true
     agentId?: true
+    lastPositionNotified?: true
   }
 
   export type HandoffRequestCountAggregateInputType = {
     conversationKey?: true
     conversationId?: true
+    accountId?: true
+    inboxId?: true
     requestedAt?: true
     status?: true
     agentId?: true
+    lastPositionNotified?: true
     _all?: true
   }
 
@@ -8182,9 +8212,12 @@ export namespace Prisma {
   export type HandoffRequestGroupByOutputType = {
     conversationKey: string
     conversationId: number
+    accountId: number
+    inboxId: number
     requestedAt: Date
     status: $Enums.HandoffRequestStatus
     agentId: number | null
+    lastPositionNotified: number | null
     _count: HandoffRequestCountAggregateOutputType | null
     _avg: HandoffRequestAvgAggregateOutputType | null
     _sum: HandoffRequestSumAggregateOutputType | null
@@ -8209,36 +8242,48 @@ export namespace Prisma {
   export type HandoffRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     conversationKey?: boolean
     conversationId?: boolean
+    accountId?: boolean
+    inboxId?: boolean
     requestedAt?: boolean
     status?: boolean
     agentId?: boolean
+    lastPositionNotified?: boolean
   }, ExtArgs["result"]["handoffRequest"]>
 
   export type HandoffRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     conversationKey?: boolean
     conversationId?: boolean
+    accountId?: boolean
+    inboxId?: boolean
     requestedAt?: boolean
     status?: boolean
     agentId?: boolean
+    lastPositionNotified?: boolean
   }, ExtArgs["result"]["handoffRequest"]>
 
   export type HandoffRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     conversationKey?: boolean
     conversationId?: boolean
+    accountId?: boolean
+    inboxId?: boolean
     requestedAt?: boolean
     status?: boolean
     agentId?: boolean
+    lastPositionNotified?: boolean
   }, ExtArgs["result"]["handoffRequest"]>
 
   export type HandoffRequestSelectScalar = {
     conversationKey?: boolean
     conversationId?: boolean
+    accountId?: boolean
+    inboxId?: boolean
     requestedAt?: boolean
     status?: boolean
     agentId?: boolean
+    lastPositionNotified?: boolean
   }
 
-  export type HandoffRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"conversationKey" | "conversationId" | "requestedAt" | "status" | "agentId", ExtArgs["result"]["handoffRequest"]>
+  export type HandoffRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"conversationKey" | "conversationId" | "accountId" | "inboxId" | "requestedAt" | "status" | "agentId" | "lastPositionNotified", ExtArgs["result"]["handoffRequest"]>
 
   export type $HandoffRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "HandoffRequest"
@@ -8246,9 +8291,12 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       conversationKey: string
       conversationId: number
+      accountId: number
+      inboxId: number
       requestedAt: Date
       status: $Enums.HandoffRequestStatus
       agentId: number | null
+      lastPositionNotified: number | null
     }, ExtArgs["result"]["handoffRequest"]>
     composites: {}
   }
@@ -8674,9 +8722,12 @@ export namespace Prisma {
   interface HandoffRequestFieldRefs {
     readonly conversationKey: FieldRef<"HandoffRequest", 'String'>
     readonly conversationId: FieldRef<"HandoffRequest", 'Int'>
+    readonly accountId: FieldRef<"HandoffRequest", 'Int'>
+    readonly inboxId: FieldRef<"HandoffRequest", 'Int'>
     readonly requestedAt: FieldRef<"HandoffRequest", 'DateTime'>
     readonly status: FieldRef<"HandoffRequest", 'HandoffRequestStatus'>
     readonly agentId: FieldRef<"HandoffRequest", 'Int'>
+    readonly lastPositionNotified: FieldRef<"HandoffRequest", 'Int'>
   }
     
 
@@ -9133,9 +9184,12 @@ export namespace Prisma {
   export const HandoffRequestScalarFieldEnum: {
     conversationKey: 'conversationKey',
     conversationId: 'conversationId',
+    accountId: 'accountId',
+    inboxId: 'inboxId',
     requestedAt: 'requestedAt',
     status: 'status',
-    agentId: 'agentId'
+    agentId: 'agentId',
+    lastPositionNotified: 'lastPositionNotified'
   };
 
   export type HandoffRequestScalarFieldEnum = (typeof HandoffRequestScalarFieldEnum)[keyof typeof HandoffRequestScalarFieldEnum]
@@ -9652,17 +9706,23 @@ export namespace Prisma {
     NOT?: HandoffRequestWhereInput | HandoffRequestWhereInput[]
     conversationKey?: StringFilter<"HandoffRequest"> | string
     conversationId?: IntFilter<"HandoffRequest"> | number
+    accountId?: IntFilter<"HandoffRequest"> | number
+    inboxId?: IntFilter<"HandoffRequest"> | number
     requestedAt?: DateTimeFilter<"HandoffRequest"> | Date | string
     status?: EnumHandoffRequestStatusFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
     agentId?: IntNullableFilter<"HandoffRequest"> | number | null
+    lastPositionNotified?: IntNullableFilter<"HandoffRequest"> | number | null
   }
 
   export type HandoffRequestOrderByWithRelationInput = {
     conversationKey?: SortOrder
     conversationId?: SortOrder
+    accountId?: SortOrder
+    inboxId?: SortOrder
     requestedAt?: SortOrder
     status?: SortOrder
     agentId?: SortOrderInput | SortOrder
+    lastPositionNotified?: SortOrderInput | SortOrder
   }
 
   export type HandoffRequestWhereUniqueInput = Prisma.AtLeast<{
@@ -9671,17 +9731,23 @@ export namespace Prisma {
     OR?: HandoffRequestWhereInput[]
     NOT?: HandoffRequestWhereInput | HandoffRequestWhereInput[]
     conversationId?: IntFilter<"HandoffRequest"> | number
+    accountId?: IntFilter<"HandoffRequest"> | number
+    inboxId?: IntFilter<"HandoffRequest"> | number
     requestedAt?: DateTimeFilter<"HandoffRequest"> | Date | string
     status?: EnumHandoffRequestStatusFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
     agentId?: IntNullableFilter<"HandoffRequest"> | number | null
+    lastPositionNotified?: IntNullableFilter<"HandoffRequest"> | number | null
   }, "conversationKey">
 
   export type HandoffRequestOrderByWithAggregationInput = {
     conversationKey?: SortOrder
     conversationId?: SortOrder
+    accountId?: SortOrder
+    inboxId?: SortOrder
     requestedAt?: SortOrder
     status?: SortOrder
     agentId?: SortOrderInput | SortOrder
+    lastPositionNotified?: SortOrderInput | SortOrder
     _count?: HandoffRequestCountOrderByAggregateInput
     _avg?: HandoffRequestAvgOrderByAggregateInput
     _max?: HandoffRequestMaxOrderByAggregateInput
@@ -9695,9 +9761,12 @@ export namespace Prisma {
     NOT?: HandoffRequestScalarWhereWithAggregatesInput | HandoffRequestScalarWhereWithAggregatesInput[]
     conversationKey?: StringWithAggregatesFilter<"HandoffRequest"> | string
     conversationId?: IntWithAggregatesFilter<"HandoffRequest"> | number
+    accountId?: IntWithAggregatesFilter<"HandoffRequest"> | number
+    inboxId?: IntWithAggregatesFilter<"HandoffRequest"> | number
     requestedAt?: DateTimeWithAggregatesFilter<"HandoffRequest"> | Date | string
     status?: EnumHandoffRequestStatusWithAggregatesFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
     agentId?: IntNullableWithAggregatesFilter<"HandoffRequest"> | number | null
+    lastPositionNotified?: IntNullableWithAggregatesFilter<"HandoffRequest"> | number | null
   }
 
   export type UserCreateInput = {
@@ -10094,57 +10163,78 @@ export namespace Prisma {
   export type HandoffRequestCreateInput = {
     conversationKey: string
     conversationId: number
+    accountId: number
+    inboxId: number
     requestedAt?: Date | string
     status?: $Enums.HandoffRequestStatus
     agentId?: number | null
+    lastPositionNotified?: number | null
   }
 
   export type HandoffRequestUncheckedCreateInput = {
     conversationKey: string
     conversationId: number
+    accountId: number
+    inboxId: number
     requestedAt?: Date | string
     status?: $Enums.HandoffRequestStatus
     agentId?: number | null
+    lastPositionNotified?: number | null
   }
 
   export type HandoffRequestUpdateInput = {
     conversationKey?: StringFieldUpdateOperationsInput | string
     conversationId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
     requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
     agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPositionNotified?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type HandoffRequestUncheckedUpdateInput = {
     conversationKey?: StringFieldUpdateOperationsInput | string
     conversationId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
     requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
     agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPositionNotified?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type HandoffRequestCreateManyInput = {
     conversationKey: string
     conversationId: number
+    accountId: number
+    inboxId: number
     requestedAt?: Date | string
     status?: $Enums.HandoffRequestStatus
     agentId?: number | null
+    lastPositionNotified?: number | null
   }
 
   export type HandoffRequestUpdateManyMutationInput = {
     conversationKey?: StringFieldUpdateOperationsInput | string
     conversationId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
     requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
     agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPositionNotified?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type HandoffRequestUncheckedUpdateManyInput = {
     conversationKey?: StringFieldUpdateOperationsInput | string
     conversationId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
     requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
     agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPositionNotified?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -10630,35 +10720,50 @@ export namespace Prisma {
   export type HandoffRequestCountOrderByAggregateInput = {
     conversationKey?: SortOrder
     conversationId?: SortOrder
+    accountId?: SortOrder
+    inboxId?: SortOrder
     requestedAt?: SortOrder
     status?: SortOrder
     agentId?: SortOrder
+    lastPositionNotified?: SortOrder
   }
 
   export type HandoffRequestAvgOrderByAggregateInput = {
     conversationId?: SortOrder
+    accountId?: SortOrder
+    inboxId?: SortOrder
     agentId?: SortOrder
+    lastPositionNotified?: SortOrder
   }
 
   export type HandoffRequestMaxOrderByAggregateInput = {
     conversationKey?: SortOrder
     conversationId?: SortOrder
+    accountId?: SortOrder
+    inboxId?: SortOrder
     requestedAt?: SortOrder
     status?: SortOrder
     agentId?: SortOrder
+    lastPositionNotified?: SortOrder
   }
 
   export type HandoffRequestMinOrderByAggregateInput = {
     conversationKey?: SortOrder
     conversationId?: SortOrder
+    accountId?: SortOrder
+    inboxId?: SortOrder
     requestedAt?: SortOrder
     status?: SortOrder
     agentId?: SortOrder
+    lastPositionNotified?: SortOrder
   }
 
   export type HandoffRequestSumOrderByAggregateInput = {
     conversationId?: SortOrder
+    accountId?: SortOrder
+    inboxId?: SortOrder
     agentId?: SortOrder
+    lastPositionNotified?: SortOrder
   }
 
   export type EnumHandoffRequestStatusWithAggregatesFilter<$PrismaModel = never> = {

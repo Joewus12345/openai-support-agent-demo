@@ -22,7 +22,13 @@ import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
 import { toResponseMessage, type ResponseMessage } from "@/lib/utils/toResponseMessage";
-import { enqueueRequest, updateRequest } from "@/lib/handoffQueue";
+import {
+  enqueueRequest,
+  updateRequest,
+  updateQueuePositions,
+  formatQueuePositionMessage,
+  type QueuePositionUpdate,
+} from "@/lib/handoffQueue";
 import { handoffStrategy } from "@/config/handoffStrategy";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CHATWOOT_SYSTEM_PROMPT, MODEL } from "@/config/constants";
@@ -915,6 +921,9 @@ export async function POST(request: Request) {
             agentId: agent.id,
           });
           try {
+            if (typeof inboxId !== "number") {
+              throw new Error("Missing inboxId for handoff request");
+            }
             await enqueueRequest(
               accountId,
               conversationId,
@@ -997,7 +1006,11 @@ export async function POST(request: Request) {
             }
         } else {
           console.info("handoff", { step: "enqueue", conversationId });
+          let queueUpdates: QueuePositionUpdate[] = [];
           try {
+            if (typeof inboxId !== "number") {
+              throw new Error("Missing inboxId for handoff request");
+            }
             await enqueueRequest(
               accountId,
               conversationId,
@@ -1006,18 +1019,23 @@ export async function POST(request: Request) {
               inboxId
             );
             console.info("handoff", "request enqueued");
-        } catch (err) {
-          console.error("enqueueRequest error", err);
-          try {
-            await notifyHandoffIssue(
-              accountId,
-              conversationId,
-              buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
-            );
-          } catch (err2) {
+          } catch (err) {
+            console.error("enqueueRequest error", err);
+            try {
+              await notifyHandoffIssue(
+                accountId,
+                conversationId,
+                buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
+              );
+            } catch (err2) {
               console.error("fallback notifyHandoffIssue error", err2);
             }
             return NextResponse.json({ status: "fallback" });
+          }
+          try {
+            queueUpdates = await updateQueuePositions({ accountId });
+          } catch (err) {
+            console.error("updateQueuePositions error", err);
           }
             const labels = [CONVO_LABELS.waiting];
             console.info("handoff", {
@@ -1037,13 +1055,23 @@ export async function POST(request: Request) {
               conversationId,
             });
           const unavailableMessage = getAgentUnavailableMessage(availabilitySummary);
+          let queueMessage = unavailableMessage;
+          const pendingUpdate = queueUpdates.find(
+            (update) => update.conversationId === conversationId
+          );
+          if (pendingUpdate) {
+            queueMessage = formatQueuePositionMessage(
+              unavailableMessage,
+              pendingUpdate.position
+            );
+          }
           const botResponse = await sendBotMessage(
             accountId,
             conversationId,
-            unavailableMessage,
+            queueMessage,
             buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
           );
-          await logAssistantResponse(botResponse, unavailableMessage);
+          await logAssistantResponse(botResponse, queueMessage);
           console.info("handoff", "message sent");
         }
       } catch (err) {

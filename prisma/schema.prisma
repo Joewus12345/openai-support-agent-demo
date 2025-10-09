@@ -90,7 +90,10 @@ enum HandoffRequestStatus {
 model HandoffRequest {
   conversationKey String @id
   conversationId Int
+  accountId     Int
+  inboxId       Int
   requestedAt   DateTime           @default(now())
   status        HandoffRequestStatus @default(pending)
   agentId       Int?
+  lastPositionNotified Int?
 }

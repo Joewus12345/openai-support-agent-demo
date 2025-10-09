@@ -18,17 +18,27 @@ const { CONVO_LABELS } = require('../lib/constants.ts');
 mock.method(chatwoot, 'getConversationLabels', async () => ({ payload: [] }));
 mock.method(chatwoot, 'setConversationLabels', async () => {});
 mock.method(chatwoot, 'setAgentAvailability', async () => {});
-const getConversationMock = mock.method(chatwoot, 'getConversation', async () => ({}));
+const getConversationMock = mock.method(
+  chatwoot,
+  'getConversation',
+  async () => ({ inbox_id: inboxId })
+);
 mock.method(agentRotation, 'clearActiveConversation', async () => {});
 mock.method(agentRotation, 'setActiveConversation', async () => {});
 mock.method(handoffQueue, 'updateRequest', async () => {});
 
 const accountId = 1;
+const inboxId = 1;
 const releasedConversationId = 1;
 const queuedConversationId = 2;
 const freedAgentId = 5;
+const otherInboxId = 2;
+const otherQueuedConversationId = 20;
 
-prisma.agentAssignment.findFirst = mock.fn(async () => ({ agentId: freedAgentId }));
+prisma.agentAssignment.findFirst = mock.fn(async () => ({
+  agentId: freedAgentId,
+  inboxId,
+}));
 prisma.conversationMessage = {
   upsert: mock.fn(async () => ({})),
   findMany: mock.fn(async () => []),
@@ -53,7 +63,30 @@ let status = 'resolved';
 
 let nextMessageId = 0;
 
-const dequeueRequestMock = mock.method(handoffQueue, 'dequeueRequest', async () => ({ conversationId: queuedConversationId, conversationKey: `chatwoot:${accountId}:${queuedConversationId}` }));
+const dequeueRequestMock = mock.method(
+  handoffQueue,
+  'dequeueRequest',
+  async () => ({
+    conversationId: queuedConversationId,
+    conversationKey: `chatwoot:${accountId}:${inboxId}:${queuedConversationId}`,
+    accountId,
+    inboxId,
+    requestedAt: new Date(),
+    status: 'pending',
+    agentId: null,
+    lastPositionNotified: null,
+  })
+);
+const dequeueNextPendingRequestMock = mock.method(
+  handoffQueue,
+  'dequeueNextPendingRequest',
+  async () => null
+);
+const updateQueuePositionsMock = mock.method(
+  handoffQueue,
+  'updateQueuePositions',
+  async () => []
+);
 const toggleMock = mock.method(chatwootBot, 'toggleConversationStatus', async () => {
   status = 'open';
 });
@@ -88,24 +121,163 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
   nextMessageId = 0;
   prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
-  await conversationResolution.releaseAgent(accountId, releasedConversationId, { assignee_id: freedAgentId });
+  toggleMock.mock.resetCalls();
+  assignMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
+  const initialDequeueCalls = dequeueRequestMock.mock.calls.length;
+  const initialToggleCalls = toggleMock.mock.calls.length;
+  const initialAssignCalls = assignMock.mock.calls.length;
+  const initialSendCalls = sendMock.mock.calls.length;
+  const initialQueueUpdateCalls = updateQueuePositionsMock.mock.calls.length;
+  updateQueuePositionsMock.mock.mockImplementationOnce(async () => [
+    {
+      conversationKey: `chatwoot:${accountId}:${inboxId}:3`,
+      conversationId: 3,
+      accountId,
+      inboxId,
+      requestedAt: new Date(),
+      status: 'pending',
+      agentId: null,
+      lastPositionNotified: 2,
+      position: 1,
+    },
+  ]);
 
-  assert.strictEqual(dequeueRequestMock.mock.calls.length, 1);
-  assert.strictEqual(toggleMock.mock.calls.length, 1);
-  assert.deepStrictEqual(toggleMock.mock.calls[0].arguments, [accountId, queuedConversationId, 'open']);
-  assert.strictEqual(assignMock.mock.calls.length, 1);
-  assert.deepStrictEqual(assignMock.mock.calls[0].arguments, [accountId, queuedConversationId, freedAgentId]);
-  assert.strictEqual(sendMock.mock.calls.length, 1);
-  assertLoggedIds(1);
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  assert.strictEqual(
+    dequeueRequestMock.mock.calls.length,
+    initialDequeueCalls + 1
+  );
+  assert.deepStrictEqual(dequeueRequestMock.mock.calls.at(-1).arguments, [
+    accountId,
+    inboxId,
+  ]);
+  assert.strictEqual(toggleMock.mock.calls.length, initialToggleCalls + 1);
+  assert.deepStrictEqual(toggleMock.mock.calls.at(-1).arguments, [
+    accountId,
+    queuedConversationId,
+    'open',
+  ]);
+  assert.strictEqual(assignMock.mock.calls.length, initialAssignCalls + 1);
+  assert.deepStrictEqual(assignMock.mock.calls.at(-1).arguments, [
+    accountId,
+    queuedConversationId,
+    freedAgentId,
+  ]);
+  assert.strictEqual(sendMock.mock.calls.length, initialSendCalls + 2);
+  assert.strictEqual(
+    sendMock.mock.calls.at(-1).arguments[2],
+    'All human agents are currently busy. Please wait for the next available agent. You are currently number 1 in the queue.'
+  );
+  assert.strictEqual(
+    updateQueuePositionsMock.mock.calls.length,
+    initialQueueUpdateCalls + 1
+  );
+  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls.at(-1).arguments, [
+    { accountId },
+  ]);
+  assertLoggedIds(1, 2);
+});
+
+test('releaseAgent assigns next pending request from another inbox', async () => {
+  nextMessageId = 0;
+  prisma.conversationMessage.upsert.mock.resetCalls();
+  sendMock.mock.resetCalls();
+  toggleMock.mock.resetCalls();
+  assignMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
+  const initialDequeueCalls = dequeueRequestMock.mock.calls.length;
+  const initialFallbackCalls = dequeueNextPendingRequestMock.mock.calls.length;
+  const initialAssignCalls = assignMock.mock.calls.length;
+  const initialQueueUpdateCalls = updateQueuePositionsMock.mock.calls.length;
+  const initialSendCalls = sendMock.mock.calls.length;
+  const fallbackRequest = {
+    conversationId: otherQueuedConversationId,
+    conversationKey: `chatwoot:${accountId}:${otherInboxId}:${otherQueuedConversationId}`,
+    accountId,
+    inboxId: otherInboxId,
+    requestedAt: new Date(),
+    status: 'pending',
+    agentId: null,
+    lastPositionNotified: null,
+  };
+  dequeueRequestMock.mock.mockImplementationOnce(async () => null);
+  dequeueNextPendingRequestMock.mock.mockImplementationOnce(
+    async () => fallbackRequest
+  );
+  updateQueuePositionsMock.mock.mockImplementationOnce(async () => [
+    {
+      ...fallbackRequest,
+      conversationId: fallbackRequest.conversationId + 1,
+      conversationKey: `chatwoot:${accountId}:${otherInboxId}:${fallbackRequest.conversationId + 1}`,
+      lastPositionNotified: 2,
+      position: 1,
+    },
+  ]);
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  assert.strictEqual(
+    dequeueRequestMock.mock.calls.length,
+    initialDequeueCalls + 1
+  );
+  assert.strictEqual(
+    dequeueNextPendingRequestMock.mock.calls.length,
+    initialFallbackCalls + 1
+  );
+  assert.deepStrictEqual(
+    dequeueNextPendingRequestMock.mock.calls.at(-1).arguments,
+    [accountId]
+  );
+  assert.strictEqual(assignMock.mock.calls.length, initialAssignCalls + 1);
+  assert.deepStrictEqual(assignMock.mock.calls.at(-1).arguments, [
+    accountId,
+    otherQueuedConversationId,
+    freedAgentId,
+  ]);
+  assert.strictEqual(
+    updateQueuePositionsMock.mock.calls.length,
+    initialQueueUpdateCalls + 1
+  );
+  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls.at(-1).arguments, [
+    { accountId },
+  ]);
+  assert.strictEqual(sendMock.mock.calls.length, initialSendCalls + 2);
+  assert.strictEqual(sendMock.mock.calls.at(-2).arguments[1], otherQueuedConversationId);
+  assert.strictEqual(
+    sendMock.mock.calls.at(-1).arguments[1],
+    fallbackRequest.conversationId + 1
+  );
+  assert.strictEqual(
+    sendMock.mock.calls.at(-1).arguments[2],
+    'All human agents are currently busy. Please wait for the next available agent. You are currently number 1 in the queue.'
+  );
+  assertLoggedIds(1, 2);
 });
 
 test('releaseAgent sends fallback when updateRequest fails', async () => {
   nextMessageId = 0;
   prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
+  toggleMock.mock.resetCalls();
+  assignMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
   handoffQueue.updateRequest.mock.mockImplementationOnce(async () => { throw new Error('fail'); });
   const notifyMock = mock.method(friendlyErrors, 'notifyHandoffIssue', async () => {});
-  await conversationResolution.releaseAgent(accountId, releasedConversationId, { assignee_id: freedAgentId });
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
   assert.strictEqual(notifyMock.mock.calls.length, 1);
   assert.strictEqual(sendMock.mock.calls.length, 0);
   assertLoggedIds();
@@ -116,6 +288,8 @@ test('releaseAgent throws when freed agent cannot be resolved', async () => {
   nextMessageId = 0;
   prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
   const fetchErr = new Error('fetch failed');
   getConversationMock.mock.mockImplementationOnce(async () => {
     throw fetchErr;
@@ -139,6 +313,8 @@ test('status change without label skips releaseAgent call', async () => {
   nextMessageId = 0;
   prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
   const consoleInfoMock = mock.method(console, 'info', () => {});
   const releaseAgentMock = mock.method(
     conversationResolution,
@@ -184,6 +360,8 @@ test('label removed with status open skips releaseAgent call', async () => {
   nextMessageId = 0;
   prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
   const consoleInfoMock = mock.method(console, 'info', () => {});
   const releaseAgentMock = mock.method(
     conversationResolution,
@@ -237,6 +415,8 @@ test('status change with label triggers releaseAgent', async () => {
   nextMessageId = 0;
   prisma.conversationMessage.upsert.mock.resetCalls();
   sendMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
   const consoleInfoMock = mock.method(console, 'info', () => {});
   const releaseAgentMock = mock.method(
     conversationResolution,
