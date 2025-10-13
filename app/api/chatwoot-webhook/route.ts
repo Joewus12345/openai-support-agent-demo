@@ -581,6 +581,12 @@ export async function POST(request: Request) {
       "";
 
     const attachments = extractMessageAttachments(message);
+    const hasTextContent =
+      typeof content === "string"
+        ? content.trim().length > 0
+        : content !== undefined && content !== null;
+    const hasAttachmentContent = attachments.length > 0;
+
     const configuredModelCandidate =
       typeof process.env.CHATWOOT_WEBHOOK_MODEL === "string"
         ? process.env.CHATWOOT_WEBHOOK_MODEL
@@ -594,12 +600,14 @@ export async function POST(request: Request) {
     const visionCapableModel = isVisionCapableModel(providerModelName);
     const attachmentNote = buildAttachmentNote(attachments);
 
-    let userInput =
-      typeof content === "string"
-        ? content
-        : typeof content === "object"
-          ? JSON.stringify(content)
-          : String(content ?? "");
+    let userInput = "";
+    if (typeof content === "string") {
+      userInput = content;
+    } else if (content && typeof content === "object") {
+      userInput = JSON.stringify(content);
+    } else if (content !== undefined && content !== null) {
+      userInput = String(content);
+    }
     const normalizedMessageId = parseMessageId(messageId);
     const referencedMessageId = extractReferencedMessageId(message);
     const normalizedReferencedReplyToId =
@@ -692,8 +700,7 @@ export async function POST(request: Request) {
     if (
       messageId !== undefined &&
       conversationId !== undefined &&
-      inboxId !== undefined &&
-      content !== undefined
+      inboxId !== undefined
     ) {
       try {
         const createdAtRaw = (message as any)?.created_at;
@@ -835,13 +842,14 @@ export async function POST(request: Request) {
       accountId === undefined ||
       conversationId === undefined ||
       inboxId === undefined ||
-      !content
+      (!hasTextContent && !hasAttachmentContent)
     ) {
       console.error("chatwoot webhook missing ids", {
         accountId,
         conversationId,
         inboxId,
-        hasContent: !!content,
+        hasContent: hasTextContent,
+        hasAttachments: hasAttachmentContent,
       });
       return NextResponse.json({ status: "ignored" });
     }
