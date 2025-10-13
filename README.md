@@ -125,9 +125,17 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
 
     Release retries for these endpoints are controlled by `RELEASE_MAX_ATTEMPTS`, `RELEASE_RETRY_BASE_MS`, and `CHATWOOT_TIMEOUT_MS`.
 
-   The `AGENT_TOKENS` environment variable supplies per-agent access tokens in JSON form, e.g. `{ "1": "secret" }`. Store these secrets outside of source control (such as a `.env` file or your hosting platform's secret manager). To rotate a token, update the JSON with the new value and redeploy or restart the service so it reads the updated mapping.
+    **Attachment handling.** Incoming Chatwoot messages may include attachments on `message.attachments` or inside `content_attributes`.
+    The webhook normalizes these entries before building the provider request:
 
-   #### Release retry settings
+    - If the configured model supports vision (e.g. `gpt-4o`, `gpt-4.1`, or any model listed via `CHATWOOT_WEBHOOK_MODEL` that includes the substrings `4o`, `4.1`, `o1`, `o3`, or `omni`), image attachments are forwarded to the provider as `input_image` parts. URLs or embedded data URIs are passed through so the model can inspect the image content directly.
+    - For other models, the webhook appends a textual note that lists each attachment, its MIME type when available, and its download URL or indicates when only base64 data is present. This ensures agents are aware of additional context even when the model cannot open the file itself.
+
+    You can override the attachment detection model by setting `CHATWOOT_WEBHOOK_MODEL`; otherwise the default falls back to the global `MODEL` configured for the provider.
+
+    The `AGENT_TOKENS` environment variable supplies per-agent access tokens in JSON form, e.g. `{ "1": "secret" }`. Store these secrets outside of source control (such as a `.env` file or your hosting platform's secret manager). To rotate a token, update the JSON with the new value and redeploy or restart the service so it reads the updated mapping.
+
+    #### Release retry settings
 
    - `RELEASE_MAX_ATTEMPTS` (default `5`) – number of retry attempts when releasing an agent fails.
    - `RELEASE_RETRY_BASE_MS` (default `1000`) – base delay for exponential backoff.
