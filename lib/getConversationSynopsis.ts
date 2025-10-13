@@ -34,7 +34,12 @@ function extractText(message: ResponseMessage): string {
     return "";
   }
   const combined = message.content
-    .map((part) => (typeof part?.text === "string" ? part.text : ""))
+    .map((part) => {
+      if (part?.type === "input_text" || part?.type === "output_text") {
+        return typeof part?.text === "string" ? part.text : "";
+      }
+      return "";
+    })
     .filter(Boolean)
     .join(" ");
   return collapseWhitespace(combined);
