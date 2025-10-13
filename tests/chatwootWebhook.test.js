@@ -1004,6 +1004,53 @@ test('chatwoot webhook processes incoming message', async () => {
   resetMocks();
 });
 
+test('chatwoot webhook processes attachment-only message', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 701,
+        message_type: 0,
+        content: null,
+        attachments: [
+          {
+            file_name: 'invoice.pdf',
+            file_type: 'application/pdf',
+            data_url: 'https://example.com/invoice.pdf',
+          },
+        ],
+        account: { id: 7 },
+        conversation: {
+          id: 7,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 7,
+        },
+      },
+    },
+  };
+  const history = [
+    toResponseMessage('user', 'hi there'),
+    toResponseMessage('assistant', 'hi'),
+  ];
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const result = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.notStrictEqual(result.status, 'ignored');
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  assert.ok(prisma.conversationMessage.upsert.mock.calls.length > 0);
+  const storedMessage = prisma.conversationMessage.upsert.mock.calls[0].arguments[0];
+  assert.match(storedMessage.create.content, /Attachment: invoice\.pdf/);
+  resetMocks();
+});
+
 test('chatwoot webhook forwards image attachments to vision models', async () => {
   process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
   const payload = {
