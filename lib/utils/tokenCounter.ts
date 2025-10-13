@@ -21,6 +21,53 @@ function mapModelToEncoding(modelName: string) {
 
 export const TOKEN_THRESHOLD = 25_000;
 
+const PROVIDER_TOKEN_LIMITS: Record<
+  string,
+  { envVar: string; default: number }
+> = {
+  openai: { envVar: "CHATWOOT_OPENAI_TOKEN_LIMIT", default: TOKEN_THRESHOLD },
+  ollama: { envVar: "CHATWOOT_OLLAMA_TOKEN_LIMIT", default: 6_000 },
+  "ollama-openai": {
+    envVar: "CHATWOOT_OLLAMA_OPENAI_TOKEN_LIMIT",
+    default: TOKEN_THRESHOLD,
+  },
+};
+
+function normalizeProviderName(providerName?: string) {
+  return providerName?.trim().toLowerCase() || "openai";
+}
+
+function resolveEnvVarName(providerName: string) {
+  const normalized = providerName
+    .replace(/[^a-z0-9]+/gi, "_")
+    .replace(/_{2,}/g, "_")
+    .replace(/^_|_$/g, "")
+    .toUpperCase();
+  return `CHATWOOT_${normalized || "OPENAI"}_TOKEN_LIMIT`;
+}
+
+export function getProviderTokenLimit(providerName?: string): number {
+  const normalized = normalizeProviderName(providerName);
+  const config = PROVIDER_TOKEN_LIMITS[normalized];
+  const envVarName = config?.envVar ?? resolveEnvVarName(normalized);
+  const envOverride = process.env[envVarName];
+  const defaultFallback = config?.default ?? TOKEN_THRESHOLD;
+
+  const fallbackEnv = process.env.CHATWOOT_DEFAULT_TOKEN_LIMIT;
+  const candidates = [envOverride, fallbackEnv];
+
+  for (const candidate of candidates) {
+    if (typeof candidate === "string" && candidate.trim()) {
+      const parsed = Number.parseInt(candidate.trim(), 10);
+      if (Number.isFinite(parsed) && parsed > 0) {
+        return parsed;
+      }
+    }
+  }
+
+  return defaultFallback;
+}
+
 export function estimateMessageTokens(
   messages: any[],
   modelName: TiktokenModel = MODEL as TiktokenModel

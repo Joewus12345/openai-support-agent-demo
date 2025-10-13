@@ -52,7 +52,7 @@ import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
 import { shouldQuoteInboundMessage } from "@/lib/quoteHeuristics";
 import {
   estimateMessageTokens,
-  TOKEN_THRESHOLD,
+  getProviderTokenLimit,
   type TiktokenModel,
 } from "@/lib/utils/tokenCounter";
 
@@ -1265,15 +1265,6 @@ export async function POST(request: Request) {
       console.error("conversation synopsis error", err);
     }
 
-    let provider;
-    try {
-      provider = getProvider(undefined);
-    } catch (err) {
-      console.error("getProvider error", err);
-      await sendFallback();
-      return NextResponse.json({ status: "fallback" });
-    }
-
     let replyText = "";
     let pendingReplyReferenceId: string | undefined;
     let pendingReplyReferenceArgs = "";
@@ -1281,6 +1272,9 @@ export async function POST(request: Request) {
       | { inReplyTo?: number | null; private?: boolean }
       | undefined;
     try {
+      const providerName = process.env.CHATWOOT_WEBHOOK_PROVIDER
+        ? process.env.CHATWOOT_WEBHOOK_PROVIDER.trim().toLowerCase()
+        : undefined;
       const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
       const synopsisMessages = conversationSynopsis
         ? [toResponseMessage("developer", conversationSynopsis)]
@@ -1293,6 +1287,7 @@ export async function POST(request: Request) {
 
       let trimmedHistory = [...promptHistory];
       let providerMessages = buildProviderMessages(trimmedHistory);
+      const providerTokenLimit = getProviderTokenLimit(providerName);
       let tokenEstimate = estimateMessageTokens(
         providerMessages,
         MODEL as TiktokenModel
@@ -1303,7 +1298,7 @@ export async function POST(request: Request) {
           ? trimmedHistory[0]
           : undefined;
 
-      while (trimmedHistory.length && tokenEstimate > TOKEN_THRESHOLD) {
+      while (trimmedHistory.length && tokenEstimate > providerTokenLimit) {
         if (stickyDeveloperEntry) {
           if (trimmedHistory.length <= 1) {
             break;
@@ -1323,6 +1318,15 @@ export async function POST(request: Request) {
       }
 
       promptHistory = trimmedHistory;
+
+      let provider;
+      try {
+        provider = getProvider(providerName);
+      } catch (err) {
+        console.error("getProvider error", err);
+        await sendFallback();
+        return NextResponse.json({ status: "fallback" });
+      }
 
       const events = provider(providerMessages, tools, {});
       for await (const { event, data } of events) {
