@@ -33,16 +33,30 @@ function extractText(message: ResponseMessage): string {
   if (!Array.isArray(message.content)) {
     return "";
   }
-  const combined = message.content
-    .map((part) => {
-      if (part?.type === "input_text" || part?.type === "output_text") {
-        return typeof part?.text === "string" ? part.text : "";
-      }
-      return "";
-    })
-    .filter(Boolean)
-    .join(" ");
-  return collapseWhitespace(combined);
+  const pieces: string[] = [];
+  for (const part of message.content) {
+    if (!part) {
+      continue;
+    }
+
+    switch (part.type) {
+      case "input_text":
+      case "output_text":
+        if (typeof part.text === "string" && part.text.trim()) {
+          pieces.push(part.text);
+        }
+        break;
+      default:
+        // Ignore images or any other non-text content types.
+        break;
+    }
+  }
+
+  if (!pieces.length) {
+    return "";
+  }
+
+  return collapseWhitespace(pieces.join(" "));
 }
 
 type TurnSnippet = {
