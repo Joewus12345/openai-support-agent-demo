@@ -44,6 +44,7 @@ import { getConversationKey } from "@/lib/getConversationKey";
 import { getConversationHistory } from "@/lib/getConversationHistory";
 import { getConversationSynopsis } from "@/lib/getConversationSynopsis";
 import { getQuoteCandidates, type QuoteCandidate } from "@/lib/getQuoteCandidates";
+import { fetchAttachmentImage } from "@/lib/chatwoot/fetchAttachmentImage";
 import {
   runRelevanceGuardrail,
   runJailbreakGuardrail,
@@ -75,6 +76,7 @@ type NormalizedAttachment = {
   dataUrl?: string;
   base64?: string;
   isImage: boolean;
+  fetchedDataUrl?: string | null;
 };
 
 const IMAGE_FILE_EXTENSIONS = [
@@ -1439,7 +1441,24 @@ export async function POST(request: Request) {
           if (!attachment.isImage) {
             continue;
           }
-          const resource = attachment.dataUrl ?? attachment.url;
+
+          let resource = attachment.dataUrl ?? attachment.url;
+
+          if (
+            visionCapableModel &&
+            !attachment.dataUrl &&
+            attachment.url &&
+            attachment.fetchedDataUrl === undefined
+          ) {
+            attachment.fetchedDataUrl =
+              (await fetchAttachmentImage(attachment.url, attachment.mimeType)) ??
+              null;
+          }
+
+          if (attachment.fetchedDataUrl) {
+            resource = attachment.fetchedDataUrl;
+          }
+
           if (!resource) {
             continue;
           }
