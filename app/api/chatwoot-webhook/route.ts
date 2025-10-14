@@ -21,7 +21,11 @@ import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
-import { toResponseMessage, type ResponseMessage } from "@/lib/utils/toResponseMessage";
+import {
+  toResponseMessage,
+  type ResponseContentItem,
+  type ResponseMessage,
+} from "@/lib/utils/toResponseMessage";
 import {
   enqueueRequest,
   updateRequest,
@@ -52,7 +56,7 @@ import { notifyMessageIssue, notifyHandoffIssue } from "@/lib/friendlyErrors";
 import { shouldQuoteInboundMessage } from "@/lib/quoteHeuristics";
 import {
   estimateMessageTokens,
-  TOKEN_THRESHOLD,
+  getProviderTokenLimit,
   type TiktokenModel,
 } from "@/lib/utils/tokenCounter";
 
@@ -63,6 +67,246 @@ const QUOTE_TRANSCRIPT_ASSISTANT_LIMIT = 2;
 const MAX_DEVELOPER_QUOTE_LINES = 6;
 const SYNOPSIS_HISTORY_LIMIT = 50;
 const PROMPT_HISTORY_LIMIT = 20;
+
+type NormalizedAttachment = {
+  displayName: string;
+  mimeType?: string;
+  url?: string;
+  dataUrl?: string;
+  base64?: string;
+  isImage: boolean;
+};
+
+const IMAGE_FILE_EXTENSIONS = [
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".gif",
+  ".bmp",
+  ".webp",
+  ".heic",
+  ".heif",
+  ".tiff",
+  ".svg",
+];
+
+function pickString(
+  value: unknown,
+  fallback?: string
+): string | undefined {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (trimmed) {
+      return trimmed;
+    }
+  }
+  if (fallback && fallback.trim()) {
+    return fallback.trim();
+  }
+  return undefined;
+}
+
+function looksLikeBase64(value: string): boolean {
+  if (!value) return false;
+  const normalized = value.trim();
+  if (!normalized) return false;
+  if (normalized.startsWith("data:")) {
+    return true;
+  }
+  // Basic heuristic that avoids matching plain text URLs.
+  return /^[A-Za-z0-9+/=\s]+$/.test(normalized) && normalized.length > 20;
+}
+
+function guessIsImage(
+  mimeType?: string,
+  fileName?: string
+): boolean {
+  if (mimeType && mimeType.toLowerCase().startsWith("image/")) {
+    return true;
+  }
+  if (!fileName) {
+    return false;
+  }
+  const lower = fileName.toLowerCase();
+  return IMAGE_FILE_EXTENSIONS.some((ext) => lower.endsWith(ext));
+}
+
+function normalizeAttachment(raw: unknown): NormalizedAttachment | undefined {
+  if (!raw || typeof raw !== "object") {
+    return undefined;
+  }
+
+  const candidate = raw as Record<string, unknown>;
+  const fileName =
+    pickString(candidate.file_name) ??
+    pickString(candidate.filename) ??
+    pickString(candidate.name) ??
+    pickString(candidate.title);
+  const mimeType =
+    pickString(candidate.file_type) ??
+    pickString(candidate.content_type) ??
+    pickString(candidate.mime_type) ??
+    pickString(candidate.mimeType) ??
+    pickString(candidate.fileType);
+
+  const urlCandidates = [
+    candidate.data_url,
+    candidate.download_url,
+    candidate.file_url,
+    candidate.url,
+    candidate.origin_url,
+    candidate.resource_url,
+    candidate.view_url,
+    candidate.thumb_url,
+    candidate.secure_url,
+    candidate.link,
+  ];
+  let url: string | undefined;
+  let dataUrl: string | undefined;
+  for (const candidateUrl of urlCandidates) {
+    const normalized = pickString(candidateUrl);
+    if (!normalized) continue;
+    if (normalized.startsWith("data:")) {
+      dataUrl = normalized;
+      break;
+    }
+    if (!url) {
+      url = normalized;
+    }
+  }
+
+  const base64Candidates = [
+    candidate.base64,
+    candidate.base64_data,
+    candidate.base64Content,
+    candidate.data,
+    candidate.payload,
+    candidate.content,
+  ];
+  let base64: string | undefined;
+  for (const value of base64Candidates) {
+    const normalized = pickString(value);
+    if (!normalized) continue;
+    if (looksLikeBase64(normalized)) {
+      if (normalized.startsWith("data:")) {
+        dataUrl = normalized;
+        base64 = undefined;
+        break;
+      }
+      base64 = normalized.replace(/\s+/g, "");
+      if (!dataUrl && mimeType) {
+        dataUrl = `data:${mimeType};base64,${base64}`;
+      }
+    }
+  }
+
+  const inferredImage = guessIsImage(mimeType, fileName);
+
+  if (!url && !dataUrl && base64 && inferredImage) {
+    dataUrl = `data:image/*;base64,${base64}`;
+  }
+
+  if (!url && !dataUrl && !base64) {
+    return undefined;
+  }
+
+  const displayName =
+    fileName ?? (inferredImage ? "Image attachment" : "File attachment");
+
+  return {
+    displayName,
+    mimeType,
+    url,
+    dataUrl,
+    base64,
+    isImage: inferredImage,
+  };
+}
+
+function extractMessageAttachments(message: unknown): NormalizedAttachment[] {
+  if (!message || typeof message !== "object") {
+    return [];
+  }
+
+  const list: unknown[] = [];
+  const root = message as Record<string, unknown>;
+  const direct = root.attachments;
+  if (Array.isArray(direct)) {
+    list.push(...direct);
+  }
+
+  const contentAttributes = root.content_attributes;
+  if (contentAttributes && typeof contentAttributes === "object") {
+    const attrs = contentAttributes as Record<string, unknown>;
+    const attributeLists = [
+      attrs.attachments,
+      attrs.files,
+      attrs.media,
+      attrs.images,
+    ];
+    for (const candidate of attributeLists) {
+      if (Array.isArray(candidate)) {
+        list.push(...candidate);
+      }
+    }
+  }
+
+  const normalized: NormalizedAttachment[] = [];
+  for (const entry of list) {
+    const parsed = normalizeAttachment(entry);
+    if (parsed) {
+      normalized.push(parsed);
+    }
+  }
+
+  return normalized;
+}
+
+function buildAttachmentNote(
+  attachments: NormalizedAttachment[]
+): string | undefined {
+  if (!attachments.length) {
+    return undefined;
+  }
+
+  const noteLines = attachments.map((attachment, index) => {
+    const parts: string[] = [];
+    if (attachment.mimeType) {
+      parts.push(attachment.mimeType);
+    }
+    if (attachment.url) {
+      parts.push(attachment.url);
+    } else if (attachment.dataUrl) {
+      parts.push("embedded data URI");
+    } else if (attachment.base64) {
+      parts.push("base64 content provided");
+    }
+    const suffix = parts.length ? ` (${parts.join(" | ")})` : "";
+    const label = attachment.displayName || `Attachment ${index + 1}`;
+    return `Attachment: ${label}${suffix}`;
+  });
+
+  return noteLines.join("\n");
+}
+
+function isVisionCapableModel(modelName?: string): boolean {
+  if (!modelName) {
+    return false;
+  }
+  const normalized = modelName.trim().toLowerCase();
+  if (!normalized) {
+    return false;
+  }
+  const visionKeywords = [
+    "gpt-4o",
+    "gpt-4.1",
+    "o1",
+    "o3",
+    "omni",
+    "vision",
+  ];
+  return visionKeywords.some((keyword) => normalized.includes(keyword));
+}
 
 const BUSY_AGENT_MESSAGE =
   "All human agents are currently busy. Please wait for the next available agent.";
@@ -336,12 +580,34 @@ export async function POST(request: Request) {
       (message as any)?.sender?.name ??
       "";
 
-    const userInput =
+    const attachments = extractMessageAttachments(message);
+    const hasTextContent =
       typeof content === "string"
-        ? content
-        : typeof content === "object"
-          ? JSON.stringify(content)
-          : String(content ?? "");
+        ? content.trim().length > 0
+        : content !== undefined && content !== null;
+    const hasAttachmentContent = attachments.length > 0;
+
+    const configuredModelCandidate =
+      typeof process.env.CHATWOOT_WEBHOOK_MODEL === "string"
+        ? process.env.CHATWOOT_WEBHOOK_MODEL
+        : typeof process.env.OPENAI_MODEL === "string"
+          ? process.env.OPENAI_MODEL
+          : undefined;
+    const providerModelName =
+      configuredModelCandidate && configuredModelCandidate.trim()
+        ? configuredModelCandidate.trim()
+        : MODEL;
+    const visionCapableModel = isVisionCapableModel(providerModelName);
+    const attachmentNote = buildAttachmentNote(attachments);
+
+    let userInput = "";
+    if (typeof content === "string") {
+      userInput = content;
+    } else if (content && typeof content === "object") {
+      userInput = JSON.stringify(content);
+    } else if (content !== undefined && content !== null) {
+      userInput = String(content);
+    }
     const normalizedMessageId = parseMessageId(messageId);
     const referencedMessageId = extractReferencedMessageId(message);
     const normalizedReferencedReplyToId =
@@ -418,16 +684,23 @@ export async function POST(request: Request) {
       }
     }
 
-    const enrichedContent = referencedTurn
+    let enrichedContent = referencedTurn
       ? `Customer referenced: "${referencedTurn.content}"\n\n${userInput}`
       : undefined;
+
+    if (attachmentNote) {
+      userInput = userInput ? `${userInput}\n\n${attachmentNote}` : attachmentNote;
+      if (enrichedContent) {
+        enrichedContent = `${enrichedContent}\n\n${attachmentNote}`;
+      }
+    }
+
     const storedContent = enrichedContent ?? userInput;
 
     if (
       messageId !== undefined &&
       conversationId !== undefined &&
-      inboxId !== undefined &&
-      content !== undefined
+      inboxId !== undefined
     ) {
       try {
         const createdAtRaw = (message as any)?.created_at;
@@ -569,13 +842,14 @@ export async function POST(request: Request) {
       accountId === undefined ||
       conversationId === undefined ||
       inboxId === undefined ||
-      !content
+      (!hasTextContent && !hasAttachmentContent)
     ) {
       console.error("chatwoot webhook missing ids", {
         accountId,
         conversationId,
         inboxId,
-        hasContent: !!content,
+        hasContent: hasTextContent,
+        hasAttachments: hasAttachmentContent,
       });
       return NextResponse.json({ status: "ignored" });
     }
@@ -1143,13 +1417,50 @@ export async function POST(request: Request) {
       ? fullHistory.slice(-PROMPT_HISTORY_LIMIT)
       : [];
 
+    if (visionCapableModel && attachments.length) {
+      let targetIndex = -1;
+      for (let i = promptHistory.length - 1; i >= 0; i -= 1) {
+        if (promptHistory[i]?.role === "user") {
+          targetIndex = i;
+          break;
+        }
+      }
+      if (targetIndex === -1) {
+        promptHistory = [
+          ...promptHistory,
+          toResponseMessage("user", enrichedContent ?? userInput ?? ""),
+        ];
+        targetIndex = promptHistory.length - 1;
+      }
+      if (targetIndex >= 0) {
+        const target = promptHistory[targetIndex];
+        const additions: ResponseContentItem[] = [];
+        for (const attachment of attachments) {
+          if (!attachment.isImage) {
+            continue;
+          }
+          const resource = attachment.dataUrl ?? attachment.url;
+          if (!resource) {
+            continue;
+          }
+          additions.push({ type: "input_image", image_url: { url: resource } });
+        }
+        if (additions.length) {
+          const existing = Array.isArray(target.content)
+            ? target.content
+            : [];
+          target.content = [...existing, ...additions];
+        }
+      }
+    }
+
     try {
       const guardrailUserInput = enrichedContent ?? userInput;
       const baseHistoryTurns: HistoryTurn[] = promptHistory
         .filter((m: { role: string }) => m.role !== "developer")
-        .map((m: { role: string; content: any[] }) => ({
+        .map((m: ResponseMessage) => ({
           role: m.role,
-          content: m.content.map((c: { text: any }) => c.text).join(" "),
+          content: extractResponseMessageText(m),
         }));
       const historyTurns = referencedTurn
         ? [referencedTurn, ...baseHistoryTurns]
@@ -1265,15 +1576,6 @@ export async function POST(request: Request) {
       console.error("conversation synopsis error", err);
     }
 
-    let provider;
-    try {
-      provider = getProvider(undefined);
-    } catch (err) {
-      console.error("getProvider error", err);
-      await sendFallback();
-      return NextResponse.json({ status: "fallback" });
-    }
-
     let replyText = "";
     let pendingReplyReferenceId: string | undefined;
     let pendingReplyReferenceArgs = "";
@@ -1281,6 +1583,9 @@ export async function POST(request: Request) {
       | { inReplyTo?: number | null; private?: boolean }
       | undefined;
     try {
+      const providerName = process.env.CHATWOOT_WEBHOOK_PROVIDER
+        ? process.env.CHATWOOT_WEBHOOK_PROVIDER.trim().toLowerCase()
+        : undefined;
       const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
       const synopsisMessages = conversationSynopsis
         ? [toResponseMessage("developer", conversationSynopsis)]
@@ -1293,9 +1598,10 @@ export async function POST(request: Request) {
 
       let trimmedHistory = [...promptHistory];
       let providerMessages = buildProviderMessages(trimmedHistory);
+      const providerTokenLimit = getProviderTokenLimit(providerName);
       let tokenEstimate = estimateMessageTokens(
         providerMessages,
-        MODEL as TiktokenModel
+        providerModelName as TiktokenModel
       );
 
       const stickyDeveloperEntry =
@@ -1303,7 +1609,7 @@ export async function POST(request: Request) {
           ? trimmedHistory[0]
           : undefined;
 
-      while (trimmedHistory.length && tokenEstimate > TOKEN_THRESHOLD) {
+      while (trimmedHistory.length && tokenEstimate > providerTokenLimit) {
         if (stickyDeveloperEntry) {
           if (trimmedHistory.length <= 1) {
             break;
@@ -1318,11 +1624,20 @@ export async function POST(request: Request) {
         providerMessages = buildProviderMessages(trimmedHistory);
         tokenEstimate = estimateMessageTokens(
           providerMessages,
-          MODEL as TiktokenModel
+          providerModelName as TiktokenModel
         );
       }
 
       promptHistory = trimmedHistory;
+
+      let provider;
+      try {
+        provider = getProvider(providerName);
+      } catch (err) {
+        console.error("getProvider error", err);
+        await sendFallback();
+        return NextResponse.json({ status: "fallback" });
+      }
 
       const events = provider(providerMessages, tools, {});
       for await (const { event, data } of events) {
@@ -1467,9 +1782,9 @@ export async function POST(request: Request) {
     const quoteHistoryTurns: HistoryTurn[] = Array.isArray(promptHistory)
       ? promptHistory
           .filter((m: { role: string }) => m.role !== "developer")
-          .map((m: { role: string; content: any[] }) => ({
+          .map((m: ResponseMessage) => ({
             role: m.role,
-            content: m.content.map((c: { text: any }) => c.text).join(" "),
+            content: extractResponseMessageText(m),
           }))
       : [];
 

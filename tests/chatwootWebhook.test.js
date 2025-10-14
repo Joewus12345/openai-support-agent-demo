@@ -101,7 +101,7 @@ const getConversationLabelsMock = mock.method(
 );
 
 const { CONVO_LABELS } = require('../lib/constants.ts');
-const { CHATWOOT_SYSTEM_PROMPT } = require('../config/constants.ts');
+const { CHATWOOT_SYSTEM_PROMPT, MODEL } = require('../config/constants.ts');
 
 const guardrails = require('../lib/guardrails.ts');
 const runRelevanceGuardrailMock = mock.method(
@@ -201,6 +201,11 @@ function resetMocks() {
   runJailbreakGuardrailMock.mock.mockImplementation(async () => ({
     tripwireTriggered: false,
   }));
+  delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  delete process.env.CHATWOOT_OPENAI_TOKEN_LIMIT;
+  delete process.env.CHATWOOT_OLLAMA_TOKEN_LIMIT;
+  delete process.env.CHATWOOT_OLLAMA_OPENAI_TOKEN_LIMIT;
+  delete process.env.CHATWOOT_DEFAULT_TOKEN_LIMIT;
 }
 
 function getLoggedBotMessages() {
@@ -996,6 +1001,286 @@ test('chatwoot webhook processes incoming message', async () => {
   assert.strictEqual(call[2], 'hi');
   assert.deepStrictEqual(call[3], { private: false, inReplyTo: 700 });
   assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook processes attachment-only message', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 701,
+        message_type: 0,
+        content: null,
+        attachments: [
+          {
+            file_name: 'invoice.pdf',
+            file_type: 'application/pdf',
+            data_url: 'https://example.com/invoice.pdf',
+          },
+        ],
+        account: { id: 7 },
+        conversation: {
+          id: 7,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 7,
+        },
+      },
+    },
+  };
+  const history = [
+    toResponseMessage('user', 'hi there'),
+    toResponseMessage('assistant', 'hi'),
+  ];
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const result = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.notStrictEqual(result.status, 'ignored');
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  assert.ok(prisma.conversationMessage.upsert.mock.calls.length > 0);
+  const storedMessage = prisma.conversationMessage.upsert.mock.calls[0].arguments[0];
+  assert.match(storedMessage.create.content, /Attachment: invoice\.pdf/);
+  resetMocks();
+});
+
+test('chatwoot webhook forwards image attachments to vision models', async () => {
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 801,
+        message_type: 0,
+        content: 'Check this image',
+        attachments: [
+          {
+            file_name: 'cat.png',
+            file_type: 'image/png',
+            data_url: 'https://example.com/cat.png',
+          },
+        ],
+        account: { id: 8 },
+        conversation: {
+          id: 8,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 8,
+        },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  const userMessages = providerMessages.filter((m) => m.role === 'user');
+  const lastUser = userMessages[userMessages.length - 1];
+  const imageItems = lastUser.content.filter((item) => item.type === 'input_image');
+  assert.strictEqual(imageItems.length, 1);
+  assert.deepStrictEqual(imageItems[0], {
+    type: 'input_image',
+    image_url: { url: 'https://example.com/cat.png' },
+  });
+  const storedContent =
+    prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content;
+  assert.ok(
+    storedContent.includes(
+      'Attachment: cat.png (image/png | https://example.com/cat.png)'
+    )
+  );
+  delete process.env.CHATWOOT_WEBHOOK_MODEL;
+  resetMocks();
+});
+
+test('chatwoot webhook stores attachment note when model lacks vision', async () => {
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-3.5-turbo';
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 802,
+        message_type: 0,
+        content: 'Please review the document',
+        attachments: [
+          {
+            file_name: 'report.pdf',
+            file_type: 'application/pdf',
+            download_url: 'https://example.com/report.pdf',
+          },
+        ],
+        account: { id: 9 },
+        conversation: {
+          id: 9,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 9,
+        },
+      },
+    },
+  };
+
+  const expectedNote =
+    'Attachment: report.pdf (application/pdf | https://example.com/report.pdf)';
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    toResponseMessage(
+      'user',
+      `Please review the document\n\n${expectedNote}`
+    ),
+  ]);
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  const userMessages = providerMessages.filter((m) => m.role === 'user');
+  const lastUser = userMessages[userMessages.length - 1];
+  assert.strictEqual(
+    lastUser.content.every((item) => item.type !== 'input_image'),
+    true
+  );
+  const storedContent =
+    prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content;
+  assert.ok(storedContent.includes(expectedNote));
+  const textSegments = lastUser.content
+    .filter((item) => item.type !== 'input_image')
+    .map((item) => item.text);
+  assert.ok(textSegments.some((text) => text.includes(expectedNote)));
+  delete process.env.CHATWOOT_WEBHOOK_MODEL;
+  resetMocks();
+});
+
+test('chatwoot webhook estimates tokens before selecting provider', async () => {
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+  process.env.CHATWOOT_OPENAI_TOKEN_LIMIT = '5000';
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 702,
+        message_type: 0,
+        content: 'Token order test',
+        account: { id: 9 },
+        conversation: { id: 9, inbox_id: 1, status: 'resolved', account_id: 9 },
+      },
+    },
+  };
+
+  const history = [
+    toResponseMessage('user', 'Earlier question'),
+    toResponseMessage('assistant', 'Earlier answer'),
+    toResponseMessage('user', 'Token order test'),
+  ];
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+
+  const order = [];
+  estimateMessageTokensMock.mock.mockImplementation((...args) => {
+    order.push('tokens');
+    return originalEstimateMessageTokens(...args);
+  });
+  getProviderMock.mock.mockImplementationOnce(() => {
+    order.push('provider');
+    return providerFnMock;
+  });
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert(order.includes('provider'));
+  const providerIndex = order.indexOf('provider');
+  const firstTokenIndex = order.indexOf('tokens');
+  assert.notStrictEqual(providerIndex, -1);
+  assert.notStrictEqual(firstTokenIndex, -1);
+  assert(firstTokenIndex <= providerIndex);
+  resetMocks();
+});
+
+test('chatwoot webhook trims history to provider token limit', async () => {
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+  process.env.CHATWOOT_OPENAI_TOKEN_LIMIT = '400';
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 703,
+        message_type: 0,
+        content: 'Latest update from customer',
+        account: { id: 10 },
+        conversation: { id: 10, inbox_id: 1, status: 'resolved', account_id: 10 },
+      },
+    },
+  };
+
+  const oldestMarker = 'Oldest entry that should be trimmed';
+  const history = [toResponseMessage('user', oldestMarker)];
+  for (let i = 0; i < 8; i += 1) {
+    history.push(
+      toResponseMessage('assistant', `Assistant turn ${i} ${'a'.repeat(900)}`)
+    );
+    history.push(
+      toResponseMessage('user', `User turn ${i} ${'b'.repeat(900)}`)
+    );
+  }
+  history.push(toResponseMessage('user', 'Latest update from customer'));
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  const limit = Number.parseInt(process.env.CHATWOOT_OPENAI_TOKEN_LIMIT, 10);
+  const tokenCount = originalEstimateMessageTokens(providerMessages, MODEL);
+  assert(tokenCount <= limit, `token count ${tokenCount} should be <= ${limit}`);
+
+  const flattened = providerMessages
+    .map((msg) => {
+      if (Array.isArray(msg?.content)) {
+        return msg.content.map((part) => part?.text || '').join(' ');
+      }
+      if (typeof msg?.content === 'string') {
+        return msg.content;
+      }
+      return '';
+    })
+    .join(' ');
+
+  assert.ok(!flattened.includes(oldestMarker));
+  assert.ok(flattened.includes('Latest update from customer'));
   resetMocks();
 });
 
