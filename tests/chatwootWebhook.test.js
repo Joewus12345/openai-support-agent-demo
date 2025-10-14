@@ -100,6 +100,13 @@ const getConversationLabelsMock = mock.method(
   async () => ({ payload: [] })
 );
 
+const fetchAttachmentImageModule = require('../lib/chatwoot/fetchAttachmentImage.ts');
+const fetchAttachmentImageMock = mock.method(
+  fetchAttachmentImageModule,
+  'fetchAttachmentImage',
+  async () => undefined
+);
+
 const { CONVO_LABELS } = require('../lib/constants.ts');
 const { CHATWOOT_SYSTEM_PROMPT, MODEL } = require('../config/constants.ts');
 
@@ -201,6 +208,8 @@ function resetMocks() {
   runJailbreakGuardrailMock.mock.mockImplementation(async () => ({
     tripwireTriggered: false,
   }));
+  fetchAttachmentImageMock.mock.resetCalls();
+  fetchAttachmentImageMock.mock.mockImplementation(async () => undefined);
   delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
   delete process.env.CHATWOOT_OPENAI_TOKEN_LIMIT;
   delete process.env.CHATWOOT_OLLAMA_TOKEN_LIMIT;
@@ -1104,6 +1113,58 @@ test('chatwoot webhook forwards image attachments to vision models', async () =>
       'Attachment: cat.png (image/png | https://example.com/cat.png)'
     )
   );
+  delete process.env.CHATWOOT_WEBHOOK_MODEL;
+  resetMocks();
+});
+
+test('chatwoot webhook downloads remote images for vision models', async () => {
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  fetchAttachmentImageMock.mock.mockImplementationOnce(
+    async () => 'data:image/png;base64,abc123'
+  );
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 811,
+        message_type: 0,
+        content: 'Remote image',
+        attachments: [
+          {
+            file_name: 'cat.png',
+            file_type: 'image/png',
+            download_url: 'https://example.com/cat.png',
+          },
+        ],
+        account: { id: 8 },
+        conversation: {
+          id: 8,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 8,
+        },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert.strictEqual(fetchAttachmentImageMock.mock.calls.length, 1);
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  const userMessages = providerMessages.filter((m) => m.role === 'user');
+  const lastUser = userMessages[userMessages.length - 1];
+  const imageItems = lastUser.content.filter((item) => item.type === 'input_image');
+  assert.strictEqual(imageItems.length, 1);
+  assert.match(imageItems[0].image_url.url, /^data:image\//);
+
   delete process.env.CHATWOOT_WEBHOOK_MODEL;
   resetMocks();
 });
