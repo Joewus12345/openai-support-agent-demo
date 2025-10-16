@@ -107,6 +107,13 @@ const fetchAttachmentImageMock = mock.method(
   async () => undefined
 );
 
+const imageInsightsModule = require('../lib/chatwoot/imageInsights.ts');
+const gatherImageInsightsMock = mock.method(
+  imageInsightsModule,
+  'gatherImageInsights',
+  async () => undefined
+);
+
 const { CONVO_LABELS } = require('../lib/constants.ts');
 const { CHATWOOT_SYSTEM_PROMPT, MODEL } = require('../config/constants.ts');
 
@@ -210,6 +217,8 @@ function resetMocks() {
   }));
   fetchAttachmentImageMock.mock.resetCalls();
   fetchAttachmentImageMock.mock.mockImplementation(async () => undefined);
+  gatherImageInsightsMock.mock.resetCalls();
+  gatherImageInsightsMock.mock.mockImplementation(async () => undefined);
   delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
   delete process.env.CHATWOOT_OPENAI_TOKEN_LIMIT;
   delete process.env.CHATWOOT_OLLAMA_TOKEN_LIMIT;
@@ -1659,6 +1668,20 @@ test('chatwoot webhook treats lone greeting as relevant', async () => {
 
 test('chatwoot webhook skips relevance guardrail for image-only attachments', async () => {
   process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  gatherImageInsightsMock.mock.mockImplementationOnce(async () => ({
+    userPromptSupplement: 'Image summary: Autoflex cable\nNotable attributes: 25mm, copper',
+    developerNote:
+      'Image analysis context:\n- Summary: Autoflex cable\n- Attributes: 25mm, copper\nUse these matches to recommend the closest product or share alternatives.',
+    description: 'Autoflex cable',
+    queries: ['autoflex cable 25mm', 'helukabel'],
+    knowledgeBaseMatches: [
+      {
+        title: 'Autoflex Cable Product',
+        snippet: 'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
+        url: 'https://store.automationghana.com/product/autoflex',
+      },
+    ],
+  }));
   const payload = {
     event: 'message_created',
     data: {
@@ -1705,12 +1728,33 @@ test('chatwoot webhook skips relevance guardrail for image-only attachments', as
     (message) => message.role === 'user'
   );
   assert.ok(lastUserMessage);
+  const userTextItems = lastUserMessage.content.filter(
+    (item) => item.type === 'input_text'
+  );
+  assert.ok(
+    userTextItems.some((item) =>
+      item.text.includes('Image summary: Autoflex cable')
+    )
+  );
   assert.ok(
     lastUserMessage.content.some((item) => item.type === 'input_image')
+  );
+  const developerMessages = providerMessages.filter(
+    (message) => message.role === 'developer'
+  );
+  assert.ok(developerMessages.length >= 1);
+  assert.ok(
+    developerMessages.some((msg) =>
+      msg.content.some((item) =>
+        item.type === 'input_text' &&
+        item.text.includes('Image analysis context')
+      )
+    )
   );
   const storedMessage =
     prisma.conversationMessage.upsert.mock.calls[0].arguments[0];
   assert.match(storedMessage.create.content, /Attachment: photo\.jpg/);
+  assert.ok(gatherImageInsightsMock.mock.calls.length >= 1);
   assertLoggedIds(1);
   resetMocks();
 });
