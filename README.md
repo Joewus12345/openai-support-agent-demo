@@ -130,6 +130,7 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
 
     - If the configured model supports vision (e.g. `gpt-4o`, `gpt-4.1`, or any model listed via `CHATWOOT_WEBHOOK_MODEL` that includes the substrings `4o`, `4.1`, `o1`, `o3`, or `omni`), image attachments are forwarded to the provider as `input_image` parts. URLs or embedded data URIs are passed through so the model can inspect the image content directly.
     - For other models, the webhook appends a textual note that lists each attachment, its MIME type when available, and its download URL or indicates when only base64 data is present. This ensures agents are aware of additional context even when the model cannot open the file itself.
+    - When an inbound message only includes image attachments (no textual content), the webhook skips the relevance guardrail so customers do not receive unnecessary clarification prompts. After deploying, monitor your logs for the `Skipping relevance guardrail for image-only attachment message` entry to confirm the behavior is active.
 
     You can override the attachment detection model by setting `CHATWOOT_WEBHOOK_MODEL`; otherwise the default falls back to the global `MODEL` configured for the provider.
 
