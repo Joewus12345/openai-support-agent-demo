@@ -1485,7 +1485,7 @@ export async function POST(request: Request) {
           if (!resource) {
             continue;
           }
-          additions.push({ type: "input_image", image_url: { url: resource } });
+          additions.push({ type: "input_image", image_url: resource });
         }
         if (additions.length) {
           const existing = Array.isArray(target.content)
@@ -1671,6 +1671,25 @@ export async function POST(request: Request) {
       }
 
       promptHistory = trimmedHistory;
+
+      const hasInvalidImageUrl = providerMessages.some((entry) =>
+        Array.isArray((entry as any)?.content) &&
+        (entry as any).content.some((item: any) => {
+          if (!item || typeof item !== "object") {
+            return false;
+          }
+          if (item.type === "input_image" || item.type === "output_image") {
+            return typeof item.image_url !== "string";
+          }
+          return false;
+        })
+      );
+
+      if (hasInvalidImageUrl) {
+        console.error("chatwoot webhook", "invalid image_url payload");
+        await sendFallback();
+        return NextResponse.json({ status: "fallback" });
+      }
 
       let provider;
       try {
