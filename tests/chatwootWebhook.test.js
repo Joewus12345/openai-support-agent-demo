@@ -1104,7 +1104,7 @@ test('chatwoot webhook forwards image attachments to vision models', async () =>
   assert.strictEqual(imageItems.length, 1);
   assert.deepStrictEqual(imageItems[0], {
     type: 'input_image',
-    image_url: { url: 'https://example.com/cat.png' },
+    image_url: 'https://example.com/cat.png',
   });
   const storedContent =
     prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content;
@@ -1160,7 +1160,7 @@ test('chatwoot webhook handles image mime without filename for vision models', a
   assert.strictEqual(imageItems.length, 1);
   assert.deepStrictEqual(imageItems[0], {
     type: 'input_image',
-    image_url: { url: 'https://example.com/screenshot.jpeg' },
+    image_url: 'https://example.com/screenshot.jpeg',
   });
   const storedContent =
     prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content;
@@ -1219,7 +1219,56 @@ test('chatwoot webhook downloads remote images for vision models', async () => {
   const lastUser = userMessages[userMessages.length - 1];
   const imageItems = lastUser.content.filter((item) => item.type === 'input_image');
   assert.strictEqual(imageItems.length, 1);
-  assert.match(imageItems[0].image_url.url, /^data:image\//);
+  assert.match(imageItems[0].image_url, /^data:image\//);
+
+  delete process.env.CHATWOOT_WEBHOOK_MODEL;
+  resetMocks();
+});
+
+test('chatwoot webhook rejects object image_url payloads before provider call', async () => {
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_text', text: 'Legacy attachment shape' },
+        { type: 'input_image', image_url: { url: 'https://example.com/legacy.png' } },
+      ],
+    },
+  ]);
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 900,
+        message_type: 0,
+        content: 'Checking legacy content',
+        attachments: [],
+        account: { id: 9 },
+        conversation: {
+          id: 9,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 9,
+        },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  const body = await res.json();
+
+  assert.strictEqual(body.status, 'fallback');
+  assert.strictEqual(getProviderMock.mock.calls.length, 0);
+  assert.strictEqual(providerFnMock.mock.calls.length, 0);
+  assert.ok(sendBotMessageMock.mock.calls.length >= 1);
 
   delete process.env.CHATWOOT_WEBHOOK_MODEL;
   resetMocks();
