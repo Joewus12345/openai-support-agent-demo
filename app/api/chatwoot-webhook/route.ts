@@ -50,6 +50,10 @@ import {
   runJailbreakGuardrail,
 } from "@/lib/guardrails";
 import {
+  gatherImageInsights,
+  type GatherImageInsightsResult,
+} from "@/lib/chatwoot/imageInsights";
+import {
   recordReleaseFailure,
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
@@ -624,6 +628,10 @@ export async function POST(request: Request) {
         : MODEL;
     const visionCapableModel = isVisionCapableModel(providerModelName);
     const attachmentNote = buildAttachmentNote(attachments);
+    const imageOnlyMessage =
+      !hasTextContent &&
+      hasAttachmentContent &&
+      attachments.every((attachment) => attachment.isImage);
 
     let userInput = "";
     if (typeof content === "string") {
@@ -633,7 +641,41 @@ export async function POST(request: Request) {
     } else if (content !== undefined && content !== null) {
       userInput = String(content);
     }
+
     const normalizedMessageId = parseMessageId(messageId);
+
+    let imageInsights: GatherImageInsightsResult | undefined;
+    if (attachments.some((attachment) => attachment.isImage)) {
+      try {
+        const kbProvider =
+          process.env.CHATWOOT_IMAGE_SEARCH_PROVIDER?.trim() ||
+          process.env.CHATWOOT_WEBHOOK_PROVIDER?.trim();
+        const kbLimitRaw = process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim();
+        const kbLimit = kbLimitRaw ? Number(kbLimitRaw) : undefined;
+        const imageModel = process.env.CHATWOOT_IMAGE_MODEL?.trim();
+        imageInsights = await gatherImageInsights({
+          attachments: attachments.filter((attachment) => attachment.isImage),
+          userText: userInput,
+          knowledgeBaseProvider: kbProvider,
+          maxKnowledgeBaseResults: Number.isFinite(kbLimit) ? kbLimit : undefined,
+          imageModel,
+          imageOnly: imageOnlyMessage,
+        });
+        if (imageInsights?.description && !userInput.trim()) {
+          userInput = imageInsights.description;
+        }
+        if (imageInsights?.queries?.length) {
+          console.log("Image insight queries", {
+            accountId,
+            conversationId,
+            messageId: normalizedMessageId ?? messageId ?? null,
+            queries: imageInsights.queries.slice(0, 6),
+          });
+        }
+      } catch (err) {
+        console.error("image insights pipeline error", err);
+      }
+    }
     const referencedMessageId = extractReferencedMessageId(message);
     const normalizedReferencedReplyToId =
       typeof referencedMessageId === "number" &&
@@ -717,6 +759,19 @@ export async function POST(request: Request) {
       userInput = userInput ? `${userInput}\n\n${attachmentNote}` : attachmentNote;
       if (enrichedContent) {
         enrichedContent = `${enrichedContent}\n\n${attachmentNote}`;
+      }
+    }
+
+    if (imageInsights?.userPromptSupplement) {
+      const supplement = imageInsights.userPromptSupplement;
+      if (enrichedContent) {
+        if (!enrichedContent.includes(supplement)) {
+          enrichedContent = `${enrichedContent}\n\n${supplement}`;
+        }
+      } else {
+        enrichedContent = userInput
+          ? `${userInput}\n\n${supplement}`
+          : supplement;
       }
     }
 
@@ -1498,43 +1553,66 @@ export async function POST(request: Request) {
 
     try {
       const guardrailUserInput = enrichedContent ?? userInput;
-      const baseHistoryTurns: HistoryTurn[] = promptHistory
-        .filter((m: { role: string }) => m.role !== "developer")
-        .map((m: ResponseMessage) => ({
-          role: m.role,
-          content: extractResponseMessageText(m),
-        }));
-      const historyTurns = referencedTurn
-        ? [referencedTurn, ...baseHistoryTurns]
-        : baseHistoryTurns;
-      let recentTurns = historyTurns.slice(-6);
-      if (
-        referencedTurn &&
-        !recentTurns.some(
-          (turn) =>
-            turn.role === referencedTurn.role &&
-            turn.content === referencedTurn.content
-        )
-      ) {
-        recentTurns =
-          recentTurns.length >= 6
-            ? [...recentTurns.slice(1), referencedTurn]
-            : [...recentTurns, referencedTurn];
+      let relevance:
+        | {
+            tripwireTriggered: boolean;
+            outputInfo?: unknown;
+          }
+        | undefined;
+      if (imageOnlyMessage) {
+        relevance = {
+          tripwireTriggered: false,
+          outputInfo: { skipped: "image-only-attachments" },
+        };
+        console.log(
+          "Skipping relevance guardrail for image-only attachment message",
+          {
+            accountId,
+            conversationId,
+            messageId: normalizedMessageId ?? messageId ?? null,
+            attachmentCount: attachments.length,
+          }
+        );
+      } else {
+        const baseHistoryTurns: HistoryTurn[] = promptHistory
+          .filter((m: { role: string }) => m.role !== "developer")
+          .map((m: ResponseMessage) => ({
+            role: m.role,
+            content: extractResponseMessageText(m),
+          }));
+        const historyTurns = referencedTurn
+          ? [referencedTurn, ...baseHistoryTurns]
+          : baseHistoryTurns;
+        let recentTurns = historyTurns.slice(-6);
+        if (
+          referencedTurn &&
+          !recentTurns.some(
+            (turn) =>
+              turn.role === referencedTurn.role &&
+              turn.content === referencedTurn.content
+          )
+        ) {
+          recentTurns =
+            recentTurns.length >= 6
+              ? [...recentTurns.slice(1), referencedTurn]
+              : [...recentTurns, referencedTurn];
+        }
+        const relevanceInput = JSON.stringify([
+          ...recentTurns,
+          { role: "user", content: guardrailUserInput },
+        ]);
+        relevance = await runRelevanceGuardrail({
+          input: relevanceInput,
+        });
       }
-      const relevanceInput = JSON.stringify([
-        ...recentTurns,
-        { role: "user", content: guardrailUserInput },
-      ]);
-      const relevance = await runRelevanceGuardrail({
-        input: relevanceInput,
-      });
       const jailbreak = await runJailbreakGuardrail({ input: guardrailUserInput });
 
       if (jailbreak.tripwireTriggered) {
         console.log("Guardrail triggered via Chatwoot: jailbreak", {
           guardrailUserInput,
           jailbreakOutput: jailbreak.outputInfo,
-          relevanceOutput: relevance.outputInfo,
+          relevanceOutput: relevance?.outputInfo,
+          relevanceSkipped: imageOnlyMessage,
         });
         const guardrailResponse = await sendBotMessage(
           accountId,
@@ -1546,7 +1624,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "guardrail" });
       }
 
-      if (relevance.tripwireTriggered) {
+      if (relevance?.tripwireTriggered) {
         const lastAssistantMessage = Array.isArray(fullHistory)
           ? [...fullHistory].reverse().find((entry) => entry?.role === "assistant")
           : undefined;
@@ -1595,12 +1673,18 @@ export async function POST(request: Request) {
     } catch (err) {
       console.error("quote candidates error", err);
     }
+    const developerMessages: ResponseMessage[] = [];
+    if (imageInsights?.developerNote) {
+      developerMessages.push(
+        toResponseMessage("developer", imageInsights.developerNote)
+      );
+    }
     const developerPrompt = buildQuoteDeveloperPrompt(quoteCandidates);
     if (developerPrompt) {
-      promptHistory = [
-        toResponseMessage("developer", developerPrompt),
-        ...promptHistory,
-      ];
+      developerMessages.push(toResponseMessage("developer", developerPrompt));
+    }
+    if (developerMessages.length) {
+      promptHistory = [...developerMessages, ...promptHistory];
     }
 
     let conversationSynopsis: string | undefined;

@@ -107,6 +107,13 @@ const fetchAttachmentImageMock = mock.method(
   async () => undefined
 );
 
+const imageInsightsModule = require('../lib/chatwoot/imageInsights.ts');
+const gatherImageInsightsMock = mock.method(
+  imageInsightsModule,
+  'gatherImageInsights',
+  async () => undefined
+);
+
 const { CONVO_LABELS } = require('../lib/constants.ts');
 const { CHATWOOT_SYSTEM_PROMPT, MODEL } = require('../config/constants.ts');
 
@@ -210,6 +217,8 @@ function resetMocks() {
   }));
   fetchAttachmentImageMock.mock.resetCalls();
   fetchAttachmentImageMock.mock.mockImplementation(async () => undefined);
+  gatherImageInsightsMock.mock.resetCalls();
+  gatherImageInsightsMock.mock.mockImplementation(async () => undefined);
   delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
   delete process.env.CHATWOOT_OPENAI_TOKEN_LIMIT;
   delete process.env.CHATWOOT_OLLAMA_TOKEN_LIMIT;
@@ -1653,6 +1662,99 @@ test('chatwoot webhook treats lone greeting as relevant', async () => {
   assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 1);
   assert.ok(guardrailOutput);
   assert.strictEqual(guardrailOutput.outputInfo.relevant, true);
+  assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook skips relevance guardrail for image-only attachments', async () => {
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  gatherImageInsightsMock.mock.mockImplementationOnce(async () => ({
+    userPromptSupplement: 'Image summary: Autoflex cable\nNotable attributes: 25mm, copper',
+    developerNote:
+      'Image analysis context:\n- Summary: Autoflex cable\n- Attributes: 25mm, copper\nUse these matches to recommend the closest product or share alternatives.',
+    description: 'Autoflex cable',
+    queries: ['autoflex cable 25mm', 'helukabel'],
+    knowledgeBaseMatches: [
+      {
+        title: 'Autoflex Cable Product',
+        snippet: 'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
+        url: 'https://store.automationghana.com/product/autoflex',
+      },
+    ],
+  }));
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 8123,
+        message_type: 0,
+        content: '',
+        attachments: [
+          {
+            file_name: 'photo.jpg',
+            file_type: 'image/jpeg',
+            data_url: 'data:image/jpeg;base64,AAAAAAAAAAAAAAAAAAAA',
+          },
+        ],
+        account: { id: 18 },
+        conversation: {
+          id: 28,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 18,
+        },
+      },
+    },
+  };
+  const history = [
+    toResponseMessage('assistant', 'Please share a photo of the issue.'),
+  ];
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.notStrictEqual(body.status, 'guardrail');
+  assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 0);
+  assert.strictEqual(runJailbreakGuardrailMock.mock.calls.length, 1);
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  const lastUserMessage = providerMessages.find(
+    (message) => message.role === 'user'
+  );
+  assert.ok(lastUserMessage);
+  const userTextItems = lastUserMessage.content.filter(
+    (item) => item.type === 'input_text'
+  );
+  assert.ok(
+    userTextItems.some((item) =>
+      item.text.includes('Image summary: Autoflex cable')
+    )
+  );
+  assert.ok(
+    lastUserMessage.content.some((item) => item.type === 'input_image')
+  );
+  const developerMessages = providerMessages.filter(
+    (message) => message.role === 'developer'
+  );
+  assert.ok(developerMessages.length >= 1);
+  assert.ok(
+    developerMessages.some((msg) =>
+      msg.content.some((item) =>
+        item.type === 'input_text' &&
+        item.text.includes('Image analysis context')
+      )
+    )
+  );
+  const storedMessage =
+    prisma.conversationMessage.upsert.mock.calls[0].arguments[0];
+  assert.match(storedMessage.create.content, /Attachment: photo\.jpg/);
+  assert.ok(gatherImageInsightsMock.mock.calls.length >= 1);
   assertLoggedIds(1);
   resetMocks();
 });

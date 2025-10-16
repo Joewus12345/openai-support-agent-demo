@@ -130,6 +130,13 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
 
     - If the configured model supports vision (e.g. `gpt-4o`, `gpt-4.1`, or any model listed via `CHATWOOT_WEBHOOK_MODEL` that includes the substrings `4o`, `4.1`, `o1`, `o3`, or `omni`), image attachments are forwarded to the provider as `input_image` parts. URLs or embedded data URIs are passed through so the model can inspect the image content directly.
     - For other models, the webhook appends a textual note that lists each attachment, its MIME type when available, and its download URL or indicates when only base64 data is present. This ensures agents are aware of additional context even when the model cannot open the file itself.
+    - When an inbound message only includes image attachments (no textual content), the webhook skips the relevance guardrail so customers do not receive unnecessary clarification prompts. After deploying, monitor your logs for the `Skipping relevance guardrail for image-only attachment message` entry to confirm the behavior is active.
+    - Whenever an image is present, the webhook now routes the attachment through a lightweight image-understanding pass (default model `CHATWOOT_IMAGE_MODEL` or `gpt-4.1-mini`). The analysis produces catalog-ready descriptors, suggested queries, and top matches from the knowledge base so the assistant can contrast alternatives without asking the customer for more detail. The generated summary is appended to the user turn and a developer message shares the ranked matches with the model.
+    - Tune the helper with:
+      - `CHATWOOT_IMAGE_MODEL` to select the OpenAI vision model used for analysis.
+      - `CHATWOOT_IMAGE_SEARCH_PROVIDER` to override the provider used when searching the knowledge base (defaults to the webhook provider).
+      - `CHATWOOT_IMAGE_KB_LIMIT` to cap the number of knowledge base snippets injected into the prompt (defaults to 3).
+    - Image-related logs now include an `Image insight queries` entry showing the normalized search terms used to interrogate the knowledge base. Track this log to validate catalog coverage and iterate on tagging when matches are sparse.
 
     You can override the attachment detection model by setting `CHATWOOT_WEBHOOK_MODEL`; otherwise the default falls back to the global `MODEL` configured for the provider.
 
