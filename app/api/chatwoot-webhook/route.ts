@@ -121,16 +121,39 @@ function looksLikeBase64(value: string): boolean {
 
 function guessIsImage(
   mimeType?: string,
-  fileName?: string
+  fileName?: string,
+  attachmentUrl?: string
 ): boolean {
-  if (mimeType && mimeType.toLowerCase().startsWith("image/")) {
+  if (mimeType) {
+    const normalizedMime = mimeType.trim().toLowerCase();
+    if (!normalizedMime) {
+      // fall through to file/url heuristics
+    } else if (
+      normalizedMime === "image" ||
+      normalizedMime.startsWith("image/")
+    ) {
+      return true;
+    }
+  }
+
+  const hasImageExtension = (value?: string): boolean => {
+    if (!value) {
+      return false;
+    }
+    const lower = value.toLowerCase();
+    const sanitized = lower.split(/[?#]/)[0];
+    return IMAGE_FILE_EXTENSIONS.some((ext) => sanitized.endsWith(ext));
+  };
+
+  if (hasImageExtension(fileName)) {
     return true;
   }
-  if (!fileName) {
-    return false;
+
+  if (!fileName && hasImageExtension(attachmentUrl)) {
+    return true;
   }
-  const lower = fileName.toLowerCase();
-  return IMAGE_FILE_EXTENSIONS.some((ext) => lower.endsWith(ext));
+
+  return false;
 }
 
 function normalizeAttachment(raw: unknown): NormalizedAttachment | undefined {
@@ -202,7 +225,7 @@ function normalizeAttachment(raw: unknown): NormalizedAttachment | undefined {
     }
   }
 
-  const inferredImage = guessIsImage(mimeType, fileName);
+  const inferredImage = guessIsImage(mimeType, fileName, url ?? dataUrl);
 
   if (!url && !dataUrl && base64 && inferredImage) {
     dataUrl = `data:image/*;base64,${base64}`;
