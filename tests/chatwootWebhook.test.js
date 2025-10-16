@@ -1657,6 +1657,64 @@ test('chatwoot webhook treats lone greeting as relevant', async () => {
   resetMocks();
 });
 
+test('chatwoot webhook skips relevance guardrail for image-only attachments', async () => {
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 8123,
+        message_type: 0,
+        content: '',
+        attachments: [
+          {
+            file_name: 'photo.jpg',
+            file_type: 'image/jpeg',
+            data_url: 'data:image/jpeg;base64,AAAAAAAAAAAAAAAAAAAA',
+          },
+        ],
+        account: { id: 18 },
+        conversation: {
+          id: 28,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 18,
+        },
+      },
+    },
+  };
+  const history = [
+    toResponseMessage('assistant', 'Please share a photo of the issue.'),
+  ];
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => history);
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.notStrictEqual(body.status, 'guardrail');
+  assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 0);
+  assert.strictEqual(runJailbreakGuardrailMock.mock.calls.length, 1);
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  const lastUserMessage = providerMessages.find(
+    (message) => message.role === 'user'
+  );
+  assert.ok(lastUserMessage);
+  assert.ok(
+    lastUserMessage.content.some((item) => item.type === 'input_image')
+  );
+  const storedMessage =
+    prisma.conversationMessage.upsert.mock.calls[0].arguments[0];
+  assert.match(storedMessage.create.content, /Attachment: photo\.jpg/);
+  assertLoggedIds(1);
+  resetMocks();
+});
+
 test('chatwoot webhook includes referenced message in guardrail input', async () => {
   let guardrailInput;
   runRelevanceGuardrailMock.mock.mockImplementationOnce(async ({ input }) => {

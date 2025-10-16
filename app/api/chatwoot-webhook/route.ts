@@ -624,6 +624,10 @@ export async function POST(request: Request) {
         : MODEL;
     const visionCapableModel = isVisionCapableModel(providerModelName);
     const attachmentNote = buildAttachmentNote(attachments);
+    const imageOnlyMessage =
+      !hasTextContent &&
+      hasAttachmentContent &&
+      attachments.every((attachment) => attachment.isImage);
 
     let userInput = "";
     if (typeof content === "string") {
@@ -1498,43 +1502,66 @@ export async function POST(request: Request) {
 
     try {
       const guardrailUserInput = enrichedContent ?? userInput;
-      const baseHistoryTurns: HistoryTurn[] = promptHistory
-        .filter((m: { role: string }) => m.role !== "developer")
-        .map((m: ResponseMessage) => ({
-          role: m.role,
-          content: extractResponseMessageText(m),
-        }));
-      const historyTurns = referencedTurn
-        ? [referencedTurn, ...baseHistoryTurns]
-        : baseHistoryTurns;
-      let recentTurns = historyTurns.slice(-6);
-      if (
-        referencedTurn &&
-        !recentTurns.some(
-          (turn) =>
-            turn.role === referencedTurn.role &&
-            turn.content === referencedTurn.content
-        )
-      ) {
-        recentTurns =
-          recentTurns.length >= 6
-            ? [...recentTurns.slice(1), referencedTurn]
-            : [...recentTurns, referencedTurn];
+      let relevance:
+        | {
+            tripwireTriggered: boolean;
+            outputInfo?: unknown;
+          }
+        | undefined;
+      if (imageOnlyMessage) {
+        relevance = {
+          tripwireTriggered: false,
+          outputInfo: { skipped: "image-only-attachments" },
+        };
+        console.log(
+          "Skipping relevance guardrail for image-only attachment message",
+          {
+            accountId,
+            conversationId,
+            messageId: normalizedMessageId ?? messageId ?? null,
+            attachmentCount: attachments.length,
+          }
+        );
+      } else {
+        const baseHistoryTurns: HistoryTurn[] = promptHistory
+          .filter((m: { role: string }) => m.role !== "developer")
+          .map((m: ResponseMessage) => ({
+            role: m.role,
+            content: extractResponseMessageText(m),
+          }));
+        const historyTurns = referencedTurn
+          ? [referencedTurn, ...baseHistoryTurns]
+          : baseHistoryTurns;
+        let recentTurns = historyTurns.slice(-6);
+        if (
+          referencedTurn &&
+          !recentTurns.some(
+            (turn) =>
+              turn.role === referencedTurn.role &&
+              turn.content === referencedTurn.content
+          )
+        ) {
+          recentTurns =
+            recentTurns.length >= 6
+              ? [...recentTurns.slice(1), referencedTurn]
+              : [...recentTurns, referencedTurn];
+        }
+        const relevanceInput = JSON.stringify([
+          ...recentTurns,
+          { role: "user", content: guardrailUserInput },
+        ]);
+        relevance = await runRelevanceGuardrail({
+          input: relevanceInput,
+        });
       }
-      const relevanceInput = JSON.stringify([
-        ...recentTurns,
-        { role: "user", content: guardrailUserInput },
-      ]);
-      const relevance = await runRelevanceGuardrail({
-        input: relevanceInput,
-      });
       const jailbreak = await runJailbreakGuardrail({ input: guardrailUserInput });
 
       if (jailbreak.tripwireTriggered) {
         console.log("Guardrail triggered via Chatwoot: jailbreak", {
           guardrailUserInput,
           jailbreakOutput: jailbreak.outputInfo,
-          relevanceOutput: relevance.outputInfo,
+          relevanceOutput: relevance?.outputInfo,
+          relevanceSkipped: imageOnlyMessage,
         });
         const guardrailResponse = await sendBotMessage(
           accountId,
@@ -1546,7 +1573,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "guardrail" });
       }
 
-      if (relevance.tripwireTriggered) {
+      if (relevance?.tripwireTriggered) {
         const lastAssistantMessage = Array.isArray(fullHistory)
           ? [...fullHistory].reverse().find((entry) => entry?.role === "assistant")
           : undefined;
