@@ -1117,6 +1117,62 @@ test('chatwoot webhook forwards image attachments to vision models', async () =>
   resetMocks();
 });
 
+test('chatwoot webhook handles image mime without filename for vision models', async () => {
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 811,
+        message_type: 0,
+        content: 'Screenshot attached',
+        attachments: [
+          {
+            file_type: 'image',
+            download_url: 'https://example.com/screenshot.jpeg',
+          },
+        ],
+        account: { id: 8 },
+        conversation: {
+          id: 8,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 8,
+        },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert.strictEqual(getProviderMock.mock.calls.length, 1);
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  const userMessages = providerMessages.filter((m) => m.role === 'user');
+  const lastUser = userMessages[userMessages.length - 1];
+  const imageItems = lastUser.content.filter((item) => item.type === 'input_image');
+  assert.strictEqual(imageItems.length, 1);
+  assert.deepStrictEqual(imageItems[0], {
+    type: 'input_image',
+    image_url: { url: 'https://example.com/screenshot.jpeg' },
+  });
+  const storedContent =
+    prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content;
+  assert.ok(
+    storedContent.includes(
+      'Attachment: Image attachment (image | https://example.com/screenshot.jpeg)'
+    )
+  );
+  delete process.env.CHATWOOT_WEBHOOK_MODEL;
+  resetMocks();
+});
+
 test('chatwoot webhook downloads remote images for vision models', async () => {
   process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
   fetchAttachmentImageMock.mock.mockImplementationOnce(
