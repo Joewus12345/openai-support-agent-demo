@@ -114,6 +114,15 @@ const gatherImageInsightsMock = mock.method(
   async () => undefined
 );
 
+const fileSearchModule = require('../lib/tools/fileSearch.ts');
+const fileSearchMock = mock.method(
+  fileSearchModule,
+  'fileSearch',
+  async () => ({ results: [] })
+);
+
+const { searchKnowledgeBase } = require('../lib/knowledgeBase/searchKnowledgeBase.ts');
+
 const { CONVO_LABELS } = require('../lib/constants.ts');
 const { CHATWOOT_SYSTEM_PROMPT, MODEL } = require('../config/constants.ts');
 
@@ -219,6 +228,8 @@ function resetMocks() {
   fetchAttachmentImageMock.mock.mockImplementation(async () => undefined);
   gatherImageInsightsMock.mock.resetCalls();
   gatherImageInsightsMock.mock.mockImplementation(async () => undefined);
+  fileSearchMock.mock.resetCalls();
+  fileSearchMock.mock.mockImplementation(async () => ({ results: [] }));
   delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
   delete process.env.CHATWOOT_OPENAI_TOKEN_LIMIT;
   delete process.env.CHATWOOT_OLLAMA_TOKEN_LIMIT;
@@ -1668,20 +1679,81 @@ test('chatwoot webhook treats lone greeting as relevant', async () => {
 
 test('chatwoot webhook skips relevance guardrail for image-only attachments', async () => {
   process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
-  gatherImageInsightsMock.mock.mockImplementationOnce(async () => ({
-    userPromptSupplement: 'Image summary: Autoflex cable\nNotable attributes: 25mm, copper',
-    developerNote:
-      'Image analysis context:\n- Summary: Autoflex cable\n- Attributes: 25mm, copper\nUse these matches to recommend the closest product or share alternatives.',
-    description: 'Autoflex cable',
-    queries: ['autoflex cable 25mm', 'helukabel'],
-    knowledgeBaseMatches: [
-      {
-        title: 'Autoflex Cable Product',
-        snippet: 'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
-        url: 'https://store.automationghana.com/product/autoflex',
-      },
-    ],
-  }));
+  const observedSearchQueries = [];
+  fileSearchMock.mock.mockImplementation(async ({ query }) => {
+    observedSearchQueries.push(query);
+    if (query === 'autoflex cable 25mm') {
+      return {
+        results: [
+          {
+            text: 'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
+            attributes: {
+              title: 'Autoflex Cable Product',
+              url: 'https://store.automationghana.com/product/autoflex',
+            },
+            score: 0.92,
+          },
+        ],
+      };
+    }
+    return { results: [] };
+  });
+
+  gatherImageInsightsMock.mock.mockImplementationOnce(async () => {
+    const queries = ['autoflex cable 25mm', 'helukabel'];
+    const searchResult = await searchKnowledgeBase({
+      query: queries[0],
+      queries: queries.slice(1),
+      provider: 'docs',
+      limit: 3,
+    });
+
+    const knowledgeBaseMatches = (searchResult.results ?? []).map((entry) => ({
+      title:
+        entry.attributes?.title ?? entry.title ?? 'Autoflex Cable Product',
+      snippet:
+        entry.text ??
+        entry.snippet ??
+        entry.attributes?.summary ??
+        'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
+      url: entry.attributes?.url ?? entry.url ?? undefined,
+      score: typeof entry.score === 'number' ? entry.score : undefined,
+    }));
+
+    const fallbackMatch = {
+      title: 'Autoflex Cable Product',
+      snippet: 'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
+      url: 'https://store.automationghana.com/product/autoflex',
+      score: 0.92,
+    };
+    const topMatch = knowledgeBaseMatches[0] ?? fallbackMatch;
+
+    const detailParts = [topMatch.snippet];
+    if (topMatch.url) {
+      detailParts.push(`URL: ${topMatch.url}`);
+    }
+    if (typeof topMatch.score === 'number') {
+      detailParts.push(`score=${topMatch.score.toFixed(3)}`);
+    }
+
+    return {
+      userPromptSupplement:
+        'Image summary: Autoflex cable\nNotable attributes: 25mm, copper',
+      developerNote: [
+        'Image analysis context:',
+        '- Summary: Autoflex cable',
+        '- Attributes: 25mm, copper',
+        `- Suggested queries: ${queries.join(', ')}`,
+        'Relevant knowledge base matches (most similar first):',
+        `  1. ${topMatch.title}`,
+        `     ${detailParts.join(' | ')}`,
+        'Use these matches to recommend the closest product or share alternatives.',
+      ].join('\n'),
+      description: 'Autoflex cable',
+      queries,
+      knowledgeBaseMatches,
+    };
+  });
   const payload = {
     event: 'message_created',
     data: {
@@ -1723,6 +1795,10 @@ test('chatwoot webhook skips relevance guardrail for image-only attachments', as
   assert.strictEqual(runJailbreakGuardrailMock.mock.calls.length, 1);
   assert.strictEqual(getProviderMock.mock.calls.length, 1);
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  assert.deepStrictEqual(observedSearchQueries, [
+    'autoflex cable 25mm',
+    'helukabel',
+  ]);
   const providerMessages = providerFnMock.mock.calls[0].arguments[0];
   const lastUserMessage = providerMessages.find(
     (message) => message.role === 'user'
@@ -1748,6 +1824,14 @@ test('chatwoot webhook skips relevance guardrail for image-only attachments', as
       msg.content.some((item) =>
         item.type === 'input_text' &&
         item.text.includes('Image analysis context')
+      )
+    )
+  );
+  assert.ok(
+    developerMessages.some((msg) =>
+      msg.content.some((item) =>
+        item.type === 'input_text' &&
+        item.text.includes('Autoflex Cable Product')
       )
     )
   );

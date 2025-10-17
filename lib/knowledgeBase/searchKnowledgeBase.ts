@@ -30,12 +30,16 @@ export async function searchKnowledgeBase({
   topKOnly,
 }: SearchKnowledgeBaseArgs): Promise<SearchKnowledgeBaseResult> {
   try {
-    const baseParts =
-      Array.isArray(queries) && queries.length > 0
-        ? queries
-        : query
-          ? generateSearchQueries(query)
-          : [];
+    const baseParts = [
+      ...(query ? [query] : []),
+      ...(
+        Array.isArray(queries) && queries.length > 0
+          ? queries
+          : query
+            ? generateSearchQueries(query)
+            : []
+      ),
+    ];
 
     const searchParts = Array.from(new Set(baseParts.map((p) => p.trim()))).filter(
       (part) => part.length > 0
