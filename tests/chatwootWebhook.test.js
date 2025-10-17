@@ -1125,6 +1125,7 @@ test('chatwoot webhook forwards image attachments to vision models', async () =>
   assert.deepStrictEqual(imageItems[0], {
     type: 'input_image',
     image_url: 'https://example.com/cat.png',
+    detail: 'auto',
   });
   const storedContent =
     prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content;
@@ -1181,6 +1182,7 @@ test('chatwoot webhook handles image mime without filename for vision models', a
   assert.deepStrictEqual(imageItems[0], {
     type: 'input_image',
     image_url: 'https://example.com/screenshot.jpeg',
+    detail: 'auto',
   });
   const storedContent =
     prisma.conversationMessage.upsert.mock.calls[0].arguments[0].create.content;
