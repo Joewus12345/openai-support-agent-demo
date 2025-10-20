@@ -1,6 +1,10 @@
 export type ResponseContentItem =
   | { type: "input_text" | "output_text"; text: string }
-  | { type: "input_image"; image_url: { url: string } };
+  | {
+      type: "input_image";
+      image_url: string;
+      detail?: "low" | "high" | "auto";
+    };
 
 export type ResponseMessage = {
   role: string;

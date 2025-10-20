@@ -1,0 +1,456 @@
+import OpenAI from "openai";
+import { fetchAttachmentImage } from "@/lib/chatwoot/fetchAttachmentImage";
+import {
+  searchKnowledgeBase,
+  type SearchKnowledgeBaseArgs,
+} from "@/lib/knowledgeBase/searchKnowledgeBase";
+
+export interface ChatwootImageAttachment {
+  displayName: string;
+  mimeType?: string;
+  url?: string;
+  dataUrl?: string;
+  base64?: string;
+  fetchedDataUrl?: string | null;
+}
+
+export interface GatherImageInsightsOptions {
+  attachments: ChatwootImageAttachment[];
+  userText?: string;
+  knowledgeBaseProvider?: string;
+  maxKnowledgeBaseResults?: number;
+  imageModel?: string;
+  imageOnly?: boolean;
+}
+
+export interface ImageKnowledgeBaseMatch {
+  title?: string;
+  url?: string;
+  snippet: string;
+  score?: number;
+  filepath?: string;
+}
+
+export interface GatherImageInsightsResult {
+  userPromptSupplement?: string;
+  developerNote?: string;
+  description?: string;
+  queries?: string[];
+  knowledgeBaseMatches?: ImageKnowledgeBaseMatch[];
+}
+
+const DEFAULT_IMAGE_MODEL =
+  process.env.CHATWOOT_IMAGE_MODEL?.trim() || "gpt-4.1-mini";
+const DEFAULT_KB_LIMIT = Number(
+  process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim() || 3
+);
+
+function dedupeStrings(values: Array<string | undefined | null>): string[] {
+  const seen = new Set<string>();
+  for (const value of values) {
+    const normalized = value?.trim();
+    if (!normalized) continue;
+    if (!seen.has(normalized)) {
+      seen.add(normalized);
+    }
+  }
+  return Array.from(seen);
+}
+
+async function resolveImageResource(
+  attachment: ChatwootImageAttachment
+): Promise<string | undefined> {
+  if (!attachment) return undefined;
+  if (attachment.dataUrl) {
+    return attachment.dataUrl;
+  }
+  if (typeof attachment.fetchedDataUrl === "string") {
+    return attachment.fetchedDataUrl;
+  }
+  if (attachment.url) {
+    try {
+      const dataUrl = await fetchAttachmentImage(
+        attachment.url,
+        attachment.mimeType
+      );
+      attachment.fetchedDataUrl = dataUrl ?? null;
+      if (dataUrl) {
+        return dataUrl;
+      }
+    } catch (error) {
+      console.error("image insight fetch error", error);
+      attachment.fetchedDataUrl = null;
+    }
+    return attachment.url;
+  }
+  if (attachment.base64) {
+    const prefix = attachment.mimeType?.startsWith("image/")
+      ? attachment.mimeType
+      : "image/*";
+    const dataUrl = `data:${prefix};base64,${attachment.base64}`;
+    attachment.dataUrl = dataUrl;
+    return dataUrl;
+  }
+  return undefined;
+}
+
+function buildUserSupplement(
+  description?: string,
+  attributes?: string[],
+  matches?: ImageKnowledgeBaseMatch[]
+): string | undefined {
+  const sections: string[] = [];
+  if (description) {
+    sections.push(`Image summary: ${description}`);
+  }
+  if (attributes?.length) {
+    sections.push(`Notable attributes: ${attributes.slice(0, 6).join(", ")}`);
+  }
+  if (matches && matches.length) {
+    const matchText = matches
+      .slice(0, 2)
+      .map((match) => match.title || match.snippet.slice(0, 80))
+      .join("; ");
+    if (matchText) {
+      sections.push(`Closest catalog matches: ${matchText}`);
+    }
+  }
+  if (!sections.length) {
+    return undefined;
+  }
+  return sections.join("\n");
+}
+
+function truncate(text: string, limit = 320): string {
+  if (!text || text.length <= limit) {
+    return text;
+  }
+  return `${text.slice(0, limit - 1)}…`;
+}
+
+function buildDeveloperNote(params: {
+  description?: string;
+  probableProducts?: string[];
+  attributes?: string[];
+  queries?: string[];
+  matches?: ImageKnowledgeBaseMatch[];
+  userText?: string;
+  imageOnly?: boolean;
+}): string | undefined {
+  const {
+    description,
+    probableProducts,
+    attributes,
+    queries,
+    matches,
+    userText,
+    imageOnly,
+  } = params;
+
+  const lines: string[] = [];
+  lines.push("Image analysis context:");
+  if (description) {
+    lines.push(`- Summary: ${description}`);
+  }
+  if (probableProducts?.length) {
+    lines.push(`- Product guesses: ${probableProducts.slice(0, 4).join(", ")}`);
+  }
+  if (attributes?.length) {
+    lines.push(`- Attributes: ${attributes.slice(0, 8).join(", ")}`);
+  }
+  if (queries?.length) {
+    lines.push(`- Suggested queries: ${queries.slice(0, 6).join(", ")}`);
+  }
+  if (typeof userText === "string" && userText.trim()) {
+    lines.push(`- Customer text: ${truncate(userText.trim(), 160)}`);
+  } else if (imageOnly) {
+    lines.push("- Customer provided no descriptive text with the image(s).");
+  }
+
+  if (matches && matches.length) {
+    lines.push("Relevant knowledge base matches (most similar first):");
+    matches.slice(0, 3).forEach((match, index) => {
+      const title = match.title || match.filepath || `Result ${index + 1}`;
+      const detailParts = [truncate(match.snippet, 240)];
+      if (match.url) {
+        detailParts.push(`URL: ${match.url}`);
+      }
+      if (typeof match.score === "number") {
+        detailParts.push(`score=${match.score.toFixed(3)}`);
+      }
+      lines.push(`  ${index + 1}. ${title}`);
+      lines.push(`     ${detailParts.join(" | ")}`);
+    });
+    lines.push(
+      "Use these matches to recommend the closest product or share alternatives."
+    );
+  } else {
+    lines.push(
+      "No confident catalog match identified yet; consider asking for more details or escalating."
+    );
+  }
+
+  return lines.join("\n");
+}
+
+function normalizeMatches(
+  raw: unknown,
+  limit: number
+): ImageKnowledgeBaseMatch[] {
+  if (!Array.isArray(raw) || !raw.length) {
+    return [];
+  }
+
+  const matches: ImageKnowledgeBaseMatch[] = [];
+  for (const entry of raw.slice(0, limit)) {
+    if (typeof entry === "string") {
+      matches.push({ snippet: entry });
+      continue;
+    }
+    if (!entry || typeof entry !== "object") {
+      continue;
+    }
+    const obj = entry as Record<string, any>;
+    const attributes = obj.attributes ?? {};
+    const match: ImageKnowledgeBaseMatch = {
+      title:
+        typeof attributes.title === "string"
+          ? attributes.title
+          : typeof obj.title === "string"
+          ? obj.title
+          : undefined,
+      url:
+        typeof attributes.url === "string"
+          ? attributes.url
+          : typeof obj.url === "string"
+          ? obj.url
+          : undefined,
+      snippet:
+        typeof obj.text === "string"
+          ? obj.text
+          : typeof obj.snippet === "string"
+          ? obj.snippet
+          : typeof attributes.summary === "string"
+          ? attributes.summary
+          : typeof attributes.text === "string"
+          ? attributes.text
+          : "",
+      score:
+        typeof obj.score === "number"
+          ? obj.score
+          : typeof attributes.score === "number"
+          ? attributes.score
+          : undefined,
+      filepath:
+        typeof attributes.filepath === "string" ? attributes.filepath : undefined,
+    };
+    if (match.snippet) {
+      matches.push(match);
+    }
+  }
+  return matches;
+}
+
+function extractJsonContent(response: any): any {
+  if (!response) {
+    return undefined;
+  }
+  const outputs: any[] = Array.isArray(response.output) ? response.output : [];
+  for (const output of outputs) {
+    const contentItems: any[] = Array.isArray(output?.content)
+      ? output.content
+      : [];
+    for (const content of contentItems) {
+      if (content && typeof content === "object") {
+        if ("json" in content && content.json) {
+          return content.json;
+        }
+        if (typeof content.text === "string") {
+          try {
+            return JSON.parse(content.text);
+          } catch (err) {
+            void err;
+          }
+        }
+      }
+    }
+  }
+  if (typeof response.output_text === "string") {
+    try {
+      return JSON.parse(response.output_text);
+    } catch (err) {
+      void err;
+    }
+  }
+  return undefined;
+}
+
+export async function gatherImageInsights({
+  attachments,
+  userText,
+  knowledgeBaseProvider,
+  maxKnowledgeBaseResults,
+  imageModel,
+  imageOnly,
+}: GatherImageInsightsOptions): Promise<GatherImageInsightsResult | undefined> {
+  const images = attachments.filter((attachment) => attachment && attachment);
+  if (!images.length) {
+    return undefined;
+  }
+
+  const resolvedImages: {
+    type: "input_image";
+    image_url: string;
+    detail: "low" | "high" | "auto";
+  }[] = [];
+  for (const attachment of images) {
+    try {
+      const resource = await resolveImageResource(attachment);
+      if (resource) {
+        resolvedImages.push({
+          type: "input_image",
+          image_url: resource,
+          detail: "auto",
+        });
+      }
+    } catch (error) {
+      console.error("image insight resource error", error);
+    }
+  }
+
+  if (!resolvedImages.length) {
+    return undefined;
+  }
+
+  const finalImageModel = imageModel?.trim() || DEFAULT_IMAGE_MODEL;
+
+  let parsedJson: any;
+  try {
+    const openai = new OpenAI();
+    const instructionLines = [
+      "Analyze the attached product image(s) and identify what the customer might be looking for.",
+      "Respond strictly in JSON with the following fields:",
+      "- description: concise summary of the item in the photo.",
+      "- probable_products: array of plausible catalog product names or categories.",
+      "- attributes: array of distinguishing attributes such as brand hints, colors, materials, sizes, or context.",
+      "- search_queries: array of 3-6 short keyword queries that should surface similar products from a knowledge base.",
+      "- follow_up_questions: optional array with clarifying questions if needed.",
+    ];
+    const userMessageParts: string[] = [];
+    if (userText?.trim()) {
+      userMessageParts.push(`Customer message: ${userText.trim()}`);
+    }
+    userMessageParts.push(
+      "Return valid JSON only. Do not include explanations outside the JSON payload."
+    );
+
+    const response = await openai.responses.create({
+      model: finalImageModel,
+      input: [
+        {
+          role: "system",
+          content: [
+            {
+              type: "input_text",
+              text: instructionLines.join("\n"),
+            },
+          ],
+        },
+        {
+          role: "user",
+          content: [
+            { type: "input_text", text: userMessageParts.join("\n\n") },
+            ...resolvedImages,
+          ],
+        },
+      ],
+      max_output_tokens: 700,
+    });
+
+    parsedJson = extractJsonContent(response);
+  } catch (error) {
+    console.error("image insight analysis error", error);
+    return undefined;
+  }
+
+  if (!parsedJson || typeof parsedJson !== "object") {
+    return undefined;
+  }
+
+  const description =
+    typeof parsedJson.description === "string"
+      ? parsedJson.description.trim()
+      : undefined;
+  const probableProducts = Array.isArray(parsedJson.probable_products)
+    ? parsedJson.probable_products
+        .map((value: unknown) =>
+          typeof value === "string" ? value.trim() : undefined
+        )
+        .filter((value: string | undefined): value is string => !!value)
+    : [];
+  const attributes = Array.isArray(parsedJson.attributes)
+    ? parsedJson.attributes
+        .map((value: unknown) =>
+          typeof value === "string" ? value.trim() : undefined
+        )
+        .filter((value: string | undefined): value is string => !!value)
+    : [];
+  const searchQueries = Array.isArray(parsedJson.search_queries)
+    ? parsedJson.search_queries
+        .map((value: unknown) =>
+          typeof value === "string" ? value.trim() : undefined
+        )
+        .filter((value: string | undefined): value is string => !!value)
+    : [];
+
+  const uniqueQueries = dedupeStrings([
+    ...searchQueries,
+    description,
+    ...probableProducts,
+  ]);
+
+  const kbLimit = Number.isFinite(maxKnowledgeBaseResults)
+    ? Number(maxKnowledgeBaseResults)
+    : DEFAULT_KB_LIMIT;
+
+  let knowledgeBaseMatches: ImageKnowledgeBaseMatch[] = [];
+  if (uniqueQueries.length) {
+    const [primary, ...rest] = uniqueQueries;
+    try {
+      const args: SearchKnowledgeBaseArgs = {
+        query: primary,
+        queries: rest,
+        provider: knowledgeBaseProvider,
+        limit: kbLimit,
+      };
+      const result = await searchKnowledgeBase(args);
+      knowledgeBaseMatches = normalizeMatches(result.results, kbLimit);
+    } catch (error) {
+      console.error("image insight knowledge base error", error);
+    }
+  }
+
+  const developerNote = buildDeveloperNote({
+    description,
+    probableProducts,
+    attributes,
+    queries: uniqueQueries,
+    matches: knowledgeBaseMatches,
+    userText,
+    imageOnly,
+  });
+
+  const userPromptSupplement = buildUserSupplement(
+    description,
+    attributes,
+    knowledgeBaseMatches
+  );
+
+  return {
+    userPromptSupplement,
+    developerNote,
+    description,
+    queries: uniqueQueries,
+    knowledgeBaseMatches,
+  };
+}
