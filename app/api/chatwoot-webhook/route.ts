@@ -1540,7 +1540,11 @@ export async function POST(request: Request) {
           if (!resource) {
             continue;
           }
-          additions.push({ type: "input_image", image_url: resource });
+          additions.push({
+            type: "input_image",
+            image_url: resource,
+            detail: "auto",
+          });
         }
         if (additions.length) {
           const existing = Array.isArray(target.content)

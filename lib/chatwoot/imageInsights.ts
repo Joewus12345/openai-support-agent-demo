@@ -298,12 +298,20 @@ export async function gatherImageInsights({
     return undefined;
   }
 
-  const resolvedImages: { type: "input_image"; image_url: string }[] = [];
+  const resolvedImages: {
+    type: "input_image";
+    image_url: string;
+    detail: "low" | "high" | "auto";
+  }[] = [];
   for (const attachment of images) {
     try {
       const resource = await resolveImageResource(attachment);
       if (resource) {
-        resolvedImages.push({ type: "input_image", image_url: resource });
+        resolvedImages.push({
+          type: "input_image",
+          image_url: resource,
+          detail: "auto",
+        });
       }
     } catch (error) {
       console.error("image insight resource error", error);
@@ -343,7 +351,7 @@ export async function gatherImageInsights({
           role: "system",
           content: [
             {
-              type: "text",
+              type: "input_text",
               text: instructionLines.join("\n"),
             },
           ],
@@ -351,7 +359,7 @@ export async function gatherImageInsights({
         {
           role: "user",
           content: [
-            { type: "text", text: userMessageParts.join("\n\n") },
+            { type: "input_text", text: userMessageParts.join("\n\n") },
             ...resolvedImages,
           ],
         },
