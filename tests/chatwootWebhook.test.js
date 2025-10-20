@@ -114,6 +114,8 @@ const gatherImageInsightsMock = mock.method(
   async () => undefined
 );
 
+const { normalizeQueryLengths } = require('../lib/utils/normalizeQueryLengths.ts');
+
 const fileSearchModule = require('../lib/tools/fileSearch.ts');
 const fileSearchMock = mock.method(
   fileSearchModule,
@@ -1842,6 +1844,81 @@ test('chatwoot webhook skips relevance guardrail for image-only attachments', as
   assert.match(storedMessage.create.content, /Attachment: photo\.jpg/);
   assert.ok(gatherImageInsightsMock.mock.calls.length >= 1);
   assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook truncates long image insight queries before searching knowledge base', async () => {
+  const observedSearchQueries = [];
+  fileSearchMock.mock.mockImplementation(async ({ query }) => {
+    observedSearchQueries.push(query);
+    return { results: [] };
+  });
+
+  const longDescription =
+    'High resolution product photo featuring the limited edition industrial grade torque wrench with adjustable head and ergonomic grip for maintenance crews across facilities.';
+
+  gatherImageInsightsMock.mock.mockImplementationOnce(
+    async ({ knowledgeBaseProvider, maxKnowledgeBaseResults }) => {
+      await searchKnowledgeBase({
+        query: undefined,
+        queries: [longDescription],
+        provider: knowledgeBaseProvider ?? 'docs-provider',
+        limit: maxKnowledgeBaseResults ?? 3,
+      });
+
+      return {
+        description: longDescription,
+        queries: [longDescription],
+        knowledgeBaseMatches: [],
+      };
+    }
+  );
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 5678,
+        message_type: 0,
+        content: '',
+        attachments: [
+          {
+            file_name: 'product.jpg',
+            file_type: 'image/jpeg',
+            data_url: 'data:image/jpeg;base64,BBBBBBBBBBBBBBBBBBBBBBBBBBBB',
+          },
+        ],
+        account: { id: 52 },
+        conversation: {
+          id: 72,
+          inbox_id: 1,
+          status: 'open',
+          account_id: 52,
+        },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+
+  assert.strictEqual(res.status, 200);
+  assert.notStrictEqual(body.status, 'guardrail');
+  assert.ok(gatherImageInsightsMock.mock.calls.length >= 1);
+  assert.ok(observedSearchQueries.length >= 1);
+
+  const expectedSegments = normalizeQueryLengths([longDescription]);
+  assert.deepStrictEqual(
+    observedSearchQueries.slice(0, expectedSegments.length),
+    expectedSegments
+  );
+  assert.ok(observedSearchQueries.every((query) => query.length <= 120));
+
   resetMocks();
 });
 

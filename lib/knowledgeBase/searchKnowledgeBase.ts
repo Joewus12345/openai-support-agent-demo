@@ -2,6 +2,7 @@ import { DEFAULT_SEARCH_LIMIT } from "@/config/constants";
 import { fileSearch } from "@/lib/tools/fileSearch";
 import { localVectorStore } from "@/lib/localVectorStore";
 import { generateSearchQueries } from "@/lib/generateSearchQueries";
+import { normalizeQueryLengths } from "@/lib/utils/normalizeQueryLengths";
 
 const OLLAMA_SEARCH_THRESHOLD = Number(
   process.env.OLLAMA_SEARCH_THRESHOLD ?? 0.3
@@ -20,6 +21,8 @@ export interface SearchKnowledgeBaseResult {
   results?: any[] | string[];
   error?: string;
 }
+
+const QUERY_CHAR_LIMIT = 120;
 
 export async function searchKnowledgeBase({
   query,
@@ -41,9 +44,10 @@ export async function searchKnowledgeBase({
       ),
     ];
 
-    const searchParts = Array.from(new Set(baseParts.map((p) => p.trim()))).filter(
-      (part) => part.length > 0
-    );
+    const normalizedParts = normalizeQueryLengths(baseParts, QUERY_CHAR_LIMIT);
+    const searchParts = Array.from(
+      new Set(normalizedParts.map((part) => part.trim()))
+    ).filter((part) => part.length > 0);
 
     if (!searchParts.length) {
       return { results: [] };

@@ -4,6 +4,7 @@ import {
   searchKnowledgeBase,
   type SearchKnowledgeBaseArgs,
 } from "@/lib/knowledgeBase/searchKnowledgeBase";
+import { normalizeQueryLengths } from "@/lib/utils/normalizeQueryLengths";
 
 export interface ChatwootImageAttachment {
   displayName: string;
@@ -44,6 +45,7 @@ const DEFAULT_IMAGE_MODEL =
 const DEFAULT_KB_LIMIT = Number(
   process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim() || 3
 );
+const QUERY_CHAR_LIMIT = 120;
 
 function dedupeStrings(values: Array<string | undefined | null>): string[] {
   const seen = new Set<string>();
@@ -403,11 +405,16 @@ export async function gatherImageInsights({
         .filter((value: string | undefined): value is string => !!value)
     : [];
 
-  const uniqueQueries = dedupeStrings([
-    ...searchQueries,
-    description,
-    ...probableProducts,
-  ]);
+  const limitedQueries = normalizeQueryLengths(
+    [
+      ...searchQueries,
+      description,
+      ...probableProducts,
+    ],
+    QUERY_CHAR_LIMIT
+  );
+
+  const uniqueQueries = dedupeStrings(limitedQueries);
 
   const kbLimit = Number.isFinite(maxKnowledgeBaseResults)
     ? Number(maxKnowledgeBaseResults)
