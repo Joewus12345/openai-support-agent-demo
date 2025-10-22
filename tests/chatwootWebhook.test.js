@@ -108,6 +108,20 @@ const fetchAttachmentImageMock = mock.method(
 );
 
 const imageInsightsModule = require('../lib/chatwoot/imageInsights.ts');
+const unexpectedImageInsightsCallMessage =
+  'Unexpected OpenAI call in chatwootWebhook tests; provide a stub.';
+const sharedImageInsightsClientMock = {
+  responses: {
+    create: mock.fn(async () => {
+      throw new Error(unexpectedImageInsightsCallMessage);
+    }),
+  },
+};
+if (typeof imageInsightsModule.setImageInsightsClientForTesting === 'function') {
+  imageInsightsModule.setImageInsightsClientForTesting(
+    sharedImageInsightsClientMock
+  );
+}
 const gatherImageInsightsMock = mock.method(
   imageInsightsModule,
   'gatherImageInsights',
@@ -171,6 +185,7 @@ const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
 const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
  
 test.after(async () => {
+  imageInsightsModule.setImageInsightsClientForTesting?.(undefined);
   await prisma.$disconnect();
   if (typeof redis.disconnect === 'function') {
     await redis.disconnect();
@@ -178,6 +193,12 @@ test.after(async () => {
 });
 
 function resetMocks() {
+  sharedImageInsightsClientMock.responses.create.mock.resetCalls();
+  sharedImageInsightsClientMock.responses.create.mock.mockImplementation(
+    async () => {
+      throw new Error(unexpectedImageInsightsCallMessage);
+    }
+  );
   releaseAgentMock.mock.resetCalls();
   releaseAgentMock.mock.mockImplementation(async () => {});
   sendBotMessageMock.mock.resetCalls();

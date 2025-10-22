@@ -6,6 +6,8 @@ import {
 } from "@/lib/knowledgeBase/searchKnowledgeBase";
 import { normalizeQueryLengths } from "@/lib/utils/normalizeQueryLengths";
 
+type ImageInsightsClient = Pick<OpenAI, "responses">;
+
 export interface ChatwootImageAttachment {
   displayName: string;
   mimeType?: string;
@@ -22,6 +24,11 @@ export interface GatherImageInsightsOptions {
   maxKnowledgeBaseResults?: number;
   imageModel?: string;
   imageOnly?: boolean;
+  /**
+   * Optional OpenAI client override. Primarily used by tests to provide a
+   * deterministic mock without touching the shared instance.
+   */
+  openAIClient?: ImageInsightsClient;
 }
 
 export interface ImageKnowledgeBaseMatch {
@@ -38,6 +45,31 @@ export interface GatherImageInsightsResult {
   description?: string;
   queries?: string[];
   knowledgeBaseMatches?: ImageKnowledgeBaseMatch[];
+}
+
+let sharedOpenAIClient: ImageInsightsClient | undefined;
+
+/**
+ * The image insights flow shares a single OpenAI client for the lifetime of
+ * this module. The OpenAI SDK is stateless, so reusing the instance across
+ * requests is thread-safe while avoiding the overhead of repeatedly
+ * constructing new clients.
+ */
+function getSharedOpenAIClient(): ImageInsightsClient {
+  if (!sharedOpenAIClient) {
+    sharedOpenAIClient = new OpenAI();
+  }
+  return sharedOpenAIClient;
+}
+
+/**
+ * Replace the shared OpenAI client. Exported for tests so they can supply a
+ * predictable stubbed client between runs.
+ */
+export function setImageInsightsClientForTesting(
+  client: ImageInsightsClient | undefined
+): void {
+  sharedOpenAIClient = client;
 }
 
 const DEFAULT_IMAGE_MODEL =
@@ -294,6 +326,7 @@ export async function gatherImageInsights({
   maxKnowledgeBaseResults,
   imageModel,
   imageOnly,
+  openAIClient,
 }: GatherImageInsightsOptions): Promise<GatherImageInsightsResult | undefined> {
   const images = attachments.filter((attachment) => attachment && attachment);
   if (!images.length) {
@@ -328,7 +361,7 @@ export async function gatherImageInsights({
 
   let parsedJson: any;
   try {
-    const openai = new OpenAI();
+    const openai = openAIClient ?? getSharedOpenAIClient();
     const instructionLines = [
       "Analyze the attached product image(s) and identify what the customer might be looking for.",
       "Respond strictly in JSON with the following fields:",
