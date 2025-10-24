@@ -6,7 +6,7 @@ import {
 } from "@/lib/knowledgeBase/searchKnowledgeBase";
 import { normalizeQueryLengths } from "@/lib/utils/normalizeQueryLengths";
 
-type ImageInsightsClient = Pick<OpenAI, "responses">;
+export type ImageInsightsClient = Pick<OpenAI, "responses">;
 
 export interface ChatwootImageAttachment {
   displayName: string;
@@ -63,13 +63,28 @@ function getSharedOpenAIClient(): ImageInsightsClient {
 }
 
 /**
- * Replace the shared OpenAI client. Exported for tests so they can supply a
- * predictable stubbed client between runs.
+ * Replace the shared OpenAI client. Prefer using
+ * {@link withImageInsightsClientStub} in tests so the previous client is
+ * automatically restored. This direct setter should only be used for legacy
+ * harnesses that cannot adopt the helper.
  */
 export function setImageInsightsClientForTesting(
   client: ImageInsightsClient | undefined
 ): void {
   sharedOpenAIClient = client;
+}
+
+export async function withImageInsightsClientStub<T>(
+  client: ImageInsightsClient,
+  run: () => Promise<T> | T
+): Promise<T> {
+  const previousClient = sharedOpenAIClient;
+  sharedOpenAIClient = client;
+  try {
+    return await run();
+  } finally {
+    sharedOpenAIClient = previousClient;
+  }
 }
 
 const DEFAULT_IMAGE_MODEL =

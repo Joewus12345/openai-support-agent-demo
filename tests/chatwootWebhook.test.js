@@ -117,16 +117,32 @@ const sharedImageInsightsClientMock = {
     }),
   },
 };
-if (typeof imageInsightsModule.setImageInsightsClientForTesting === 'function') {
-  imageInsightsModule.setImageInsightsClientForTesting(
-    sharedImageInsightsClientMock
-  );
-}
 const gatherImageInsightsMock = mock.method(
   imageInsightsModule,
   'gatherImageInsights',
   async () => undefined
 );
+
+let releaseImageInsightsClientStub;
+let imageInsightsClientStubPromise;
+test.before(() => {
+  if (typeof imageInsightsModule.withImageInsightsClientStub === 'function') {
+    imageInsightsClientStubPromise =
+      imageInsightsModule.withImageInsightsClientStub(
+        sharedImageInsightsClientMock,
+        () =>
+          new Promise((resolve) => {
+            releaseImageInsightsClientStub = resolve;
+          })
+      );
+  } else if (
+    typeof imageInsightsModule.setImageInsightsClientForTesting === 'function'
+  ) {
+    imageInsightsModule.setImageInsightsClientForTesting(
+      sharedImageInsightsClientMock
+    );
+  }
+});
 
 const { normalizeQueryLengths } = require('../lib/utils/normalizeQueryLengths.ts');
 
@@ -185,7 +201,12 @@ const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
 const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
  
 test.after(async () => {
-  imageInsightsModule.setImageInsightsClientForTesting?.(undefined);
+  releaseImageInsightsClientStub?.();
+  if (imageInsightsClientStubPromise) {
+    await imageInsightsClientStubPromise;
+  } else {
+    imageInsightsModule.setImageInsightsClientForTesting?.(undefined);
+  }
   await prisma.$disconnect();
   if (typeof redis.disconnect === 'function') {
     await redis.disconnect();
