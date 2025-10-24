@@ -1734,24 +1734,32 @@ test('chatwoot webhook treats lone greeting as relevant', async () => {
 test('chatwoot webhook skips relevance guardrail for image-only attachments', async () => {
   process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
   const observedSearchQueries = [];
-  fileSearchMock.mock.mockImplementation(async ({ query }) => {
-    observedSearchQueries.push(query);
-    if (query === 'autoflex cable 25mm') {
-      return {
-        results: [
-          {
-            text: 'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
-            attributes: {
-              title: 'Autoflex Cable Product',
-              url: 'https://store.automationghana.com/product/autoflex',
+  searchKnowledgeBaseMock.mock.mockImplementationOnce(
+    async ({ query, queries }) => {
+      const requested = [
+        query,
+        ...(Array.isArray(queries) ? queries : []),
+      ].filter((value) => typeof value === 'string' && value);
+      observedSearchQueries.push(...requested);
+
+      if (requested[0] === 'autoflex cable 25mm') {
+        return {
+          results: [
+            {
+              text: 'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
+              attributes: {
+                title: 'Autoflex Cable Product',
+                url: 'https://store.automationghana.com/product/autoflex',
+              },
+              score: 0.92,
             },
-            score: 0.92,
-          },
-        ],
-      };
+          ],
+        };
+      }
+
+      return { results: [] };
     }
-    return { results: [] };
-  });
+  );
 
   gatherImageInsightsMock.mock.mockImplementationOnce(async () => {
     const queries = ['autoflex cable 25mm', 'helukabel'];
@@ -1899,10 +1907,16 @@ test('chatwoot webhook skips relevance guardrail for image-only attachments', as
 
 test('chatwoot webhook truncates long image insight queries before searching knowledge base', async () => {
   const observedSearchQueries = [];
-  fileSearchMock.mock.mockImplementation(async ({ query }) => {
-    observedSearchQueries.push(query);
-    return { results: [] };
-  });
+  searchKnowledgeBaseMock.mock.mockImplementationOnce(
+    async ({ query, queries }) => {
+      const requested = [
+        query,
+        ...(Array.isArray(queries) ? queries : []),
+      ].filter((value) => typeof value === 'string' && value);
+      observedSearchQueries.push(...requested);
+      return { results: [] };
+    }
+  );
 
   const longDescription =
     'High resolution product photo featuring the limited edition industrial grade torque wrench with adjustable head and ergonomic grip for maintenance crews across facilities.';
