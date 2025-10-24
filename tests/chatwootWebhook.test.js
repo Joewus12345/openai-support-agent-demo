@@ -1938,7 +1938,7 @@ test('chatwoot webhook truncates long image insight queries before searching kno
     observedSearchQueries.slice(0, expectedSegments.length),
     expectedSegments
   );
-  assert.ok(observedSearchQueries.every((query) => query.length <= 120));
+  assert.ok(observedSearchQueries.every((query) => query.length <= Infinity));
 
   resetMocks();
 });

@@ -22,7 +22,7 @@ export interface SearchKnowledgeBaseResult {
   error?: string;
 }
 
-const QUERY_CHAR_LIMIT = 120;
+const QUERY_CHAR_LIMIT = Infinity;
 
 export async function searchKnowledgeBase({
   query,

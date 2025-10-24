@@ -1,6 +1,6 @@
 export function normalizeQueryLengths(
   inputs: Array<string | undefined | null>,
-  limit = 120
+  limit = Infinity
 ): string[] {
   const results: string[] = [];
 

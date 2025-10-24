@@ -77,7 +77,7 @@ const DEFAULT_IMAGE_MODEL =
 const DEFAULT_KB_LIMIT = Number(
   process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim() || 3
 );
-const QUERY_CHAR_LIMIT = 120;
+const QUERY_CHAR_LIMIT = Infinity;
 
 function dedupeStrings(values: Array<string | undefined | null>): string[] {
   const seen = new Set<string>();

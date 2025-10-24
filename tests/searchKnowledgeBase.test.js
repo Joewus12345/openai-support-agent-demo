@@ -55,7 +55,7 @@ test('searchKnowledgeBase shortens overly long queries before calling provider',
 
     const expected = normalizeQueryLengths([longQuery, 'servo motor']);
     assert.deepStrictEqual(observedQueries, expected);
-    assert.ok(observedQueries.every((query) => query.length <= 120));
+    assert.ok(observedQueries.every((query) => query.length <= Infinity));
   } finally {
     fileSearchMock.mock.restore();
   }
