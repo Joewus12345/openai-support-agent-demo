@@ -108,11 +108,43 @@ const fetchAttachmentImageMock = mock.method(
 );
 
 const imageInsightsModule = require('../lib/chatwoot/imageInsights.ts');
+const unexpectedImageInsightsCallMessage =
+  'Unexpected OpenAI call in chatwootWebhook tests; provide a stub.';
+const sharedImageInsightsClientMock = {
+  responses: {
+    create: mock.fn(async () => {
+      throw new Error(unexpectedImageInsightsCallMessage);
+    }),
+  },
+};
 const gatherImageInsightsMock = mock.method(
   imageInsightsModule,
   'gatherImageInsights',
   async () => undefined
 );
+
+let releaseImageInsightsClientStub;
+let imageInsightsClientStubPromise;
+test.before(() => {
+  if (typeof imageInsightsModule.withImageInsightsClientStub === 'function') {
+    imageInsightsClientStubPromise =
+      imageInsightsModule.withImageInsightsClientStub(
+        sharedImageInsightsClientMock,
+        () =>
+          new Promise((resolve) => {
+            releaseImageInsightsClientStub = resolve;
+          })
+      );
+  } else if (
+    typeof imageInsightsModule.setImageInsightsClientForTesting === 'function'
+  ) {
+    imageInsightsModule.setImageInsightsClientForTesting(
+      sharedImageInsightsClientMock
+    );
+  }
+});
+
+const { normalizeQueryLengths } = require('../lib/utils/normalizeQueryLengths.ts');
 
 const fileSearchModule = require('../lib/tools/fileSearch.ts');
 const fileSearchMock = mock.method(
@@ -121,7 +153,13 @@ const fileSearchMock = mock.method(
   async () => ({ results: [] })
 );
 
-const { searchKnowledgeBase } = require('../lib/knowledgeBase/searchKnowledgeBase.ts');
+const searchKnowledgeBaseModule = require('../lib/knowledgeBase/searchKnowledgeBase.ts');
+const searchKnowledgeBaseMock = mock.method(
+  searchKnowledgeBaseModule,
+  'searchKnowledgeBase',
+  async () => ({ results: [] })
+);
+const { searchKnowledgeBase } = searchKnowledgeBaseModule;
 
 const { CONVO_LABELS } = require('../lib/constants.ts');
 const { CHATWOOT_SYSTEM_PROMPT, MODEL } = require('../config/constants.ts');
@@ -169,6 +207,12 @@ const { POST: webhookPost } = require('../app/api/chatwoot-webhook/route.ts');
 const { POST: statusWebhookPost } = require('../app/api/chatwoot-status-webhook/route.ts');
  
 test.after(async () => {
+  releaseImageInsightsClientStub?.();
+  if (imageInsightsClientStubPromise) {
+    await imageInsightsClientStubPromise;
+  } else {
+    imageInsightsModule.setImageInsightsClientForTesting?.(undefined);
+  }
   await prisma.$disconnect();
   if (typeof redis.disconnect === 'function') {
     await redis.disconnect();
@@ -176,6 +220,12 @@ test.after(async () => {
 });
 
 function resetMocks() {
+  sharedImageInsightsClientMock.responses.create.mock.resetCalls();
+  sharedImageInsightsClientMock.responses.create.mock.mockImplementation(
+    async () => {
+      throw new Error(unexpectedImageInsightsCallMessage);
+    }
+  );
   releaseAgentMock.mock.resetCalls();
   releaseAgentMock.mock.mockImplementation(async () => {});
   sendBotMessageMock.mock.resetCalls();
@@ -228,6 +278,8 @@ function resetMocks() {
   fetchAttachmentImageMock.mock.mockImplementation(async () => undefined);
   gatherImageInsightsMock.mock.resetCalls();
   gatherImageInsightsMock.mock.mockImplementation(async () => undefined);
+  searchKnowledgeBaseMock.mock.resetCalls();
+  searchKnowledgeBaseMock.mock.mockImplementation(async () => ({ results: [] }));
   fileSearchMock.mock.resetCalls();
   fileSearchMock.mock.mockImplementation(async () => ({ results: [] }));
   delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
@@ -1682,24 +1734,32 @@ test('chatwoot webhook treats lone greeting as relevant', async () => {
 test('chatwoot webhook skips relevance guardrail for image-only attachments', async () => {
   process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
   const observedSearchQueries = [];
-  fileSearchMock.mock.mockImplementation(async ({ query }) => {
-    observedSearchQueries.push(query);
-    if (query === 'autoflex cable 25mm') {
-      return {
-        results: [
-          {
-            text: 'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
-            attributes: {
-              title: 'Autoflex Cable Product',
-              url: 'https://store.automationghana.com/product/autoflex',
+  searchKnowledgeBaseMock.mock.mockImplementationOnce(
+    async ({ query, queries }) => {
+      const requested = [
+        query,
+        ...(Array.isArray(queries) ? queries : []),
+      ].filter((value) => typeof value === 'string' && value);
+      observedSearchQueries.push(...requested);
+
+      if (requested[0] === 'autoflex cable 25mm') {
+        return {
+          results: [
+            {
+              text: 'Autoflex Cable, H07V-K-1Cx25mm², 29226, Helukabel',
+              attributes: {
+                title: 'Autoflex Cable Product',
+                url: 'https://store.automationghana.com/product/autoflex',
+              },
+              score: 0.92,
             },
-            score: 0.92,
-          },
-        ],
-      };
+          ],
+        };
+      }
+
+      return { results: [] };
     }
-    return { results: [] };
-  });
+  );
 
   gatherImageInsightsMock.mock.mockImplementationOnce(async () => {
     const queries = ['autoflex cable 25mm', 'helukabel'];
@@ -1845,6 +1905,87 @@ test('chatwoot webhook skips relevance guardrail for image-only attachments', as
   resetMocks();
 });
 
+test('chatwoot webhook truncates long image insight queries before searching knowledge base', async () => {
+  const observedSearchQueries = [];
+  searchKnowledgeBaseMock.mock.mockImplementationOnce(
+    async ({ query, queries }) => {
+      const requested = [
+        query,
+        ...(Array.isArray(queries) ? queries : []),
+      ].filter((value) => typeof value === 'string' && value);
+      observedSearchQueries.push(...requested);
+      return { results: [] };
+    }
+  );
+
+  const longDescription =
+    'High resolution product photo featuring the limited edition industrial grade torque wrench with adjustable head and ergonomic grip for maintenance crews across facilities.';
+
+  gatherImageInsightsMock.mock.mockImplementationOnce(
+    async ({ knowledgeBaseProvider, maxKnowledgeBaseResults }) => {
+      await searchKnowledgeBase({
+        query: undefined,
+        queries: [longDescription],
+        provider: knowledgeBaseProvider ?? 'docs-provider',
+        limit: maxKnowledgeBaseResults ?? 3,
+      });
+
+      return {
+        description: longDescription,
+        queries: [longDescription],
+        knowledgeBaseMatches: [],
+      };
+    }
+  );
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 5678,
+        message_type: 0,
+        content: '',
+        attachments: [
+          {
+            file_name: 'product.jpg',
+            file_type: 'image/jpeg',
+            data_url: 'data:image/jpeg;base64,BBBBBBBBBBBBBBBBBBBBBBBBBBBB',
+          },
+        ],
+        account: { id: 52 },
+        conversation: {
+          id: 72,
+          inbox_id: 1,
+          status: 'open',
+          account_id: 52,
+        },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  const body = await res.json();
+
+  assert.strictEqual(res.status, 200);
+  assert.notStrictEqual(body.status, 'guardrail');
+  assert.ok(gatherImageInsightsMock.mock.calls.length >= 1);
+  assert.ok(observedSearchQueries.length >= 1);
+
+  const expectedSegments = normalizeQueryLengths([longDescription]);
+  assert.deepStrictEqual(
+    observedSearchQueries.slice(0, expectedSegments.length),
+    expectedSegments
+  );
+  assert.ok(observedSearchQueries.every((query) => query.length <= Infinity));
+
+  resetMocks();
+});
+
 test('chatwoot webhook includes referenced message in guardrail input', async () => {
   let guardrailInput;
   runRelevanceGuardrailMock.mock.mockImplementationOnce(async ({ input }) => {
@@ -1912,6 +2053,162 @@ test('chatwoot webhook includes referenced message in guardrail input', async ()
     redisPipelineMock.rpush.mock.calls[0].arguments[1]
   );
   assert.strictEqual(storedRedisEntry.content, expectedEnrichedText);
+  assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook merges referenced context with image insights', async () => {
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'docs';
+
+  let guardrailInput;
+  runRelevanceGuardrailMock.mock.mockImplementationOnce(async ({ input }) => {
+    guardrailInput = input;
+    return { tripwireTriggered: false, outputInfo: { relevant: true } };
+  });
+
+  const referencedMessageId = 9870;
+  const referencedContent = 'Please confirm the XR-2000 motor replacement we discussed.';
+  redis.exists.mock.mockImplementationOnce(async () => 1);
+  redis.lrange.mock.mockImplementationOnce(async () => [
+    JSON.stringify({
+      messageId: referencedMessageId,
+      sender: 'contact',
+      content: referencedContent,
+    }),
+  ]);
+  getConversationHistoryMock.mock.mockImplementationOnce(async () => [
+    toResponseMessage('assistant', 'Can you send a photo of the damaged unit?'),
+  ]);
+
+  const knowledgeBaseMatches = [
+    {
+      title: 'XR-2000 Motor Datasheet',
+      snippet: 'Official specifications for the XR-2000 industrial motor.',
+      url: 'https://example.com/xr-2000',
+      score: 0.89,
+    },
+  ];
+  const dedupedQueries = ['xr-2000 industrial motor', 'replacement motor assembly'];
+
+  let observedSearchArgs;
+  searchKnowledgeBaseMock.mock.mockImplementationOnce(async (args) => {
+    observedSearchArgs = args;
+    return { results: knowledgeBaseMatches };
+  });
+
+  gatherImageInsightsMock.mock.mockImplementationOnce(
+    async ({ knowledgeBaseProvider, maxKnowledgeBaseResults }) => {
+      const rawQueries = [...dedupedQueries, dedupedQueries[0]];
+      const uniqueQueries = Array.from(new Set(rawQueries));
+      assert.deepStrictEqual(uniqueQueries, dedupedQueries);
+
+      await searchKnowledgeBase({
+        query: uniqueQueries[0],
+        queries: uniqueQueries.slice(1),
+        provider: knowledgeBaseProvider,
+        limit: maxKnowledgeBaseResults,
+      });
+
+      const developerNote = [
+        'Image analysis context:',
+        '- Summary: XR-2000 motor assembly',
+        '- Attributes: cracked casing',
+        `- Suggested queries: ${uniqueQueries.join(', ')}`,
+        'Relevant knowledge base matches (most similar first):',
+        `  1. ${knowledgeBaseMatches[0].title}`,
+        `     ${knowledgeBaseMatches[0].snippet}`,
+        'Use these matches to confirm the correct replacement part.',
+      ].join('\n');
+
+      return {
+        userPromptSupplement:
+          'Image summary: XR-2000 motor assembly\nNotable attributes: cracked casing',
+        developerNote,
+        description: 'XR-2000 motor assembly',
+        queries: uniqueQueries,
+        knowledgeBaseMatches,
+      };
+    }
+  );
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 6543,
+        message_type: 0,
+        content: 'Here is the photo you requested.',
+        content_attributes: { in_reply_to: referencedMessageId },
+        attachments: [
+          {
+            file_name: 'motor.jpg',
+            file_type: 'image/jpeg',
+            data_url: 'data:image/jpeg;base64,CCCCCCCCCCCCCCCCCCCC',
+          },
+        ],
+        account: { id: 64 },
+        conversation: {
+          id: 91,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 64,
+        },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  await res.json();
+
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 1);
+  assert.ok(guardrailInput);
+
+  const turns = JSON.parse(guardrailInput);
+  const lastTurn = turns[turns.length - 1];
+  assert.strictEqual(lastTurn.role, 'user');
+  assert.ok(lastTurn.content.includes(referencedContent));
+  assert.ok(lastTurn.content.includes('Image summary: XR-2000 motor assembly'));
+
+  const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+  const developerEntry = providerMessages.find(
+    (message) =>
+      message.role === 'developer' &&
+      message.content.some((item) =>
+        typeof item?.text === 'string' && item.text.includes('Image analysis context:')
+      )
+  );
+  assert.ok(developerEntry);
+  assert.ok(
+    developerEntry.content.some(
+      (item) => typeof item?.text === 'string' && item.text.includes('XR-2000 Motor Datasheet')
+    )
+  );
+
+  const userEntry = providerMessages.find(
+    (message) => message.role === 'user' && Array.isArray(message.content)
+  );
+  assert.ok(userEntry);
+  assert.ok(userEntry.content.some((item) => item?.type === 'input_image'));
+  assert.ok(
+    userEntry.content.some(
+      (item) =>
+        item?.type === 'input_text' &&
+        typeof item.text === 'string' &&
+        item.text.includes('Customer referenced:')
+    )
+  );
+
+  assert.ok(observedSearchArgs);
+  assert.strictEqual(observedSearchArgs.query, dedupedQueries[0]);
+  assert.deepStrictEqual(observedSearchArgs.queries, dedupedQueries.slice(1));
+
   assertLoggedIds(1);
   resetMocks();
 });

@@ -4,6 +4,9 @@ import {
   searchKnowledgeBase,
   type SearchKnowledgeBaseArgs,
 } from "@/lib/knowledgeBase/searchKnowledgeBase";
+import { normalizeQueryLengths } from "@/lib/utils/normalizeQueryLengths";
+
+export type ImageInsightsClient = Pick<OpenAI, "responses">;
 
 export interface ChatwootImageAttachment {
   displayName: string;
@@ -21,6 +24,11 @@ export interface GatherImageInsightsOptions {
   maxKnowledgeBaseResults?: number;
   imageModel?: string;
   imageOnly?: boolean;
+  /**
+   * Optional OpenAI client override. Primarily used by tests to provide a
+   * deterministic mock without touching the shared instance.
+   */
+  openAIClient?: ImageInsightsClient;
 }
 
 export interface ImageKnowledgeBaseMatch {
@@ -39,11 +47,52 @@ export interface GatherImageInsightsResult {
   knowledgeBaseMatches?: ImageKnowledgeBaseMatch[];
 }
 
+let sharedOpenAIClient: ImageInsightsClient | undefined;
+
+/**
+ * The image insights flow shares a single OpenAI client for the lifetime of
+ * this module. The OpenAI SDK is stateless, so reusing the instance across
+ * requests is thread-safe while avoiding the overhead of repeatedly
+ * constructing new clients.
+ */
+function getSharedOpenAIClient(): ImageInsightsClient {
+  if (!sharedOpenAIClient) {
+    sharedOpenAIClient = new OpenAI();
+  }
+  return sharedOpenAIClient;
+}
+
+/**
+ * Replace the shared OpenAI client. Prefer using
+ * {@link withImageInsightsClientStub} in tests so the previous client is
+ * automatically restored. This direct setter should only be used for legacy
+ * harnesses that cannot adopt the helper.
+ */
+export function setImageInsightsClientForTesting(
+  client: ImageInsightsClient | undefined
+): void {
+  sharedOpenAIClient = client;
+}
+
+export async function withImageInsightsClientStub<T>(
+  client: ImageInsightsClient,
+  run: () => Promise<T> | T
+): Promise<T> {
+  const previousClient = sharedOpenAIClient;
+  sharedOpenAIClient = client;
+  try {
+    return await run();
+  } finally {
+    sharedOpenAIClient = previousClient;
+  }
+}
+
 const DEFAULT_IMAGE_MODEL =
   process.env.CHATWOOT_IMAGE_MODEL?.trim() || "gpt-4.1-mini";
 const DEFAULT_KB_LIMIT = Number(
   process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim() || 3
 );
+const QUERY_CHAR_LIMIT = Infinity;
 
 function dedupeStrings(values: Array<string | undefined | null>): string[] {
   const seen = new Set<string>();
@@ -292,6 +341,7 @@ export async function gatherImageInsights({
   maxKnowledgeBaseResults,
   imageModel,
   imageOnly,
+  openAIClient,
 }: GatherImageInsightsOptions): Promise<GatherImageInsightsResult | undefined> {
   const images = attachments.filter((attachment) => attachment && attachment);
   if (!images.length) {
@@ -326,7 +376,7 @@ export async function gatherImageInsights({
 
   let parsedJson: any;
   try {
-    const openai = new OpenAI();
+    const openai = openAIClient ?? getSharedOpenAIClient();
     const instructionLines = [
       "Analyze the attached product image(s) and identify what the customer might be looking for.",
       "Respond strictly in JSON with the following fields:",
@@ -403,11 +453,16 @@ export async function gatherImageInsights({
         .filter((value: string | undefined): value is string => !!value)
     : [];
 
-  const uniqueQueries = dedupeStrings([
-    ...searchQueries,
-    description,
-    ...probableProducts,
-  ]);
+  const limitedQueries = normalizeQueryLengths(
+    [
+      ...searchQueries,
+      description,
+      ...probableProducts,
+    ],
+    QUERY_CHAR_LIMIT
+  );
+
+  const uniqueQueries = dedupeStrings(limitedQueries);
 
   const kbLimit = Number.isFinite(maxKnowledgeBaseResults)
     ? Number(maxKnowledgeBaseResults)
