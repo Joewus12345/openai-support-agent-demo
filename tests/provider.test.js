@@ -1,8 +1,9 @@
-const assert = require('assert');
-const test = require('node:test');
 require('ts-node/register/transpile-only');
 require('tsconfig-paths/register');
+const assert = require('assert');
+const { test, mock } = require('node:test');
 const { convertMessages, serializeToolCallArgs } = require('../lib/providers/ollama.ts');
+const { retryWithBackoff, ProviderRetryError } = require('../lib/providers/retry.ts');
 
 test('ollamaProvider serializes function_call_output', () => {
   const messages = [
@@ -115,4 +116,72 @@ test('ollamaOpenAIProvider argument handling with object', () => {
       data: { item_id: id, delta: JSON.stringify({ b: 2 }) },
     },
   ]);
+});
+
+test('retryWithBackoff honors retry-after header', async () => {
+  const delays = [];
+  let attempts = 0;
+  const error = new Error('rate limited');
+  error.status = 429;
+  error.response = {
+    status: 429,
+    headers: {
+      'retry-after': '2',
+    },
+  };
+
+  const operation = mock.fn(async () => {
+    attempts += 1;
+    if (attempts < 2) {
+      throw error;
+    }
+    return 'ok';
+  });
+
+  const result = await retryWithBackoff(operation, {
+    provider: 'openai',
+    maxRetries: 3,
+    baseDelayMs: 100,
+    sleepFn: async (ms) => {
+      delays.push(ms);
+    },
+  });
+
+  assert.strictEqual(result.result, 'ok');
+  assert.strictEqual(result.attempts, 2);
+  assert.deepStrictEqual(delays, [2000]);
+  assert.strictEqual(operation.mock.calls.length, 2);
+});
+
+test('retryWithBackoff throws ProviderRetryError after max retries', async () => {
+  const delays = [];
+  const error = new Error('still rate limited');
+  error.status = 429;
+  error.response = {
+    status: 429,
+  };
+
+  const operation = mock.fn(async () => {
+    throw error;
+  });
+
+  await assert.rejects(
+    retryWithBackoff(operation, {
+      provider: 'openai',
+      maxRetries: 2,
+      baseDelayMs: 50,
+      sleepFn: async (ms) => {
+        delays.push(ms);
+      },
+    }),
+    (err) => {
+      assert(err instanceof ProviderRetryError);
+      assert.strictEqual(err.retriesExhausted, true);
+      assert.strictEqual(err.attempts, 3);
+      return true;
+    }
+  );
+
+  assert.deepStrictEqual(delays, [50, 100]);
+  assert.strictEqual(operation.mock.calls.length, 3);
 });

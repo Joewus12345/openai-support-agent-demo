@@ -2,6 +2,7 @@ import OpenAI from "openai";
 import { MODEL } from "@/config/constants";
 import type { ProviderOptions } from "./index";
 import { deriveLimiterTokens, scheduleProviderCall } from "./limiter";
+import { retryWithBackoff } from "./retry";
 
 /** Convert tools to the format expected by the Responses API. */
 function flattenTools(tools: any[]): any[] {
@@ -32,16 +33,37 @@ export async function* openaiProvider(
   const openai = new OpenAI();
   const modelName = opts?.model || MODEL;
   const limiterTokens = opts?.limiterTokens ?? deriveLimiterTokens(messages, modelName);
-  const events = await scheduleProviderCall("openai", limiterTokens, async () =>
-    openai.responses.create({
-      model: modelName,
-      input: messages,
-      tools: flattenTools(tools),
-      stream: true,
-      include: ["file_search_call.results"],
-      parallel_tool_calls: false,
-    })
+  const { result: events, attempts } = await retryWithBackoff(
+    async () =>
+      scheduleProviderCall("openai", limiterTokens, async () =>
+        openai.responses.create({
+          model: modelName,
+          input: messages,
+          tools: flattenTools(tools),
+          stream: true,
+          include: ["file_search_call.results"],
+          parallel_tool_calls: false,
+        })
+      ),
+    {
+      provider: "openai",
+      onRetry: ({ attempt, delayMs, status }) => {
+        console.warn("openai provider retry", {
+          attempt,
+          delayMs,
+          status,
+          model: modelName,
+        });
+      },
+    }
   );
+
+  if (attempts > 1) {
+    console.info("openai provider recovered after retries", {
+      attempts,
+      model: modelName,
+    });
+  }
 
   for await (const event of events) {
     yield { event: event.type, data: event } as ProviderEvent;

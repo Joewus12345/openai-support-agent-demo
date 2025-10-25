@@ -19,6 +19,7 @@ import {
 } from "@/lib/chatwoot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
+import { ProviderRetryError } from "@/lib/providers/retry";
 import { INBOX_MODE } from "@/config/inboxMode";
 import { tools } from "@/lib/tools/tools";
 import {
@@ -1712,10 +1713,11 @@ export async function POST(request: Request) {
     let replyReferenceOverride:
       | { inReplyTo?: number | null; private?: boolean }
       | undefined;
+    const providerName = process.env.CHATWOOT_WEBHOOK_PROVIDER
+      ? process.env.CHATWOOT_WEBHOOK_PROVIDER.trim().toLowerCase()
+      : undefined;
+
     try {
-      const providerName = process.env.CHATWOOT_WEBHOOK_PROVIDER
-        ? process.env.CHATWOOT_WEBHOOK_PROVIDER.trim().toLowerCase()
-        : undefined;
       const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
       const synopsisMessages = conversationSynopsis
         ? [toResponseMessage("developer", conversationSynopsis)]
@@ -1941,9 +1943,23 @@ export async function POST(request: Request) {
         }
       }
     } catch (err) {
+      if (err instanceof ProviderRetryError) {
+        const retryLog = {
+          provider: providerName,
+          attempts: err.attempts,
+          retriesExhausted: err.retriesExhausted,
+          status: err.status,
+        };
+        if (err.retriesExhausted) {
+          console.error("tool execution retries exhausted", retryLog, err.cause ?? err);
+          await sendFallback();
+          return NextResponse.json({ status: "fallback" });
+        }
+        console.error("tool execution provider error", retryLog, err.cause ?? err);
+        throw (err.cause ?? err);
+      }
       console.error("tool execution error", err);
-      await sendFallback();
-      return NextResponse.json({ status: "fallback" });
+      throw err;
     }
 
     const quoteHistoryTurns: HistoryTurn[] = Array.isArray(promptHistory)
