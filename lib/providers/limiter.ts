@@ -226,8 +226,18 @@ function processQueue(provider: ProviderType) {
   }
 }
 
-function isAsyncIterable<T>(value: unknown): value is AsyncIterable<T> {
+function isAsyncIterable<T>(value: T): value is T & AsyncIterable<unknown> {
   return !!value && typeof (value as any)[Symbol.asyncIterator] === "function";
+}
+
+function prepareResult<T>(result: T, finalize: () => void): T {
+  if (isAsyncIterable(result)) {
+    // The wrapped async iterable preserves the original result shape while
+    // deferring finalization until iteration completes.
+    return wrapAsyncIterable(result, finalize) as T;
+  }
+  finalize();
+  return result;
 }
 
 function startTask<T>(provider: ProviderType, job: QueueTask<T>) {
@@ -242,12 +252,8 @@ function startTask<T>(provider: ProviderType, job: QueueTask<T>) {
   (async () => {
     try {
       const result = await job.fn();
-      if (isAsyncIterable(result)) {
-        job.resolve(wrapAsyncIterable(result, finalize));
-      } else {
-        finalize();
-        job.resolve(result);
-      }
+      const prepared = prepareResult(result, finalize);
+      job.resolve(prepared);
     } catch (error) {
       finalize();
       job.reject(error);
