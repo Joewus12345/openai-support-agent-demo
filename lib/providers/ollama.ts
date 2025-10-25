@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import type { ProviderOptions } from "./index";
 import { fileSearch } from "@/lib/tools/fileSearch";
 import { webSearch } from "@/lib/tools/webSearch";
+import { deriveLimiterTokens, scheduleProviderCall } from "./limiter";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
@@ -58,8 +59,9 @@ export async function* ollamaProvider(
   options?: ProviderOptions
 ): AsyncGenerator<ProviderEvent> {
   const model = options?.model || defaultModel;
-
-const converted = convertMessages(messages);
+  const limiterTokens =
+    options?.limiterTokens ?? deriveLimiterTokens(messages, model);
+  const converted = convertMessages(messages);
   let finalText = "";
 
   let stream: any;
@@ -71,8 +73,10 @@ const converted = convertMessages(messages);
       stream: true,
       options: { num_ctx },
     } as any;
-    console.log("ollama.chat payload", payload);
-    stream = await ollama.chat(payload);
+    stream = await scheduleProviderCall("ollama", limiterTokens, async () => {
+      console.log("ollama.chat payload", payload);
+      return ollama.chat(payload);
+    });
   } catch (error) {
     const message =
       error instanceof Error ? error.message : String(error);
