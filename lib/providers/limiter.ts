@@ -19,6 +19,9 @@ interface QueueTask<T> {
   resolve: (value: T | PromiseLike<T>) => void;
   reject: (reason?: unknown) => void;
   tokens: number;
+  enqueuedAt: number;
+  startedAt?: number;
+  waitMs?: number;
 }
 
 const PROVIDERS: ProviderType[] = ["openai", "ollama", "ollama-openai"];
@@ -150,6 +153,53 @@ interface ProviderState {
   bucket: TokenBucket;
   timer?: ReturnType<typeof setTimeout>;
   timerDelay?: number;
+  queueLength: number;
+  lastWaitTimeMs: number;
+}
+
+type LimiterMetricsEventType =
+  | "enqueued"
+  | "started"
+  | "completed"
+  | "throttled";
+
+export interface LimiterMetricsEvent {
+  provider: ProviderType;
+  type: LimiterMetricsEventType;
+  timestamp: number;
+  queueLength: number;
+  running: number;
+  tokens: number;
+  waitMs?: number;
+  delayMs?: number;
+  durationMs?: number;
+  error?: boolean;
+}
+
+type LimiterObserver = (event: LimiterMetricsEvent) => void;
+
+let metricsObserver: LimiterObserver | undefined;
+
+function emitMetrics(
+  provider: ProviderType,
+  type: LimiterMetricsEventType,
+  details: Omit<LimiterMetricsEvent, "provider" | "type" | "timestamp">
+) {
+  if (!metricsObserver) return;
+  try {
+    metricsObserver({
+      provider,
+      type,
+      timestamp: Date.now(),
+      ...details,
+    });
+  } catch {
+    // observer errors should not break limiter execution
+  }
+}
+
+export function setLimiterObserver(observer?: LimiterObserver) {
+  metricsObserver = observer;
 }
 
 let config: Record<ProviderType, ProviderLimiterConfig> = buildDefaultConfig();
@@ -167,6 +217,8 @@ function createState(provider: ProviderType): ProviderState {
     queue: [],
     running: 0,
     bucket: new TokenBucket(conf.tokensPerInterval, conf.intervalMs, conf.maxTokens),
+    queueLength: 0,
+    lastWaitTimeMs: 0,
   };
 }
 
@@ -215,13 +267,25 @@ function processQueue(provider: ProviderType) {
     providerState.running < concurrency
   ) {
     const job = providerState.queue[0];
+    const waitSoFar = Math.max(0, Date.now() - job.enqueuedAt);
     if (providerState.bucket.tryRemove(job.tokens)) {
       providerState.queue.shift();
-      startTask(provider, job);
+      providerState.queueLength = providerState.queue.length;
+      providerState.lastWaitTimeMs = waitSoFar;
+      startTask(provider, job, waitSoFar);
       continue;
     }
     const wait = providerState.bucket.timeUntilAvailable(job.tokens);
+    providerState.lastWaitTimeMs = waitSoFar;
+    providerState.queueLength = providerState.queue.length;
     scheduleTimer(provider, wait);
+    emitMetrics(provider, "throttled", {
+      queueLength: providerState.queue.length,
+      running: providerState.running,
+      tokens: job.tokens,
+      waitMs: waitSoFar,
+      delayMs: wait,
+    });
     break;
   }
 }
@@ -240,14 +304,38 @@ function prepareResult<T>(result: T, finalize: () => void): T {
   return result;
 }
 
-function startTask<T>(provider: ProviderType, job: QueueTask<T>) {
+function startTask<T>(provider: ProviderType, job: QueueTask<T>, waitMs: number) {
   const providerState = state[provider];
   providerState.running += 1;
+  job.waitMs = waitMs;
+  job.startedAt = Date.now();
 
-  const finalize = () => {
+  emitMetrics(provider, "started", {
+    queueLength: providerState.queueLength,
+    running: providerState.running,
+    tokens: job.tokens,
+    waitMs,
+  });
+
+  let finalized = false;
+  const finalizeInternal = (error: boolean) => {
+    if (finalized) return;
+    finalized = true;
     providerState.running = Math.max(0, providerState.running - 1);
+    const durationMs = job.startedAt ? Math.max(0, Date.now() - job.startedAt) : undefined;
+    emitMetrics(provider, "completed", {
+      queueLength: providerState.queueLength,
+      running: providerState.running,
+      tokens: job.tokens,
+      waitMs: job.waitMs,
+      durationMs,
+      error,
+    });
     processQueue(provider);
   };
+
+  const finalize = () => finalizeInternal(false);
+  const finalizeWithError = () => finalizeInternal(true);
 
   (async () => {
     try {
@@ -255,11 +343,11 @@ function startTask<T>(provider: ProviderType, job: QueueTask<T>) {
       const prepared = prepareResult(result, finalize);
       job.resolve(prepared);
     } catch (error) {
-      finalize();
+      finalizeWithError();
       job.reject(error);
     }
   })().catch((error) => {
-    finalize();
+    finalizeWithError();
     job.reject(error);
   });
 }
@@ -308,6 +396,14 @@ function wrapAsyncIterable<T>(iterable: AsyncIterable<T>, onFinally: () => void)
 function enqueueTask<T>(provider: ProviderType, task: QueueTask<T>) {
   const providerState = state[provider];
   providerState.queue.push(task);
+  providerState.queueLength = providerState.queue.length;
+  providerState.lastWaitTimeMs = 0;
+  emitMetrics(provider, "enqueued", {
+    queueLength: providerState.queueLength,
+    running: providerState.running,
+    tokens: task.tokens,
+    waitMs: 0,
+  });
   processQueue(provider);
 }
 
@@ -318,7 +414,13 @@ export function scheduleProviderCall<T>(
 ): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const tokenCost = computeTokenCost(tokens);
-    enqueueTask(provider, { fn, resolve, reject, tokens: tokenCost });
+    enqueueTask(provider, {
+      fn,
+      resolve,
+      reject,
+      tokens: tokenCost,
+      enqueuedAt: Date.now(),
+    });
   });
 }
 
@@ -370,6 +472,8 @@ export function resetLimiterForTesting() {
     }
     providerState.queue = [];
     providerState.running = 0;
+    providerState.queueLength = 0;
+    providerState.lastWaitTimeMs = 0;
   }
   config = buildDefaultConfig();
   for (const provider of PROVIDERS) {

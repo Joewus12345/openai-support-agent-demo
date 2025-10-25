@@ -7,6 +7,7 @@ const {
   scheduleProviderCall,
   setLimiterConfigForTesting,
   resetLimiterForTesting,
+  setLimiterObserver,
 } = require('../lib/providers/limiter.ts');
 
 async function waitForCondition(predicate, attempts = 50) {
@@ -33,6 +34,10 @@ test('limiter enforces concurrency per provider', async () => {
 
   mock.timers.enable({ now: 0 });
   try {
+    const events = [];
+    setLimiterObserver((event) => {
+      events.push(event);
+    });
     const startOrder = [];
 
     const launchJob = (id) =>
@@ -70,8 +75,25 @@ test('limiter enforces concurrency per provider', async () => {
       secondValues.push(value);
     }
     assert.deepStrictEqual(secondValues, ['second']);
+
+    const enqueuedEvents = events.filter((event) => event.type === 'enqueued');
+    assert.strictEqual(enqueuedEvents.length, 2);
+    assert.strictEqual(enqueuedEvents[0].queueLength, 1);
+    assert.strictEqual(enqueuedEvents[1].queueLength, 1);
+
+    const startedEvents = events.filter((event) => event.type === 'started');
+    assert.strictEqual(startedEvents.length, 2);
+    assert.strictEqual(startedEvents[0].queueLength, 0);
+    assert.strictEqual(startedEvents[0].waitMs, 0);
+    assert.strictEqual(startedEvents[1].queueLength, 0);
+    assert.ok(startedEvents[1].waitMs >= 50);
+
+    const completedEvents = events.filter((event) => event.type === 'completed');
+    assert.strictEqual(completedEvents.length, 2);
+    assert.ok(completedEvents.every((event) => event.error === false));
   } finally {
     mock.timers.reset();
+    setLimiterObserver(undefined);
     resetLimiterForTesting();
   }
 });
@@ -89,6 +111,10 @@ test('limiter enforces token bucket delays', async () => {
 
   mock.timers.enable({ now: 0 });
   try {
+    const events = [];
+    setLimiterObserver((event) => {
+      events.push(event);
+    });
     const startOrder = [];
 
     const launchJob = (id) =>
@@ -127,8 +153,19 @@ test('limiter enforces token bucket delays', async () => {
       secondValues.push(value);
     }
     assert.deepStrictEqual(secondValues, ['second']);
+
+    const throttledEvents = events.filter((event) => event.type === 'throttled');
+    assert.ok(throttledEvents.length >= 1);
+    assert.strictEqual(throttledEvents[0].queueLength, 1);
+    assert.ok(throttledEvents[0].waitMs >= 0);
+    assert.ok(throttledEvents[0].delayMs >= 500);
+
+    const startedEvents = events.filter((event) => event.type === 'started');
+    assert.strictEqual(startedEvents.length, 2);
+    assert.ok(startedEvents[1].waitMs >= 1000);
   } finally {
     mock.timers.reset();
+    setLimiterObserver(undefined);
     resetLimiterForTesting();
   }
 });

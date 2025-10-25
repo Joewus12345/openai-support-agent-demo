@@ -175,6 +175,28 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
 
    When a customer does not share an email, the `create_ticket` tool generates a ticket ID in the format `#<index>/<date>` (for example `#1/2024-05-01`). The ID is stored with the chat session so the conversation can be resumed later using that ticket number.
 
+## Provider limiter observability
+
+The shared provider limiter (used by OpenAI, Ollama, and the Ollama-compatible OpenAI interface) exposes real-time metrics so you can monitor queue health and tune concurrency or token budgets. Attach an observer early during application startup:
+
+```ts
+import { setLimiterObserver } from "@/lib/providers/limiter";
+
+setLimiterObserver((event) => {
+  // event.type is one of: "enqueued", "started", "completed", "throttled"
+  // Persist to logs, send to Prometheus/StatsD, etc.
+  console.log("provider limiter", event);
+});
+```
+
+Each callback receives a `LimiterMetricsEvent` with the provider name, current queue length, running job count, wait time, and any throttle delays. When integrating with an observability platform:
+
+- **Structured logging:** Forward the event to your logger (e.g., `pino`, `winston`) and index by `provider` and `type` so operators can investigate spikes in queue length or throttling.
+- **Metrics collectors:** Translate events into counters/histograms (e.g., increment a `limiter_jobs_started_total` counter or record `waitMs` in a latency histogram) before shipping them to Prometheus, Datadog, or another APM.
+- **Alerting:** Define alerts on sustained queue lengths or throttle delays exceeding your SLO to catch quota regressions early.
+
+Set the observer to `undefined` (via `setLimiterObserver(undefined)`) when you need to disable reporting, such as in unit tests.
+
 ## Agent release workflow
 
 Releases are triggered only when a conversation moves from `open` to either `pending` or `resolved` **and** still carries the `agent-assigned` label. The `chatwoot-status-webhook` checks for this combination before calling `releaseAgent`. Inside `releaseAgent`, the label is removed, which generates additional webhook events to handle follow-up processing.
