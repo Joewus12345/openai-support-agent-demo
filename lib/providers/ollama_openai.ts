@@ -5,6 +5,7 @@ import type { ProviderEvent } from "./openai";
 import { fileSearch } from "@/lib/tools/fileSearch";
 import { webSearch } from "@/lib/tools/webSearch";
 import { serializeToolCallArgs } from "./ollama";
+import { deriveLimiterTokens, scheduleProviderCall } from "./limiter";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
@@ -25,6 +26,8 @@ export async function* ollamaOpenAIProvider(
   });
 
   const model = opts?.model || defaultModel;
+  const limiterTokens =
+    opts?.limiterTokens ?? deriveLimiterTokens(messages, model);
 
   const converted = (messages || [])
     .map((m: any) => {
@@ -61,11 +64,14 @@ export async function* ollamaOpenAIProvider(
       stream: true,
       options: { num_ctx },
     } as any;
-    console.log(
-      "ollamaOpenAI.chat payload",
-      JSON.stringify(payload)
+    const stream = await scheduleProviderCall(
+      "ollama-openai",
+      limiterTokens,
+      async () => {
+        console.log("ollamaOpenAI.chat payload", JSON.stringify(payload));
+        return openai.chat.completions.create(payload);
+      }
     );
-    const stream = await openai.chat.completions.create(payload);
 
     // Stream chunks from Ollama's OpenAI endpoint. Each chunk may contain
     // partial text and tool call deltas. We forward text deltas directly

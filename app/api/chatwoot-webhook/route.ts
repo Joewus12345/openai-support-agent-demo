@@ -1788,7 +1788,25 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "fallback" });
       }
 
-      const events = provider(providerMessages, tools, {});
+      const inputTokens = Math.max(0, Math.ceil(tokenEstimate));
+      const baseOutputEstimate = Math.max(
+        256,
+        Math.ceil((inputTokens || 1) * 0.5)
+      );
+      const estimatedOutputTokens = Number.isFinite(providerTokenLimit)
+        ? Math.min(
+            Math.max(providerTokenLimit - inputTokens, 0),
+            baseOutputEstimate
+          )
+        : baseOutputEstimate;
+
+      const events = provider(providerMessages, tools, {
+        model: providerModelName,
+        limiterTokens: {
+          input: inputTokens,
+          output: estimatedOutputTokens,
+        },
+      });
       for await (const { event, data } of events) {
         if (
           event === "response.output_text.delta" &&
