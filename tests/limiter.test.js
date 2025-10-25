@@ -10,12 +10,12 @@ const {
   setLimiterObserver,
 } = require('../lib/providers/limiter.ts');
 
-async function waitForCondition(predicate, attempts = 50) {
+async function waitForCondition(predicate, attempts = 50, stepMs = 0) {
   for (let i = 0; i < attempts; i += 1) {
     if (predicate()) {
       return true;
     }
-    mock.timers.tick(0);
+    mock.timers.tick(stepMs);
     await Promise.resolve();
   }
   return predicate();
@@ -166,6 +166,71 @@ test('limiter enforces token bucket delays', async () => {
   } finally {
     mock.timers.reset();
     setLimiterObserver(undefined);
+    resetLimiterForTesting();
+  }
+});
+
+test('limiter eventually runs long-waiting jobs to avoid starvation', async () => {
+  resetLimiterForTesting();
+  setLimiterConfigForTesting({
+    openai: {
+      concurrency: 1,
+      tokensPerInterval: 10,
+      intervalMs: 100,
+      maxTokens: 10,
+    },
+  });
+
+  mock.timers.enable({ now: 0 });
+  try {
+    const startOrder = [];
+
+    const launchJob = (id, tokens) =>
+      scheduleProviderCall('openai', { input: tokens }, async () => {
+        startOrder.push({ id, time: Date.now() });
+        return 'done';
+      });
+
+    const completions = [];
+    completions.push(launchJob('small-0', 5));
+    await waitForCondition(() => startOrder.length >= 1);
+    assert.strictEqual(startOrder[0].id, 'small-0');
+
+    const largePromise = launchJob('large', 9);
+    completions.push(largePromise);
+
+    for (let i = 1; i <= 5; i += 1) {
+      completions.push(launchJob(`small-${i}`, 3));
+    }
+
+    await waitForCondition(() => startOrder.length >= 2, 50, 10);
+    assert.strictEqual(
+      startOrder.some((entry) => entry.id === 'large'),
+      false
+    );
+
+    await waitForCondition(
+      () => startOrder.some((entry) => entry.id === 'large'),
+      200,
+      10
+    );
+
+    const largeEntry = startOrder.find((entry) => entry.id === 'large');
+    assert.ok(largeEntry, 'expected large job to start eventually');
+    assert.ok(
+      largeEntry.time >= 120,
+      `expected large job to wait for tokens, saw start at ${largeEntry.time}`
+    );
+
+    await waitForCondition(
+      () =>
+        startOrder.filter((entry) => entry.id.startsWith('small')).length === 6,
+      200,
+      10
+    );
+    await Promise.all(completions);
+  } finally {
+    mock.timers.reset();
     resetLimiterForTesting();
   }
 });

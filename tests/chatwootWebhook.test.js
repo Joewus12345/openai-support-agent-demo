@@ -296,6 +296,21 @@ function resetMocks() {
   resetLimiterForTesting();
 }
 
+async function tickAndFlush(ms = 0) {
+  mock.timers.tick(ms);
+  await Promise.resolve();
+}
+
+async function waitForLimiter(predicate, attempts = 50, stepMs = 0) {
+  for (let i = 0; i < attempts; i += 1) {
+    if (predicate()) {
+      return true;
+    }
+    await tickAndFlush(stepMs);
+  }
+  return predicate();
+}
+
 function getLoggedBotMessages() {
   return prisma.conversationMessage.upsert.mock.calls
     .map((call) => call.arguments?.[0]?.create)
@@ -3117,6 +3132,167 @@ test('chatwoot webhook enforces token bucket delays', async () => {
     await res2.json();
   } finally {
     mock.timers.reset();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook avoids starving large token requests', async () => {
+  resetMocks();
+  mock.timers.enable({ now: 0 });
+  const storedMessages = new Map();
+  const originalUpsertImpl =
+    prisma.conversationMessage.upsert.mock.originalImplementation;
+  const originalHistoryImpl =
+    getConversationHistoryMock.mock.originalImplementation;
+  try {
+    setLimiterConfigForTesting({
+      openai: { concurrency: 1, tokensPerInterval: 10, intervalMs: 100, maxTokens: 50 },
+    });
+    prisma.conversationMessage.upsert.mock.mockImplementation(async (args) => {
+      const conversationId = args?.create?.conversationId;
+      const content = args?.create?.content;
+      if (typeof conversationId === 'number' && typeof content === 'string') {
+        storedMessages.set(conversationId, content);
+      }
+      return typeof originalUpsertImpl === 'function'
+        ? originalUpsertImpl(args)
+        : {};
+    });
+
+    getConversationHistoryMock.mock.mockImplementation(async (conversationKey) => {
+      const keyParts = typeof conversationKey === 'string'
+        ? conversationKey.split(':')
+        : [];
+      const conversationId = Number.parseInt(keyParts[keyParts.length - 1] ?? '', 10);
+      const content = storedMessages.get(conversationId);
+      if (typeof content === 'string' && content.length > 0) {
+        return [toResponseMessage('user', content)];
+      }
+      return originalHistoryImpl
+        ? originalHistoryImpl(conversationKey)
+        : [];
+    });
+
+    estimateMessageTokensMock.mock.mockImplementation((messages) => {
+      const latest = messages?.[messages.length - 1];
+      const content = Array.isArray(latest?.content)
+        ? latest.content.map((item) => item?.text ?? '').join(' ')
+        : typeof latest?.content === 'string'
+        ? latest.content
+        : '';
+      if (content.includes('Large job')) {
+        return 50;
+      }
+      if (content.includes('Warmup')) {
+        return 10;
+      }
+      return 10;
+    });
+
+    const startEvents = [];
+    getProviderMock.mock.mockImplementation(() => {
+      return (messages, toolsArg, options) => {
+        void messages;
+        void toolsArg;
+        const limiterTokens = options?.limiterTokens ?? { input: 0, output: 0 };
+        return (async function* () {
+          const stream = await scheduleProviderCall(
+            'openai',
+            limiterTokens,
+            async () => {
+              const tokens = limiterTokens.input ?? 0;
+              startEvents.push({ tokens, time: Date.now() });
+              return (async function* () {
+                yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+                yield { event: 'response.output_text.done', data: {} };
+              })();
+            }
+          );
+          for await (const event of stream) {
+            yield event;
+          }
+        })();
+      };
+    });
+
+    const buildPayload = (id, content) => ({
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id,
+          message_type: 0,
+          content,
+          account: { id: 16 },
+          conversation: {
+            id,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 16,
+          },
+        },
+      },
+    });
+
+    const requestFor = (payload) =>
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+
+    const responses = [];
+    responses.push(webhookPost(requestFor(buildPayload(801, 'Warmup request'))));
+    responses.push(webhookPost(requestFor(buildPayload(802, 'Large job request'))));
+    for (let i = 0; i < 4; i += 1) {
+      responses.push(
+        webhookPost(
+          requestFor(buildPayload(803 + i, `Small follow up ${i}`))
+        )
+      );
+    }
+
+    await waitForLimiter(() => startEvents.length >= 1);
+    assert.ok(startEvents[0].tokens < 50);
+
+    await waitForLimiter(
+      () => startEvents.filter((event) => event.tokens < 50).length >= 2,
+      100,
+      10
+    );
+
+    await waitForLimiter(
+      () => startEvents.some((event) => event.tokens >= 50),
+      500,
+      10
+    );
+
+    const largeStart = startEvents.find((event) => event.tokens >= 50);
+    assert.ok(largeStart, 'expected large limiter job to start');
+    assert.ok(largeStart.time >= 500);
+    const firstLargeIndex = startEvents.findIndex((event) => event.tokens >= 50);
+    assert.ok(firstLargeIndex >= 1);
+
+    await waitForLimiter(
+      () => startEvents.length === responses.length,
+      300,
+      10
+    );
+    for (const responsePromise of responses) {
+      const response = await responsePromise;
+      await response.json();
+    }
+  } finally {
+    mock.timers.reset();
+    prisma.conversationMessage.upsert.mock.mockImplementation(
+      typeof originalUpsertImpl === 'function'
+        ? originalUpsertImpl
+        : async () => ({})
+    );
+    getConversationHistoryMock.mock.mockImplementation(
+      typeof originalHistoryImpl === 'function'
+        ? originalHistoryImpl
+        : async () => []
+    );
     resetMocks();
   }
 });

@@ -261,31 +261,111 @@ function scheduleTimer(provider: ProviderType, delay: number) {
 function processQueue(provider: ProviderType) {
   const providerState = state[provider];
   const concurrency = normalizeConcurrency(providerState.config.concurrency);
+  const fairnessThreshold = Math.max(
+    50,
+    Math.floor(providerState.config.intervalMs / 2) || 0
+  );
 
   while (
     providerState.queue.length > 0 &&
     providerState.running < concurrency
   ) {
-    const job = providerState.queue[0];
-    const waitSoFar = Math.max(0, Date.now() - job.enqueuedAt);
-    if (providerState.bucket.tryRemove(job.tokens)) {
-      providerState.queue.shift();
+    const now = Date.now();
+    let candidateIndex = -1;
+    let candidateWait = -1;
+    let minDelay = Number.POSITIVE_INFINITY;
+    let throttleJob: QueueTask<any> | undefined;
+    let throttleWait = 0;
+    let oldestJob: QueueTask<any> | undefined;
+    let oldestWait = -1;
+    let oldestDelay = Number.POSITIVE_INFINITY;
+
+    for (let index = 0; index < providerState.queue.length; index += 1) {
+      const job = providerState.queue[index];
+      const waitSoFar = Math.max(0, now - job.enqueuedAt);
+      const delay = providerState.bucket.timeUntilAvailable(job.tokens, now);
+
+      if (delay === 0 && waitSoFar > candidateWait) {
+        candidateIndex = index;
+        candidateWait = waitSoFar;
+      }
+
+      if (delay < minDelay) {
+        minDelay = delay;
+        throttleJob = job;
+        throttleWait = waitSoFar;
+      }
+
+      if (waitSoFar > oldestWait) {
+        oldestWait = waitSoFar;
+        oldestJob = job;
+        oldestDelay = delay;
+      }
+    }
+
+    if (
+      oldestJob &&
+      oldestJob !== providerState.queue[candidateIndex] &&
+      oldestDelay > 0 &&
+      oldestWait >= fairnessThreshold
+    ) {
+      providerState.lastWaitTimeMs = oldestWait;
+      providerState.queueLength = providerState.queue.length;
+      const wait = Number.isFinite(oldestDelay) ? oldestDelay : minDelay;
+      scheduleTimer(provider, wait);
+      emitMetrics(provider, "throttled", {
+        queueLength: providerState.queue.length,
+        running: providerState.running,
+        tokens: oldestJob.tokens,
+        waitMs: oldestWait,
+        delayMs: wait,
+      });
+      break;
+    }
+
+    if (candidateIndex >= 0) {
+      const job = providerState.queue.splice(candidateIndex, 1)[0];
+      const waitSoFar = Math.max(0, now - job.enqueuedAt);
       providerState.queueLength = providerState.queue.length;
       providerState.lastWaitTimeMs = waitSoFar;
+
+      if (!providerState.bucket.tryRemove(job.tokens, now)) {
+        providerState.queue.splice(candidateIndex, 0, job);
+        providerState.queueLength = providerState.queue.length;
+        const wait = providerState.bucket.timeUntilAvailable(job.tokens, now);
+        providerState.lastWaitTimeMs = waitSoFar;
+        scheduleTimer(provider, wait);
+        emitMetrics(provider, "throttled", {
+          queueLength: providerState.queue.length,
+          running: providerState.running,
+          tokens: job.tokens,
+          waitMs: waitSoFar,
+          delayMs: wait,
+        });
+        break;
+      }
+
       startTask(provider, job, waitSoFar);
       continue;
     }
-    const wait = providerState.bucket.timeUntilAvailable(job.tokens);
-    providerState.lastWaitTimeMs = waitSoFar;
+
+    providerState.lastWaitTimeMs = Math.max(0, oldestWait);
     providerState.queueLength = providerState.queue.length;
-    scheduleTimer(provider, wait);
-    emitMetrics(provider, "throttled", {
-      queueLength: providerState.queue.length,
-      running: providerState.running,
-      tokens: job.tokens,
-      waitMs: waitSoFar,
-      delayMs: wait,
-    });
+    if (!Number.isFinite(minDelay)) {
+      minDelay = providerState.bucket.timeUntilAvailable(
+        providerState.queue[0]?.tokens ?? 0
+      );
+    }
+    scheduleTimer(provider, minDelay);
+    if (throttleJob) {
+      emitMetrics(provider, "throttled", {
+        queueLength: providerState.queue.length,
+        running: providerState.running,
+        tokens: throttleJob.tokens,
+        waitMs: throttleWait,
+        delayMs: minDelay,
+      });
+    }
     break;
   }
 }
