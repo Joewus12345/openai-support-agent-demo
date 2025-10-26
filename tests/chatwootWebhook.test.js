@@ -3485,6 +3485,20 @@ test('chatwoot webhook queue backlog does not delay responses', async () => {
   setChatwootQueueEnabledForTesting(true);
 
   try {
+    let releaseFirstSend;
+    const firstSendBarrier = new Promise((resolve) => {
+      releaseFirstSend = resolve;
+    });
+
+    sendBotMessageMock.mock.mockImplementationOnce(async (...args) => {
+      await firstSendBarrier;
+      return defaultSendBotMessageImplementation(...args);
+    });
+
+    sendBotMessageMock.mock.mockImplementation(
+      defaultSendBotMessageImplementation
+    );
+
     const buildPayload = (id, content) => ({
       event: 'message_created',
       data: {
@@ -3522,10 +3536,27 @@ test('chatwoot webhook queue backlog does not delay responses', async () => {
     assert.deepStrictEqual(await resA.json(), { status: 'accepted' });
     assert.deepStrictEqual(await resB.json(), { status: 'accepted' });
 
-    assert.ok(
-      sendBotMessageMock.mock.calls.length <= 1,
-      'queue should not block immediate responses'
+    assert.strictEqual(
+      sendBotMessageMock.mock.calls.length,
+      1,
+      'first job should have started but not completed yet'
     );
+
+    const idlePromise = waitForChatwootQueueIdle();
+    const raceResult = await Promise.race([
+      idlePromise.then(() => 'idle'),
+      new Promise((resolve) => setTimeout(() => resolve('pending'), 20)),
+    ]);
+
+    assert.strictEqual(
+      raceResult,
+      'pending',
+      'queue should not finish first job before second payload is accepted'
+    );
+
+    releaseFirstSend();
+
+    await idlePromise;
 
     await waitForChatwootQueueIdle();
 
