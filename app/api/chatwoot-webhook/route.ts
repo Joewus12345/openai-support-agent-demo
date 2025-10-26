@@ -2082,15 +2082,33 @@ async function processChatwootWebhookJob(
     }
 }
 
-setChatwootQueueFailureReporter(({ jobId, metadata, attempts, maxAttempts, error }) => {
-  console.error("chatwoot webhook job unrecoverable failure", {
+setChatwootQueueFailureReporter(
+  ({
     jobId,
     metadata,
     attempts,
     maxAttempts,
     error,
-  });
-});
+    queueLength,
+    activeWorkers,
+    waitMs,
+    runtimeMs,
+    delayMs,
+  }) => {
+    console.error("chatwoot webhook job unrecoverable failure", {
+      jobId,
+      metadata,
+      attempts,
+      maxAttempts,
+      error,
+      queueLength,
+      activeWorkers,
+      waitMs,
+      runtimeMs,
+      delayMs,
+    });
+  }
+);
 
 setChatwootJobRunner(async (metadata) => {
   if (!metadata?.payload) {

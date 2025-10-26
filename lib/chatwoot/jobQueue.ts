@@ -20,6 +20,8 @@ type PendingJob = {
   maxAttempts: number;
   retryDelayMs: number;
   timeoutMs: number;
+  queuedAt: number;
+  startedAt?: number;
 };
 
 type EnqueueOptions = {
@@ -30,6 +32,7 @@ type EnqueueOptions = {
   maxAttempts?: number;
   retryDelayMs?: number;
   timeoutMs?: number;
+  queuedAt?: number;
 };
 
 let queueEnabled = true;
@@ -57,6 +60,11 @@ type FailureReporter = (context: {
   attempts: number;
   maxAttempts: number;
   error: unknown;
+  queueLength: number;
+  activeWorkers: number;
+  waitMs?: number;
+  runtimeMs?: number;
+  delayMs?: number;
 }) => void;
 
 let failureReporter: FailureReporter | undefined;
@@ -155,6 +163,79 @@ let jobRunner:
 let hydrating = false;
 const hydratedHandles = new Set<string>();
 
+type JobEventPhase = "queued" | "started" | "completed" | "failed" | "retried";
+
+type JobLogDetails = {
+  phase: JobEventPhase;
+  jobId: number;
+  attempt: number;
+  maxAttempts: number;
+  queueLength: number;
+  activeWorkers: number;
+  waitMs?: number;
+  runtimeMs?: number;
+  delayMs?: number;
+  accountId?: number | string;
+  conversationId?: number | string;
+  metadata?: JobMetadata;
+  error?: unknown;
+  timestamp: number;
+};
+
+function calculateWaitMs(job: PendingJob): number | undefined {
+  if (!Number.isFinite(job.startedAt) || job.startedAt === undefined) {
+    return undefined;
+  }
+  const wait = job.startedAt - job.queuedAt;
+  return Number.isFinite(wait) && wait >= 0 ? wait : undefined;
+}
+
+function calculateRuntimeMs(job: PendingJob, timestamp: number): number | undefined {
+  if (!Number.isFinite(job.startedAt) || job.startedAt === undefined) {
+    return undefined;
+  }
+  const runtime = timestamp - job.startedAt;
+  return Number.isFinite(runtime) && runtime >= 0 ? runtime : undefined;
+}
+
+function buildJobLogDetails(
+  job: PendingJob,
+  phase: JobEventPhase,
+  overrides: Partial<JobLogDetails> = {}
+): JobLogDetails {
+  const timestamp = overrides.timestamp ?? Date.now();
+  return {
+    phase,
+    jobId: job.id,
+    attempt: job.attempt,
+    maxAttempts: job.maxAttempts,
+    queueLength: overrides.queueLength ?? pendingJobs.length,
+    activeWorkers: overrides.activeWorkers ?? activeJobs.size,
+    waitMs:
+      overrides.waitMs !== undefined ? overrides.waitMs : calculateWaitMs(job),
+    runtimeMs:
+      overrides.runtimeMs !== undefined
+        ? overrides.runtimeMs
+        : calculateRuntimeMs(job, timestamp),
+    delayMs: overrides.delayMs,
+    accountId: overrides.accountId ?? job.metadata?.accountId,
+    conversationId: overrides.conversationId ?? job.metadata?.conversationId,
+    metadata: overrides.metadata ?? job.metadata,
+    error: overrides.error,
+    timestamp,
+  };
+}
+
+function logJobEvent(
+  job: PendingJob,
+  phase: JobEventPhase,
+  overrides: Partial<JobLogDetails> = {}
+) {
+  const details = buildJobLogDetails(job, phase, overrides);
+  console.info("chatwoot webhook job event", details);
+  return details;
+}
+
 async function persistJob(storageHandle: string) {
   if (!durableQueueEnabled) {
     return;
@@ -201,6 +282,7 @@ async function hydrateDurableJobs() {
               maxAttempts?: number;
               retryDelayMs?: number;
               timeoutMs?: number;
+              queuedAt?: number;
             };
           }
         | undefined;
@@ -225,6 +307,7 @@ async function hydrateDurableJobs() {
           maxAttempts: parsed.options?.maxAttempts,
           retryDelayMs: parsed.options?.retryDelayMs,
           timeoutMs: parsed.options?.timeoutMs,
+          queuedAt: parsed.options?.queuedAt,
         }
       );
     }
@@ -317,36 +400,56 @@ function shouldRetryJob(job: PendingJob, error: unknown): boolean {
   return false;
 }
 
-function scheduleRetry(job: PendingJob, error: unknown) {
-  const delayMs = getRetryDelayMs(job);
-  console.warn("chatwoot webhook job retry scheduled", {
-    jobId: job.id,
-    attempts: job.attempt,
-    maxAttempts: job.maxAttempts,
+function scheduleRetry(job: PendingJob, error: unknown, delayMs: number) {
+  logJobEvent(job, "retried", {
     delayMs,
-    metadata: job.metadata,
     error,
+    queueLength: pendingJobs.length,
+    activeWorkers: activeJobs.size,
   });
 
   const timer = setTimeout(() => {
     retryTimers.delete(timer);
+    job.startedAt = undefined;
+    job.queuedAt = Date.now();
     pendingJobs.push(job);
+    logJobEvent(job, "queued", {
+      queueLength: pendingJobs.length,
+      activeWorkers: activeJobs.size,
+    });
     queueMicrotask(processQueue);
   }, delayMs);
   retryTimers.add(timer);
 }
 
-function notifyJobFailure(job: PendingJob, error: unknown) {
+function notifyJobFailure(
+  job: PendingJob,
+  error: unknown,
+  failureDetails?: JobLogDetails
+) {
   if (!failureReporter) {
     return;
   }
   try {
+    const details =
+      failureDetails ??
+      buildJobLogDetails(job, "failed", {
+        error,
+        delayMs: 0,
+        queueLength: pendingJobs.length,
+        activeWorkers: activeJobs.size,
+      });
     failureReporter({
-      jobId: job.id,
-      metadata: job.metadata,
-      attempts: job.attempt,
-      maxAttempts: job.maxAttempts,
+      jobId: details.jobId,
+      metadata: details.metadata,
+      attempts: details.attempt,
+      maxAttempts: details.maxAttempts,
       error,
+      queueLength: details.queueLength,
+      activeWorkers: details.activeWorkers,
+      waitMs: details.waitMs,
+      runtimeMs: details.runtimeMs,
+      delayMs: details.delayMs ?? 0,
     });
   } catch (reportError) {
     console.error("chatwoot webhook failure reporter error", reportError);
@@ -361,30 +464,51 @@ function startJob(job: PendingJob) {
   }
   activeJobs.add(job);
 
+  job.startedAt = Date.now();
+  job.attempt += 1;
+  logJobEvent(job, "started", {
+    queueLength: pendingJobs.length,
+    activeWorkers: activeJobs.size,
+  });
+
   (async () => {
     let result: unknown;
     let retryScheduled = false;
     let failure: unknown;
     try {
-      job.attempt += 1;
       const timeoutMs = Number.isFinite(job.timeoutMs) && job.timeoutMs >= 0
         ? job.timeoutMs
         : queueJobTimeoutMs;
       result = await withTimeout(job.run(), timeoutMs);
+      logJobEvent(job, "completed", {
+        queueLength: pendingJobs.length,
+        activeWorkers: activeJobs.size,
+      });
     } catch (error) {
+      const willRetry = shouldRetryJob(job, error);
+      const delayMs = willRetry ? getRetryDelayMs(job) : 0;
+      const failureDetails = logJobEvent(job, "failed", {
+        delayMs: willRetry ? delayMs : 0,
+        error,
+        queueLength: pendingJobs.length,
+        activeWorkers: activeJobs.size,
+      });
       console.error("chatwoot webhook job failure", {
         jobId: job.id,
         metadata: job.metadata,
         attempts: job.attempt,
         maxAttempts: job.maxAttempts,
+        delayMs,
+        waitMs: failureDetails.waitMs,
+        runtimeMs: failureDetails.runtimeMs,
         error,
       });
-      if (shouldRetryJob(job, error)) {
+      if (willRetry) {
         retryScheduled = true;
-        scheduleRetry(job, error);
+        scheduleRetry(job, error, delayMs);
       } else {
         failure = error;
-        notifyJobFailure(job, error);
+        notifyJobFailure(job, error, failureDetails);
       }
     } finally {
       if (job.conversationKey) {
@@ -412,6 +536,12 @@ function startJob(job: PendingJob) {
     }
   })().catch((error) => {
     console.error("chatwoot webhook job unhandled error", error);
+    const failureDetails = logJobEvent(job, "failed", {
+      error,
+      delayMs: 0,
+      queueLength: pendingJobs.length,
+      activeWorkers: activeJobs.size,
+    });
     if (job.conversationKey) {
       const remaining = (activeConversations.get(job.conversationKey) ?? 1) - 1;
       if (remaining > 0) {
@@ -420,10 +550,10 @@ function startJob(job: PendingJob) {
         activeConversations.delete(job.conversationKey);
       }
     }
-      activeJobs.delete(job);
-      notifyJobFailure(job, error);
-      void removePersistedJob(job.storageHandle);
-      processQueue();
+    activeJobs.delete(job);
+    notifyJobFailure(job, error, failureDetails);
+    void removePersistedJob(job.storageHandle);
+    processQueue();
   });
 }
 
@@ -489,6 +619,10 @@ export function enqueueChatwootJob<T>(
     ? Math.max(0, Math.floor(options.timeoutMs ?? queueJobTimeoutMs))
     : queueJobTimeoutMs;
 
+  const queuedAt = Number.isFinite(options.queuedAt)
+    ? Math.floor(options.queuedAt as number)
+    : Date.now();
+
   const job: PendingJob = {
     id,
     run: () => run(),
@@ -503,6 +637,8 @@ export function enqueueChatwootJob<T>(
     maxAttempts,
     retryDelayMs,
     timeoutMs,
+    queuedAt,
+    startedAt: undefined,
   };
 
   const shouldPersist =
@@ -516,6 +652,7 @@ export function enqueueChatwootJob<T>(
           maxAttempts: job.maxAttempts,
           retryDelayMs: job.retryDelayMs,
           timeoutMs: job.timeoutMs,
+          queuedAt: job.queuedAt,
         },
       });
       void persistJob(job.storageHandle);
@@ -525,6 +662,10 @@ export function enqueueChatwootJob<T>(
   }
 
   pendingJobs.push(job);
+  logJobEvent(job, "queued", {
+    queueLength: pendingJobs.length,
+    activeWorkers: activeJobs.size,
+  });
   queueMicrotask(processQueue);
 
   monitoredPromise.catch(() => {});

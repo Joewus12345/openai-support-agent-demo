@@ -3712,6 +3712,109 @@ test('chatwoot webhook queue runs multiple conversations concurrently but preser
   }
 });
 
+test('chatwoot queue logs lifecycle metrics for concurrent jobs', async () => {
+  resetMocks();
+  const consoleInfoMock = mock.method(console, 'info', () => {});
+  const originalConcurrency = getChatwootQueueConcurrency();
+  mock.timers.enable({ now: 0 });
+
+  try {
+    setChatwootQueueConcurrencyForTesting(2);
+
+    const jobA = enqueueChatwootJob(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 15));
+        return 'A complete';
+      },
+      { conversationId: 'conv-a', accountId: 'acct-a' },
+      { persist: false }
+    );
+
+    const jobB = enqueueChatwootJob(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 30));
+        return 'B complete';
+      },
+      { conversationId: 'conv-b', accountId: 'acct-b' },
+      { persist: false }
+    );
+
+    const jobC = enqueueChatwootJob(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        return 'C complete';
+      },
+      { conversationId: 'conv-a', accountId: 'acct-a' },
+      { persist: false }
+    );
+
+    const advance = async (ms = 0) => {
+      mock.timers.tick(ms);
+      await Promise.resolve();
+    };
+
+    await advance(0);
+    await advance(15);
+    await jobA.done;
+    await advance(0);
+    await advance(5);
+    await jobC.done;
+    await advance(10);
+    await jobB.done;
+
+    await waitForChatwootQueueIdle();
+
+    const jobEvents = consoleInfoMock.mock.calls
+      .filter((call) => call.arguments[0] === 'chatwoot webhook job event')
+      .map((call) => call.arguments[1]);
+
+    assert.strictEqual(jobEvents.length, 9);
+
+    const eventsByJob = (jobId) =>
+      jobEvents.filter((event) => event.jobId === jobId && event.phase !== undefined);
+
+    const phasesFor = (jobId) => eventsByJob(jobId).map((event) => event.phase);
+
+    assert.deepStrictEqual(phasesFor(jobA.id), ['queued', 'started', 'completed']);
+    assert.deepStrictEqual(phasesFor(jobB.id), ['queued', 'started', 'completed']);
+    assert.deepStrictEqual(phasesFor(jobC.id), ['queued', 'started', 'completed']);
+
+    const startedEventC = eventsByJob(jobC.id).find((event) => event.phase === 'started');
+    assert.ok(startedEventC, 'expected jobC started event');
+    assert.ok(
+      typeof startedEventC.waitMs === 'number' && startedEventC.waitMs >= 15,
+      'expected jobC wait time to reflect queued delay'
+    );
+
+    const completedEventA = eventsByJob(jobA.id).find((event) => event.phase === 'completed');
+    assert.ok(completedEventA, 'expected jobA completed event');
+    assert.ok(
+      typeof completedEventA.runtimeMs === 'number' && completedEventA.runtimeMs >= 15,
+      'expected jobA runtime to be recorded'
+    );
+
+    const completedEventB = eventsByJob(jobB.id).find((event) => event.phase === 'completed');
+    assert.ok(completedEventB, 'expected jobB completed event');
+    assert.ok(
+      typeof completedEventB.runtimeMs === 'number' && completedEventB.runtimeMs >= 30,
+      'expected jobB runtime to be recorded'
+    );
+
+    for (const event of jobEvents) {
+      assert.ok(typeof event.queueLength === 'number');
+      assert.ok(typeof event.activeWorkers === 'number');
+      assert.strictEqual(event.accountId, event.metadata?.accountId);
+      assert.strictEqual(event.conversationId, event.metadata?.conversationId);
+    }
+  } finally {
+    consoleInfoMock.mock.restore();
+    mock.timers.reset();
+    setChatwootQueueConcurrencyForTesting(originalConcurrency);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
 test('chatwoot queue retries transient errors before succeeding', async () => {
   resetMocks();
   try {
@@ -3855,6 +3958,10 @@ test('chatwoot webhook persists queued jobs when redis durability enabled', asyn
     assert.strictEqual(stored.metadata.accountId, 95);
     assert.strictEqual(stored.metadata.conversationId, 95);
     assert.deepStrictEqual(stored.metadata.payload, payload);
+    assert.ok(
+      typeof stored.options?.queuedAt === 'number',
+      'expected queuedAt to be persisted for hydration timing'
+    );
 
     await waitForChatwootQueueIdle();
 
