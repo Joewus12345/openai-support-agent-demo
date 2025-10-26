@@ -28,6 +28,7 @@ const {
   MESSAGE_FALLBACK_TEXT,
   HANDOFF_FALLBACK_TEXT,
 } = require('../lib/friendlyErrors.ts');
+const { ProviderRetryError } = require('../lib/providers/retry.ts');
 
 const providers = require('../lib/providers/index.ts');
 const providerFnMock = mock.fn((messages, toolsArg, options) =>
@@ -421,6 +422,100 @@ test('chatwoot status webhook stops returning 500 after retry limit', async () =
     HANDOFF_FALLBACK_TEXT
   );
   assertLoggedIds(1, 2);
+  resetMocks();
+});
+
+test('chatwoot webhook sends fallback when provider retries are exhausted', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 901,
+        message_type: 0,
+        content: 'Retry exhausted please help',
+        account: { id: 91 },
+        conversation: {
+          id: 91,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 91,
+        },
+      },
+    },
+  };
+
+  const underlying = new Error('rate limited');
+  providerFnMock.mock.mockImplementationOnce(async function* () {
+    throw new ProviderRetryError('Rate limited', {
+      provider: 'openai',
+      status: 429,
+      attempts: 3,
+      retriesExhausted: true,
+      retryable: true,
+      cause: underlying,
+    });
+  });
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  const body = await res.json();
+
+  assert.strictEqual(body.status, 'fallback');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], MESSAGE_FALLBACK_TEXT);
+  assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook surfaces provider errors when retries are not exhausted', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 902,
+        message_type: 0,
+        content: 'Retry once please',
+        account: { id: 92 },
+        conversation: {
+          id: 92,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 92,
+        },
+      },
+    },
+  };
+
+  const underlying = new Error('transient 500');
+  providerFnMock.mock.mockImplementationOnce(async function* () {
+    throw new ProviderRetryError('Server error', {
+      provider: 'openai',
+      status: 500,
+      attempts: 1,
+      retriesExhausted: false,
+      retryable: true,
+      cause: underlying,
+    });
+  });
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  const body = await res.json();
+
+  assert.strictEqual(res.status, 500);
+  assert.strictEqual(body.error, 'Server error');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
+  assertLoggedIds();
   resetMocks();
 });
 

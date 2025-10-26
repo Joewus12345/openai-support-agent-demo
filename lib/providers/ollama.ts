@@ -4,7 +4,9 @@ import { randomUUID } from "crypto";
 import type { ProviderOptions } from "./index";
 import { fileSearch } from "@/lib/tools/fileSearch";
 import { webSearch } from "@/lib/tools/webSearch";
+import { logger } from "../logger";
 import { deriveLimiterTokens, scheduleProviderCall } from "./limiter";
+import { ProviderRetryError, retryWithBackoff } from "./retry";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
@@ -65,19 +67,46 @@ export async function* ollamaProvider(
   let finalText = "";
 
   let stream: any;
+  const payload = {
+    model,
+    messages: converted,
+    tools,
+    stream: true,
+    options: { num_ctx },
+  } as any;
+
   try {
-    const payload = {
-      model,
-      messages: converted,
-      tools,
-      stream: true,
-      options: { num_ctx },
-    } as any;
-    stream = await scheduleProviderCall("ollama", limiterTokens, async () => {
-      console.log("ollama.chat payload", payload);
-      return ollama.chat(payload);
-    });
+    const retried = await retryWithBackoff(
+      async () =>
+        scheduleProviderCall("ollama", limiterTokens, async () => {
+          console.log("ollama.chat payload", payload);
+          return ollama.chat(payload);
+        }),
+      {
+        provider: "ollama",
+        onRetry: ({ attempt, delayMs, status }) => {
+          logger.retry({
+            provider: "ollama",
+            attempt,
+            delayMs,
+            status,
+            model,
+          });
+        },
+      }
+    );
+    stream = retried.result;
+    if (retried.attempts > 1) {
+      logger.retryRecovered({
+        provider: "ollama",
+        attempts: retried.attempts,
+        model,
+      });
+    }
   } catch (error) {
+    if (error instanceof ProviderRetryError) {
+      throw error;
+    }
     const message =
       error instanceof Error ? error.message : String(error);
     console.error(
@@ -103,15 +132,15 @@ export async function* ollamaProvider(
         JSON.stringify(chunk).slice(0, 80),
         "tool calls detected:",
         (chunk.message?.tool_calls || []).length > 0
-    );
-    const content = chunk.message?.content ?? "";
-    if (content) {
-      finalText += content;
-      yield { event: "response.output_text.delta", data: { delta: content } } as ProviderEvent;
-    }
+      );
+      const content = chunk.message?.content ?? "";
+      if (content) {
+        finalText += content;
+        yield { event: "response.output_text.delta", data: { delta: content } } as ProviderEvent;
+      }
 
-    const toolCalls = chunk.message?.tool_calls || [];
-    for (const call of toolCalls) {
+      const toolCalls = chunk.message?.tool_calls || [];
+      for (const call of toolCalls) {
       const id = (call as any).id ?? randomUUID();
       let state = calls.get(id);
       if (!state) {
