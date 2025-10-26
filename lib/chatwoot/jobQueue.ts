@@ -14,6 +14,7 @@ type PendingJob<T = unknown> = {
   reject: (reason: unknown) => void;
   metadata?: JobMetadata;
   storageHandle?: string;
+  conversationKey?: string;
 };
 
 type EnqueueOptions = {
@@ -25,9 +26,26 @@ type EnqueueOptions = {
 let queueEnabled = true;
 
 const pendingJobs: PendingJob[] = [];
-let activeJob: PendingJob | undefined;
+const activeJobs = new Set<PendingJob>();
+const activeConversations = new Map<string, number>();
 let nextJobId = 1;
 const idleResolvers: Array<() => void> = [];
+
+function parseConcurrency(raw: string | undefined): number {
+  if (!raw) {
+    return 1;
+  }
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return 1;
+  }
+  return Math.floor(parsed);
+}
+
+const defaultConcurrency = parseConcurrency(
+  process.env.CHATWOOT_QUEUE_CONCURRENCY
+);
+let queueConcurrency = defaultConcurrency;
 
 const REDIS_QUEUE_KEY = "chatwoot:webhook:jobs";
 let durableQueueEnabled =
@@ -109,7 +127,7 @@ async function hydrateDurableJobs() {
 }
 
 function resolveIdle() {
-  if (!activeJob && pendingJobs.length === 0) {
+  if (activeJobs.size === 0 && pendingJobs.length === 0) {
     while (idleResolvers.length) {
       const resolve = idleResolvers.shift();
       try {
@@ -121,18 +139,25 @@ function resolveIdle() {
   }
 }
 
-function processQueue() {
-  if (activeJob || pendingJobs.length === 0) {
-    resolveIdle();
-    return;
+function getConversationKey(metadata?: JobMetadata): string | undefined {
+  const conversationId = metadata?.conversationId;
+  if (conversationId === undefined || conversationId === null) {
+    return undefined;
   }
+  return String(conversationId);
+}
 
-  const job = pendingJobs.shift();
-  if (!job) {
-    resolveIdle();
-    return;
+function canStartMoreJobs(): boolean {
+  return queueConcurrency <= 0 || activeJobs.size < queueConcurrency;
+}
+
+function startJob(job: PendingJob) {
+  const conversationKey = job.conversationKey;
+  if (conversationKey) {
+    const activeCount = activeConversations.get(conversationKey) ?? 0;
+    activeConversations.set(conversationKey, activeCount + 1);
   }
-  activeJob = job;
+  activeJobs.add(job);
 
   (async () => {
     try {
@@ -147,14 +172,60 @@ function processQueue() {
       job.reject(error);
     } finally {
       await removePersistedJob(job.storageHandle);
-      activeJob = undefined;
+      if (job.conversationKey) {
+        const remaining = (activeConversations.get(job.conversationKey) ?? 1) - 1;
+        if (remaining > 0) {
+          activeConversations.set(job.conversationKey, remaining);
+        } else {
+          activeConversations.delete(job.conversationKey);
+        }
+      }
+      activeJobs.delete(job);
       processQueue();
     }
   })().catch((error) => {
     console.error("chatwoot webhook job unhandled error", error);
-    activeJob = undefined;
+    if (job.conversationKey) {
+      const remaining = (activeConversations.get(job.conversationKey) ?? 1) - 1;
+      if (remaining > 0) {
+        activeConversations.set(job.conversationKey, remaining);
+      } else {
+        activeConversations.delete(job.conversationKey);
+      }
+    }
+    activeJobs.delete(job);
     processQueue();
   });
+}
+
+function processQueue() {
+  if (pendingJobs.length === 0) {
+    resolveIdle();
+    return;
+  }
+
+  let startedJob = false;
+  while (pendingJobs.length > 0 && canStartMoreJobs()) {
+    const nextIndex = pendingJobs.findIndex((job) => {
+      if (job.conversationKey && activeConversations.has(job.conversationKey)) {
+        return false;
+      }
+      return true;
+    });
+    if (nextIndex === -1) {
+      break;
+    }
+    const [job] = pendingJobs.splice(nextIndex, 1);
+    if (!job) {
+      break;
+    }
+    startJob(job);
+    startedJob = true;
+  }
+
+  if (!startedJob) {
+    resolveIdle();
+  }
 }
 
 export function enqueueChatwootJob<T>(
@@ -186,6 +257,7 @@ export function enqueueChatwootJob<T>(
     reject,
     metadata,
     storageHandle: options.storageHandle,
+    conversationKey: getConversationKey(metadata),
   };
 
   const shouldPersist =
@@ -206,7 +278,7 @@ export function enqueueChatwootJob<T>(
 }
 
 export function waitForChatwootQueueIdle(): Promise<void> {
-  if (!activeJob && pendingJobs.length === 0) {
+  if (activeJobs.size === 0 && pendingJobs.length === 0) {
     return Promise.resolve();
   }
   return new Promise<void>((resolve) => {
@@ -224,10 +296,12 @@ export function setChatwootQueueEnabledForTesting(enabled: boolean) {
 
 export function resetChatwootQueueForTesting() {
   pendingJobs.splice(0, pendingJobs.length);
-  activeJob = undefined;
+  activeJobs.clear();
+  activeConversations.clear();
   hydrating = false;
   hydratedHandles.clear();
   nextJobId = 1;
+  queueConcurrency = defaultConcurrency;
   resolveIdle();
 }
 
@@ -259,4 +333,21 @@ export function setChatwootQueuePersistenceEnabledForTesting(enabled: boolean) {
 
 export async function hydrateChatwootQueueFromStorageForTesting() {
   await hydrateDurableJobs();
+}
+
+export function getChatwootQueueConcurrency(): number {
+  return queueConcurrency;
+}
+
+export function setChatwootQueueConcurrencyForTesting(limit: number) {
+  if (Number.isFinite(limit) && limit >= 1) {
+    queueConcurrency = Math.floor(limit);
+  } else {
+    queueConcurrency = defaultConcurrency;
+  }
+  queueMicrotask(processQueue);
+}
+
+export function getChatwootJobRunnerForTesting() {
+  return jobRunner;
 }

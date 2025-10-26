@@ -148,6 +148,10 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
    - `RELEASE_RETRY_BASE_MS` (default `1000`) – base delay for exponential backoff.
    - `CHATWOOT_TIMEOUT_MS` (default `15000`) – API request timeout before retries.
 
+    #### Queue processing
+
+   - `CHATWOOT_QUEUE_CONCURRENCY` (default `1`) – maximum number of Chatwoot webhook jobs the worker executes in parallel. Increase this value (for example, to match available CPU cores) to handle multiple conversations simultaneously. Jobs from the same conversation always run sequentially so replies stay in order, even when concurrency is greater than `1`.
+
    A standalone Docker setup is available to test the service in isolation:
 
    ```bash

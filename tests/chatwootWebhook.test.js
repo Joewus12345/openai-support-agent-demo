@@ -11,17 +11,22 @@ const releaseAgentMock = mock.method(conversationResolution, 'releaseAgent', asy
 
 const chatwootBot = require('../lib/chatwootBot.ts');
 let nextMessageId = 0;
+const defaultSendBotMessageImplementation = async (
+  accountId,
+  conversationId,
+  content
+) => ({
+  id: ++nextMessageId,
+  inbox_id: 1,
+  content,
+  conversation_id: conversationId,
+  account_id: accountId,
+  created_at: Math.floor(Date.now() / 1000),
+});
 const sendBotMessageMock = mock.method(
   chatwootBot,
   'sendBotMessage',
-  async (accountId, conversationId, content) => ({
-    id: ++nextMessageId,
-    inbox_id: 1,
-    content,
-    conversation_id: conversationId,
-    account_id: accountId,
-    created_at: Math.floor(Date.now() / 1000),
-  })
+  defaultSendBotMessageImplementation
 );
 
 const {
@@ -46,13 +51,16 @@ const {
   resetLimiterForTesting,
 } = require('../lib/providers/limiter.ts');
 
+const chatwootJobQueueModule = require('../lib/chatwoot/jobQueue.ts');
 const {
   setChatwootQueueEnabledForTesting,
   waitForChatwootQueueIdle,
   resetChatwootQueueForTesting,
   setChatwootQueuePersistenceEnabledForTesting,
   hydrateChatwootQueueFromStorageForTesting,
-} = require('../lib/chatwoot/jobQueue.ts');
+  setChatwootQueueConcurrencyForTesting,
+  getChatwootQueueConcurrency,
+} = chatwootJobQueueModule;
 setChatwootQueueEnabledForTesting(false);
 setChatwootQueuePersistenceEnabledForTesting(false);
 
@@ -246,6 +254,9 @@ function resetMocks() {
   releaseAgentMock.mock.resetCalls();
   releaseAgentMock.mock.mockImplementation(async () => {});
   sendBotMessageMock.mock.resetCalls();
+  sendBotMessageMock.mock.mockImplementation(
+    defaultSendBotMessageImplementation
+  );
   nextMessageId = 0;
   getProviderMock.mock.resetCalls();
   getProviderMock.mock.mockImplementation(() => providerFnMock);
@@ -3522,6 +3533,176 @@ test('chatwoot webhook queue backlog does not delay responses', async () => {
   } finally {
     setChatwootQueueEnabledForTesting(false);
     resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook queue runs multiple conversations concurrently but preserves ordering per conversation', async () => {
+  resetMocks();
+  const originalConcurrency = getChatwootQueueConcurrency();
+  setChatwootQueueEnabledForTesting(true);
+  setChatwootQueueConcurrencyForTesting(2);
+  const waitFor = async (predicate, attempts = 50, delayMs = 10) => {
+    for (let i = 0; i < attempts; i += 1) {
+      if (predicate()) {
+        return true;
+      }
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+    return predicate();
+  };
+
+  const jobStarts = [];
+  const jobResolvers = new Map();
+  const nextOccurrences = new Map();
+
+  const buildPayload = (conversationId, messageId, content) => ({
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: messageId,
+        message_type: 0,
+        content,
+        account: { id: 77 },
+        conversation: {
+          id: conversationId,
+          inbox_id: 1,
+          status: 'open',
+          account_id: 77,
+        },
+      },
+    },
+  });
+
+  const requestFor = (payload) =>
+    new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+  const responses = [
+    webhookPost(
+      requestFor(
+        buildPayload(1001, 5001, 'conversation-1-first')
+      )
+    ),
+    webhookPost(requestFor(buildPayload(2001, 6001, 'conversation-2'))),
+    webhookPost(
+      requestFor(
+        buildPayload(1001, 5002, 'conversation-1-second')
+      )
+    ),
+  ];
+
+  try {
+    for (const responsePromise of responses) {
+      const response = await responsePromise;
+      assert.strictEqual(response.status, 202);
+      assert.deepStrictEqual(await response.json(), { status: 'accepted' });
+    }
+
+    await waitForChatwootQueueIdle();
+
+    jobStarts.length = 0;
+    jobResolvers.clear();
+    nextOccurrences.clear();
+
+    const scheduleJob = (conversationId) => {
+      const { done } = chatwootJobQueueModule.enqueueChatwootJob(
+        async () => {
+          const convKey = String(conversationId);
+          const occurrence = nextOccurrences.get(convKey) ?? 0;
+          nextOccurrences.set(convKey, occurrence + 1);
+          const key = `${convKey}:${occurrence}`;
+          jobStarts.push({ conversationId: convKey, key });
+          await new Promise((resolve) => {
+            jobResolvers.set(key, () => {
+              jobResolvers.delete(key);
+              resolve();
+            });
+          });
+        },
+        { conversationId, accountId: conversationId },
+        { persist: false }
+      );
+      done.catch(() => {});
+    };
+
+    scheduleJob(1001);
+    scheduleJob(2001);
+    scheduleJob(1001);
+
+    assert.ok(
+      await waitFor(() => jobStarts.length >= 2, 600, 20),
+      'expected first two jobs to begin running'
+    );
+
+    const firstTwo = jobStarts.slice(0, 2);
+    assert.strictEqual(firstTwo.length, 2);
+    assert.ok(
+      firstTwo.some(
+        (entry) => entry.conversationId === '1001' && entry.key === '1001:0'
+      ),
+      'expected first conversation job to start'
+    );
+    assert.ok(
+      firstTwo.some(
+        (entry) => entry.conversationId === '2001' && entry.key === '2001:0'
+      ),
+      'expected second conversation to start in parallel'
+    );
+    assert.ok(
+      !firstTwo.some((entry) => entry.key === '1001:1'),
+      'second job for same conversation should wait for the first to finish'
+    );
+
+    const releaseFirst = jobResolvers.get('1001:0');
+    assert.ok(releaseFirst, 'expected resolver for first conversation job');
+    releaseFirst?.();
+
+    assert.ok(
+      await waitFor(() => jobStarts.length >= 3, 600, 20),
+      'expected third job to start after first conversation released'
+    );
+
+    const thirdEntry = jobStarts[2];
+    assert.ok(thirdEntry, 'expected queued job to continue after first finished');
+    assert.strictEqual(thirdEntry.conversationId, '1001');
+    assert.strictEqual(thirdEntry.key, '1001:1');
+
+    const releaseSecondConversation = jobResolvers.get('2001:0');
+    assert.ok(
+      releaseSecondConversation,
+      'expected resolver for second conversation job'
+    );
+    releaseSecondConversation?.();
+
+    const releaseSecondJob = jobResolvers.get('1001:1');
+    assert.ok(
+      releaseSecondJob,
+      'expected resolver for second job in first conversation'
+    );
+    releaseSecondJob?.();
+
+    await waitForChatwootQueueIdle();
+  } finally {
+    for (const release of [...jobResolvers.values()]) {
+      try {
+        release?.();
+      } catch {
+        // ignore resolver errors during cleanup
+      }
+    }
+    jobResolvers.clear();
+    try {
+      await waitForChatwootQueueIdle();
+    } catch {
+      // ignore idle wait errors during cleanup
+    }
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    setChatwootQueueConcurrencyForTesting(originalConcurrency);
     resetMocks();
   }
 });
