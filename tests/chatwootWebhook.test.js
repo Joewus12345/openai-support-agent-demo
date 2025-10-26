@@ -50,8 +50,11 @@ const {
   setChatwootQueueEnabledForTesting,
   waitForChatwootQueueIdle,
   resetChatwootQueueForTesting,
+  setChatwootQueuePersistenceEnabledForTesting,
+  hydrateChatwootQueueFromStorageForTesting,
 } = require('../lib/chatwoot/jobQueue.ts');
 setChatwootQueueEnabledForTesting(false);
+setChatwootQueuePersistenceEnabledForTesting(false);
 
 const conversationHistory = require('../lib/getConversationHistory.ts');
 const getConversationHistoryMock = mock.method(
@@ -207,6 +210,7 @@ redis.exists = mock.fn(async () => 0);
 redis.rpush = mock.fn(async () => {});
 redis.pipeline = mock.fn(() => redisPipelineMock);
 redis.lrange = mock.fn(async () => []);
+redis.lrem = mock.fn(async () => {});
 
 const tokenCounter = require('../lib/utils/tokenCounter.ts');
 const originalEstimateMessageTokens = tokenCounter.estimateMessageTokens;
@@ -273,6 +277,7 @@ function resetMocks() {
   redis.rpush.mock.resetCalls();
   redis.pipeline.mock.resetCalls();
   redis.lrange.mock.resetCalls();
+  redis.lrem.mock.resetCalls();
   redisPipelineMock.rpush.mock.resetCalls();
   redisPipelineMock.expire.mock.resetCalls();
   redisPipelineMock.exec.mock.resetCalls();
@@ -304,6 +309,7 @@ function resetMocks() {
   resetLimiterForTesting();
   resetChatwootQueueForTesting();
   setChatwootQueueEnabledForTesting(false);
+  setChatwootQueuePersistenceEnabledForTesting(false);
 }
 
 async function tickAndFlush(ms = 0) {
@@ -3514,6 +3520,112 @@ test('chatwoot webhook queue backlog does not delay responses', async () => {
     assert.strictEqual(secondCall[0], 902);
     assert.strictEqual(secondCall[1], 902);
   } finally {
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook persists queued jobs when redis durability enabled', async () => {
+  resetMocks();
+  setChatwootQueueEnabledForTesting(true);
+  setChatwootQueuePersistenceEnabledForTesting(true);
+
+  try {
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 950,
+          message_type: 0,
+          content: 'Durable queue message',
+          account: { id: 95 },
+          conversation: {
+            id: 95,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 95,
+          },
+        },
+      },
+    };
+
+    const request = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const response = await webhookPost(request);
+    assert.strictEqual(response.status, 202);
+    assert.strictEqual(redis.rpush.mock.calls.length, 1);
+    const [queueKey, serialized] = redis.rpush.mock.calls[0].arguments;
+    assert.strictEqual(queueKey, 'chatwoot:webhook:jobs');
+    const stored = JSON.parse(serialized);
+    assert.strictEqual(stored.metadata.accountId, 95);
+    assert.strictEqual(stored.metadata.conversationId, 95);
+    assert.deepStrictEqual(stored.metadata.payload, payload);
+
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(redis.lrem.mock.calls.length, 1);
+    assert.deepStrictEqual(redis.lrem.mock.calls[0].arguments, [
+      'chatwoot:webhook:jobs',
+      1,
+      serialized,
+    ]);
+  } finally {
+    setChatwootQueuePersistenceEnabledForTesting(false);
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook hydrates persisted jobs from redis', async () => {
+  resetMocks();
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 960,
+        message_type: 0,
+        content: 'Recover me',
+        account: { id: 96 },
+        conversation: {
+          id: 96,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 96,
+        },
+      },
+    },
+  };
+  const sanitizedPayload = JSON.parse(JSON.stringify(payload));
+  const serializedJob = JSON.stringify({
+    id: 1234,
+    metadata: { accountId: 96, conversationId: 96, payload: sanitizedPayload },
+  });
+  redis.lrange.mock.mockImplementationOnce(async () => [serializedJob]);
+  redis.lrange.mock.mockImplementation(async () => []);
+
+  setChatwootQueuePersistenceEnabledForTesting(true);
+  setChatwootQueueEnabledForTesting(true);
+
+  try {
+    await hydrateChatwootQueueFromStorageForTesting();
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[0], 96);
+    assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[1], 96);
+    assert.strictEqual(redis.rpush.mock.calls.length, 0);
+    assert.ok(
+      redis.lrem.mock.calls.some((call) => call.arguments[2] === serializedJob)
+    );
+  } finally {
+    setChatwootQueuePersistenceEnabledForTesting(false);
     setChatwootQueueEnabledForTesting(false);
     resetChatwootQueueForTesting();
     resetMocks();

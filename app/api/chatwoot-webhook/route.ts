@@ -68,6 +68,7 @@ import {
 import {
   enqueueChatwootJob,
   isChatwootQueueEnabled,
+  setChatwootJobRunner,
 } from "@/lib/chatwoot/jobQueue";
 
 type HistoryTurn = { role: string; content: string };
@@ -579,34 +580,40 @@ async function getReferencedHistoryTurn(
   return { role, content };
 }
 
-export async function POST(request: Request) {
-  let incoming: ChatwootWebhookPayload;
+function sanitizeWebhookPayload(
+  payload: ChatwootWebhookPayload
+): ChatwootWebhookPayload {
   try {
-    incoming = (await request.json()) as ChatwootWebhookPayload;
+    return JSON.parse(JSON.stringify(payload)) as ChatwootWebhookPayload;
   } catch (error) {
-    console.error("chatwoot webhook json parse error", error);
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    console.error("chatwoot webhook payload sanitize error", error);
+    return payload;
   }
+}
 
-  let metadataAccountId: number | undefined;
-  let metadataConversationId: number | undefined;
+function extractChatwootJobMetadata(
+  incoming: ChatwootWebhookPayload
+): { accountId?: number | string; conversationId?: number | string } {
   try {
     const metadataPayload = "data" in incoming ? incoming.data : incoming;
     const metadataMessage = (metadataPayload as any).message ?? metadataPayload;
-    metadataConversationId =
+    const conversationId =
       (metadataMessage as any).conversation_id ??
       (metadataMessage as any).conversation?.id ??
       (metadataPayload as any).id;
-    metadataAccountId =
+    const accountId =
       (metadataMessage as any).account_id ??
       (metadataMessage as any).account?.id ??
       (metadataPayload as any).account?.id;
+    return { accountId, conversationId };
   } catch (error) {
-    metadataAccountId = undefined;
-    metadataConversationId = undefined;
+    return { accountId: undefined, conversationId: undefined };
   }
+}
 
-  const processJob = async () => {
+async function processChatwootWebhookJob(
+  incoming: ChatwootWebhookPayload
+): Promise<NextResponse> {
     try {
       if (incoming.event !== "message_created") {
         return NextResponse.json({ status: "ignored" });
@@ -2072,17 +2079,40 @@ export async function POST(request: Request) {
       console.error("Chatwoot webhook error", error);
       return NextResponse.json({ error: "Server error" }, { status: 500 });
     }
-  };
+}
+
+setChatwootJobRunner(async (metadata) => {
+  if (!metadata?.payload) {
+    console.error("chatwoot webhook job missing payload metadata", metadata);
+    return;
+  }
+  const sanitized = sanitizeWebhookPayload(metadata.payload);
+  await processChatwootWebhookJob(sanitized);
+});
+
+export async function POST(request: Request) {
+  let incoming: ChatwootWebhookPayload;
+  try {
+    incoming = (await request.json()) as ChatwootWebhookPayload;
+  } catch (error) {
+    console.error("chatwoot webhook json parse error", error);
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const sanitizedIncoming = sanitizeWebhookPayload(incoming);
+  const { accountId: metadataAccountId, conversationId: metadataConversationId } =
+    extractChatwootJobMetadata(sanitizedIncoming);
+  const processJob = () => processChatwootWebhookJob(sanitizedIncoming);
 
   if (!isChatwootQueueEnabled()) {
-    return await processJob();
+    return processJob();
   }
 
   const { done } = enqueueChatwootJob(processJob, {
     accountId: metadataAccountId,
     conversationId: metadataConversationId,
+    payload: sanitizedIncoming,
   });
   done.catch(() => {});
   return NextResponse.json({ status: "accepted" }, { status: 202 });
-
 }
