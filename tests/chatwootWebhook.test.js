@@ -53,6 +53,7 @@ const {
 
 const chatwootJobQueueModule = require('../lib/chatwoot/jobQueue.ts');
 const {
+  enqueueChatwootJob,
   setChatwootQueueEnabledForTesting,
   waitForChatwootQueueIdle,
   resetChatwootQueueForTesting,
@@ -60,6 +61,10 @@ const {
   hydrateChatwootQueueFromStorageForTesting,
   setChatwootQueueConcurrencyForTesting,
   getChatwootQueueConcurrency,
+  setChatwootQueueRetryConfigForTesting,
+  setChatwootQueueJobTimeoutForTesting,
+  setChatwootQueueFailureReporter,
+  getChatwootQueueFailureReporterForTesting,
 } = chatwootJobQueueModule;
 setChatwootQueueEnabledForTesting(false);
 setChatwootQueuePersistenceEnabledForTesting(false);
@@ -321,6 +326,7 @@ function resetMocks() {
   resetChatwootQueueForTesting();
   setChatwootQueueEnabledForTesting(false);
   setChatwootQueuePersistenceEnabledForTesting(false);
+  setChatwootQueueFailureReporter(undefined);
 }
 
 async function tickAndFlush(ms = 0) {
@@ -3609,7 +3615,7 @@ test('chatwoot webhook queue runs multiple conversations concurrently but preser
     nextOccurrences.clear();
 
     const scheduleJob = (conversationId) => {
-      const { done } = chatwootJobQueueModule.enqueueChatwootJob(
+      enqueueChatwootJob(
         async () => {
           const convKey = String(conversationId);
           const occurrence = nextOccurrences.get(convKey) ?? 0;
@@ -3626,7 +3632,6 @@ test('chatwoot webhook queue runs multiple conversations concurrently but preser
         { conversationId, accountId: conversationId },
         { persist: false }
       );
-      done.catch(() => {});
     };
 
     scheduleJob(1001);
@@ -3703,6 +3708,110 @@ test('chatwoot webhook queue runs multiple conversations concurrently but preser
     setChatwootQueueEnabledForTesting(false);
     resetChatwootQueueForTesting();
     setChatwootQueueConcurrencyForTesting(originalConcurrency);
+    resetMocks();
+  }
+});
+
+test('chatwoot queue retries transient errors before succeeding', async () => {
+  resetMocks();
+  try {
+    setChatwootQueueRetryConfigForTesting({
+      maxAttempts: 3,
+      baseDelayMs: 10,
+      maxDelayMs: 10,
+      backoffFactor: 1,
+    });
+    const failureReporter = mock.fn();
+    setChatwootQueueFailureReporter(failureReporter);
+
+    let attempt = 0;
+    const job = enqueueChatwootJob(
+      async () => {
+        attempt += 1;
+        if (attempt === 1) {
+          throw new ProviderRetryError('Transient failure', {
+            provider: 'openai',
+            status: 503,
+            attempts: attempt,
+            retriesExhausted: false,
+            retryable: true,
+          });
+        }
+        return 'success';
+      },
+      { conversationId: 'retry-test', accountId: 'retry-test' },
+      { persist: false }
+    );
+
+    const result = await job.done;
+    assert.strictEqual(result, 'success');
+    assert.strictEqual(attempt, 2);
+    assert.strictEqual(failureReporter.mock.calls.length, 0);
+    await waitForChatwootQueueIdle();
+  } finally {
+    setChatwootQueueFailureReporter(undefined);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot queue times out long-running jobs and frees queued work', async () => {
+  resetMocks();
+  const originalConcurrency = getChatwootQueueConcurrency();
+  try {
+    setChatwootQueueConcurrencyForTesting(1);
+    setChatwootQueueJobTimeoutForTesting(50);
+    setChatwootQueueRetryConfigForTesting({
+      maxAttempts: 3,
+      baseDelayMs: 40,
+      maxDelayMs: 40,
+      backoffFactor: 1,
+    });
+    const failureReporter = mock.fn();
+    setChatwootQueueFailureReporter(failureReporter);
+
+    const startOrder = [];
+    let attemptA = 0;
+    const jobA = enqueueChatwootJob(
+      async () => {
+        attemptA += 1;
+        startOrder.push(`A${attemptA}`);
+        if (attemptA === 1) {
+          await new Promise((resolve) => setTimeout(resolve, 120));
+        }
+        return 'A recovered';
+      },
+      { conversationId: 'A', accountId: 'A' },
+      { persist: false }
+    );
+
+    let attemptB = 0;
+    const jobB = enqueueChatwootJob(
+      async () => {
+        attemptB += 1;
+        startOrder.push(`B${attemptB}`);
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        return 'B done';
+      },
+      { conversationId: 'B', accountId: 'B' },
+      { persist: false }
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    assert.deepStrictEqual(startOrder.slice(0, 2), ['A1', 'B1']);
+
+    const [resultA, resultB] = await Promise.all([jobA.done, jobB.done]);
+    assert.strictEqual(resultA, 'A recovered');
+    assert.strictEqual(resultB, 'B done');
+    assert.deepStrictEqual(startOrder, ['A1', 'B1', 'A2']);
+    assert.strictEqual(failureReporter.mock.calls.length, 0);
+    assert.strictEqual(attemptA, 2);
+    assert.strictEqual(attemptB, 1);
+    await waitForChatwootQueueIdle();
+  } finally {
+    setChatwootQueueFailureReporter(undefined);
+    setChatwootQueueConcurrencyForTesting(originalConcurrency);
+    resetChatwootQueueForTesting();
     resetMocks();
   }
 });

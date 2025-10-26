@@ -69,6 +69,7 @@ import {
   enqueueChatwootJob,
   isChatwootQueueEnabled,
   setChatwootJobRunner,
+  setChatwootQueueFailureReporter,
 } from "@/lib/chatwoot/jobQueue";
 
 type HistoryTurn = { role: string; content: string };
@@ -2081,6 +2082,16 @@ async function processChatwootWebhookJob(
     }
 }
 
+setChatwootQueueFailureReporter(({ jobId, metadata, attempts, maxAttempts, error }) => {
+  console.error("chatwoot webhook job unrecoverable failure", {
+    jobId,
+    metadata,
+    attempts,
+    maxAttempts,
+    error,
+  });
+});
+
 setChatwootJobRunner(async (metadata) => {
   if (!metadata?.payload) {
     console.error("chatwoot webhook job missing payload metadata", metadata);
@@ -2113,6 +2124,5 @@ export async function POST(request: Request) {
     conversationId: metadataConversationId,
     payload: sanitizedIncoming,
   });
-  done.catch(() => {});
   return NextResponse.json({ status: "accepted" }, { status: 202 });
 }
