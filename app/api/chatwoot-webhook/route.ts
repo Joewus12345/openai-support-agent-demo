@@ -607,7 +607,7 @@ function extractChatwootJobMetadata(
       (metadataMessage as any).account?.id ??
       (metadataPayload as any).account?.id;
     return { accountId, conversationId };
-  } catch (error) {
+  } catch {
     return { accountId: undefined, conversationId: undefined };
   }
 }
@@ -2119,7 +2119,7 @@ export async function POST(request: Request) {
     return processJob();
   }
 
-  const { done } = enqueueChatwootJob(processJob, {
+  enqueueChatwootJob(processJob, {
     accountId: metadataAccountId,
     conversationId: metadataConversationId,
     payload: sanitizedIncoming,

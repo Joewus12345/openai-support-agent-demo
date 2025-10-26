@@ -8,10 +8,10 @@ type JobMetadata = {
   payload?: ChatwootWebhookPayload;
 };
 
-type PendingJob<T = unknown> = {
+type PendingJob = {
   id: number;
-  run: () => Promise<T>;
-  resolve: (value: T) => void;
+  run: () => Promise<unknown>;
+  resolve: (value: unknown) => void;
   reject: (reason: unknown) => void;
   metadata?: JobMetadata;
   storageHandle?: string;
@@ -180,7 +180,8 @@ async function removePersistedJob(storageHandle?: string) {
 }
 
 async function hydrateDurableJobs() {
-  if (!durableQueueEnabled || hydrating || !jobRunner) {
+  const runner = jobRunner;
+  if (!durableQueueEnabled || hydrating || !runner) {
     return;
   }
   hydrating = true;
@@ -214,7 +215,7 @@ async function hydrateDurableJobs() {
       }
       hydratedHandles.add(entry);
       enqueueChatwootJob(
-        () => jobRunner(parsed!.metadata!),
+        () => runner(parsed!.metadata!),
         parsed.metadata,
         {
           id: parsed.id,
@@ -362,7 +363,6 @@ function startJob(job: PendingJob) {
 
   (async () => {
     let result: unknown;
-    let hasResult = false;
     let retryScheduled = false;
     let failure: unknown;
     try {
@@ -371,7 +371,6 @@ function startJob(job: PendingJob) {
         ? job.timeoutMs
         : queueJobTimeoutMs;
       result = await withTimeout(job.run(), timeoutMs);
-      hasResult = true;
     } catch (error) {
       console.error("chatwoot webhook job failure", {
         jobId: job.id,
@@ -406,10 +405,8 @@ function startJob(job: PendingJob) {
 
       if (failure !== undefined) {
         job.reject(failure);
-      } else if (hasResult) {
-        job.resolve(result as never);
       } else {
-        job.resolve(result as never);
+        job.resolve(result);
       }
       processQueue();
     }
@@ -494,8 +491,10 @@ export function enqueueChatwootJob<T>(
 
   const job: PendingJob = {
     id,
-    run,
-    resolve,
+    run: () => run(),
+    resolve: (value) => {
+      resolve(value as T);
+    },
     reject,
     metadata,
     storageHandle: options.storageHandle,
@@ -582,6 +581,8 @@ export function setChatwootJobRunner(
   }
 }
 
+// NOTE: Currently unused by the application; kept for manual diagnostics when
+// verifying whether Redis-backed persistence is active during local debugging.
 export function isChatwootQueuePersistenceEnabled(): boolean {
   return durableQueueEnabled;
 }
@@ -614,6 +615,8 @@ export function setChatwootQueueConcurrencyForTesting(limit: number) {
   queueMicrotask(processQueue);
 }
 
+// NOTE: Exposed for potential future assertions in tests, but no suite relies on
+// it today. Retained to make it easy to validate runner registration manually.
 export function getChatwootJobRunnerForTesting() {
   return jobRunner;
 }
@@ -650,6 +653,8 @@ export function setChatwootQueueFailureReporter(
   failureReporter = reporter;
 }
 
+// NOTE: This helper exposes the registered failure reporter even though nothing
+// references it yet; retained for debugging queue instrumentation when needed.
 export function getChatwootQueueFailureReporterForTesting() {
   return failureReporter;
 }
