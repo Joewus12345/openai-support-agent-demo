@@ -9,6 +9,15 @@ function parseInteger(value: string | undefined, fallback: number): number {
   return parsed;
 }
 
+function parseBoolean(value: string | undefined, fallback: boolean): boolean {
+  if (!value) return fallback;
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) return fallback;
+  if (["1", "true", "yes", "on"].includes(normalized)) return true;
+  if (["0", "false", "no", "off"].includes(normalized)) return false;
+  return fallback;
+}
+
 const DEFAULT_MAX_RETRIES = Math.max(
   0,
   parseInteger(process.env.CHATWOOT_PROVIDER_MAX_RETRIES, 2)
@@ -21,6 +30,15 @@ const DEFAULT_MAX_DELAY_MS = Math.max(
   DEFAULT_BASE_DELAY_MS || 0,
   parseInteger(process.env.CHATWOOT_PROVIDER_RETRY_MAX_MS, 10_000)
 );
+const DEFAULT_ENABLE_JITTER = parseBoolean(
+  process.env.CHATWOOT_PROVIDER_RETRY_ENABLE_JITTER,
+  true
+);
+
+const randomJitter = (delayMs: number) => {
+  if (!Number.isFinite(delayMs) || delayMs <= 0) return 0;
+  return Math.random() * delayMs;
+};
 
 const RETRY_AFTER_HEADER = "retry-after";
 
@@ -132,6 +150,7 @@ export interface RetryOptions {
   maxDelayMs?: number;
   onRetry?: (details: RetryAttemptDetails) => void;
   sleepFn?: (ms: number) => Promise<void>;
+  jitterFn?: (delayMs: number, attempt: number) => number;
 }
 
 export interface RetryAttemptDetails {
@@ -195,6 +214,8 @@ export async function retryWithBackoff<T>(
       : DEFAULT_MAX_DELAY_MS
   );
   const sleepFn = options.sleepFn ?? sleep;
+  const jitterFn =
+    options.jitterFn ?? (DEFAULT_ENABLE_JITTER ? randomJitter : undefined);
 
   let attempt = 0;
   while (true) {
@@ -231,8 +252,23 @@ export async function retryWithBackoff<T>(
         maxDelayMs,
         Math.max(baseDelayMs, baseDelayMs * Math.pow(2, attempt))
       );
-      const delayMs = retryAfterMs !== undefined ? retryAfterMs : exponentialDelay;
       const nextAttempt = attempt + 1;
+      let computedDelay = exponentialDelay;
+      if (
+        retryAfterMs === undefined &&
+        jitterFn &&
+        Number.isFinite(exponentialDelay) &&
+        exponentialDelay > 0
+      ) {
+        const jittered = jitterFn(exponentialDelay, nextAttempt);
+        if (Number.isFinite(jittered)) {
+          computedDelay = Math.min(
+            maxDelayMs,
+            Math.max(0, Math.floor(jittered as number))
+          );
+        }
+      }
+      const delayMs = retryAfterMs !== undefined ? retryAfterMs : computedDelay;
 
       options.onRetry?.({
         attempt: nextAttempt,

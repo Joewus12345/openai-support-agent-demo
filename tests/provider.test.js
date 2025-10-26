@@ -118,7 +118,7 @@ test('ollamaOpenAIProvider argument handling with object', () => {
   ]);
 });
 
-test('retryWithBackoff honors retry-after header', async () => {
+test('retryWithBackoff honors retry-after header and skips jitter', async () => {
   const delays = [];
   let attempts = 0;
   const error = new Error('rate limited');
@@ -129,6 +129,7 @@ test('retryWithBackoff honors retry-after header', async () => {
       'retry-after': '2',
     },
   };
+  const jitter = mock.fn((delay) => delay / 2);
 
   const operation = mock.fn(async () => {
     attempts += 1;
@@ -145,12 +146,14 @@ test('retryWithBackoff honors retry-after header', async () => {
     sleepFn: async (ms) => {
       delays.push(ms);
     },
+    jitterFn: jitter,
   });
 
   assert.strictEqual(result.result, 'ok');
   assert.strictEqual(result.attempts, 2);
   assert.deepStrictEqual(delays, [2000]);
   assert.strictEqual(operation.mock.calls.length, 2);
+  assert.strictEqual(jitter.mock.calls.length, 0);
 });
 
 test('retryWithBackoff throws ProviderRetryError after max retries', async () => {
@@ -160,6 +163,7 @@ test('retryWithBackoff throws ProviderRetryError after max retries', async () =>
   error.response = {
     status: 429,
   };
+  const jitter = mock.fn((delay, attempt) => delay + attempt);
 
   const operation = mock.fn(async () => {
     throw error;
@@ -173,6 +177,7 @@ test('retryWithBackoff throws ProviderRetryError after max retries', async () =>
       sleepFn: async (ms) => {
         delays.push(ms);
       },
+      jitterFn: jitter,
     }),
     (err) => {
       assert(err instanceof ProviderRetryError);
@@ -182,6 +187,14 @@ test('retryWithBackoff throws ProviderRetryError after max retries', async () =>
     }
   );
 
-  assert.deepStrictEqual(delays, [50, 100]);
+  assert.deepStrictEqual(delays, [51, 102]);
   assert.strictEqual(operation.mock.calls.length, 3);
+  assert.strictEqual(jitter.mock.calls.length, 2);
+  assert.deepStrictEqual(
+    jitter.mock.calls.map((call) => call.arguments),
+    [
+      [50, 1],
+      [100, 2],
+    ]
+  );
 });
