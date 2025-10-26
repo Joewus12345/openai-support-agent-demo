@@ -4,6 +4,7 @@ const assert = require('assert');
 const { test, mock } = require('node:test');
 const { convertMessages, serializeToolCallArgs } = require('../lib/providers/ollama.ts');
 const { retryWithBackoff, ProviderRetryError } = require('../lib/providers/retry.ts');
+const { logger } = require('../lib/logger.ts');
 
 test('ollamaProvider serializes function_call_output', () => {
   const messages = [
@@ -197,4 +198,64 @@ test('retryWithBackoff throws ProviderRetryError after max retries', async () =>
       [100, 2],
     ]
   );
+});
+
+test('openaiProvider emits structured retry logs', async () => {
+  const retryModule = require('../lib/providers/retry.ts');
+  const retrySpy = mock.method(logger, 'retry', () => {});
+  const recoverySpy = mock.method(logger, 'retryRecovered', () => {});
+  const retryStub = mock.method(
+    retryModule,
+    'retryWithBackoff',
+    async (_operation, options) => {
+      if (options?.onRetry) {
+        options.onRetry({ attempt: 1, delayMs: 250, status: 429 });
+      }
+      async function* fakeStream() {
+        yield { type: 'response.output_text.delta', data: { delta: 'hello' } };
+      }
+      return { result: fakeStream(), attempts: 2 };
+    }
+  );
+
+  // Load after mocks so the provider picks up the stubbed dependencies.
+  delete require.cache[require.resolve('../lib/providers/openai.ts')];
+  const { openaiProvider } = require('../lib/providers/openai.ts');
+
+  const events = [];
+  for await (const event of openaiProvider(
+    [{ role: 'user', content: 'hi' }],
+    [],
+    { model: 'gpt-test' }
+  )) {
+    events.push(event);
+    break;
+  }
+
+  assert.strictEqual(retrySpy.mock.calls.length, 1);
+  assert.deepStrictEqual(retrySpy.mock.calls[0].arguments, [
+    {
+      provider: 'openai',
+      attempt: 1,
+      delayMs: 250,
+      status: 429,
+      model: 'gpt-test',
+    },
+  ]);
+
+  assert.strictEqual(recoverySpy.mock.calls.length, 1);
+  assert.deepStrictEqual(recoverySpy.mock.calls[0].arguments, [
+    {
+      provider: 'openai',
+      attempts: 2,
+      model: 'gpt-test',
+    },
+  ]);
+
+  assert.strictEqual(events.length, 1);
+
+  retrySpy.mock.restore();
+  recoverySpy.mock.restore();
+  retryStub.mock.restore();
+  delete require.cache[require.resolve('../lib/providers/openai.ts')];
 });

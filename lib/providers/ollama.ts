@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import type { ProviderOptions } from "./index";
 import { fileSearch } from "@/lib/tools/fileSearch";
 import { webSearch } from "@/lib/tools/webSearch";
+import { logger } from "../logger";
 import { deriveLimiterTokens, scheduleProviderCall } from "./limiter";
 import { ProviderRetryError, retryWithBackoff } from "./retry";
 
@@ -84,7 +85,8 @@ export async function* ollamaProvider(
       {
         provider: "ollama",
         onRetry: ({ attempt, delayMs, status }) => {
-          console.warn("ollama provider retry", {
+          logger.retry({
+            provider: "ollama",
             attempt,
             delayMs,
             status,
@@ -95,7 +97,8 @@ export async function* ollamaProvider(
     );
     stream = retried.result;
     if (retried.attempts > 1) {
-      console.info("ollama provider recovered after retries", {
+      logger.retryRecovered({
+        provider: "ollama",
         attempts: retried.attempts,
         model,
       });

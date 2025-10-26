@@ -2,6 +2,7 @@ import OpenAI from "openai";
 import { MODEL } from "@/config/constants";
 import type { ProviderOptions } from "./index";
 import { deriveLimiterTokens, scheduleProviderCall } from "./limiter";
+import { logger } from "../logger";
 import { retryWithBackoff } from "./retry";
 
 /** Convert tools to the format expected by the Responses API. */
@@ -48,7 +49,8 @@ export async function* openaiProvider(
     {
       provider: "openai",
       onRetry: ({ attempt, delayMs, status }) => {
-        console.warn("openai provider retry", {
+        logger.retry({
+          provider: "openai",
           attempt,
           delayMs,
           status,
@@ -59,7 +61,8 @@ export async function* openaiProvider(
   );
 
   if (attempts > 1) {
-    console.info("openai provider recovered after retries", {
+    logger.retryRecovered({
+      provider: "openai",
       attempts,
       model: modelName,
     });

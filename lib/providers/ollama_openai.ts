@@ -6,6 +6,7 @@ import { fileSearch } from "@/lib/tools/fileSearch";
 import { webSearch } from "@/lib/tools/webSearch";
 import { serializeToolCallArgs } from "./ollama";
 import { deriveLimiterTokens, scheduleProviderCall } from "./limiter";
+import { logger } from "../logger";
 import { ProviderRetryError, retryWithBackoff } from "./retry";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
@@ -74,7 +75,8 @@ export async function* ollamaOpenAIProvider(
       {
         provider: "ollama-openai",
         onRetry: ({ attempt, delayMs, status }) => {
-          console.warn("ollama-openai provider retry", {
+          logger.retry({
+            provider: "ollama-openai",
             attempt,
             delayMs,
             status,
@@ -85,7 +87,8 @@ export async function* ollamaOpenAIProvider(
     );
     const stream = retried.result;
     if (retried.attempts > 1) {
-      console.info("ollama-openai provider recovered after retries", {
+      logger.retryRecovered({
+        provider: "ollama-openai",
         attempts: retried.attempts,
         model,
       });
