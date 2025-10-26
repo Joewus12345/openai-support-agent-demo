@@ -3815,6 +3815,199 @@ test('chatwoot queue logs lifecycle metrics for concurrent jobs', async () => {
   }
 });
 
+test('chatwoot webhook job emits phase timing logs for queued processing', async () => {
+  resetMocks();
+  const consoleInfoMock = mock.method(console, 'info', () => {});
+  mock.timers.enable({ now: 0 });
+  setChatwootQueueEnabledForTesting(true);
+
+  try {
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 9901,
+          message_type: 0,
+          content: 'Phase timing request',
+          account: { id: 9901 },
+          conversation: {
+            id: 9901,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 9901,
+          },
+        },
+      },
+    };
+
+    const response = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+    );
+
+    assert.strictEqual(response.status, 202);
+    assert.deepStrictEqual(await response.json(), { status: 'accepted' });
+
+    await waitForChatwootQueueIdle();
+
+    const phaseEvents = consoleInfoMock.mock.calls
+      .filter((call) => call.arguments[0] === 'chatwoot webhook job phase')
+      .map((call) => call.arguments[1]);
+
+    const expectedPhases = [
+      'payload-normalization',
+      'attachment-insight',
+      'history-retrieval',
+      'guardrail-evaluation',
+      'provider-execution',
+      'chatwoot-postback',
+    ];
+
+    const jobIds = new Set(phaseEvents.map((event) => event.jobId));
+    assert.strictEqual(jobIds.size, 1, 'expected single job id for phase logs');
+
+    for (const phase of expectedPhases) {
+      const starts = phaseEvents.filter(
+        (event) => event.phase === phase && event.event === 'start'
+      );
+      const completes = phaseEvents.filter(
+        (event) => event.phase === phase && event.event === 'complete'
+      );
+      assert.ok(starts.length >= 1, `expected start log for phase ${phase}`);
+      assert.ok(completes.length >= 1, `expected completion log for phase ${phase}`);
+      for (const event of [...starts, ...completes]) {
+        assert.strictEqual(typeof event.elapsedMs, 'number');
+      }
+      for (const event of completes) {
+        assert.strictEqual(typeof event.phaseMs, 'number');
+      }
+    }
+  } finally {
+    consoleInfoMock.mock.restore();
+    mock.timers.reset();
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook phase logs persist across provider retries', async () => {
+  resetMocks();
+  const consoleInfoMock = mock.method(console, 'info', () => {});
+  mock.timers.enable({ now: 0 });
+
+  try {
+    setChatwootQueueEnabledForTesting(true);
+    setChatwootQueueRetryConfigForTesting({
+      maxAttempts: 2,
+      baseDelayMs: 10,
+      maxDelayMs: 10,
+      backoffFactor: 1,
+    });
+
+    let attempt = 0;
+    providerFnMock.mock.mockImplementation(() =>
+      (async function* () {
+        attempt += 1;
+        if (attempt === 1) {
+          throw new ProviderRetryError('transient', {
+            provider: 'openai',
+            status: 503,
+            attempts: attempt,
+            retriesExhausted: false,
+            retryable: true,
+          });
+        }
+        yield { event: 'response.output_text.delta', data: { delta: 'hello again' } };
+      })()
+    );
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 9902,
+          message_type: 0,
+          content: 'Retry timing request',
+          account: { id: 9902 },
+          conversation: {
+            id: 9902,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 9902,
+          },
+        },
+      },
+    };
+
+    const response = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+    );
+    assert.strictEqual(response.status, 202);
+    assert.deepStrictEqual(await response.json(), { status: 'accepted' });
+
+    await tickAndFlush(1);
+    await tickAndFlush(10);
+    await tickAndFlush();
+    const reachedTwoStarts = await waitForLimiter(
+      () =>
+        consoleInfoMock.mock.calls.filter(
+          (call) =>
+            call.arguments[0] === 'chatwoot webhook job phase' &&
+            call.arguments[1]?.phase === 'provider-execution' &&
+            call.arguments[1]?.event === 'start'
+        ).length >= 2,
+      20,
+      1
+    );
+    assert.ok(reachedTwoStarts, 'expected provider execution phase to retry');
+    await waitForChatwootQueueIdle();
+
+    const phaseEvents = consoleInfoMock.mock.calls
+      .filter((call) => call.arguments[0] === 'chatwoot webhook job phase')
+      .map((call) => call.arguments[1]);
+
+    const providerStarts = phaseEvents.filter(
+      (event) => event.phase === 'provider-execution' && event.event === 'start'
+    );
+    const providerCompletes = phaseEvents.filter(
+      (event) => event.phase === 'provider-execution' && event.event === 'complete'
+    );
+
+    assert.ok(
+      providerStarts.length >= 2,
+      'expected provider execution phase to start at least twice'
+    );
+    assert.ok(
+      providerCompletes.length >= 2,
+      'expected provider execution phase to complete after retries'
+    );
+
+    const jobIds = new Set(providerStarts.map((event) => event.jobId));
+    assert.strictEqual(jobIds.size, 1, 'expected retry attempts to share a job id');
+
+    for (const event of phaseEvents) {
+      assert.strictEqual(typeof event.elapsedMs, 'number');
+      if (event.event === 'complete') {
+        assert.strictEqual(typeof event.phaseMs, 'number');
+      }
+    }
+  } finally {
+    consoleInfoMock.mock.restore();
+    mock.timers.reset();
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
 test('chatwoot queue retries transient errors before succeeding', async () => {
   resetMocks();
   try {

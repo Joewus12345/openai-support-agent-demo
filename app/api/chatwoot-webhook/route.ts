@@ -80,6 +80,61 @@ const MAX_DEVELOPER_QUOTE_LINES = 6;
 const SYNOPSIS_HISTORY_LIMIT = 50;
 const PROMPT_HISTORY_LIMIT = 20;
 
+type ChatwootJobPhase =
+  | "payload-normalization"
+  | "attachment-insight"
+  | "history-retrieval"
+  | "guardrail-evaluation"
+  | "provider-execution"
+  | "chatwoot-postback";
+
+type ChatwootJobPhaseEventType = "start" | "complete";
+
+type ChatwootJobPhaseLog = {
+  jobId?: number | string;
+  phase: ChatwootJobPhase;
+  event: ChatwootJobPhaseEventType;
+  elapsedMs: number;
+  phaseMs?: number;
+  timestamp: number;
+};
+
+function logChatwootJobPhase(details: ChatwootJobPhaseLog) {
+  console.info("chatwoot webhook job phase", details);
+}
+
+function createChatwootJobPhaseTimer(jobId?: number | string) {
+  const jobStart = Date.now();
+  return {
+    startPhase(phase: ChatwootJobPhase) {
+      const phaseStart = Date.now();
+      logChatwootJobPhase({
+        jobId,
+        phase,
+        event: "start",
+        elapsedMs: phaseStart - jobStart,
+        timestamp: phaseStart,
+      });
+      let finished = false;
+      return () => {
+        if (finished) {
+          return;
+        }
+        finished = true;
+        const phaseEnd = Date.now();
+        logChatwootJobPhase({
+          jobId,
+          phase,
+          event: "complete",
+          elapsedMs: phaseEnd - jobStart,
+          phaseMs: phaseEnd - phaseStart,
+          timestamp: phaseEnd,
+        });
+      };
+    },
+  };
+}
+
 type NormalizedAttachment = {
   displayName: string;
   mimeType?: string;
@@ -598,14 +653,16 @@ function extractChatwootJobMetadata(
   try {
     const metadataPayload = "data" in incoming ? incoming.data : incoming;
     const metadataMessage = (metadataPayload as any).message ?? metadataPayload;
-    const conversationId =
+    const rawConversationId =
       (metadataMessage as any).conversation_id ??
       (metadataMessage as any).conversation?.id ??
       (metadataPayload as any).id;
-    const accountId =
+    const rawAccountId =
       (metadataMessage as any).account_id ??
       (metadataMessage as any).account?.id ??
       (metadataPayload as any).account?.id;
+    const conversationId = parseMessageId(rawConversationId) ?? rawConversationId;
+    const accountId = parseMessageId(rawAccountId) ?? rawAccountId;
     return { accountId, conversationId };
   } catch {
     return { accountId: undefined, conversationId: undefined };
@@ -613,77 +670,131 @@ function extractChatwootJobMetadata(
 }
 
 async function processChatwootWebhookJob(
-  incoming: ChatwootWebhookPayload
+  incoming: ChatwootWebhookPayload,
+  options: { jobId?: number | string } = {}
 ): Promise<NextResponse> {
+  const timer = createChatwootJobPhaseTimer(options.jobId);
+  let payload: ChatwootWebhookPayload | (ChatwootWebhookPayload & { data?: any }) | undefined;
+  let message: any;
+  let conversation: Conversation | undefined;
+  let conversationId!: number;
+  let accountId!: number;
+  let inboxId: number | undefined;
+  let conversationKey: string | undefined;
+  let content: any;
+  let messageId: any;
+  let sender = "";
+  let attachments: NormalizedAttachment[] = [];
+  let hasTextContent = false;
+  let hasAttachmentContent = false;
+  let configuredModelCandidate: string | undefined;
+  let providerModelName = MODEL;
+  let visionCapableModel = false;
+  let attachmentNote: string | undefined;
+  let imageOnlyMessage = false;
+  let userInput = "";
+  let normalizedMessageId: number | undefined;
+  let referencedMessageId: number | undefined;
+  let imageInsights: GatherImageInsightsResult | undefined;
+  let normalizedReferencedReplyToId: number | undefined;
+  let normalizedInboundReplyToId: number | undefined;
+  let normalizedDefaultReplyToId: number | undefined;
+  let referencedTurn: HistoryTurn | undefined;
+  let enrichedContent: string | undefined;
+  let storedContent = "";
+  let fullHistory: ResponseMessage[] | undefined;
+  let promptHistory: ResponseMessage[] = [];
+  let mode = "auto";
+  let defaultReplyOverride: { inReplyTo?: number | null; private?: boolean } | undefined;
+  let buildReplyOptions: (
+    overrides?: { inReplyTo?: number | null; private?: boolean },
+    preferredReplyToId?: number
+  ) => { private?: boolean; inReplyTo?: number | undefined };
+  let fallbackSent = false;
+  let sendFallback: () => Promise<void>;
+  let logAssistantResponse: (response: unknown, fallbackContent: string) => Promise<void>;
+  try {
+    const endPayloadNormalization = timer.startPhase("payload-normalization");
     try {
       if (incoming.event !== "message_created") {
         return NextResponse.json({ status: "ignored" });
       }
-      const payload = "data" in incoming ? incoming.data : incoming;
-      const message = (payload as any).message ?? payload;
-      const conversationId =
-        (message as any).conversation_id ??
-        (message as any).conversation?.id ??
-        (payload as any).id;
-      const accountId =
-        (message as any).account_id ??
-        (message as any).account?.id ??
-        (payload as any).account?.id;
-      if (conversationId === undefined || accountId === undefined) {
-        console.warn("chatwoot webhook missing ids", { accountId, conversationId });
+      payload = "data" in incoming ? incoming.data : incoming;
+      message = (payload as any).message ?? payload;
+      const parsedConversationId =
+        parseMessageId((message as any).conversation_id) ??
+        parseMessageId((message as any).conversation?.id) ??
+        parseMessageId((payload as any).id);
+      const parsedAccountId =
+        parseMessageId((message as any).account_id) ??
+        parseMessageId((message as any).account?.id) ??
+        parseMessageId((payload as any).account?.id);
+      if (parsedConversationId === undefined || parsedAccountId === undefined) {
+        console.warn("chatwoot webhook missing ids", {
+          accountId: parsedAccountId,
+          conversationId: parsedConversationId,
+        });
         return NextResponse.json({ status: "ignored" });
       }
-      const conversation: Conversation | undefined =
+      conversationId = parsedConversationId;
+      accountId = parsedAccountId;
+      conversation =
         (message as any)?.conversation ??
         (payload as any).conversation ??
         (incoming.event.startsWith("conversation_") ? (payload as any) : undefined);
-      const inboxId =
-        (message as any).inbox_id ?? conversation?.inbox_id;
-      const conversationKey = getConversationKey(accountId, conversationId, inboxId);
-      const content = message.content;
-      const messageId = message.id;
-      const sender =
+      inboxId =
+        parseMessageId((message as any).inbox_id) ??
+        parseMessageId(conversation?.inbox_id);
+      conversationKey = getConversationKey(accountId, conversationId, inboxId);
+      content = message.content;
+      messageId = message.id;
+      sender =
         (message as any)?.sender?.type ??
         (message as any)?.sender_type ??
         (message as any)?.sender?.name ??
         "";
-  
-      const attachments = extractMessageAttachments(message);
-      const hasTextContent =
+
+      attachments = extractMessageAttachments(message);
+      hasTextContent =
         typeof content === "string"
           ? content.trim().length > 0
           : content !== undefined && content !== null;
-      const hasAttachmentContent = attachments.length > 0;
-  
-      const configuredModelCandidate =
+      hasAttachmentContent = attachments.length > 0;
+
+      configuredModelCandidate =
         typeof process.env.CHATWOOT_WEBHOOK_MODEL === "string"
           ? process.env.CHATWOOT_WEBHOOK_MODEL
           : typeof process.env.OPENAI_MODEL === "string"
             ? process.env.OPENAI_MODEL
             : undefined;
-      const providerModelName =
+      providerModelName =
         configuredModelCandidate && configuredModelCandidate.trim()
           ? configuredModelCandidate.trim()
           : MODEL;
-      const visionCapableModel = isVisionCapableModel(providerModelName);
-      const attachmentNote = buildAttachmentNote(attachments);
-      const imageOnlyMessage =
+      visionCapableModel = isVisionCapableModel(providerModelName);
+      attachmentNote = buildAttachmentNote(attachments);
+      imageOnlyMessage =
         !hasTextContent &&
         hasAttachmentContent &&
         attachments.every((attachment) => attachment.isImage);
-  
-      let userInput = "";
+
       if (typeof content === "string") {
         userInput = content;
       } else if (content && typeof content === "object") {
         userInput = JSON.stringify(content);
       } else if (content !== undefined && content !== null) {
         userInput = String(content);
+      } else {
+        userInput = "";
       }
-  
-      const normalizedMessageId = parseMessageId(messageId);
-  
-      let imageInsights: GatherImageInsightsResult | undefined;
+
+      normalizedMessageId = parseMessageId(messageId);
+  } finally {
+    endPayloadNormalization();
+  }
+
+  const endAttachmentInsight = timer.startPhase("attachment-insight");
+    try {
       if (attachments.some((attachment) => attachment.isImage)) {
         try {
           const kbProvider =
@@ -711,25 +822,28 @@ async function processChatwootWebhookJob(
               queries: imageInsights.queries.slice(0, 6),
             });
           }
-      
-    } catch (err) {
+        } catch (err) {
           console.error("image insights pipeline error", err);
         }
       }
-      const referencedMessageId = extractReferencedMessageId(message);
-      const normalizedReferencedReplyToId =
+    } finally {
+      endAttachmentInsight();
+    }
+    const endHistoryRetrieval = timer.startPhase("history-retrieval");
+    try {
+      referencedMessageId = extractReferencedMessageId(message);
+      normalizedReferencedReplyToId =
         typeof referencedMessageId === "number" &&
         Number.isFinite(referencedMessageId)
           ? referencedMessageId
           : undefined;
-      const normalizedInboundReplyToId =
+      normalizedInboundReplyToId =
         typeof normalizedMessageId === "number" &&
         Number.isFinite(normalizedMessageId)
           ? normalizedMessageId
           : undefined;
-      const normalizedDefaultReplyToId =
+      normalizedDefaultReplyToId =
         normalizedReferencedReplyToId ?? normalizedInboundReplyToId;
-      let referencedTurn: HistoryTurn | undefined;
   
       if (
         accountId !== undefined &&
@@ -791,7 +905,7 @@ async function processChatwootWebhookJob(
         }
       }
   
-      let enrichedContent = referencedTurn
+      enrichedContent = referencedTurn
         ? `Customer referenced: "${referencedTurn.content}"\n\n${userInput}`
         : undefined;
   
@@ -815,7 +929,7 @@ async function processChatwootWebhookJob(
         }
       }
   
-      const storedContent = enrichedContent ?? userInput;
+      storedContent = enrichedContent ?? userInput;
   
       if (
         messageId !== undefined &&
@@ -906,9 +1020,6 @@ async function processChatwootWebhookJob(
           content.startsWith("Conversation was marked as pending"))
       ) {
         console.info("resolution message", { messageId, conversationId, content });
-        if (accountId === undefined || conversationId === undefined) {
-          return NextResponse.json({ status: "ignored" });
-        }
         let labels = Array.isArray((conversation as any)?.label_list)
           ? (conversation as any).label_list
           : undefined;
@@ -959,8 +1070,6 @@ async function processChatwootWebhookJob(
       }
       console.info("handoff", { accountId, conversationId, inboxId, content });
       if (
-        accountId === undefined ||
-        conversationId === undefined ||
         inboxId === undefined ||
         (!hasTextContent && !hasAttachmentContent)
       ) {
@@ -974,14 +1083,14 @@ async function processChatwootWebhookJob(
         return NextResponse.json({ status: "ignored" });
       }
   
-      const mode = INBOX_MODE[inboxId] ?? "auto";
-  
-      const defaultReplyOverride =
+      mode = INBOX_MODE[inboxId] ?? "auto";
+
+      defaultReplyOverride =
         normalizedDefaultReplyToId !== undefined
           ? { inReplyTo: normalizedDefaultReplyToId }
           : undefined;
-  
-      const buildReplyOptions = (
+
+      buildReplyOptions = (
         overrides?: { inReplyTo?: number | null; private?: boolean },
         preferredReplyToId: number | undefined = normalizedReferencedReplyToId
       ) => {
@@ -1048,9 +1157,9 @@ async function processChatwootWebhookJob(
         }
   
         return options;
-  };
+      };
   
-      const logAssistantResponse = async (
+      logAssistantResponse = async (
         response: unknown,
         fallbackContent: string
       ) => {
@@ -1058,7 +1167,7 @@ async function processChatwootWebhookJob(
           typeof inboxId === "number" && Number.isFinite(inboxId)
             ? inboxId
             : undefined;
-  
+
         await storeBotMessage({
           accountId,
           conversationId,
@@ -1067,7 +1176,7 @@ async function processChatwootWebhookJob(
           conversationKey: conversationKey ?? undefined,
           defaultInboxId,
         });
-  };
+      };
   
       // Reuse conversation data from the payload when possible.
       // Only fetch from Chatwoot if we are missing critical fields like `status`.
@@ -1474,8 +1583,8 @@ async function processChatwootWebhookJob(
         return NextResponse.json({ status: "handoff" });
       }
   
-      let fallbackSent = false;
-      const sendFallback = async () => {
+      fallbackSent = false;
+      sendFallback = async () => {
         if (fallbackSent) return;
         fallbackSent = true;
         try {
@@ -1487,9 +1596,9 @@ async function processChatwootWebhookJob(
         } catch (err) {
           console.error("fallback notifyMessageIssue error", err);
         }
-  };
+      };
   
-      let fullHistory: ResponseMessage[] = [];
+      fullHistory = [];
       try {
         fullHistory = await getConversationHistory(
           conversationKey,
@@ -1533,7 +1642,7 @@ async function processChatwootWebhookJob(
         fullHistory = updatedHistory as ResponseMessage[];
       }
   
-      let promptHistory = Array.isArray(fullHistory)
+      promptHistory = Array.isArray(fullHistory)
         ? fullHistory.slice(-PROMPT_HISTORY_LIMIT)
         : [];
   
@@ -1594,7 +1703,12 @@ async function processChatwootWebhookJob(
           }
         }
       }
-  
+    } finally {
+      endHistoryRetrieval();
+    }
+
+    const endGuardrailEvaluation = timer.startPhase("guardrail-evaluation");
+    try {
       try {
         const guardrailUserInput = enrichedContent ?? userInput;
         let relevance:
@@ -1628,18 +1742,18 @@ async function processChatwootWebhookJob(
             ? [referencedTurn, ...baseHistoryTurns]
             : baseHistoryTurns;
           let recentTurns = historyTurns.slice(-6);
-          if (
-            referencedTurn &&
-            !recentTurns.some(
+          if (referencedTurn) {
+            const { role: referencedRole, content: referencedContent } = referencedTurn;
+            const hasReferencedTurn = recentTurns.some(
               (turn) =>
-                turn.role === referencedTurn.role &&
-                turn.content === referencedTurn.content
-            )
-          ) {
-            recentTurns =
-              recentTurns.length >= 6
-                ? [...recentTurns.slice(1), referencedTurn]
-                : [...recentTurns, referencedTurn];
+                turn.role === referencedRole && turn.content === referencedContent
+            );
+            if (!hasReferencedTurn) {
+              recentTurns =
+                recentTurns.length >= 6
+                  ? [...recentTurns.slice(1), referencedTurn]
+                  : [...recentTurns, referencedTurn];
+            }
           }
           const relevanceInput = JSON.stringify([
             ...recentTurns,
@@ -1704,6 +1818,9 @@ async function processChatwootWebhookJob(
         await sendFallback();
         return NextResponse.json({ status: "fallback" });
       }
+    } finally {
+      endGuardrailEvaluation();
+    }
   
       let quoteCandidates: QuoteCandidate[] = [];
       try {
@@ -1756,8 +1873,10 @@ async function processChatwootWebhookJob(
         ? process.env.CHATWOOT_WEBHOOK_PROVIDER.trim().toLowerCase()
         : undefined;
   
+      const endProviderExecution = timer.startPhase("provider-execution");
       try {
-        const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
+        try {
+          const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
         const synopsisMessages = conversationSynopsis
           ? [toResponseMessage("developer", conversationSynopsis)]
           : [];
@@ -1981,24 +2100,31 @@ async function processChatwootWebhookJob(
             }
           }
         }
-      } catch (err) {
-        if (err instanceof ProviderRetryError) {
-          const retryLog = {
-            provider: providerName,
-            attempts: err.attempts,
-            retriesExhausted: err.retriesExhausted,
-            status: err.status,
-      };
-          if (err.retriesExhausted) {
-            console.error("tool execution retries exhausted", retryLog, err.cause ?? err);
-            await sendFallback();
-            return NextResponse.json({ status: "fallback" });
+        } catch (err) {
+          if (err instanceof ProviderRetryError) {
+            const retryLog = {
+              provider: providerName,
+              attempts: err.attempts,
+              retriesExhausted: err.retriesExhausted,
+              status: err.status,
+            };
+            if (err.retriesExhausted) {
+              console.error(
+                "tool execution retries exhausted",
+                retryLog,
+                err.cause ?? err
+              );
+              await sendFallback();
+              return NextResponse.json({ status: "fallback" });
+            }
+            console.error("tool execution provider error", retryLog, err.cause ?? err);
+            throw (err.cause ?? err);
           }
-          console.error("tool execution provider error", retryLog, err.cause ?? err);
-          throw (err.cause ?? err);
+          console.error("tool execution error", err);
+          throw err;
         }
-        console.error("tool execution error", err);
-        throw err;
+      } finally {
+        endProviderExecution();
       }
   
       const quoteHistoryTurns: HistoryTurn[] = Array.isArray(promptHistory)
@@ -2055,18 +2181,23 @@ async function processChatwootWebhookJob(
         }
       }
   
+      const endPostback = timer.startPhase("chatwoot-postback");
       try {
-        const finalResponse = await sendBotMessage(
-          accountId,
-          conversationId,
-          replyText,
-          buildReplyOptions(finalReplyReference, normalizedReferencedReplyToId)
-        );
-        await logAssistantResponse(finalResponse, replyText);
-      } catch (err) {
-        console.error("sendBotMessage error", err);
-        await sendFallback();
-        return NextResponse.json({ status: "fallback" });
+        try {
+          const finalResponse = await sendBotMessage(
+            accountId,
+            conversationId,
+            replyText,
+            buildReplyOptions(finalReplyReference, normalizedReferencedReplyToId)
+          );
+          await logAssistantResponse(finalResponse, replyText);
+        } catch (err) {
+          console.error("sendBotMessage error", err);
+          await sendFallback();
+          return NextResponse.json({ status: "fallback" });
+        }
+      } finally {
+        endPostback();
       }
   
       return NextResponse.json({
@@ -2078,6 +2209,9 @@ async function processChatwootWebhookJob(
       });
     } catch (error) {
       console.error("Chatwoot webhook error", error);
+      if (isChatwootQueueEnabled()) {
+        throw error;
+      }
       return NextResponse.json({ error: "Server error" }, { status: 500 });
     }
 }
@@ -2116,7 +2250,9 @@ setChatwootJobRunner(async (metadata) => {
     return;
   }
   const sanitized = sanitizeWebhookPayload(metadata.payload);
-  await processChatwootWebhookJob(sanitized);
+  await processChatwootWebhookJob(sanitized, {
+    jobId: metadata.jobId,
+  });
 });
 
 export async function POST(request: Request) {
@@ -2131,16 +2267,25 @@ export async function POST(request: Request) {
   const sanitizedIncoming = sanitizeWebhookPayload(incoming);
   const { accountId: metadataAccountId, conversationId: metadataConversationId } =
     extractChatwootJobMetadata(sanitizedIncoming);
-  const processJob = () => processChatwootWebhookJob(sanitizedIncoming);
-
-  if (!isChatwootQueueEnabled()) {
-    return processJob();
-  }
-
-  enqueueChatwootJob(processJob, {
+  const jobMetadata: {
+    accountId?: number | string;
+    conversationId?: number | string;
+    payload: ChatwootWebhookPayload;
+    jobId?: number;
+  } = {
     accountId: metadataAccountId,
     conversationId: metadataConversationId,
     payload: sanitizedIncoming,
-  });
+  };
+  const processJob = () =>
+    processChatwootWebhookJob(sanitizedIncoming, { jobId: jobMetadata.jobId });
+
+  if (!isChatwootQueueEnabled()) {
+    jobMetadata.jobId = jobMetadata.jobId ?? Date.now();
+    return processJob();
+  }
+
+  const { id: jobId } = enqueueChatwootJob(processJob, jobMetadata);
+  jobMetadata.jobId = jobId;
   return NextResponse.json({ status: "accepted" }, { status: 202 });
 }

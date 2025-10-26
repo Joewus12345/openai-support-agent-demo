@@ -3,6 +3,7 @@ import { ProviderRetryError } from "@/lib/providers/retry";
 import type { ChatwootWebhookPayload } from "@/types/chatwoot";
 
 type JobMetadata = {
+  jobId?: number;
   accountId?: number | string;
   conversationId?: number | string;
   payload?: ChatwootWebhookPayload;
@@ -640,6 +641,12 @@ export function enqueueChatwootJob<T>(
     queuedAt,
     startedAt: undefined,
   };
+
+  if (metadata) {
+    if (metadata.jobId === undefined) {
+      metadata.jobId = id;
+    }
+  }
 
   const shouldPersist =
     durableQueueEnabled && options.persist !== false && metadata?.payload;
