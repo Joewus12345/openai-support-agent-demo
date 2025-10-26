@@ -46,6 +46,13 @@ const {
   resetLimiterForTesting,
 } = require('../lib/providers/limiter.ts');
 
+const {
+  setChatwootQueueEnabledForTesting,
+  waitForChatwootQueueIdle,
+  resetChatwootQueueForTesting,
+} = require('../lib/chatwoot/jobQueue.ts');
+setChatwootQueueEnabledForTesting(false);
+
 const conversationHistory = require('../lib/getConversationHistory.ts');
 const getConversationHistoryMock = mock.method(
   conversationHistory,
@@ -295,6 +302,8 @@ function resetMocks() {
   delete process.env.CHATWOOT_OLLAMA_OPENAI_TOKEN_LIMIT;
   delete process.env.CHATWOOT_DEFAULT_TOKEN_LIMIT;
   resetLimiterForTesting();
+  resetChatwootQueueForTesting();
+  setChatwootQueueEnabledForTesting(false);
 }
 
 async function tickAndFlush(ms = 0) {
@@ -3388,6 +3397,125 @@ test('chatwoot webhook avoids starving large token requests', async () => {
         ? originalHistoryImpl
         : async () => []
     );
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook enqueues async job and delivers reply', async () => {
+  resetMocks();
+  setChatwootQueueEnabledForTesting(true);
+
+  try {
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 900,
+          message_type: 0,
+          content: 'Hello from queue',
+          account: { id: 90 },
+          conversation: {
+            id: 90,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 90,
+          },
+        },
+      },
+    };
+    const res = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+    );
+
+    assert.strictEqual(res.status, 202);
+    const body = await res.json();
+    assert.deepStrictEqual(body, { status: 'accepted' });
+
+    assert.strictEqual(
+      sendBotMessageMock.mock.calls.length,
+      0,
+      'job should run asynchronously'
+    );
+
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const [accountId, conversationId, content] =
+      sendBotMessageMock.mock.calls[0].arguments;
+    assert.strictEqual(accountId, 90);
+    assert.strictEqual(conversationId, 90);
+    assert.strictEqual(content, 'hi');
+    assertLoggedIds(1);
+  } finally {
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook queue backlog does not delay responses', async () => {
+  resetMocks();
+  setChatwootQueueEnabledForTesting(true);
+
+  try {
+    const buildPayload = (id, content) => ({
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id,
+          message_type: 0,
+          content,
+          account: { id },
+          conversation: {
+            id,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: id,
+          },
+        },
+      },
+    });
+
+    const resA = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(buildPayload(901, 'First queued message')),
+      })
+    );
+    const resB = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(buildPayload(902, 'Second queued message')),
+      })
+    );
+
+    assert.strictEqual(resA.status, 202);
+    assert.strictEqual(resB.status, 202);
+    assert.deepStrictEqual(await resA.json(), { status: 'accepted' });
+    assert.deepStrictEqual(await resB.json(), { status: 'accepted' });
+
+    assert.ok(
+      sendBotMessageMock.mock.calls.length <= 1,
+      'queue should not block immediate responses'
+    );
+
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+    const firstCall = sendBotMessageMock.mock.calls[0].arguments;
+    const secondCall = sendBotMessageMock.mock.calls[1].arguments;
+    assert.strictEqual(firstCall[0], 901);
+    assert.strictEqual(firstCall[1], 901);
+    assert.strictEqual(secondCall[0], 902);
+    assert.strictEqual(secondCall[1], 902);
+  } finally {
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
     resetMocks();
   }
 });
