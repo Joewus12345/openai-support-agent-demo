@@ -75,11 +75,23 @@ export async function POST(request: Request) {
         previous_status: previous,
       });
       if (previous === "open" && status !== "open") {
+        const assigneeId =
+          payload.assignee_id ??
+          (typedPayload as any)?.assignee_id ??
+          payload.meta?.assignee?.id ??
+          (typedPayload.conversation as any)?.assignee_id ??
+          (payload.conversation as any)?.assignee_id;
+        const inboxId =
+          payload.inbox_id ??
+          (typedPayload.conversation as any)?.inbox_id ??
+          (payload.conversation as any)?.inbox_id;
         try {
           await releaseAgent(
             accountId,
             conversationId,
-            typedPayload.conversation
+            typedPayload.conversation,
+            assigneeId,
+            inboxId
           );
           clearReleaseAttempts(conversationId);
         } catch (err) {
@@ -166,6 +178,10 @@ export async function POST(request: Request) {
         (changes.assignee_id?.current_value as number | undefined) ??
         payload.meta?.assignee?.id ??
         (typedPayload.conversation as any)?.assignee_id;
+      const inboxId =
+        payload.inbox_id ??
+        (typedPayload.conversation as any)?.inbox_id ??
+        (payload.conversation as any)?.inbox_id;
       const hasAssignedLabel =
         Array.isArray(labelsCurrent) &&
         labelsCurrent.includes(CONVO_LABELS.assigned);
@@ -196,7 +212,9 @@ export async function POST(request: Request) {
           await releaseAgent(
             accountId,
             conversationId,
-            typedPayload.conversation
+            typedPayload.conversation,
+            assigneeId,
+            inboxId
           );
           clearReleaseAttempts(conversationId);
         } catch (err) {

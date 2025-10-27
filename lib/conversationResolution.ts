@@ -33,10 +33,14 @@ const BUSY_AGENT_MESSAGE =
 export async function releaseAgent(
   accountId: number,
   conversationId: number,
-  conversation?: Conversation
+  conversation?: Conversation,
+  assigneeId?: number,
+  inboxIdOverride?: number
 ) {
-  let freedAgentId: number | undefined;
-  let inboxId: number | undefined = (conversation as any)?.inbox_id;
+  let freedAgentId: number | undefined = assigneeId ??
+    (conversation as any)?.assignee_id;
+  let inboxId: number | undefined =
+    inboxIdOverride ?? (conversation as any)?.inbox_id;
   let outcome = "no-agent";
   let resolveError: unknown;
   try {
@@ -51,7 +55,6 @@ export async function releaseAgent(
   }
 
   try {
-    freedAgentId = (conversation as any)?.assignee_id;
     if (freedAgentId === undefined || inboxId === undefined) {
       try {
         const convo = await getConversation(accountId, conversationId);

@@ -368,7 +368,8 @@ test('chatwoot status webhook releases agent on conversation_status_changed', as
       status: 'snoozed',
       previous_status: 'open',
       account: { id: 1 },
-      conversation: { id: 1 },
+      conversation: { id: 1, inbox_id: 10 },
+      assignee_id: 21,
     },
   };
   const req = new Request('http://localhost', {
@@ -379,6 +380,9 @@ test('chatwoot status webhook releases agent on conversation_status_changed', as
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  const releaseArgs = releaseAgentMock.mock.calls[0].arguments;
+  assert.strictEqual(releaseArgs[3], 21);
+  assert.strictEqual(releaseArgs[4], 10);
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   assertLoggedIds();
@@ -594,7 +598,7 @@ test('chatwoot status webhook releases agent on status-only update with top-leve
         },
       ],
       account: { id: 6 },
-      conversation: { id: 6 },
+      conversation: { id: 6, inbox_id: 11 },
       assignee_id: 44,
       labels: [CONVO_LABELS.assigned, 'other'],
     },
@@ -607,6 +611,10 @@ test('chatwoot status webhook releases agent on status-only update with top-leve
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  const releaseArgs = releaseAgentMock.mock.calls[0].arguments;
+  assert.strictEqual(releaseArgs[3], 44);
+  assert.strictEqual(releaseArgs[4], 11);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assertLoggedIds();
   resetMocks();
 });
@@ -622,7 +630,7 @@ test('chatwoot status webhook releases agent on status update', async () => {
         },
       ],
       account: { id: 3 },
-      conversation: { id: 3 },
+      conversation: { id: 3, inbox_id: 12 },
       assignee_id: 43,
       labels: [CONVO_LABELS.assigned],
     },
@@ -635,6 +643,10 @@ test('chatwoot status webhook releases agent on status update', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  const releaseArgs = releaseAgentMock.mock.calls[0].arguments;
+  assert.strictEqual(releaseArgs[3], 43);
+  assert.strictEqual(releaseArgs[4], 12);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assertLoggedIds();
   resetMocks();
 });
