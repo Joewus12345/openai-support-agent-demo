@@ -4296,6 +4296,68 @@ test('chatwoot queue times out long-running jobs and frees queued work', async (
   }
 });
 
+test('chatwoot queue sends fallback for unrecoverable provider errors', async () => {
+  resetMocks();
+  setChatwootQueueEnabledForTesting(true);
+  handOffMock.mock.mockImplementation(async () => false);
+
+  try {
+    providerFnMock.mock.mockImplementation(async function* () {
+      throw new Error('non-retryable provider failure');
+    });
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 9450,
+          message_type: 0,
+          content: 'Please handle hard failure',
+          account: { id: 945 },
+          conversation: {
+            id: 945,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 945,
+          },
+        },
+      },
+    };
+
+    const response = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+    );
+
+    assert.strictEqual(response.status, 202);
+    assert.deepStrictEqual(await response.json(), { status: 'accepted' });
+
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(providerFnMock.mock.calls.length >= 1, true);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const fallbackCall = sendBotMessageMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(fallbackCall.slice(0, 3), [
+      945,
+      945,
+      MESSAGE_FALLBACK_TEXT,
+    ]);
+  } finally {
+    providerFnMock.mock.mockImplementation(() =>
+      (async function* () {
+        yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+      })()
+    );
+    handOffMock.mock.mockImplementation(async () => true);
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
 test('chatwoot webhook persists queued jobs when redis durability enabled', async () => {
   resetMocks();
   setChatwootQueueEnabledForTesting(true);
