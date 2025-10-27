@@ -26,13 +26,25 @@ export async function enqueueRequest(
     throw new Error("enqueueRequest requires an inboxId to segment the queue");
   }
   const conversationKey = getConversationKey(accountId, conversationId, inboxId);
+  const nextStatus = status ?? "pending";
+  type UpsertArgs = Parameters<typeof prisma.handoffRequest.upsert>[0];
+  const updateData: UpsertArgs["update"] = {
+    status: nextStatus,
+    agentId,
+    inboxId,
+    accountId,
+  };
+  if (nextStatus === "pending") {
+    updateData.requestedAt = new Date();
+    updateData.lastPositionNotified = null;
+  }
   return prisma.handoffRequest.upsert({
     where: { conversationKey },
-    update: { status, agentId, inboxId, accountId },
+    update: updateData,
     create: {
       conversationKey,
       conversationId,
-      status,
+      status: nextStatus,
       agentId,
       inboxId,
       accountId,

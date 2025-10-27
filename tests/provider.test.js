@@ -200,7 +200,47 @@ test('retryWithBackoff throws ProviderRetryError after max retries', async () =>
   );
 });
 
+test('retryWithBackoff retries OpenAI rate limits without status codes', async () => {
+  const delays = [];
+  const jitter = mock.fn((delay, attempt) => delay + attempt);
+
+  const rateLimitError = new Error('Rate limit reached');
+  rateLimitError.code = 'rate_limit_exceeded';
+  rateLimitError.error = {
+    type: 'tokens',
+    retry_after: 0.5,
+    message: 'Please try again in 0.5s.',
+  };
+
+  let callCount = 0;
+  const operation = mock.fn(async () => {
+    callCount += 1;
+    if (callCount === 1) {
+      throw rateLimitError;
+    }
+    return 'ok';
+  });
+
+  const result = await retryWithBackoff(operation, {
+    provider: 'openai',
+    maxRetries: 2,
+    baseDelayMs: 200,
+    sleepFn: async (ms) => {
+      delays.push(ms);
+    },
+    jitterFn: jitter,
+  });
+
+  assert.strictEqual(result.result, 'ok');
+  assert.strictEqual(result.attempts, 2);
+  assert.strictEqual(callCount, 2);
+  assert.deepStrictEqual(delays, [500]);
+  assert.strictEqual(jitter.mock.calls.length, 0);
+});
+
 test('openaiProvider emits structured retry logs', async () => {
+  const originalKey = process.env.OPENAI_API_KEY;
+  process.env.OPENAI_API_KEY = 'test-key';
   const retryModule = require('../lib/providers/retry.ts');
   const retrySpy = mock.method(logger, 'retry', () => {});
   const recoverySpy = mock.method(logger, 'retryRecovered', () => {});
@@ -258,4 +298,9 @@ test('openaiProvider emits structured retry logs', async () => {
   recoverySpy.mock.restore();
   retryStub.mock.restore();
   delete require.cache[require.resolve('../lib/providers/openai.ts')];
+  if (originalKey === undefined) {
+    delete process.env.OPENAI_API_KEY;
+  } else {
+    process.env.OPENAI_API_KEY = originalKey;
+  }
 });

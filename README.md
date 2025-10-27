@@ -148,6 +148,15 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
    - `RELEASE_RETRY_BASE_MS` (default `1000`) – base delay for exponential backoff.
    - `CHATWOOT_TIMEOUT_MS` (default `15000`) – API request timeout before retries.
 
+   #### Queue processing
+
+   - `CHATWOOT_QUEUE_CONCURRENCY` (default `1`) – maximum number of Chatwoot webhook jobs the worker executes in parallel. Increase this value (for example, to match available CPU cores) to handle multiple conversations simultaneously. Jobs from the same conversation always run sequentially so replies stay in order, even when concurrency is greater than `1`.
+   - `CHATWOOT_QUEUE_MAX_ATTEMPTS` (default `3`) – maximum number of times the worker retries a webhook job when a retryable error occurs before surfacing a failure.
+   - `CHATWOOT_QUEUE_RETRY_BASE_DELAY_MS` (default `1000`) – base delay in milliseconds before retrying a failed job; exponential backoff is applied using the factor below and is capped by the max delay.
+   - `CHATWOOT_QUEUE_RETRY_BACKOFF_FACTOR` (default `2`) – multiplier used to increase the retry delay after each attempt (e.g. `base * factor^(attempt-1)`).
+   - `CHATWOOT_QUEUE_RETRY_MAX_DELAY_MS` (default `30000`) – upper bound on the delay between retries to prevent excessive waiting when exponential backoff grows.
+   - `CHATWOOT_QUEUE_JOB_TIMEOUT_MS` (default `120000`) – maximum time a single job is allowed to run before the worker aborts the attempt and retries (if retries remain).
+
    A standalone Docker setup is available to test the service in isolation:
 
    ```bash
