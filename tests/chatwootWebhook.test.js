@@ -193,6 +193,8 @@ const { searchKnowledgeBase } = searchKnowledgeBaseModule;
 const { CONVO_LABELS } = require('../lib/constants.ts');
 const { CHATWOOT_SYSTEM_PROMPT, MODEL } = require('../config/constants.ts');
 
+const { getConversationKey } = require('../lib/getConversationKey.ts');
+
 const guardrails = require('../lib/guardrails.ts');
 const runRelevanceGuardrailMock = mock.method(
   guardrails,
@@ -997,6 +999,161 @@ test('chatwoot webhook queues request when agents offline', async () => {
   });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook requeue resets queue notification state', async () => {
+  const accountId = 7;
+  const conversationId = 7;
+  const inboxId = 1;
+  const requestStore = new Map();
+
+  enqueueRequestMock.mock.mockImplementation(
+    async (
+      incomingAccountId,
+      incomingConversationId,
+      status,
+      agentId,
+      incomingInboxId
+    ) => {
+      if (incomingInboxId === undefined) {
+        throw new Error('Missing inboxId');
+      }
+      const key = getConversationKey(
+        incomingAccountId,
+        incomingConversationId,
+        incomingInboxId
+      );
+      const nextStatus = status ?? 'pending';
+      const existing = requestStore.get(key);
+      if (existing) {
+        existing.status = nextStatus;
+        existing.agentId = agentId ?? existing.agentId ?? null;
+        existing.accountId = incomingAccountId;
+        existing.inboxId = incomingInboxId;
+        if (nextStatus === 'pending') {
+          existing.requestedAt = new Date();
+          existing.lastPositionNotified = null;
+        }
+        requestStore.set(key, existing);
+        return existing;
+      }
+      const created = {
+        conversationKey: key,
+        conversationId: incomingConversationId,
+        accountId: incomingAccountId,
+        inboxId: incomingInboxId,
+        requestedAt: new Date(),
+        status: nextStatus,
+        agentId: agentId ?? null,
+        lastPositionNotified: null,
+      };
+      requestStore.set(key, created);
+      return created;
+    }
+  );
+
+  updateQueuePositionsMock.mock.mockImplementation(async ({ accountId: scopeAccountId }) => {
+    const pending = [...requestStore.values()]
+      .filter((request) => request.accountId === scopeAccountId && request.status === 'pending')
+      .sort((a, b) => a.requestedAt.getTime() - b.requestedAt.getTime());
+    const updates = [];
+    for (const [index, request] of pending.entries()) {
+      const position = index + 1;
+      if (request.lastPositionNotified === position) {
+        continue;
+      }
+      request.lastPositionNotified = position;
+      updates.push({ ...request, position });
+    }
+    return updates;
+  });
+
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: null,
+    availabilitySummary: { online: 0, busy: 0, offline: 5 },
+  }));
+
+  const initialPayload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 701,
+        message_type: 0,
+        content: 'Need human support',
+        account: { id: accountId },
+        conversation: {
+          id: conversationId,
+          inbox_id: inboxId,
+          status: 'resolved',
+          account_id: accountId,
+        },
+      },
+    },
+  };
+
+  const initialResponse = await webhookPost(
+    new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(initialPayload),
+    })
+  );
+  const initialBody = await initialResponse.json();
+  assert.strictEqual(initialBody.status, 'handoff');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const firstMessage = sendBotMessageMock.mock.calls[0].arguments[2];
+  assert.match(firstMessage, /You are currently number 1 in the queue\./);
+
+  const conversationKey = getConversationKey(accountId, conversationId, inboxId);
+  const existingRequest = requestStore.get(conversationKey);
+  assert.ok(existingRequest);
+  const initialRequestedAt = existingRequest.requestedAt;
+  existingRequest.status = 'assigned';
+  existingRequest.agentId = 42;
+  requestStore.set(conversationKey, existingRequest);
+
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: null,
+    availabilitySummary: { online: 0, busy: 0, offline: 6 },
+  }));
+
+  const requeuePayload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 702,
+        message_type: 0,
+        content: 'Still need a human',
+        account: { id: accountId },
+        conversation: {
+          id: conversationId,
+          inbox_id: inboxId,
+          status: 'resolved',
+          account_id: accountId,
+        },
+      },
+    },
+  };
+
+  const requeueResponse = await webhookPost(
+    new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(requeuePayload),
+    })
+  );
+  const requeueBody = await requeueResponse.json();
+  assert.strictEqual(requeueBody.status, 'handoff');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+  const secondMessage = sendBotMessageMock.mock.calls[1].arguments[2];
+  assert.match(secondMessage, /You are currently number 1 in the queue\./);
+
+  const requeuedRequest = requestStore.get(conversationKey);
+  assert.ok(requeuedRequest);
+  assert.ok(requeuedRequest.requestedAt.getTime() >= initialRequestedAt.getTime());
+  assert.strictEqual(requeuedRequest.lastPositionNotified, 1);
+
   resetMocks();
 });
 
