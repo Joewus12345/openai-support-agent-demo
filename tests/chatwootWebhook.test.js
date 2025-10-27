@@ -937,7 +937,7 @@ test('chatwoot webhook queues request when agents busy', async () => {
   resetMocks();
 });
 
-test('chatwoot webhook queues request when agents offline', async () => {
+test('chatwoot webhook sends offline message when no agents available', async () => {
   getNextAgentMock.mock.mockImplementationOnce(async () => ({
     agent: null,
     availabilitySummary: { online: 0, busy: 0, offline: 4 },
@@ -947,19 +947,6 @@ test('chatwoot webhook queues request when agents offline', async () => {
     status: 'resolved',
     inbox_id: 1,
   }));
-  updateQueuePositionsMock.mock.mockImplementationOnce(async () => [
-    {
-      conversationKey: 'chatwoot:3:1:3',
-      conversationId: 3,
-      accountId: 3,
-      inboxId: 1,
-      requestedAt: new Date(),
-      status: 'pending',
-      agentId: null,
-      lastPositionNotified: 1,
-      position: 1,
-    },
-  ]);
   const payload = {
     event: 'message_created',
     data: {
@@ -981,17 +968,12 @@ test('chatwoot webhook queues request when agents offline', async () => {
   const body = await res.json();
   assert.strictEqual(body.status, 'handoff');
   assert.strictEqual(handOffMock.mock.calls.length, 0);
-  assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
-  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [3, 3, undefined, undefined, 1]);
-  assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 1);
-  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls[0].arguments, [
-    { accountId: 3 },
-  ]);
-  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
-  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
+  assert.strictEqual(enqueueRequestMock.mock.calls.length, 0);
+  assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 0);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 0);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[0].arguments[2],
-    'No human agents are currently available. Please try again later. You are currently number 1 in the queue.'
+    'No human agents are currently available. Please try again later.'
   );
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,
@@ -1071,7 +1053,7 @@ test('chatwoot webhook requeue resets queue notification state', async () => {
 
   getNextAgentMock.mock.mockImplementationOnce(async () => ({
     agent: null,
-    availabilitySummary: { online: 0, busy: 0, offline: 5 },
+    availabilitySummary: { online: 0, busy: 2, offline: 5 },
   }));
 
   const initialPayload = {
@@ -1115,7 +1097,7 @@ test('chatwoot webhook requeue resets queue notification state', async () => {
 
   getNextAgentMock.mock.mockImplementationOnce(async () => ({
     agent: null,
-    availabilitySummary: { online: 0, busy: 0, offline: 6 },
+    availabilitySummary: { online: 0, busy: 1, offline: 6 },
   }));
 
   const requeuePayload = {
