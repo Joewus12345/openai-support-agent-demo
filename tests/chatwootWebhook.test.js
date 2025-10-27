@@ -2621,6 +2621,69 @@ test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async 
   resetMocks();
 });
 
+test('chatwoot webhook runs guardrails concurrently', async () => {
+  const guardrailDelayMs = 60;
+  let relevanceStart;
+  let relevanceEnd;
+  let jailbreakStart;
+  let jailbreakEnd;
+  runRelevanceGuardrailMock.mock.mockImplementationOnce(async () => {
+    relevanceStart = Date.now();
+    await new Promise((resolve) => setTimeout(resolve, guardrailDelayMs));
+    relevanceEnd = Date.now();
+    return { tripwireTriggered: false };
+  });
+  runJailbreakGuardrailMock.mock.mockImplementationOnce(async () => {
+    jailbreakStart = Date.now();
+    await new Promise((resolve) => setTimeout(resolve, guardrailDelayMs));
+    jailbreakEnd = Date.now();
+    return { tripwireTriggered: false };
+  });
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 990,
+        message_type: 0,
+        content: 'Tell me more about your services.',
+        account: { id: 11 },
+        conversation: { id: 11, inbox_id: 1, status: 'resolved', account_id: 11 },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  const body = await res.json();
+
+  assert.notStrictEqual(body.status, 'guardrail');
+  assert.ok(typeof relevanceStart === 'number' && typeof relevanceEnd === 'number');
+  assert.ok(typeof jailbreakStart === 'number' && typeof jailbreakEnd === 'number');
+
+  const sequentialDuration =
+    (relevanceEnd - relevanceStart) + (jailbreakEnd - jailbreakStart);
+  const concurrentDuration =
+    Math.max(relevanceEnd, jailbreakEnd) - Math.min(relevanceStart, jailbreakStart);
+
+  assert.ok(
+    jailbreakStart < relevanceEnd,
+    'jailbreak guardrail should start before relevance guardrail completes'
+  );
+  assert.ok(
+    concurrentDuration < sequentialDuration,
+    'concurrent execution should finish faster than sequential execution'
+  );
+
+  assertLoggedIds(1);
+  resetMocks();
+});
+
 test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   sendBotMessageMock.mock.mockImplementationOnce(async () => {
     throw new Error('fail');

@@ -1711,17 +1711,13 @@ async function processChatwootWebhookJob(
     try {
       try {
         const guardrailUserInput = enrichedContent ?? userInput;
-        let relevance:
-          | {
+        let relevancePromise:
+          | Promise<{
               tripwireTriggered: boolean;
               outputInfo?: unknown;
-            }
+            }>
           | undefined;
         if (imageOnlyMessage) {
-          relevance = {
-            tripwireTriggered: false,
-            outputInfo: { skipped: "image-only-attachments" },
-      };
           console.log(
             "Skipping relevance guardrail for image-only attachment message",
             {
@@ -1731,6 +1727,10 @@ async function processChatwootWebhookJob(
               attachmentCount: attachments.length,
             }
           );
+          relevancePromise = Promise.resolve({
+            tripwireTriggered: false,
+            outputInfo: { skipped: "image-only-attachments" },
+          });
         } else {
           const baseHistoryTurns: HistoryTurn[] = promptHistory
             .filter((m: { role: string }) => m.role !== "developer")
@@ -1759,11 +1759,19 @@ async function processChatwootWebhookJob(
             ...recentTurns,
             { role: "user", content: guardrailUserInput },
           ]);
-          relevance = await runRelevanceGuardrail({
+          relevancePromise = runRelevanceGuardrail({
             input: relevanceInput,
           });
         }
-        const jailbreak = await runJailbreakGuardrail({ input: guardrailUserInput });
+
+        const [relevance, jailbreak] = await Promise.all([
+          relevancePromise ??
+            Promise.resolve<{
+              tripwireTriggered: boolean;
+              outputInfo?: unknown;
+            }>({ tripwireTriggered: false }),
+          runJailbreakGuardrail({ input: guardrailUserInput }),
+        ]);
   
         if (jailbreak.tripwireTriggered) {
           console.log("Guardrail triggered via Chatwoot: jailbreak", {
