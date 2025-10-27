@@ -3486,12 +3486,16 @@ test('chatwoot webhook queue backlog does not delay responses', async () => {
 
   try {
     let releaseFirstSend;
+    let firstSendStarted = false;
+    let firstSendResolved = false;
     const firstSendBarrier = new Promise((resolve) => {
       releaseFirstSend = resolve;
     });
 
     sendBotMessageMock.mock.mockImplementationOnce(async (...args) => {
+      firstSendStarted = true;
       await firstSendBarrier;
+      firstSendResolved = true;
       return defaultSendBotMessageImplementation(...args);
     });
 
@@ -3536,9 +3540,10 @@ test('chatwoot webhook queue backlog does not delay responses', async () => {
     assert.deepStrictEqual(await resA.json(), { status: 'accepted' });
     assert.deepStrictEqual(await resB.json(), { status: 'accepted' });
 
+    assert.strictEqual(firstSendStarted, true, 'first job should have started');
     assert.strictEqual(
-      sendBotMessageMock.mock.calls.length,
-      1,
+      firstSendResolved,
+      false,
       'first job should have started but not completed yet'
     );
 
