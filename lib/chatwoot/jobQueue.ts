@@ -1,5 +1,8 @@
 import redis from "@/lib/redis";
-import { ProviderRetryError } from "@/lib/providers/retry";
+import {
+  ProviderRetryError,
+  getOpenAIRateLimitInfo,
+} from "@/lib/providers/retry";
 import type { ChatwootWebhookPayload } from "@/types/chatwoot";
 
 type JobMetadata = {
@@ -390,6 +393,11 @@ function shouldRetryJob(job: PendingJob, error: unknown): boolean {
     return true;
   }
 
+  const openAiInfo = getOpenAIRateLimitInfo(error);
+  if (openAiInfo.isRateLimit) {
+    return true;
+  }
+
   if (error && typeof error === "object" && "retryable" in error) {
     try {
       return Boolean((error as { retryable?: unknown }).retryable);
@@ -486,8 +494,11 @@ function startJob(job: PendingJob) {
         activeWorkers: activeJobs.size,
       });
     } catch (error) {
+      const openAiInfo = getOpenAIRateLimitInfo(error);
       const willRetry = shouldRetryJob(job, error);
-      const delayMs = willRetry ? getRetryDelayMs(job) : 0;
+      const delayMs = willRetry
+        ? openAiInfo.retryAfterMs ?? getRetryDelayMs(job)
+        : 0;
       const failureDetails = logJobEvent(job, "failed", {
         delayMs: willRetry ? delayMs : 0,
         error,

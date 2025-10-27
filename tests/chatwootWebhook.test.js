@@ -4150,6 +4150,91 @@ test('chatwoot queue retries transient errors before succeeding', async () => {
   }
 });
 
+test('chatwoot queue retries OpenAI rate limits without status codes', async () => {
+  resetMocks();
+  const originalSetTimeoutCalls = [];
+  const setTimeoutMock = mock.method(global, 'setTimeout', (fn, delay, ...args) => {
+    const entry = {
+      fn: typeof fn === 'function' ? fn : () => {},
+      delay: typeof delay === 'number' ? delay : 0,
+      args,
+      cleared: false,
+    };
+    originalSetTimeoutCalls.push(entry);
+    return entry;
+  });
+  const clearTimeoutMock = mock.method(global, 'clearTimeout', (handle) => {
+    if (handle && typeof handle === 'object' && 'cleared' in handle) {
+      handle.cleared = true;
+    }
+  });
+
+  try {
+    resetChatwootQueueForTesting();
+    setChatwootQueueRetryConfigForTesting({
+      maxAttempts: 3,
+      baseDelayMs: 100,
+      maxDelayMs: 100,
+      backoffFactor: 1,
+    });
+
+    const rateLimitError = new Error('OpenAI rate limit');
+    rateLimitError.code = 'rate_limit_exceeded';
+    rateLimitError.error = {
+      type: 'tokens',
+      retry_after: 0.25,
+      message: 'Please try again in 0.25s.',
+    };
+
+    let executions = 0;
+    const job = enqueueChatwootJob(
+      async () => {
+        executions += 1;
+        if (executions === 1) {
+          throw rateLimitError;
+        }
+        return 'success';
+      },
+      { conversationId: 'openai-rate', accountId: 'openai-rate' },
+      { persist: false }
+    );
+
+    await Promise.resolve();
+    await Promise.resolve();
+    assert.strictEqual(executions, 1);
+
+    assert.ok(originalSetTimeoutCalls.length >= 1);
+    const timeoutDelay = originalSetTimeoutCalls[0]?.delay ?? Infinity;
+    let retryTimer = originalSetTimeoutCalls.find(
+      (entry) => entry.delay < timeoutDelay
+    );
+    for (let i = 0; i < 10 && !retryTimer; i += 1) {
+      await Promise.resolve();
+      retryTimer = originalSetTimeoutCalls.find(
+        (entry) => entry.delay < timeoutDelay
+      );
+    }
+    assert.ok(retryTimer);
+    assert.strictEqual(retryTimer.delay, 250);
+
+    retryTimer.fn(...retryTimer.args);
+
+    await Promise.resolve();
+    await Promise.resolve();
+
+    const result = await job.done;
+    assert.strictEqual(result, 'success');
+    assert.strictEqual(executions, 2);
+
+    await waitForChatwootQueueIdle();
+  } finally {
+    setTimeoutMock.mock.restore();
+    clearTimeoutMock.mock.restore();
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
 test('chatwoot queue times out long-running jobs and frees queued work', async () => {
   resetMocks();
   const originalConcurrency = getChatwootQueueConcurrency();

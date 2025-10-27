@@ -1,5 +1,153 @@
 import { ProviderType } from "./limiter";
 
+type OpenAIRateLimitInfo = {
+  isRateLimit: boolean;
+  retryAfterMs?: number;
+  code?: string;
+  type?: string;
+};
+
+function toMilliseconds(value: unknown): number | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return Math.max(0, Math.floor(value));
+  }
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return undefined;
+    }
+    const parsed = Number(trimmed);
+    if (Number.isFinite(parsed)) {
+      return Math.max(0, Math.floor(parsed));
+    }
+  }
+  return undefined;
+}
+
+function toSeconds(value: unknown): number | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return Math.max(0, value);
+  }
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return undefined;
+    }
+    const parsed = Number(trimmed);
+    if (Number.isFinite(parsed)) {
+      return Math.max(0, parsed);
+    }
+  }
+  return undefined;
+}
+
+function toMillisecondsFromSeconds(value: unknown): number | undefined {
+  const seconds = toSeconds(value);
+  if (seconds === undefined) {
+    return undefined;
+  }
+  return Math.max(0, Math.floor(seconds * 1000));
+}
+
+function extractMessage(value: unknown): string | undefined {
+  if (typeof value === "string") {
+    return value;
+  }
+  if (value && typeof value === "object" && "message" in value) {
+    const message = (value as { message?: unknown }).message;
+    if (typeof message === "string") {
+      return message;
+    }
+  }
+  return undefined;
+}
+
+function parseRetryAfterFromMessage(message: string | undefined): number | undefined {
+  if (!message) {
+    return undefined;
+  }
+  const match = message.match(/try again in\s+([\d.]+)s?/i);
+  if (!match) {
+    return undefined;
+  }
+  const seconds = Number(match[1]);
+  if (!Number.isFinite(seconds)) {
+    return undefined;
+  }
+  return Math.max(0, Math.floor(seconds * 1000));
+}
+
+function coerceOpenAIErrorCandidate(error: unknown): Record<string, unknown> | undefined {
+  if (!error || typeof error !== "object") {
+    return undefined;
+  }
+  const candidate = error as Record<string, unknown>;
+  const nestedError =
+    (candidate.error as Record<string, unknown> | undefined) ??
+    (candidate.response as any)?.data?.error ??
+    (candidate.response as any)?.error ??
+    (candidate.data as any)?.error ??
+    (candidate.body as any)?.error;
+  if (nestedError && typeof nestedError === "object") {
+    return nestedError as Record<string, unknown>;
+  }
+  return candidate;
+}
+
+export function getOpenAIRateLimitInfo(error: unknown): OpenAIRateLimitInfo {
+  if (!error || typeof error !== "object") {
+    return { isRateLimit: false };
+  }
+
+  const candidate = error as Record<string, unknown>;
+  const nested = coerceOpenAIErrorCandidate(error) ?? {};
+  const code = (candidate.code ?? nested.code) as unknown;
+  const type = (candidate.type ?? nested.type) as unknown;
+  const errorCode = typeof code === "string" ? code : undefined;
+  const errorType = typeof type === "string" ? type : undefined;
+
+  const isRateLimit =
+    errorCode === "rate_limit_exceeded" ||
+    (typeof nested.code === "string" && nested.code === "rate_limit_exceeded") ||
+    errorType === "tokens" ||
+    (typeof nested.type === "string" && nested.type === "tokens");
+
+  if (!isRateLimit) {
+    return { isRateLimit: false };
+  }
+
+  const retryAfterMsCandidates: Array<number | undefined> = [
+    toMillisecondsFromSeconds(nested.retry_after),
+    toMilliseconds(nested.retry_after_ms),
+    toMillisecondsFromSeconds((nested as any)?.retryAfter),
+    toMilliseconds((nested as any)?.retryAfterMs),
+    toMillisecondsFromSeconds((nested as any)?.estimated_wait),
+    toMillisecondsFromSeconds((nested as any)?.estimated_wait_seconds),
+    toMillisecondsFromSeconds((nested as any)?.estimated_wait_time),
+    toMillisecondsFromSeconds(candidate.retry_after),
+    toMilliseconds(candidate.retry_after_ms),
+  ];
+
+  let retryAfterMs = retryAfterMsCandidates.find(
+    (value): value is number => value !== undefined
+  );
+
+  if (retryAfterMs === undefined) {
+    retryAfterMs = parseRetryAfterFromMessage(extractMessage(nested));
+  }
+
+  if (retryAfterMs === undefined) {
+    retryAfterMs = parseRetryAfterFromMessage(extractMessage(candidate));
+  }
+
+  return {
+    isRateLimit: true,
+    retryAfterMs,
+    code: errorCode ?? (typeof nested.code === "string" ? nested.code : undefined),
+    type: errorType ?? (typeof nested.type === "string" ? nested.type : undefined),
+  };
+}
+
 function parseInteger(value: string | undefined, fallback: number): number {
   if (!value) return fallback;
   const trimmed = value.trim();
@@ -224,7 +372,9 @@ export async function retryWithBackoff<T>(
       return { result, attempts: attempt + 1 };
     } catch (error) {
       const status = extractStatus(error);
-      const retryable = isRetryableStatus(status);
+      const openAiInfo = getOpenAIRateLimitInfo(error);
+      const retryStatus = status ?? (openAiInfo.isRateLimit ? 429 : undefined);
+      const retryable = isRetryableStatus(status) || openAiInfo.isRateLimit;
       const attemptsCompleted = attempt + 1;
 
       if (!retryable) {
@@ -238,7 +388,7 @@ export async function retryWithBackoff<T>(
           } after ${attemptsCompleted} attempt${attemptsCompleted === 1 ? "" : "s"}`,
           {
             provider,
-            status,
+            status: retryStatus,
             attempts: attemptsCompleted,
             retriesExhausted: true,
             retryable: true,
@@ -247,7 +397,11 @@ export async function retryWithBackoff<T>(
         );
       }
 
-      const retryAfterMs = extractRetryAfterMs(error);
+      const retryAfterMsFromHeaders = extractRetryAfterMs(error);
+      const retryAfterMs =
+        retryAfterMsFromHeaders !== undefined
+          ? retryAfterMsFromHeaders
+          : openAiInfo.retryAfterMs;
       const exponentialDelay = Math.min(
         maxDelayMs,
         Math.max(baseDelayMs, baseDelayMs * Math.pow(2, attempt))
@@ -274,7 +428,7 @@ export async function retryWithBackoff<T>(
         attempt: nextAttempt,
         delayMs,
         retryAfterMs,
-        status,
+        status: retryStatus,
         error,
         provider: provider ? String(provider) : undefined,
       });
