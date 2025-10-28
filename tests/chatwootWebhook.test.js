@@ -107,6 +107,11 @@ const getNextAgentMock = mock.method(
   })
 );
 const setActiveConversationMock = mock.method(agentRotation, 'setActiveConversation', async () => {});
+const clearActiveConversationMock = mock.method(
+  agentRotation,
+  'clearActiveConversation',
+  async () => {}
+);
 
 const handoff = require('../lib/handoff.ts');
 const handOffMock = mock.method(handoff, 'default', async () => true);
@@ -127,6 +132,11 @@ const getConversationLabelsMock = mock.method(
   chatwoot,
   'getConversationLabels',
   async () => ({ payload: [] })
+);
+const setAgentAvailabilityMock = mock.method(
+  chatwoot,
+  'setAgentAvailability',
+  async () => {}
 );
 
 const fetchAttachmentImageModule = require('../lib/chatwoot/fetchAttachmentImage.ts');
@@ -274,6 +284,7 @@ function resetMocks() {
     availabilitySummary: { online: 0, busy: 0, offline: 0 },
   }));
   setActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
   handOffMock.mock.resetCalls();
   enqueueRequestMock.mock.resetCalls();
   updateRequestMock.mock.resetCalls();
@@ -282,6 +293,8 @@ function resetMocks() {
   getConversationMock.mock.resetCalls();
   setConversationLabelsMock.mock.resetCalls();
   getConversationLabelsMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.mockImplementation(async () => {});
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
@@ -616,6 +629,79 @@ test('chatwoot status webhook releases agent on status-only update with top-leve
   assert.strictEqual(releaseArgs[4], 11);
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assertLoggedIds();
+  resetMocks();
+});
+
+test('chatwoot status webhook restores previous assignee and marks new assignee busy', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 9 },
+      conversation: { id: 77, status: 'open', inbox_id: 11 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+        {
+          assignee_id: { previous_value: 71, current_value: 42 },
+        },
+      ],
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(clearActiveConversationMock.mock.calls[0].arguments, [71]);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [42, 77]);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 2);
+  assert.deepStrictEqual(
+    setAgentAvailabilityMock.mock.calls.map((call) => call.arguments),
+    [
+      [9, 71, 'online'],
+      [9, 42, 'busy'],
+    ]
+  );
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  resetMocks();
+});
+
+test('chatwoot status webhook skips busy update when assignee unchanged', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 10 },
+      conversation: { id: 88, status: 'open', inbox_id: 12, assignee_id: 64 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+        {
+          assignee_id: { previous_value: 64, current_value: 64 },
+        },
+      ],
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 0);
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });
 

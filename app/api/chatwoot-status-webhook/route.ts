@@ -7,7 +7,10 @@ import type {
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CONVO_LABELS } from "@/lib/constants";
 import { setAgentAvailability } from "@/lib/chatwoot";
-import { setActiveConversation } from "@/lib/agentRotation";
+import {
+  clearActiveConversation,
+  setActiveConversation,
+} from "@/lib/agentRotation";
 import {
   recordReleaseFailure,
   clearReleaseAttempts,
@@ -114,21 +117,6 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "handled" });
       }
       if (status === "open") {
-        const changes = (payload as any)?.changes ?? {};
-        const agentId =
-          payload.assignee_id ??
-          (changes.assignee_id?.current_value as number | undefined) ??
-          payload.meta?.assignee?.id ??
-          (typedPayload.conversation as any)?.assignee_id;
-        if (agentId !== undefined) {
-          try {
-            await setActiveConversation(agentId, conversationId);
-            await setAgentAvailability(accountId, agentId, "busy");
-          } catch (err) {
-            console.error("set agent busy error", err);
-            await sendFallback();
-          }
-        }
         return NextResponse.json({ status: "handled" });
       }
     } else if (event === "conversation_updated") {
@@ -178,6 +166,8 @@ export async function POST(request: Request) {
         (changes.assignee_id?.current_value as number | undefined) ??
         payload.meta?.assignee?.id ??
         (typedPayload.conversation as any)?.assignee_id;
+      const previousAssigneeId =
+        changes.assignee_id?.previous_value as number | undefined;
       const inboxId =
         payload.inbox_id ??
         (typedPayload.conversation as any)?.inbox_id ??
@@ -194,6 +184,40 @@ export async function POST(request: Request) {
         status_current: statusCurrent,
         status_previous: statusPrevious,
       });
+      if (
+        typeof previousAssigneeId === "number" &&
+        previousAssigneeId !== assigneeId
+      ) {
+        try {
+          await clearActiveConversation(previousAssigneeId);
+        } catch (err) {
+          console.error("clear previous active conversation error", err);
+        }
+        try {
+          await setAgentAvailability(accountId, previousAssigneeId, "online");
+        } catch (err) {
+          console.error("reset previous agent availability error", err);
+          await sendFallback();
+        }
+      }
+      const conversationIsOpen =
+        statusCurrent === "open" ||
+        (!statusCurrent &&
+          ((typedPayload.conversation as any)?.status === "open" ||
+            (payload.conversation as any)?.status === "open"));
+      const shouldMarkNewAgentBusy =
+        typeof assigneeId === "number" &&
+        conversationIsOpen &&
+        (previousAssigneeId === undefined || previousAssigneeId !== assigneeId);
+      if (shouldMarkNewAgentBusy) {
+        try {
+          await setActiveConversation(assigneeId, conversationId);
+          await setAgentAvailability(accountId, assigneeId, "busy");
+        } catch (err) {
+          console.error("set new agent busy error", err);
+          await sendFallback();
+        }
+      }
       const shouldRelease =
         (statusCurrent === "pending" || statusCurrent === "resolved") &&
         statusPrevious === "open" &&
