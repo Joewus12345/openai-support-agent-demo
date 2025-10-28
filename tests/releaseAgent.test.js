@@ -184,6 +184,33 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
   assertLoggedIds(1, 2);
 });
 
+test('releaseAgent uses provided assignee and inbox without extra lookups', async () => {
+  nextMessageId = 0;
+  prisma.conversationMessage.upsert.mock.resetCalls();
+  sendMock.mock.resetCalls();
+  toggleMock.mock.resetCalls();
+  assignMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
+  getConversationMock.mock.resetCalls();
+
+  await conversationResolution.releaseAgent(
+    accountId,
+    releasedConversationId,
+    undefined,
+    freedAgentId,
+    inboxId
+  );
+
+  assert.strictEqual(getConversationMock.mock.calls.length, 0);
+  assert.strictEqual(toggleMock.mock.calls.length, 1);
+  assert.strictEqual(assignMock.mock.calls.length, 1);
+  assert.ok(sendMock.mock.calls.length >= 1);
+  assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 1);
+  assert.strictEqual(dequeueNextPendingRequestMock.mock.calls.length, 0);
+  assertLoggedIds(1);
+});
+
 test('releaseAgent assigns next pending request from another inbox', async () => {
   nextMessageId = 0;
   prisma.conversationMessage.upsert.mock.resetCalls();

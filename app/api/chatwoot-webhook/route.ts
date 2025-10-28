@@ -1529,74 +1529,97 @@ async function processChatwootWebhookJob(
                   console.error("handoff set labels error", err);
                 }
             } else {
-              console.info("handoff", { step: "enqueue", conversationId });
-              let queueUpdates: QueuePositionUpdate[] = [];
-              try {
-                if (typeof inboxId !== "number") {
-                  throw new Error("Missing inboxId for handoff request");
-                }
-                await enqueueRequest(
+              const summary = availabilitySummary ?? {
+                online: 0,
+                busy: 0,
+                offline: 0,
+              };
+              const activeAgentCount = (summary.online ?? 0) + (summary.busy ?? 0);
+              const unavailableMessage = getAgentUnavailableMessage(summary);
+
+              if (activeAgentCount === 0) {
+                console.info("handoff", {
+                  step: "send-offline-message",
                   accountId,
                   conversationId,
-                  undefined,
-                  undefined,
-                  inboxId
+                });
+                const botResponse = await sendBotMessage(
+                  accountId,
+                  conversationId,
+                  unavailableMessage,
+                  buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
                 );
-                console.info("handoff", "request enqueued");
-              } catch (err) {
-                console.error("enqueueRequest error", err);
+                await logAssistantResponse(botResponse, unavailableMessage);
+                console.info("handoff", "offline message sent");
+              } else {
+                console.info("handoff", { step: "enqueue", conversationId });
+                let queueUpdates: QueuePositionUpdate[] = [];
                 try {
-                  await notifyHandoffIssue(
+                  if (typeof inboxId !== "number") {
+                    throw new Error("Missing inboxId for handoff request");
+                  }
+                  await enqueueRequest(
                     accountId,
                     conversationId,
-                    buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
+                    undefined,
+                    undefined,
+                    inboxId
                   );
-                } catch (err2) {
-                  console.error("fallback notifyHandoffIssue error", err2);
-                }
-                return NextResponse.json({ status: "fallback" });
-              }
-              try {
-                queueUpdates = await updateQueuePositions({ accountId });
-              } catch (err) {
-                console.error("updateQueuePositions error", err);
-              }
-                const labels = [CONVO_LABELS.waiting];
-                console.info("handoff", {
-                  step: "set-labels",
-                  accountId,
-                  conversationId,
-                });
-                try {
-                  await setConversationLabels(accountId, conversationId, labels);
-                  console.info("handoff", "labels set", labels);
+                  console.info("handoff", "request enqueued");
                 } catch (err) {
-                  console.error("handoff set labels error", err);
+                  console.error("enqueueRequest error", err);
+                  try {
+                    await notifyHandoffIssue(
+                      accountId,
+                      conversationId,
+                      buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
+                    );
+                  } catch (err2) {
+                    console.error("fallback notifyHandoffIssue error", err2);
+                  }
+                  return NextResponse.json({ status: "fallback" });
                 }
-                console.info("handoff", {
-                  step: "send-message",
+                try {
+                  queueUpdates = await updateQueuePositions({ accountId });
+                } catch (err) {
+                  console.error("updateQueuePositions error", err);
+                }
+                  const labels = [CONVO_LABELS.waiting];
+                  console.info("handoff", {
+                    step: "set-labels",
+                    accountId,
+                    conversationId,
+                  });
+                  try {
+                    await setConversationLabels(accountId, conversationId, labels);
+                    console.info("handoff", "labels set", labels);
+                  } catch (err) {
+                    console.error("handoff set labels error", err);
+                  }
+                  console.info("handoff", {
+                    step: "send-message",
+                    accountId,
+                    conversationId,
+                  });
+                let queueMessage = unavailableMessage;
+                const pendingUpdate = queueUpdates.find(
+                  (update) => update.conversationId === conversationId
+                );
+                if (pendingUpdate) {
+                  queueMessage = formatQueuePositionMessage(
+                    unavailableMessage,
+                    pendingUpdate.position
+                  );
+                }
+                const botResponse = await sendBotMessage(
                   accountId,
                   conversationId,
-                });
-              const unavailableMessage = getAgentUnavailableMessage(availabilitySummary);
-              let queueMessage = unavailableMessage;
-              const pendingUpdate = queueUpdates.find(
-                (update) => update.conversationId === conversationId
-              );
-              if (pendingUpdate) {
-                queueMessage = formatQueuePositionMessage(
-                  unavailableMessage,
-                  pendingUpdate.position
+                  queueMessage,
+                  buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
                 );
+                await logAssistantResponse(botResponse, queueMessage);
+                console.info("handoff", "message sent");
               }
-              const botResponse = await sendBotMessage(
-                accountId,
-                conversationId,
-                queueMessage,
-                buildReplyOptions(defaultReplyOverride, normalizedReferencedReplyToId)
-              );
-              await logAssistantResponse(botResponse, queueMessage);
-              console.info("handoff", "message sent");
             }
           } catch (err) {
             console.error("agent escalation error", err);
