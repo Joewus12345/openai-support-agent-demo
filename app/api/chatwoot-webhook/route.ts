@@ -1916,6 +1916,16 @@ async function processChatwootWebhookJob(
         }
   
         let replyText = "";
+        const streamSummary: {
+          lastEventType?: string;
+          toolNames: Set<string>;
+          outputTextDeltaCount: number;
+          eventCounts: Record<string, number>;
+        } = {
+          toolNames: new Set<string>(),
+          outputTextDeltaCount: 0,
+          eventCounts: Object.create(null),
+        };
         let pendingReplyReferenceId: string | undefined;
         let pendingReplyReferenceArgs = "";
         let replyReferenceOverride:
@@ -2020,17 +2030,26 @@ async function processChatwootWebhookJob(
             },
           });
           for await (const { event, data } of events) {
+            if (typeof event === "string") {
+              streamSummary.lastEventType = event;
+              streamSummary.eventCounts[event] =
+                (streamSummary.eventCounts[event] ?? 0) + 1;
+            }
             if (
               event === "response.output_text.delta" &&
               typeof data?.delta === "string"
             ) {
               replyText += data.delta;
+              streamSummary.outputTextDeltaCount += 1;
               continue;
             }
-  
+
             if (event === "response.output_item.added") {
               const item = (data as any)?.item;
               const itemName = item?.name ?? item?.function?.name;
+              if (typeof itemName === "string") {
+                streamSummary.toolNames.add(itemName);
+              }
               if (
                 item?.type === "function_call" &&
                 itemName === "set_reply_reference"
@@ -2179,7 +2198,25 @@ async function processChatwootWebhookJob(
         } finally {
           endProviderExecution();
         }
-  
+
+        const trimmedReplyText = replyText.trim();
+        if (!trimmedReplyText) {
+          const logSummary = {
+            provider: providerName ?? providerModelName ?? "unknown",
+            replyLength: replyText.length,
+            streamSummary: {
+              lastEventType: streamSummary.lastEventType ?? null,
+              outputTextDeltaCount: streamSummary.outputTextDeltaCount,
+              eventCounts: streamSummary.eventCounts,
+              toolNames: Array.from(streamSummary.toolNames),
+            },
+          };
+          console.warn("chatwoot webhook empty replyText", logSummary);
+          await sendFallback();
+          return NextResponse.json({ status: "fallback", reason: "empty-reply" });
+        }
+        replyText = trimmedReplyText;
+
         const quoteHistoryTurns: HistoryTurn[] = Array.isArray(promptHistory)
           ? promptHistory
               .filter((m: { role: string }) => m.role !== "developer")
