@@ -53,7 +53,16 @@ export type HandoffRequest = $Result.DefaultSelection<Prisma.$HandoffRequestPayl
  * Enums
  */
 export namespace $Enums {
-  export const HandoffRequestStatus: {
+  export const AgentAvailability: {
+  online: 'online',
+  busy: 'busy',
+  offline: 'offline'
+};
+
+export type AgentAvailability = (typeof AgentAvailability)[keyof typeof AgentAvailability]
+
+
+export const HandoffRequestStatus: {
   pending: 'pending',
   awaiting_confirmation: 'awaiting_confirmation',
   assigned: 'assigned',
@@ -63,6 +72,10 @@ export namespace $Enums {
 export type HandoffRequestStatus = (typeof HandoffRequestStatus)[keyof typeof HandoffRequestStatus]
 
 }
+
+export type AgentAvailability = $Enums.AgentAvailability
+
+export const AgentAvailability: typeof $Enums.AgentAvailability
 
 export type HandoffRequestStatus = $Enums.HandoffRequestStatus
 
@@ -7015,6 +7028,7 @@ export namespace Prisma {
     agentId: number | null
     lastAssignedAt: Date | null
     activeConversationId: number | null
+    availabilityBeforeBusy: $Enums.AgentAvailability | null
   }
 
   export type AgentAssignmentMaxAggregateOutputType = {
@@ -7022,6 +7036,7 @@ export namespace Prisma {
     agentId: number | null
     lastAssignedAt: Date | null
     activeConversationId: number | null
+    availabilityBeforeBusy: $Enums.AgentAvailability | null
   }
 
   export type AgentAssignmentCountAggregateOutputType = {
@@ -7029,6 +7044,7 @@ export namespace Prisma {
     agentId: number
     lastAssignedAt: number
     activeConversationId: number
+    availabilityBeforeBusy: number
     _all: number
   }
 
@@ -7050,6 +7066,7 @@ export namespace Prisma {
     agentId?: true
     lastAssignedAt?: true
     activeConversationId?: true
+    availabilityBeforeBusy?: true
   }
 
   export type AgentAssignmentMaxAggregateInputType = {
@@ -7057,6 +7074,7 @@ export namespace Prisma {
     agentId?: true
     lastAssignedAt?: true
     activeConversationId?: true
+    availabilityBeforeBusy?: true
   }
 
   export type AgentAssignmentCountAggregateInputType = {
@@ -7064,6 +7082,7 @@ export namespace Prisma {
     agentId?: true
     lastAssignedAt?: true
     activeConversationId?: true
+    availabilityBeforeBusy?: true
     _all?: true
   }
 
@@ -7158,6 +7177,7 @@ export namespace Prisma {
     agentId: number
     lastAssignedAt: Date | null
     activeConversationId: number | null
+    availabilityBeforeBusy: $Enums.AgentAvailability | null
     _count: AgentAssignmentCountAggregateOutputType | null
     _avg: AgentAssignmentAvgAggregateOutputType | null
     _sum: AgentAssignmentSumAggregateOutputType | null
@@ -7184,6 +7204,7 @@ export namespace Prisma {
     agentId?: boolean
     lastAssignedAt?: boolean
     activeConversationId?: boolean
+    availabilityBeforeBusy?: boolean
   }, ExtArgs["result"]["agentAssignment"]>
 
   export type AgentAssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7191,6 +7212,7 @@ export namespace Prisma {
     agentId?: boolean
     lastAssignedAt?: boolean
     activeConversationId?: boolean
+    availabilityBeforeBusy?: boolean
   }, ExtArgs["result"]["agentAssignment"]>
 
   export type AgentAssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7198,6 +7220,7 @@ export namespace Prisma {
     agentId?: boolean
     lastAssignedAt?: boolean
     activeConversationId?: boolean
+    availabilityBeforeBusy?: boolean
   }, ExtArgs["result"]["agentAssignment"]>
 
   export type AgentAssignmentSelectScalar = {
@@ -7205,9 +7228,10 @@ export namespace Prisma {
     agentId?: boolean
     lastAssignedAt?: boolean
     activeConversationId?: boolean
+    availabilityBeforeBusy?: boolean
   }
 
-  export type AgentAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"inboxId" | "agentId" | "lastAssignedAt" | "activeConversationId", ExtArgs["result"]["agentAssignment"]>
+  export type AgentAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"inboxId" | "agentId" | "lastAssignedAt" | "activeConversationId" | "availabilityBeforeBusy", ExtArgs["result"]["agentAssignment"]>
 
   export type $AgentAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AgentAssignment"
@@ -7217,6 +7241,7 @@ export namespace Prisma {
       agentId: number
       lastAssignedAt: Date | null
       activeConversationId: number | null
+      availabilityBeforeBusy: $Enums.AgentAvailability | null
     }, ExtArgs["result"]["agentAssignment"]>
     composites: {}
   }
@@ -7644,6 +7669,7 @@ export namespace Prisma {
     readonly agentId: FieldRef<"AgentAssignment", 'Int'>
     readonly lastAssignedAt: FieldRef<"AgentAssignment", 'DateTime'>
     readonly activeConversationId: FieldRef<"AgentAssignment", 'Int'>
+    readonly availabilityBeforeBusy: FieldRef<"AgentAssignment", 'AgentAvailability'>
   }
     
 
@@ -9175,7 +9201,8 @@ export namespace Prisma {
     inboxId: 'inboxId',
     agentId: 'agentId',
     lastAssignedAt: 'lastAssignedAt',
-    activeConversationId: 'activeConversationId'
+    activeConversationId: 'activeConversationId',
+    availabilityBeforeBusy: 'availabilityBeforeBusy'
   };
 
   export type AgentAssignmentScalarFieldEnum = (typeof AgentAssignmentScalarFieldEnum)[keyof typeof AgentAssignmentScalarFieldEnum]
@@ -9293,6 +9320,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AgentAvailability'
+   */
+  export type EnumAgentAvailabilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentAvailability'>
+    
+
+
+  /**
+   * Reference to a field of type 'AgentAvailability[]'
+   */
+  export type ListEnumAgentAvailabilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentAvailability[]'>
     
 
 
@@ -9658,6 +9699,7 @@ export namespace Prisma {
     agentId?: IntFilter<"AgentAssignment"> | number
     lastAssignedAt?: DateTimeNullableFilter<"AgentAssignment"> | Date | string | null
     activeConversationId?: IntNullableFilter<"AgentAssignment"> | number | null
+    availabilityBeforeBusy?: EnumAgentAvailabilityNullableFilter<"AgentAssignment"> | $Enums.AgentAvailability | null
   }
 
   export type AgentAssignmentOrderByWithRelationInput = {
@@ -9665,6 +9707,7 @@ export namespace Prisma {
     agentId?: SortOrder
     lastAssignedAt?: SortOrderInput | SortOrder
     activeConversationId?: SortOrderInput | SortOrder
+    availabilityBeforeBusy?: SortOrderInput | SortOrder
   }
 
   export type AgentAssignmentWhereUniqueInput = Prisma.AtLeast<{
@@ -9676,6 +9719,7 @@ export namespace Prisma {
     agentId?: IntFilter<"AgentAssignment"> | number
     lastAssignedAt?: DateTimeNullableFilter<"AgentAssignment"> | Date | string | null
     activeConversationId?: IntNullableFilter<"AgentAssignment"> | number | null
+    availabilityBeforeBusy?: EnumAgentAvailabilityNullableFilter<"AgentAssignment"> | $Enums.AgentAvailability | null
   }, "inboxId_agentId">
 
   export type AgentAssignmentOrderByWithAggregationInput = {
@@ -9683,6 +9727,7 @@ export namespace Prisma {
     agentId?: SortOrder
     lastAssignedAt?: SortOrderInput | SortOrder
     activeConversationId?: SortOrderInput | SortOrder
+    availabilityBeforeBusy?: SortOrderInput | SortOrder
     _count?: AgentAssignmentCountOrderByAggregateInput
     _avg?: AgentAssignmentAvgOrderByAggregateInput
     _max?: AgentAssignmentMaxOrderByAggregateInput
@@ -9698,6 +9743,7 @@ export namespace Prisma {
     agentId?: IntWithAggregatesFilter<"AgentAssignment"> | number
     lastAssignedAt?: DateTimeNullableWithAggregatesFilter<"AgentAssignment"> | Date | string | null
     activeConversationId?: IntNullableWithAggregatesFilter<"AgentAssignment"> | number | null
+    availabilityBeforeBusy?: EnumAgentAvailabilityNullableWithAggregatesFilter<"AgentAssignment"> | $Enums.AgentAvailability | null
   }
 
   export type HandoffRequestWhereInput = {
@@ -10116,6 +10162,7 @@ export namespace Prisma {
     agentId: number
     lastAssignedAt?: Date | string | null
     activeConversationId?: number | null
+    availabilityBeforeBusy?: $Enums.AgentAvailability | null
   }
 
   export type AgentAssignmentUncheckedCreateInput = {
@@ -10123,6 +10170,7 @@ export namespace Prisma {
     agentId: number
     lastAssignedAt?: Date | string | null
     activeConversationId?: number | null
+    availabilityBeforeBusy?: $Enums.AgentAvailability | null
   }
 
   export type AgentAssignmentUpdateInput = {
@@ -10130,6 +10178,7 @@ export namespace Prisma {
     agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+    availabilityBeforeBusy?: NullableEnumAgentAvailabilityFieldUpdateOperationsInput | $Enums.AgentAvailability | null
   }
 
   export type AgentAssignmentUncheckedUpdateInput = {
@@ -10137,6 +10186,7 @@ export namespace Prisma {
     agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+    availabilityBeforeBusy?: NullableEnumAgentAvailabilityFieldUpdateOperationsInput | $Enums.AgentAvailability | null
   }
 
   export type AgentAssignmentCreateManyInput = {
@@ -10144,6 +10194,7 @@ export namespace Prisma {
     agentId: number
     lastAssignedAt?: Date | string | null
     activeConversationId?: number | null
+    availabilityBeforeBusy?: $Enums.AgentAvailability | null
   }
 
   export type AgentAssignmentUpdateManyMutationInput = {
@@ -10151,6 +10202,7 @@ export namespace Prisma {
     agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+    availabilityBeforeBusy?: NullableEnumAgentAvailabilityFieldUpdateOperationsInput | $Enums.AgentAvailability | null
   }
 
   export type AgentAssignmentUncheckedUpdateManyInput = {
@@ -10158,6 +10210,7 @@ export namespace Prisma {
     agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+    availabilityBeforeBusy?: NullableEnumAgentAvailabilityFieldUpdateOperationsInput | $Enums.AgentAvailability | null
   }
 
   export type HandoffRequestCreateInput = {
@@ -10656,6 +10709,13 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type EnumAgentAvailabilityNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentAvailability | EnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.AgentAvailability[] | ListEnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.AgentAvailability[] | ListEnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumAgentAvailabilityNullableFilter<$PrismaModel> | $Enums.AgentAvailability | null
+  }
+
   export type AgentAssignmentInboxIdAgentIdCompoundUniqueInput = {
     inboxId: number
     agentId: number
@@ -10666,6 +10726,7 @@ export namespace Prisma {
     agentId?: SortOrder
     lastAssignedAt?: SortOrder
     activeConversationId?: SortOrder
+    availabilityBeforeBusy?: SortOrder
   }
 
   export type AgentAssignmentAvgOrderByAggregateInput = {
@@ -10679,6 +10740,7 @@ export namespace Prisma {
     agentId?: SortOrder
     lastAssignedAt?: SortOrder
     activeConversationId?: SortOrder
+    availabilityBeforeBusy?: SortOrder
   }
 
   export type AgentAssignmentMinOrderByAggregateInput = {
@@ -10686,6 +10748,7 @@ export namespace Prisma {
     agentId?: SortOrder
     lastAssignedAt?: SortOrder
     activeConversationId?: SortOrder
+    availabilityBeforeBusy?: SortOrder
   }
 
   export type AgentAssignmentSumOrderByAggregateInput = {
@@ -10708,6 +10771,16 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EnumAgentAvailabilityNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentAvailability | EnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.AgentAvailability[] | ListEnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.AgentAvailability[] | ListEnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumAgentAvailabilityNullableWithAggregatesFilter<$PrismaModel> | $Enums.AgentAvailability | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumAgentAvailabilityNullableFilter<$PrismaModel>
+    _max?: NestedEnumAgentAvailabilityNullableFilter<$PrismaModel>
   }
 
   export type EnumHandoffRequestStatusFilter<$PrismaModel = never> = {
@@ -10980,6 +11053,10 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableEnumAgentAvailabilityFieldUpdateOperationsInput = {
+    set?: $Enums.AgentAvailability | null
+  }
+
   export type EnumHandoffRequestStatusFieldUpdateOperationsInput = {
     set?: $Enums.HandoffRequestStatus
   }
@@ -11168,6 +11245,13 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumAgentAvailabilityNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentAvailability | EnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.AgentAvailability[] | ListEnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.AgentAvailability[] | ListEnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumAgentAvailabilityNullableFilter<$PrismaModel> | $Enums.AgentAvailability | null
+  }
+
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -11193,6 +11277,16 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumAgentAvailabilityNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentAvailability | EnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.AgentAvailability[] | ListEnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.AgentAvailability[] | ListEnumAgentAvailabilityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumAgentAvailabilityNullableWithAggregatesFilter<$PrismaModel> | $Enums.AgentAvailability | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumAgentAvailabilityNullableFilter<$PrismaModel>
+    _max?: NestedEnumAgentAvailabilityNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumHandoffRequestStatusFilter<$PrismaModel = never> = {

@@ -1258,7 +1258,11 @@ async function processChatwootWebhookJob(
                   if (!success) {
                     return NextResponse.json({ status: "handoff_failed" });
                   }
-                  await setActiveConversation(agent.id, conversationId);
+                  await setActiveConversation(
+                    agent.id,
+                    conversationId,
+                    agent.availability_status
+                  );
                   console.info("handoff", "active set", agent.id);
                 console.info("handoff", {
                   step: "update-request",
@@ -1498,7 +1502,11 @@ async function processChatwootWebhookJob(
                   }
                   return NextResponse.json({ status: "handoff_failed" });
                 }
-                await setActiveConversation(agent.id, conversationId);
+                await setActiveConversation(
+                  agent.id,
+                  conversationId,
+                  agent.availability_status
+                );
                 console.info("handoff", "active set", agent.id);
               console.info("handoff", {
                 step: "send-message",

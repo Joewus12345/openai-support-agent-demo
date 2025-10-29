@@ -138,6 +138,11 @@ const setAgentAvailabilityMock = mock.method(
   'setAgentAvailability',
   async () => {}
 );
+const getAgentMock = mock.method(
+  chatwoot,
+  'getAgent',
+  async () => ({ availability_status: 'online' })
+);
 
 const fetchAttachmentImageModule = require('../lib/chatwoot/fetchAttachmentImage.ts');
 const fetchAttachmentImageMock = mock.method(
@@ -295,6 +300,10 @@ function resetMocks() {
   getConversationLabelsMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.mockImplementation(async () => {});
+  getAgentMock.mock.resetCalls();
+  getAgentMock.mock.mockImplementation(async () => ({
+    availability_status: 'online',
+  }));
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
@@ -653,6 +662,10 @@ test('chatwoot status webhook restores previous assignee and marks new assignee 
     method: 'POST',
     body: JSON.stringify(payload),
   });
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => 'offline');
+  getAgentMock.mock.mockImplementationOnce(
+    async () => ({ availability_status: 'online' })
+  );
   const res = await statusWebhookPost(req);
   const data = await res.json();
   assert.strictEqual(res.status, 200);
@@ -660,15 +673,20 @@ test('chatwoot status webhook restores previous assignee and marks new assignee 
   assert.strictEqual(clearActiveConversationMock.mock.calls.length, 1);
   assert.deepStrictEqual(clearActiveConversationMock.mock.calls[0].arguments, [71]);
   assert.strictEqual(setActiveConversationMock.mock.calls.length, 1);
-  assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [42, 77]);
+  assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [
+    42,
+    77,
+    'online',
+  ]);
   assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 2);
   assert.deepStrictEqual(
     setAgentAvailabilityMock.mock.calls.map((call) => call.arguments),
     [
-      [9, 71, 'online'],
+      [9, 71, 'offline'],
       [9, 42, 'busy'],
     ]
   );
+  assert.strictEqual(getAgentMock.mock.calls.length, 1);
   assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });

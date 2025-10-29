@@ -1,5 +1,9 @@
 import prisma from "@/lib/prisma";
-import { clearActiveConversation, setActiveConversation } from "@/lib/agentRotation";
+import {
+  AgentAvailability,
+  clearActiveConversation,
+  setActiveConversation,
+} from "@/lib/agentRotation";
 import {
   getConversation,
   getConversationLabels,
@@ -98,17 +102,37 @@ export async function releaseAgent(
     }
 
     if (freedAgentId) {
-      await clearActiveConversation(freedAgentId);
+      let availabilitySnapshot: AgentAvailability | null = null;
+      try {
+        availabilitySnapshot = await clearActiveConversation(freedAgentId);
+      } catch (err) {
+        console.error("clear active conversation error", err);
+      }
+      const availabilityToRestore = availabilitySnapshot ?? "online";
+      if (availabilitySnapshot === null) {
+        console.warn(
+          "missing availability snapshot for freed agent; defaulting to online",
+          {
+            accountId,
+            conversationId,
+            freedAgentId,
+          }
+        );
+      }
       try {
         const response = await setAgentAvailability(
           accountId,
           freedAgentId,
-          "online"
+          availabilityToRestore
         );
-        console.info("set agent online response", response);
+        console.info("set agent availability restore response", response);
       } catch (err) {
-        console.error("set agent online error", err);
-        await setActiveConversation(freedAgentId, conversationId);
+        console.error("restore agent availability error", err);
+        await setActiveConversation(
+          freedAgentId,
+          conversationId,
+          availabilitySnapshot
+        );
         throw new Error("Agent availability update failed");
       }
 
@@ -143,7 +167,11 @@ export async function releaseAgent(
           request.conversationId,
           freedAgentId
         );
-        await setActiveConversation(freedAgentId, request.conversationId);
+        await setActiveConversation(
+          freedAgentId,
+          request.conversationId,
+          availabilityToRestore
+        );
         try {
           const response = await setAgentAvailability(
             accountId,
