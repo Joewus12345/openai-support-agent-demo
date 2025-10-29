@@ -138,6 +138,11 @@ const setAgentAvailabilityMock = mock.method(
   'setAgentAvailability',
   async () => {}
 );
+const getAgentMock = mock.method(
+  chatwoot,
+  'getAgent',
+  async () => ({ availability_status: 'online' })
+);
 
 const fetchAttachmentImageModule = require('../lib/chatwoot/fetchAttachmentImage.ts');
 const fetchAttachmentImageMock = mock.method(
@@ -295,6 +300,10 @@ function resetMocks() {
   getConversationLabelsMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.mockImplementation(async () => {});
+  getAgentMock.mock.resetCalls();
+  getAgentMock.mock.mockImplementation(async () => ({
+    availability_status: 'online',
+  }));
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
@@ -653,6 +662,10 @@ test('chatwoot status webhook restores previous assignee and marks new assignee 
     method: 'POST',
     body: JSON.stringify(payload),
   });
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => 'offline');
+  getAgentMock.mock.mockImplementationOnce(
+    async () => ({ availability_status: 'online' })
+  );
   const res = await statusWebhookPost(req);
   const data = await res.json();
   assert.strictEqual(res.status, 200);
@@ -660,15 +673,20 @@ test('chatwoot status webhook restores previous assignee and marks new assignee 
   assert.strictEqual(clearActiveConversationMock.mock.calls.length, 1);
   assert.deepStrictEqual(clearActiveConversationMock.mock.calls[0].arguments, [71]);
   assert.strictEqual(setActiveConversationMock.mock.calls.length, 1);
-  assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [42, 77]);
+  assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [
+    42,
+    77,
+    'online',
+  ]);
   assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 2);
   assert.deepStrictEqual(
     setAgentAvailabilityMock.mock.calls.map((call) => call.arguments),
     [
-      [9, 71, 'online'],
+      [9, 71, 'offline'],
       [9, 42, 'busy'],
     ]
   );
+  assert.strictEqual(getAgentMock.mock.calls.length, 1);
   assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });
@@ -2960,6 +2978,71 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   });
   assertLoggedIds(1);
   resetMocks();
+});
+
+test('chatwoot webhook warns and falls back when provider stream lacks output text', async () => {
+  resetMocks();
+  const consoleWarnMock = mock.method(console, 'warn', () => {});
+  providerFnMock.mock.mockImplementationOnce(async function* () {
+    yield {
+      event: 'response.output_item.added',
+      data: {
+        item: { type: 'function_call', name: 'search_docs', call_id: 'tool-1' },
+      },
+    };
+    yield { event: 'response.completed', data: {} };
+  });
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 801,
+        message_type: 0,
+        content: 'Hello',
+        account: { id: 9 },
+        conversation: { id: 9, inbox_id: 1, status: 'resolved', account_id: 9 },
+      },
+    },
+  };
+
+  try {
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+    const res = await webhookPost(req);
+    const body = await res.json();
+
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(body.status, 'fallback');
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    assert.strictEqual(
+      sendBotMessageMock.mock.calls[0].arguments[2],
+      MESSAGE_FALLBACK_TEXT
+    );
+    assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+      private: false,
+      inReplyTo: 801,
+    });
+    const warningCall = consoleWarnMock.mock.calls.find(
+      (call) => call.arguments[0] === 'chatwoot webhook empty replyText'
+    );
+    assert.ok(warningCall, 'expected empty reply warning to be logged');
+    const warningDetails = warningCall.arguments[1];
+    assert.ok(warningDetails && warningDetails.streamSummary);
+    assert.strictEqual(warningDetails.streamSummary.lastEventType, 'response.completed');
+    assert.deepStrictEqual(warningDetails.streamSummary.toolNames, ['search_docs']);
+    assert.strictEqual(warningDetails.streamSummary.outputTextDeltaCount, 0);
+    assert.strictEqual(
+      warningDetails.streamSummary.eventCounts['response.output_text.delta'] ?? 0,
+      0
+    );
+    assertLoggedIds(1);
+  } finally {
+    consoleWarnMock.mock.restore();
+    resetMocks();
+  }
 });
 
 test('chatwoot webhook auto quotes acknowledgement when heuristic triggers', async () => {

@@ -17,14 +17,26 @@ const { CONVO_LABELS } = require('../lib/constants.ts');
 // Mock external dependencies
 mock.method(chatwoot, 'getConversationLabels', async () => ({ payload: [] }));
 mock.method(chatwoot, 'setConversationLabels', async () => {});
-mock.method(chatwoot, 'setAgentAvailability', async () => {});
 const getConversationMock = mock.method(
   chatwoot,
   'getConversation',
   async () => ({ inbox_id: inboxId })
 );
-mock.method(agentRotation, 'clearActiveConversation', async () => {});
-mock.method(agentRotation, 'setActiveConversation', async () => {});
+const setAgentAvailabilityMock = mock.method(
+  chatwoot,
+  'setAgentAvailability',
+  async () => {}
+);
+const clearActiveConversationMock = mock.method(
+  agentRotation,
+  'clearActiveConversation',
+  async () => 'online'
+);
+const setActiveConversationMock = mock.method(
+  agentRotation,
+  'setActiveConversation',
+  async () => {}
+);
 mock.method(handoffQueue, 'updateRequest', async () => {});
 
 const accountId = 1;
@@ -125,6 +137,10 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
   assignMock.mock.resetCalls();
   updateQueuePositionsMock.mock.resetCalls();
   dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
   const initialDequeueCalls = dequeueRequestMock.mock.calls.length;
   const initialToggleCalls = toggleMock.mock.calls.length;
   const initialAssignCalls = assignMock.mock.calls.length;
@@ -193,6 +209,10 @@ test('releaseAgent uses provided assignee and inbox without extra lookups', asyn
   updateQueuePositionsMock.mock.resetCalls();
   dequeueNextPendingRequestMock.mock.resetCalls();
   getConversationMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
 
   await conversationResolution.releaseAgent(
     accountId,
@@ -219,6 +239,10 @@ test('releaseAgent assigns next pending request from another inbox', async () =>
   assignMock.mock.resetCalls();
   updateQueuePositionsMock.mock.resetCalls();
   dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
   const initialDequeueCalls = dequeueRequestMock.mock.calls.length;
   const initialFallbackCalls = dequeueNextPendingRequestMock.mock.calls.length;
   const initialAssignCalls = assignMock.mock.calls.length;
@@ -299,6 +323,10 @@ test('releaseAgent sends fallback when updateRequest fails', async () => {
   assignMock.mock.resetCalls();
   updateQueuePositionsMock.mock.resetCalls();
   dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
   handoffQueue.updateRequest.mock.mockImplementationOnce(async () => { throw new Error('fail'); });
   const notifyMock = mock.method(friendlyErrors, 'notifyHandoffIssue', async () => {});
   await conversationResolution.releaseAgent(accountId, releasedConversationId, {
@@ -317,6 +345,10 @@ test('releaseAgent throws when freed agent cannot be resolved', async () => {
   sendMock.mock.resetCalls();
   updateQueuePositionsMock.mock.resetCalls();
   dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
   const fetchErr = new Error('fetch failed');
   getConversationMock.mock.mockImplementationOnce(async () => {
     throw fetchErr;
@@ -334,6 +366,67 @@ test('releaseAgent throws when freed agent cannot be resolved', async () => {
     }
   );
   assertLoggedIds();
+});
+
+test('releaseAgent restores offline availability snapshot', async () => {
+  nextMessageId = 0;
+  prisma.conversationMessage.upsert.mock.resetCalls();
+  sendMock.mock.resetCalls();
+  toggleMock.mock.resetCalls();
+  assignMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
+  dequeueRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => 'offline');
+  setActiveConversationMock.mock.resetCalls();
+  dequeueRequestMock.mock.mockImplementationOnce(async () => null);
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(
+    setAgentAvailabilityMock.mock.calls.map((call) => call.arguments),
+    [[accountId, freedAgentId, 'offline']]
+  );
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 0);
+  assertLoggedIds();
+});
+
+test('releaseAgent records prior busy status when assigning queued request', async () => {
+  nextMessageId = 0;
+  prisma.conversationMessage.upsert.mock.resetCalls();
+  sendMock.mock.resetCalls();
+  toggleMock.mock.resetCalls();
+  assignMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => 'busy');
+  setActiveConversationMock.mock.resetCalls();
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  assert.deepStrictEqual(
+    setAgentAvailabilityMock.mock.calls.map((call) => call.arguments),
+    [
+      [accountId, freedAgentId, 'busy'],
+      [accountId, freedAgentId, 'busy'],
+    ]
+  );
+  assert.ok(setActiveConversationMock.mock.calls.length > 0);
+  const lastActiveCall = setActiveConversationMock.mock.calls.at(-1).arguments;
+  assert.strictEqual(lastActiveCall[0], freedAgentId);
+  assert.strictEqual(lastActiveCall[1], queuedConversationId);
+  assert.strictEqual(lastActiveCall[2], 'busy');
 });
 
 test('status change without label skips releaseAgent call', async () => {

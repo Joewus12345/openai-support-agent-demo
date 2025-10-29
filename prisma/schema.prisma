@@ -76,8 +76,15 @@ model AgentAssignment {
   agentId             Int
   lastAssignedAt      DateTime?
   activeConversationId Int?
+  availabilityBeforeBusy AgentAvailability?
 
   @@id([inboxId, agentId])
+}
+
+enum AgentAvailability {
+  online
+  busy
+  offline
 }
 
 enum HandoffRequestStatus {

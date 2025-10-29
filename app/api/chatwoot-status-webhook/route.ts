@@ -6,8 +6,9 @@ import type {
 } from "@/types/chatwoot";
 import { releaseAgent } from "@/lib/conversationResolution";
 import { CONVO_LABELS } from "@/lib/constants";
-import { setAgentAvailability } from "@/lib/chatwoot";
+import { getAgent, setAgentAvailability } from "@/lib/chatwoot";
 import {
+  AgentAvailability,
   clearActiveConversation,
   setActiveConversation,
 } from "@/lib/agentRotation";
@@ -16,6 +17,12 @@ import {
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
 import { notifyHandoffIssue } from "@/lib/friendlyErrors";
+
+function parseAvailability(value: unknown): AgentAvailability | null {
+  return value === "online" || value === "busy" || value === "offline"
+    ? (value as AgentAvailability)
+    : null;
+}
 
 export async function POST(request: Request) {
   let accountId: number | undefined;
@@ -188,13 +195,32 @@ export async function POST(request: Request) {
         typeof previousAssigneeId === "number" &&
         previousAssigneeId !== assigneeId
       ) {
+        let previousAvailability: AgentAvailability | null = null;
         try {
-          await clearActiveConversation(previousAssigneeId);
+          previousAvailability = await clearActiveConversation(
+            previousAssigneeId
+          );
         } catch (err) {
           console.error("clear previous active conversation error", err);
         }
         try {
-          await setAgentAvailability(accountId, previousAssigneeId, "online");
+          const availabilityToRestore =
+            previousAvailability ?? "online";
+          if (previousAvailability === null) {
+            console.warn(
+              "previous agent availability snapshot missing; defaulting to online",
+              {
+                event,
+                conversationId,
+                previousAssigneeId,
+              }
+            );
+          }
+          await setAgentAvailability(
+            accountId,
+            previousAssigneeId,
+            availabilityToRestore
+          );
         } catch (err) {
           console.error("reset previous agent availability error", err);
           await sendFallback();
@@ -210,8 +236,25 @@ export async function POST(request: Request) {
         conversationIsOpen &&
         (previousAssigneeId === undefined || previousAssigneeId !== assigneeId);
       if (shouldMarkNewAgentBusy) {
+        let assigneeAvailability: AgentAvailability | null = parseAvailability(
+          payload.meta?.assignee?.availability_status
+        );
+        if (!assigneeAvailability && typeof assigneeId === "number") {
+          try {
+            const agent = await getAgent(accountId, assigneeId);
+            assigneeAvailability = parseAvailability(
+              (agent as any)?.availability_status
+            );
+          } catch (err) {
+            console.error("fetch assignee availability error", err);
+          }
+        }
         try {
-          await setActiveConversation(assigneeId, conversationId);
+          await setActiveConversation(
+            assigneeId,
+            conversationId,
+            assigneeAvailability
+          );
           await setAgentAvailability(accountId, assigneeId, "busy");
         } catch (err) {
           console.error("set new agent busy error", err);
