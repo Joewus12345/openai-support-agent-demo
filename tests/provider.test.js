@@ -1,5 +1,5 @@
 require('ts-node/register/transpile-only');
-require('tsconfig-paths/register');
+require('../scripts/register-tsconfig-paths.js');
 const assert = require('assert');
 const { test, mock } = require('node:test');
 const { convertMessages, serializeToolCallArgs } = require('../lib/providers/ollama.ts');

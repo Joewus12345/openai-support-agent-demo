@@ -1,7 +1,46 @@
 const assert = require('assert');
 const { test, mock } = require('node:test');
 require('ts-node/register/transpile-only');
-require('tsconfig-paths/register');
+require('../scripts/register-tsconfig-paths.js');
+
+const originalChatwootUrl = process.env.CHATWOOT_URL;
+process.env.CHATWOOT_URL = process.env.CHATWOOT_URL ?? 'https://chatwoot.example';
+
+const agentListResponses = [];
+const originalFetch = global.fetch;
+const fetchMock = mock.method(global, 'fetch', async (input, init = {}) => {
+  void init;
+  const url =
+    typeof input === 'string'
+      ? input
+      : typeof input === 'object' && input !== null && 'url' in input
+        ? input.url
+        : String(input);
+
+  if (
+    typeof url === 'string' &&
+    url.includes('/api/v1/accounts/') &&
+    url.includes('/agents')
+  ) {
+    const next = agentListResponses.length > 0 ? agentListResponses.shift() : { body: [] };
+    const status = next.status ?? 200;
+    const body = next.body ?? [];
+    const payload = typeof body === 'string' ? body : JSON.stringify(body);
+    return new Response(payload, {
+      status,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  return new Response(JSON.stringify({}), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+});
+
+function enqueueAgentListResponse(body, status = 200) {
+  agentListResponses.push({ body, status });
+}
 
 const conversationResolution = require('../lib/conversationResolution.ts');
 const chatwoot = require('../lib/chatwoot.ts');
@@ -69,6 +108,22 @@ test.after(async () => {
   if (typeof redis.disconnect === 'function') {
     redis.disconnect();
   }
+  fetchMock.mock.restore?.();
+  if (originalFetch) {
+    global.fetch = originalFetch;
+  } else {
+    delete global.fetch;
+  }
+  if (originalChatwootUrl === undefined) {
+    delete process.env.CHATWOOT_URL;
+  } else {
+    process.env.CHATWOOT_URL = originalChatwootUrl;
+  }
+});
+
+test.beforeEach(() => {
+  agentListResponses.length = 0;
+  fetchMock.mock.resetCalls();
 });
 
 let status = 'resolved';
@@ -508,6 +563,9 @@ test('label removed with status open skips releaseAgent call', async () => {
       assignee_id: 61,
     },
   };
+  enqueueAgentListResponse([
+    { id: 61, availability_status: 'online' },
+  ]);
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -563,6 +621,9 @@ test('status change with label triggers releaseAgent', async () => {
       assignee_id: 62,
     },
   };
+  enqueueAgentListResponse([
+    { id: 62, availability_status: 'online' },
+  ]);
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),

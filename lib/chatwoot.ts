@@ -2,6 +2,14 @@ const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
 const CHATWOOT_TOKEN = process.env.CHATWOOT_APP_TOKEN || "";
 const CHATWOOT_TIMEOUT_MS = Number(process.env.CHATWOOT_TIMEOUT_MS || 15000);
 
+import type { AgentAvailability } from "./agentRotation";
+
+type AgentRecord = {
+  id?: number | string;
+  availability_status?: AgentAvailability | string | null;
+  [key: string]: any;
+};
+
 async function chatwootFetch(
   path: string,
   init: RequestInit & { timeoutMs?: number; maxAttempts?: number } = {}
@@ -102,24 +110,94 @@ export async function updateConversation(
   );
 }
 
+function extractAgents(value: unknown, seen = new Set<object>()): AgentRecord[] {
+  if (Array.isArray(value)) {
+    return value as AgentRecord[];
+  }
+  if (!value || typeof value !== "object") {
+    return [];
+  }
+  if (seen.has(value as object)) {
+    return [];
+  }
+  seen.add(value as object);
+  const container = value as Record<string, unknown>;
+  const candidateKeys = ["data", "payload", "agents", "result", "meta"];
+  for (const key of candidateKeys) {
+    if (key in container) {
+      const nested = extractAgents(container[key], seen);
+      if (nested.length > 0) {
+        return nested;
+      }
+    }
+  }
+  return [];
+}
+
+function normalizeAgentsResponse(value: unknown): AgentRecord[] {
+  const agents = extractAgents(value);
+  return agents.filter((agent) => agent && typeof agent === "object");
+}
+
 export async function listAgents(
   accountId: number,
-  availability?: "online" | "busy" | "offline"
+  availability?: AgentAvailability
 ) {
   const query = availability ? `?availability_status=${availability}` : "";
-  return chatwootFetch(
+  const response = await chatwootFetch(
     `/api/v1/accounts/${accountId}/agents${query}`,
     {
       method: "GET",
     }
   );
+  return normalizeAgentsResponse(response);
 }
 
 export async function getAgent(accountId: number, agentId: number) {
-  return chatwootFetch(
-    `/api/v1/accounts/${accountId}/agents/${agentId}`,
-    { method: "GET" }
-  );
+  const coerceId = (value: unknown) =>
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number.parseInt(value, 10)
+        : NaN;
+
+  const findAgent = (records: AgentRecord[]) =>
+    records.find((agent) => coerceId(agent.id) === agentId) ?? null;
+
+  try {
+    const agents = await listAgents(accountId);
+    const match = findAgent(agents);
+    if (match) {
+      return match;
+    }
+  } catch (err) {
+    console.error("[chatwoot] listAgents error", err);
+    throw err;
+  }
+
+  const availabilities: AgentAvailability[] = [
+    "online",
+    "busy",
+    "offline",
+  ];
+
+  for (const availability of availabilities) {
+    try {
+      const agents = await listAgents(accountId, availability);
+      const match = findAgent(agents);
+      if (match) {
+        return match;
+      }
+    } catch (err) {
+      console.warn(
+        "[chatwoot] listAgents availability lookup failed",
+        availability,
+        err
+      );
+    }
+  }
+
+  return null;
 }
 
 export async function setAgentAvailability(

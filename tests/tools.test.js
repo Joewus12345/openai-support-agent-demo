@@ -2,7 +2,7 @@ const assert = require('assert');
 const test = require('node:test');
 
 require('ts-node/register/transpile-only');
-require('tsconfig-paths/register');
+require('../scripts/register-tsconfig-paths.js');
 
 test('tool catalog includes set_reply_reference', () => {
   const { toolsList } = require('../config/tools-list.ts');

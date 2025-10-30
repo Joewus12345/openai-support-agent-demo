@@ -242,12 +242,38 @@ export async function POST(request: Request) {
         if (!assigneeAvailability && typeof assigneeId === "number") {
           try {
             const agent = await getAgent(accountId, assigneeId);
-            assigneeAvailability = parseAvailability(
-              (agent as any)?.availability_status
-            );
+            if (agent) {
+              assigneeAvailability = parseAvailability(
+                (agent as any)?.availability_status
+              );
+              if (!assigneeAvailability) {
+                console.warn(
+                  "assignee availability lookup returned unknown status",
+                  {
+                    event,
+                    conversationId,
+                    assigneeId,
+                    availability: (agent as any)?.availability_status,
+                  }
+                );
+              }
+            } else {
+              console.warn("assignee not found in Chatwoot agent list", {
+                event,
+                conversationId,
+                assigneeId,
+              });
+            }
           } catch (err) {
             console.error("fetch assignee availability error", err);
           }
+        }
+        if (!assigneeAvailability) {
+          console.warn("defaulting new assignee availability to online", {
+            event,
+            conversationId,
+            assigneeId,
+          });
         }
         try {
           await setActiveConversation(

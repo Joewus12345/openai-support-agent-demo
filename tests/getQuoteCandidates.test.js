@@ -4,7 +4,7 @@ const Module = require('module');
 const path = require('path');
 
 require('ts-node/register/transpile-only');
-require('tsconfig-paths/register');
+require('../scripts/register-tsconfig-paths.js');
 
 const prismaModulePath = require.resolve('../lib/prisma.ts');
 const originalPrismaModule = require.cache[prismaModulePath];

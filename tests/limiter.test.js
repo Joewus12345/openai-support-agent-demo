@@ -1,7 +1,7 @@
 const assert = require('assert');
 const { test, mock } = require('node:test');
 require('ts-node/register/transpile-only');
-require('tsconfig-paths/register');
+require('../scripts/register-tsconfig-paths.js');
 
 const {
   scheduleProviderCall,

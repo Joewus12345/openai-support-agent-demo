@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r tsconfig-paths/register --test",
-    "cleanup:sessions": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r tsconfig-paths/register scripts/cleanupSessions.ts",
-    "prune:sessions": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r tsconfig-paths/register scripts/pruneSessionMessages.ts"
+    "test": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js --test",
+    "cleanup:sessions": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js scripts/cleanupSessions.ts",
+    "prune:sessions": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js scripts/pruneSessionMessages.ts"
   },
   "dependencies": {
     "@npmcli/fs": "^4.0.0",

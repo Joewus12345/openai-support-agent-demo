@@ -17,9 +17,24 @@ export async function handOff(
   let availabilityBeforeBusy: AgentAvailability | null = null;
   try {
     const agent = await getAgent(accountId, agentId);
-    const status = (agent as any)?.availability_status;
-    if (status === "online" || status === "busy" || status === "offline") {
-      availabilityBeforeBusy = status;
+    if (agent) {
+      const status = (agent as any)?.availability_status;
+      if (status === "online" || status === "busy" || status === "offline") {
+        availabilityBeforeBusy = status;
+      } else {
+        console.warn("handoff availability snapshot unavailable", {
+          accountId,
+          conversationId,
+          agentId,
+          availability: status,
+        });
+      }
+    } else {
+      console.warn("handoff agent not found during availability snapshot", {
+        accountId,
+        conversationId,
+        agentId,
+      });
     }
   } catch (err) {
     console.error("handoff availability fetch error", err);
