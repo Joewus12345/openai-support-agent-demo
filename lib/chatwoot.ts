@@ -2,13 +2,13 @@ const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
 const CHATWOOT_TOKEN = process.env.CHATWOOT_APP_TOKEN || "";
 const CHATWOOT_TIMEOUT_MS = Number(process.env.CHATWOOT_TIMEOUT_MS || 15000);
 
-import type { AgentAvailability } from "./agentRotation";
+import type { AgentAvailability, AgentRecord } from "./agentRotation";
 
-type AgentRecord = {
-  id?: number | string;
-  availability_status?: AgentAvailability | string | null;
-  [key: string]: any;
-};
+const AVAILABILITY_VALUES: readonly AgentAvailability[] = [
+  "online",
+  "busy",
+  "offline",
+] as const;
 
 async function chatwootFetch(
   path: string,
@@ -110,9 +110,9 @@ export async function updateConversation(
   );
 }
 
-function extractAgents(value: unknown, seen = new Set<object>()): AgentRecord[] {
+function extractAgents(value: unknown, seen = new Set<object>()): unknown[] {
   if (Array.isArray(value)) {
-    return value as AgentRecord[];
+    return value;
   }
   if (!value || typeof value !== "object") {
     return [];
@@ -134,15 +134,71 @@ function extractAgents(value: unknown, seen = new Set<object>()): AgentRecord[] 
   return [];
 }
 
+function normalizeAgentRecord(raw: unknown): AgentRecord | null {
+  if (!raw || typeof raw !== "object") {
+    return null;
+  }
+
+  const record = raw as Record<string, unknown>;
+  const rawId =
+    record.id ?? record.agent_id ?? record.user_id ?? record.userId ?? null;
+
+  const id =
+    typeof rawId === "number"
+      ? rawId
+      : typeof rawId === "string" && rawId.trim().length > 0
+        ? Number.parseInt(rawId, 10)
+        : NaN;
+
+  if (!Number.isFinite(id)) {
+    console.warn("[chatwoot] skipping agent without numeric id", {
+      rawId,
+    });
+    return null;
+  }
+
+  const availabilityRaw =
+    record.availability_status ?? record.availability ?? record.status ?? null;
+
+  let availability: AgentAvailability | null = null;
+  if (typeof availabilityRaw === "string") {
+    const normalized = availabilityRaw.toLowerCase();
+    if ((AVAILABILITY_VALUES as readonly string[]).includes(normalized)) {
+      availability = normalized as AgentAvailability;
+    }
+  }
+
+  if (!availability) {
+    console.warn("[chatwoot] defaulting agent availability", {
+      agentId: id,
+      availabilityRaw,
+    });
+    availability = "online";
+  }
+
+  return {
+    ...(record as Record<string, any>),
+    id,
+    availability_status: availability,
+  } as AgentRecord;
+}
+
 function normalizeAgentsResponse(value: unknown): AgentRecord[] {
   const agents = extractAgents(value);
-  return agents.filter((agent) => agent && typeof agent === "object");
+  const normalized: AgentRecord[] = [];
+  for (const agent of agents) {
+    const result = normalizeAgentRecord(agent);
+    if (result) {
+      normalized.push(result);
+    }
+  }
+  return normalized;
 }
 
 export async function listAgents(
   accountId: number,
   availability?: AgentAvailability
-) {
+) : Promise<AgentRecord[]> {
   const query = availability ? `?availability_status=${availability}` : "";
   const response = await chatwootFetch(
     `/api/v1/accounts/${accountId}/agents${query}`,
@@ -153,7 +209,10 @@ export async function listAgents(
   return normalizeAgentsResponse(response);
 }
 
-export async function getAgent(accountId: number, agentId: number) {
+export async function getAgent(
+  accountId: number,
+  agentId: number
+): Promise<AgentRecord | null> {
   const coerceId = (value: unknown) =>
     typeof value === "number"
       ? value
@@ -175,13 +234,7 @@ export async function getAgent(accountId: number, agentId: number) {
     throw err;
   }
 
-  const availabilities: AgentAvailability[] = [
-    "online",
-    "busy",
-    "offline",
-  ];
-
-  for (const availability of availabilities) {
+  for (const availability of AVAILABILITY_VALUES) {
     try {
       const agents = await listAgents(accountId, availability);
       const match = findAgent(agents);
