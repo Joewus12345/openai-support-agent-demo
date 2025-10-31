@@ -168,13 +168,25 @@ export async function POST(request: Request) {
             .filter(Boolean);
         }
       }
+      const assigneeChange = changes.assignee_id;
+      const assigneeIdFromChange =
+        typeof assigneeChange?.current_value === "number"
+          ? assigneeChange.current_value
+          : undefined;
       const assigneeId =
         payload.assignee_id ??
-        (changes.assignee_id?.current_value as number | undefined) ??
+        assigneeIdFromChange ??
         payload.meta?.assignee?.id ??
         (typedPayload.conversation as any)?.assignee_id;
+      const previousAssigneeRaw = assigneeChange?.previous_value;
       const previousAssigneeId =
-        changes.assignee_id?.previous_value as number | undefined;
+        typeof previousAssigneeRaw === "number"
+          ? previousAssigneeRaw
+          : undefined;
+      const hasAssigneeChange = Object.prototype.hasOwnProperty.call(
+        changes,
+        "assignee_id"
+      );
       const inboxId =
         payload.inbox_id ??
         (typedPayload.conversation as any)?.inbox_id ??
@@ -232,9 +244,10 @@ export async function POST(request: Request) {
           ((typedPayload.conversation as any)?.status === "open" ||
             (payload.conversation as any)?.status === "open"));
       const shouldMarkNewAgentBusy =
+        hasAssigneeChange &&
         typeof assigneeId === "number" &&
         conversationIsOpen &&
-        (previousAssigneeId === undefined || previousAssigneeId !== assigneeId);
+        previousAssigneeId !== assigneeId;
       if (shouldMarkNewAgentBusy) {
         let assigneeAvailability: AgentAvailability | null = parseAvailability(
           payload.meta?.assignee?.availability_status

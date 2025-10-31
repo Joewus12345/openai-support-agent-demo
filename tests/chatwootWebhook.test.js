@@ -748,6 +748,35 @@ test('chatwoot status webhook restores previous assignee and marks new assignee 
   resetMocks();
 });
 
+test('chatwoot status webhook does not mark agent busy on status update without assignee change', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 14 },
+      conversation: { id: 102, status: 'open', inbox_id: 9, assignee_id: 501 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+      ],
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 0);
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  resetMocks();
+});
+
 test('chatwoot status webhook skips busy update when assignee unchanged', async () => {
   const payload = {
     event: 'conversation_updated',
