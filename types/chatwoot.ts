@@ -1,3 +1,5 @@
+import type { AgentAvailability } from "@/lib/agentRotation";
+
 interface Account {
   id?: number;
   account_id?: number;
@@ -7,6 +9,7 @@ interface Account {
 interface Assignee {
   id?: number;
   account_id?: number;
+  availability_status?: AgentAvailability;
 }
 
 export interface Conversation {

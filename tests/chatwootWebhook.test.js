@@ -3,7 +3,46 @@ const { test, mock } = require('node:test');
 process.env.RELEASE_MAX_ATTEMPTS = '2';
 process.env.RELEASE_RETRY_BASE_MS = '1';
 require('ts-node/register/transpile-only');
-require('tsconfig-paths/register');
+require('../scripts/register-tsconfig-paths.js');
+
+const originalChatwootUrl = process.env.CHATWOOT_URL;
+process.env.CHATWOOT_URL = process.env.CHATWOOT_URL ?? 'https://chatwoot.example';
+
+const agentListResponses = [];
+const originalFetch = global.fetch;
+const fetchMock = mock.method(global, 'fetch', async (input, init = {}) => {
+  void init;
+  const url =
+    typeof input === 'string'
+      ? input
+      : typeof input === 'object' && input !== null && 'url' in input
+        ? input.url
+        : String(input);
+
+  if (
+    typeof url === 'string' &&
+    url.includes('/api/v1/accounts/') &&
+    url.includes('/agents')
+  ) {
+    const next = agentListResponses.length > 0 ? agentListResponses.shift() : { body: [] };
+    const status = next.status ?? 200;
+    const body = next.body ?? [];
+    const payload = typeof body === 'string' ? body : JSON.stringify(body);
+    return new Response(payload, {
+      status,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  return new Response(JSON.stringify({}), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+});
+
+function enqueueAgentListResponse(body, status = 200) {
+  agentListResponses.push({ body, status });
+}
 
 // Mock external dependencies
 const conversationResolution = require('../lib/conversationResolution.ts');
@@ -11,23 +50,29 @@ const releaseAgentMock = mock.method(conversationResolution, 'releaseAgent', asy
 
 const chatwootBot = require('../lib/chatwootBot.ts');
 let nextMessageId = 0;
+const defaultSendBotMessageImplementation = async (
+  accountId,
+  conversationId,
+  content
+) => ({
+  id: ++nextMessageId,
+  inbox_id: 1,
+  content,
+  conversation_id: conversationId,
+  account_id: accountId,
+  created_at: Math.floor(Date.now() / 1000),
+});
 const sendBotMessageMock = mock.method(
   chatwootBot,
   'sendBotMessage',
-  async (accountId, conversationId, content) => ({
-    id: ++nextMessageId,
-    inbox_id: 1,
-    content,
-    conversation_id: conversationId,
-    account_id: accountId,
-    created_at: Math.floor(Date.now() / 1000),
-  })
+  defaultSendBotMessageImplementation
 );
 
 const {
   MESSAGE_FALLBACK_TEXT,
   HANDOFF_FALLBACK_TEXT,
 } = require('../lib/friendlyErrors.ts');
+const { ProviderRetryError } = require('../lib/providers/retry.ts');
 
 const providers = require('../lib/providers/index.ts');
 const providerFnMock = mock.fn((messages, toolsArg, options) =>
@@ -39,6 +84,29 @@ const providerFnMock = mock.fn((messages, toolsArg, options) =>
   })()
 );
 const getProviderMock = mock.method(providers, 'getProvider', () => providerFnMock);
+const {
+  scheduleProviderCall,
+  setLimiterConfigForTesting,
+  resetLimiterForTesting,
+} = require('../lib/providers/limiter.ts');
+
+const chatwootJobQueueModule = require('../lib/chatwoot/jobQueue.ts');
+const {
+  enqueueChatwootJob,
+  setChatwootQueueEnabledForTesting,
+  waitForChatwootQueueIdle,
+  resetChatwootQueueForTesting,
+  setChatwootQueuePersistenceEnabledForTesting,
+  hydrateChatwootQueueFromStorageForTesting,
+  setChatwootQueueConcurrencyForTesting,
+  getChatwootQueueConcurrency,
+  setChatwootQueueRetryConfigForTesting,
+  setChatwootQueueJobTimeoutForTesting,
+  setChatwootQueueFailureReporter,
+  getChatwootQueueFailureReporterForTesting,
+} = chatwootJobQueueModule;
+setChatwootQueueEnabledForTesting(false);
+setChatwootQueuePersistenceEnabledForTesting(false);
 
 const conversationHistory = require('../lib/getConversationHistory.ts');
 const getConversationHistoryMock = mock.method(
@@ -78,6 +146,11 @@ const getNextAgentMock = mock.method(
   })
 );
 const setActiveConversationMock = mock.method(agentRotation, 'setActiveConversation', async () => {});
+const clearActiveConversationMock = mock.method(
+  agentRotation,
+  'clearActiveConversation',
+  async () => {}
+);
 
 const handoff = require('../lib/handoff.ts');
 const handOffMock = mock.method(handoff, 'default', async () => true);
@@ -98,6 +171,11 @@ const getConversationLabelsMock = mock.method(
   chatwoot,
   'getConversationLabels',
   async () => ({ payload: [] })
+);
+const setAgentAvailabilityMock = mock.method(
+  chatwoot,
+  'setAgentAvailability',
+  async () => {}
 );
 
 const fetchAttachmentImageModule = require('../lib/chatwoot/fetchAttachmentImage.ts');
@@ -164,6 +242,8 @@ const { searchKnowledgeBase } = searchKnowledgeBaseModule;
 const { CONVO_LABELS } = require('../lib/constants.ts');
 const { CHATWOOT_SYSTEM_PROMPT, MODEL } = require('../config/constants.ts');
 
+const { getConversationKey } = require('../lib/getConversationKey.ts');
+
 const guardrails = require('../lib/guardrails.ts');
 const runRelevanceGuardrailMock = mock.method(
   guardrails,
@@ -194,6 +274,7 @@ redis.exists = mock.fn(async () => 0);
 redis.rpush = mock.fn(async () => {});
 redis.pipeline = mock.fn(() => redisPipelineMock);
 redis.lrange = mock.fn(async () => []);
+redis.lrem = mock.fn(async () => {});
 
 const tokenCounter = require('../lib/utils/tokenCounter.ts');
 const originalEstimateMessageTokens = tokenCounter.estimateMessageTokens;
@@ -217,6 +298,17 @@ test.after(async () => {
   if (typeof redis.disconnect === 'function') {
     await redis.disconnect();
   }
+  fetchMock.mock.restore?.();
+  if (originalFetch) {
+    global.fetch = originalFetch;
+  } else {
+    delete global.fetch;
+  }
+  if (originalChatwootUrl === undefined) {
+    delete process.env.CHATWOOT_URL;
+  } else {
+    process.env.CHATWOOT_URL = originalChatwootUrl;
+  }
 });
 
 function resetMocks() {
@@ -229,8 +321,14 @@ function resetMocks() {
   releaseAgentMock.mock.resetCalls();
   releaseAgentMock.mock.mockImplementation(async () => {});
   sendBotMessageMock.mock.resetCalls();
+  sendBotMessageMock.mock.mockImplementation(
+    defaultSendBotMessageImplementation
+  );
   nextMessageId = 0;
+  agentListResponses.length = 0;
+  fetchMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
+  getProviderMock.mock.mockImplementation(() => providerFnMock);
   providerFnMock.mock.resetCalls();
   getNextAgentMock.mock.resetCalls();
   getNextAgentMock.mock.mockImplementation(async () => ({
@@ -238,6 +336,7 @@ function resetMocks() {
     availabilitySummary: { online: 0, busy: 0, offline: 0 },
   }));
   setActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
   handOffMock.mock.resetCalls();
   enqueueRequestMock.mock.resetCalls();
   updateRequestMock.mock.resetCalls();
@@ -246,6 +345,8 @@ function resetMocks() {
   getConversationMock.mock.resetCalls();
   setConversationLabelsMock.mock.resetCalls();
   getConversationLabelsMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.mockImplementation(async () => {});
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
@@ -259,6 +360,7 @@ function resetMocks() {
   redis.rpush.mock.resetCalls();
   redis.pipeline.mock.resetCalls();
   redis.lrange.mock.resetCalls();
+  redis.lrem.mock.resetCalls();
   redisPipelineMock.rpush.mock.resetCalls();
   redisPipelineMock.expire.mock.resetCalls();
   redisPipelineMock.exec.mock.resetCalls();
@@ -287,6 +389,26 @@ function resetMocks() {
   delete process.env.CHATWOOT_OLLAMA_TOKEN_LIMIT;
   delete process.env.CHATWOOT_OLLAMA_OPENAI_TOKEN_LIMIT;
   delete process.env.CHATWOOT_DEFAULT_TOKEN_LIMIT;
+  resetLimiterForTesting();
+  resetChatwootQueueForTesting();
+  setChatwootQueueEnabledForTesting(false);
+  setChatwootQueuePersistenceEnabledForTesting(false);
+  setChatwootQueueFailureReporter(undefined);
+}
+
+async function tickAndFlush(ms = 0) {
+  mock.timers.tick(ms);
+  await Promise.resolve();
+}
+
+async function waitForLimiter(predicate, attempts = 50, stepMs = 0) {
+  for (let i = 0; i < attempts; i += 1) {
+    if (predicate()) {
+      return true;
+    }
+    await tickAndFlush(stepMs);
+  }
+  return predicate();
 }
 
 function getLoggedBotMessages() {
@@ -311,7 +433,8 @@ test('chatwoot status webhook releases agent on conversation_status_changed', as
       status: 'snoozed',
       previous_status: 'open',
       account: { id: 1 },
-      conversation: { id: 1 },
+      conversation: { id: 1, inbox_id: 10 },
+      assignee_id: 21,
     },
   };
   const req = new Request('http://localhost', {
@@ -322,6 +445,9 @@ test('chatwoot status webhook releases agent on conversation_status_changed', as
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  const releaseArgs = releaseAgentMock.mock.calls[0].arguments;
+  assert.strictEqual(releaseArgs[3], 21);
+  assert.strictEqual(releaseArgs[4], 10);
   assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   assertLoggedIds();
@@ -402,6 +528,100 @@ test('chatwoot status webhook stops returning 500 after retry limit', async () =
   resetMocks();
 });
 
+test('chatwoot webhook sends fallback when provider retries are exhausted', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 901,
+        message_type: 0,
+        content: 'Retry exhausted please help',
+        account: { id: 91 },
+        conversation: {
+          id: 91,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 91,
+        },
+      },
+    },
+  };
+
+  const underlying = new Error('rate limited');
+  providerFnMock.mock.mockImplementationOnce(async function* () {
+    throw new ProviderRetryError('Rate limited', {
+      provider: 'openai',
+      status: 429,
+      attempts: 3,
+      retriesExhausted: true,
+      retryable: true,
+      cause: underlying,
+    });
+  });
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  const body = await res.json();
+
+  assert.strictEqual(body.status, 'fallback');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], MESSAGE_FALLBACK_TEXT);
+  assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook surfaces provider errors when retries are not exhausted', async () => {
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 902,
+        message_type: 0,
+        content: 'Retry once please',
+        account: { id: 92 },
+        conversation: {
+          id: 92,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 92,
+        },
+      },
+    },
+  };
+
+  const underlying = new Error('transient 500');
+  providerFnMock.mock.mockImplementationOnce(async function* () {
+    throw new ProviderRetryError('Server error', {
+      provider: 'openai',
+      status: 500,
+      attempts: 1,
+      retriesExhausted: false,
+      retryable: true,
+      cause: underlying,
+    });
+  });
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  const body = await res.json();
+
+  assert.strictEqual(res.status, 500);
+  assert.strictEqual(body.error, 'Server error');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
+  assertLoggedIds();
+  resetMocks();
+});
+
 test('chatwoot status webhook skips release on label removal', async () => {
   const payload = {
     event: 'conversation_updated',
@@ -443,7 +663,7 @@ test('chatwoot status webhook releases agent on status-only update with top-leve
         },
       ],
       account: { id: 6 },
-      conversation: { id: 6 },
+      conversation: { id: 6, inbox_id: 11 },
       assignee_id: 44,
       labels: [CONVO_LABELS.assigned, 'other'],
     },
@@ -456,7 +676,188 @@ test('chatwoot status webhook releases agent on status-only update with top-leve
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  const releaseArgs = releaseAgentMock.mock.calls[0].arguments;
+  assert.strictEqual(releaseArgs[3], 44);
+  assert.strictEqual(releaseArgs[4], 11);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assertLoggedIds();
+  resetMocks();
+});
+
+test('chatwoot status webhook restores previous assignee and marks new assignee busy', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 9 },
+      conversation: { id: 77, status: 'open', inbox_id: 11 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+        {
+          assignee_id: { previous_value: 71, current_value: 42 },
+        },
+      ],
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => 'offline');
+  enqueueAgentListResponse([
+    { id: 42, availability_status: 'offline' },
+  ]);
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(clearActiveConversationMock.mock.calls[0].arguments, [71]);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [
+    42,
+    77,
+    'offline',
+  ]);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 2);
+  assert.deepStrictEqual(
+    setAgentAvailabilityMock.mock.calls.map((call) => call.arguments),
+    [
+      [9, 71, 'offline'],
+      [9, 42, 'busy'],
+    ]
+  );
+  const agentFetchCalls = fetchMock.mock.calls.filter((call) => {
+    const rawUrl = call.arguments[0];
+    const resolvedUrl =
+      typeof rawUrl === 'string'
+        ? rawUrl
+        : typeof rawUrl === 'object' && rawUrl !== null && 'url' in rawUrl
+          ? rawUrl.url
+          : String(rawUrl);
+    return (
+      typeof resolvedUrl === 'string' &&
+      resolvedUrl.includes('/api/v1/accounts/') &&
+      resolvedUrl.includes('/agents')
+    );
+  });
+  assert.ok(agentFetchCalls.length >= 1);
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  resetMocks();
+});
+
+test('chatwoot status webhook leaves previous availability unchanged when snapshot missing', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 9 },
+      conversation: { id: 77, status: 'open', inbox_id: 11 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+        {
+          assignee_id: { previous_value: 71, current_value: 42 },
+        },
+      ],
+      meta: {
+        assignee: {
+          id: 42,
+          availability_status: 'offline',
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => null);
+  enqueueAgentListResponse([
+    { id: 42, availability_status: 'offline' },
+  ]);
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(clearActiveConversationMock.mock.calls[0].arguments, [71]);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [
+    42,
+    77,
+    'offline',
+  ]);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setAgentAvailabilityMock.mock.calls[0].arguments, [
+    9,
+    42,
+    'busy',
+  ]);
+  resetMocks();
+});
+
+test('chatwoot status webhook does not mark agent busy on status update without assignee change', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 14 },
+      conversation: { id: 102, status: 'open', inbox_id: 9, assignee_id: 501 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+      ],
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 0);
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  resetMocks();
+});
+
+test('chatwoot status webhook skips busy update when assignee unchanged', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 10 },
+      conversation: { id: 88, status: 'open', inbox_id: 12, assignee_id: 64 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+        {
+          assignee_id: { previous_value: 64, current_value: 64 },
+        },
+      ],
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 0);
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });
 
@@ -471,7 +872,7 @@ test('chatwoot status webhook releases agent on status update', async () => {
         },
       ],
       account: { id: 3 },
-      conversation: { id: 3 },
+      conversation: { id: 3, inbox_id: 12 },
       assignee_id: 43,
       labels: [CONVO_LABELS.assigned],
     },
@@ -484,6 +885,10 @@ test('chatwoot status webhook releases agent on status update', async () => {
   const data = await res.json();
   assert.strictEqual(data.status, 'handled');
   assert.strictEqual(releaseAgentMock.mock.calls.length, 1);
+  const releaseArgs = releaseAgentMock.mock.calls[0].arguments;
+  assert.strictEqual(releaseArgs[3], 43);
+  assert.strictEqual(releaseArgs[4], 12);
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 0);
   assertLoggedIds();
   resetMocks();
 });
@@ -786,7 +1191,7 @@ test('chatwoot webhook queues request when agents busy', async () => {
   resetMocks();
 });
 
-test('chatwoot webhook queues request when agents offline', async () => {
+test('chatwoot webhook sends offline message when no agents available', async () => {
   getNextAgentMock.mock.mockImplementationOnce(async () => ({
     agent: null,
     availabilitySummary: { online: 0, busy: 0, offline: 4 },
@@ -796,19 +1201,6 @@ test('chatwoot webhook queues request when agents offline', async () => {
     status: 'resolved',
     inbox_id: 1,
   }));
-  updateQueuePositionsMock.mock.mockImplementationOnce(async () => [
-    {
-      conversationKey: 'chatwoot:3:1:3',
-      conversationId: 3,
-      accountId: 3,
-      inboxId: 1,
-      requestedAt: new Date(),
-      status: 'pending',
-      agentId: null,
-      lastPositionNotified: 1,
-      position: 1,
-    },
-  ]);
   const payload = {
     event: 'message_created',
     data: {
@@ -830,17 +1222,12 @@ test('chatwoot webhook queues request when agents offline', async () => {
   const body = await res.json();
   assert.strictEqual(body.status, 'handoff');
   assert.strictEqual(handOffMock.mock.calls.length, 0);
-  assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
-  assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [3, 3, undefined, undefined, 1]);
-  assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 1);
-  assert.deepStrictEqual(updateQueuePositionsMock.mock.calls[0].arguments, [
-    { accountId: 3 },
-  ]);
-  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
-  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
+  assert.strictEqual(enqueueRequestMock.mock.calls.length, 0);
+  assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 0);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 0);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[0].arguments[2],
-    'No human agents are currently available. Please try again later. You are currently number 1 in the queue.'
+    'No human agents are currently available. Please try again later.'
   );
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,
@@ -848,6 +1235,161 @@ test('chatwoot webhook queues request when agents offline', async () => {
   });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook requeue resets queue notification state', async () => {
+  const accountId = 7;
+  const conversationId = 7;
+  const inboxId = 1;
+  const requestStore = new Map();
+
+  enqueueRequestMock.mock.mockImplementation(
+    async (
+      incomingAccountId,
+      incomingConversationId,
+      status,
+      agentId,
+      incomingInboxId
+    ) => {
+      if (incomingInboxId === undefined) {
+        throw new Error('Missing inboxId');
+      }
+      const key = getConversationKey(
+        incomingAccountId,
+        incomingConversationId,
+        incomingInboxId
+      );
+      const nextStatus = status ?? 'pending';
+      const existing = requestStore.get(key);
+      if (existing) {
+        existing.status = nextStatus;
+        existing.agentId = agentId ?? existing.agentId ?? null;
+        existing.accountId = incomingAccountId;
+        existing.inboxId = incomingInboxId;
+        if (nextStatus === 'pending') {
+          existing.requestedAt = new Date();
+          existing.lastPositionNotified = null;
+        }
+        requestStore.set(key, existing);
+        return existing;
+      }
+      const created = {
+        conversationKey: key,
+        conversationId: incomingConversationId,
+        accountId: incomingAccountId,
+        inboxId: incomingInboxId,
+        requestedAt: new Date(),
+        status: nextStatus,
+        agentId: agentId ?? null,
+        lastPositionNotified: null,
+      };
+      requestStore.set(key, created);
+      return created;
+    }
+  );
+
+  updateQueuePositionsMock.mock.mockImplementation(async ({ accountId: scopeAccountId }) => {
+    const pending = [...requestStore.values()]
+      .filter((request) => request.accountId === scopeAccountId && request.status === 'pending')
+      .sort((a, b) => a.requestedAt.getTime() - b.requestedAt.getTime());
+    const updates = [];
+    for (const [index, request] of pending.entries()) {
+      const position = index + 1;
+      if (request.lastPositionNotified === position) {
+        continue;
+      }
+      request.lastPositionNotified = position;
+      updates.push({ ...request, position });
+    }
+    return updates;
+  });
+
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: null,
+    availabilitySummary: { online: 0, busy: 2, offline: 5 },
+  }));
+
+  const initialPayload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 701,
+        message_type: 0,
+        content: 'Need human support',
+        account: { id: accountId },
+        conversation: {
+          id: conversationId,
+          inbox_id: inboxId,
+          status: 'resolved',
+          account_id: accountId,
+        },
+      },
+    },
+  };
+
+  const initialResponse = await webhookPost(
+    new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(initialPayload),
+    })
+  );
+  const initialBody = await initialResponse.json();
+  assert.strictEqual(initialBody.status, 'handoff');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+  const firstMessage = sendBotMessageMock.mock.calls[0].arguments[2];
+  assert.match(firstMessage, /You are currently number 1 in the queue\./);
+
+  const conversationKey = getConversationKey(accountId, conversationId, inboxId);
+  const existingRequest = requestStore.get(conversationKey);
+  assert.ok(existingRequest);
+  const initialRequestedAt = existingRequest.requestedAt;
+  existingRequest.status = 'assigned';
+  existingRequest.agentId = 42;
+  requestStore.set(conversationKey, existingRequest);
+
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: null,
+    availabilitySummary: { online: 0, busy: 1, offline: 6 },
+  }));
+
+  const requeuePayload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 702,
+        message_type: 0,
+        content: 'Still need a human',
+        account: { id: accountId },
+        conversation: {
+          id: conversationId,
+          inbox_id: inboxId,
+          status: 'resolved',
+          account_id: accountId,
+        },
+      },
+    },
+  };
+
+  const requeueResponse = await webhookPost(
+    new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(requeuePayload),
+    })
+  );
+  const requeueBody = await requeueResponse.json();
+  assert.strictEqual(requeueBody.status, 'handoff');
+  assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+  const secondMessage = sendBotMessageMock.mock.calls[1].arguments[2];
+  assert.match(secondMessage, /You are currently number 1 in the queue\./);
+
+  const requeuedRequest = requestStore.get(conversationKey);
+  assert.ok(requeuedRequest);
+  assert.ok(requeuedRequest.requestedAt.getTime() >= initialRequestedAt.getTime());
+  assert.strictEqual(requeuedRequest.lastPositionNotified, 1);
+
   resetMocks();
 });
 
@@ -2472,6 +3014,69 @@ test('chatwoot webhook sends fallback when jailbreak guardrail triggers', async 
   resetMocks();
 });
 
+test('chatwoot webhook runs guardrails concurrently', async () => {
+  const guardrailDelayMs = 60;
+  let relevanceStart;
+  let relevanceEnd;
+  let jailbreakStart;
+  let jailbreakEnd;
+  runRelevanceGuardrailMock.mock.mockImplementationOnce(async () => {
+    relevanceStart = Date.now();
+    await new Promise((resolve) => setTimeout(resolve, guardrailDelayMs));
+    relevanceEnd = Date.now();
+    return { tripwireTriggered: false };
+  });
+  runJailbreakGuardrailMock.mock.mockImplementationOnce(async () => {
+    jailbreakStart = Date.now();
+    await new Promise((resolve) => setTimeout(resolve, guardrailDelayMs));
+    jailbreakEnd = Date.now();
+    return { tripwireTriggered: false };
+  });
+
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 990,
+        message_type: 0,
+        content: 'Tell me more about your services.',
+        account: { id: 11 },
+        conversation: { id: 11, inbox_id: 1, status: 'resolved', account_id: 11 },
+      },
+    },
+  };
+
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const res = await webhookPost(req);
+  const body = await res.json();
+
+  assert.notStrictEqual(body.status, 'guardrail');
+  assert.ok(typeof relevanceStart === 'number' && typeof relevanceEnd === 'number');
+  assert.ok(typeof jailbreakStart === 'number' && typeof jailbreakEnd === 'number');
+
+  const sequentialDuration =
+    (relevanceEnd - relevanceStart) + (jailbreakEnd - jailbreakStart);
+  const concurrentDuration =
+    Math.max(relevanceEnd, jailbreakEnd) - Math.min(relevanceStart, jailbreakStart);
+
+  assert.ok(
+    jailbreakStart < relevanceEnd,
+    'jailbreak guardrail should start before relevance guardrail completes'
+  );
+  assert.ok(
+    concurrentDuration < sequentialDuration,
+    'concurrent execution should finish faster than sequential execution'
+  );
+
+  assertLoggedIds(1);
+  resetMocks();
+});
+
 test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   sendBotMessageMock.mock.mockImplementationOnce(async () => {
     throw new Error('fail');
@@ -2511,6 +3116,71 @@ test('chatwoot webhook sends fallback when sendBotMessage fails', async () => {
   });
   assertLoggedIds(1);
   resetMocks();
+});
+
+test('chatwoot webhook warns and falls back when provider stream lacks output text', async () => {
+  resetMocks();
+  const consoleWarnMock = mock.method(console, 'warn', () => {});
+  providerFnMock.mock.mockImplementationOnce(async function* () {
+    yield {
+      event: 'response.output_item.added',
+      data: {
+        item: { type: 'function_call', name: 'search_docs', call_id: 'tool-1' },
+      },
+    };
+    yield { event: 'response.completed', data: {} };
+  });
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 801,
+        message_type: 0,
+        content: 'Hello',
+        account: { id: 9 },
+        conversation: { id: 9, inbox_id: 1, status: 'resolved', account_id: 9 },
+      },
+    },
+  };
+
+  try {
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+    const res = await webhookPost(req);
+    const body = await res.json();
+
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(body.status, 'fallback');
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    assert.strictEqual(
+      sendBotMessageMock.mock.calls[0].arguments[2],
+      MESSAGE_FALLBACK_TEXT
+    );
+    assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
+      private: false,
+      inReplyTo: 801,
+    });
+    const warningCall = consoleWarnMock.mock.calls.find(
+      (call) => call.arguments[0] === 'chatwoot webhook empty replyText'
+    );
+    assert.ok(warningCall, 'expected empty reply warning to be logged');
+    const warningDetails = warningCall.arguments[1];
+    assert.ok(warningDetails && warningDetails.streamSummary);
+    assert.strictEqual(warningDetails.streamSummary.lastEventType, 'response.completed');
+    assert.deepStrictEqual(warningDetails.streamSummary.toolNames, ['search_docs']);
+    assert.strictEqual(warningDetails.streamSummary.outputTextDeltaCount, 0);
+    assert.strictEqual(
+      warningDetails.streamSummary.eventCounts['response.output_text.delta'] ?? 0,
+      0
+    );
+    assertLoggedIds(1);
+  } finally {
+    consoleWarnMock.mock.restore();
+    resetMocks();
+  }
 });
 
 test('chatwoot webhook auto quotes acknowledgement when heuristic triggers', async () => {
@@ -2901,4 +3571,1357 @@ test('chatwoot webhook fallback keeps quoting inbound when set_reply_reference s
   const fallbackOptions = sendBotMessageMock.mock.calls[1].arguments[3];
   assert.deepStrictEqual(fallbackOptions, { private: false, inReplyTo: inboundId });
   resetMocks();
+});
+
+test('chatwoot webhook queues provider calls when concurrency exceeded', async () => {
+  resetMocks();
+  mock.timers.enable({ now: 0 });
+  try {
+    setLimiterConfigForTesting({
+      openai: { concurrency: 1, tokensPerInterval: 5000, intervalMs: 1000, maxTokens: 5000 },
+    });
+    estimateMessageTokensMock.mock.mockImplementation(() => 200);
+
+    const startTimes = [];
+    const limiterTokensSeen = [];
+
+    const waitFor = async (predicate, attempts = 50) => {
+      for (let i = 0; i < attempts; i += 1) {
+        if (predicate()) {
+          return true;
+        }
+        mock.timers.tick(0);
+        await Promise.resolve();
+      }
+      return predicate();
+    };
+
+    getProviderMock.mock.mockImplementation(() => {
+      return (messages, toolsArg, options) => {
+        void messages;
+        void toolsArg;
+        limiterTokensSeen.push(options?.limiterTokens);
+        return (async function* () {
+          const stream = await scheduleProviderCall(
+            'openai',
+            options?.limiterTokens,
+            async () => {
+              startTimes.push(Date.now());
+              await new Promise((resolve) => setTimeout(resolve, 100));
+              return (async function* () {
+                yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+                yield { event: 'response.output_text.done', data: {} };
+              })();
+            }
+          );
+          for await (const event of stream) {
+            yield event;
+          }
+        })();
+      };
+    });
+
+    const buildPayload = (id) => ({
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id,
+          message_type: 0,
+          content: 'Queued request',
+          account: { id: 16 },
+          conversation: {
+            id,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 16,
+          },
+        },
+      },
+    });
+
+    const req1 = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(buildPayload(701)),
+    });
+    const req2 = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(buildPayload(702)),
+    });
+
+    const resPromise1 = webhookPost(req1);
+    const resPromise2 = webhookPost(req2);
+
+    await waitFor(() => getProviderMock.mock.calls.length >= 1);
+    await waitFor(() => startTimes.length >= 1);
+    assert.strictEqual(startTimes.length >= 1, true);
+    const firstStart = startTimes[0];
+    assert.strictEqual(firstStart, 0);
+
+    for (let i = 0; i < 10; i += 1) {
+      mock.timers.tick(0);
+      await Promise.resolve();
+      assert.strictEqual(startTimes.length, 1);
+    }
+
+    mock.timers.tick(100);
+    const res1 = await resPromise1;
+    await res1.json();
+
+    await waitFor(() => startTimes.length >= 2);
+    mock.timers.tick(100);
+    const res2 = await resPromise2;
+    await res2.json();
+
+    assert.strictEqual(startTimes.length, 2);
+    assert.ok(
+      limiterTokensSeen.every((tokens) => tokens && typeof tokens.input === 'number')
+    );
+  } finally {
+    mock.timers.reset();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook enforces token bucket delays', async () => {
+  resetMocks();
+  mock.timers.enable({ now: 0 });
+  try {
+    setLimiterConfigForTesting({
+      openai: { concurrency: 3, tokensPerInterval: 60, intervalMs: 1000, maxTokens: 60 },
+    });
+    estimateMessageTokensMock.mock.mockImplementation(() => 40);
+
+    const startTimes = [];
+
+    const waitFor = async (predicate, attempts = 50) => {
+      for (let i = 0; i < attempts; i += 1) {
+        if (predicate()) {
+          return true;
+        }
+        mock.timers.tick(0);
+        await Promise.resolve();
+      }
+      return predicate();
+    };
+
+    getProviderMock.mock.mockImplementation(() => {
+      return (messages, toolsArg, options) => {
+        void messages;
+        void toolsArg;
+        return (async function* () {
+          const stream = await scheduleProviderCall(
+            'openai',
+            options?.limiterTokens,
+            async () => {
+              startTimes.push(Date.now());
+              return (async function* () {
+                yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+                yield { event: 'response.output_text.done', data: {} };
+              })();
+            }
+          );
+          for await (const event of stream) {
+            yield event;
+          }
+        })();
+      };
+    });
+
+    const buildPayload = (id) => ({
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id,
+          message_type: 0,
+          content: 'Token bucket test',
+          account: { id: 16 },
+          conversation: {
+            id,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 16,
+          },
+        },
+      },
+    });
+
+    const req1 = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(buildPayload(801)),
+    });
+    const req2 = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(buildPayload(802)),
+    });
+
+    const resPromise1 = webhookPost(req1);
+    const resPromise2 = webhookPost(req2);
+
+    await waitFor(() => getProviderMock.mock.calls.length >= 1);
+    await waitFor(() => startTimes.length >= 1);
+    assert.strictEqual(startTimes.length >= 1, true);
+    const firstStart = startTimes[0];
+    assert.strictEqual(firstStart, 0);
+
+    const res1 = await resPromise1;
+    await res1.json();
+
+    assert.strictEqual(startTimes.length, 1);
+
+    mock.timers.tick(1000);
+    await waitFor(() => startTimes.length >= 2);
+
+    assert.strictEqual(startTimes.length, 2);
+    assert.ok(startTimes[1] >= 1000);
+
+    const res2 = await resPromise2;
+    await res2.json();
+  } finally {
+    mock.timers.reset();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook avoids starving large token requests', async () => {
+  resetMocks();
+  mock.timers.enable({ now: 0 });
+  const storedMessages = new Map();
+  const originalUpsertImpl =
+    prisma.conversationMessage.upsert.mock.originalImplementation;
+  const originalHistoryImpl =
+    getConversationHistoryMock.mock.originalImplementation;
+  try {
+    setLimiterConfigForTesting({
+      openai: { concurrency: 1, tokensPerInterval: 10, intervalMs: 100, maxTokens: 50 },
+    });
+    prisma.conversationMessage.upsert.mock.mockImplementation(async (args) => {
+      const conversationId = args?.create?.conversationId;
+      const content = args?.create?.content;
+      if (typeof conversationId === 'number' && typeof content === 'string') {
+        storedMessages.set(conversationId, content);
+      }
+      return typeof originalUpsertImpl === 'function'
+        ? originalUpsertImpl(args)
+        : {};
+    });
+
+    getConversationHistoryMock.mock.mockImplementation(async (conversationKey) => {
+      const keyParts = typeof conversationKey === 'string'
+        ? conversationKey.split(':')
+        : [];
+      const conversationId = Number.parseInt(keyParts[keyParts.length - 1] ?? '', 10);
+      const content = storedMessages.get(conversationId);
+      if (typeof content === 'string' && content.length > 0) {
+        return [toResponseMessage('user', content)];
+      }
+      return originalHistoryImpl
+        ? originalHistoryImpl(conversationKey)
+        : [];
+    });
+
+    estimateMessageTokensMock.mock.mockImplementation((messages) => {
+      const latest = messages?.[messages.length - 1];
+      const content = Array.isArray(latest?.content)
+        ? latest.content.map((item) => item?.text ?? '').join(' ')
+        : typeof latest?.content === 'string'
+        ? latest.content
+        : '';
+      if (content.includes('Large job')) {
+        return 50;
+      }
+      if (content.includes('Warmup')) {
+        return 10;
+      }
+      return 10;
+    });
+
+    const startEvents = [];
+    getProviderMock.mock.mockImplementation(() => {
+      return (messages, toolsArg, options) => {
+        void messages;
+        void toolsArg;
+        const limiterTokens = options?.limiterTokens ?? { input: 0, output: 0 };
+        return (async function* () {
+          const stream = await scheduleProviderCall(
+            'openai',
+            limiterTokens,
+            async () => {
+              const tokens = limiterTokens.input ?? 0;
+              startEvents.push({ tokens, time: Date.now() });
+              return (async function* () {
+                yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+                yield { event: 'response.output_text.done', data: {} };
+              })();
+            }
+          );
+          for await (const event of stream) {
+            yield event;
+          }
+        })();
+      };
+    });
+
+    const buildPayload = (id, content) => ({
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id,
+          message_type: 0,
+          content,
+          account: { id: 16 },
+          conversation: {
+            id,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 16,
+          },
+        },
+      },
+    });
+
+    const requestFor = (payload) =>
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+
+    const responses = [];
+    responses.push(webhookPost(requestFor(buildPayload(801, 'Warmup request'))));
+    responses.push(webhookPost(requestFor(buildPayload(802, 'Large job request'))));
+    for (let i = 0; i < 4; i += 1) {
+      responses.push(
+        webhookPost(
+          requestFor(buildPayload(803 + i, `Small follow up ${i}`))
+        )
+      );
+    }
+
+    await waitForLimiter(() => startEvents.length >= 1);
+    assert.ok(startEvents[0].tokens < 50);
+
+    await waitForLimiter(
+      () => startEvents.filter((event) => event.tokens < 50).length >= 2,
+      100,
+      10
+    );
+
+    await waitForLimiter(
+      () => startEvents.some((event) => event.tokens >= 50),
+      500,
+      10
+    );
+
+    const largeStart = startEvents.find((event) => event.tokens >= 50);
+    assert.ok(largeStart, 'expected large limiter job to start');
+    assert.ok(largeStart.time >= 500);
+    const firstLargeIndex = startEvents.findIndex((event) => event.tokens >= 50);
+    assert.ok(firstLargeIndex >= 1);
+
+    await waitForLimiter(
+      () => startEvents.length === responses.length,
+      300,
+      10
+    );
+    for (const responsePromise of responses) {
+      const response = await responsePromise;
+      await response.json();
+    }
+  } finally {
+    mock.timers.reset();
+    prisma.conversationMessage.upsert.mock.mockImplementation(
+      typeof originalUpsertImpl === 'function'
+        ? originalUpsertImpl
+        : async () => ({})
+    );
+    getConversationHistoryMock.mock.mockImplementation(
+      typeof originalHistoryImpl === 'function'
+        ? originalHistoryImpl
+        : async () => []
+    );
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook enqueues async job and delivers reply', async () => {
+  resetMocks();
+  setChatwootQueueEnabledForTesting(true);
+
+  try {
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 900,
+          message_type: 0,
+          content: 'Hello from queue',
+          account: { id: 90 },
+          conversation: {
+            id: 90,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 90,
+          },
+        },
+      },
+    };
+    const res = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+    );
+
+    assert.strictEqual(res.status, 202);
+    const body = await res.json();
+    assert.deepStrictEqual(body, { status: 'accepted' });
+
+    assert.strictEqual(
+      sendBotMessageMock.mock.calls.length,
+      0,
+      'job should run asynchronously'
+    );
+
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const [accountId, conversationId, content] =
+      sendBotMessageMock.mock.calls[0].arguments;
+    assert.strictEqual(accountId, 90);
+    assert.strictEqual(conversationId, 90);
+    assert.strictEqual(content, 'hi');
+    assertLoggedIds(1);
+  } finally {
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook queue backlog does not delay responses', async () => {
+  resetMocks();
+  setChatwootQueueEnabledForTesting(true);
+
+  try {
+    let releaseFirstSend;
+    let firstSendStarted = false;
+    let firstSendResolved = false;
+    const firstSendBarrier = new Promise((resolve) => {
+      releaseFirstSend = resolve;
+    });
+
+    sendBotMessageMock.mock.mockImplementationOnce(async (...args) => {
+      firstSendStarted = true;
+      await firstSendBarrier;
+      firstSendResolved = true;
+      return defaultSendBotMessageImplementation(...args);
+    });
+
+    sendBotMessageMock.mock.mockImplementation(
+      defaultSendBotMessageImplementation
+    );
+
+    const buildPayload = (id, content) => ({
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id,
+          message_type: 0,
+          content,
+          account: { id },
+          conversation: {
+            id,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: id,
+          },
+        },
+      },
+    });
+
+    const resA = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(buildPayload(901, 'First queued message')),
+      })
+    );
+    const resB = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(buildPayload(902, 'Second queued message')),
+      })
+    );
+
+    assert.strictEqual(resA.status, 202);
+    assert.strictEqual(resB.status, 202);
+    assert.deepStrictEqual(await resA.json(), { status: 'accepted' });
+    assert.deepStrictEqual(await resB.json(), { status: 'accepted' });
+
+    assert.strictEqual(firstSendStarted, true, 'first job should have started');
+    assert.strictEqual(
+      firstSendResolved,
+      false,
+      'first job should have started but not completed yet'
+    );
+
+    const idlePromise = waitForChatwootQueueIdle();
+    const raceResult = await Promise.race([
+      idlePromise.then(() => 'idle'),
+      new Promise((resolve) => setTimeout(() => resolve('pending'), 20)),
+    ]);
+
+    assert.strictEqual(
+      raceResult,
+      'pending',
+      'queue should not finish first job before second payload is accepted'
+    );
+
+    releaseFirstSend();
+
+    await idlePromise;
+
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+    const firstCall = sendBotMessageMock.mock.calls[0].arguments;
+    const secondCall = sendBotMessageMock.mock.calls[1].arguments;
+    assert.strictEqual(firstCall[0], 901);
+    assert.strictEqual(firstCall[1], 901);
+    assert.strictEqual(secondCall[0], 902);
+    assert.strictEqual(secondCall[1], 902);
+  } finally {
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook queue runs multiple conversations concurrently but preserves ordering per conversation', async () => {
+  resetMocks();
+  const originalConcurrency = getChatwootQueueConcurrency();
+  setChatwootQueueEnabledForTesting(true);
+  setChatwootQueueConcurrencyForTesting(2);
+  const waitFor = async (predicate, attempts = 50, delayMs = 10) => {
+    for (let i = 0; i < attempts; i += 1) {
+      if (predicate()) {
+        return true;
+      }
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+    return predicate();
+  };
+
+  const jobStarts = [];
+  const jobResolvers = new Map();
+  const nextOccurrences = new Map();
+
+  const buildPayload = (conversationId, messageId, content) => ({
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: messageId,
+        message_type: 0,
+        content,
+        account: { id: 77 },
+        conversation: {
+          id: conversationId,
+          inbox_id: 1,
+          status: 'open',
+          account_id: 77,
+        },
+      },
+    },
+  });
+
+  const requestFor = (payload) =>
+    new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+  const responses = [
+    webhookPost(
+      requestFor(
+        buildPayload(1001, 5001, 'conversation-1-first')
+      )
+    ),
+    webhookPost(requestFor(buildPayload(2001, 6001, 'conversation-2'))),
+    webhookPost(
+      requestFor(
+        buildPayload(1001, 5002, 'conversation-1-second')
+      )
+    ),
+  ];
+
+  try {
+    for (const responsePromise of responses) {
+      const response = await responsePromise;
+      assert.strictEqual(response.status, 202);
+      assert.deepStrictEqual(await response.json(), { status: 'accepted' });
+    }
+
+    await waitForChatwootQueueIdle();
+
+    jobStarts.length = 0;
+    jobResolvers.clear();
+    nextOccurrences.clear();
+
+    const scheduleJob = (conversationId) => {
+      enqueueChatwootJob(
+        async () => {
+          const convKey = String(conversationId);
+          const occurrence = nextOccurrences.get(convKey) ?? 0;
+          nextOccurrences.set(convKey, occurrence + 1);
+          const key = `${convKey}:${occurrence}`;
+          jobStarts.push({ conversationId: convKey, key });
+          await new Promise((resolve) => {
+            jobResolvers.set(key, () => {
+              jobResolvers.delete(key);
+              resolve();
+            });
+          });
+        },
+        { conversationId, accountId: conversationId },
+        { persist: false }
+      );
+    };
+
+    scheduleJob(1001);
+    scheduleJob(2001);
+    scheduleJob(1001);
+
+    assert.ok(
+      await waitFor(() => jobStarts.length >= 2, 600, 20),
+      'expected first two jobs to begin running'
+    );
+
+    const firstTwo = jobStarts.slice(0, 2);
+    assert.strictEqual(firstTwo.length, 2);
+    assert.ok(
+      firstTwo.some(
+        (entry) => entry.conversationId === '1001' && entry.key === '1001:0'
+      ),
+      'expected first conversation job to start'
+    );
+    assert.ok(
+      firstTwo.some(
+        (entry) => entry.conversationId === '2001' && entry.key === '2001:0'
+      ),
+      'expected second conversation to start in parallel'
+    );
+    assert.ok(
+      !firstTwo.some((entry) => entry.key === '1001:1'),
+      'second job for same conversation should wait for the first to finish'
+    );
+
+    const releaseFirst = jobResolvers.get('1001:0');
+    assert.ok(releaseFirst, 'expected resolver for first conversation job');
+    releaseFirst?.();
+
+    assert.ok(
+      await waitFor(() => jobStarts.length >= 3, 600, 20),
+      'expected third job to start after first conversation released'
+    );
+
+    const thirdEntry = jobStarts[2];
+    assert.ok(thirdEntry, 'expected queued job to continue after first finished');
+    assert.strictEqual(thirdEntry.conversationId, '1001');
+    assert.strictEqual(thirdEntry.key, '1001:1');
+
+    const releaseSecondConversation = jobResolvers.get('2001:0');
+    assert.ok(
+      releaseSecondConversation,
+      'expected resolver for second conversation job'
+    );
+    releaseSecondConversation?.();
+
+    const releaseSecondJob = jobResolvers.get('1001:1');
+    assert.ok(
+      releaseSecondJob,
+      'expected resolver for second job in first conversation'
+    );
+    releaseSecondJob?.();
+
+    await waitForChatwootQueueIdle();
+  } finally {
+    for (const release of [...jobResolvers.values()]) {
+      try {
+        release?.();
+      } catch {
+        // ignore resolver errors during cleanup
+      }
+    }
+    jobResolvers.clear();
+    try {
+      await waitForChatwootQueueIdle();
+    } catch {
+      // ignore idle wait errors during cleanup
+    }
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    setChatwootQueueConcurrencyForTesting(originalConcurrency);
+    resetMocks();
+  }
+});
+
+test('chatwoot queue logs lifecycle metrics for concurrent jobs', async () => {
+  resetMocks();
+  const consoleInfoMock = mock.method(console, 'info', () => {});
+  const originalConcurrency = getChatwootQueueConcurrency();
+  mock.timers.enable({ now: 0 });
+
+  try {
+    setChatwootQueueConcurrencyForTesting(2);
+
+    const jobA = enqueueChatwootJob(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 15));
+        return 'A complete';
+      },
+      { conversationId: 'conv-a', accountId: 'acct-a' },
+      { persist: false }
+    );
+
+    const jobB = enqueueChatwootJob(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 30));
+        return 'B complete';
+      },
+      { conversationId: 'conv-b', accountId: 'acct-b' },
+      { persist: false }
+    );
+
+    const jobC = enqueueChatwootJob(
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        return 'C complete';
+      },
+      { conversationId: 'conv-a', accountId: 'acct-a' },
+      { persist: false }
+    );
+
+    const advance = async (ms = 0) => {
+      mock.timers.tick(ms);
+      await Promise.resolve();
+    };
+
+    await advance(0);
+    await advance(15);
+    await jobA.done;
+    await advance(0);
+    await advance(5);
+    await jobC.done;
+    await advance(10);
+    await jobB.done;
+
+    await waitForChatwootQueueIdle();
+
+    const jobEvents = consoleInfoMock.mock.calls
+      .filter((call) => call.arguments[0] === 'chatwoot webhook job event')
+      .map((call) => call.arguments[1]);
+
+    assert.strictEqual(jobEvents.length, 9);
+
+    const eventsByJob = (jobId) =>
+      jobEvents.filter((event) => event.jobId === jobId && event.phase !== undefined);
+
+    const phasesFor = (jobId) => eventsByJob(jobId).map((event) => event.phase);
+
+    assert.deepStrictEqual(phasesFor(jobA.id), ['queued', 'started', 'completed']);
+    assert.deepStrictEqual(phasesFor(jobB.id), ['queued', 'started', 'completed']);
+    assert.deepStrictEqual(phasesFor(jobC.id), ['queued', 'started', 'completed']);
+
+    const startedEventC = eventsByJob(jobC.id).find((event) => event.phase === 'started');
+    assert.ok(startedEventC, 'expected jobC started event');
+    assert.ok(
+      typeof startedEventC.waitMs === 'number' && startedEventC.waitMs >= 15,
+      'expected jobC wait time to reflect queued delay'
+    );
+
+    const completedEventA = eventsByJob(jobA.id).find((event) => event.phase === 'completed');
+    assert.ok(completedEventA, 'expected jobA completed event');
+    assert.ok(
+      typeof completedEventA.runtimeMs === 'number' && completedEventA.runtimeMs >= 15,
+      'expected jobA runtime to be recorded'
+    );
+
+    const completedEventB = eventsByJob(jobB.id).find((event) => event.phase === 'completed');
+    assert.ok(completedEventB, 'expected jobB completed event');
+    assert.ok(
+      typeof completedEventB.runtimeMs === 'number' && completedEventB.runtimeMs >= 30,
+      'expected jobB runtime to be recorded'
+    );
+
+    for (const event of jobEvents) {
+      assert.ok(typeof event.queueLength === 'number');
+      assert.ok(typeof event.activeWorkers === 'number');
+      assert.strictEqual(event.accountId, event.metadata?.accountId);
+      assert.strictEqual(event.conversationId, event.metadata?.conversationId);
+    }
+  } finally {
+    consoleInfoMock.mock.restore();
+    mock.timers.reset();
+    setChatwootQueueConcurrencyForTesting(originalConcurrency);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook job emits phase timing logs for queued processing', async () => {
+  resetMocks();
+  const consoleInfoMock = mock.method(console, 'info', () => {});
+  mock.timers.enable({ now: 0 });
+  setChatwootQueueEnabledForTesting(true);
+
+  try {
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 9901,
+          message_type: 0,
+          content: 'Phase timing request',
+          account: { id: 9901 },
+          conversation: {
+            id: 9901,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 9901,
+          },
+        },
+      },
+    };
+
+    const response = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+    );
+
+    assert.strictEqual(response.status, 202);
+    assert.deepStrictEqual(await response.json(), { status: 'accepted' });
+
+    await waitForChatwootQueueIdle();
+
+    const phaseEvents = consoleInfoMock.mock.calls
+      .filter((call) => call.arguments[0] === 'chatwoot webhook job phase')
+      .map((call) => call.arguments[1]);
+
+    const expectedPhases = [
+      'payload-normalization',
+      'attachment-insight',
+      'history-retrieval',
+      'guardrail-evaluation',
+      'provider-execution',
+      'chatwoot-postback',
+    ];
+
+    const jobIds = new Set(phaseEvents.map((event) => event.jobId));
+    assert.strictEqual(jobIds.size, 1, 'expected single job id for phase logs');
+
+    for (const phase of expectedPhases) {
+      const starts = phaseEvents.filter(
+        (event) => event.phase === phase && event.event === 'start'
+      );
+      const completes = phaseEvents.filter(
+        (event) => event.phase === phase && event.event === 'complete'
+      );
+      assert.ok(starts.length >= 1, `expected start log for phase ${phase}`);
+      assert.ok(completes.length >= 1, `expected completion log for phase ${phase}`);
+      for (const event of [...starts, ...completes]) {
+        assert.strictEqual(typeof event.elapsedMs, 'number');
+      }
+      for (const event of completes) {
+        assert.strictEqual(typeof event.phaseMs, 'number');
+      }
+    }
+  } finally {
+    consoleInfoMock.mock.restore();
+    mock.timers.reset();
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook phase logs persist across provider retries', async () => {
+  resetMocks();
+  const consoleInfoMock = mock.method(console, 'info', () => {});
+  mock.timers.enable({ now: 0 });
+
+  try {
+    setChatwootQueueEnabledForTesting(true);
+    setChatwootQueueRetryConfigForTesting({
+      maxAttempts: 2,
+      baseDelayMs: 10,
+      maxDelayMs: 10,
+      backoffFactor: 1,
+    });
+
+    let attempt = 0;
+    providerFnMock.mock.mockImplementation(() =>
+      (async function* () {
+        attempt += 1;
+        if (attempt === 1) {
+          throw new ProviderRetryError('transient', {
+            provider: 'openai',
+            status: 503,
+            attempts: attempt,
+            retriesExhausted: false,
+            retryable: true,
+          });
+        }
+        yield { event: 'response.output_text.delta', data: { delta: 'hello again' } };
+      })()
+    );
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 9902,
+          message_type: 0,
+          content: 'Retry timing request',
+          account: { id: 9902 },
+          conversation: {
+            id: 9902,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 9902,
+          },
+        },
+      },
+    };
+
+    const response = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+    );
+    assert.strictEqual(response.status, 202);
+    assert.deepStrictEqual(await response.json(), { status: 'accepted' });
+
+    await tickAndFlush(1);
+    await tickAndFlush(10);
+    await tickAndFlush();
+    const reachedTwoStarts = await waitForLimiter(
+      () =>
+        consoleInfoMock.mock.calls.filter(
+          (call) =>
+            call.arguments[0] === 'chatwoot webhook job phase' &&
+            call.arguments[1]?.phase === 'provider-execution' &&
+            call.arguments[1]?.event === 'start'
+        ).length >= 2,
+      20,
+      1
+    );
+    assert.ok(reachedTwoStarts, 'expected provider execution phase to retry');
+    await waitForChatwootQueueIdle();
+
+    const phaseEvents = consoleInfoMock.mock.calls
+      .filter((call) => call.arguments[0] === 'chatwoot webhook job phase')
+      .map((call) => call.arguments[1]);
+
+    const providerStarts = phaseEvents.filter(
+      (event) => event.phase === 'provider-execution' && event.event === 'start'
+    );
+    const providerCompletes = phaseEvents.filter(
+      (event) => event.phase === 'provider-execution' && event.event === 'complete'
+    );
+
+    assert.ok(
+      providerStarts.length >= 2,
+      'expected provider execution phase to start at least twice'
+    );
+    assert.ok(
+      providerCompletes.length >= 2,
+      'expected provider execution phase to complete after retries'
+    );
+
+    const jobIds = new Set(providerStarts.map((event) => event.jobId));
+    assert.strictEqual(jobIds.size, 1, 'expected retry attempts to share a job id');
+
+    for (const event of phaseEvents) {
+      assert.strictEqual(typeof event.elapsedMs, 'number');
+      if (event.event === 'complete') {
+        assert.strictEqual(typeof event.phaseMs, 'number');
+      }
+    }
+  } finally {
+    consoleInfoMock.mock.restore();
+    mock.timers.reset();
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot queue retries transient errors before succeeding', async () => {
+  resetMocks();
+  try {
+    setChatwootQueueRetryConfigForTesting({
+      maxAttempts: 3,
+      baseDelayMs: 10,
+      maxDelayMs: 10,
+      backoffFactor: 1,
+    });
+    const failureReporter = mock.fn();
+    setChatwootQueueFailureReporter(failureReporter);
+
+    let attempt = 0;
+    const job = enqueueChatwootJob(
+      async () => {
+        attempt += 1;
+        if (attempt === 1) {
+          throw new ProviderRetryError('Transient failure', {
+            provider: 'openai',
+            status: 503,
+            attempts: attempt,
+            retriesExhausted: false,
+            retryable: true,
+          });
+        }
+        return 'success';
+      },
+      { conversationId: 'retry-test', accountId: 'retry-test' },
+      { persist: false }
+    );
+
+    const result = await job.done;
+    assert.strictEqual(result, 'success');
+    assert.strictEqual(attempt, 2);
+    assert.strictEqual(failureReporter.mock.calls.length, 0);
+    await waitForChatwootQueueIdle();
+  } finally {
+    setChatwootQueueFailureReporter(undefined);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot queue retries OpenAI rate limits without status codes', async () => {
+  resetMocks();
+  const originalSetTimeoutCalls = [];
+  const setTimeoutMock = mock.method(global, 'setTimeout', (fn, delay, ...args) => {
+    const entry = {
+      fn: typeof fn === 'function' ? fn : () => {},
+      delay: typeof delay === 'number' ? delay : 0,
+      args,
+      cleared: false,
+    };
+    originalSetTimeoutCalls.push(entry);
+    return entry;
+  });
+  const clearTimeoutMock = mock.method(global, 'clearTimeout', (handle) => {
+    if (handle && typeof handle === 'object' && 'cleared' in handle) {
+      handle.cleared = true;
+    }
+  });
+
+  try {
+    resetChatwootQueueForTesting();
+    setChatwootQueueRetryConfigForTesting({
+      maxAttempts: 3,
+      baseDelayMs: 100,
+      maxDelayMs: 100,
+      backoffFactor: 1,
+    });
+
+    const rateLimitError = new Error('OpenAI rate limit');
+    rateLimitError.code = 'rate_limit_exceeded';
+    rateLimitError.error = {
+      type: 'tokens',
+      retry_after: 0.25,
+      message: 'Please try again in 0.25s.',
+    };
+
+    let executions = 0;
+    const job = enqueueChatwootJob(
+      async () => {
+        executions += 1;
+        if (executions === 1) {
+          throw rateLimitError;
+        }
+        return 'success';
+      },
+      { conversationId: 'openai-rate', accountId: 'openai-rate' },
+      { persist: false }
+    );
+
+    await Promise.resolve();
+    await Promise.resolve();
+    assert.strictEqual(executions, 1);
+
+    assert.ok(originalSetTimeoutCalls.length >= 1);
+    const timeoutDelay = originalSetTimeoutCalls[0]?.delay ?? Infinity;
+    let retryTimer = originalSetTimeoutCalls.find(
+      (entry) => entry.delay < timeoutDelay
+    );
+    for (let i = 0; i < 10 && !retryTimer; i += 1) {
+      await Promise.resolve();
+      retryTimer = originalSetTimeoutCalls.find(
+        (entry) => entry.delay < timeoutDelay
+      );
+    }
+    assert.ok(retryTimer);
+    assert.strictEqual(retryTimer.delay, 250);
+
+    retryTimer.fn(...retryTimer.args);
+
+    await Promise.resolve();
+    await Promise.resolve();
+
+    const result = await job.done;
+    assert.strictEqual(result, 'success');
+    assert.strictEqual(executions, 2);
+
+    await waitForChatwootQueueIdle();
+  } finally {
+    setTimeoutMock.mock.restore();
+    clearTimeoutMock.mock.restore();
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot queue times out long-running jobs and frees queued work', async () => {
+  resetMocks();
+  const originalConcurrency = getChatwootQueueConcurrency();
+  try {
+    setChatwootQueueConcurrencyForTesting(1);
+    setChatwootQueueJobTimeoutForTesting(50);
+    setChatwootQueueRetryConfigForTesting({
+      maxAttempts: 3,
+      baseDelayMs: 40,
+      maxDelayMs: 40,
+      backoffFactor: 1,
+    });
+    const failureReporter = mock.fn();
+    setChatwootQueueFailureReporter(failureReporter);
+
+    const startOrder = [];
+    let attemptA = 0;
+    const jobA = enqueueChatwootJob(
+      async () => {
+        attemptA += 1;
+        startOrder.push(`A${attemptA}`);
+        if (attemptA === 1) {
+          await new Promise((resolve) => setTimeout(resolve, 120));
+        }
+        return 'A recovered';
+      },
+      { conversationId: 'A', accountId: 'A' },
+      { persist: false }
+    );
+
+    let attemptB = 0;
+    const jobB = enqueueChatwootJob(
+      async () => {
+        attemptB += 1;
+        startOrder.push(`B${attemptB}`);
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        return 'B done';
+      },
+      { conversationId: 'B', accountId: 'B' },
+      { persist: false }
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    assert.deepStrictEqual(startOrder.slice(0, 2), ['A1', 'B1']);
+
+    const [resultA, resultB] = await Promise.all([jobA.done, jobB.done]);
+    assert.strictEqual(resultA, 'A recovered');
+    assert.strictEqual(resultB, 'B done');
+    assert.deepStrictEqual(startOrder, ['A1', 'B1', 'A2']);
+    assert.strictEqual(failureReporter.mock.calls.length, 0);
+    assert.strictEqual(attemptA, 2);
+    assert.strictEqual(attemptB, 1);
+    await waitForChatwootQueueIdle();
+  } finally {
+    setChatwootQueueFailureReporter(undefined);
+    setChatwootQueueConcurrencyForTesting(originalConcurrency);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot queue sends fallback for unrecoverable provider errors', async () => {
+  resetMocks();
+  setChatwootQueueEnabledForTesting(true);
+  handOffMock.mock.mockImplementation(async () => false);
+
+  try {
+    providerFnMock.mock.mockImplementation(async function* () {
+      throw new Error('non-retryable provider failure');
+    });
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 9450,
+          message_type: 0,
+          content: 'Please handle hard failure',
+          account: { id: 945 },
+          conversation: {
+            id: 945,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 945,
+          },
+        },
+      },
+    };
+
+    const response = await webhookPost(
+      new Request('http://localhost', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+    );
+
+    assert.strictEqual(response.status, 202);
+    assert.deepStrictEqual(await response.json(), { status: 'accepted' });
+
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(providerFnMock.mock.calls.length >= 1, true);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const fallbackCall = sendBotMessageMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(fallbackCall.slice(0, 3), [
+      945,
+      945,
+      MESSAGE_FALLBACK_TEXT,
+    ]);
+  } finally {
+    providerFnMock.mock.mockImplementation(() =>
+      (async function* () {
+        yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+      })()
+    );
+    handOffMock.mock.mockImplementation(async () => true);
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook persists queued jobs when redis durability enabled', async () => {
+  resetMocks();
+  setChatwootQueueEnabledForTesting(true);
+  setChatwootQueuePersistenceEnabledForTesting(true);
+
+  try {
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 950,
+          message_type: 0,
+          content: 'Durable queue message',
+          account: { id: 95 },
+          conversation: {
+            id: 95,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 95,
+          },
+        },
+      },
+    };
+
+    const request = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const response = await webhookPost(request);
+    assert.strictEqual(response.status, 202);
+    assert.strictEqual(redis.rpush.mock.calls.length, 1);
+    const [queueKey, serialized] = redis.rpush.mock.calls[0].arguments;
+    assert.strictEqual(queueKey, 'chatwoot:webhook:jobs');
+    const stored = JSON.parse(serialized);
+    assert.strictEqual(stored.metadata.accountId, 95);
+    assert.strictEqual(stored.metadata.conversationId, 95);
+    assert.deepStrictEqual(stored.metadata.payload, payload);
+    assert.ok(
+      typeof stored.options?.queuedAt === 'number',
+      'expected queuedAt to be persisted for hydration timing'
+    );
+
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(redis.lrem.mock.calls.length, 1);
+    assert.deepStrictEqual(redis.lrem.mock.calls[0].arguments, [
+      'chatwoot:webhook:jobs',
+      1,
+      serialized,
+    ]);
+  } finally {
+    setChatwootQueuePersistenceEnabledForTesting(false);
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook hydrates persisted jobs from redis', async () => {
+  resetMocks();
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 960,
+        message_type: 0,
+        content: 'Recover me',
+        account: { id: 96 },
+        conversation: {
+          id: 96,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 96,
+        },
+      },
+    },
+  };
+  const sanitizedPayload = JSON.parse(JSON.stringify(payload));
+  const serializedJob = JSON.stringify({
+    id: 1234,
+    metadata: { accountId: 96, conversationId: 96, payload: sanitizedPayload },
+  });
+  redis.lrange.mock.mockImplementationOnce(async () => [serializedJob]);
+  redis.lrange.mock.mockImplementation(async () => []);
+
+  setChatwootQueuePersistenceEnabledForTesting(true);
+  setChatwootQueueEnabledForTesting(true);
+
+  try {
+    await hydrateChatwootQueueFromStorageForTesting();
+    await waitForChatwootQueueIdle();
+
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[0], 96);
+    assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[1], 96);
+    assert.strictEqual(redis.rpush.mock.calls.length, 0);
+    assert.ok(
+      redis.lrem.mock.calls.some((call) => call.arguments[2] === serializedJob)
+    );
+  } finally {
+    setChatwootQueuePersistenceEnabledForTesting(false);
+    setChatwootQueueEnabledForTesting(false);
+    resetChatwootQueueForTesting();
+    resetMocks();
+  }
 });

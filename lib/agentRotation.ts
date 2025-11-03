@@ -1,9 +1,11 @@
 import prisma from "./prisma";
 import { listAgents } from "./chatwoot";
 
+export type AgentAvailability = "online" | "busy" | "offline";
+
 export interface AgentRecord {
   id: number;
-  availability_status: "online" | "busy" | "offline";
+  availability_status: AgentAvailability;
   role?: "agent" | "administrator";
   [key: string]: any;
 }
@@ -123,17 +125,37 @@ export async function getNextAgent(
 
 export async function setActiveConversation(
   agentId: number,
-  conversationId: number
+  conversationId: number,
+  availabilityBeforeBusy?: AgentAvailability | null
 ) {
   await prisma.agentAssignment.updateMany({
     where: { agentId },
-    data: { activeConversationId: conversationId },
+    data: {
+      activeConversationId: conversationId,
+      availabilityBeforeBusy: availabilityBeforeBusy ?? null,
+    },
   });
 }
 
 export async function clearActiveConversation(agentId: number) {
-  await prisma.agentAssignment.updateMany({
-    where: { agentId },
-    data: { activeConversationId: null },
+  const assignments = await prisma.agentAssignment.findMany({
+    where: {
+      agentId,
+      activeConversationId: { not: null },
+    },
+    select: { availabilityBeforeBusy: true },
   });
+  await prisma.agentAssignment.updateMany({
+    where: {
+      agentId,
+      activeConversationId: { not: null },
+    },
+    data: {
+      activeConversationId: null,
+      availabilityBeforeBusy: null,
+    },
+  });
+  return assignments.length > 0
+    ? assignments[0].availabilityBeforeBusy ?? null
+    : null;
 }

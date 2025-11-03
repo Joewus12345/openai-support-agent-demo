@@ -148,6 +148,15 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
    - `RELEASE_RETRY_BASE_MS` (default `1000`) – base delay for exponential backoff.
    - `CHATWOOT_TIMEOUT_MS` (default `15000`) – API request timeout before retries.
 
+   #### Queue processing
+
+   - `CHATWOOT_QUEUE_CONCURRENCY` (default `1`) – maximum number of Chatwoot webhook jobs the worker executes in parallel. Increase this value (for example, to match available CPU cores) to handle multiple conversations simultaneously. Jobs from the same conversation always run sequentially so replies stay in order, even when concurrency is greater than `1`.
+   - `CHATWOOT_QUEUE_MAX_ATTEMPTS` (default `3`) – maximum number of times the worker retries a webhook job when a retryable error occurs before surfacing a failure.
+   - `CHATWOOT_QUEUE_RETRY_BASE_DELAY_MS` (default `1000`) – base delay in milliseconds before retrying a failed job; exponential backoff is applied using the factor below and is capped by the max delay.
+   - `CHATWOOT_QUEUE_RETRY_BACKOFF_FACTOR` (default `2`) – multiplier used to increase the retry delay after each attempt (e.g. `base * factor^(attempt-1)`).
+   - `CHATWOOT_QUEUE_RETRY_MAX_DELAY_MS` (default `30000`) – upper bound on the delay between retries to prevent excessive waiting when exponential backoff grows.
+   - `CHATWOOT_QUEUE_JOB_TIMEOUT_MS` (default `120000`) – maximum time a single job is allowed to run before the worker aborts the attempt and retries (if retries remain).
+
    A standalone Docker setup is available to test the service in isolation:
 
    ```bash
@@ -174,6 +183,28 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
 5. **Ticket IDs in chats:**
 
    When a customer does not share an email, the `create_ticket` tool generates a ticket ID in the format `#<index>/<date>` (for example `#1/2024-05-01`). The ID is stored with the chat session so the conversation can be resumed later using that ticket number.
+
+## Provider limiter observability
+
+The shared provider limiter (used by OpenAI, Ollama, and the Ollama-compatible OpenAI interface) exposes real-time metrics so you can monitor queue health and tune concurrency or token budgets. Attach an observer early during application startup:
+
+```ts
+import { setLimiterObserver } from "@/lib/providers/limiter";
+
+setLimiterObserver((event) => {
+  // event.type is one of: "enqueued", "started", "completed", "throttled"
+  // Persist to logs, send to Prometheus/StatsD, etc.
+  console.log("provider limiter", event);
+});
+```
+
+Each callback receives a `LimiterMetricsEvent` with the provider name, current queue length, running job count, wait time, and any throttle delays. When integrating with an observability platform:
+
+- **Structured logging:** Forward the event to your logger (e.g., `pino`, `winston`) and index by `provider` and `type` so operators can investigate spikes in queue length or throttling.
+- **Metrics collectors:** Translate events into counters/histograms (e.g., increment a `limiter_jobs_started_total` counter or record `waitMs` in a latency histogram) before shipping them to Prometheus, Datadog, or another APM.
+- **Alerting:** Define alerts on sustained queue lengths or throttle delays exceeding your SLO to catch quota regressions early.
+
+Set the observer to `undefined` (via `setLimiterObserver(undefined)`) when you need to disable reporting, such as in unit tests.
 
 ## Agent release workflow
 

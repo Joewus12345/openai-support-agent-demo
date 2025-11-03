@@ -1,7 +1,46 @@
 const assert = require('assert');
 const { test, mock } = require('node:test');
 require('ts-node/register/transpile-only');
-require('tsconfig-paths/register');
+require('../scripts/register-tsconfig-paths.js');
+
+const originalChatwootUrl = process.env.CHATWOOT_URL;
+process.env.CHATWOOT_URL = process.env.CHATWOOT_URL ?? 'https://chatwoot.example';
+
+const agentListResponses = [];
+const originalFetch = global.fetch;
+const fetchMock = mock.method(global, 'fetch', async (input, init = {}) => {
+  void init;
+  const url =
+    typeof input === 'string'
+      ? input
+      : typeof input === 'object' && input !== null && 'url' in input
+        ? input.url
+        : String(input);
+
+  if (
+    typeof url === 'string' &&
+    url.includes('/api/v1/accounts/') &&
+    url.includes('/agents')
+  ) {
+    const next = agentListResponses.length > 0 ? agentListResponses.shift() : { body: [] };
+    const status = next.status ?? 200;
+    const body = next.body ?? [];
+    const payload = typeof body === 'string' ? body : JSON.stringify(body);
+    return new Response(payload, {
+      status,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  return new Response(JSON.stringify({}), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+});
+
+function enqueueAgentListResponse(body, status = 200) {
+  agentListResponses.push({ body, status });
+}
 
 const conversationResolution = require('../lib/conversationResolution.ts');
 const chatwoot = require('../lib/chatwoot.ts');
@@ -17,14 +56,26 @@ const { CONVO_LABELS } = require('../lib/constants.ts');
 // Mock external dependencies
 mock.method(chatwoot, 'getConversationLabels', async () => ({ payload: [] }));
 mock.method(chatwoot, 'setConversationLabels', async () => {});
-mock.method(chatwoot, 'setAgentAvailability', async () => {});
 const getConversationMock = mock.method(
   chatwoot,
   'getConversation',
   async () => ({ inbox_id: inboxId })
 );
-mock.method(agentRotation, 'clearActiveConversation', async () => {});
-mock.method(agentRotation, 'setActiveConversation', async () => {});
+const setAgentAvailabilityMock = mock.method(
+  chatwoot,
+  'setAgentAvailability',
+  async () => {}
+);
+const clearActiveConversationMock = mock.method(
+  agentRotation,
+  'clearActiveConversation',
+  async () => 'online'
+);
+const setActiveConversationMock = mock.method(
+  agentRotation,
+  'setActiveConversation',
+  async () => {}
+);
 mock.method(handoffQueue, 'updateRequest', async () => {});
 
 const accountId = 1;
@@ -57,6 +108,22 @@ test.after(async () => {
   if (typeof redis.disconnect === 'function') {
     redis.disconnect();
   }
+  fetchMock.mock.restore?.();
+  if (originalFetch) {
+    global.fetch = originalFetch;
+  } else {
+    delete global.fetch;
+  }
+  if (originalChatwootUrl === undefined) {
+    delete process.env.CHATWOOT_URL;
+  } else {
+    process.env.CHATWOOT_URL = originalChatwootUrl;
+  }
+});
+
+test.beforeEach(() => {
+  agentListResponses.length = 0;
+  fetchMock.mock.resetCalls();
 });
 
 let status = 'resolved';
@@ -125,6 +192,10 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
   assignMock.mock.resetCalls();
   updateQueuePositionsMock.mock.resetCalls();
   dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
   const initialDequeueCalls = dequeueRequestMock.mock.calls.length;
   const initialToggleCalls = toggleMock.mock.calls.length;
   const initialAssignCalls = assignMock.mock.calls.length;
@@ -184,6 +255,37 @@ test('releaseAgent opens and assigns conversation before notifying', async () =>
   assertLoggedIds(1, 2);
 });
 
+test('releaseAgent uses provided assignee and inbox without extra lookups', async () => {
+  nextMessageId = 0;
+  prisma.conversationMessage.upsert.mock.resetCalls();
+  sendMock.mock.resetCalls();
+  toggleMock.mock.resetCalls();
+  assignMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
+  getConversationMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
+
+  await conversationResolution.releaseAgent(
+    accountId,
+    releasedConversationId,
+    undefined,
+    freedAgentId,
+    inboxId
+  );
+
+  assert.strictEqual(getConversationMock.mock.calls.length, 0);
+  assert.strictEqual(toggleMock.mock.calls.length, 1);
+  assert.strictEqual(assignMock.mock.calls.length, 1);
+  assert.ok(sendMock.mock.calls.length >= 1);
+  assert.strictEqual(updateQueuePositionsMock.mock.calls.length, 1);
+  assert.strictEqual(dequeueNextPendingRequestMock.mock.calls.length, 0);
+  assertLoggedIds(1);
+});
+
 test('releaseAgent assigns next pending request from another inbox', async () => {
   nextMessageId = 0;
   prisma.conversationMessage.upsert.mock.resetCalls();
@@ -192,6 +294,10 @@ test('releaseAgent assigns next pending request from another inbox', async () =>
   assignMock.mock.resetCalls();
   updateQueuePositionsMock.mock.resetCalls();
   dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
   const initialDequeueCalls = dequeueRequestMock.mock.calls.length;
   const initialFallbackCalls = dequeueNextPendingRequestMock.mock.calls.length;
   const initialAssignCalls = assignMock.mock.calls.length;
@@ -272,6 +378,10 @@ test('releaseAgent sends fallback when updateRequest fails', async () => {
   assignMock.mock.resetCalls();
   updateQueuePositionsMock.mock.resetCalls();
   dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
   handoffQueue.updateRequest.mock.mockImplementationOnce(async () => { throw new Error('fail'); });
   const notifyMock = mock.method(friendlyErrors, 'notifyHandoffIssue', async () => {});
   await conversationResolution.releaseAgent(accountId, releasedConversationId, {
@@ -290,6 +400,10 @@ test('releaseAgent throws when freed agent cannot be resolved', async () => {
   sendMock.mock.resetCalls();
   updateQueuePositionsMock.mock.resetCalls();
   dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementation(async () => 'online');
+  setActiveConversationMock.mock.resetCalls();
   const fetchErr = new Error('fetch failed');
   getConversationMock.mock.mockImplementationOnce(async () => {
     throw fetchErr;
@@ -307,6 +421,67 @@ test('releaseAgent throws when freed agent cannot be resolved', async () => {
     }
   );
   assertLoggedIds();
+});
+
+test('releaseAgent restores offline availability snapshot', async () => {
+  nextMessageId = 0;
+  prisma.conversationMessage.upsert.mock.resetCalls();
+  sendMock.mock.resetCalls();
+  toggleMock.mock.resetCalls();
+  assignMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
+  dequeueRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => 'offline');
+  setActiveConversationMock.mock.resetCalls();
+  dequeueRequestMock.mock.mockImplementationOnce(async () => null);
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(
+    setAgentAvailabilityMock.mock.calls.map((call) => call.arguments),
+    [[accountId, freedAgentId, 'offline']]
+  );
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 0);
+  assertLoggedIds();
+});
+
+test('releaseAgent records prior busy status when assigning queued request', async () => {
+  nextMessageId = 0;
+  prisma.conversationMessage.upsert.mock.resetCalls();
+  sendMock.mock.resetCalls();
+  toggleMock.mock.resetCalls();
+  assignMock.mock.resetCalls();
+  updateQueuePositionsMock.mock.resetCalls();
+  dequeueNextPendingRequestMock.mock.resetCalls();
+  setAgentAvailabilityMock.mock.resetCalls();
+  clearActiveConversationMock.mock.resetCalls();
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => 'busy');
+  setActiveConversationMock.mock.resetCalls();
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  assert.deepStrictEqual(
+    setAgentAvailabilityMock.mock.calls.map((call) => call.arguments),
+    [
+      [accountId, freedAgentId, 'busy'],
+      [accountId, freedAgentId, 'busy'],
+    ]
+  );
+  assert.ok(setActiveConversationMock.mock.calls.length > 0);
+  const lastActiveCall = setActiveConversationMock.mock.calls.at(-1).arguments;
+  assert.strictEqual(lastActiveCall[0], freedAgentId);
+  assert.strictEqual(lastActiveCall[1], queuedConversationId);
+  assert.strictEqual(lastActiveCall[2], 'busy');
 });
 
 test('status change without label skips releaseAgent call', async () => {
@@ -388,6 +563,9 @@ test('label removed with status open skips releaseAgent call', async () => {
       assignee_id: 61,
     },
   };
+  enqueueAgentListResponse([
+    { id: 61, availability_status: 'online' },
+  ]);
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -443,6 +621,9 @@ test('status change with label triggers releaseAgent', async () => {
       assignee_id: 62,
     },
   };
+  enqueueAgentListResponse([
+    { id: 62, availability_status: 'online' },
+  ]);
   const req = new Request('http://localhost', {
     method: 'POST',
     body: JSON.stringify(payload),

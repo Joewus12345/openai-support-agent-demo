@@ -5,6 +5,9 @@ import type { ProviderEvent } from "./openai";
 import { fileSearch } from "@/lib/tools/fileSearch";
 import { webSearch } from "@/lib/tools/webSearch";
 import { serializeToolCallArgs } from "./ollama";
+import { deriveLimiterTokens, scheduleProviderCall } from "./limiter";
+import { logger } from "../logger";
+import { ProviderRetryError, retryWithBackoff } from "./retry";
 
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
@@ -25,6 +28,8 @@ export async function* ollamaOpenAIProvider(
   });
 
   const model = opts?.model || defaultModel;
+  const limiterTokens =
+    opts?.limiterTokens ?? deriveLimiterTokens(messages, model);
 
   const converted = (messages || [])
     .map((m: any) => {
@@ -61,11 +66,33 @@ export async function* ollamaOpenAIProvider(
       stream: true,
       options: { num_ctx },
     } as any;
-    console.log(
-      "ollamaOpenAI.chat payload",
-      JSON.stringify(payload)
+    const retried = await retryWithBackoff(
+      async () =>
+        scheduleProviderCall("ollama-openai", limiterTokens, async () => {
+          console.log("ollamaOpenAI.chat payload", JSON.stringify(payload));
+          return openai.chat.completions.create(payload);
+        }),
+      {
+        provider: "ollama-openai",
+        onRetry: ({ attempt, delayMs, status }) => {
+          logger.retry({
+            provider: "ollama-openai",
+            attempt,
+            delayMs,
+            status,
+            model,
+          });
+        },
+      }
     );
-    const stream = await openai.chat.completions.create(payload);
+    const stream = retried.result;
+    if (retried.attempts > 1) {
+      logger.retryRecovered({
+        provider: "ollama-openai",
+        attempts: retried.attempts,
+        model,
+      });
+    }
 
     // Stream chunks from Ollama's OpenAI endpoint. Each chunk may contain
     // partial text and tool call deltas. We forward text deltas directly
@@ -221,6 +248,9 @@ export async function* ollamaOpenAIProvider(
       }
     }
   } catch (error) {
+    if (error instanceof ProviderRetryError) {
+      throw error;
+    }
     const message =
       error instanceof Error ? error.message : String(error);
     console.error("ollamaOpenAI.chat failed", message, error);

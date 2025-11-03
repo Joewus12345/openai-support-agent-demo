@@ -1,7 +1,7 @@
 const assert = require('assert');
 const test = require('node:test');
 require('ts-node/register/transpile-only');
-require('tsconfig-paths/register');
+require('../scripts/register-tsconfig-paths.js');
 
 // Provide a lightweight Prisma stub to avoid loading native engine
 const prisma = { ticket: { count: async () => 0, create: async () => ({}) } };

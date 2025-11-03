@@ -72,12 +72,19 @@ model ConversationMessage {
 }
 
 model AgentAssignment {
-  inboxId              Int
-  agentId              Int
-  lastAssignedAt       DateTime?
-  activeConversationId Int?
+  inboxId                Int
+  agentId                Int
+  lastAssignedAt         DateTime?
+  activeConversationId   Int?
+  availabilityBeforeBusy AgentAvailability?
 
   @@id([inboxId, agentId])
+}
+
+enum AgentAvailability {
+  online
+  busy
+  offline
 }
 
 enum HandoffRequestStatus {

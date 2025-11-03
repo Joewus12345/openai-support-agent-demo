@@ -2,9 +2,11 @@ import { openaiProvider } from "./openai";
 import { ollamaProvider } from "./ollama";
 import { ollamaOpenAIProvider } from "./ollama_openai";
 import type { ProviderEvent } from "./openai";
+import type { LimiterTokens } from "./limiter";
 
 export interface ProviderOptions {
   model?: string;
+  limiterTokens?: LimiterTokens;
 }
 
 export type ProviderFunction = (
