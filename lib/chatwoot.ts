@@ -2,6 +2,14 @@ const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
 const CHATWOOT_TOKEN = process.env.CHATWOOT_APP_TOKEN || "";
 const CHATWOOT_TIMEOUT_MS = Number(process.env.CHATWOOT_TIMEOUT_MS || 15000);
 
+import type { AgentAvailability, AgentRecord } from "./agentRotation";
+
+const AVAILABILITY_VALUES: readonly AgentAvailability[] = [
+  "online",
+  "busy",
+  "offline",
+] as const;
+
 async function chatwootFetch(
   path: string,
   init: RequestInit & { timeoutMs?: number; maxAttempts?: number } = {}
@@ -102,24 +110,147 @@ export async function updateConversation(
   );
 }
 
+function extractAgents(value: unknown, seen = new Set<object>()): unknown[] {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  if (!value || typeof value !== "object") {
+    return [];
+  }
+  if (seen.has(value as object)) {
+    return [];
+  }
+  seen.add(value as object);
+  const container = value as Record<string, unknown>;
+  const candidateKeys = ["data", "payload", "agents", "result", "meta"];
+  for (const key of candidateKeys) {
+    if (key in container) {
+      const nested = extractAgents(container[key], seen);
+      if (nested.length > 0) {
+        return nested;
+      }
+    }
+  }
+  return [];
+}
+
+function normalizeAgentRecord(raw: unknown): AgentRecord | null {
+  if (!raw || typeof raw !== "object") {
+    return null;
+  }
+
+  const record = raw as Record<string, unknown>;
+  const rawId =
+    record.id ?? record.agent_id ?? record.user_id ?? record.userId ?? null;
+
+  const id =
+    typeof rawId === "number"
+      ? rawId
+      : typeof rawId === "string" && rawId.trim().length > 0
+        ? Number.parseInt(rawId, 10)
+        : NaN;
+
+  if (!Number.isFinite(id)) {
+    console.warn("[chatwoot] skipping agent without numeric id", {
+      rawId,
+    });
+    return null;
+  }
+
+  const availabilityRaw =
+    record.availability_status ?? record.availability ?? record.status ?? null;
+
+  let availability: AgentAvailability | null = null;
+  if (typeof availabilityRaw === "string") {
+    const normalized = availabilityRaw.toLowerCase();
+    if ((AVAILABILITY_VALUES as readonly string[]).includes(normalized)) {
+      availability = normalized as AgentAvailability;
+    }
+  }
+
+  if (!availability) {
+    console.warn("[chatwoot] defaulting agent availability", {
+      agentId: id,
+      availabilityRaw,
+    });
+    availability = "online";
+  }
+
+  return {
+    ...(record as Record<string, any>),
+    id,
+    availability_status: availability,
+  } as AgentRecord;
+}
+
+function normalizeAgentsResponse(value: unknown): AgentRecord[] {
+  const agents = extractAgents(value);
+  const normalized: AgentRecord[] = [];
+  for (const agent of agents) {
+    const result = normalizeAgentRecord(agent);
+    if (result) {
+      normalized.push(result);
+    }
+  }
+  return normalized;
+}
+
 export async function listAgents(
   accountId: number,
-  availability?: "online" | "busy" | "offline"
-) {
+  availability?: AgentAvailability
+) : Promise<AgentRecord[]> {
   const query = availability ? `?availability_status=${availability}` : "";
-  return chatwootFetch(
+  const response = await chatwootFetch(
     `/api/v1/accounts/${accountId}/agents${query}`,
     {
       method: "GET",
     }
   );
+  return normalizeAgentsResponse(response);
 }
 
-export async function getAgent(accountId: number, agentId: number) {
-  return chatwootFetch(
-    `/api/v1/accounts/${accountId}/agents/${agentId}`,
-    { method: "GET" }
-  );
+export async function getAgent(
+  accountId: number,
+  agentId: number
+): Promise<AgentRecord | null> {
+  const coerceId = (value: unknown) =>
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number.parseInt(value, 10)
+        : NaN;
+
+  const findAgent = (records: AgentRecord[]) =>
+    records.find((agent) => coerceId(agent.id) === agentId) ?? null;
+
+  try {
+    const agents = await listAgents(accountId);
+    const match = findAgent(agents);
+    if (match) {
+      return match;
+    }
+  } catch (err) {
+    console.error("[chatwoot] listAgents error", err);
+    throw err;
+  }
+
+  for (const availability of AVAILABILITY_VALUES) {
+    try {
+      const agents = await listAgents(accountId, availability);
+      const match = findAgent(agents);
+      if (match) {
+        return match;
+      }
+    } catch (err) {
+      console.warn(
+        "[chatwoot] listAgents availability lookup failed",
+        availability,
+        err
+      );
+    }
+  }
+
+  return null;
 }
 
 export async function setAgentAvailability(

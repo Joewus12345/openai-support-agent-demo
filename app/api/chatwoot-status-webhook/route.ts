@@ -168,13 +168,25 @@ export async function POST(request: Request) {
             .filter(Boolean);
         }
       }
+      const assigneeChange = changes.assignee_id;
+      const assigneeIdFromChange =
+        typeof assigneeChange?.current_value === "number"
+          ? assigneeChange.current_value
+          : undefined;
       const assigneeId =
         payload.assignee_id ??
-        (changes.assignee_id?.current_value as number | undefined) ??
+        assigneeIdFromChange ??
         payload.meta?.assignee?.id ??
         (typedPayload.conversation as any)?.assignee_id;
+      const previousAssigneeRaw = assigneeChange?.previous_value;
       const previousAssigneeId =
-        changes.assignee_id?.previous_value as number | undefined;
+        typeof previousAssigneeRaw === "number"
+          ? previousAssigneeRaw
+          : undefined;
+      const hasAssigneeChange = Object.prototype.hasOwnProperty.call(
+        changes,
+        "assignee_id"
+      );
       const inboxId =
         payload.inbox_id ??
         (typedPayload.conversation as any)?.inbox_id ??
@@ -203,27 +215,26 @@ export async function POST(request: Request) {
         } catch (err) {
           console.error("clear previous active conversation error", err);
         }
-        try {
-          const availabilityToRestore =
-            previousAvailability ?? "online";
-          if (previousAvailability === null) {
-            console.warn(
-              "previous agent availability snapshot missing; defaulting to online",
-              {
-                event,
-                conversationId,
-                previousAssigneeId,
-              }
-            );
-          }
-          await setAgentAvailability(
-            accountId,
-            previousAssigneeId,
-            availabilityToRestore
+        if (previousAvailability === null) {
+          console.warn(
+            "previous agent availability snapshot missing; leaving availability unchanged",
+            {
+              event,
+              conversationId,
+              previousAssigneeId,
+            }
           );
-        } catch (err) {
-          console.error("reset previous agent availability error", err);
-          await sendFallback();
+        } else {
+          try {
+            await setAgentAvailability(
+              accountId,
+              previousAssigneeId,
+              previousAvailability
+            );
+          } catch (err) {
+            console.error("reset previous agent availability error", err);
+            await sendFallback();
+          }
         }
       }
       const conversationIsOpen =
@@ -232,9 +243,10 @@ export async function POST(request: Request) {
           ((typedPayload.conversation as any)?.status === "open" ||
             (payload.conversation as any)?.status === "open"));
       const shouldMarkNewAgentBusy =
+        hasAssigneeChange &&
         typeof assigneeId === "number" &&
         conversationIsOpen &&
-        (previousAssigneeId === undefined || previousAssigneeId !== assigneeId);
+        previousAssigneeId !== assigneeId;
       if (shouldMarkNewAgentBusy) {
         let assigneeAvailability: AgentAvailability | null = parseAvailability(
           payload.meta?.assignee?.availability_status
@@ -242,12 +254,38 @@ export async function POST(request: Request) {
         if (!assigneeAvailability && typeof assigneeId === "number") {
           try {
             const agent = await getAgent(accountId, assigneeId);
-            assigneeAvailability = parseAvailability(
-              (agent as any)?.availability_status
-            );
+            if (agent) {
+              assigneeAvailability = parseAvailability(
+                (agent as any)?.availability_status
+              );
+              if (!assigneeAvailability) {
+                console.warn(
+                  "assignee availability lookup returned unknown status",
+                  {
+                    event,
+                    conversationId,
+                    assigneeId,
+                    availability: (agent as any)?.availability_status,
+                  }
+                );
+              }
+            } else {
+              console.warn("assignee not found in Chatwoot agent list", {
+                event,
+                conversationId,
+                assigneeId,
+              });
+            }
           } catch (err) {
             console.error("fetch assignee availability error", err);
           }
+        }
+        if (!assigneeAvailability) {
+          console.warn("defaulting new assignee availability to online", {
+            event,
+            conversationId,
+            assigneeId,
+          });
         }
         try {
           await setActiveConversation(

@@ -3,7 +3,46 @@ const { test, mock } = require('node:test');
 process.env.RELEASE_MAX_ATTEMPTS = '2';
 process.env.RELEASE_RETRY_BASE_MS = '1';
 require('ts-node/register/transpile-only');
-require('tsconfig-paths/register');
+require('../scripts/register-tsconfig-paths.js');
+
+const originalChatwootUrl = process.env.CHATWOOT_URL;
+process.env.CHATWOOT_URL = process.env.CHATWOOT_URL ?? 'https://chatwoot.example';
+
+const agentListResponses = [];
+const originalFetch = global.fetch;
+const fetchMock = mock.method(global, 'fetch', async (input, init = {}) => {
+  void init;
+  const url =
+    typeof input === 'string'
+      ? input
+      : typeof input === 'object' && input !== null && 'url' in input
+        ? input.url
+        : String(input);
+
+  if (
+    typeof url === 'string' &&
+    url.includes('/api/v1/accounts/') &&
+    url.includes('/agents')
+  ) {
+    const next = agentListResponses.length > 0 ? agentListResponses.shift() : { body: [] };
+    const status = next.status ?? 200;
+    const body = next.body ?? [];
+    const payload = typeof body === 'string' ? body : JSON.stringify(body);
+    return new Response(payload, {
+      status,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  return new Response(JSON.stringify({}), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+});
+
+function enqueueAgentListResponse(body, status = 200) {
+  agentListResponses.push({ body, status });
+}
 
 // Mock external dependencies
 const conversationResolution = require('../lib/conversationResolution.ts');
@@ -138,11 +177,6 @@ const setAgentAvailabilityMock = mock.method(
   'setAgentAvailability',
   async () => {}
 );
-const getAgentMock = mock.method(
-  chatwoot,
-  'getAgent',
-  async () => ({ availability_status: 'online' })
-);
 
 const fetchAttachmentImageModule = require('../lib/chatwoot/fetchAttachmentImage.ts');
 const fetchAttachmentImageMock = mock.method(
@@ -264,6 +298,17 @@ test.after(async () => {
   if (typeof redis.disconnect === 'function') {
     await redis.disconnect();
   }
+  fetchMock.mock.restore?.();
+  if (originalFetch) {
+    global.fetch = originalFetch;
+  } else {
+    delete global.fetch;
+  }
+  if (originalChatwootUrl === undefined) {
+    delete process.env.CHATWOOT_URL;
+  } else {
+    process.env.CHATWOOT_URL = originalChatwootUrl;
+  }
 });
 
 function resetMocks() {
@@ -280,6 +325,8 @@ function resetMocks() {
     defaultSendBotMessageImplementation
   );
   nextMessageId = 0;
+  agentListResponses.length = 0;
+  fetchMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
   getProviderMock.mock.mockImplementation(() => providerFnMock);
   providerFnMock.mock.resetCalls();
@@ -300,10 +347,6 @@ function resetMocks() {
   getConversationLabelsMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.mockImplementation(async () => {});
-  getAgentMock.mock.resetCalls();
-  getAgentMock.mock.mockImplementation(async () => ({
-    availability_status: 'online',
-  }));
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
@@ -663,9 +706,9 @@ test('chatwoot status webhook restores previous assignee and marks new assignee 
     body: JSON.stringify(payload),
   });
   clearActiveConversationMock.mock.mockImplementationOnce(async () => 'offline');
-  getAgentMock.mock.mockImplementationOnce(
-    async () => ({ availability_status: 'online' })
-  );
+  enqueueAgentListResponse([
+    { id: 42, availability_status: 'offline' },
+  ]);
   const res = await statusWebhookPost(req);
   const data = await res.json();
   assert.strictEqual(res.status, 200);
@@ -676,7 +719,7 @@ test('chatwoot status webhook restores previous assignee and marks new assignee 
   assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [
     42,
     77,
-    'online',
+    'offline',
   ]);
   assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 2);
   assert.deepStrictEqual(
@@ -686,7 +729,102 @@ test('chatwoot status webhook restores previous assignee and marks new assignee 
       [9, 42, 'busy'],
     ]
   );
-  assert.strictEqual(getAgentMock.mock.calls.length, 1);
+  const agentFetchCalls = fetchMock.mock.calls.filter((call) => {
+    const rawUrl = call.arguments[0];
+    const resolvedUrl =
+      typeof rawUrl === 'string'
+        ? rawUrl
+        : typeof rawUrl === 'object' && rawUrl !== null && 'url' in rawUrl
+          ? rawUrl.url
+          : String(rawUrl);
+    return (
+      typeof resolvedUrl === 'string' &&
+      resolvedUrl.includes('/api/v1/accounts/') &&
+      resolvedUrl.includes('/agents')
+    );
+  });
+  assert.ok(agentFetchCalls.length >= 1);
+  assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
+  resetMocks();
+});
+
+test('chatwoot status webhook leaves previous availability unchanged when snapshot missing', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 9 },
+      conversation: { id: 77, status: 'open', inbox_id: 11 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+        {
+          assignee_id: { previous_value: 71, current_value: 42 },
+        },
+      ],
+      meta: {
+        assignee: {
+          id: 42,
+          availability_status: 'offline',
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => null);
+  enqueueAgentListResponse([
+    { id: 42, availability_status: 'offline' },
+  ]);
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(clearActiveConversationMock.mock.calls[0].arguments, [71]);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [
+    42,
+    77,
+    'offline',
+  ]);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setAgentAvailabilityMock.mock.calls[0].arguments, [
+    9,
+    42,
+    'busy',
+  ]);
+  resetMocks();
+});
+
+test('chatwoot status webhook does not mark agent busy on status update without assignee change', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 14 },
+      conversation: { id: 102, status: 'open', inbox_id: 9, assignee_id: 501 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+      ],
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 0);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 0);
   assert.strictEqual(releaseAgentMock.mock.calls.length, 0);
   resetMocks();
 });
