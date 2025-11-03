@@ -748,6 +748,58 @@ test('chatwoot status webhook restores previous assignee and marks new assignee 
   resetMocks();
 });
 
+test('chatwoot status webhook leaves previous availability unchanged when snapshot missing', async () => {
+  const payload = {
+    event: 'conversation_updated',
+    data: {
+      event: 'conversation_updated',
+      account: { id: 9 },
+      conversation: { id: 77, status: 'open', inbox_id: 11 },
+      changed_attributes: [
+        {
+          status: { previous_value: 'pending', current_value: 'open' },
+        },
+        {
+          assignee_id: { previous_value: 71, current_value: 42 },
+        },
+      ],
+      meta: {
+        assignee: {
+          id: 42,
+          availability_status: 'offline',
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  clearActiveConversationMock.mock.mockImplementationOnce(async () => null);
+  enqueueAgentListResponse([
+    { id: 42, availability_status: 'offline' },
+  ]);
+  const res = await statusWebhookPost(req);
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.strictEqual(data.status, 'handled');
+  assert.strictEqual(clearActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(clearActiveConversationMock.mock.calls[0].arguments, [71]);
+  assert.strictEqual(setActiveConversationMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setActiveConversationMock.mock.calls[0].arguments, [
+    42,
+    77,
+    'offline',
+  ]);
+  assert.strictEqual(setAgentAvailabilityMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setAgentAvailabilityMock.mock.calls[0].arguments, [
+    9,
+    42,
+    'busy',
+  ]);
+  resetMocks();
+});
+
 test('chatwoot status webhook does not mark agent busy on status update without assignee change', async () => {
   const payload = {
     event: 'conversation_updated',

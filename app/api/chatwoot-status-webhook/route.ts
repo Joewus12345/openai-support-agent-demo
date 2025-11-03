@@ -215,27 +215,26 @@ export async function POST(request: Request) {
         } catch (err) {
           console.error("clear previous active conversation error", err);
         }
-        try {
-          const availabilityToRestore =
-            previousAvailability ?? "online";
-          if (previousAvailability === null) {
-            console.warn(
-              "previous agent availability snapshot missing; defaulting to online",
-              {
-                event,
-                conversationId,
-                previousAssigneeId,
-              }
-            );
-          }
-          await setAgentAvailability(
-            accountId,
-            previousAssigneeId,
-            availabilityToRestore
+        if (previousAvailability === null) {
+          console.warn(
+            "previous agent availability snapshot missing; leaving availability unchanged",
+            {
+              event,
+              conversationId,
+              previousAssigneeId,
+            }
           );
-        } catch (err) {
-          console.error("reset previous agent availability error", err);
-          await sendFallback();
+        } else {
+          try {
+            await setAgentAvailability(
+              accountId,
+              previousAssigneeId,
+              previousAvailability
+            );
+          } catch (err) {
+            console.error("reset previous agent availability error", err);
+            await sendFallback();
+          }
         }
       }
       const conversationIsOpen =
