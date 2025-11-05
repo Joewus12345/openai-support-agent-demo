@@ -71,6 +71,11 @@ import {
   setChatwootJobRunner,
   setChatwootQueueFailureReporter,
 } from "@/lib/chatwoot/jobQueue";
+import { chatwootToolExecutors } from "@/lib/chatwoot/toolExecutors";
+import {
+  submitOpenAIToolOutputs,
+  type ProviderEvent,
+} from "@/lib/providers/openai";
 
 type HistoryTurn = { role: string; content: string };
 
@@ -2030,154 +2035,378 @@ async function processChatwootWebhookJob(
               )
             : baseOutputEstimate;
   
-          const events = provider(providerMessages, tools, {
-            model: providerModelName,
-            limiterTokens: {
-              input: inputTokens,
-              output: estimatedOutputTokens,
-            },
-          });
-          for await (const { event, data } of events) {
-            if (typeof event === "string") {
-              streamSummary.lastEventType = event;
-              streamSummary.eventCounts[event] =
-                (streamSummary.eventCounts[event] ?? 0) + 1;
+          const normalizeCallId = (value: unknown): string | undefined => {
+            if (typeof value === "string") {
+              const trimmed = value.trim();
+              return trimmed ? trimmed : undefined;
             }
-            if (
-              event === "response.output_text.delta" &&
-              typeof data?.delta === "string"
-            ) {
-              replyText += data.delta;
-              streamSummary.outputTextDeltaCount += 1;
-              continue;
+            if (typeof value === "number" && Number.isFinite(value)) {
+              return String(value);
             }
+            return undefined;
+          };
 
-            if (event === "response.output_item.added") {
-              const item = (data as any)?.item;
-              const itemName = item?.name ?? item?.function?.name;
-              if (typeof itemName === "string") {
-                streamSummary.toolNames.add(itemName);
-              }
-              if (
-                item?.type === "function_call" &&
-                itemName === "set_reply_reference"
-              ) {
-                const rawId =
-                  item?.call_id ??
-                  item?.id ??
-                  item?.tool_call_id ??
-                  item?.item_id ??
-                  item?.callId;
-                pendingReplyReferenceId =
-                  typeof rawId === "string"
-                    ? rawId
-                    : typeof rawId === "number"
-                      ? String(rawId)
-                      : undefined;
-                pendingReplyReferenceArgs =
-                  typeof item?.arguments === "string" ? item.arguments : "";
-              }
-              continue;
+          type FunctionCallState = {
+            name?: string;
+            callId?: string;
+            args: string;
+            responseId?: string;
+          };
+
+          const functionCallStates = new Map<string, FunctionCallState>();
+          let latestResponseId: string | undefined;
+          let manualToolResponseText: string | undefined;
+          let abortProviderStreaming = false;
+
+          const updateLatestResponseId = (payload: unknown) => {
+            if (!payload || typeof payload !== "object") {
+              return;
             }
-  
-            if (event === "response.function_call_arguments.delta") {
-              const itemIdRaw =
-                (data as any)?.item_id ??
-                (data as any)?.id ??
-                (data as any)?.call_id ??
-                (data as any)?.tool_call_id;
-              const normalizedId =
-                typeof itemIdRaw === "string"
-                  ? itemIdRaw
-                  : typeof itemIdRaw === "number"
-                    ? String(itemIdRaw)
-                    : undefined;
+            const candidate = payload as Record<string, unknown>;
+            const candidates = [
+              candidate.response_id,
+              (candidate.response as any)?.id,
+              candidate.id,
+              (candidate.item as any)?.response_id,
+              (candidate.item as any)?.response?.id,
+            ];
+            for (const entry of candidates) {
+              const normalized = normalizeCallId(entry);
+              if (normalized) {
+                latestResponseId = normalized;
+                break;
+              }
+            }
+          };
+
+          const rememberFunctionCall = (item: any): string | undefined => {
+            const normalizedId = normalizeCallId(
+              item?.id ?? item?.call_id ?? item?.tool_call_id ?? item?.item_id
+            );
+            if (!normalizedId) {
+              return undefined;
+            }
+            const existing = functionCallStates.get(normalizedId);
+            if (existing) {
+              if (typeof item?.arguments === "string") {
+                existing.args = item.arguments;
+              }
+              if (!existing.name && (item?.name ?? item?.function?.name)) {
+                existing.name = item?.name ?? item?.function?.name;
+              }
+              if (!existing.callId) {
+                existing.callId = normalizeCallId(
+                  item?.call_id ?? item?.tool_call_id ?? item?.id
+                );
+              }
+              if (!existing.responseId) {
+                existing.responseId =
+                  normalizeCallId(item?.response_id) ?? latestResponseId;
+              }
+              return normalizedId;
+            }
+            functionCallStates.set(normalizedId, {
+              name: item?.name ?? item?.function?.name,
+              callId: normalizeCallId(
+                item?.call_id ?? item?.tool_call_id ?? item?.id
+              ),
+              args:
+                typeof item?.arguments === "string" ? item.arguments : "",
+              responseId:
+                normalizeCallId(item?.response_id) ?? latestResponseId,
+            });
+            return normalizedId;
+          };
+
+          const processProviderEvents = async (
+            generator: AsyncGenerator<ProviderEvent>
+          ): Promise<void> => {
+            for await (const { event, data } of generator) {
+              if (abortProviderStreaming) {
+                break;
+              }
+
+              if (typeof event === "string") {
+                streamSummary.lastEventType = event;
+                streamSummary.eventCounts[event] =
+                  (streamSummary.eventCounts[event] ?? 0) + 1;
+              }
+
+              updateLatestResponseId(data);
+
               if (
-                pendingReplyReferenceId &&
-                normalizedId === pendingReplyReferenceId &&
+                event === "response.output_text.delta" &&
                 typeof (data as any)?.delta === "string"
               ) {
-                pendingReplyReferenceArgs += (data as any).delta;
+                replyText += (data as any).delta;
+                streamSummary.outputTextDeltaCount += 1;
+                continue;
               }
-              continue;
-            }
-  
-            if (event === "response.function_call_arguments.done") {
-              const itemIdRaw =
-                (data as any)?.item_id ??
-                (data as any)?.id ??
-                (data as any)?.call_id ??
-                (data as any)?.tool_call_id;
-              const normalizedId =
-                typeof itemIdRaw === "string"
-                  ? itemIdRaw
-                  : typeof itemIdRaw === "number"
-                    ? String(itemIdRaw)
-                    : undefined;
-              if (pendingReplyReferenceId && normalizedId === pendingReplyReferenceId) {
-                let finalArgs = "";
-                if (typeof (data as any)?.arguments === "string") {
-                  finalArgs = (data as any).arguments;
+
+              if (event === "response.output_item.added") {
+                const item = (data as any)?.item;
+                const itemName = item?.name ?? item?.function?.name;
+                if (typeof itemName === "string") {
+                  streamSummary.toolNames.add(itemName);
                 }
-                if (!finalArgs) {
-                  finalArgs = pendingReplyReferenceArgs;
-                }
-                if (finalArgs) {
-                  try {
-                    const parsedArgs = parse(finalArgs) as any;
-                    const parsedUseQuotes =
-                      typeof parsedArgs?.use_quotes === "boolean"
-                        ? parsedArgs.use_quotes
-                        : typeof parsedArgs?.useQuotes === "boolean"
-                          ? parsedArgs.useQuotes
-                          : undefined;
-                    const parsedMessageId = parseMessageId(
-                      parsedArgs?.message_id ??
-                        parsedArgs?.messageId ??
-                        parsedArgs?.messageID
+                if (item?.type === "function_call") {
+                  rememberFunctionCall(item);
+                  if (itemName === "set_reply_reference") {
+                    pendingReplyReferenceId = normalizeCallId(
+                      item?.call_id ??
+                        item?.id ??
+                        item?.tool_call_id ??
+                        item?.item_id ??
+                        item?.callId
                     );
-                    const parsedPrivate =
-                      typeof parsedArgs?.private === "boolean"
-                        ? parsedArgs.private
-                        : typeof parsedArgs?.is_private === "boolean"
-                          ? parsedArgs.is_private
-                          : typeof parsedArgs?.send_private === "boolean"
-                            ? parsedArgs.send_private
-                            : undefined;
-  
-                    const nextOverride: {
-                      inReplyTo?: number | null;
-                      private?: boolean;
-                    } = {};
-                    let hasOverride = false;
-  
-                    if (parsedUseQuotes === false) {
-                      nextOverride.inReplyTo = null;
-                      hasOverride = true;
-                    } else if (typeof parsedMessageId === "number") {
-                      nextOverride.inReplyTo = parsedMessageId;
-                      hasOverride = true;
-                    } else if (parsedUseQuotes === true) {
-                      nextOverride.inReplyTo = undefined;
-                      hasOverride = true;
-                    }
-  
-                    if (typeof parsedPrivate === "boolean") {
-                      nextOverride.private = parsedPrivate;
-                      hasOverride = true;
-                    }
-  
-                    if (hasOverride) {
-                      replyReferenceOverride = nextOverride;
-                    }
-                  } catch (err) {
-                    console.warn("set_reply_reference parse error", err);
+                    pendingReplyReferenceArgs =
+                      typeof item?.arguments === "string"
+                        ? item.arguments
+                        : "";
                   }
                 }
-                pendingReplyReferenceId = undefined;
-                pendingReplyReferenceArgs = "";
+                continue;
+              }
+
+              if (event === "response.function_call_arguments.delta") {
+                const normalizedId = normalizeCallId(
+                  (data as any)?.item_id ??
+                    (data as any)?.id ??
+                    (data as any)?.call_id ??
+                    (data as any)?.tool_call_id
+                );
+                const delta =
+                  typeof (data as any)?.delta === "string"
+                    ? (data as any).delta
+                    : undefined;
+                if (
+                  pendingReplyReferenceId &&
+                  normalizedId === pendingReplyReferenceId &&
+                  delta
+                ) {
+                  pendingReplyReferenceArgs += delta;
+                }
+                if (normalizedId && delta && functionCallStates.has(normalizedId)) {
+                  functionCallStates.get(normalizedId)!.args += delta;
+                }
+                continue;
+              }
+
+              if (event === "response.function_call_arguments.done") {
+                const normalizedId = normalizeCallId(
+                  (data as any)?.item_id ??
+                    (data as any)?.id ??
+                    (data as any)?.call_id ??
+                    (data as any)?.tool_call_id
+                );
+                if (
+                  pendingReplyReferenceId &&
+                  normalizedId === pendingReplyReferenceId
+                ) {
+                  let finalArgs = "";
+                  if (typeof (data as any)?.arguments === "string") {
+                    finalArgs = (data as any).arguments;
+                  }
+                  if (!finalArgs) {
+                    finalArgs = pendingReplyReferenceArgs;
+                  }
+                  if (finalArgs) {
+                    try {
+                      const parsedArgs = parse(finalArgs) as any;
+                      const parsedUseQuotes =
+                        typeof parsedArgs?.use_quotes === "boolean"
+                          ? parsedArgs.use_quotes
+                          : typeof parsedArgs?.useQuotes === "boolean"
+                            ? parsedArgs.useQuotes
+                            : undefined;
+                      const parsedMessageId = parseMessageId(
+                        parsedArgs?.message_id ??
+                          parsedArgs?.messageId ??
+                          parsedArgs?.messageID
+                      );
+                      const parsedPrivate =
+                        typeof parsedArgs?.private === "boolean"
+                          ? parsedArgs.private
+                          : typeof parsedArgs?.is_private === "boolean"
+                            ? parsedArgs.is_private
+                            : typeof parsedArgs?.send_private === "boolean"
+                              ? parsedArgs.send_private
+                              : undefined;
+
+                      const nextOverride: {
+                        inReplyTo?: number | null;
+                        private?: boolean;
+                      } = {};
+                      let hasOverride = false;
+
+                      if (parsedUseQuotes === false) {
+                        nextOverride.inReplyTo = null;
+                        hasOverride = true;
+                      } else if (typeof parsedMessageId === "number") {
+                        nextOverride.inReplyTo = parsedMessageId;
+                        hasOverride = true;
+                      } else if (parsedUseQuotes === true) {
+                        nextOverride.inReplyTo = undefined;
+                        hasOverride = true;
+                      }
+
+                      if (typeof parsedPrivate === "boolean") {
+                        nextOverride.private = parsedPrivate;
+                        hasOverride = true;
+                      }
+
+                      if (hasOverride) {
+                        replyReferenceOverride = nextOverride;
+                      }
+                    } catch (err) {
+                      console.warn("set_reply_reference parse error", err);
+                    }
+                  }
+                  pendingReplyReferenceId = undefined;
+                  pendingReplyReferenceArgs = "";
+                }
+                if (normalizedId && functionCallStates.has(normalizedId)) {
+                  const state = functionCallStates.get(normalizedId)!;
+                  if (typeof (data as any)?.arguments === "string") {
+                    state.args = (data as any).arguments;
+                  }
+                  const responseIdCandidate =
+                    normalizeCallId((data as any)?.response_id) ??
+                    latestResponseId;
+                  if (responseIdCandidate) {
+                    state.responseId = responseIdCandidate;
+                  }
+                }
+                continue;
+              }
+
+              if (event === "response.output_item.done") {
+                const item = (data as any)?.item;
+                if (item?.type === "function_call") {
+                  const normalizedId = rememberFunctionCall(item);
+                  const state =
+                    (normalizedId && functionCallStates.get(normalizedId)) ??
+                    undefined;
+                  const itemName =
+                    item?.name ?? item?.function?.name ?? state?.name;
+                  if (itemName === "set_reply_reference") {
+                    if (normalizedId) {
+                      functionCallStates.delete(normalizedId);
+                    }
+                    continue;
+                  }
+                  if (itemName && state) {
+                    const argsSource =
+                      (typeof item?.arguments === "string" &&
+                        item.arguments.trim()) ||
+                      state.args ||
+                      "";
+                    let parsedArgs: Record<string, unknown> = {};
+                    if (argsSource) {
+                      try {
+                        parsedArgs = parse(argsSource) as Record<string, unknown>;
+                      } catch (error) {
+                        console.warn(
+                          "chatwoot webhook tool argument parse error",
+                          { tool: itemName, error }
+                        );
+                        parsedArgs = {};
+                      }
+                    }
+                    const executor = chatwootToolExecutors[itemName];
+                    if (executor) {
+                      let toolResult: unknown;
+                      try {
+                        toolResult = await executor(
+                          { accountId, conversationId, conversation, message },
+                          parsedArgs
+                        );
+                      } catch (error) {
+                        console.error("chatwoot tool execution error", {
+                          tool: itemName,
+                          error,
+                        });
+                        toolResult = {
+                          error: true,
+                          message:
+                            error instanceof Error
+                              ? error.message
+                              : "Tool execution failed",
+                        };
+                      }
+                      let serializedOutput: string;
+                      try {
+                        serializedOutput =
+                          typeof toolResult === "string"
+                            ? toolResult
+                            : JSON.stringify(toolResult ?? { status: "ok" });
+                      } catch (error) {
+                        console.error(
+                          "chatwoot tool output serialization error",
+                          error
+                        );
+                        serializedOutput = JSON.stringify({ status: "ok" });
+                      }
+                      const toolCallId =
+                        state.callId ??
+                        normalizeCallId(
+                          item?.call_id ??
+                            item?.tool_call_id ??
+                            item?.id ??
+                            normalizedId
+                        );
+                      const responseIdForTool =
+                        state.responseId ?? latestResponseId;
+                      if (
+                        providerName === "openai" &&
+                        responseIdForTool &&
+                        toolCallId
+                      ) {
+                        await processProviderEvents(
+                          submitOpenAIToolOutputs(responseIdForTool, [
+                            {
+                              tool_call_id: toolCallId,
+                              output: serializedOutput,
+                            },
+                          ])
+                        );
+                      } else {
+                        manualToolResponseText =
+                          manualToolResponseText ||
+                          "I've sent the complaint intake form to you. Please let me know once it's completed.";
+                        abortProviderStreaming = true;
+                        if (normalizedId) {
+                          functionCallStates.delete(normalizedId);
+                        }
+                        return;
+                      }
+                    } else {
+                      console.warn("chatwoot webhook unknown function call", {
+                        tool: itemName,
+                      });
+                    }
+                  }
+                  if (normalizedId) {
+                    functionCallStates.delete(normalizedId);
+                  }
+                }
+                continue;
               }
             }
+          };
+
+          await processProviderEvents(
+            provider(providerMessages, tools, {
+              model: providerModelName,
+              limiterTokens: {
+                input: inputTokens,
+                output: estimatedOutputTokens,
+              },
+            })
+          );
+
+          if (!replyText && manualToolResponseText) {
+            replyText = manualToolResponseText;
           }
           } catch (err) {
             if (err instanceof ProviderRetryError) {

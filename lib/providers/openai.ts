@@ -72,3 +72,49 @@ export async function* openaiProvider(
     yield { event: event.type, data: event } as ProviderEvent;
   }
 }
+
+export async function* submitOpenAIToolOutputs(
+  responseId: string,
+  toolOutputs: { tool_call_id: string; output: string }[]
+): AsyncGenerator<ProviderEvent> {
+  if (!responseId) {
+    throw new Error("submitOpenAIToolOutputs requires a response id");
+  }
+  if (!Array.isArray(toolOutputs) || toolOutputs.length === 0) {
+    throw new Error("submitOpenAIToolOutputs requires at least one tool output");
+  }
+
+  const openai = new OpenAI();
+  const { result: events, attempts } = await retryWithBackoff(
+    async () =>
+      scheduleProviderCall("openai", undefined, async () =>
+        openai.responses.submitToolOutputs({
+          response_id: responseId,
+          tool_outputs: toolOutputs,
+          stream: true,
+        })
+      ),
+    {
+      provider: "openai",
+      onRetry: ({ attempt, delayMs, status }) => {
+        logger.retry({
+          provider: "openai",
+          attempt,
+          delayMs,
+          status,
+        });
+      },
+    }
+  );
+
+  if (attempts > 1) {
+    logger.retryRecovered({
+      provider: "openai",
+      attempts,
+    });
+  }
+
+  for await (const event of events) {
+    yield { event: event.type, data: event } as ProviderEvent;
+  }
+}

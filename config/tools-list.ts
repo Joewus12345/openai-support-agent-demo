@@ -1,4 +1,16 @@
-import { CHATWOOT_COMPLAINT_TYPES } from "./chatwootAttributes";
+import {
+  CHATWOOT_COMPLAINT_TYPES,
+  CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS,
+} from "./chatwootAttributes";
+
+const {
+  customerName: CHATWOOT_CUSTOMER_NAME,
+  companyName: CHATWOOT_COMPANY_NAME,
+  companyLocation: CHATWOOT_COMPANY_LOCATION,
+  contact: CHATWOOT_CONTACT,
+  complaintType: CHATWOOT_COMPLAINT_TYPE,
+  issueDescription: CHATWOOT_ISSUE_DESCRIPTION,
+} = CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS;
 
 // List of tools available to the agent
 // No need to include the top-level wrapper object as it is added in lib/tools/tools.ts
@@ -240,6 +252,58 @@ export const toolsList = [
           },
         },
         required: ["user_id", "type", "details", "order_id"],
+        additionalProperties: false,
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "send_complaint_form",
+      description:
+        "Send the Chatwoot complaint intake form so the customer can populate the configured conversation attributes.",
+      parameters: {
+        type: "object",
+        properties: {
+          title: {
+            type: "string",
+            description:
+              "Optional heading to display at the top of the form. Defaults to \"Complaint intake form\".",
+          },
+          defaults: {
+            type: "object",
+            description:
+              "Prefill any known values. Keys must match the Chatwoot conversation attribute names for the complaint form.",
+            properties: {
+              [CHATWOOT_CUSTOMER_NAME]: {
+                type: "string",
+                description: "Customer's full name.",
+              },
+              [CHATWOOT_COMPANY_NAME]: {
+                type: "string",
+                description: "Company or organization name.",
+              },
+              [CHATWOOT_COMPANY_LOCATION]: {
+                type: "string",
+                description: "Company location or region.",
+              },
+              [CHATWOOT_CONTACT]: {
+                type: "string",
+                description: "Primary contact method (email or phone).",
+              },
+              [CHATWOOT_COMPLAINT_TYPE]: {
+                type: "string",
+                description: "Complaint category to preselect, if known.",
+                enum: [...CHATWOOT_COMPLAINT_TYPES],
+              },
+              [CHATWOOT_ISSUE_DESCRIPTION]: {
+                type: "string",
+                description: "Details of the reported issue.",
+              },
+            },
+            additionalProperties: false,
+          },
+        },
         additionalProperties: false,
       },
     },
