@@ -49,6 +49,7 @@ const conversationResolution = require('../lib/conversationResolution.ts');
 const releaseAgentMock = mock.method(conversationResolution, 'releaseAgent', async () => {});
 
 const chatwootBot = require('../lib/chatwootBot.ts');
+const { buildComplaintFormContent } = require('../lib/chatwoot/forms.ts');
 let nextMessageId = 0;
 const defaultSendBotMessageImplementation = async (
   accountId,
@@ -67,6 +68,24 @@ const sendBotMessageMock = mock.method(
   'sendBotMessage',
   defaultSendBotMessageImplementation
 );
+const defaultSendBotFormMessageImplementation = async (
+  accountId,
+  conversationId,
+  form
+) => ({
+  id: ++nextMessageId,
+  inbox_id: 1,
+  content: 'form',
+  conversation_id: conversationId,
+  account_id: accountId,
+  created_at: Math.floor(Date.now() / 1000),
+  content_attributes: form,
+});
+const sendBotFormMessageMock = mock.method(
+  chatwootBot,
+  'sendBotFormMessage',
+  defaultSendBotFormMessageImplementation
+);
 
 const {
   MESSAGE_FALLBACK_TEXT,
@@ -84,6 +103,23 @@ const providerFnMock = mock.fn((messages, toolsArg, options) =>
   })()
 );
 const getProviderMock = mock.method(providers, 'getProvider', () => providerFnMock);
+const openaiProviderModule = require('../lib/providers/openai.ts');
+const defaultSubmitToolOutputsImplementation = () =>
+  (async function* () {
+    yield {
+      event: 'response.output_text.delta',
+      data: { delta: 'Tool output acknowledged.' },
+    };
+    yield { event: 'response.completed', data: {} };
+  })();
+const submitOpenAIToolOutputsMock = mock.method(
+  openaiProviderModule,
+  'submitOpenAIToolOutputs',
+  (...args) => {
+    void args;
+    return defaultSubmitToolOutputsImplementation();
+  }
+);
 const {
   scheduleProviderCall,
   setLimiterConfigForTesting,
@@ -176,6 +212,11 @@ const setAgentAvailabilityMock = mock.method(
   chatwoot,
   'setAgentAvailability',
   async () => {}
+);
+const updateConversationMock = mock.method(
+  chatwoot,
+  'updateConversation',
+  async () => ({})
 );
 
 const fetchAttachmentImageModule = require('../lib/chatwoot/fetchAttachmentImage.ts');
@@ -324,12 +365,21 @@ function resetMocks() {
   sendBotMessageMock.mock.mockImplementation(
     defaultSendBotMessageImplementation
   );
+  sendBotFormMessageMock.mock.resetCalls();
+  sendBotFormMessageMock.mock.mockImplementation(
+    defaultSendBotFormMessageImplementation
+  );
   nextMessageId = 0;
   agentListResponses.length = 0;
   fetchMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
   getProviderMock.mock.mockImplementation(() => providerFnMock);
   providerFnMock.mock.resetCalls();
+  submitOpenAIToolOutputsMock.mock.resetCalls();
+  submitOpenAIToolOutputsMock.mock.mockImplementation((...args) => {
+    void args;
+    return defaultSubmitToolOutputsImplementation();
+  });
   getNextAgentMock.mock.resetCalls();
   getNextAgentMock.mock.mockImplementation(async () => ({
     agent: null,
@@ -347,6 +397,8 @@ function resetMocks() {
   getConversationLabelsMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.mockImplementation(async () => {});
+  updateConversationMock.mock.resetCalls();
+  updateConversationMock.mock.mockImplementation(async () => ({}));
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
@@ -2706,7 +2758,8 @@ test('chatwoot webhook merges referenced context with image insights', async () 
     body: JSON.stringify(payload),
   });
   const res = await webhookPost(req);
-  await res.json();
+  const rawBody = await res.text();
+  const body = rawBody ? JSON.parse(rawBody) : {};
 
   assert.strictEqual(res.status, 200);
   assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 1);
@@ -3571,6 +3624,224 @@ test('chatwoot webhook fallback keeps quoting inbound when set_reply_reference s
   const fallbackOptions = sendBotMessageMock.mock.calls[1].arguments[3];
   assert.deepStrictEqual(fallbackOptions, { private: false, inReplyTo: inboundId });
   resetMocks();
+});
+
+test('chatwoot webhook executes send_complaint_form tool and posts form payload', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+  try {
+    const responseId = 'resp-form-1';
+    const callId = 'call-form-1';
+    submitOpenAIToolOutputsMock.mock.mockImplementationOnce((response, outputs) => {
+      assert.strictEqual(response, responseId);
+      assert.ok(Array.isArray(outputs));
+      assert.strictEqual(outputs.length, 1);
+      const [firstOutput] = outputs;
+      assert.strictEqual(firstOutput.tool_call_id, callId);
+      const parsedOutput = JSON.parse(firstOutput.output);
+      assert.strictEqual(parsedOutput.status, 'sent');
+      assert.strictEqual(
+        parsedOutput.form.fieldCount,
+        buildComplaintFormContent().items.length
+      );
+      return (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: { delta: 'Complaint form dispatched.' },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })();
+    });
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: callId,
+              call_id: callId,
+              arguments: '',
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: {
+            item_id: callId,
+            delta: '{}',
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: { item_id: callId, arguments: '{}', response_id: responseId },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: callId,
+              call_id: callId,
+              arguments: '{}',
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })()
+    );
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 501,
+          message_type: 0,
+          content: 'I need to file a complaint',
+          account: { id: 42 },
+          conversation: {
+            id: 77,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+          },
+        },
+      },
+    };
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const res = await webhookPost(req);
+    await res.json();
+
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 1);
+    const [accountArg, conversationArg, formArg] =
+      sendBotFormMessageMock.mock.calls[0].arguments;
+    assert.strictEqual(accountArg, 42);
+    assert.strictEqual(conversationArg, 77);
+    assert.deepStrictEqual(formArg, buildComplaintFormContent());
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 1);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const reply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(reply, 'Complaint form dispatched.');
+    assert.notStrictEqual(reply, MESSAGE_FALLBACK_TEXT);
+    assert.strictEqual(updateConversationMock.mock.calls.length, 0);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook merges complaint form submissions and forwards summary to provider', async () => {
+  resetMocks();
+  try {
+    const existingAttributes = {
+      existing_flag: 'yes',
+      complaint_type: 'Other',
+    };
+    const submittedValues = [
+      {
+        name: 'customer_name',
+        label: 'Customer Name',
+        value: 'Alice Smith',
+      },
+      {
+        name: 'complaint_type',
+        label: 'Complaint Type',
+        value: 'Delayed Supply',
+      },
+      {
+        name: 'issue_description',
+        label: 'Issue Description',
+        value: 'Primary machine is offline',
+      },
+    ];
+    const expectedSummary =
+      'Form submission: Customer Name – Alice Smith; Complaint Type – Delayed Supply; Issue Description – Primary machine is offline';
+
+    const payload = {
+      event: 'message_updated',
+      data: {
+        event: 'message_updated',
+        message: {
+          id: 9001,
+          message_type: 0,
+          account_id: 77,
+          conversation_id: 555,
+          content_type: 'form',
+          content_attributes: {
+            submitted_values: submittedValues,
+          },
+        conversation: {
+          id: 555,
+          inbox_id: 7,
+          status: 'resolved',
+          account_id: 77,
+          custom_attributes: existingAttributes,
+        },
+        },
+      },
+    };
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const res = await webhookPost(req);
+    await res.json();
+
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(updateConversationMock.mock.calls.length, 1);
+    const updateArgs = updateConversationMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(updateArgs.slice(0, 2), [77, 555]);
+    const mergedAttributes = updateArgs[2]?.custom_attributes;
+    assert.ok(mergedAttributes);
+    assert.strictEqual(mergedAttributes.customer_name, 'Alice Smith');
+    assert.strictEqual(mergedAttributes.complaint_type, 'Delayed Supply');
+    assert.strictEqual(
+      mergedAttributes.issue_description,
+      'Primary machine is offline'
+    );
+    assert.strictEqual(mergedAttributes.existing_flag, 'yes');
+    assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 0);
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const providerReply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(providerReply, 'hi');
+    assert.notStrictEqual(providerReply, MESSAGE_FALLBACK_TEXT);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+    const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+    const summaryInPrompt = providerMessages.some((message) =>
+      message &&
+      message.role === 'user' &&
+      Array.isArray(message.content) &&
+      message.content.some((item) => item?.text?.includes(expectedSummary))
+    );
+    assert.ok(summaryInPrompt, 'expected provider payload to include form summary');
+  } finally {
+    resetMocks();
+  }
 });
 
 test('chatwoot webhook queues provider calls when concurrency exceeded', async () => {
