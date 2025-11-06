@@ -34,6 +34,16 @@ const fetchMock = mock.method(global, 'fetch', async (input, init = {}) => {
     });
   }
 
+  if (typeof url === 'string' && url.endsWith('/api/complaints/create')) {
+    return new Response(
+      JSON.stringify({ complaint_id: 'cmp-test-1', status: 'queued' }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
+
   return new Response(JSON.stringify({}), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
@@ -3529,7 +3539,8 @@ test('chatwoot webhook set_reply_reference streaming controls quoting content at
       body: JSON.stringify(payload),
     });
     const res = await webhookPost(req);
-    await res.json();
+    const body = await res.json();
+    console.log('response body', body);
 
     assert.strictEqual(
       sendBotMessageMock.mock.calls.length,
@@ -3742,6 +3753,140 @@ test('chatwoot webhook executes send_complaint_form tool and posts form payload'
     assert.notStrictEqual(reply, MESSAGE_FALLBACK_TEXT);
     assert.strictEqual(updateConversationMock.mock.calls.length, 0);
     assert.strictEqual(providerFnMock.mock.calls.length, 1);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook executes create_complaint tool and posts complaint payload', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+  try {
+    const responseId = 'resp-complaint-1';
+    const callId = 'call-complaint-1';
+    const toolArgs = JSON.stringify({
+      user_id: 'user-123',
+      type: 'Delayed Supply',
+      details: 'Shipment has not arrived after two weeks.',
+      order_id: 'order-789',
+    });
+
+    submitOpenAIToolOutputsMock.mock.mockImplementationOnce((response, outputs) => {
+      assert.strictEqual(response, responseId);
+      assert.ok(Array.isArray(outputs));
+      assert.strictEqual(outputs.length, 1);
+      const [firstOutput] = outputs;
+      assert.strictEqual(firstOutput.tool_call_id, callId);
+      const parsed = JSON.parse(firstOutput.output);
+      assert.strictEqual(parsed.status, 'submitted');
+      assert.ok(Array.isArray(parsed.complaint) || typeof parsed.complaint === 'object');
+      const complaintCall = fetchMock.mock.calls.find((call) => {
+        const [callUrl] = call.arguments;
+        return typeof callUrl === 'string' && callUrl.endsWith('/api/complaints/create');
+      });
+      assert.ok(complaintCall, 'expected create_complaint API request');
+      const callBody = complaintCall?.arguments?.[1]?.body;
+      const recordedBody = typeof callBody === 'string' ? JSON.parse(callBody) : JSON.parse((callBody ?? '').toString() || '{}');
+      assert.deepStrictEqual(recordedBody, JSON.parse(toolArgs));
+
+      return (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: { delta: 'Complaint recorded successfully.' },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })();
+    });
+
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'create_complaint',
+              id: callId,
+              call_id: callId,
+              arguments: '',
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: { item_id: callId, delta: toolArgs, response_id: responseId },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: { item_id: callId, arguments: toolArgs, response_id: responseId },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'create_complaint',
+              id: callId,
+              call_id: callId,
+              arguments: toolArgs,
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })()
+    );
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 777,
+          message_type: 0,
+          content: 'We submitted the form—can you log the complaint?',
+          account: { id: 99 },
+          conversation: {
+            id: 300,
+            inbox_id: 2,
+            status: 'resolved',
+            account_id: 99,
+          },
+        },
+      },
+    };
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const res = await webhookPost(req);
+    await res.json();
+
+    assert.strictEqual(res.status, 200);
+    const complaintCall = fetchMock.mock.calls.find((call) => {
+      const [callUrl] = call.arguments;
+      return typeof callUrl === 'string' && callUrl.endsWith('/api/complaints/create');
+    });
+    assert.ok(complaintCall, 'expected complaint API request');
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const reply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(reply, 'Complaint recorded successfully.');
+    assert.notStrictEqual(reply, MESSAGE_FALLBACK_TEXT);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 1);
   } finally {
     if (originalProvider === undefined) {
       delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
