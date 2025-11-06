@@ -16,6 +16,7 @@ import {
   getConversationMessages,
   getConversationLabels,
   setConversationLabels,
+  updateConversation,
 } from "@/lib/chatwoot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
@@ -378,6 +379,150 @@ function extractMessageAttachments(message: unknown): NormalizedAttachment[] {
   return normalized;
 }
 
+type NormalizedFormSubmissionValue = {
+  name: string;
+  label: string;
+  value: string;
+  displayValue: string;
+};
+
+function humanizeFormFieldName(name: string): string {
+  if (!name) {
+    return "Field";
+  }
+
+  const withSpaces = name
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!withSpaces) {
+    return "Field";
+  }
+
+  return withSpaces
+    .split(" ")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function normalizeSubmittedFieldValue(value: unknown): string {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  if (typeof value === "string") {
+    return value.trim();
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  if (Array.isArray(value)) {
+    const parts = value
+      .map((entry) => normalizeSubmittedFieldValue(entry))
+      .map((entry) => entry.trim())
+      .filter((entry) => entry.length > 0);
+    return parts.join(", ");
+  }
+
+  if (typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    const candidateKeys = [
+      "value",
+      "label",
+      "title",
+      "text",
+      "name",
+      "content",
+      "display",
+    ];
+    for (const key of candidateKeys) {
+      if (key in record) {
+        const normalized = normalizeSubmittedFieldValue(record[key]);
+        if (normalized.trim()) {
+          return normalized.trim();
+        }
+      }
+    }
+    try {
+      return JSON.stringify(value);
+    } catch {
+      return String(value);
+    }
+  }
+
+  return String(value);
+}
+
+function normalizeFormSubmittedValues(
+  values: unknown
+): NormalizedFormSubmissionValue[] {
+  if (!Array.isArray(values)) {
+    return [];
+  }
+
+  const normalizedEntries = new Map<string, NormalizedFormSubmissionValue>();
+
+  for (const rawEntry of values) {
+    if (!rawEntry || typeof rawEntry !== "object") {
+      continue;
+    }
+
+    const entry = rawEntry as Record<string, unknown>;
+    const rawName =
+      pickString(entry.name) ??
+      pickString(entry.attribute_name) ??
+      pickString(entry.key);
+    const name = rawName?.trim();
+    if (!name) {
+      continue;
+    }
+
+    const rawLabel =
+      pickString(entry.label) ?? pickString(entry.title) ?? pickString(entry.display_name);
+    const label = rawLabel?.trim() || humanizeFormFieldName(name);
+    const rawValue =
+      entry.value ?? entry.answer ?? entry.text ?? entry.content ?? entry.selected;
+    const value = normalizeSubmittedFieldValue(rawValue).trim();
+    const displayValue = value || "(empty)";
+
+    normalizedEntries.set(name, { name, label, value, displayValue });
+  }
+
+  return Array.from(normalizedEntries.values());
+}
+
+function buildFormSubmissionSummary(
+  values: NormalizedFormSubmissionValue[]
+): string {
+  if (!values.length) {
+    return "Form submission received.";
+  }
+
+  const parts = values.map(
+    (entry) => `${entry.label} – ${entry.displayValue}`
+  );
+
+  return `Form submission: ${parts.join("; ")}`;
+}
+
+function buildFormSubmissionDetailText(
+  values: NormalizedFormSubmissionValue[]
+): string {
+  if (!values.length) {
+    return "Form submission received.";
+  }
+
+  const lines = values.map(
+    (entry) => `- ${entry.label}: ${entry.displayValue}`
+  );
+
+  return `Complaint form submission received with the following details:\n${lines.join("\n")}`;
+}
+
 function buildAttachmentNote(
   attachments: NormalizedAttachment[]
 ): string | undefined {
@@ -738,14 +883,45 @@ async function processChatwootWebhookJob(
   let fallbackSent = false;
   let sendFallback: () => Promise<void> = async () => {};
   let logAssistantResponse: (response: unknown, fallbackContent: string) => Promise<void>;
+  let isFormSubmission = false;
+  let formSubmissionSummary: string | undefined;
+  let formSubmissionPromptAddition: ResponseMessage | undefined;
+  let formSubmissionAttributes: Record<string, string> | undefined;
+  let normalizedFormSubmissionValues: NormalizedFormSubmissionValue[] = [];
   try {
     const endPayloadNormalization = timer.startPhase("payload-normalization");
     try {
-      if (incoming.event !== "message_created") {
-        return NextResponse.json({ status: "ignored" });
-      }
       payload = "data" in incoming ? incoming.data : incoming;
       message = (payload as any).message ?? payload;
+      const eventType = incoming.event;
+      if (eventType === "message_updated") {
+        const contentType =
+          pickString((message as any)?.content_type) ??
+          pickString((message as any)?.contentType);
+        const submittedValues = (message as any)?.content_attributes?.submitted_values;
+        if (
+          (contentType ?? "").toLowerCase() !== "form" ||
+          !Array.isArray(submittedValues)
+        ) {
+          return NextResponse.json({ status: "ignored" });
+        }
+        normalizedFormSubmissionValues = normalizeFormSubmittedValues(submittedValues);
+        if (!normalizedFormSubmissionValues.length) {
+          return NextResponse.json({ status: "ignored" });
+        }
+        isFormSubmission = true;
+        formSubmissionSummary = buildFormSubmissionSummary(normalizedFormSubmissionValues);
+        formSubmissionAttributes = Object.fromEntries(
+          normalizedFormSubmissionValues.map((entry) => [entry.name, entry.value])
+        );
+        formSubmissionPromptAddition = toResponseMessage(
+          "system",
+          buildFormSubmissionDetailText(normalizedFormSubmissionValues)
+        );
+        (message as any).content = formSubmissionSummary;
+      } else if (eventType !== "message_created") {
+        return NextResponse.json({ status: "ignored" });
+      }
       const parsedConversationId =
         parseMessageId((message as any).conversation_id) ??
         parseMessageId((message as any).conversation?.id) ??
@@ -779,12 +955,22 @@ async function processChatwootWebhookJob(
         (message as any)?.sender?.name ??
         "";
 
+      if (isFormSubmission && typeof message?.content !== "string") {
+        message.content = formSubmissionSummary ?? "";
+      }
+
       attachments = extractMessageAttachments(message);
       hasTextContent =
         typeof content === "string"
           ? content.trim().length > 0
           : content !== undefined && content !== null;
       hasAttachmentContent = attachments.length > 0;
+
+      if (isFormSubmission && !hasTextContent && formSubmissionSummary) {
+        content = formSubmissionSummary;
+        hasTextContent = true;
+        userInput = formSubmissionSummary;
+      }
 
       configuredModelCandidate =
         typeof process.env.CHATWOOT_WEBHOOK_MODEL === "string"
@@ -814,9 +1000,67 @@ async function processChatwootWebhookJob(
       }
 
       normalizedMessageId = parseMessageId(messageId);
-  } finally {
-    endPayloadNormalization();
-  }
+      if (typeof normalizedMessageId === "number" && Number.isFinite(normalizedMessageId)) {
+        messageId = normalizedMessageId;
+      }
+
+      if (
+        isFormSubmission &&
+        typeof conversationKey === "string" &&
+        typeof normalizedMessageId === "number" &&
+        Number.isFinite(normalizedMessageId)
+      ) {
+        try {
+          const existingFormMessage = await prisma.conversationMessage.findUnique({
+            where: {
+              conversationKey_messageId: {
+                conversationKey,
+                messageId: normalizedMessageId,
+              },
+            },
+          });
+          if (existingFormMessage?.content === formSubmissionSummary) {
+            return NextResponse.json({ status: "ignored" });
+          }
+        } catch (err) {
+          console.error("chatwoot form submission dedupe error", err);
+        }
+      }
+
+      if (
+        isFormSubmission &&
+        formSubmissionAttributes &&
+        accountId !== undefined &&
+        conversationId !== undefined
+      ) {
+        const existingAttributes =
+          conversation &&
+          typeof conversation === "object" &&
+          conversation !== null &&
+          typeof (conversation as any).custom_attributes === "object" &&
+          (conversation as any).custom_attributes !== null
+            ? ((conversation as any).custom_attributes as Record<string, unknown>)
+            : {};
+        const mergedAttributes: Record<string, unknown> = {
+          ...existingAttributes,
+          ...formSubmissionAttributes,
+        };
+        try {
+          await updateConversation(accountId, conversationId, {
+            custom_attributes: mergedAttributes,
+          });
+          if (conversation) {
+            (conversation as any).custom_attributes = mergedAttributes;
+          } else {
+            conversation = { id: conversationId, custom_attributes: mergedAttributes } as Conversation;
+          }
+        } catch (err) {
+          console.error("chatwoot update conversation attributes error", err);
+        }
+      }
+    } finally {
+      endPayloadNormalization();
+    }
 
   const endAttachmentInsight = timer.startPhase("attachment-insight");
     try {
@@ -1698,11 +1942,47 @@ async function processChatwootWebhookJob(
           }
           fullHistory = updatedHistory as ResponseMessage[];
         }
-  
+
+        if (isFormSubmission && formSubmissionSummary && Array.isArray(fullHistory)) {
+          const hasSummaryInHistory = fullHistory.some(
+            (entry) =>
+              entry?.role === "user" &&
+              extractResponseMessageText(entry) === formSubmissionSummary
+          );
+          if (!hasSummaryInHistory) {
+            fullHistory = [
+              ...fullHistory,
+              toResponseMessage("user", formSubmissionSummary),
+            ];
+          }
+        }
+
         promptHistory = Array.isArray(fullHistory)
           ? fullHistory.slice(-PROMPT_HISTORY_LIMIT)
           : [];
-  
+
+        if (isFormSubmission && formSubmissionSummary) {
+          const hasSummaryEntry = promptHistory.some(
+            (entry) =>
+              entry?.role === "user" &&
+              extractResponseMessageText(entry) === formSubmissionSummary
+          );
+          if (!hasSummaryEntry) {
+            promptHistory = [
+              ...promptHistory,
+              toResponseMessage("user", formSubmissionSummary),
+            ];
+          }
+        }
+
+        if (formSubmissionPromptAddition) {
+          promptHistory = [...promptHistory, formSubmissionPromptAddition];
+        }
+
+        if (promptHistory.length > PROMPT_HISTORY_LIMIT) {
+          promptHistory = promptHistory.slice(-PROMPT_HISTORY_LIMIT);
+        }
+
         if (visionCapableModel && attachments.length) {
           let targetIndex = -1;
           for (let i = promptHistory.length - 1; i >= 0; i -= 1) {
