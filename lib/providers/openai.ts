@@ -87,13 +87,14 @@ export async function* submitOpenAIToolOutputs(
   const openai = new OpenAI();
   const { result: events, attempts } = await retryWithBackoff(
     async () =>
-      scheduleProviderCall("openai", undefined, async () =>
-        openai.responses.submitToolOutputs({
+      scheduleProviderCall("openai", undefined, async () => {
+        const responsesClient = openai.responses as any;
+        return responsesClient.submitToolOutputs({
           response_id: responseId,
           tool_outputs: toolOutputs,
           stream: true,
-        })
-      ),
+        });
+      }),
     {
       provider: "openai",
       onRetry: ({ attempt, delayMs, status }) => {
