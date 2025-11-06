@@ -2564,9 +2564,9 @@ async function processChatwootWebhookJob(
                 const item = (data as any)?.item;
                 if (item?.type === "function_call") {
                   const normalizedId = rememberFunctionCall(item);
-                  const state =
-                    (normalizedId && functionCallStates.get(normalizedId)) ??
-                    undefined;
+                  const state = normalizedId
+                    ? functionCallStates.get(normalizedId)
+                    : undefined;
                   const itemName =
                     item?.name ?? item?.function?.name ?? state?.name;
                   if (itemName === "set_reply_reference") {
