@@ -1,3 +1,8 @@
+import {
+  CHATWOOT_COMPLAINT_TYPES,
+  CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS,
+  type ChatwootComplaintType,
+} from "@/config/chatwootAttributes";
 import { sendBotFormMessage } from "@/lib/chatwootBot";
 import {
   buildComplaintFormContent,
@@ -21,18 +26,26 @@ export interface SendComplaintFormArgs {
   defaults?: ChatwootComplaintFormDefaults;
 }
 
-export interface CreateComplaintArgs {
-  user_id?: unknown;
-  type?: unknown;
-  details?: unknown;
-  order_id?: unknown;
-}
+const ATTRIBUTE_KEYS = CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS;
+
+type ComplaintAttributeKey =
+  (typeof ATTRIBUTE_KEYS)[keyof typeof ATTRIBUTE_KEYS];
+
+export type CreateComplaintArgs = Partial<
+  Record<ComplaintAttributeKey, unknown>
+>;
+
+type ComplaintCustomAttributes = {
+  [ATTRIBUTE_KEYS.customerName]: string;
+  [ATTRIBUTE_KEYS.companyName]: string;
+  [ATTRIBUTE_KEYS.companyLocation]: string;
+  [ATTRIBUTE_KEYS.contact]: string;
+  [ATTRIBUTE_KEYS.complaintType]: ChatwootComplaintType;
+  [ATTRIBUTE_KEYS.issueDescription]: string;
+};
 
 interface ComplaintRequestPayload {
-  user_id: string;
-  type: string;
-  details: string;
-  order_id: string;
+  custom_attributes: ComplaintCustomAttributes;
 }
 
 function resolveInternalApiUrl(path: string): string {
@@ -56,10 +69,7 @@ function resolveInternalApiUrl(path: string): string {
   }
 }
 
-function normalizeRequiredString(
-  value: unknown,
-  field: keyof ComplaintRequestPayload
-): string {
+function normalizeRequiredString(value: unknown, field: string): string {
   if (typeof value !== "string") {
     throw new Error(`create_complaint requires a string ${String(field)}`);
   }
@@ -68,6 +78,25 @@ function normalizeRequiredString(
     throw new Error(`create_complaint requires a non-empty ${String(field)}`);
   }
   return trimmed;
+}
+
+function normalizeComplaintType(value: unknown): ChatwootComplaintType {
+  const normalized = normalizeRequiredString(
+    value,
+    ATTRIBUTE_KEYS.complaintType
+  );
+
+  const matched = CHATWOOT_COMPLAINT_TYPES.find(
+    (type) => type.toLowerCase() === normalized.toLowerCase()
+  );
+
+  if (!matched) {
+    throw new Error(
+      `create_complaint requires a valid ${ATTRIBUTE_KEYS.complaintType}`
+    );
+  }
+
+  return matched;
 }
 
 async function postJsonWithLogging<T>(
@@ -149,10 +178,31 @@ export async function submitChatwootComplaint(
   const args = (rawArgs || {}) as CreateComplaintArgs;
 
   const payload: ComplaintRequestPayload = {
-    user_id: normalizeRequiredString(args.user_id, "user_id"),
-    type: normalizeRequiredString(args.type, "type"),
-    details: normalizeRequiredString(args.details, "details"),
-    order_id: normalizeRequiredString(args.order_id, "order_id"),
+    custom_attributes: {
+      [ATTRIBUTE_KEYS.customerName]: normalizeRequiredString(
+        args[ATTRIBUTE_KEYS.customerName],
+        ATTRIBUTE_KEYS.customerName
+      ),
+      [ATTRIBUTE_KEYS.companyName]: normalizeRequiredString(
+        args[ATTRIBUTE_KEYS.companyName],
+        ATTRIBUTE_KEYS.companyName
+      ),
+      [ATTRIBUTE_KEYS.companyLocation]: normalizeRequiredString(
+        args[ATTRIBUTE_KEYS.companyLocation],
+        ATTRIBUTE_KEYS.companyLocation
+      ),
+      [ATTRIBUTE_KEYS.contact]: normalizeRequiredString(
+        args[ATTRIBUTE_KEYS.contact],
+        ATTRIBUTE_KEYS.contact
+      ),
+      [ATTRIBUTE_KEYS.complaintType]: normalizeComplaintType(
+        args[ATTRIBUTE_KEYS.complaintType]
+      ),
+      [ATTRIBUTE_KEYS.issueDescription]: normalizeRequiredString(
+        args[ATTRIBUTE_KEYS.issueDescription],
+        ATTRIBUTE_KEYS.issueDescription
+      ),
+    },
   };
 
   const response = await postJsonWithLogging<Record<string, unknown>>(

@@ -3841,12 +3841,16 @@ test('chatwoot webhook executes create_complaint tool and posts complaint payloa
   try {
     const responseId = 'resp-complaint-1';
     const callId = 'call-complaint-1';
-    const toolArgs = JSON.stringify({
-      user_id: 'user-123',
-      type: 'Delayed Supply',
-      details: 'Shipment has not arrived after two weeks.',
-      order_id: 'order-789',
-    });
+    const toolArgsObject = {
+      customer_name: 'Alice Smith',
+      company_name: 'Acme Industrial',
+      company_location: 'Tema',
+      contact: '[email protected]',
+      complaint_type: 'Delayed Supply',
+      issue_description:
+        'Shipment has not arrived after two weeks despite prior assurances.',
+    };
+    const toolArgs = JSON.stringify(toolArgsObject);
 
     submitOpenAIToolOutputsMock.mock.mockImplementationOnce((response, outputs) => {
       assert.strictEqual(response, responseId);
@@ -3863,8 +3867,13 @@ test('chatwoot webhook executes create_complaint tool and posts complaint payloa
       });
       assert.ok(complaintCall, 'expected create_complaint API request');
       const callBody = complaintCall?.arguments?.[1]?.body;
-      const recordedBody = typeof callBody === 'string' ? JSON.parse(callBody) : JSON.parse((callBody ?? '').toString() || '{}');
-      assert.deepStrictEqual(recordedBody, JSON.parse(toolArgs));
+      const recordedBody =
+        typeof callBody === 'string'
+          ? JSON.parse(callBody)
+          : JSON.parse((callBody ?? '').toString() || '{}');
+      assert.deepStrictEqual(recordedBody, {
+        custom_attributes: toolArgsObject,
+      });
 
       return (async function* () {
         yield {
