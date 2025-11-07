@@ -5,6 +5,21 @@ process.env.RELEASE_RETRY_BASE_MS = '1';
 require('ts-node/register/transpile-only');
 require('../scripts/register-tsconfig-paths.js');
 
+const originalInternalApiBaseUrl = process.env.INTERNAL_API_BASE_URL;
+const originalNextPublicAppUrl = process.env.NEXT_PUBLIC_APP_URL;
+const DEFAULT_INTERNAL_API_BASE_URL = 'https://internal-api.example';
+if (!process.env.INTERNAL_API_BASE_URL && !process.env.NEXT_PUBLIC_APP_URL) {
+  process.env.INTERNAL_API_BASE_URL = DEFAULT_INTERNAL_API_BASE_URL;
+}
+const resolvedInternalApiBaseUrl =
+  process.env.INTERNAL_API_BASE_URL ??
+  process.env.NEXT_PUBLIC_APP_URL ??
+  DEFAULT_INTERNAL_API_BASE_URL;
+const complaintEndpointUrl = new URL(
+  '/api/complaints/create',
+  resolvedInternalApiBaseUrl
+).toString();
+
 const originalChatwootUrl = process.env.CHATWOOT_URL;
 process.env.CHATWOOT_URL = process.env.CHATWOOT_URL ?? 'https://chatwoot.example';
 
@@ -34,7 +49,7 @@ const fetchMock = mock.method(global, 'fetch', async (input, init = {}) => {
     });
   }
 
-  if (typeof url === 'string' && url.endsWith('/api/complaints/create')) {
+  if (typeof url === 'string' && url === complaintEndpointUrl) {
     return new Response(
       JSON.stringify({ complaint_id: 'cmp-test-1', status: 'queued' }),
       {
@@ -359,6 +374,16 @@ test.after(async () => {
     delete process.env.CHATWOOT_URL;
   } else {
     process.env.CHATWOOT_URL = originalChatwootUrl;
+  }
+  if (originalInternalApiBaseUrl === undefined) {
+    delete process.env.INTERNAL_API_BASE_URL;
+  } else {
+    process.env.INTERNAL_API_BASE_URL = originalInternalApiBaseUrl;
+  }
+  if (originalNextPublicAppUrl === undefined) {
+    delete process.env.NEXT_PUBLIC_APP_URL;
+  } else {
+    process.env.NEXT_PUBLIC_APP_URL = originalNextPublicAppUrl;
   }
 });
 
@@ -3788,7 +3813,7 @@ test('chatwoot webhook executes create_complaint tool and posts complaint payloa
       assert.ok(Array.isArray(parsed.complaint) || typeof parsed.complaint === 'object');
       const complaintCall = fetchMock.mock.calls.find((call) => {
         const [callUrl] = call.arguments;
-        return typeof callUrl === 'string' && callUrl.endsWith('/api/complaints/create');
+        return typeof callUrl === 'string' && callUrl === complaintEndpointUrl;
       });
       assert.ok(complaintCall, 'expected create_complaint API request');
       const callBody = complaintCall?.arguments?.[1]?.body;
@@ -3878,7 +3903,7 @@ test('chatwoot webhook executes create_complaint tool and posts complaint payloa
     assert.strictEqual(res.status, 200);
     const complaintCall = fetchMock.mock.calls.find((call) => {
       const [callUrl] = call.arguments;
-      return typeof callUrl === 'string' && callUrl.endsWith('/api/complaints/create');
+      return typeof callUrl === 'string' && callUrl === complaintEndpointUrl;
     });
     assert.ok(complaintCall, 'expected complaint API request');
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);

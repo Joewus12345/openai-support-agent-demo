@@ -35,6 +35,27 @@ interface ComplaintRequestPayload {
   order_id: string;
 }
 
+function resolveInternalApiUrl(path: string): string {
+  const base =
+    process.env.INTERNAL_API_BASE_URL ?? process.env.NEXT_PUBLIC_APP_URL;
+
+  if (!base) {
+    return path;
+  }
+
+  try {
+    return new URL(path, base).toString();
+  } catch (error) {
+    console.warn(
+      "[chatwoot]",
+      "resolveInternalApiUrl",
+      "failed to resolve URL",
+      error
+    );
+    return path;
+  }
+}
+
 function normalizeRequiredString(
   value: unknown,
   field: keyof ComplaintRequestPayload
@@ -53,8 +74,9 @@ async function postJsonWithLogging<T>(
   path: string,
   payload: ComplaintRequestPayload
 ): Promise<T> {
-  console.info("[chatwoot]", "POST", path, JSON.stringify(payload));
-  const response = await fetch(path, {
+  const url = resolveInternalApiUrl(path);
+  console.info("[chatwoot]", "POST", url, JSON.stringify(payload));
+  const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
