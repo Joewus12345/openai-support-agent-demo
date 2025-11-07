@@ -3680,6 +3680,18 @@ test('chatwoot webhook executes send_complaint_form tool and posts form payload'
   try {
     const responseId = 'resp-form-1';
     const callId = 'call-form-1';
+    const formDefaults = {
+      customer_name: 'Unknown',
+      company_name: 'Globex Corporation',
+      company_location: 'Unknown',
+      contact: 'Customer',
+      complaint_type: 'Delayed Supply',
+      issue_description: 'Primary machine offline',
+    };
+    const formTitle = 'Customer complaint intake';
+    const expectedForm = buildComplaintFormContent(formDefaults, {
+      title: formTitle,
+    });
     submitOpenAIToolOutputsMock.mock.mockImplementationOnce((response, outputs) => {
       assert.strictEqual(response, responseId);
       assert.ok(Array.isArray(outputs));
@@ -3688,10 +3700,7 @@ test('chatwoot webhook executes send_complaint_form tool and posts form payload'
       assert.strictEqual(firstOutput.tool_call_id, callId);
       const parsedOutput = JSON.parse(firstOutput.output);
       assert.strictEqual(parsedOutput.status, 'sent');
-      assert.strictEqual(
-        parsedOutput.form.fieldCount,
-        buildComplaintFormContent().items.length
-      );
+      assert.strictEqual(parsedOutput.form.fieldCount, expectedForm.items.length);
       return (async function* () {
         yield {
           event: 'response.output_text.delta',
@@ -3721,13 +3730,23 @@ test('chatwoot webhook executes send_complaint_form tool and posts form payload'
           event: 'response.function_call_arguments.delta',
           data: {
             item_id: callId,
-            delta: '{}',
+            delta: JSON.stringify({
+              defaults: formDefaults,
+              title: formTitle,
+            }),
             response_id: responseId,
           },
         };
         yield {
           event: 'response.function_call_arguments.done',
-          data: { item_id: callId, arguments: '{}', response_id: responseId },
+          data: {
+            item_id: callId,
+            arguments: JSON.stringify({
+              defaults: formDefaults,
+              title: formTitle,
+            }),
+            response_id: responseId,
+          },
         };
         yield {
           event: 'response.output_item.done',
@@ -3737,7 +3756,10 @@ test('chatwoot webhook executes send_complaint_form tool and posts form payload'
               name: 'send_complaint_form',
               id: callId,
               call_id: callId,
-              arguments: '{}',
+              arguments: JSON.stringify({
+                defaults: formDefaults,
+                title: formTitle,
+              }),
               response_id: responseId,
             },
             response: { id: responseId },
@@ -3781,7 +3803,19 @@ test('chatwoot webhook executes send_complaint_form tool and posts form payload'
       sendBotFormMessageMock.mock.calls[0].arguments;
     assert.strictEqual(accountArg, 42);
     assert.strictEqual(conversationArg, 77);
-    assert.deepStrictEqual(formArg, buildComplaintFormContent());
+    assert.deepStrictEqual(formArg, expectedForm);
+    const fieldByName = Object.fromEntries(
+      formArg.items.map((item) => [item.name, item])
+    );
+    assert.strictEqual(fieldByName.customer_name.default, undefined);
+    assert.strictEqual(fieldByName.company_name.default, 'Globex Corporation');
+    assert.strictEqual(fieldByName.company_location.default, undefined);
+    assert.strictEqual(fieldByName.contact.default, undefined);
+    assert.strictEqual(fieldByName.complaint_type.default, 'Delayed Supply');
+    assert.strictEqual(
+      fieldByName.issue_description.default,
+      'Primary machine offline'
+    );
     assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 1);
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
     const reply = sendBotMessageMock.mock.calls[0].arguments[2];

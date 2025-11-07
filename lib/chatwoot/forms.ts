@@ -43,6 +43,55 @@ export type ChatwootComplaintFormDefaults = Partial<
   Record<ComplaintAttributeKey, string>
 >;
 
+const PLACEHOLDER_SENTINEL_VALUES = new Set([
+  "unknown",
+  "customer",
+  "customer name",
+  "company",
+  "company name",
+  "company location",
+  "contact",
+  "contact info",
+  "contact information",
+  "n/a",
+  "na",
+  "none",
+  "not provided",
+  "not specified",
+  "-",
+]);
+
+interface PickDefaultOptions {
+  placeholder?: string;
+  treatPlaceholdersAsEmpty?: boolean;
+  required?: boolean;
+  sentinelValues?: string[];
+}
+
+function isPlaceholderSentinel(
+  value: string,
+  { placeholder, sentinelValues }: PickDefaultOptions
+): boolean {
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) {
+    return true;
+  }
+  if (placeholder && normalized === placeholder.trim().toLowerCase()) {
+    return true;
+  }
+  if (PLACEHOLDER_SENTINEL_VALUES.has(normalized)) {
+    return true;
+  }
+  if (Array.isArray(sentinelValues)) {
+    for (const extra of sentinelValues) {
+      if (normalized === extra.trim().toLowerCase()) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 export const COMPLAINT_TYPE_OPTIONS: ChatwootFormFieldOption[] =
   CHATWOOT_COMPLAINT_TYPES.map((value) => ({
     label: value,
@@ -51,19 +100,30 @@ export const COMPLAINT_TYPE_OPTIONS: ChatwootFormFieldOption[] =
 
 function pickDefault(
   defaults: ChatwootComplaintFormDefaults | undefined,
-  ...keys: ComplaintAttributeKey[]
+  keys: ComplaintAttributeKey[],
+  options: PickDefaultOptions = {}
 ): string | undefined {
+  const { placeholder, treatPlaceholdersAsEmpty, required } = options;
   if (!defaults) {
-    return undefined;
+    return required && placeholder ? placeholder : undefined;
   }
   for (const key of keys) {
     const rawValue = defaults[key];
     if (typeof rawValue === "string") {
       const trimmed = rawValue.trim();
       if (trimmed) {
+        if (treatPlaceholdersAsEmpty) {
+          const shouldSkip = isPlaceholderSentinel(trimmed, options);
+          if (shouldSkip) {
+            continue;
+          }
+        }
         return trimmed;
       }
     }
+  }
+  if (required && placeholder) {
+    return placeholder;
   }
   return undefined;
 }
@@ -80,35 +140,51 @@ export function buildComplaintFormFields(
       label: "Customer name",
       type: "text",
       placeholder: "Customer full name",
-      default: pickDefault(defaults, attr.customerName, "customerName"),
+      default: pickDefault(
+        defaults,
+        [attr.customerName, "customerName"],
+        { placeholder: "Customer full name", treatPlaceholdersAsEmpty: true }
+      ),
     },
     {
       name: attr.companyName,
       label: "Company name",
       type: "text",
       placeholder: "Company or organization",
-      default: pickDefault(defaults, attr.companyName, "companyName"),
+      default: pickDefault(
+        defaults,
+        [attr.companyName, "companyName"],
+        { placeholder: "Company or organization", treatPlaceholdersAsEmpty: true }
+      ),
     },
     {
       name: attr.companyLocation,
       label: "Company location",
       type: "text",
       placeholder: "City, state, or region",
-      default: pickDefault(defaults, attr.companyLocation, "companyLocation"),
+      default: pickDefault(
+        defaults,
+        [attr.companyLocation, "companyLocation"],
+        { placeholder: "City, state, or region", treatPlaceholdersAsEmpty: true }
+      ),
     },
     {
       name: attr.contact,
       label: "Primary contact",
       type: "text",
       placeholder: "Email or phone number",
-      default: pickDefault(defaults, attr.contact, "contact"),
+      default: pickDefault(
+        defaults,
+        [attr.contact, "contact"],
+        { placeholder: "Email or phone number", treatPlaceholdersAsEmpty: true }
+      ),
     },
     {
       name: attr.complaintType,
       label: "Complaint type",
       type: "select",
       options: COMPLAINT_TYPE_OPTIONS,
-      default: pickDefault(defaults, attr.complaintType, "complaintType"),
+      default: pickDefault(defaults, [attr.complaintType, "complaintType"]),
     },
     {
       name: attr.issueDescription,
@@ -117,8 +193,8 @@ export function buildComplaintFormFields(
       placeholder: "Describe the issue",
       default: pickDefault(
         defaults,
-        attr.issueDescription,
-        "issueDescription"
+        [attr.issueDescription, "issueDescription"],
+        { placeholder: "Describe the issue", treatPlaceholdersAsEmpty: true }
       ),
     },
   ];
