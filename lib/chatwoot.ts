@@ -295,7 +295,8 @@ export async function setAgentAvailability(
     });
   } catch (err) {
     if (err instanceof Error && err.message.includes("404")) {
-      const url = `${CHATWOOT_URL}${path}`;
+      const { baseUrl } = getChatwootConfig();
+      const url = `${baseUrl}${path}`;
       console.error("[chatwoot] setAgentAvailability 404", {
         url,
         body: { availability },
