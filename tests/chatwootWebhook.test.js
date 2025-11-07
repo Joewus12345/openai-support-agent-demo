@@ -226,6 +226,8 @@ const updateQueuePositionsMock = mock.method(
 );
 
 const chatwoot = require('../lib/chatwoot.ts');
+const originalUpdateConversationCustomAttributes =
+  chatwoot.updateConversationCustomAttributes;
 const getConversationMock = mock.method(chatwoot, 'getConversation', async () => ({ id: 1, status: 'resolved', inbox_id: 1 }));
 const setConversationLabelsMock = mock.method(chatwoot, 'setConversationLabels', async () => {});
 const getConversationLabelsMock = mock.method(
@@ -242,6 +244,11 @@ const updateConversationMock = mock.method(
   chatwoot,
   'updateConversation',
   async () => ({})
+);
+const updateConversationCustomAttributesMock = mock.method(
+  chatwoot,
+  'updateConversationCustomAttributes',
+  async (...args) => originalUpdateConversationCustomAttributes(...args)
 );
 
 const fetchAttachmentImageModule = require('../lib/chatwoot/fetchAttachmentImage.ts');
@@ -434,6 +441,10 @@ function resetMocks() {
   setAgentAvailabilityMock.mock.mockImplementation(async () => {});
   updateConversationMock.mock.resetCalls();
   updateConversationMock.mock.mockImplementation(async () => ({}));
+  updateConversationCustomAttributesMock.mock.resetCalls();
+  updateConversationCustomAttributesMock.mock.mockImplementation(async (...args) =>
+    originalUpdateConversationCustomAttributes(...args)
+  );
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
@@ -3777,6 +3788,7 @@ test('chatwoot webhook executes send_complaint_form tool and posts form payload'
     assert.strictEqual(reply, 'Complaint form dispatched.');
     assert.notStrictEqual(reply, MESSAGE_FALLBACK_TEXT);
     assert.strictEqual(updateConversationMock.mock.calls.length, 0);
+    assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 0);
     assert.strictEqual(providerFnMock.mock.calls.length, 1);
   } finally {
     if (originalProvider === undefined) {
@@ -3982,10 +3994,11 @@ test('chatwoot webhook merges complaint form submissions and forwards summary to
     await res.json();
 
     assert.strictEqual(res.status, 200);
-    assert.strictEqual(updateConversationMock.mock.calls.length, 1);
-    const updateArgs = updateConversationMock.mock.calls[0].arguments;
+    assert.strictEqual(updateConversationMock.mock.calls.length, 0);
+    assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 1);
+    const updateArgs = updateConversationCustomAttributesMock.mock.calls[0].arguments;
     assert.deepStrictEqual(updateArgs.slice(0, 2), [77, 555]);
-    const mergedAttributes = updateArgs[2]?.custom_attributes;
+    const mergedAttributes = updateArgs[2];
     assert.ok(mergedAttributes);
     assert.strictEqual(mergedAttributes.customer_name, 'Alice Smith');
     assert.strictEqual(mergedAttributes.complaint_type, 'Delayed Supply');
@@ -3994,6 +4007,23 @@ test('chatwoot webhook merges complaint form submissions and forwards summary to
       'Primary machine is offline'
     );
     assert.strictEqual(mergedAttributes.existing_flag, 'yes');
+    const expectedCustomAttributesUrl = new URL(
+      '/api/v1/accounts/77/conversations/555/custom_attributes',
+      process.env.CHATWOOT_URL
+    ).toString();
+    const customAttributesCall = fetchMock.mock.calls.find((call) => {
+      const [callUrl] = call.arguments;
+      return typeof callUrl === 'string' && callUrl === expectedCustomAttributesUrl;
+    });
+    assert.ok(customAttributesCall, 'expected custom attributes API request');
+    const callInit = customAttributesCall.arguments?.[1] || {};
+    assert.strictEqual((callInit.method ?? 'GET').toUpperCase(), 'POST');
+    const callBody = callInit.body;
+    const recordedBody =
+      typeof callBody === 'string'
+        ? JSON.parse(callBody)
+        : JSON.parse((callBody ?? '').toString() || '{}');
+    assert.deepStrictEqual(recordedBody.custom_attributes, mergedAttributes);
     assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 0);
     assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);

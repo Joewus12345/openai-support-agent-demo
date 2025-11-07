@@ -110,6 +110,21 @@ export async function updateConversation(
   );
 }
 
+export async function updateConversationCustomAttributes(
+  accountId: number,
+  conversationId: number,
+  customAttributes: Record<string, unknown>
+) {
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}/custom_attributes`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ custom_attributes: customAttributes }),
+    }
+  );
+}
+
 function extractAgents(value: unknown, seen = new Set<object>()): unknown[] {
   if (Array.isArray(value)) {
     return value;

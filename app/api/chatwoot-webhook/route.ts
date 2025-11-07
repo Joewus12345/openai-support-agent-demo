@@ -16,7 +16,7 @@ import {
   getConversationMessages,
   getConversationLabels,
   setConversationLabels,
-  updateConversation,
+  updateConversationCustomAttributes,
 } from "@/lib/chatwoot";
 import { CONVO_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
@@ -1046,9 +1046,11 @@ async function processChatwootWebhookJob(
           ...formSubmissionAttributes,
         };
         try {
-          await updateConversation(accountId, conversationId, {
-            custom_attributes: mergedAttributes,
-          });
+          await updateConversationCustomAttributes(
+            accountId,
+            conversationId,
+            mergedAttributes
+          );
           if (conversation) {
             (conversation as any).custom_attributes = mergedAttributes;
           } else {
