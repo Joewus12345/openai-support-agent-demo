@@ -1,33 +1,51 @@
+import { updateConversationCustomAttributes } from "@/lib/chatwoot";
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const customAttributes =
-      body && typeof body === "object" && "custom_attributes" in body
-        ? (body.custom_attributes as Record<string, unknown>)
-        : {};
-    const {
-      customer_name,
-      company_name,
-      company_location,
-      contact,
-      complaint_type,
-      issue_description,
-    } = customAttributes as Record<string, unknown>;
+    if (!body || typeof body !== "object") {
+      return new Response("Invalid complaint payload", { status: 400 });
+    }
 
-    // Simulate complaint creation.
+    const accountId = Number((body as Record<string, unknown>).account_id);
+    const conversationId = Number(
+      (body as Record<string, unknown>).conversation_id
+    );
+    if (!Number.isFinite(accountId) || !Number.isFinite(conversationId)) {
+      return new Response("Missing account or conversation identifiers", {
+        status: 400,
+      });
+    }
+
+    const customAttributesRaw =
+      "custom_attributes" in body
+        ? (body as Record<string, unknown>).custom_attributes
+        : undefined;
+    if (!customAttributesRaw || typeof customAttributesRaw !== "object") {
+      return new Response("Missing custom_attributes", { status: 400 });
+    }
+
+    const customAttributes = customAttributesRaw as Record<string, unknown>;
+
+    const chatwootResponse = await updateConversationCustomAttributes(
+      accountId,
+      conversationId,
+      customAttributes
+    );
+
+    const responseAttributes =
+      chatwootResponse &&
+      typeof chatwootResponse === "object" &&
+      "custom_attributes" in chatwootResponse &&
+      chatwootResponse.custom_attributes &&
+      typeof chatwootResponse.custom_attributes === "object"
+        ? (chatwootResponse.custom_attributes as Record<string, unknown>)
+        : customAttributes;
+
     return new Response(
       JSON.stringify({
-        message: `Complaint created for customer ${String(
-          customer_name ?? "unknown"
-        )}`,
-        custom_attributes: {
-          customer_name,
-          company_name,
-          company_location,
-          contact,
-          complaint_type,
-          issue_description,
-        },
+        status: "updated",
+        custom_attributes: responseAttributes,
       }),
       { status: 200 }
     );

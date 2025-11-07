@@ -45,7 +45,14 @@ type ComplaintCustomAttributes = {
 };
 
 interface ComplaintRequestPayload {
+  account_id?: number;
+  conversation_id?: number;
   custom_attributes: ComplaintCustomAttributes;
+}
+
+interface SubmitChatwootComplaintOptions {
+  accountId?: number;
+  conversationId?: number;
 }
 
 function resolveInternalApiUrl(path: string): string {
@@ -173,7 +180,8 @@ export async function send_complaint_form(
 }
 
 export async function submitChatwootComplaint(
-  rawArgs: Record<string, unknown> | CreateComplaintArgs
+  rawArgs: Record<string, unknown> | CreateComplaintArgs,
+  options: SubmitChatwootComplaintOptions = {}
 ) {
   const args = (rawArgs || {}) as CreateComplaintArgs;
 
@@ -205,6 +213,17 @@ export async function submitChatwootComplaint(
     },
   };
 
+  const { accountId, conversationId } = options;
+  if (typeof accountId === "number" && Number.isFinite(accountId)) {
+    payload.account_id = accountId;
+  }
+  if (
+    typeof conversationId === "number" &&
+    Number.isFinite(conversationId)
+  ) {
+    payload.conversation_id = conversationId;
+  }
+
   const response = await postJsonWithLogging<Record<string, unknown>>(
     "/api/complaints/create",
     payload
@@ -217,10 +236,25 @@ export async function submitChatwootComplaint(
 }
 
 export async function create_complaint(
-  _context: ChatwootToolExecutionContext,
+  context: ChatwootToolExecutionContext,
   rawArgs: Record<string, unknown>
 ) {
-  return submitChatwootComplaint(rawArgs);
+  const { accountId, conversationId } = context;
+  if (
+    typeof accountId !== "number" ||
+    Number.isNaN(accountId) ||
+    typeof conversationId !== "number" ||
+    Number.isNaN(conversationId)
+  ) {
+    throw new Error(
+      "create_complaint requires valid account and conversation identifiers"
+    );
+  }
+
+  return submitChatwootComplaint(rawArgs, {
+    accountId,
+    conversationId,
+  });
 }
 
 export const chatwootToolExecutors: Record<string, ChatwootToolExecutor> = {

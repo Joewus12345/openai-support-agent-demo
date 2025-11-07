@@ -5,6 +5,8 @@ process.env.RELEASE_RETRY_BASE_MS = '1';
 require('ts-node/register/transpile-only');
 require('../scripts/register-tsconfig-paths.js');
 
+const { POST: complaintsPost } = require('../app/api/complaints/create/route.ts');
+
 const originalInternalApiBaseUrl = process.env.INTERNAL_API_BASE_URL;
 const originalNextPublicAppUrl = process.env.NEXT_PUBLIC_APP_URL;
 const DEFAULT_INTERNAL_API_BASE_URL = 'https://internal-api.example';
@@ -50,13 +52,16 @@ const fetchMock = mock.method(global, 'fetch', async (input, init = {}) => {
   }
 
   if (typeof url === 'string' && url === complaintEndpointUrl) {
-    return new Response(
-      JSON.stringify({ complaint_id: 'cmp-test-1', status: 'queued' }),
-      {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    const headers = new Headers(init.headers ?? {});
+    if (!headers.has('Content-Type')) {
+      headers.set('Content-Type', 'application/json');
+    }
+    const req = new Request(url, {
+      method: init.method ?? 'POST',
+      headers,
+      body: init.body,
+    });
+    return complaintsPost(req);
   }
 
   return new Response(JSON.stringify({}), {
@@ -3872,6 +3877,8 @@ test('chatwoot webhook executes create_complaint tool and posts complaint payloa
           ? JSON.parse(callBody)
           : JSON.parse((callBody ?? '').toString() || '{}');
       assert.deepStrictEqual(recordedBody, {
+        account_id: 99,
+        conversation_id: 300,
         custom_attributes: toolArgsObject,
       });
 
@@ -3961,6 +3968,26 @@ test('chatwoot webhook executes create_complaint tool and posts complaint payloa
       return typeof callUrl === 'string' && callUrl === complaintEndpointUrl;
     });
     assert.ok(complaintCall, 'expected complaint API request');
+    assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 1);
+    const updateArgs = updateConversationCustomAttributesMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(updateArgs.slice(0, 2), [99, 300]);
+    assert.deepStrictEqual(updateArgs[2], toolArgsObject);
+    const expectedCustomAttributesUrl = new URL(
+      '/api/v1/accounts/99/conversations/300/custom_attributes',
+      process.env.CHATWOOT_URL
+    ).toString();
+    const customAttributesCall = fetchMock.mock.calls.find((call) => {
+      const [callUrl] = call.arguments;
+      return typeof callUrl === 'string' && callUrl === expectedCustomAttributesUrl;
+    });
+    assert.ok(customAttributesCall, 'expected custom attributes API request for complaint submission');
+    const customAttributesInit = customAttributesCall.arguments?.[1] || {};
+    const customAttributesBody = customAttributesInit.body;
+    const recordedCustomAttributesBody =
+      typeof customAttributesBody === 'string'
+        ? JSON.parse(customAttributesBody)
+        : JSON.parse((customAttributesBody ?? '').toString() || '{}');
+    assert.deepStrictEqual(recordedCustomAttributesBody.custom_attributes, toolArgsObject);
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
     const reply = sendBotMessageMock.mock.calls[0].arguments[2];
     assert.strictEqual(reply, 'Complaint recorded successfully.');
