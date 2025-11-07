@@ -21,7 +21,7 @@ export interface SendComplaintFormArgs {
   defaults?: ChatwootComplaintFormDefaults;
 }
 
-interface CreateComplaintArgs {
+export interface CreateComplaintArgs {
   user_id?: unknown;
   type?: unknown;
   details?: unknown;
@@ -143,9 +143,8 @@ export async function send_complaint_form(
   };
 }
 
-export async function create_complaint(
-  _context: ChatwootToolExecutionContext,
-  rawArgs: Record<string, unknown>
+export async function submitChatwootComplaint(
+  rawArgs: Record<string, unknown> | CreateComplaintArgs
 ) {
   const args = (rawArgs || {}) as CreateComplaintArgs;
 
@@ -165,6 +164,13 @@ export async function create_complaint(
     status: "submitted",
     complaint: response,
   };
+}
+
+export async function create_complaint(
+  _context: ChatwootToolExecutionContext,
+  rawArgs: Record<string, unknown>
+) {
+  return submitChatwootComplaint(rawArgs);
 }
 
 export const chatwootToolExecutors: Record<string, ChatwootToolExecutor> = {

@@ -3,6 +3,10 @@
 // Parameters for a tool call are passed as an object to the corresponding function
 import useDataStore from "@/stores/useDataStore";
 import useConversationStore from "@/stores/useConversationStore";
+import {
+  submitChatwootComplaint,
+  type CreateComplaintArgs,
+} from "@/lib/chatwoot/toolExecutors";
 interface SearchKnowledgeBaseResponse {
   results?: any[] | string[];
   error?: string;
@@ -174,29 +178,17 @@ export const create_return = async ({
   }
 };
 
-export const create_complaint = async ({
-  user_id,
-  type,
-  details,
-  order_id,
-}: {
-  user_id: string;
-  type: string;
-  details: string;
-  order_id: string;
-}) => {
+export const create_complaint = async (args: CreateComplaintArgs) => {
   try {
-    const res = await fetch(`/api/complaints/create`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user_id, type, details, order_id }),
-    }).then((res) => res.json());
-    return res;
+    return await submitChatwootComplaint(args);
   } catch (error) {
     console.error(error);
-    return { error: "Failed to create complaint" };
+    return {
+      error:
+        error instanceof Error && error.message
+          ? error.message
+          : "Failed to create complaint",
+    };
   }
 };
 
