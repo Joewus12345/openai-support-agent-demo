@@ -56,24 +56,47 @@ interface SubmitChatwootComplaintOptions {
 }
 
 function resolveInternalApiUrl(path: string): string {
-  const base =
-    process.env.INTERNAL_API_BASE_URL ?? process.env.NEXT_PUBLIC_APP_URL;
+  const attemptResolve = (base?: string | null) => {
+    if (!base) {
+      return undefined;
+    }
 
-  if (!base) {
-    return path;
+    try {
+      return new URL(path, base).toString();
+    } catch (error) {
+      console.warn(
+        "[chatwoot]",
+        "resolveInternalApiUrl",
+        "failed to resolve URL",
+        { base, error }
+      );
+      return undefined;
+    }
+  };
+
+  const envResolved = attemptResolve(
+    process.env.INTERNAL_API_BASE_URL ?? process.env.NEXT_PUBLIC_APP_URL
+  );
+  if (envResolved) {
+    return envResolved;
   }
 
-  try {
-    return new URL(path, base).toString();
-  } catch (error) {
-    console.warn(
-      "[chatwoot]",
-      "resolveInternalApiUrl",
-      "failed to resolve URL",
-      error
-    );
-    return path;
+  const browserResolved = attemptResolve(
+    typeof window !== "undefined" ? window.location?.origin : undefined
+  );
+  if (browserResolved) {
+    return browserResolved;
   }
+
+  const message =
+    `resolveInternalApiUrl requires INTERNAL_API_BASE_URL or NEXT_PUBLIC_APP_URL to resolve ${path}`;
+  console.error(
+    "[chatwoot]",
+    "resolveInternalApiUrl",
+    "missing base URL",
+    message
+  );
+  throw new Error(message);
 }
 
 function normalizeRequiredString(value: unknown, field: string): string {
@@ -110,7 +133,18 @@ async function postJsonWithLogging<T>(
   path: string,
   payload: ComplaintRequestPayload
 ): Promise<T> {
-  const url = resolveInternalApiUrl(path);
+  let url: string;
+  try {
+    url = resolveInternalApiUrl(path);
+  } catch (error) {
+    console.error(
+      "[chatwoot]",
+      "create_complaint",
+      "failed to resolve internal API URL",
+      error
+    );
+    throw error;
+  }
   console.info("[chatwoot]", "POST", url, JSON.stringify(payload));
   const response = await fetch(url, {
     method: "POST",

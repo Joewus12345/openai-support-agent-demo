@@ -6,6 +6,10 @@ require('ts-node/register/transpile-only');
 require('../scripts/register-tsconfig-paths.js');
 
 const { POST: complaintsPost } = require('../app/api/complaints/create/route.ts');
+const {
+  CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS: ATTRIBUTE_KEYS,
+} = require('../config/chatwootAttributes.ts');
+const { submitChatwootComplaint } = require('../lib/chatwoot/toolExecutors.ts');
 
 const originalInternalApiBaseUrl = process.env.INTERNAL_API_BASE_URL;
 const originalNextPublicAppUrl = process.env.NEXT_PUBLIC_APP_URL;
@@ -3834,6 +3838,60 @@ test('chatwoot webhook executes send_complaint_form tool and posts form payload'
       delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
     } else {
       process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
+    resetMocks();
+  }
+});
+
+test('submitChatwootComplaint rejects when internal API base URL is missing', async () => {
+  resetMocks();
+  const previousInternalApiBaseUrl = process.env.INTERNAL_API_BASE_URL;
+  const previousNextPublicAppUrl = process.env.NEXT_PUBLIC_APP_URL;
+  delete process.env.INTERNAL_API_BASE_URL;
+  delete process.env.NEXT_PUBLIC_APP_URL;
+
+  const args = {
+    [ATTRIBUTE_KEYS.customerName]: 'Test User',
+    [ATTRIBUTE_KEYS.companyName]: 'Example Corp',
+    [ATTRIBUTE_KEYS.companyLocation]: 'Accra',
+    [ATTRIBUTE_KEYS.contact]: 'test.user@example.com',
+    [ATTRIBUTE_KEYS.complaintType]: 'Delayed Supply',
+    [ATTRIBUTE_KEYS.issueDescription]: 'Order has been delayed for weeks.',
+  };
+
+  const fetchCallsBefore = fetchMock.mock.calls.length;
+
+  try {
+    await assert.rejects(
+      submitChatwootComplaint(args, { accountId: 1, conversationId: 2 }),
+      (error) => {
+        const message =
+          typeof error?.message === 'string'
+            ? error.message
+            : String(error ?? '');
+        assert.ok(
+          message.includes('INTERNAL_API_BASE_URL') ||
+            message.includes('NEXT_PUBLIC_APP_URL'),
+          `Expected missing base URL error message, received: ${message}`
+        );
+        return true;
+      }
+    );
+    assert.strictEqual(
+      fetchMock.mock.calls.length,
+      fetchCallsBefore,
+      'fetch should not be called when internal API base URL is missing'
+    );
+  } finally {
+    if (previousInternalApiBaseUrl === undefined) {
+      delete process.env.INTERNAL_API_BASE_URL;
+    } else {
+      process.env.INTERNAL_API_BASE_URL = previousInternalApiBaseUrl;
+    }
+    if (previousNextPublicAppUrl === undefined) {
+      delete process.env.NEXT_PUBLIC_APP_URL;
+    } else {
+      process.env.NEXT_PUBLIC_APP_URL = previousNextPublicAppUrl;
     }
     resetMocks();
   }
