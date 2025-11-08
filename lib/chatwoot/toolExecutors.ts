@@ -3,6 +3,7 @@ import {
   CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS,
   type ChatwootComplaintType,
 } from "@/config/chatwootAttributes";
+import { updateConversationCustomAttributes } from "@/lib/chatwoot";
 import { sendBotFormMessage } from "@/lib/chatwootBot";
 import {
   buildComplaintFormContent,
@@ -219,43 +220,60 @@ export async function submitChatwootComplaint(
 ) {
   const args = (rawArgs || {}) as CreateComplaintArgs;
 
-  const payload: ComplaintRequestPayload = {
-    custom_attributes: {
-      [ATTRIBUTE_KEYS.customerName]: normalizeRequiredString(
-        args[ATTRIBUTE_KEYS.customerName],
-        ATTRIBUTE_KEYS.customerName
-      ),
-      [ATTRIBUTE_KEYS.companyName]: normalizeRequiredString(
-        args[ATTRIBUTE_KEYS.companyName],
-        ATTRIBUTE_KEYS.companyName
-      ),
-      [ATTRIBUTE_KEYS.companyLocation]: normalizeRequiredString(
-        args[ATTRIBUTE_KEYS.companyLocation],
-        ATTRIBUTE_KEYS.companyLocation
-      ),
-      [ATTRIBUTE_KEYS.contact]: normalizeRequiredString(
-        args[ATTRIBUTE_KEYS.contact],
-        ATTRIBUTE_KEYS.contact
-      ),
-      [ATTRIBUTE_KEYS.complaintType]: normalizeComplaintType(
-        args[ATTRIBUTE_KEYS.complaintType]
-      ),
-      [ATTRIBUTE_KEYS.issueDescription]: normalizeRequiredString(
-        args[ATTRIBUTE_KEYS.issueDescription],
-        ATTRIBUTE_KEYS.issueDescription
-      ),
-    },
+  const { accountId, conversationId } = options;
+  const hasAccountId =
+    typeof accountId === "number" && Number.isFinite(accountId);
+  const hasConversationId =
+    typeof conversationId === "number" && Number.isFinite(conversationId);
+
+  const customAttributes: ComplaintCustomAttributes = {
+    [ATTRIBUTE_KEYS.customerName]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.customerName],
+      ATTRIBUTE_KEYS.customerName
+    ),
+    [ATTRIBUTE_KEYS.companyName]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.companyName],
+      ATTRIBUTE_KEYS.companyName
+    ),
+    [ATTRIBUTE_KEYS.companyLocation]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.companyLocation],
+      ATTRIBUTE_KEYS.companyLocation
+    ),
+    [ATTRIBUTE_KEYS.contact]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.contact],
+      ATTRIBUTE_KEYS.contact
+    ),
+    [ATTRIBUTE_KEYS.complaintType]: normalizeComplaintType(
+      args[ATTRIBUTE_KEYS.complaintType]
+    ),
+    [ATTRIBUTE_KEYS.issueDescription]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.issueDescription],
+      ATTRIBUTE_KEYS.issueDescription
+    ),
   };
 
-  const { accountId, conversationId } = options;
-  if (typeof accountId === "number" && Number.isFinite(accountId)) {
-    payload.account_id = accountId;
+  if (hasAccountId && hasConversationId) {
+    const response = await updateConversationCustomAttributes(
+      accountId as number,
+      conversationId as number,
+      customAttributes
+    );
+
+    return {
+      status: "submitted",
+      complaint: response,
+    };
   }
-  if (
-    typeof conversationId === "number" &&
-    Number.isFinite(conversationId)
-  ) {
-    payload.conversation_id = conversationId;
+
+  const payload: ComplaintRequestPayload = {
+    custom_attributes: customAttributes,
+  };
+
+  if (hasAccountId) {
+    payload.account_id = accountId as number;
+  }
+  if (hasConversationId) {
+    payload.conversation_id = conversationId as number;
   }
 
   const response = await postJsonWithLogging<Record<string, unknown>>(

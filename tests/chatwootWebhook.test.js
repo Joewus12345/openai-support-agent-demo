@@ -3863,7 +3863,7 @@ test('submitChatwootComplaint rejects when internal API base URL is missing', as
 
   try {
     await assert.rejects(
-      submitChatwootComplaint(args, { accountId: 1, conversationId: 2 }),
+      submitChatwootComplaint(args),
       (error) => {
         const message =
           typeof error?.message === 'string'
@@ -3897,6 +3897,34 @@ test('submitChatwootComplaint rejects when internal API base URL is missing', as
   }
 });
 
+test('submitChatwootComplaint falls back to internal API when Chatwoot context is unavailable', async () => {
+  resetMocks();
+
+  const args = {
+    [ATTRIBUTE_KEYS.customerName]: 'Fallback User',
+    [ATTRIBUTE_KEYS.companyName]: 'Fallback Corp',
+    [ATTRIBUTE_KEYS.companyLocation]: 'Tema',
+    [ATTRIBUTE_KEYS.contact]: 'fallback.user@example.com',
+    [ATTRIBUTE_KEYS.complaintType]: 'Delayed Quote',
+    [ATTRIBUTE_KEYS.issueDescription]: 'Still waiting on the official quote.',
+  };
+
+  const result = await submitChatwootComplaint(args);
+  assert.strictEqual(result?.status, 'submitted');
+  assert.ok(result?.complaint);
+  assert.deepStrictEqual(
+    result?.complaint?.custom_attributes,
+    args
+  );
+
+  const complaintCall = fetchMock.mock.calls.find((call) => {
+    const [callUrl] = call.arguments;
+    return typeof callUrl === 'string' && callUrl === complaintEndpointUrl;
+  });
+  assert.ok(complaintCall, 'expected fallback complaint API request');
+  assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 0);
+});
+
 test('chatwoot webhook executes create_complaint tool and posts complaint payload', async () => {
   resetMocks();
   const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
@@ -3924,22 +3952,6 @@ test('chatwoot webhook executes create_complaint tool and posts complaint payloa
       const parsed = JSON.parse(firstOutput.output);
       assert.strictEqual(parsed.status, 'submitted');
       assert.ok(Array.isArray(parsed.complaint) || typeof parsed.complaint === 'object');
-      const complaintCall = fetchMock.mock.calls.find((call) => {
-        const [callUrl] = call.arguments;
-        return typeof callUrl === 'string' && callUrl === complaintEndpointUrl;
-      });
-      assert.ok(complaintCall, 'expected create_complaint API request');
-      const callBody = complaintCall?.arguments?.[1]?.body;
-      const recordedBody =
-        typeof callBody === 'string'
-          ? JSON.parse(callBody)
-          : JSON.parse((callBody ?? '').toString() || '{}');
-      assert.deepStrictEqual(recordedBody, {
-        account_id: 99,
-        conversation_id: 300,
-        custom_attributes: toolArgsObject,
-      });
-
       return (async function* () {
         yield {
           event: 'response.output_text.delta',
@@ -4025,7 +4037,11 @@ test('chatwoot webhook executes create_complaint tool and posts complaint payloa
       const [callUrl] = call.arguments;
       return typeof callUrl === 'string' && callUrl === complaintEndpointUrl;
     });
-    assert.ok(complaintCall, 'expected complaint API request');
+    assert.strictEqual(
+      complaintCall,
+      undefined,
+      'complaint submissions with account context should bypass the internal complaints API'
+    );
     assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 1);
     const updateArgs = updateConversationCustomAttributesMock.mock.calls[0].arguments;
     assert.deepStrictEqual(updateArgs.slice(0, 2), [99, 300]);

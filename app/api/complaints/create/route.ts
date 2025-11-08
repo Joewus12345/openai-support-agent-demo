@@ -7,16 +7,6 @@ export async function POST(request: Request) {
       return new Response("Invalid complaint payload", { status: 400 });
     }
 
-    const accountId = Number((body as Record<string, unknown>).account_id);
-    const conversationId = Number(
-      (body as Record<string, unknown>).conversation_id
-    );
-    if (!Number.isFinite(accountId) || !Number.isFinite(conversationId)) {
-      return new Response("Missing account or conversation identifiers", {
-        status: 400,
-      });
-    }
-
     const customAttributesRaw =
       "custom_attributes" in body
         ? (body as Record<string, unknown>).custom_attributes
@@ -26,6 +16,26 @@ export async function POST(request: Request) {
     }
 
     const customAttributes = customAttributesRaw as Record<string, unknown>;
+
+    const accountId = Number((body as Record<string, unknown>).account_id);
+    const conversationId = Number(
+      (body as Record<string, unknown>).conversation_id
+    );
+    const hasAccountId = Number.isFinite(accountId);
+    const hasConversationId = Number.isFinite(conversationId);
+
+    if (!hasAccountId || !hasConversationId) {
+      console.warn(
+        "[chatwoot] complaints API missing identifiers; returning payload without Chatwoot update"
+      );
+      return new Response(
+        JSON.stringify({
+          status: "pending",
+          custom_attributes: customAttributes,
+        }),
+        { status: 200 }
+      );
+    }
 
     const chatwootResponse = await updateConversationCustomAttributes(
       accountId,
