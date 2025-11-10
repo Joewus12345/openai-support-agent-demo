@@ -1,3 +1,9 @@
+import {
+  CHATWOOT_COMPLAINT_TYPES,
+  CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS,
+  type ChatwootComplaintType,
+} from "@/config/chatwootAttributes";
+import { updateConversationCustomAttributes } from "@/lib/chatwoot";
 import { sendBotFormMessage } from "@/lib/chatwootBot";
 import {
   buildComplaintFormContent,
@@ -21,24 +27,80 @@ export interface SendComplaintFormArgs {
   defaults?: ChatwootComplaintFormDefaults;
 }
 
-interface CreateComplaintArgs {
-  user_id?: unknown;
-  type?: unknown;
-  details?: unknown;
-  order_id?: unknown;
-}
+const ATTRIBUTE_KEYS = CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS;
+
+type ComplaintAttributeKey =
+  (typeof ATTRIBUTE_KEYS)[keyof typeof ATTRIBUTE_KEYS];
+
+export type CreateComplaintArgs = Partial<
+  Record<ComplaintAttributeKey, unknown>
+>;
+
+type ComplaintCustomAttributes = {
+  [ATTRIBUTE_KEYS.customerName]: string;
+  [ATTRIBUTE_KEYS.companyName]: string;
+  [ATTRIBUTE_KEYS.companyLocation]: string;
+  [ATTRIBUTE_KEYS.contact]: string;
+  [ATTRIBUTE_KEYS.complaintType]: ChatwootComplaintType;
+  [ATTRIBUTE_KEYS.issueDescription]: string;
+};
 
 interface ComplaintRequestPayload {
-  user_id: string;
-  type: string;
-  details: string;
-  order_id: string;
+  account_id?: number;
+  conversation_id?: number;
+  custom_attributes: ComplaintCustomAttributes;
 }
 
-function normalizeRequiredString(
-  value: unknown,
-  field: keyof ComplaintRequestPayload
-): string {
+interface SubmitChatwootComplaintOptions {
+  accountId?: number;
+  conversationId?: number;
+}
+
+function resolveInternalApiUrl(path: string): string {
+  const attemptResolve = (base?: string | null) => {
+    if (!base) {
+      return undefined;
+    }
+
+    try {
+      return new URL(path, base).toString();
+    } catch (error) {
+      console.warn(
+        "[chatwoot]",
+        "resolveInternalApiUrl",
+        "failed to resolve URL",
+        { base, error }
+      );
+      return undefined;
+    }
+  };
+
+  const envResolved = attemptResolve(
+    process.env.INTERNAL_API_BASE_URL ?? process.env.NEXT_PUBLIC_APP_URL
+  );
+  if (envResolved) {
+    return envResolved;
+  }
+
+  const browserResolved = attemptResolve(
+    typeof window !== "undefined" ? window.location?.origin : undefined
+  );
+  if (browserResolved) {
+    return browserResolved;
+  }
+
+  const message =
+    `resolveInternalApiUrl requires INTERNAL_API_BASE_URL or NEXT_PUBLIC_APP_URL to resolve ${path}`;
+  console.error(
+    "[chatwoot]",
+    "resolveInternalApiUrl",
+    "missing base URL",
+    message
+  );
+  throw new Error(message);
+}
+
+function normalizeRequiredString(value: unknown, field: string): string {
   if (typeof value !== "string") {
     throw new Error(`create_complaint requires a string ${String(field)}`);
   }
@@ -49,12 +111,43 @@ function normalizeRequiredString(
   return trimmed;
 }
 
+function normalizeComplaintType(value: unknown): ChatwootComplaintType {
+  const normalized = normalizeRequiredString(
+    value,
+    ATTRIBUTE_KEYS.complaintType
+  );
+
+  const matched = CHATWOOT_COMPLAINT_TYPES.find(
+    (type) => type.toLowerCase() === normalized.toLowerCase()
+  );
+
+  if (!matched) {
+    throw new Error(
+      `create_complaint requires a valid ${ATTRIBUTE_KEYS.complaintType}`
+    );
+  }
+
+  return matched;
+}
+
 async function postJsonWithLogging<T>(
   path: string,
   payload: ComplaintRequestPayload
 ): Promise<T> {
-  console.info("[chatwoot]", "POST", path, JSON.stringify(payload));
-  const response = await fetch(path, {
+  let url: string;
+  try {
+    url = resolveInternalApiUrl(path);
+  } catch (error) {
+    console.error(
+      "[chatwoot]",
+      "create_complaint",
+      "failed to resolve internal API URL",
+      error
+    );
+    throw error;
+  }
+  console.info("[chatwoot]", "POST", url, JSON.stringify(payload));
+  const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -121,18 +214,67 @@ export async function send_complaint_form(
   };
 }
 
-export async function create_complaint(
-  _context: ChatwootToolExecutionContext,
-  rawArgs: Record<string, unknown>
+export async function submitChatwootComplaint(
+  rawArgs: Record<string, unknown> | CreateComplaintArgs,
+  options: SubmitChatwootComplaintOptions = {}
 ) {
   const args = (rawArgs || {}) as CreateComplaintArgs;
 
-  const payload: ComplaintRequestPayload = {
-    user_id: normalizeRequiredString(args.user_id, "user_id"),
-    type: normalizeRequiredString(args.type, "type"),
-    details: normalizeRequiredString(args.details, "details"),
-    order_id: normalizeRequiredString(args.order_id, "order_id"),
+  const { accountId, conversationId } = options;
+  const hasAccountId =
+    typeof accountId === "number" && Number.isFinite(accountId);
+  const hasConversationId =
+    typeof conversationId === "number" && Number.isFinite(conversationId);
+
+  const customAttributes: ComplaintCustomAttributes = {
+    [ATTRIBUTE_KEYS.customerName]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.customerName],
+      ATTRIBUTE_KEYS.customerName
+    ),
+    [ATTRIBUTE_KEYS.companyName]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.companyName],
+      ATTRIBUTE_KEYS.companyName
+    ),
+    [ATTRIBUTE_KEYS.companyLocation]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.companyLocation],
+      ATTRIBUTE_KEYS.companyLocation
+    ),
+    [ATTRIBUTE_KEYS.contact]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.contact],
+      ATTRIBUTE_KEYS.contact
+    ),
+    [ATTRIBUTE_KEYS.complaintType]: normalizeComplaintType(
+      args[ATTRIBUTE_KEYS.complaintType]
+    ),
+    [ATTRIBUTE_KEYS.issueDescription]: normalizeRequiredString(
+      args[ATTRIBUTE_KEYS.issueDescription],
+      ATTRIBUTE_KEYS.issueDescription
+    ),
   };
+
+  if (hasAccountId && hasConversationId) {
+    const response = await updateConversationCustomAttributes(
+      accountId as number,
+      conversationId as number,
+      customAttributes
+    );
+
+    return {
+      status: "submitted",
+      complaint: response,
+    };
+  }
+
+  const payload: ComplaintRequestPayload = {
+    custom_attributes: customAttributes,
+  };
+
+  if (hasAccountId) {
+    payload.account_id = accountId as number;
+  }
+  if (hasConversationId) {
+    payload.conversation_id = conversationId as number;
+  }
 
   const response = await postJsonWithLogging<Record<string, unknown>>(
     "/api/complaints/create",
@@ -143,6 +285,28 @@ export async function create_complaint(
     status: "submitted",
     complaint: response,
   };
+}
+
+export async function create_complaint(
+  context: ChatwootToolExecutionContext,
+  rawArgs: Record<string, unknown>
+) {
+  const { accountId, conversationId } = context;
+  if (
+    typeof accountId !== "number" ||
+    Number.isNaN(accountId) ||
+    typeof conversationId !== "number" ||
+    Number.isNaN(conversationId)
+  ) {
+    throw new Error(
+      "create_complaint requires valid account and conversation identifiers"
+    );
+  }
+
+  return submitChatwootComplaint(rawArgs, {
+    accountId,
+    conversationId,
+  });
 }
 
 export const chatwootToolExecutors: Record<string, ChatwootToolExecutor> = {

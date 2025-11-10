@@ -232,26 +232,40 @@ export const toolsList = [
       parameters: {
         type: "object",
         properties: {
-          user_id: {
+          [CHATWOOT_CUSTOMER_NAME]: {
             type: "string",
-            description: "User ID to create complaint for",
+            description: "Customer's full name",
           },
-          type: {
+          [CHATWOOT_COMPANY_NAME]: {
             type: "string",
-            description: "Type of complaint",
+            description: "Company or organization name",
+          },
+          [CHATWOOT_COMPANY_LOCATION]: {
+            type: "string",
+            description: "Company location or branch",
+          },
+          [CHATWOOT_CONTACT]: {
+            type: "string",
+            description: "Preferred contact method (email or phone)",
+          },
+          [CHATWOOT_COMPLAINT_TYPE]: {
+            type: "string",
+            description: "Complaint category selected by the customer",
             enum: [...CHATWOOT_COMPLAINT_TYPES],
           },
-          details: {
+          [CHATWOOT_ISSUE_DESCRIPTION]: {
             type: "string",
-            description: "Details of the complaint",
-          },
-          order_id: {
-            type: "string",
-            description:
-              "Order ID linked to the complaint, N/A if not linked to an order",
+            description: "Detailed description of the reported issue",
           },
         },
-        required: ["user_id", "type", "details", "order_id"],
+        required: [
+          CHATWOOT_CUSTOMER_NAME,
+          CHATWOOT_COMPANY_NAME,
+          CHATWOOT_COMPANY_LOCATION,
+          CHATWOOT_CONTACT,
+          CHATWOOT_COMPLAINT_TYPE,
+          CHATWOOT_ISSUE_DESCRIPTION,
+        ],
         additionalProperties: false,
       },
     },
