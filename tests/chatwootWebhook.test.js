@@ -127,6 +127,9 @@ const {
 } = require('../lib/friendlyErrors.ts');
 const { ProviderRetryError } = require('../lib/providers/retry.ts');
 
+const COMPLAINT_REMINDER_TEXT =
+  "I've sent the complaint intake form to you. Please let me know once it's completed.";
+
 const providers = require('../lib/providers/index.ts');
 const providerFnMock = mock.fn((messages, toolsArg, options) =>
   (async function* () {
@@ -4174,6 +4177,7 @@ test('chatwoot webhook merges complaint form submissions and forwards summary to
     const providerReply = sendBotMessageMock.mock.calls[0].arguments[2];
     assert.strictEqual(providerReply, 'hi');
     assert.notStrictEqual(providerReply, MESSAGE_FALLBACK_TEXT);
+    assert.notStrictEqual(providerReply, COMPLAINT_REMINDER_TEXT);
     assert.strictEqual(providerFnMock.mock.calls.length, 1);
     const providerMessages = providerFnMock.mock.calls[0].arguments[0];
     const summaryInPrompt = providerMessages.some((message) =>
@@ -4184,6 +4188,227 @@ test('chatwoot webhook merges complaint form submissions and forwards summary to
     );
     assert.ok(summaryInPrompt, 'expected provider payload to include form summary');
   } finally {
+    resetMocks();
+  }
+});
+
+test('chatwoot complaint reminder is not repeated and follow-ups get provider replies', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'anthropic';
+  try {
+    const reminderResponseId = 'resp-followup-reminder';
+    const reminderCallId = 'call-followup-reminder';
+    const formDefaults = {
+      complaint_type: 'Delayed Supply',
+      issue_description: 'Broken machinery',
+    };
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        const argumentPayload = {
+          defaults: formDefaults,
+          title: 'Customer complaint intake',
+        };
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: reminderCallId,
+              call_id: reminderCallId,
+              arguments: JSON.stringify(argumentPayload),
+              response_id: reminderResponseId,
+            },
+            response: { id: reminderResponseId },
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: {
+            item_id: reminderCallId,
+            delta: JSON.stringify(argumentPayload),
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: {
+            item_id: reminderCallId,
+            arguments: JSON.stringify(argumentPayload),
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: reminderCallId,
+              call_id: reminderCallId,
+              arguments: JSON.stringify(argumentPayload),
+              response_id: reminderResponseId,
+            },
+            response: { id: reminderResponseId },
+            response_id: reminderResponseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: reminderResponseId } };
+      })()
+    );
+
+    const initialPayload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 8801,
+          message_type: 0,
+          content: 'I need help filing a complaint',
+          account: { id: 42 },
+          conversation: {
+            id: 8801,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+          },
+        },
+      },
+    };
+
+    const firstReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(initialPayload),
+    });
+    const firstRes = await webhookPost(firstReq);
+    await firstRes.json();
+    assert.strictEqual(firstRes.status, 200);
+    assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 1);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const reminderReply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(reminderReply, COMPLAINT_REMINDER_TEXT);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
+
+    process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+
+    const formResponseText = 'Thanks for sending the complaint details.';
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: { delta: formResponseText },
+        };
+        yield { event: 'response.completed', data: { id: 'resp-followup-form' } };
+      })()
+    );
+
+    const submittedValues = [
+      {
+        name: 'customer_name',
+        label: 'Customer Name',
+        value: 'Alice Smith',
+      },
+      {
+        name: 'complaint_type',
+        label: 'Complaint Type',
+        value: 'Delayed Supply',
+      },
+      {
+        name: 'issue_description',
+        label: 'Issue Description',
+        value: 'Primary machine is offline',
+      },
+    ];
+    const formPayload = {
+      event: 'message_updated',
+      data: {
+        event: 'message_updated',
+        message: {
+          id: 8802,
+          message_type: 0,
+          account_id: 42,
+          conversation_id: 8801,
+          content_type: 'form',
+          content_attributes: {
+            submitted_values: submittedValues,
+          },
+          conversation: {
+            id: 8801,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+            custom_attributes: {},
+          },
+        },
+      },
+    };
+
+    const formReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(formPayload),
+    });
+    const formRes = await webhookPost(formReq);
+    await formRes.json();
+    assert.strictEqual(formRes.status, 200);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+    const formReply = sendBotMessageMock.mock.calls[1].arguments[2];
+    assert.strictEqual(formReply, formResponseText);
+    assert.notStrictEqual(formReply, COMPLAINT_REMINDER_TEXT);
+    assert.strictEqual(providerFnMock.mock.calls.length, 2);
+
+    const followResponseText = 'We are reviewing your complaint.';
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: { delta: followResponseText },
+        };
+        yield { event: 'response.completed', data: { id: 'resp-followup-final' } };
+      })()
+    );
+
+    const followUpPayload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 8803,
+          message_type: 0,
+          content: 'Any updates?',
+          account: { id: 42 },
+          conversation: {
+            id: 8801,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+          },
+        },
+      },
+    };
+
+    const followReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(followUpPayload),
+    });
+    const followRes = await webhookPost(followReq);
+    const followBody = await followRes.json();
+    assert.strictEqual(followRes.status, 200);
+    assert.notStrictEqual(followBody?.status, 'fallback');
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 3);
+    const followReply = sendBotMessageMock.mock.calls[2].arguments[2];
+    assert.strictEqual(followReply, followResponseText);
+    assert.notStrictEqual(followReply, COMPLAINT_REMINDER_TEXT);
+    assert.strictEqual(providerFnMock.mock.calls.length, 3);
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
     resetMocks();
   }
 });

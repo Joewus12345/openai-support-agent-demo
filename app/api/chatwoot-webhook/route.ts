@@ -2653,9 +2653,11 @@ async function processChatwootWebhookJob(
                           ])
                         );
                       } else {
-                        manualToolResponseText =
-                          manualToolResponseText ||
-                          "I've sent the complaint intake form to you. Please let me know once it's completed.";
+                        if (!isFormSubmission) {
+                          manualToolResponseText =
+                            manualToolResponseText ||
+                            "I've sent the complaint intake form to you. Please let me know once it's completed.";
+                        }
                         abortProviderStreaming = true;
                         if (normalizedId) {
                           functionCallStates.delete(normalizedId);
