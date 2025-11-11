@@ -129,6 +129,8 @@ const { ProviderRetryError } = require('../lib/providers/retry.ts');
 
 const COMPLAINT_REMINDER_TEXT =
   "I've sent the complaint intake form to you. Please let me know once it's completed.";
+const COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT =
+  "Thanks for submitting the complaint details. We'll review them and follow up shortly.";
 
 const providers = require('../lib/providers/index.ts');
 const providerFnMock = mock.fn((messages, toolsArg, options) =>
@@ -4188,6 +4190,220 @@ test('chatwoot webhook merges complaint form submissions and forwards summary to
     );
     assert.ok(summaryInPrompt, 'expected provider payload to include form summary');
   } finally {
+    resetMocks();
+  }
+});
+
+test('chatwoot complaint form submissions with manual providers still send a reply', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'anthropic';
+  try {
+    const reminderResponseId = 'resp-form-reminder';
+    const reminderCallId = 'call-form-reminder';
+    const formDefaults = {
+      complaint_type: 'Delayed Supply',
+      issue_description: 'Broken machinery',
+    };
+    const providerResponses = [
+      (async function* () {
+        const argumentPayload = {
+          defaults: formDefaults,
+          title: 'Customer complaint intake',
+        };
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: reminderCallId,
+              call_id: reminderCallId,
+              arguments: JSON.stringify(argumentPayload),
+              response_id: reminderResponseId,
+            },
+            response: { id: reminderResponseId },
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: {
+            item_id: reminderCallId,
+            delta: JSON.stringify(argumentPayload),
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: {
+            item_id: reminderCallId,
+            arguments: JSON.stringify(argumentPayload),
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: reminderCallId,
+              call_id: reminderCallId,
+              arguments: JSON.stringify(argumentPayload),
+              response_id: reminderResponseId,
+            },
+            response: { id: reminderResponseId },
+            response_id: reminderResponseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: reminderResponseId } };
+      })(),
+      (async function* () {
+        const submissionCallId = 'call-form-submission';
+        const submissionResponseId = 'resp-form-submission';
+        const submissionArgs = {};
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: submissionCallId,
+              call_id: submissionCallId,
+              arguments: JSON.stringify(submissionArgs),
+              response_id: submissionResponseId,
+            },
+            response: { id: submissionResponseId },
+            response_id: submissionResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: {
+            item_id: submissionCallId,
+            arguments: JSON.stringify(submissionArgs),
+            response_id: submissionResponseId,
+          },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: submissionCallId,
+              call_id: submissionCallId,
+              arguments: JSON.stringify(submissionArgs),
+              response_id: submissionResponseId,
+            },
+            response: { id: submissionResponseId },
+            response_id: submissionResponseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: submissionResponseId } };
+      })(),
+    ];
+    providerFnMock.mock.mockImplementation(() => {
+      const nextResponse = providerResponses.shift();
+      if (nextResponse) {
+        return nextResponse;
+      }
+      return (async function* () {
+        yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+      })();
+    });
+
+    const initialPayload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 7701,
+          message_type: 0,
+          content: 'I need help filing a complaint',
+          account: { id: 42 },
+          conversation: {
+            id: 7701,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+          },
+        },
+      },
+    };
+
+    const firstReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(initialPayload),
+    });
+    const firstRes = await webhookPost(firstReq);
+    await firstRes.json();
+    assert.strictEqual(firstRes.status, 200);
+    assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 1);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const reminderReply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(reminderReply, COMPLAINT_REMINDER_TEXT);
+
+    const submittedValues = [
+      {
+        name: 'customer_name',
+        label: 'Customer Name',
+        value: 'Alice Smith',
+      },
+      {
+        name: 'complaint_type',
+        label: 'Complaint Type',
+        value: 'Delayed Supply',
+      },
+      {
+        name: 'issue_description',
+        label: 'Issue Description',
+        value: 'Primary machine is offline',
+      },
+    ];
+    const formPayload = {
+      event: 'message_updated',
+      data: {
+        event: 'message_updated',
+        message: {
+          id: 7702,
+          message_type: 0,
+          account_id: 42,
+          conversation_id: 7701,
+          content_type: 'form',
+          content_attributes: {
+            submitted_values: submittedValues,
+          },
+          conversation: {
+            id: 7701,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+            custom_attributes: {},
+          },
+        },
+      },
+    };
+
+    const formReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(formPayload),
+    });
+    const formRes = await webhookPost(formReq);
+    await formRes.json();
+    assert.strictEqual(formRes.status, 200);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+    const submissionReply = sendBotMessageMock.mock.calls[1].arguments[2];
+    assert.strictEqual(submissionReply, COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT);
+    assert.notStrictEqual(submissionReply, COMPLAINT_REMINDER_TEXT);
+    assert.strictEqual(providerFnMock.mock.calls.length, 2);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
     resetMocks();
   }
 });
