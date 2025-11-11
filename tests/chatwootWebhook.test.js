@@ -10,6 +10,7 @@ const {
   CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS: ATTRIBUTE_KEYS,
 } = require('../config/chatwootAttributes.ts');
 const { submitChatwootComplaint } = require('../lib/chatwoot/toolExecutors.ts');
+const { COMPLAINT_FORM_REMINDER_TEXT } = require('../lib/chatwoot/messages.ts');
 
 const originalInternalApiBaseUrl = process.env.INTERNAL_API_BASE_URL;
 const originalNextPublicAppUrl = process.env.NEXT_PUBLIC_APP_URL;
@@ -127,8 +128,6 @@ const {
 } = require('../lib/friendlyErrors.ts');
 const { ProviderRetryError } = require('../lib/providers/retry.ts');
 
-const COMPLAINT_REMINDER_TEXT =
-  "I've sent the complaint intake form to you. Please let me know once it's completed.";
 const COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT =
   "Thanks for submitting the complaint details. We'll review them and follow up shortly.";
 
@@ -4179,7 +4178,7 @@ test('chatwoot webhook merges complaint form submissions and forwards summary to
     const providerReply = sendBotMessageMock.mock.calls[0].arguments[2];
     assert.strictEqual(providerReply, 'hi');
     assert.notStrictEqual(providerReply, MESSAGE_FALLBACK_TEXT);
-    assert.notStrictEqual(providerReply, COMPLAINT_REMINDER_TEXT);
+    assert.notStrictEqual(providerReply, COMPLAINT_FORM_REMINDER_TEXT);
     assert.strictEqual(providerFnMock.mock.calls.length, 1);
     const providerMessages = providerFnMock.mock.calls[0].arguments[0];
     const summaryInPrompt = providerMessages.some((message) =>
@@ -4343,7 +4342,7 @@ test('chatwoot complaint form submissions with manual providers still send a rep
     assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 1);
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
     const reminderReply = sendBotMessageMock.mock.calls[0].arguments[2];
-    assert.strictEqual(reminderReply, COMPLAINT_REMINDER_TEXT);
+    assert.strictEqual(reminderReply, COMPLAINT_FORM_REMINDER_TEXT);
 
     const submittedValues = [
       {
@@ -4396,7 +4395,7 @@ test('chatwoot complaint form submissions with manual providers still send a rep
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
     const submissionReply = sendBotMessageMock.mock.calls[1].arguments[2];
     assert.strictEqual(submissionReply, COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT);
-    assert.notStrictEqual(submissionReply, COMPLAINT_REMINDER_TEXT);
+    assert.notStrictEqual(submissionReply, COMPLAINT_FORM_REMINDER_TEXT);
     assert.strictEqual(providerFnMock.mock.calls.length, 2);
   } finally {
     if (originalProvider === undefined) {
@@ -4504,7 +4503,7 @@ test('chatwoot complaint reminder is not repeated and follow-ups get provider re
     assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 1);
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
     const reminderReply = sendBotMessageMock.mock.calls[0].arguments[2];
-    assert.strictEqual(reminderReply, COMPLAINT_REMINDER_TEXT);
+    assert.strictEqual(reminderReply, COMPLAINT_FORM_REMINDER_TEXT);
     assert.strictEqual(providerFnMock.mock.calls.length, 1);
     assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
 
@@ -4572,7 +4571,7 @@ test('chatwoot complaint reminder is not repeated and follow-ups get provider re
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
     const formReply = sendBotMessageMock.mock.calls[1].arguments[2];
     assert.strictEqual(formReply, formResponseText);
-    assert.notStrictEqual(formReply, COMPLAINT_REMINDER_TEXT);
+    assert.notStrictEqual(formReply, COMPLAINT_FORM_REMINDER_TEXT);
     assert.strictEqual(providerFnMock.mock.calls.length, 2);
 
     const followResponseText = 'We are reviewing your complaint.';
@@ -4616,7 +4615,7 @@ test('chatwoot complaint reminder is not repeated and follow-ups get provider re
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 3);
     const followReply = sendBotMessageMock.mock.calls[2].arguments[2];
     assert.strictEqual(followReply, followResponseText);
-    assert.notStrictEqual(followReply, COMPLAINT_REMINDER_TEXT);
+    assert.notStrictEqual(followReply, COMPLAINT_FORM_REMINDER_TEXT);
     assert.strictEqual(providerFnMock.mock.calls.length, 3);
     assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
   } finally {

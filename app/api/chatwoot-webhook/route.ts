@@ -55,6 +55,7 @@ import {
   gatherImageInsights,
   type GatherImageInsightsResult,
 } from "@/lib/chatwoot/imageInsights";
+import { COMPLAINT_FORM_REMINDER_TEXT } from "@/lib/chatwoot/messages";
 import {
   recordReleaseFailure,
   clearReleaseAttempts,
@@ -106,8 +107,6 @@ type ChatwootJobPhaseLog = {
 };
 
 const SKIP_FALLBACK_SYMBOL = Symbol("chatwootSkipFallback");
-const COMPLAINT_FORM_REMINDER_TEXT =
-  "I've sent the complaint intake form to you. Please let me know once it's completed.";
 const COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT =
   "Thanks for submitting the complaint details. We'll review them and follow up shortly.";
 
