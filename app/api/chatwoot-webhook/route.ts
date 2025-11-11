@@ -106,6 +106,10 @@ type ChatwootJobPhaseLog = {
 };
 
 const SKIP_FALLBACK_SYMBOL = Symbol("chatwootSkipFallback");
+const COMPLAINT_FORM_REMINDER_TEXT =
+  "I've sent the complaint intake form to you. Please let me know once it's completed.";
+const COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT =
+  "Thanks for submitting the complaint details. We'll review them and follow up shortly.";
 
 function markErrorToSkipFallback(error: unknown) {
   if (error && typeof error === "object") {
@@ -2653,10 +2657,10 @@ async function processChatwootWebhookJob(
                           ])
                         );
                       } else {
-                        if (!isFormSubmission) {
-                          manualToolResponseText =
-                            manualToolResponseText ||
-                            "I've sent the complaint intake form to you. Please let me know once it's completed.";
+                        if (!manualToolResponseText) {
+                          manualToolResponseText = isFormSubmission
+                            ? COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+                            : COMPLAINT_FORM_REMINDER_TEXT;
                         }
                         abortProviderStreaming = true;
                         if (normalizedId) {
