@@ -4,17 +4,19 @@ import {
   type ChatwootComplaintType,
 } from "@/config/chatwootAttributes";
 import { updateConversationCustomAttributes } from "@/lib/chatwoot";
-import { sendBotFormMessage } from "@/lib/chatwootBot";
+import { sendBotFormMessage, sendBotMessage } from "@/lib/chatwootBot";
 import {
   buildComplaintFormContent,
   type ChatwootComplaintFormDefaults,
 } from "@/lib/chatwoot/forms";
+import { COMPLAINT_FORM_REMINDER_TEXT } from "@/lib/chatwoot/messages";
 
 export interface ChatwootToolExecutionContext {
   accountId: number;
   conversationId: number;
   conversation?: unknown;
   message?: unknown;
+  manualResponseHandled?: boolean;
 }
 
 export type ChatwootToolExecutor = (
@@ -203,6 +205,24 @@ export async function send_complaint_form(
 
   const formContent = buildComplaintFormContent(defaults, { title });
 
+  const inboundMessage =
+    context && typeof context.message === "object" && context.message !== null
+      ? (context.message as Record<string, unknown>)
+      : undefined;
+  const isFormUpdate =
+    typeof inboundMessage?.content_type === "string" &&
+    inboundMessage.content_type.toLowerCase() === "form";
+
+  if (!isFormUpdate) {
+    await sendBotMessage(
+      accountId,
+      conversationId,
+      COMPLAINT_FORM_REMINDER_TEXT
+    );
+    context.manualResponseHandled = true;
+  } else {
+    delete context.manualResponseHandled;
+  }
   await sendBotFormMessage(accountId, conversationId, formContent);
 
   return {

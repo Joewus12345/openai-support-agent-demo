@@ -73,7 +73,10 @@ import {
   setChatwootJobRunner,
   setChatwootQueueFailureReporter,
 } from "@/lib/chatwoot/jobQueue";
-import { chatwootToolExecutors } from "@/lib/chatwoot/toolExecutors";
+import {
+  chatwootToolExecutors,
+  type ChatwootToolExecutionContext,
+} from "@/lib/chatwoot/toolExecutors";
 import {
   submitOpenAIToolOutputs,
   type ProviderEvent,
@@ -2341,6 +2344,7 @@ async function processChatwootWebhookJob(
           const functionCallStates = new Map<string, FunctionCallState>();
           let latestResponseId: string | undefined;
           let manualToolResponseText: string | undefined;
+          let toolExecutorHandledReply = false;
           let abortProviderStreaming = false;
 
           const updateLatestResponseId = (payload: unknown) => {
@@ -2601,11 +2605,21 @@ async function processChatwootWebhookJob(
                     const executor = chatwootToolExecutors[itemName];
                     if (executor) {
                       let toolResult: unknown;
+                      let toolHandledManualResponse = false;
                       try {
-                        toolResult = await executor(
-                          { accountId, conversationId, conversation, message },
-                          parsedArgs
+                        const toolContext: ChatwootToolExecutionContext = {
+                          accountId,
+                          conversationId,
+                          conversation,
+                          message,
+                        };
+                        toolResult = await executor(toolContext, parsedArgs);
+                        toolHandledManualResponse = Boolean(
+                          toolContext.manualResponseHandled
                         );
+                        if (toolHandledManualResponse) {
+                          toolExecutorHandledReply = true;
+                        }
                       } catch (error) {
                         console.error("chatwoot tool execution error", {
                           tool: itemName,
@@ -2656,7 +2670,7 @@ async function processChatwootWebhookJob(
                           ])
                         );
                       } else {
-                        if (!manualToolResponseText) {
+                        if (!manualToolResponseText && !toolHandledManualResponse) {
                           manualToolResponseText = isFormSubmission
                             ? COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
                             : COMPLAINT_FORM_REMINDER_TEXT;
@@ -2694,6 +2708,16 @@ async function processChatwootWebhookJob(
 
           if (!replyText && manualToolResponseText) {
             replyText = manualToolResponseText;
+          }
+          if (!replyText && toolExecutorHandledReply) {
+            return NextResponse.json({
+              status: "tool-handled",
+              accountId,
+              conversationId,
+              inboxId,
+              content,
+              mode,
+            });
           }
           } catch (err) {
             if (err instanceof ProviderRetryError) {

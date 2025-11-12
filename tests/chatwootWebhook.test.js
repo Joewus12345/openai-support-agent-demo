@@ -4343,6 +4343,16 @@ test('chatwoot complaint form submissions with manual providers still send a rep
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
     const reminderReply = sendBotMessageMock.mock.calls[0].arguments[2];
     assert.strictEqual(reminderReply, COMPLAINT_FORM_REMINDER_TEXT);
+    const reminderMessage = await sendBotMessageMock.mock.calls[0].result;
+    const formMessage = await sendBotFormMessageMock.mock.calls[0].result;
+    assert.ok(
+      reminderMessage.id < formMessage.id,
+      'expected reminder message to be sent before the form payload'
+    );
+    const reminderCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.strictEqual(reminderCalls.length, 1);
 
     const submittedValues = [
       {
@@ -4396,6 +4406,10 @@ test('chatwoot complaint form submissions with manual providers still send a rep
     const submissionReply = sendBotMessageMock.mock.calls[1].arguments[2];
     assert.strictEqual(submissionReply, COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT);
     assert.notStrictEqual(submissionReply, COMPLAINT_FORM_REMINDER_TEXT);
+    const reminderCallsAfterSubmission = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.strictEqual(reminderCallsAfterSubmission.length, 1);
     assert.strictEqual(providerFnMock.mock.calls.length, 2);
   } finally {
     if (originalProvider === undefined) {
@@ -4504,6 +4518,16 @@ test('chatwoot complaint reminder is not repeated and follow-ups get provider re
     assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
     const reminderReply = sendBotMessageMock.mock.calls[0].arguments[2];
     assert.strictEqual(reminderReply, COMPLAINT_FORM_REMINDER_TEXT);
+    const reminderMessage = await sendBotMessageMock.mock.calls[0].result;
+    const formMessage = await sendBotFormMessageMock.mock.calls[0].result;
+    assert.ok(
+      reminderMessage.id < formMessage.id,
+      'expected reminder message to be sent before the form payload'
+    );
+    const reminderCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.strictEqual(reminderCalls.length, 1);
     assert.strictEqual(providerFnMock.mock.calls.length, 1);
     assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
 
@@ -4616,6 +4640,10 @@ test('chatwoot complaint reminder is not repeated and follow-ups get provider re
     const followReply = sendBotMessageMock.mock.calls[2].arguments[2];
     assert.strictEqual(followReply, followResponseText);
     assert.notStrictEqual(followReply, COMPLAINT_FORM_REMINDER_TEXT);
+    const totalReminderCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.strictEqual(totalReminderCalls.length, 1);
     assert.strictEqual(providerFnMock.mock.calls.length, 3);
     assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
   } finally {
