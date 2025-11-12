@@ -3831,9 +3831,12 @@ test('chatwoot webhook executes send_complaint_form tool and posts form payload'
       'Primary machine offline'
     );
     assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 1);
-    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
-    const reply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+    const reminder = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(reminder, COMPLAINT_FORM_REMINDER_TEXT);
+    const reply = sendBotMessageMock.mock.calls[1].arguments[2];
     assert.strictEqual(reply, 'Complaint form dispatched.');
+    assert.notStrictEqual(reply, COMPLAINT_FORM_REMINDER_TEXT);
     assert.notStrictEqual(reply, MESSAGE_FALLBACK_TEXT);
     assert.strictEqual(updateConversationMock.mock.calls.length, 0);
     assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 0);
