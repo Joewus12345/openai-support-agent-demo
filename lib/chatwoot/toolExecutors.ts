@@ -10,6 +10,11 @@ import {
   type ChatwootComplaintFormDefaults,
 } from "@/lib/chatwoot/forms";
 import { COMPLAINT_FORM_REMINDER_TEXT } from "@/lib/chatwoot/messages";
+import {
+  searchKnowledgeBase,
+  type SearchKnowledgeBaseArgs,
+  type SearchKnowledgeBaseResult,
+} from "@/lib/knowledgeBase/searchKnowledgeBase";
 
 export interface ChatwootToolExecutionContext {
   accountId: number;
@@ -36,6 +41,10 @@ type ComplaintAttributeKey =
 
 export type CreateComplaintArgs = Partial<
   Record<ComplaintAttributeKey, unknown>
+>;
+
+type SearchKnowledgeBaseToolArgs = Partial<
+  Record<keyof SearchKnowledgeBaseArgs, unknown>
 >;
 
 type ComplaintCustomAttributes = {
@@ -329,9 +338,84 @@ export async function create_complaint(
   });
 }
 
+function normalizeOptionalBoolean(value: unknown): boolean | undefined {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    if (normalized === "true") {
+      return true;
+    }
+    if (normalized === "false") {
+      return false;
+    }
+  }
+  return undefined;
+}
+
+function normalizeOptionalNumber(value: unknown): number | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+  return undefined;
+}
+
+function normalizeOptionalString(value: unknown): string | undefined {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed ? trimmed : undefined;
+  }
+  return undefined;
+}
+
+function normalizeOptionalStringArray(
+  value: unknown
+): string[] | undefined {
+  const source = Array.isArray(value)
+    ? value
+    : typeof value === "string"
+      ? [value]
+      : undefined;
+  if (!source) {
+    return undefined;
+  }
+  const normalized = source
+    .filter((entry): entry is string => typeof entry === "string")
+    .map((entry) => entry.trim())
+    .filter((entry) => entry.length > 0);
+  return normalized.length > 0 ? normalized : undefined;
+}
+
+export async function search_knowledge_base(
+  _context: ChatwootToolExecutionContext,
+  rawArgs: Record<string, unknown>
+): Promise<SearchKnowledgeBaseResult> {
+  const args = (rawArgs || {}) as SearchKnowledgeBaseToolArgs;
+
+  const searchArgs: SearchKnowledgeBaseArgs = {
+    query: normalizeOptionalString(args.query),
+    queries: normalizeOptionalStringArray(args.queries),
+    provider: normalizeOptionalString(args.provider),
+    limit: normalizeOptionalNumber(args.limit),
+    threshold: normalizeOptionalNumber(args.threshold),
+    topKOnly: normalizeOptionalBoolean(args.topKOnly),
+  };
+
+  return searchKnowledgeBase(searchArgs);
+}
+
 export const chatwootToolExecutors: Record<string, ChatwootToolExecutor> = {
   send_complaint_form: async (context, args) =>
     send_complaint_form(context, args),
   create_complaint: async (context, args) =>
     create_complaint(context, args),
+  search_knowledge_base: async (context, args) =>
+    search_knowledge_base(context, args),
 };

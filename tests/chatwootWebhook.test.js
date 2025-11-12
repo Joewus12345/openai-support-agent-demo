@@ -3687,6 +3687,165 @@ test('chatwoot webhook fallback keeps quoting inbound when set_reply_reference s
   resetMocks();
 });
 
+test('chatwoot webhook executes search_knowledge_base tool and forwards results', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  const originalModel = process.env.CHATWOOT_WEBHOOK_MODEL;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  try {
+    const responseId = 'resp-search-1';
+    const callId = 'call-search-1';
+    const sampleResults = [
+      {
+        text: 'IP65-rated cable catalog entry',
+        attributes: { filepath: 'docs/cables/ip65.md' },
+        score: 0.87,
+      },
+    ];
+    let observedSearchArgs;
+    searchKnowledgeBaseMock.mock.mockImplementationOnce(async (args) => {
+      observedSearchArgs = args;
+      return { results: sampleResults };
+    });
+
+    submitOpenAIToolOutputsMock.mock.mockImplementationOnce((response, outputs) => {
+      assert.strictEqual(response, responseId);
+      assert.ok(Array.isArray(outputs));
+      assert.strictEqual(outputs.length, 1);
+      const [firstOutput] = outputs;
+      assert.strictEqual(firstOutput.tool_call_id, callId);
+      const parsedOutput = JSON.parse(firstOutput.output);
+      assert.deepStrictEqual(parsedOutput, { results: sampleResults });
+      return (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: {
+            delta:
+              'Yes, we stock IP65-rated industrial cables. I can send a quote if needed.',
+          },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })();
+    });
+
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        const serializedArgs = JSON.stringify({
+          query: 'IP65 cable options',
+          queries: ['industrial cables', 'ip65 protection'],
+          limit: '3',
+          provider: 'docs',
+          threshold: '0.45',
+          topKOnly: 'true',
+        });
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'search_knowledge_base',
+              id: callId,
+              call_id: callId,
+              arguments: '',
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: {
+            item_id: callId,
+            delta: serializedArgs,
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: {
+            item_id: callId,
+            arguments: serializedArgs,
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'search_knowledge_base',
+              id: callId,
+              call_id: callId,
+              arguments: serializedArgs,
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+      })()
+    );
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 645,
+          message_type: 0,
+          content: 'Do you carry industrial cables rated IP65?',
+          account: { id: 55 },
+          conversation: {
+            id: 88,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 55,
+          },
+        },
+      },
+    };
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const res = await webhookPost(req);
+    await res.json();
+
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(searchKnowledgeBaseMock.mock.calls.length, 1);
+    assert.deepStrictEqual(observedSearchArgs, {
+      query: 'IP65 cable options',
+      queries: ['industrial cables', 'ip65 protection'],
+      provider: 'docs',
+      limit: 3,
+      threshold: 0.45,
+      topKOnly: true,
+    });
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 1);
+    const fallbackCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === MESSAGE_FALLBACK_TEXT
+    );
+    assert.strictEqual(fallbackCalls.length, 0);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
+    if (originalModel === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_MODEL;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_MODEL = originalModel;
+    }
+    resetMocks();
+  }
+});
+
 test('chatwoot webhook executes send_complaint_form tool and posts form payload', async () => {
   resetMocks();
   const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
