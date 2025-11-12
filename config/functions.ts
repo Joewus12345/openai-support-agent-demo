@@ -6,7 +6,7 @@ import useConversationStore from "@/stores/useConversationStore";
 import {
   submitChatwootComplaint,
   type CreateComplaintArgs,
-} from "@/lib/chatwoot/toolExecutors";
+} from "@/lib/chatwoot/complaintSubmission";
 interface SearchKnowledgeBaseResponse {
   results?: any[] | string[];
   error?: string;

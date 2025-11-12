@@ -9,7 +9,7 @@ const { POST: complaintsPost } = require('../app/api/complaints/create/route.ts'
 const {
   CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS: ATTRIBUTE_KEYS,
 } = require('../config/chatwootAttributes.ts');
-const { submitChatwootComplaint } = require('../lib/chatwoot/toolExecutors.ts');
+const { submitChatwootComplaint } = require('../lib/chatwoot/complaintSubmission.ts');
 const {
   COMPLAINT_FORM_REMINDER_TEXT,
   COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT,
