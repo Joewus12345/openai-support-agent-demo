@@ -55,7 +55,10 @@ import {
   gatherImageInsights,
   type GatherImageInsightsResult,
 } from "@/lib/chatwoot/imageInsights";
-import { COMPLAINT_FORM_REMINDER_TEXT } from "@/lib/chatwoot/messages";
+import {
+  COMPLAINT_FORM_REMINDER_TEXT,
+  COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT,
+} from "@/lib/chatwoot/messages";
 import {
   recordReleaseFailure,
   clearReleaseAttempts,
@@ -110,8 +113,6 @@ type ChatwootJobPhaseLog = {
 };
 
 const SKIP_FALLBACK_SYMBOL = Symbol("chatwootSkipFallback");
-const COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT =
-  "Thanks for submitting the complaint details. We'll review them and follow up shortly.";
 
 function markErrorToSkipFallback(error: unknown) {
   if (error && typeof error === "object") {
@@ -890,6 +891,7 @@ async function processChatwootWebhookJob(
   let sendFallback: () => Promise<void> = async () => {};
   let logAssistantResponse: (response: unknown, fallbackContent: string) => Promise<void>;
   let isFormSubmission = false;
+  let formSubmissionConfirmationSent = false;
   let formSubmissionSummary: string | undefined;
   let formSubmissionPromptAddition: ResponseMessage | undefined;
   let formSubmissionAttributes: Record<string, string> | undefined;
@@ -1061,6 +1063,38 @@ async function processChatwootWebhookJob(
             (conversation as any).custom_attributes = mergedAttributes;
           } else {
             conversation = { id: conversationId, custom_attributes: mergedAttributes } as Conversation;
+          }
+          try {
+            if (!formSubmissionConfirmationSent) {
+              await sendBotMessage(
+                accountId,
+                conversationId,
+                COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+              );
+              formSubmissionConfirmationSent = true;
+            }
+          } catch (err) {
+            console.error("chatwoot send complaint confirmation error", err);
+          }
+          try {
+            const existingLabelsResponse = await getConversationLabels(
+              accountId,
+              conversationId
+            );
+            const existingLabels = Array.isArray(
+              (existingLabelsResponse as any)?.payload
+            )
+              ? (existingLabelsResponse as any).payload.filter(
+                  (label: unknown): label is string =>
+                    typeof label === "string" && label.trim().length > 0
+                )
+              : [];
+            const mergedLabels = Array.from(
+              new Set([...existingLabels, CONVO_LABELS.complaint])
+            );
+            await setConversationLabels(accountId, conversationId, mergedLabels);
+          } catch (err) {
+            console.error("chatwoot complaint label update error", err);
           }
         } catch (err) {
           console.error("chatwoot update conversation attributes error", err);
@@ -2670,7 +2704,11 @@ async function processChatwootWebhookJob(
                           ])
                         );
                       } else {
-                        if (!manualToolResponseText && !toolHandledManualResponse) {
+                        if (
+                          !manualToolResponseText &&
+                          !toolHandledManualResponse &&
+                          (!isFormSubmission || !formSubmissionConfirmationSent)
+                        ) {
                           manualToolResponseText = isFormSubmission
                             ? COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
                             : COMPLAINT_FORM_REMINDER_TEXT;

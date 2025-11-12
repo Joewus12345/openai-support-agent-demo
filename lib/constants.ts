@@ -3,4 +3,5 @@ export const CONVO_LABELS = {
   awaiting: "awaiting-confirmation",
   assigned: "agent-assigned",
   expired: "queue-expired",
+  complaint: "complaint",
 } as const;

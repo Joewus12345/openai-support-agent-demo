@@ -10,7 +10,10 @@ const {
   CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS: ATTRIBUTE_KEYS,
 } = require('../config/chatwootAttributes.ts');
 const { submitChatwootComplaint } = require('../lib/chatwoot/toolExecutors.ts');
-const { COMPLAINT_FORM_REMINDER_TEXT } = require('../lib/chatwoot/messages.ts');
+const {
+  COMPLAINT_FORM_REMINDER_TEXT,
+  COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT,
+} = require('../lib/chatwoot/messages.ts');
 
 const originalInternalApiBaseUrl = process.env.INTERNAL_API_BASE_URL;
 const originalNextPublicAppUrl = process.env.NEXT_PUBLIC_APP_URL;
@@ -128,8 +131,6 @@ const {
 } = require('../lib/friendlyErrors.ts');
 const { ProviderRetryError } = require('../lib/providers/retry.ts');
 
-const COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT =
-  "Thanks for submitting the complaint details. We'll review them and follow up shortly.";
 
 const providers = require('../lib/providers/index.ts');
 const providerFnMock = mock.fn((messages, toolsArg, options) =>
@@ -4174,11 +4175,25 @@ test('chatwoot webhook merges complaint form submissions and forwards summary to
     assert.deepStrictEqual(recordedBody.custom_attributes, mergedAttributes);
     assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 0);
     assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
-    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
-    const providerReply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+    const confirmationCall = sendBotMessageMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(confirmationCall.slice(0, 2), [77, 555]);
+    assert.strictEqual(
+      confirmationCall[2],
+      COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    const providerCall = sendBotMessageMock.mock.calls[1].arguments;
+    assert.deepStrictEqual(providerCall.slice(0, 2), [77, 555]);
+    const providerReply = providerCall[2];
     assert.strictEqual(providerReply, 'hi');
     assert.notStrictEqual(providerReply, MESSAGE_FALLBACK_TEXT);
     assert.notStrictEqual(providerReply, COMPLAINT_FORM_REMINDER_TEXT);
+    assert.strictEqual(getConversationLabelsMock.mock.calls.length, 1);
+    assert.deepStrictEqual(getConversationLabelsMock.mock.calls[0].arguments.slice(0, 2), [77, 555]);
+    assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+    const labelCall = setConversationLabelsMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(labelCall.slice(0, 2), [77, 555]);
+    assert.deepStrictEqual(labelCall[2], [CONVO_LABELS.complaint]);
     assert.strictEqual(providerFnMock.mock.calls.length, 1);
     const providerMessages = providerFnMock.mock.calls[0].arguments[0];
     const summaryInPrompt = providerMessages.some((message) =>
@@ -4402,9 +4417,34 @@ test('chatwoot complaint form submissions with manual providers still send a rep
     const formRes = await webhookPost(formReq);
     await formRes.json();
     assert.strictEqual(formRes.status, 200);
-    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
-    const submissionReply = sendBotMessageMock.mock.calls[1].arguments[2];
-    assert.strictEqual(submissionReply, COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT);
+    const confirmationCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.strictEqual(
+      confirmationCalls.length,
+      1,
+      'expected exactly one confirmation message for manual providers'
+    );
+    const confirmationCallIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.ok(
+      confirmationCallIndex >= 0,
+      'expected confirmation message to be sent'
+    );
+    const reminderCallIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.ok(
+      reminderCallIndex >= 0 && confirmationCallIndex > reminderCallIndex,
+      'expected confirmation to be sent after the reminder'
+    );
+    const submissionReply =
+      sendBotMessageMock.mock.calls[confirmationCallIndex].arguments[2];
+    assert.strictEqual(
+      submissionReply,
+      COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
     assert.notStrictEqual(submissionReply, COMPLAINT_FORM_REMINDER_TEXT);
     const reminderCallsAfterSubmission = sendBotMessageMock.mock.calls.filter(
       (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
@@ -4592,8 +4632,32 @@ test('chatwoot complaint reminder is not repeated and follow-ups get provider re
     const formRes = await webhookPost(formReq);
     await formRes.json();
     assert.strictEqual(formRes.status, 200);
-    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
-    const formReply = sendBotMessageMock.mock.calls[1].arguments[2];
+    const reminderCallIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    const confirmationCallIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.ok(
+      confirmationCallIndex >= 0,
+      'expected confirmation message to be sent during manual provider flow'
+    );
+    assert.ok(
+      reminderCallIndex >= 0 && confirmationCallIndex > reminderCallIndex,
+      'expected confirmation to follow the reminder'
+    );
+    const confirmationCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.strictEqual(confirmationCalls.length, 1);
+    const formReplyIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === formResponseText
+    );
+    assert.ok(
+      formReplyIndex >= 0 && formReplyIndex > confirmationCallIndex,
+      'expected provider reply to follow the confirmation'
+    );
+    const formReply = sendBotMessageMock.mock.calls[formReplyIndex].arguments[2];
     assert.strictEqual(formReply, formResponseText);
     assert.notStrictEqual(formReply, COMPLAINT_FORM_REMINDER_TEXT);
     assert.strictEqual(providerFnMock.mock.calls.length, 2);
@@ -4636,14 +4700,28 @@ test('chatwoot complaint reminder is not repeated and follow-ups get provider re
     const followBody = await followRes.json();
     assert.strictEqual(followRes.status, 200);
     assert.notStrictEqual(followBody?.status, 'fallback');
-    assert.strictEqual(sendBotMessageMock.mock.calls.length, 3);
-    const followReply = sendBotMessageMock.mock.calls[2].arguments[2];
+    const followReplyCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === followResponseText
+    );
+    assert.strictEqual(followReplyCalls.length, 1);
+    const followReplyIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === followResponseText
+    );
+    assert.ok(
+      followReplyIndex > formReplyIndex,
+      'expected follow-up reply after form response'
+    );
+    const followReply = sendBotMessageMock.mock.calls[followReplyIndex].arguments[2];
     assert.strictEqual(followReply, followResponseText);
     assert.notStrictEqual(followReply, COMPLAINT_FORM_REMINDER_TEXT);
     const totalReminderCalls = sendBotMessageMock.mock.calls.filter(
       (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
     );
     assert.strictEqual(totalReminderCalls.length, 1);
+    const totalConfirmationCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.strictEqual(totalConfirmationCalls.length, 1);
     assert.strictEqual(providerFnMock.mock.calls.length, 3);
     assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
   } finally {
