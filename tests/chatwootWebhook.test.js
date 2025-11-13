@@ -5,6 +5,32 @@ process.env.RELEASE_RETRY_BASE_MS = '1';
 require('ts-node/register/transpile-only');
 require('../scripts/register-tsconfig-paths.js');
 
+const { POST: complaintsPost } = require('../app/api/complaints/create/route.ts');
+const {
+  CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS: ATTRIBUTE_KEYS,
+} = require('../config/chatwootAttributes.ts');
+const { HOST_COMPANY_NAME } = require('../config/constants.ts');
+const { submitChatwootComplaint } = require('../lib/chatwoot/complaintSubmission.ts');
+const {
+  COMPLAINT_FORM_REMINDER_TEXT,
+  COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT,
+} = require('../lib/chatwoot/messages.ts');
+
+const originalInternalApiBaseUrl = process.env.INTERNAL_API_BASE_URL;
+const originalNextPublicAppUrl = process.env.NEXT_PUBLIC_APP_URL;
+const DEFAULT_INTERNAL_API_BASE_URL = 'https://internal-api.example';
+if (!process.env.INTERNAL_API_BASE_URL && !process.env.NEXT_PUBLIC_APP_URL) {
+  process.env.INTERNAL_API_BASE_URL = DEFAULT_INTERNAL_API_BASE_URL;
+}
+const resolvedInternalApiBaseUrl =
+  process.env.INTERNAL_API_BASE_URL ??
+  process.env.NEXT_PUBLIC_APP_URL ??
+  DEFAULT_INTERNAL_API_BASE_URL;
+const complaintEndpointUrl = new URL(
+  '/api/complaints/create',
+  resolvedInternalApiBaseUrl
+).toString();
+
 const originalChatwootUrl = process.env.CHATWOOT_URL;
 process.env.CHATWOOT_URL = process.env.CHATWOOT_URL ?? 'https://chatwoot.example';
 
@@ -34,6 +60,19 @@ const fetchMock = mock.method(global, 'fetch', async (input, init = {}) => {
     });
   }
 
+  if (typeof url === 'string' && url === complaintEndpointUrl) {
+    const headers = new Headers(init.headers ?? {});
+    if (!headers.has('Content-Type')) {
+      headers.set('Content-Type', 'application/json');
+    }
+    const req = new Request(url, {
+      method: init.method ?? 'POST',
+      headers,
+      body: init.body,
+    });
+    return complaintsPost(req);
+  }
+
   return new Response(JSON.stringify({}), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
@@ -49,6 +88,7 @@ const conversationResolution = require('../lib/conversationResolution.ts');
 const releaseAgentMock = mock.method(conversationResolution, 'releaseAgent', async () => {});
 
 const chatwootBot = require('../lib/chatwootBot.ts');
+const { buildComplaintFormContent } = require('../lib/chatwoot/forms.ts');
 let nextMessageId = 0;
 const defaultSendBotMessageImplementation = async (
   accountId,
@@ -67,12 +107,31 @@ const sendBotMessageMock = mock.method(
   'sendBotMessage',
   defaultSendBotMessageImplementation
 );
+const defaultSendBotFormMessageImplementation = async (
+  accountId,
+  conversationId,
+  form
+) => ({
+  id: ++nextMessageId,
+  inbox_id: 1,
+  content: 'form',
+  conversation_id: conversationId,
+  account_id: accountId,
+  created_at: Math.floor(Date.now() / 1000),
+  content_attributes: form,
+});
+const sendBotFormMessageMock = mock.method(
+  chatwootBot,
+  'sendBotFormMessage',
+  defaultSendBotFormMessageImplementation
+);
 
 const {
   MESSAGE_FALLBACK_TEXT,
   HANDOFF_FALLBACK_TEXT,
 } = require('../lib/friendlyErrors.ts');
 const { ProviderRetryError } = require('../lib/providers/retry.ts');
+
 
 const providers = require('../lib/providers/index.ts');
 const providerFnMock = mock.fn((messages, toolsArg, options) =>
@@ -84,6 +143,23 @@ const providerFnMock = mock.fn((messages, toolsArg, options) =>
   })()
 );
 const getProviderMock = mock.method(providers, 'getProvider', () => providerFnMock);
+const openaiProviderModule = require('../lib/providers/openai.ts');
+const defaultSubmitToolOutputsImplementation = () =>
+  (async function* () {
+    yield {
+      event: 'response.output_text.delta',
+      data: { delta: 'Tool output acknowledged.' },
+    };
+    yield { event: 'response.completed', data: {} };
+  })();
+const submitOpenAIToolOutputsMock = mock.method(
+  openaiProviderModule,
+  'submitOpenAIToolOutputs',
+  (...args) => {
+    void args;
+    return defaultSubmitToolOutputsImplementation();
+  }
+);
 const {
   scheduleProviderCall,
   setLimiterConfigForTesting,
@@ -165,6 +241,8 @@ const updateQueuePositionsMock = mock.method(
 );
 
 const chatwoot = require('../lib/chatwoot.ts');
+const originalUpdateConversationCustomAttributes =
+  chatwoot.updateConversationCustomAttributes;
 const getConversationMock = mock.method(chatwoot, 'getConversation', async () => ({ id: 1, status: 'resolved', inbox_id: 1 }));
 const setConversationLabelsMock = mock.method(chatwoot, 'setConversationLabels', async () => {});
 const getConversationLabelsMock = mock.method(
@@ -176,6 +254,16 @@ const setAgentAvailabilityMock = mock.method(
   chatwoot,
   'setAgentAvailability',
   async () => {}
+);
+const updateConversationMock = mock.method(
+  chatwoot,
+  'updateConversation',
+  async () => ({})
+);
+const updateConversationCustomAttributesMock = mock.method(
+  chatwoot,
+  'updateConversationCustomAttributes',
+  async (...args) => originalUpdateConversationCustomAttributes(...args)
 );
 
 const fetchAttachmentImageModule = require('../lib/chatwoot/fetchAttachmentImage.ts');
@@ -309,6 +397,16 @@ test.after(async () => {
   } else {
     process.env.CHATWOOT_URL = originalChatwootUrl;
   }
+  if (originalInternalApiBaseUrl === undefined) {
+    delete process.env.INTERNAL_API_BASE_URL;
+  } else {
+    process.env.INTERNAL_API_BASE_URL = originalInternalApiBaseUrl;
+  }
+  if (originalNextPublicAppUrl === undefined) {
+    delete process.env.NEXT_PUBLIC_APP_URL;
+  } else {
+    process.env.NEXT_PUBLIC_APP_URL = originalNextPublicAppUrl;
+  }
 });
 
 function resetMocks() {
@@ -324,12 +422,21 @@ function resetMocks() {
   sendBotMessageMock.mock.mockImplementation(
     defaultSendBotMessageImplementation
   );
+  sendBotFormMessageMock.mock.resetCalls();
+  sendBotFormMessageMock.mock.mockImplementation(
+    defaultSendBotFormMessageImplementation
+  );
   nextMessageId = 0;
   agentListResponses.length = 0;
   fetchMock.mock.resetCalls();
   getProviderMock.mock.resetCalls();
   getProviderMock.mock.mockImplementation(() => providerFnMock);
   providerFnMock.mock.resetCalls();
+  submitOpenAIToolOutputsMock.mock.resetCalls();
+  submitOpenAIToolOutputsMock.mock.mockImplementation((...args) => {
+    void args;
+    return defaultSubmitToolOutputsImplementation();
+  });
   getNextAgentMock.mock.resetCalls();
   getNextAgentMock.mock.mockImplementation(async () => ({
     agent: null,
@@ -347,6 +454,12 @@ function resetMocks() {
   getConversationLabelsMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.resetCalls();
   setAgentAvailabilityMock.mock.mockImplementation(async () => {});
+  updateConversationMock.mock.resetCalls();
+  updateConversationMock.mock.mockImplementation(async () => ({}));
+  updateConversationCustomAttributesMock.mock.resetCalls();
+  updateConversationCustomAttributesMock.mock.mockImplementation(async (...args) =>
+    originalUpdateConversationCustomAttributes(...args)
+  );
   prisma.handoffRequest.findUnique.mock.resetCalls();
   prisma.conversationMessage.upsert.mock.resetCalls();
   prisma.conversationMessage.findMany.mock.resetCalls();
@@ -395,6 +508,21 @@ function resetMocks() {
   setChatwootQueuePersistenceEnabledForTesting(false);
   setChatwootQueueFailureReporter(undefined);
 }
+
+test('complaint form omits host brand placeholder defaults', () => {
+  const formDefaults = {
+    [ATTRIBUTE_KEYS.companyName]: HOST_COMPANY_NAME,
+  };
+
+  const formContent = buildComplaintFormContent(formDefaults);
+  const companyField = formContent.items.find(
+    (item) => item.name === ATTRIBUTE_KEYS.companyName
+  );
+
+  assert.ok(companyField, 'Company field should be present');
+  assert.strictEqual(companyField.default, undefined);
+  assert.strictEqual(companyField.placeholder, 'Company or organization');
+});
 
 async function tickAndFlush(ms = 0) {
   mock.timers.tick(ms);
@@ -2706,7 +2834,8 @@ test('chatwoot webhook merges referenced context with image insights', async () 
     body: JSON.stringify(payload),
   });
   const res = await webhookPost(req);
-  await res.json();
+  const rawBody = await res.text();
+  const body = rawBody ? JSON.parse(rawBody) : {};
 
   assert.strictEqual(res.status, 200);
   assert.strictEqual(runRelevanceGuardrailMock.mock.calls.length, 1);
@@ -3476,7 +3605,8 @@ test('chatwoot webhook set_reply_reference streaming controls quoting content at
       body: JSON.stringify(payload),
     });
     const res = await webhookPost(req);
-    await res.json();
+    const body = await res.json();
+    console.log('response body', body);
 
     assert.strictEqual(
       sendBotMessageMock.mock.calls.length,
@@ -3571,6 +3701,1215 @@ test('chatwoot webhook fallback keeps quoting inbound when set_reply_reference s
   const fallbackOptions = sendBotMessageMock.mock.calls[1].arguments[3];
   assert.deepStrictEqual(fallbackOptions, { private: false, inReplyTo: inboundId });
   resetMocks();
+});
+
+test('chatwoot webhook executes search_knowledge_base tool and forwards results', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  const originalModel = process.env.CHATWOOT_WEBHOOK_MODEL;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+  process.env.CHATWOOT_WEBHOOK_MODEL = 'gpt-4o';
+  try {
+    const responseId = 'resp-search-1';
+    const callId = 'call-search-1';
+    const sampleResults = [
+      {
+        text: 'IP65-rated cable catalog entry',
+        attributes: { filepath: 'docs/cables/ip65.md' },
+        score: 0.87,
+      },
+    ];
+    let observedSearchArgs;
+    searchKnowledgeBaseMock.mock.mockImplementationOnce(async (args) => {
+      observedSearchArgs = args;
+      return { results: sampleResults };
+    });
+
+    submitOpenAIToolOutputsMock.mock.mockImplementationOnce((response, outputs) => {
+      assert.strictEqual(response, responseId);
+      assert.ok(Array.isArray(outputs));
+      assert.strictEqual(outputs.length, 1);
+      const [firstOutput] = outputs;
+      assert.strictEqual(firstOutput.tool_call_id, callId);
+      const parsedOutput = JSON.parse(firstOutput.output);
+      assert.deepStrictEqual(parsedOutput, { results: sampleResults });
+      return (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: {
+            delta:
+              'Yes, we stock IP65-rated industrial cables. I can send a quote if needed.',
+          },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })();
+    });
+
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        const serializedArgs = JSON.stringify({
+          query: 'IP65 cable options',
+          queries: ['industrial cables', 'ip65 protection'],
+          limit: '3',
+          provider: 'docs',
+          threshold: '0.45',
+          topKOnly: 'true',
+        });
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'search_knowledge_base',
+              id: callId,
+              call_id: callId,
+              arguments: '',
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: {
+            item_id: callId,
+            delta: serializedArgs,
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: {
+            item_id: callId,
+            arguments: serializedArgs,
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'search_knowledge_base',
+              id: callId,
+              call_id: callId,
+              arguments: serializedArgs,
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+      })()
+    );
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 645,
+          message_type: 0,
+          content: 'Do you carry industrial cables rated IP65?',
+          account: { id: 55 },
+          conversation: {
+            id: 88,
+            inbox_id: 1,
+            status: 'resolved',
+            account_id: 55,
+          },
+        },
+      },
+    };
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const res = await webhookPost(req);
+    await res.json();
+
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(searchKnowledgeBaseMock.mock.calls.length, 1);
+    assert.deepStrictEqual(observedSearchArgs, {
+      query: 'IP65 cable options',
+      queries: ['industrial cables', 'ip65 protection'],
+      provider: 'docs',
+      limit: 3,
+      threshold: 0.45,
+      topKOnly: true,
+    });
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 1);
+    const fallbackCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === MESSAGE_FALLBACK_TEXT
+    );
+    assert.strictEqual(fallbackCalls.length, 0);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
+    if (originalModel === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_MODEL;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_MODEL = originalModel;
+    }
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook executes send_complaint_form tool and posts form payload', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+  try {
+    const responseId = 'resp-form-1';
+    const callId = 'call-form-1';
+    const formDefaults = {
+      customer_name: 'Unknown',
+      company_name: 'Globex Corporation',
+      company_location: 'Unknown',
+      contact: 'Customer',
+      complaint_type: 'Delayed Supply',
+      issue_description: 'Primary machine offline',
+    };
+    const formTitle = 'Customer complaint intake';
+    const expectedForm = buildComplaintFormContent(formDefaults, {
+      title: formTitle,
+    });
+    submitOpenAIToolOutputsMock.mock.mockImplementationOnce((response, outputs) => {
+      assert.strictEqual(response, responseId);
+      assert.ok(Array.isArray(outputs));
+      assert.strictEqual(outputs.length, 1);
+      const [firstOutput] = outputs;
+      assert.strictEqual(firstOutput.tool_call_id, callId);
+      const parsedOutput = JSON.parse(firstOutput.output);
+      assert.strictEqual(parsedOutput.status, 'sent');
+      assert.strictEqual(parsedOutput.form.fieldCount, expectedForm.items.length);
+      return (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: { delta: 'Complaint form dispatched.' },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })();
+    });
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: callId,
+              call_id: callId,
+              arguments: '',
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: {
+            item_id: callId,
+            delta: JSON.stringify({
+              defaults: formDefaults,
+              title: formTitle,
+            }),
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: {
+            item_id: callId,
+            arguments: JSON.stringify({
+              defaults: formDefaults,
+              title: formTitle,
+            }),
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: callId,
+              call_id: callId,
+              arguments: JSON.stringify({
+                defaults: formDefaults,
+                title: formTitle,
+              }),
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })()
+    );
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 501,
+          message_type: 0,
+          content: 'I need to file a complaint',
+          account: { id: 42 },
+          conversation: {
+            id: 77,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+          },
+        },
+      },
+    };
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const res = await webhookPost(req);
+    await res.json();
+
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 1);
+    const [accountArg, conversationArg, formArg] =
+      sendBotFormMessageMock.mock.calls[0].arguments;
+    assert.strictEqual(accountArg, 42);
+    assert.strictEqual(conversationArg, 77);
+    assert.deepStrictEqual(formArg, expectedForm);
+    const fieldByName = Object.fromEntries(
+      formArg.items.map((item) => [item.name, item])
+    );
+    assert.strictEqual(fieldByName.customer_name.default, undefined);
+    assert.strictEqual(fieldByName.company_name.default, 'Globex Corporation');
+    assert.strictEqual(fieldByName.company_location.default, undefined);
+    assert.strictEqual(fieldByName.contact.default, undefined);
+    assert.strictEqual(fieldByName.complaint_type.default, 'Delayed Supply');
+    assert.strictEqual(
+      fieldByName.issue_description.default,
+      'Primary machine offline'
+    );
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 1);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+    const reminder = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(reminder, COMPLAINT_FORM_REMINDER_TEXT);
+    const reply = sendBotMessageMock.mock.calls[1].arguments[2];
+    assert.strictEqual(reply, 'Complaint form dispatched.');
+    assert.notStrictEqual(reply, COMPLAINT_FORM_REMINDER_TEXT);
+    assert.notStrictEqual(reply, MESSAGE_FALLBACK_TEXT);
+    assert.strictEqual(updateConversationMock.mock.calls.length, 0);
+    assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 0);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
+    resetMocks();
+  }
+});
+
+test('submitChatwootComplaint rejects when internal API base URL is missing', async () => {
+  resetMocks();
+  const previousInternalApiBaseUrl = process.env.INTERNAL_API_BASE_URL;
+  const previousNextPublicAppUrl = process.env.NEXT_PUBLIC_APP_URL;
+  delete process.env.INTERNAL_API_BASE_URL;
+  delete process.env.NEXT_PUBLIC_APP_URL;
+
+  const args = {
+    [ATTRIBUTE_KEYS.customerName]: 'Test User',
+    [ATTRIBUTE_KEYS.companyName]: 'Example Corp',
+    [ATTRIBUTE_KEYS.companyLocation]: 'Accra',
+    [ATTRIBUTE_KEYS.contact]: 'test.user@example.com',
+    [ATTRIBUTE_KEYS.complaintType]: 'Delayed Supply',
+    [ATTRIBUTE_KEYS.issueDescription]: 'Order has been delayed for weeks.',
+  };
+
+  const fetchCallsBefore = fetchMock.mock.calls.length;
+
+  try {
+    await assert.rejects(
+      submitChatwootComplaint(args),
+      (error) => {
+        const message =
+          typeof error?.message === 'string'
+            ? error.message
+            : String(error ?? '');
+        assert.ok(
+          message.includes('INTERNAL_API_BASE_URL') ||
+            message.includes('NEXT_PUBLIC_APP_URL'),
+          `Expected missing base URL error message, received: ${message}`
+        );
+        return true;
+      }
+    );
+    assert.strictEqual(
+      fetchMock.mock.calls.length,
+      fetchCallsBefore,
+      'fetch should not be called when internal API base URL is missing'
+    );
+  } finally {
+    if (previousInternalApiBaseUrl === undefined) {
+      delete process.env.INTERNAL_API_BASE_URL;
+    } else {
+      process.env.INTERNAL_API_BASE_URL = previousInternalApiBaseUrl;
+    }
+    if (previousNextPublicAppUrl === undefined) {
+      delete process.env.NEXT_PUBLIC_APP_URL;
+    } else {
+      process.env.NEXT_PUBLIC_APP_URL = previousNextPublicAppUrl;
+    }
+    resetMocks();
+  }
+});
+
+test('submitChatwootComplaint falls back to internal API when Chatwoot context is unavailable', async () => {
+  resetMocks();
+
+  const args = {
+    [ATTRIBUTE_KEYS.customerName]: 'Fallback User',
+    [ATTRIBUTE_KEYS.companyName]: 'Fallback Corp',
+    [ATTRIBUTE_KEYS.companyLocation]: 'Tema',
+    [ATTRIBUTE_KEYS.contact]: 'fallback.user@example.com',
+    [ATTRIBUTE_KEYS.complaintType]: 'Delayed Quote',
+    [ATTRIBUTE_KEYS.issueDescription]: 'Still waiting on the official quote.',
+  };
+
+  const result = await submitChatwootComplaint(args);
+  assert.strictEqual(result?.status, 'submitted');
+  assert.ok(result?.complaint);
+  assert.deepStrictEqual(
+    result?.complaint?.custom_attributes,
+    args
+  );
+
+  const complaintCall = fetchMock.mock.calls.find((call) => {
+    const [callUrl] = call.arguments;
+    return typeof callUrl === 'string' && callUrl === complaintEndpointUrl;
+  });
+  assert.ok(complaintCall, 'expected fallback complaint API request');
+  assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 0);
+});
+
+test('chatwoot webhook executes create_complaint tool and posts complaint payload', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+  try {
+    const responseId = 'resp-complaint-1';
+    const callId = 'call-complaint-1';
+    const toolArgsObject = {
+      customer_name: 'Alice Smith',
+      company_name: 'Acme Industrial',
+      company_location: 'Tema',
+      contact: '[email protected]',
+      complaint_type: 'Delayed Supply',
+      issue_description:
+        'Shipment has not arrived after two weeks despite prior assurances.',
+    };
+    const toolArgs = JSON.stringify(toolArgsObject);
+
+    submitOpenAIToolOutputsMock.mock.mockImplementationOnce((response, outputs) => {
+      assert.strictEqual(response, responseId);
+      assert.ok(Array.isArray(outputs));
+      assert.strictEqual(outputs.length, 1);
+      const [firstOutput] = outputs;
+      assert.strictEqual(firstOutput.tool_call_id, callId);
+      const parsed = JSON.parse(firstOutput.output);
+      assert.strictEqual(parsed.status, 'submitted');
+      assert.ok(Array.isArray(parsed.complaint) || typeof parsed.complaint === 'object');
+      return (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: { delta: 'Complaint recorded successfully.' },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })();
+    });
+
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'create_complaint',
+              id: callId,
+              call_id: callId,
+              arguments: '',
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: { item_id: callId, delta: toolArgs, response_id: responseId },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: { item_id: callId, arguments: toolArgs, response_id: responseId },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'create_complaint',
+              id: callId,
+              call_id: callId,
+              arguments: toolArgs,
+              response_id: responseId,
+            },
+            response: { id: responseId },
+            response_id: responseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: responseId } };
+      })()
+    );
+
+    const payload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 777,
+          message_type: 0,
+          content: 'We submitted the form—can you log the complaint?',
+          account: { id: 99 },
+          conversation: {
+            id: 300,
+            inbox_id: 2,
+            status: 'resolved',
+            account_id: 99,
+          },
+        },
+      },
+    };
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const res = await webhookPost(req);
+    await res.json();
+
+    assert.strictEqual(res.status, 200);
+    const complaintCall = fetchMock.mock.calls.find((call) => {
+      const [callUrl] = call.arguments;
+      return typeof callUrl === 'string' && callUrl === complaintEndpointUrl;
+    });
+    assert.strictEqual(
+      complaintCall,
+      undefined,
+      'complaint submissions with account context should bypass the internal complaints API'
+    );
+    assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 1);
+    const updateArgs = updateConversationCustomAttributesMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(updateArgs.slice(0, 2), [99, 300]);
+    assert.deepStrictEqual(updateArgs[2], toolArgsObject);
+    const expectedCustomAttributesUrl = new URL(
+      '/api/v1/accounts/99/conversations/300/custom_attributes',
+      process.env.CHATWOOT_URL
+    ).toString();
+    const customAttributesCall = fetchMock.mock.calls.find((call) => {
+      const [callUrl] = call.arguments;
+      return typeof callUrl === 'string' && callUrl === expectedCustomAttributesUrl;
+    });
+    assert.ok(customAttributesCall, 'expected custom attributes API request for complaint submission');
+    const customAttributesInit = customAttributesCall.arguments?.[1] || {};
+    const customAttributesBody = customAttributesInit.body;
+    const recordedCustomAttributesBody =
+      typeof customAttributesBody === 'string'
+        ? JSON.parse(customAttributesBody)
+        : JSON.parse((customAttributesBody ?? '').toString() || '{}');
+    assert.deepStrictEqual(recordedCustomAttributesBody.custom_attributes, toolArgsObject);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const reply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(reply, 'Complaint recorded successfully.');
+    assert.notStrictEqual(reply, MESSAGE_FALLBACK_TEXT);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 1);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
+    resetMocks();
+  }
+});
+
+test('chatwoot webhook merges complaint form submissions and forwards summary to provider', async () => {
+  resetMocks();
+  try {
+    const existingAttributes = {
+      existing_flag: 'yes',
+      complaint_type: 'Other',
+    };
+    const submittedValues = [
+      {
+        name: 'customer_name',
+        label: 'Customer Name',
+        value: 'Alice Smith',
+      },
+      {
+        name: 'complaint_type',
+        label: 'Complaint Type',
+        value: 'Delayed Supply',
+      },
+      {
+        name: 'issue_description',
+        label: 'Issue Description',
+        value: 'Primary machine is offline',
+      },
+    ];
+    const expectedSummary =
+      'Form submission: Customer Name – Alice Smith; Complaint Type – Delayed Supply; Issue Description – Primary machine is offline';
+
+    const payload = {
+      event: 'message_updated',
+      data: {
+        event: 'message_updated',
+        message: {
+          id: 9001,
+          message_type: 0,
+          account_id: 77,
+          conversation_id: 555,
+          content_type: 'form',
+          content_attributes: {
+            submitted_values: submittedValues,
+          },
+        conversation: {
+          id: 555,
+          inbox_id: 7,
+          status: 'resolved',
+          account_id: 77,
+          custom_attributes: existingAttributes,
+        },
+        },
+      },
+    };
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    const res = await webhookPost(req);
+    await res.json();
+
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(updateConversationMock.mock.calls.length, 0);
+    assert.strictEqual(updateConversationCustomAttributesMock.mock.calls.length, 1);
+    const updateArgs = updateConversationCustomAttributesMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(updateArgs.slice(0, 2), [77, 555]);
+    const mergedAttributes = updateArgs[2];
+    assert.ok(mergedAttributes);
+    assert.strictEqual(mergedAttributes.customer_name, 'Alice Smith');
+    assert.strictEqual(mergedAttributes.complaint_type, 'Delayed Supply');
+    assert.strictEqual(
+      mergedAttributes.issue_description,
+      'Primary machine is offline'
+    );
+    assert.strictEqual(mergedAttributes.existing_flag, 'yes');
+    const expectedCustomAttributesUrl = new URL(
+      '/api/v1/accounts/77/conversations/555/custom_attributes',
+      process.env.CHATWOOT_URL
+    ).toString();
+    const customAttributesCall = fetchMock.mock.calls.find((call) => {
+      const [callUrl] = call.arguments;
+      return typeof callUrl === 'string' && callUrl === expectedCustomAttributesUrl;
+    });
+    assert.ok(customAttributesCall, 'expected custom attributes API request');
+    const callInit = customAttributesCall.arguments?.[1] || {};
+    assert.strictEqual((callInit.method ?? 'GET').toUpperCase(), 'POST');
+    const callBody = callInit.body;
+    const recordedBody =
+      typeof callBody === 'string'
+        ? JSON.parse(callBody)
+        : JSON.parse((callBody ?? '').toString() || '{}');
+    assert.deepStrictEqual(recordedBody.custom_attributes, mergedAttributes);
+    assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 0);
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 2);
+    const confirmationCall = sendBotMessageMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(confirmationCall.slice(0, 2), [77, 555]);
+    assert.strictEqual(
+      confirmationCall[2],
+      COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    const providerCall = sendBotMessageMock.mock.calls[1].arguments;
+    assert.deepStrictEqual(providerCall.slice(0, 2), [77, 555]);
+    const providerReply = providerCall[2];
+    assert.strictEqual(providerReply, 'hi');
+    assert.notStrictEqual(providerReply, MESSAGE_FALLBACK_TEXT);
+    assert.notStrictEqual(providerReply, COMPLAINT_FORM_REMINDER_TEXT);
+    assert.strictEqual(getConversationLabelsMock.mock.calls.length, 1);
+    assert.deepStrictEqual(getConversationLabelsMock.mock.calls[0].arguments.slice(0, 2), [77, 555]);
+    assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+    const labelCall = setConversationLabelsMock.mock.calls[0].arguments;
+    assert.deepStrictEqual(labelCall.slice(0, 2), [77, 555]);
+    assert.deepStrictEqual(labelCall[2], [CONVO_LABELS.complaint]);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+    const providerMessages = providerFnMock.mock.calls[0].arguments[0];
+    const summaryInPrompt = providerMessages.some((message) =>
+      message &&
+      message.role === 'user' &&
+      Array.isArray(message.content) &&
+      message.content.some((item) => item?.text?.includes(expectedSummary))
+    );
+    assert.ok(summaryInPrompt, 'expected provider payload to include form summary');
+  } finally {
+    resetMocks();
+  }
+});
+
+test('chatwoot complaint form submissions with manual providers still send a reply', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'anthropic';
+  try {
+    const reminderResponseId = 'resp-form-reminder';
+    const reminderCallId = 'call-form-reminder';
+    const formDefaults = {
+      complaint_type: 'Delayed Supply',
+      issue_description: 'Broken machinery',
+    };
+    const providerResponses = [
+      (async function* () {
+        const argumentPayload = {
+          defaults: formDefaults,
+          title: 'Customer complaint intake',
+        };
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: reminderCallId,
+              call_id: reminderCallId,
+              arguments: JSON.stringify(argumentPayload),
+              response_id: reminderResponseId,
+            },
+            response: { id: reminderResponseId },
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: {
+            item_id: reminderCallId,
+            delta: JSON.stringify(argumentPayload),
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: {
+            item_id: reminderCallId,
+            arguments: JSON.stringify(argumentPayload),
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: reminderCallId,
+              call_id: reminderCallId,
+              arguments: JSON.stringify(argumentPayload),
+              response_id: reminderResponseId,
+            },
+            response: { id: reminderResponseId },
+            response_id: reminderResponseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: reminderResponseId } };
+      })(),
+      (async function* () {
+        const submissionCallId = 'call-form-submission';
+        const submissionResponseId = 'resp-form-submission';
+        const submissionArgs = {};
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: submissionCallId,
+              call_id: submissionCallId,
+              arguments: JSON.stringify(submissionArgs),
+              response_id: submissionResponseId,
+            },
+            response: { id: submissionResponseId },
+            response_id: submissionResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: {
+            item_id: submissionCallId,
+            arguments: JSON.stringify(submissionArgs),
+            response_id: submissionResponseId,
+          },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: submissionCallId,
+              call_id: submissionCallId,
+              arguments: JSON.stringify(submissionArgs),
+              response_id: submissionResponseId,
+            },
+            response: { id: submissionResponseId },
+            response_id: submissionResponseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: submissionResponseId } };
+      })(),
+    ];
+    providerFnMock.mock.mockImplementation(() => {
+      const nextResponse = providerResponses.shift();
+      if (nextResponse) {
+        return nextResponse;
+      }
+      return (async function* () {
+        yield { event: 'response.output_text.delta', data: { delta: 'hi' } };
+      })();
+    });
+
+    const initialPayload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 7701,
+          message_type: 0,
+          content: 'I need help filing a complaint',
+          account: { id: 42 },
+          conversation: {
+            id: 7701,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+          },
+        },
+      },
+    };
+
+    const firstReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(initialPayload),
+    });
+    const firstRes = await webhookPost(firstReq);
+    await firstRes.json();
+    assert.strictEqual(firstRes.status, 200);
+    assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 1);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const reminderReply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(reminderReply, COMPLAINT_FORM_REMINDER_TEXT);
+    const reminderMessage = await sendBotMessageMock.mock.calls[0].result;
+    const formMessage = await sendBotFormMessageMock.mock.calls[0].result;
+    assert.ok(
+      reminderMessage.id < formMessage.id,
+      'expected reminder message to be sent before the form payload'
+    );
+    const reminderCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.strictEqual(reminderCalls.length, 1);
+
+    const submittedValues = [
+      {
+        name: 'customer_name',
+        label: 'Customer Name',
+        value: 'Alice Smith',
+      },
+      {
+        name: 'complaint_type',
+        label: 'Complaint Type',
+        value: 'Delayed Supply',
+      },
+      {
+        name: 'issue_description',
+        label: 'Issue Description',
+        value: 'Primary machine is offline',
+      },
+    ];
+    const formPayload = {
+      event: 'message_updated',
+      data: {
+        event: 'message_updated',
+        message: {
+          id: 7702,
+          message_type: 0,
+          account_id: 42,
+          conversation_id: 7701,
+          content_type: 'form',
+          content_attributes: {
+            submitted_values: submittedValues,
+          },
+          conversation: {
+            id: 7701,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+            custom_attributes: {},
+          },
+        },
+      },
+    };
+
+    const formReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(formPayload),
+    });
+    const formRes = await webhookPost(formReq);
+    await formRes.json();
+    assert.strictEqual(formRes.status, 200);
+    const confirmationCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.strictEqual(
+      confirmationCalls.length,
+      1,
+      'expected exactly one confirmation message for manual providers'
+    );
+    const confirmationCallIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.ok(
+      confirmationCallIndex >= 0,
+      'expected confirmation message to be sent'
+    );
+    const reminderCallIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.ok(
+      reminderCallIndex >= 0 && confirmationCallIndex > reminderCallIndex,
+      'expected confirmation to be sent after the reminder'
+    );
+    const submissionReply =
+      sendBotMessageMock.mock.calls[confirmationCallIndex].arguments[2];
+    assert.strictEqual(
+      submissionReply,
+      COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.notStrictEqual(submissionReply, COMPLAINT_FORM_REMINDER_TEXT);
+    const reminderCallsAfterSubmission = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.strictEqual(reminderCallsAfterSubmission.length, 1);
+    assert.strictEqual(providerFnMock.mock.calls.length, 2);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
+    resetMocks();
+  }
+});
+
+test('chatwoot complaint reminder is not repeated and follow-ups get provider replies', async () => {
+  resetMocks();
+  const originalProvider = process.env.CHATWOOT_WEBHOOK_PROVIDER;
+  process.env.CHATWOOT_WEBHOOK_PROVIDER = 'anthropic';
+  try {
+    const reminderResponseId = 'resp-followup-reminder';
+    const reminderCallId = 'call-followup-reminder';
+    const formDefaults = {
+      complaint_type: 'Delayed Supply',
+      issue_description: 'Broken machinery',
+    };
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        const argumentPayload = {
+          defaults: formDefaults,
+          title: 'Customer complaint intake',
+        };
+        yield {
+          event: 'response.output_item.added',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: reminderCallId,
+              call_id: reminderCallId,
+              arguments: JSON.stringify(argumentPayload),
+              response_id: reminderResponseId,
+            },
+            response: { id: reminderResponseId },
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.delta',
+          data: {
+            item_id: reminderCallId,
+            delta: JSON.stringify(argumentPayload),
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.function_call_arguments.done',
+          data: {
+            item_id: reminderCallId,
+            arguments: JSON.stringify(argumentPayload),
+            response_id: reminderResponseId,
+          },
+        };
+        yield {
+          event: 'response.output_item.done',
+          data: {
+            item: {
+              type: 'function_call',
+              name: 'send_complaint_form',
+              id: reminderCallId,
+              call_id: reminderCallId,
+              arguments: JSON.stringify(argumentPayload),
+              response_id: reminderResponseId,
+            },
+            response: { id: reminderResponseId },
+            response_id: reminderResponseId,
+          },
+        };
+        yield { event: 'response.completed', data: { id: reminderResponseId } };
+      })()
+    );
+
+    const initialPayload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 8801,
+          message_type: 0,
+          content: 'I need help filing a complaint',
+          account: { id: 42 },
+          conversation: {
+            id: 8801,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+          },
+        },
+      },
+    };
+
+    const firstReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(initialPayload),
+    });
+    const firstRes = await webhookPost(firstReq);
+    await firstRes.json();
+    assert.strictEqual(firstRes.status, 200);
+    assert.strictEqual(sendBotFormMessageMock.mock.calls.length, 1);
+    assert.strictEqual(sendBotMessageMock.mock.calls.length, 1);
+    const reminderReply = sendBotMessageMock.mock.calls[0].arguments[2];
+    assert.strictEqual(reminderReply, COMPLAINT_FORM_REMINDER_TEXT);
+    const reminderMessage = await sendBotMessageMock.mock.calls[0].result;
+    const formMessage = await sendBotFormMessageMock.mock.calls[0].result;
+    assert.ok(
+      reminderMessage.id < formMessage.id,
+      'expected reminder message to be sent before the form payload'
+    );
+    const reminderCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.strictEqual(reminderCalls.length, 1);
+    assert.strictEqual(providerFnMock.mock.calls.length, 1);
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
+
+    process.env.CHATWOOT_WEBHOOK_PROVIDER = 'openai';
+
+    const formResponseText = 'Thanks for sending the complaint details.';
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: { delta: formResponseText },
+        };
+        yield { event: 'response.completed', data: { id: 'resp-followup-form' } };
+      })()
+    );
+
+    const submittedValues = [
+      {
+        name: 'customer_name',
+        label: 'Customer Name',
+        value: 'Alice Smith',
+      },
+      {
+        name: 'complaint_type',
+        label: 'Complaint Type',
+        value: 'Delayed Supply',
+      },
+      {
+        name: 'issue_description',
+        label: 'Issue Description',
+        value: 'Primary machine is offline',
+      },
+    ];
+    const formPayload = {
+      event: 'message_updated',
+      data: {
+        event: 'message_updated',
+        message: {
+          id: 8802,
+          message_type: 0,
+          account_id: 42,
+          conversation_id: 8801,
+          content_type: 'form',
+          content_attributes: {
+            submitted_values: submittedValues,
+          },
+          conversation: {
+            id: 8801,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+            custom_attributes: {},
+          },
+        },
+      },
+    };
+
+    const formReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(formPayload),
+    });
+    const formRes = await webhookPost(formReq);
+    await formRes.json();
+    assert.strictEqual(formRes.status, 200);
+    const reminderCallIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    const confirmationCallIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.ok(
+      confirmationCallIndex >= 0,
+      'expected confirmation message to be sent during manual provider flow'
+    );
+    assert.ok(
+      reminderCallIndex >= 0 && confirmationCallIndex > reminderCallIndex,
+      'expected confirmation to follow the reminder'
+    );
+    const confirmationCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.strictEqual(confirmationCalls.length, 1);
+    const formReplyIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === formResponseText
+    );
+    assert.ok(
+      formReplyIndex >= 0 && formReplyIndex > confirmationCallIndex,
+      'expected provider reply to follow the confirmation'
+    );
+    const formReply = sendBotMessageMock.mock.calls[formReplyIndex].arguments[2];
+    assert.strictEqual(formReply, formResponseText);
+    assert.notStrictEqual(formReply, COMPLAINT_FORM_REMINDER_TEXT);
+    assert.strictEqual(providerFnMock.mock.calls.length, 2);
+
+    const followResponseText = 'We are reviewing your complaint.';
+    providerFnMock.mock.mockImplementationOnce(() =>
+      (async function* () {
+        yield {
+          event: 'response.output_text.delta',
+          data: { delta: followResponseText },
+        };
+        yield { event: 'response.completed', data: { id: 'resp-followup-final' } };
+      })()
+    );
+
+    const followUpPayload = {
+      event: 'message_created',
+      data: {
+        event: 'message_created',
+        message: {
+          id: 8803,
+          message_type: 0,
+          content: 'Any updates?',
+          account: { id: 42 },
+          conversation: {
+            id: 8801,
+            inbox_id: 5,
+            status: 'resolved',
+            account_id: 42,
+          },
+        },
+      },
+    };
+
+    const followReq = new Request('http://localhost', {
+      method: 'POST',
+      body: JSON.stringify(followUpPayload),
+    });
+    const followRes = await webhookPost(followReq);
+    const followBody = await followRes.json();
+    assert.strictEqual(followRes.status, 200);
+    assert.notStrictEqual(followBody?.status, 'fallback');
+    const followReplyCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === followResponseText
+    );
+    assert.strictEqual(followReplyCalls.length, 1);
+    const followReplyIndex = sendBotMessageMock.mock.calls.findIndex(
+      (call) => call.arguments[2] === followResponseText
+    );
+    assert.ok(
+      followReplyIndex > formReplyIndex,
+      'expected follow-up reply after form response'
+    );
+    const followReply = sendBotMessageMock.mock.calls[followReplyIndex].arguments[2];
+    assert.strictEqual(followReply, followResponseText);
+    assert.notStrictEqual(followReply, COMPLAINT_FORM_REMINDER_TEXT);
+    const totalReminderCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_REMINDER_TEXT
+    );
+    assert.strictEqual(totalReminderCalls.length, 1);
+    const totalConfirmationCalls = sendBotMessageMock.mock.calls.filter(
+      (call) => call.arguments[2] === COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+    );
+    assert.strictEqual(totalConfirmationCalls.length, 1);
+    assert.strictEqual(providerFnMock.mock.calls.length, 3);
+    assert.strictEqual(submitOpenAIToolOutputsMock.mock.calls.length, 0);
+  } finally {
+    if (originalProvider === undefined) {
+      delete process.env.CHATWOOT_WEBHOOK_PROVIDER;
+    } else {
+      process.env.CHATWOOT_WEBHOOK_PROVIDER = originalProvider;
+    }
+    resetMocks();
+  }
 });
 
 test('chatwoot webhook queues provider calls when concurrency exceeded', async () => {

@@ -1,7 +1,3 @@
-const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
-const CHATWOOT_TOKEN = process.env.CHATWOOT_APP_TOKEN || "";
-const CHATWOOT_TIMEOUT_MS = Number(process.env.CHATWOOT_TIMEOUT_MS || 15000);
-
 import type { AgentAvailability, AgentRecord } from "./agentRotation";
 
 const AVAILABILITY_VALUES: readonly AgentAvailability[] = [
@@ -10,19 +6,36 @@ const AVAILABILITY_VALUES: readonly AgentAvailability[] = [
   "offline",
 ] as const;
 
+function getChatwootConfig() {
+  const rawBaseUrl = process.env.CHATWOOT_URL || "";
+  const baseUrl = rawBaseUrl.replace(/\/$/, "");
+
+  if (!baseUrl) {
+    const error = new Error("CHATWOOT_URL is not configured; cannot issue Chatwoot request");
+    console.error("[chatwoot] missing base URL", { rawBaseUrl });
+    throw error;
+  }
+
+  const token = process.env.CHATWOOT_APP_TOKEN || "";
+  const timeoutMs = Number(process.env.CHATWOOT_TIMEOUT_MS || 15000);
+
+  return { baseUrl, token, timeoutMs };
+}
+
 async function chatwootFetch(
   path: string,
   init: RequestInit & { timeoutMs?: number; maxAttempts?: number } = {}
 ) {
-  const url = `${CHATWOOT_URL}${path}`;
+  const { baseUrl, token, timeoutMs: defaultTimeout } = getChatwootConfig();
+  const url = `${baseUrl}${path}`;
   const headers = {
-    "api_access_token": CHATWOOT_TOKEN,
+    "api_access_token": token,
     ...(init.headers || {}),
   } as Record<string, string>;
   const {
     method = "GET",
     body,
-    timeoutMs = CHATWOOT_TIMEOUT_MS,
+    timeoutMs = defaultTimeout,
     maxAttempts = 3,
     ...rest
   } = init as RequestInit & { timeoutMs?: number; maxAttempts?: number };
@@ -106,6 +119,21 @@ export async function updateConversation(
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
+    }
+  );
+}
+
+export async function updateConversationCustomAttributes(
+  accountId: number,
+  conversationId: number,
+  customAttributes: Record<string, unknown>
+) {
+  return chatwootFetch(
+    `/api/v1/accounts/${accountId}/conversations/${conversationId}/custom_attributes`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ custom_attributes: customAttributes }),
     }
   );
 }
@@ -267,7 +295,8 @@ export async function setAgentAvailability(
     });
   } catch (err) {
     if (err instanceof Error && err.message.includes("404")) {
-      const url = `${CHATWOOT_URL}${path}`;
+      const { baseUrl } = getChatwootConfig();
+      const url = `${baseUrl}${path}`;
       console.error("[chatwoot] setAgentAvailability 404", {
         url,
         body: { availability },
