@@ -2,6 +2,7 @@ import {
   CHATWOOT_COMPLAINT_TYPES,
   CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS,
 } from "@/config/chatwootAttributes";
+import { HOST_COMPANY_NAME } from "@/config/constants";
 
 export type ChatwootFormFieldType =
   | "text"
@@ -43,6 +44,8 @@ export type ChatwootComplaintFormDefaults = Partial<
   Record<ComplaintAttributeKey, string>
 >;
 
+const NORMALIZED_HOST_COMPANY_NAME = HOST_COMPANY_NAME.trim().toLowerCase();
+
 const PLACEHOLDER_SENTINEL_VALUES = new Set([
   "unknown",
   "customer",
@@ -59,6 +62,7 @@ const PLACEHOLDER_SENTINEL_VALUES = new Set([
   "not provided",
   "not specified",
   "-",
+  NORMALIZED_HOST_COMPANY_NAME,
 ]);
 
 interface PickDefaultOptions {

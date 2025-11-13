@@ -56,6 +56,10 @@ import {
   type GatherImageInsightsResult,
 } from "@/lib/chatwoot/imageInsights";
 import {
+  COMPLAINT_FORM_REMINDER_TEXT,
+  COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT,
+} from "@/lib/chatwoot/messages";
+import {
   recordReleaseFailure,
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
@@ -72,7 +76,10 @@ import {
   setChatwootJobRunner,
   setChatwootQueueFailureReporter,
 } from "@/lib/chatwoot/jobQueue";
-import { chatwootToolExecutors } from "@/lib/chatwoot/toolExecutors";
+import {
+  chatwootToolExecutors,
+  type ChatwootToolExecutionContext,
+} from "@/lib/chatwoot/toolExecutors";
 import {
   submitOpenAIToolOutputs,
   type ProviderEvent,
@@ -106,10 +113,6 @@ type ChatwootJobPhaseLog = {
 };
 
 const SKIP_FALLBACK_SYMBOL = Symbol("chatwootSkipFallback");
-const COMPLAINT_FORM_REMINDER_TEXT =
-  "I've sent the complaint intake form to you. Please let me know once it's completed.";
-const COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT =
-  "Thanks for submitting the complaint details. We'll review them and follow up shortly.";
 
 function markErrorToSkipFallback(error: unknown) {
   if (error && typeof error === "object") {
@@ -888,6 +891,7 @@ async function processChatwootWebhookJob(
   let sendFallback: () => Promise<void> = async () => {};
   let logAssistantResponse: (response: unknown, fallbackContent: string) => Promise<void>;
   let isFormSubmission = false;
+  let formSubmissionConfirmationSent = false;
   let formSubmissionSummary: string | undefined;
   let formSubmissionPromptAddition: ResponseMessage | undefined;
   let formSubmissionAttributes: Record<string, string> | undefined;
@@ -1059,6 +1063,38 @@ async function processChatwootWebhookJob(
             (conversation as any).custom_attributes = mergedAttributes;
           } else {
             conversation = { id: conversationId, custom_attributes: mergedAttributes } as Conversation;
+          }
+          try {
+            if (!formSubmissionConfirmationSent) {
+              await sendBotMessage(
+                accountId,
+                conversationId,
+                COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
+              );
+              formSubmissionConfirmationSent = true;
+            }
+          } catch (err) {
+            console.error("chatwoot send complaint confirmation error", err);
+          }
+          try {
+            const existingLabelsResponse = await getConversationLabels(
+              accountId,
+              conversationId
+            );
+            const existingLabels = Array.isArray(
+              (existingLabelsResponse as any)?.payload
+            )
+              ? (existingLabelsResponse as any).payload.filter(
+                  (label: unknown): label is string =>
+                    typeof label === "string" && label.trim().length > 0
+                )
+              : [];
+            const mergedLabels = Array.from(
+              new Set([...existingLabels, CONVO_LABELS.complaint])
+            );
+            await setConversationLabels(accountId, conversationId, mergedLabels);
+          } catch (err) {
+            console.error("chatwoot complaint label update error", err);
           }
         } catch (err) {
           console.error("chatwoot update conversation attributes error", err);
@@ -2342,6 +2378,7 @@ async function processChatwootWebhookJob(
           const functionCallStates = new Map<string, FunctionCallState>();
           let latestResponseId: string | undefined;
           let manualToolResponseText: string | undefined;
+          let toolExecutorHandledReply = false;
           let abortProviderStreaming = false;
 
           const updateLatestResponseId = (payload: unknown) => {
@@ -2602,11 +2639,21 @@ async function processChatwootWebhookJob(
                     const executor = chatwootToolExecutors[itemName];
                     if (executor) {
                       let toolResult: unknown;
+                      let toolHandledManualResponse = false;
                       try {
-                        toolResult = await executor(
-                          { accountId, conversationId, conversation, message },
-                          parsedArgs
+                        const toolContext: ChatwootToolExecutionContext = {
+                          accountId,
+                          conversationId,
+                          conversation,
+                          message,
+                        };
+                        toolResult = await executor(toolContext, parsedArgs);
+                        toolHandledManualResponse = Boolean(
+                          toolContext.manualResponseHandled
                         );
+                        if (toolHandledManualResponse) {
+                          toolExecutorHandledReply = true;
+                        }
                       } catch (error) {
                         console.error("chatwoot tool execution error", {
                           tool: itemName,
@@ -2657,7 +2704,11 @@ async function processChatwootWebhookJob(
                           ])
                         );
                       } else {
-                        if (!manualToolResponseText) {
+                        if (
+                          !manualToolResponseText &&
+                          !toolHandledManualResponse &&
+                          (!isFormSubmission || !formSubmissionConfirmationSent)
+                        ) {
                           manualToolResponseText = isFormSubmission
                             ? COMPLAINT_FORM_SUBMISSION_CONFIRMATION_TEXT
                             : COMPLAINT_FORM_REMINDER_TEXT;
@@ -2695,6 +2746,16 @@ async function processChatwootWebhookJob(
 
           if (!replyText && manualToolResponseText) {
             replyText = manualToolResponseText;
+          }
+          if (!replyText && toolExecutorHandledReply) {
+            return NextResponse.json({
+              status: "tool-handled",
+              accountId,
+              conversationId,
+              inboxId,
+              content,
+              mode,
+            });
           }
           } catch (err) {
             if (err instanceof ProviderRetryError) {
