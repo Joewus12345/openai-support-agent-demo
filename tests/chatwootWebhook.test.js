@@ -9,6 +9,7 @@ const { POST: complaintsPost } = require('../app/api/complaints/create/route.ts'
 const {
   CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS: ATTRIBUTE_KEYS,
 } = require('../config/chatwootAttributes.ts');
+const { HOST_COMPANY_NAME } = require('../config/constants.ts');
 const { submitChatwootComplaint } = require('../lib/chatwoot/complaintSubmission.ts');
 const {
   COMPLAINT_FORM_REMINDER_TEXT,
@@ -507,6 +508,21 @@ function resetMocks() {
   setChatwootQueuePersistenceEnabledForTesting(false);
   setChatwootQueueFailureReporter(undefined);
 }
+
+test('complaint form omits host brand placeholder defaults', () => {
+  const formDefaults = {
+    [ATTRIBUTE_KEYS.companyName]: HOST_COMPANY_NAME,
+  };
+
+  const formContent = buildComplaintFormContent(formDefaults);
+  const companyField = formContent.items.find(
+    (item) => item.name === ATTRIBUTE_KEYS.companyName
+  );
+
+  assert.ok(companyField, 'Company field should be present');
+  assert.strictEqual(companyField.default, undefined);
+  assert.strictEqual(companyField.placeholder, 'Company or organization');
+});
 
 async function tickAndFlush(ms = 0) {
   mock.timers.tick(ms);
