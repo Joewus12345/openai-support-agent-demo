@@ -27,11 +27,11 @@ export async function fileSearch({
   threshold,
   topKOnly,
 }: FileSearchParams) {
-  const max_results = limit ?? DEFAULT_SEARCH_LIMIT;
+  const searchLimit = limit ?? DEFAULT_SEARCH_LIMIT;
   if (provider?.includes("ollama")) {
     try {
       const results = await localVectorStore.search(query, {
-        limit: max_results,
+        limit: searchLimit,
         threshold: threshold ?? OLLAMA_SEARCH_THRESHOLD,
         topKOnly,
       });
@@ -53,7 +53,11 @@ export async function fileSearch({
           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           "OpenAI-Beta": "assistants=v2",
         },
-        body: JSON.stringify({ query, max_results }),
+        body: JSON.stringify({
+          query,
+          limit: searchLimit,
+          max_results: searchLimit,
+        }),
       }
     );
     if (!res.ok) {
