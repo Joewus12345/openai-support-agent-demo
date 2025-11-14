@@ -1157,14 +1157,16 @@ async function processChatwootWebhookJob(
           const kbLimitRaw = process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim();
           const kbLimit = kbLimitRaw ? Number(kbLimitRaw) : undefined;
           const imageModel = process.env.CHATWOOT_IMAGE_MODEL?.trim();
+          const imageAttachments = attachments.filter((attachment) => attachment.isImage);
           imageInsights = await gatherImageInsights({
-            attachments: attachments.filter((attachment) => attachment.isImage),
+            attachments: imageAttachments,
             userText: userInput,
             knowledgeBaseProvider: kbProvider,
             maxKnowledgeBaseResults: Number.isFinite(kbLimit) ? kbLimit : undefined,
             imageModel,
             imageOnly: imageOnlyMessage,
           });
+          const imageAttachmentCount = imageAttachments.length;
           logWithMetadata(
             "chatwoot image insight result",
             {
@@ -1175,8 +1177,21 @@ async function processChatwootWebhookJob(
                 : undefined,
               hasUserSupplement: Boolean(imageInsights?.userPromptSupplement),
               hasDeveloperNote: Boolean(imageInsights?.developerNote),
+              insightStatus: imageInsights ? "ok" : "missing",
+              imageAttachmentCount,
+              imageOnlyMessage,
             }
           );
+          if (!imageInsights) {
+            logWithMetadata(
+              "chatwoot image insight missing",
+              {
+                reason: "no_insight_payload",
+                imageAttachmentCount,
+                imageOnlyMessage,
+              }
+            );
+          }
           if (imageInsights?.description && !userInput.trim()) {
             userInput = imageInsights.description;
           }

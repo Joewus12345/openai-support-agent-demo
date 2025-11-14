@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { parse as partialJsonParse } from "partial-json";
 import { fetchAttachmentImage } from "@/lib/chatwoot/fetchAttachmentImage";
 import {
   searchKnowledgeBase,
@@ -300,6 +301,24 @@ function normalizeMatches(
   return matches;
 }
 
+function safeParseJson(text: unknown): any {
+  if (typeof text !== "string") {
+    return undefined;
+  }
+  try {
+    return JSON.parse(text);
+  } catch (firstError) {
+    try {
+      return partialJsonParse(text);
+    } catch (secondaryError) {
+      console.error("image insight json parse error", {
+        message: (firstError as Error | undefined)?.message,
+      });
+      return undefined;
+    }
+  }
+}
+
 function extractJsonContent(response: any): any {
   if (!response) {
     return undefined;
@@ -315,21 +334,17 @@ function extractJsonContent(response: any): any {
           return content.json;
         }
         if (typeof content.text === "string") {
-          try {
-            return JSON.parse(content.text);
-          } catch (err) {
-            void err;
+          const parsed = safeParseJson(content.text);
+          if (parsed && typeof parsed === "object") {
+            return parsed;
           }
         }
       }
     }
   }
-  if (typeof response.output_text === "string") {
-    try {
-      return JSON.parse(response.output_text);
-    } catch (err) {
-      void err;
-    }
+  const parsedOutputText = safeParseJson(response?.output_text);
+  if (parsedOutputText && typeof parsedOutputText === "object") {
+    return parsedOutputText;
   }
   return undefined;
 }
