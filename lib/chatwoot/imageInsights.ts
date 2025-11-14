@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { parse as partialJsonParse } from "partial-json";
 import { fetchAttachmentImage } from "@/lib/chatwoot/fetchAttachmentImage";
 import {
   searchKnowledgeBase,
@@ -45,6 +46,7 @@ export interface GatherImageInsightsResult {
   description?: string;
   queries?: string[];
   knowledgeBaseMatches?: ImageKnowledgeBaseMatch[];
+  followUpQuestions?: string[];
 }
 
 let sharedOpenAIClient: ImageInsightsClient | undefined;
@@ -185,6 +187,7 @@ function buildDeveloperNote(params: {
   matches?: ImageKnowledgeBaseMatch[];
   userText?: string;
   imageOnly?: boolean;
+  followUpQuestions?: string[];
 }): string | undefined {
   const {
     description,
@@ -194,6 +197,7 @@ function buildDeveloperNote(params: {
     matches,
     userText,
     imageOnly,
+    followUpQuestions,
   } = params;
 
   const lines: string[] = [];
@@ -209,6 +213,13 @@ function buildDeveloperNote(params: {
   }
   if (queries?.length) {
     lines.push(`- Suggested queries: ${queries.slice(0, 6).join(", ")}`);
+  }
+  if (followUpQuestions?.length) {
+    lines.push(
+      `- Suggested follow-up questions: ${followUpQuestions
+        .slice(0, 3)
+        .join(" | ")}`
+    );
   }
   if (typeof userText === "string" && userText.trim()) {
     lines.push(`- Customer text: ${truncate(userText.trim(), 160)}`);
@@ -300,6 +311,66 @@ function normalizeMatches(
   return matches;
 }
 
+function stripMarkdownCodeFence(text: string): string {
+  const trimmed = text.trim();
+  const fencePattern = /^```(?:[a-z0-9_-]+)?\s*\r?\n([\s\S]*?)\r?\n?```$/i;
+  const match = trimmed.match(fencePattern);
+  if (!match) {
+    return trimmed;
+  }
+  return match[1];
+}
+
+function safeParseJson(text: unknown): any {
+  if (typeof text !== "string") {
+    return undefined;
+  }
+
+  const attempts: string[] = [];
+  const trimmed = text.trim();
+  if (trimmed) {
+    attempts.push(trimmed);
+    const defenced = stripMarkdownCodeFence(trimmed).trim();
+    if (defenced && defenced !== trimmed) {
+      attempts.push(defenced);
+    }
+  }
+
+  let firstError: Error | undefined;
+  let secondaryError: Error | undefined;
+
+  for (const candidate of attempts) {
+    if (!candidate) {
+      continue;
+    }
+    try {
+      return JSON.parse(candidate);
+    } catch (jsonError) {
+      if (!firstError) {
+        firstError = jsonError as Error;
+      }
+      try {
+        return partialJsonParse(candidate);
+      } catch (partialError) {
+        if (!secondaryError) {
+          secondaryError = partialError as Error;
+        }
+      }
+    }
+  }
+
+  if (firstError || secondaryError) {
+    console.error("image insight json parse error", {
+      message: firstError?.message,
+      secondaryMessage: secondaryError?.message,
+    });
+  }
+
+  return undefined;
+}
+
+export const __testSafeParseJson = safeParseJson;
+
 function extractJsonContent(response: any): any {
   if (!response) {
     return undefined;
@@ -315,21 +386,17 @@ function extractJsonContent(response: any): any {
           return content.json;
         }
         if (typeof content.text === "string") {
-          try {
-            return JSON.parse(content.text);
-          } catch (err) {
-            void err;
+          const parsed = safeParseJson(content.text);
+          if (parsed && typeof parsed === "object") {
+            return parsed;
           }
         }
       }
     }
   }
-  if (typeof response.output_text === "string") {
-    try {
-      return JSON.parse(response.output_text);
-    } catch (err) {
-      void err;
-    }
+  const parsedOutputText = safeParseJson(response?.output_text);
+  if (parsedOutputText && typeof parsedOutputText === "object") {
+    return parsedOutputText;
   }
   return undefined;
 }
@@ -452,6 +519,13 @@ export async function gatherImageInsights({
         )
         .filter((value: string | undefined): value is string => !!value)
     : [];
+  const followUpQuestions = Array.isArray(parsedJson.follow_up_questions)
+    ? parsedJson.follow_up_questions
+        .map((value: unknown) =>
+          typeof value === "string" ? value.trim() : undefined
+        )
+        .filter((value: string | undefined): value is string => !!value)
+    : [];
 
   const limitedQueries = normalizeQueryLengths(
     [
@@ -493,6 +567,7 @@ export async function gatherImageInsights({
     matches: knowledgeBaseMatches,
     userText,
     imageOnly,
+    followUpQuestions,
   });
 
   const userPromptSupplement = buildUserSupplement(
@@ -507,5 +582,6 @@ export async function gatherImageInsights({
     description,
     queries: uniqueQueries,
     knowledgeBaseMatches,
+    followUpQuestions,
   };
 }

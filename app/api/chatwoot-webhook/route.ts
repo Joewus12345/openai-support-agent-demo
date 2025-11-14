@@ -612,6 +612,40 @@ function extractResponseMessageText(message: any): string {
   return "";
 }
 
+function truncateForLog(value: string | undefined, maxLength = 160): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  if (trimmed.length <= maxLength) {
+    return trimmed;
+  }
+  return `${trimmed.slice(0, maxLength)}…`;
+}
+
+function summarizeMessagesForLog(
+  entries: ResponseMessage[],
+  maxEntries = 5
+): Array<{ role: string; text?: string; hasImages?: boolean }> {
+  return entries.slice(0, maxEntries).map((entry) => {
+    const textPreview = truncateForLog(extractResponseMessageText(entry));
+    const hasImages = Array.isArray((entry as any)?.content)
+      ? (entry as any).content.some(
+          (item: unknown) =>
+            item && typeof item === "object" && (item as any).type === "input_image"
+        )
+      : undefined;
+    return {
+      role: entry.role,
+      text: textPreview,
+      hasImages,
+    };
+  });
+}
+
 function formatQuoteTimestamp(date?: Date): string {
   if (!date || !(date instanceof Date) || Number.isNaN(date.getTime())) {
     return "unknown-date";
@@ -896,6 +930,15 @@ async function processChatwootWebhookJob(
   let formSubmissionPromptAddition: ResponseMessage | undefined;
   let formSubmissionAttributes: Record<string, string> | undefined;
   let normalizedFormSubmissionValues: NormalizedFormSubmissionValue[] = [];
+  const logWithMetadata = (label: string, details: Record<string, unknown>) => {
+    console.log(label, {
+      jobId: options.jobId ?? null,
+      accountId,
+      conversationId,
+      messageId: normalizedMessageId ?? messageId ?? null,
+      ...details,
+    });
+  };
   try {
     const endPayloadNormalization = timer.startPhase("payload-normalization");
     try {
@@ -1114,24 +1157,54 @@ async function processChatwootWebhookJob(
           const kbLimitRaw = process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim();
           const kbLimit = kbLimitRaw ? Number(kbLimitRaw) : undefined;
           const imageModel = process.env.CHATWOOT_IMAGE_MODEL?.trim();
+          const imageAttachments = attachments.filter((attachment) => attachment.isImage);
           imageInsights = await gatherImageInsights({
-            attachments: attachments.filter((attachment) => attachment.isImage),
+            attachments: imageAttachments,
             userText: userInput,
             knowledgeBaseProvider: kbProvider,
             maxKnowledgeBaseResults: Number.isFinite(kbLimit) ? kbLimit : undefined,
             imageModel,
             imageOnly: imageOnlyMessage,
           });
+          const imageAttachmentCount = imageAttachments.length;
+          logWithMetadata(
+            "chatwoot image insight result",
+            {
+              hasInsights: Boolean(imageInsights),
+              description: truncateForLog(imageInsights?.description),
+              queries: Array.isArray(imageInsights?.queries)
+                ? imageInsights.queries.slice(0, 6).map((entry) => truncateForLog(entry, 80))
+                : undefined,
+              hasUserSupplement: Boolean(imageInsights?.userPromptSupplement),
+              hasDeveloperNote: Boolean(imageInsights?.developerNote),
+              insightStatus: imageInsights ? "ok" : "missing",
+              imageAttachmentCount,
+              imageOnlyMessage,
+              followUpCount: imageInsights?.followUpQuestions?.length ?? 0,
+            }
+          );
+          if (!imageInsights) {
+            logWithMetadata(
+              "chatwoot image insight missing",
+              {
+                reason: "no_insight_payload",
+                imageAttachmentCount,
+                imageOnlyMessage,
+              }
+            );
+          }
           if (imageInsights?.description && !userInput.trim()) {
             userInput = imageInsights.description;
           }
           if (imageInsights?.queries?.length) {
-            console.log("Image insight queries", {
-              accountId,
-              conversationId,
-              messageId: normalizedMessageId ?? messageId ?? null,
-              queries: imageInsights.queries.slice(0, 6),
-            });
+            logWithMetadata(
+              "chatwoot image insight queries",
+              {
+                queries: imageInsights.queries
+                  .slice(0, 6)
+                  .map((entry) => truncateForLog(entry, 80)),
+              }
+            );
           }
         } catch (err) {
           console.error("image insights pipeline error", err);
@@ -1226,8 +1299,15 @@ async function processChatwootWebhookJob(
           if (enrichedContent) {
             enrichedContent = `${enrichedContent}\n\n${attachmentNote}`;
           }
+          logWithMetadata(
+            "chatwoot enrichment attachment_note",
+            {
+              attachmentPreview: truncateForLog(attachmentNote),
+              enrichedPreview: truncateForLog(enrichedContent ?? userInput),
+            }
+          );
         }
-  
+
         if (imageInsights?.userPromptSupplement) {
           const supplement = imageInsights.userPromptSupplement;
           if (enrichedContent) {
@@ -1239,9 +1319,47 @@ async function processChatwootWebhookJob(
               ? `${userInput}\n\n${supplement}`
               : supplement;
           }
+          logWithMetadata(
+            "chatwoot enrichment supplement",
+            {
+              supplementPreview: truncateForLog(supplement),
+              enrichedPreview: truncateForLog(enrichedContent ?? userInput),
+            }
+          );
         }
-  
+
+        if (imageInsights?.followUpQuestions?.length) {
+          const followUpBlock = [
+            "Suggested follow-up questions:",
+            ...imageInsights.followUpQuestions
+              .slice(0, 3)
+              .map((question, index) => `${index + 1}. ${question}`),
+          ].join("\n");
+
+          if (enrichedContent) {
+            if (!enrichedContent.includes(followUpBlock)) {
+              enrichedContent = `${enrichedContent}\n\n${followUpBlock}`;
+            }
+          } else {
+            enrichedContent = userInput
+              ? `${userInput}\n\n${followUpBlock}`
+              : followUpBlock;
+          }
+
+          logWithMetadata("chatwoot enrichment follow_ups", {
+            followUpPreview: truncateForLog(followUpBlock),
+            enrichedPreview: truncateForLog(enrichedContent ?? userInput),
+          });
+        }
+
         storedContent = enrichedContent ?? userInput;
+        logWithMetadata(
+          "chatwoot enrichment stored_content",
+          {
+            source: enrichedContent ? "enriched" : "user_input",
+            storedPreview: truncateForLog(storedContent),
+          }
+        );
   
         if (
           messageId !== undefined &&
@@ -2090,6 +2208,26 @@ async function processChatwootWebhookJob(
       try {
         try {
           const guardrailUserInput = enrichedContent ?? userInput;
+          const developerEntriesForLog = promptHistory
+            .filter((entry) => entry.role === "developer")
+            .slice(0, 3);
+          const recentHistoryEntriesForLog = promptHistory
+            .filter((entry) => entry.role !== "developer")
+            .slice(-3);
+          logWithMetadata(
+            "chatwoot guardrail context",
+            {
+              guardrailUserInput: truncateForLog(guardrailUserInput),
+              developerEntries: summarizeMessagesForLog(
+                developerEntriesForLog,
+                developerEntriesForLog.length
+              ),
+              recentHistory: summarizeMessagesForLog(
+                recentHistoryEntriesForLog,
+                recentHistoryEntriesForLog.length
+              ),
+            }
+          );
           let relevancePromise:
             | Promise<{
                 tripwireTriggered: boolean;
@@ -2273,6 +2411,21 @@ async function processChatwootWebhookJob(
         const endProviderExecution = timer.startPhase("provider-execution");
         try {
           try {
+            const providerDeveloperEntries = promptHistory
+              .filter((entry) => entry.role === "developer")
+              .slice(0, 5);
+            const providerHistoryPreview = promptHistory.slice(-5);
+            logWithMetadata("chatwoot provider context pretrim", {
+              developerEntries: summarizeMessagesForLog(
+                providerDeveloperEntries,
+                providerDeveloperEntries.length
+              ),
+              historyPreview: summarizeMessagesForLog(
+                providerHistoryPreview,
+                providerHistoryPreview.length
+              ),
+              historyCount: promptHistory.length,
+            });
             const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
           const synopsisMessages = conversationSynopsis
             ? [toResponseMessage("developer", conversationSynopsis)]
@@ -2314,9 +2467,24 @@ async function processChatwootWebhookJob(
               providerModelName as TiktokenModel
             );
           }
-  
+
           promptHistory = trimmedHistory;
-  
+          const finalDeveloperEntries = promptHistory
+            .filter((entry) => entry.role === "developer")
+            .slice(0, 5);
+          const finalHistoryPreview = promptHistory.slice(-5);
+          logWithMetadata("chatwoot provider context final", {
+            developerEntries: summarizeMessagesForLog(
+              finalDeveloperEntries,
+              finalDeveloperEntries.length
+            ),
+            historyPreview: summarizeMessagesForLog(
+              finalHistoryPreview,
+              finalHistoryPreview.length
+            ),
+            historyCount: promptHistory.length,
+          });
+
           const hasInvalidImageUrl = providerMessages.some((entry) =>
             Array.isArray((entry as any)?.content) &&
             (entry as any).content.some((item: any) => {
