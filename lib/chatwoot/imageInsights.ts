@@ -311,24 +311,65 @@ function normalizeMatches(
   return matches;
 }
 
+function stripMarkdownCodeFence(text: string): string {
+  const trimmed = text.trim();
+  const fencePattern = /^```(?:[a-z0-9_-]+)?\s*\r?\n([\s\S]*?)\r?\n?```$/i;
+  const match = trimmed.match(fencePattern);
+  if (!match) {
+    return trimmed;
+  }
+  return match[1];
+}
+
 function safeParseJson(text: unknown): any {
   if (typeof text !== "string") {
     return undefined;
   }
-  try {
-    return JSON.parse(text);
-  } catch (firstError) {
-    try {
-      return partialJsonParse(text);
-    } catch (secondaryError) {
-      console.error("image insight json parse error", {
-        message: (firstError as Error | undefined)?.message,
-        secondaryMessage: (secondaryError as Error | undefined)?.message,
-      });
-      return undefined;
+
+  const attempts: string[] = [];
+  const trimmed = text.trim();
+  if (trimmed) {
+    attempts.push(trimmed);
+    const defenced = stripMarkdownCodeFence(trimmed).trim();
+    if (defenced && defenced !== trimmed) {
+      attempts.push(defenced);
     }
   }
+
+  let firstError: Error | undefined;
+  let secondaryError: Error | undefined;
+
+  for (const candidate of attempts) {
+    if (!candidate) {
+      continue;
+    }
+    try {
+      return JSON.parse(candidate);
+    } catch (jsonError) {
+      if (!firstError) {
+        firstError = jsonError as Error;
+      }
+      try {
+        return partialJsonParse(candidate);
+      } catch (partialError) {
+        if (!secondaryError) {
+          secondaryError = partialError as Error;
+        }
+      }
+    }
+  }
+
+  if (firstError || secondaryError) {
+    console.error("image insight json parse error", {
+      message: firstError?.message,
+      secondaryMessage: secondaryError?.message,
+    });
+  }
+
+  return undefined;
 }
+
+export const __testSafeParseJson = safeParseJson;
 
 function extractJsonContent(response: any): any {
   if (!response) {
