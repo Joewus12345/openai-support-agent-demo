@@ -46,6 +46,7 @@ export interface GatherImageInsightsResult {
   description?: string;
   queries?: string[];
   knowledgeBaseMatches?: ImageKnowledgeBaseMatch[];
+  followUpQuestions?: string[];
 }
 
 let sharedOpenAIClient: ImageInsightsClient | undefined;
@@ -186,6 +187,7 @@ function buildDeveloperNote(params: {
   matches?: ImageKnowledgeBaseMatch[];
   userText?: string;
   imageOnly?: boolean;
+  followUpQuestions?: string[];
 }): string | undefined {
   const {
     description,
@@ -195,6 +197,7 @@ function buildDeveloperNote(params: {
     matches,
     userText,
     imageOnly,
+    followUpQuestions,
   } = params;
 
   const lines: string[] = [];
@@ -210,6 +213,13 @@ function buildDeveloperNote(params: {
   }
   if (queries?.length) {
     lines.push(`- Suggested queries: ${queries.slice(0, 6).join(", ")}`);
+  }
+  if (followUpQuestions?.length) {
+    lines.push(
+      `- Suggested follow-up questions: ${followUpQuestions
+        .slice(0, 3)
+        .join(" | ")}`
+    );
   }
   if (typeof userText === "string" && userText.trim()) {
     lines.push(`- Customer text: ${truncate(userText.trim(), 160)}`);
@@ -313,6 +323,7 @@ function safeParseJson(text: unknown): any {
     } catch (secondaryError) {
       console.error("image insight json parse error", {
         message: (firstError as Error | undefined)?.message,
+        secondaryMessage: (secondaryError as Error | undefined)?.message,
       });
       return undefined;
     }
@@ -467,6 +478,13 @@ export async function gatherImageInsights({
         )
         .filter((value: string | undefined): value is string => !!value)
     : [];
+  const followUpQuestions = Array.isArray(parsedJson.follow_up_questions)
+    ? parsedJson.follow_up_questions
+        .map((value: unknown) =>
+          typeof value === "string" ? value.trim() : undefined
+        )
+        .filter((value: string | undefined): value is string => !!value)
+    : [];
 
   const limitedQueries = normalizeQueryLengths(
     [
@@ -508,6 +526,7 @@ export async function gatherImageInsights({
     matches: knowledgeBaseMatches,
     userText,
     imageOnly,
+    followUpQuestions,
   });
 
   const userPromptSupplement = buildUserSupplement(
@@ -522,5 +541,6 @@ export async function gatherImageInsights({
     description,
     queries: uniqueQueries,
     knowledgeBaseMatches,
+    followUpQuestions,
   };
 }

@@ -1180,6 +1180,7 @@ async function processChatwootWebhookJob(
               insightStatus: imageInsights ? "ok" : "missing",
               imageAttachmentCount,
               imageOnlyMessage,
+              followUpCount: imageInsights?.followUpQuestions?.length ?? 0,
             }
           );
           if (!imageInsights) {
@@ -1325,6 +1326,30 @@ async function processChatwootWebhookJob(
               enrichedPreview: truncateForLog(enrichedContent ?? userInput),
             }
           );
+        }
+
+        if (imageInsights?.followUpQuestions?.length) {
+          const followUpBlock = [
+            "Suggested follow-up questions:",
+            ...imageInsights.followUpQuestions
+              .slice(0, 3)
+              .map((question, index) => `${index + 1}. ${question}`),
+          ].join("\n");
+
+          if (enrichedContent) {
+            if (!enrichedContent.includes(followUpBlock)) {
+              enrichedContent = `${enrichedContent}\n\n${followUpBlock}`;
+            }
+          } else {
+            enrichedContent = userInput
+              ? `${userInput}\n\n${followUpBlock}`
+              : followUpBlock;
+          }
+
+          logWithMetadata("chatwoot enrichment follow_ups", {
+            followUpPreview: truncateForLog(followUpBlock),
+            enrichedPreview: truncateForLog(enrichedContent ?? userInput),
+          });
         }
 
         storedContent = enrichedContent ?? userInput;
