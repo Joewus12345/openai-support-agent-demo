@@ -44,6 +44,16 @@ export async function fileSearch({
     }
   }
   try {
+    const includeLimit = process.env.OPENAI_VECTOR_STORE_INCLUDE_LIMIT === "true";
+    const requestBody: Record<string, unknown> = {
+      query,
+      max_results: searchLimit,
+    };
+
+    if (includeLimit) {
+      requestBody.limit = searchLimit;
+    }
+
     const res = await fetch(
       `https://api.openai.com/v1/vector_stores/${VECTOR_STORE_ID}/search`,
       {
@@ -53,11 +63,7 @@ export async function fileSearch({
           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           "OpenAI-Beta": "assistants=v2",
         },
-        body: JSON.stringify({
-          query,
-          limit: searchLimit,
-          max_results: searchLimit,
-        }),
+        body: JSON.stringify(requestBody),
       }
     );
     if (!res.ok) {

@@ -15,7 +15,7 @@ function makeResponse(body, status = 200) {
   });
 }
 
-test('fileSearch sends limit when querying OpenAI vector store', async () => {
+test('fileSearch sends max_results when querying OpenAI vector store', async () => {
   const fetchCalls = [];
   const fetchMock = mock.method(global, 'fetch', async (url, init = {}) => {
     fetchCalls.push({ url, init });
@@ -34,8 +34,8 @@ test('fileSearch sends limit when querying OpenAI vector store', async () => {
     const [{ init }] = fetchCalls;
     assert.ok(init);
     const body = JSON.parse(init.body);
-    assert.strictEqual(body.limit, 6);
     assert.strictEqual(body.max_results, 6);
+    assert.ok(!('limit' in body));
   } finally {
     fetchMock.mock.restore();
   }
@@ -52,9 +52,35 @@ test('fileSearch defaults limit when none specified', async () => {
     await fileSearch({ query: 'catalog cable' });
     assert.strictEqual(fetchCalls.length, 1);
     const body = JSON.parse(fetchCalls[0].init.body);
-    assert.strictEqual(body.limit, 10);
     assert.strictEqual(body.max_results, 10);
+    assert.ok(!('limit' in body));
   } finally {
+    fetchMock.mock.restore();
+  }
+});
+
+test('fileSearch can include limit when explicitly enabled', async () => {
+  const fetchCalls = [];
+  const fetchMock = mock.method(global, 'fetch', async (url, init = {}) => {
+    fetchCalls.push({ url, init });
+    return makeResponse({ results: [] });
+  });
+
+  const originalFlag = process.env.OPENAI_VECTOR_STORE_INCLUDE_LIMIT;
+  process.env.OPENAI_VECTOR_STORE_INCLUDE_LIMIT = 'true';
+
+  try {
+    await fileSearch({ query: 'cable specs', limit: 4 });
+    assert.strictEqual(fetchCalls.length, 1);
+    const body = JSON.parse(fetchCalls[0].init.body);
+    assert.strictEqual(body.max_results, 4);
+    assert.strictEqual(body.limit, 4);
+  } finally {
+    if (originalFlag === undefined) {
+      delete process.env.OPENAI_VECTOR_STORE_INCLUDE_LIMIT;
+    } else {
+      process.env.OPENAI_VECTOR_STORE_INCLUDE_LIMIT = originalFlag;
+    }
     fetchMock.mock.restore();
   }
 });
