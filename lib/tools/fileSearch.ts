@@ -44,32 +44,82 @@ export async function fileSearch({
     }
   }
   try {
-    const includeLimit = process.env.OPENAI_VECTOR_STORE_INCLUDE_LIMIT === "true";
-    const requestBody: Record<string, unknown> = {
-      query,
-      max_results: searchLimit,
+    const endpoint = `https://api.openai.com/v1/vector_stores/${VECTOR_STORE_ID}/search`;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      "OpenAI-Beta": "assistants=v2",
     };
 
-    if (includeLimit) {
-      requestBody.limit = searchLimit;
+    const performSearch = async (
+      body: Record<string, unknown>,
+      context: Record<string, unknown>
+    ) => {
+      console.info("OpenAI file search request", context);
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body),
+      });
+
+      if (res.ok) {
+        console.info("OpenAI file search succeeded", context);
+        return { data: await res.json() } as const;
+      }
+
+      const errorText = await res.text();
+      console.warn("OpenAI file search failed", {
+        ...context,
+        status: res.status,
+        error: errorText,
+      });
+
+      return { error: errorText, status: res.status } as const;
+    };
+
+    const initialBody: Record<string, unknown> = { query };
+    const initialContext = {
+      attempt: "initial",
+      bodyKeys: Object.keys(initialBody),
+    };
+    const initialResult = await performSearch(initialBody, initialContext);
+
+    if ("data" in initialResult) {
+      return initialResult.data;
     }
 
-    const res = await fetch(
-      `https://api.openai.com/v1/vector_stores/${VECTOR_STORE_ID}/search`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-          "OpenAI-Beta": "assistants=v2",
-        },
-        body: JSON.stringify(requestBody),
-      }
-    );
-    if (!res.ok) {
-      return { error: await res.text() };
+    if (initialResult.status !== 400) {
+      return { error: initialResult.error };
     }
-    return await res.json();
+
+    const errorMessage = initialResult.error.toLowerCase();
+    let retryField: "limit" | "max_results" | undefined;
+    if (errorMessage.includes("max_results")) {
+      retryField = "max_results";
+    } else if (errorMessage.includes("limit")) {
+      retryField = "limit";
+    }
+
+    if (!retryField) {
+      return { error: initialResult.error };
+    }
+
+    const retryBody: Record<string, unknown> = { query };
+    retryBody[retryField] = searchLimit;
+
+    const retryContext = {
+      attempt: "retry",
+      bodyKeys: Object.keys(retryBody),
+      field: retryField,
+    };
+
+    const retryResult = await performSearch(retryBody, retryContext);
+
+    if ("data" in retryResult) {
+      return retryResult.data;
+    }
+
+    return { error: retryResult.error };
   } catch (error) {
     console.error("Error searching files:", error);
     return {
