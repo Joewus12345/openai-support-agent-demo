@@ -27,6 +27,82 @@ import { notifyHandoffIssue } from "@/lib/friendlyErrors";
 import type { Conversation } from "@/types/chatwoot";
 import { storeBotMessage } from "@/lib/storeBotMessage";
 
+const HANDOFF_STATUS_LABEL_SET = new Set<string>(HANDOFF_STATUS_LABELS);
+
+type QueueRequest = NonNullable<Awaited<ReturnType<typeof dequeueRequest>>>;
+
+type QueueRequestWithLabels = QueueRequest & {
+  labels?: unknown;
+  label_list?: unknown;
+  conversation?: { label_list?: unknown } | null;
+};
+
+function normalizeLabelArray(labels: unknown): string[] {
+  if (!labels) {
+    return [];
+  }
+
+  if (Array.isArray(labels)) {
+    return labels
+      .filter((label): label is string => typeof label === "string")
+      .map((label) => label.trim())
+      .filter((label) => label.length > 0);
+  }
+
+  if (typeof labels === "string") {
+    return labels
+      .split(",")
+      .map((label) => label.trim())
+      .filter((label) => label.length > 0);
+  }
+
+  return [];
+}
+
+function dedupeLabels(labels: string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const label of labels) {
+    if (seen.has(label)) {
+      continue;
+    }
+    seen.add(label);
+    result.push(label);
+  }
+  return result;
+}
+
+async function buildAssignmentLabels(
+  accountId: number,
+  request: QueueRequest
+): Promise<string[]> {
+  const requestWithLabels = request as QueueRequestWithLabels;
+  const candidates = [
+    normalizeLabelArray(requestWithLabels.labels),
+    normalizeLabelArray(requestWithLabels.label_list),
+    normalizeLabelArray(requestWithLabels.conversation?.label_list),
+  ];
+  let existingLabels = candidates.find((labels) => labels.length > 0) ?? [];
+
+  if (!existingLabels.length) {
+    try {
+      const current = await getConversationLabels(
+        accountId,
+        request.conversationId
+      );
+      existingLabels = normalizeLabelArray((current as any)?.payload);
+    } catch (err) {
+      console.error("releaseAgent merge labels fetch error", err);
+    }
+  }
+
+  const preserved = existingLabels.filter(
+    (label) => !HANDOFF_STATUS_LABEL_SET.has(label)
+  );
+
+  return dedupeLabels([...preserved, CONVO_LABELS.assigned]);
+}
+
 const BUSY_AGENT_MESSAGE =
   "All human agents are currently busy. Please wait for the next available agent.";
 
@@ -49,12 +125,10 @@ export async function releaseAgent(
   let resolveError: unknown;
   try {
     const current = await getConversationLabels(accountId, conversationId);
-    const statusLabelSet = new Set<string>(HANDOFF_STATUS_LABELS);
-    const labels = Array.isArray((current as any)?.payload)
-      ? (current as any).payload.filter(
-          (label: string) => !statusLabelSet.has(label)
-        )
-      : [];
+    const existingLabels = normalizeLabelArray((current as any)?.payload);
+    const labels = existingLabels.filter(
+      (label) => !HANDOFF_STATUS_LABEL_SET.has(label)
+    );
     await setConversationLabels(accountId, conversationId, labels);
   } catch (err) {
     console.error("remove assigned label error", err);
@@ -153,9 +227,12 @@ export async function releaseAgent(
       }
       if (request) {
         try {
-          await setConversationLabels(accountId, request.conversationId, [
-            CONVO_LABELS.assigned,
-          ]);
+          const labels = await buildAssignmentLabels(accountId, request);
+          await setConversationLabels(
+            accountId,
+            request.conversationId,
+            labels
+          );
         } catch (err) {
           console.error("set assigned label error", err);
         }

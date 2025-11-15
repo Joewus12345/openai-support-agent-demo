@@ -151,6 +151,42 @@ test('releaseAgent preserves non-status labels when clearing handoff labels', as
   ]);
 });
 
+test('releaseAgent preserves queued conversation labels when assigning next request', async () => {
+  chatwoot.setConversationLabels.mock.resetCalls();
+  chatwoot.getConversationLabels.mock.resetCalls();
+  chatwoot.getConversationLabels.mock.mockImplementationOnce(async () => ({
+    payload: [CONVO_LABELS.waiting],
+  }));
+
+  dequeueRequestMock.mock.mockImplementationOnce(async () => ({
+    conversationId: queuedConversationId,
+    conversationKey: `chatwoot:${accountId}:${inboxId}:${queuedConversationId}`,
+    accountId,
+    inboxId,
+    requestedAt: new Date(),
+    status: 'pending',
+    agentId: null,
+    lastPositionNotified: null,
+    labels: [CONVO_LABELS.complaint, CONVO_LABELS.waiting],
+  }));
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  const assignmentCall = chatwoot.setConversationLabels.mock.calls.find(
+    (call) => call.arguments?.[1] === queuedConversationId
+  );
+  assert.ok(assignmentCall, 'expected labels to be set for queued conversation');
+  assert.deepStrictEqual(assignmentCall.arguments, [
+    accountId,
+    queuedConversationId,
+    [CONVO_LABELS.complaint, CONVO_LABELS.assigned],
+  ]);
+  assert.strictEqual(chatwoot.getConversationLabels.mock.calls.length, 1);
+});
+
 let status = 'resolved';
 
 let nextMessageId = 0;
