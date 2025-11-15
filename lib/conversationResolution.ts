@@ -15,7 +15,7 @@ import {
   toggleConversationStatus,
   assignConversation,
 } from "@/lib/chatwootBot";
-import { CONVO_LABELS } from "@/lib/constants";
+import { CONVO_LABELS, HANDOFF_STATUS_LABELS } from "@/lib/constants";
 import {
   dequeueRequest,
   dequeueNextPendingRequest,
@@ -49,9 +49,11 @@ export async function releaseAgent(
   let resolveError: unknown;
   try {
     const current = await getConversationLabels(accountId, conversationId);
-    const reserved = Object.values(CONVO_LABELS) as string[];
+    const statusLabelSet = new Set<string>(HANDOFF_STATUS_LABELS);
     const labels = Array.isArray((current as any)?.payload)
-      ? (current as any).payload.filter((l: string) => !reserved.includes(l))
+      ? (current as any).payload.filter(
+          (label: string) => !statusLabelSet.has(label)
+        )
       : [];
     await setConversationLabels(accountId, conversationId, labels);
   } catch (err) {

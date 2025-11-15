@@ -126,6 +126,31 @@ test.beforeEach(() => {
   fetchMock.mock.resetCalls();
 });
 
+test('releaseAgent preserves non-status labels when clearing handoff labels', async () => {
+  chatwoot.setConversationLabels.mock.resetCalls();
+  chatwoot.getConversationLabels.mock.mockImplementationOnce(async () => ({
+    payload: [
+      CONVO_LABELS.complaint,
+      'vip-customer',
+      CONVO_LABELS.assigned,
+      CONVO_LABELS.waiting,
+    ],
+  }));
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  const firstCall = chatwoot.setConversationLabels.mock.calls.at(0);
+  assert.ok(firstCall, 'expected setConversationLabels to be called');
+  assert.deepStrictEqual(firstCall.arguments, [
+    accountId,
+    releasedConversationId,
+    [CONVO_LABELS.complaint, 'vip-customer'],
+  ]);
+});
+
 let status = 'resolved';
 
 let nextMessageId = 0;

@@ -18,7 +18,7 @@ import {
   setConversationLabels,
   updateConversationCustomAttributes,
 } from "@/lib/chatwoot";
-import { CONVO_LABELS } from "@/lib/constants";
+import { CONVO_LABELS, HANDOFF_STATUS_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { ProviderRetryError } from "@/lib/providers/retry";
 import { INBOX_MODE } from "@/config/inboxMode";
@@ -132,12 +132,7 @@ function shouldSkipFallbackForError(error: unknown): boolean {
   );
 }
 
-const HANDOFF_STATUS_LABELS = new Set<string>([
-  CONVO_LABELS.waiting,
-  CONVO_LABELS.awaiting,
-  CONVO_LABELS.assigned,
-  CONVO_LABELS.expired,
-]);
+const HANDOFF_STATUS_LABEL_SET = new Set<string>(HANDOFF_STATUS_LABELS);
 
 function normalizeLabelArray(labels: unknown): string[] {
   if (!Array.isArray(labels)) {
@@ -166,6 +161,12 @@ function dedupeLabels(labels: string[]): string[] {
   return result;
 }
 
+/**
+ * Ensures status updates preserve any non-handoff labels on the conversation.
+ *
+ * The managed status labels are defined in HANDOFF_STATUS_LABELS (see
+ * lib/constants.ts) so other pipelines can share the same allowlist.
+ */
 async function mergeStatusLabelForConversation({
   accountId,
   conversationId,
@@ -202,7 +203,7 @@ async function mergeStatusLabelForConversation({
   }
 
   const preserved = existingLabels.filter(
-    (label) => !HANDOFF_STATUS_LABELS.has(label)
+    (label) => !HANDOFF_STATUS_LABEL_SET.has(label)
   );
   const merged = dedupeLabels([...preserved, statusLabel]);
 
