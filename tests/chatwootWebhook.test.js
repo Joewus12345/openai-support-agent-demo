@@ -1221,7 +1221,13 @@ test('chatwoot webhook escalates when agent available', async () => {
         message_type: 0,
         content: 'I need a human',
         account: { id: 1 },
-        conversation: { id: 1, inbox_id: 1, status: 'resolved', account_id: 1 },
+        conversation: {
+          id: 1,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 1,
+          label_list: [CONVO_LABELS.complaint],
+        },
       },
     },
   };
@@ -1230,13 +1236,15 @@ test('chatwoot webhook escalates when agent available', async () => {
     body: JSON.stringify(payload),
   });
   const res = await webhookPost(req);
-  const body = await res.json();
-  assert.strictEqual(body.status, 'handoff');
+  assert.strictEqual(res.ok, true);
   assert.strictEqual(handOffMock.mock.calls.length, 1);
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
   assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [1, 1, 'assigned', 10, 1]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
-  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.assigned]);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [
+    CONVO_LABELS.complaint,
+    CONVO_LABELS.assigned,
+  ]);
   assert.strictEqual(sendBotMessageMock.mock.calls[0].arguments[2], 'A human agent will join shortly.');
   assert.deepStrictEqual(sendBotMessageMock.mock.calls[0].arguments[3], {
     private: false,
@@ -1286,7 +1294,13 @@ test('chatwoot webhook queues request when agents busy', async () => {
         message_type: 0,
         content: 'Need human assistance',
         account: { id: 2 },
-        conversation: { id: 2, inbox_id: 1, status: 'resolved', account_id: 2 },
+        conversation: {
+          id: 2,
+          inbox_id: 1,
+          status: 'resolved',
+          account_id: 2,
+          label_list: [CONVO_LABELS.complaint],
+        },
       },
     },
   };
@@ -1295,8 +1309,7 @@ test('chatwoot webhook queues request when agents busy', async () => {
     body: JSON.stringify(payload),
   });
   const res = await webhookPost(req);
-  const body = await res.json();
-  assert.strictEqual(body.status, 'handoff');
+  assert.strictEqual(res.ok, true);
   assert.strictEqual(handOffMock.mock.calls.length, 0);
   assert.strictEqual(enqueueRequestMock.mock.calls.length, 1);
   assert.deepStrictEqual(enqueueRequestMock.mock.calls[0].arguments, [2, 2, undefined, undefined, 1]);
@@ -1305,7 +1318,10 @@ test('chatwoot webhook queues request when agents busy', async () => {
     { accountId: 2 },
   ]);
   assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
-  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [CONVO_LABELS.waiting]);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [
+    CONVO_LABELS.complaint,
+    CONVO_LABELS.waiting,
+  ]);
   assert.strictEqual(
     sendBotMessageMock.mock.calls[0].arguments[2],
     'All human agents are currently busy. Please wait for the next available agent. You are currently number 2 in the queue.'
@@ -1316,6 +1332,50 @@ test('chatwoot webhook queues request when agents busy', async () => {
   });
   assert.strictEqual(getProviderMock.mock.calls.length, 0);
   assertLoggedIds(1);
+  resetMocks();
+});
+
+test('chatwoot webhook promotes queued conversation without dropping labels', async () => {
+  resetMocks();
+  getNextAgentMock.mock.mockImplementationOnce(async () => ({
+    agent: { id: 21, role: 'agent', availability_status: 'online' },
+    availabilitySummary: { online: 1, busy: 0, offline: 0 },
+  }));
+  getConversationMock.mock.mockImplementationOnce(async () => ({
+    id: 21,
+    status: 'pending',
+    inbox_id: 1,
+  }));
+  const payload = {
+    event: 'message_created',
+    data: {
+      event: 'message_created',
+      message: {
+        id: 21,
+        message_type: 0,
+        content: 'Human agent follow-up',
+        account: { id: 21 },
+        conversation: {
+          id: 21,
+          inbox_id: 1,
+          status: 'pending',
+          account_id: 21,
+          label_list: [CONVO_LABELS.complaint, CONVO_LABELS.waiting],
+        },
+      },
+    },
+  };
+  const req = new Request('http://localhost', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  const res = await webhookPost(req);
+  assert.strictEqual(res.ok, true);
+  assert.strictEqual(setConversationLabelsMock.mock.calls.length, 1);
+  assert.deepStrictEqual(setConversationLabelsMock.mock.calls[0].arguments[2], [
+    CONVO_LABELS.complaint,
+    CONVO_LABELS.assigned,
+  ]);
   resetMocks();
 });
 
