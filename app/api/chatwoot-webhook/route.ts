@@ -18,7 +18,7 @@ import {
   setConversationLabels,
   updateConversationCustomAttributes,
 } from "@/lib/chatwoot";
-import { CONVO_LABELS } from "@/lib/constants";
+import { CONVO_LABELS, HANDOFF_STATUS_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { ProviderRetryError } from "@/lib/providers/retry";
 import { INBOX_MODE } from "@/config/inboxMode";
@@ -130,6 +130,100 @@ function shouldSkipFallbackForError(error: unknown): boolean {
       typeof error === "object" &&
       (error as Record<symbol, unknown>)[SKIP_FALLBACK_SYMBOL]
   );
+}
+
+const HANDOFF_STATUS_LABEL_SET = new Set<string>(HANDOFF_STATUS_LABELS);
+
+function normalizeLabelArray(labels: unknown): string[] {
+  if (!Array.isArray(labels)) {
+    return [];
+  }
+  const seen = new Set<string>();
+  const normalized: string[] = [];
+  for (const label of labels) {
+    if (typeof label !== "string") continue;
+    const trimmed = label.trim();
+    if (!trimmed || seen.has(trimmed)) continue;
+    seen.add(trimmed);
+    normalized.push(trimmed);
+  }
+  return normalized;
+}
+
+function dedupeLabels(labels: string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const label of labels) {
+    if (seen.has(label)) continue;
+    seen.add(label);
+    result.push(label);
+  }
+  return result;
+}
+
+/**
+ * Ensures status updates preserve any non-handoff labels on the conversation.
+ *
+ * The managed status labels are defined in HANDOFF_STATUS_LABELS (see
+ * lib/constants.ts) so other pipelines can share the same allowlist.
+ */
+async function mergeStatusLabelForConversation({
+  accountId,
+  conversationId,
+  conversation,
+  statusLabel,
+  logContext,
+}: {
+  accountId: number | undefined;
+  conversationId: number | undefined;
+  conversation?: Conversation | null;
+  statusLabel: string;
+  logContext?: string;
+}): Promise<string[]> {
+  if (typeof accountId !== "number" || typeof conversationId !== "number") {
+    return [statusLabel];
+  }
+
+  let existingLabels = normalizeLabelArray((conversation as any)?.label_list);
+  let source: "payload" | "fetched" | "none" = existingLabels.length
+    ? "payload"
+    : "none";
+
+  if (!existingLabels.length) {
+    try {
+      const current = await getConversationLabels(accountId, conversationId);
+      const fetched = normalizeLabelArray((current as any)?.payload);
+      if (fetched.length) {
+        existingLabels = fetched;
+        source = "fetched";
+      }
+    } catch (err) {
+      console.error("handoff merge labels fetch error", err);
+    }
+  }
+
+  const preserved = existingLabels.filter(
+    (label) => !HANDOFF_STATUS_LABEL_SET.has(label)
+  );
+  const merged = dedupeLabels([...preserved, statusLabel]);
+
+  if (conversation && typeof conversation === "object") {
+    (conversation as Record<string, unknown>).label_list = merged;
+  }
+
+  if (logContext) {
+    console.info("handoff", {
+      step: "merge-labels",
+      context: logContext,
+      accountId,
+      conversationId,
+      statusLabel,
+      source,
+      preservedCount: preserved.length,
+    });
+  }
+
+  return merged;
 }
 
 function logChatwootJobPhase(details: ChatwootJobPhaseLog) {
@@ -612,6 +706,40 @@ function extractResponseMessageText(message: any): string {
   return "";
 }
 
+function truncateForLog(value: string | undefined, maxLength = 160): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  if (trimmed.length <= maxLength) {
+    return trimmed;
+  }
+  return `${trimmed.slice(0, maxLength)}…`;
+}
+
+function summarizeMessagesForLog(
+  entries: ResponseMessage[],
+  maxEntries = 5
+): Array<{ role: string; text?: string; hasImages?: boolean }> {
+  return entries.slice(0, maxEntries).map((entry) => {
+    const textPreview = truncateForLog(extractResponseMessageText(entry));
+    const hasImages = Array.isArray((entry as any)?.content)
+      ? (entry as any).content.some(
+          (item: unknown) =>
+            item && typeof item === "object" && (item as any).type === "input_image"
+        )
+      : undefined;
+    return {
+      role: entry.role,
+      text: textPreview,
+      hasImages,
+    };
+  });
+}
+
 function formatQuoteTimestamp(date?: Date): string {
   if (!date || !(date instanceof Date) || Number.isNaN(date.getTime())) {
     return "unknown-date";
@@ -896,6 +1024,15 @@ async function processChatwootWebhookJob(
   let formSubmissionPromptAddition: ResponseMessage | undefined;
   let formSubmissionAttributes: Record<string, string> | undefined;
   let normalizedFormSubmissionValues: NormalizedFormSubmissionValue[] = [];
+  const logWithMetadata = (label: string, details: Record<string, unknown>) => {
+    console.log(label, {
+      jobId: options.jobId ?? null,
+      accountId,
+      conversationId,
+      messageId: normalizedMessageId ?? messageId ?? null,
+      ...details,
+    });
+  };
   try {
     const endPayloadNormalization = timer.startPhase("payload-normalization");
     try {
@@ -1114,24 +1251,54 @@ async function processChatwootWebhookJob(
           const kbLimitRaw = process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim();
           const kbLimit = kbLimitRaw ? Number(kbLimitRaw) : undefined;
           const imageModel = process.env.CHATWOOT_IMAGE_MODEL?.trim();
+          const imageAttachments = attachments.filter((attachment) => attachment.isImage);
           imageInsights = await gatherImageInsights({
-            attachments: attachments.filter((attachment) => attachment.isImage),
+            attachments: imageAttachments,
             userText: userInput,
             knowledgeBaseProvider: kbProvider,
             maxKnowledgeBaseResults: Number.isFinite(kbLimit) ? kbLimit : undefined,
             imageModel,
             imageOnly: imageOnlyMessage,
           });
+          const imageAttachmentCount = imageAttachments.length;
+          logWithMetadata(
+            "chatwoot image insight result",
+            {
+              hasInsights: Boolean(imageInsights),
+              description: truncateForLog(imageInsights?.description),
+              queries: Array.isArray(imageInsights?.queries)
+                ? imageInsights.queries.slice(0, 6).map((entry) => truncateForLog(entry, 80))
+                : undefined,
+              hasUserSupplement: Boolean(imageInsights?.userPromptSupplement),
+              hasDeveloperNote: Boolean(imageInsights?.developerNote),
+              insightStatus: imageInsights ? "ok" : "missing",
+              imageAttachmentCount,
+              imageOnlyMessage,
+              followUpCount: imageInsights?.followUpQuestions?.length ?? 0,
+            }
+          );
+          if (!imageInsights) {
+            logWithMetadata(
+              "chatwoot image insight missing",
+              {
+                reason: "no_insight_payload",
+                imageAttachmentCount,
+                imageOnlyMessage,
+              }
+            );
+          }
           if (imageInsights?.description && !userInput.trim()) {
             userInput = imageInsights.description;
           }
           if (imageInsights?.queries?.length) {
-            console.log("Image insight queries", {
-              accountId,
-              conversationId,
-              messageId: normalizedMessageId ?? messageId ?? null,
-              queries: imageInsights.queries.slice(0, 6),
-            });
+            logWithMetadata(
+              "chatwoot image insight queries",
+              {
+                queries: imageInsights.queries
+                  .slice(0, 6)
+                  .map((entry) => truncateForLog(entry, 80)),
+              }
+            );
           }
         } catch (err) {
           console.error("image insights pipeline error", err);
@@ -1226,8 +1393,15 @@ async function processChatwootWebhookJob(
           if (enrichedContent) {
             enrichedContent = `${enrichedContent}\n\n${attachmentNote}`;
           }
+          logWithMetadata(
+            "chatwoot enrichment attachment_note",
+            {
+              attachmentPreview: truncateForLog(attachmentNote),
+              enrichedPreview: truncateForLog(enrichedContent ?? userInput),
+            }
+          );
         }
-  
+
         if (imageInsights?.userPromptSupplement) {
           const supplement = imageInsights.userPromptSupplement;
           if (enrichedContent) {
@@ -1239,9 +1413,47 @@ async function processChatwootWebhookJob(
               ? `${userInput}\n\n${supplement}`
               : supplement;
           }
+          logWithMetadata(
+            "chatwoot enrichment supplement",
+            {
+              supplementPreview: truncateForLog(supplement),
+              enrichedPreview: truncateForLog(enrichedContent ?? userInput),
+            }
+          );
         }
-  
+
+        if (imageInsights?.followUpQuestions?.length) {
+          const followUpBlock = [
+            "Suggested follow-up questions:",
+            ...imageInsights.followUpQuestions
+              .slice(0, 3)
+              .map((question, index) => `${index + 1}. ${question}`),
+          ].join("\n");
+
+          if (enrichedContent) {
+            if (!enrichedContent.includes(followUpBlock)) {
+              enrichedContent = `${enrichedContent}\n\n${followUpBlock}`;
+            }
+          } else {
+            enrichedContent = userInput
+              ? `${userInput}\n\n${followUpBlock}`
+              : followUpBlock;
+          }
+
+          logWithMetadata("chatwoot enrichment follow_ups", {
+            followUpPreview: truncateForLog(followUpBlock),
+            enrichedPreview: truncateForLog(enrichedContent ?? userInput),
+          });
+        }
+
         storedContent = enrichedContent ?? userInput;
+        logWithMetadata(
+          "chatwoot enrichment stored_content",
+          {
+            source: enrichedContent ? "enriched" : "user_input",
+            storedPreview: truncateForLog(storedContent),
+          }
+        );
   
         if (
           messageId !== undefined &&
@@ -1595,37 +1807,13 @@ async function processChatwootWebhookJob(
                   "A human agent will join shortly."
                 );
                 console.info("handoff", "message sent");
-                  let labels = [CONVO_LABELS.assigned];
-                  try {
-                    console.info("handoff", {
-                      step: "get-labels",
-                      accountId,
-                      conversationId,
-                    });
-                    const current = await getConversationLabels(
-                      accountId,
-                      conversationId
-                    );
-                    console.info(
-                      "handoff",
-                      "labels fetched",
-                      (current as any)?.payload
-                    );
-                    labels = Array.isArray((current as any)?.payload)
-                      ? Array.from(
-                          new Set(
-                            [
-                              ...(current as any).payload.filter(
-                                (l: string) => l !== CONVO_LABELS.awaiting
-                              ),
-                              CONVO_LABELS.assigned,
-                            ]
-                          )
-                        )
-                      : [CONVO_LABELS.assigned];
-                  } catch (err) {
-                    console.error("handoff fetch labels error", err);
-                  }
+                  const labels = await mergeStatusLabelForConversation({
+                    accountId,
+                    conversationId,
+                    conversation,
+                    statusLabel: CONVO_LABELS.assigned,
+                    logContext: "confirmation-assigned",
+                  });
                   console.info("handoff", {
                     step: "set-labels",
                     accountId,
@@ -1663,30 +1851,13 @@ async function processChatwootWebhookJob(
               }
               return NextResponse.json({ status: "fallback" });
             }
-            let labels = [CONVO_LABELS.expired];
-            try {
-              console.info("handoff", { step: "get-labels", accountId, conversationId });
-              const current = await getConversationLabels(accountId, conversationId);
-              console.info(
-                "handoff",
-                "labels fetched",
-                (current as any)?.payload
-              );
-              labels = Array.isArray((current as any)?.payload)
-                ? Array.from(
-                    new Set(
-                      [
-                        ...(current as any).payload.filter(
-                          (l: string) => l !== CONVO_LABELS.awaiting
-                        ),
-                        CONVO_LABELS.expired,
-                      ]
-                    )
-                  )
-                : [CONVO_LABELS.expired];
-            } catch (err) {
-              console.error("handoff fetch labels error", err);
-            }
+            const labels = await mergeStatusLabelForConversation({
+              accountId,
+              conversationId,
+              conversation,
+              statusLabel: CONVO_LABELS.expired,
+              logContext: "confirmation-expired",
+            });
             console.info("handoff", { step: "set-labels", accountId, conversationId });
             try {
               await setConversationLabels(accountId, conversationId, labels);
@@ -1815,7 +1986,13 @@ async function processChatwootWebhookJob(
                 "A human agent will join shortly."
               );
               console.info("handoff", "message sent");
-                const labels = [CONVO_LABELS.assigned];
+                const labels = await mergeStatusLabelForConversation({
+                  accountId,
+                  conversationId,
+                  conversation: currentConversation,
+                  statusLabel: CONVO_LABELS.assigned,
+                  logContext: "immediate-assigned",
+                });
                 console.info("handoff", {
                   step: "set-labels",
                   accountId,
@@ -1883,7 +2060,13 @@ async function processChatwootWebhookJob(
                 } catch (err) {
                   console.error("updateQueuePositions error", err);
                 }
-                  const labels = [CONVO_LABELS.waiting];
+                  const labels = await mergeStatusLabelForConversation({
+                    accountId,
+                    conversationId,
+                    conversation: currentConversation,
+                    statusLabel: CONVO_LABELS.waiting,
+                    logContext: "queue-waiting",
+                  });
                   console.info("handoff", {
                     step: "set-labels",
                     accountId,
@@ -2090,6 +2273,26 @@ async function processChatwootWebhookJob(
       try {
         try {
           const guardrailUserInput = enrichedContent ?? userInput;
+          const developerEntriesForLog = promptHistory
+            .filter((entry) => entry.role === "developer")
+            .slice(0, 3);
+          const recentHistoryEntriesForLog = promptHistory
+            .filter((entry) => entry.role !== "developer")
+            .slice(-3);
+          logWithMetadata(
+            "chatwoot guardrail context",
+            {
+              guardrailUserInput: truncateForLog(guardrailUserInput),
+              developerEntries: summarizeMessagesForLog(
+                developerEntriesForLog,
+                developerEntriesForLog.length
+              ),
+              recentHistory: summarizeMessagesForLog(
+                recentHistoryEntriesForLog,
+                recentHistoryEntriesForLog.length
+              ),
+            }
+          );
           let relevancePromise:
             | Promise<{
                 tripwireTriggered: boolean;
@@ -2273,6 +2476,21 @@ async function processChatwootWebhookJob(
         const endProviderExecution = timer.startPhase("provider-execution");
         try {
           try {
+            const providerDeveloperEntries = promptHistory
+              .filter((entry) => entry.role === "developer")
+              .slice(0, 5);
+            const providerHistoryPreview = promptHistory.slice(-5);
+            logWithMetadata("chatwoot provider context pretrim", {
+              developerEntries: summarizeMessagesForLog(
+                providerDeveloperEntries,
+                providerDeveloperEntries.length
+              ),
+              historyPreview: summarizeMessagesForLog(
+                providerHistoryPreview,
+                providerHistoryPreview.length
+              ),
+              historyCount: promptHistory.length,
+            });
             const systemMessage = toResponseMessage("system", CHATWOOT_SYSTEM_PROMPT);
           const synopsisMessages = conversationSynopsis
             ? [toResponseMessage("developer", conversationSynopsis)]
@@ -2314,9 +2532,24 @@ async function processChatwootWebhookJob(
               providerModelName as TiktokenModel
             );
           }
-  
+
           promptHistory = trimmedHistory;
-  
+          const finalDeveloperEntries = promptHistory
+            .filter((entry) => entry.role === "developer")
+            .slice(0, 5);
+          const finalHistoryPreview = promptHistory.slice(-5);
+          logWithMetadata("chatwoot provider context final", {
+            developerEntries: summarizeMessagesForLog(
+              finalDeveloperEntries,
+              finalDeveloperEntries.length
+            ),
+            historyPreview: summarizeMessagesForLog(
+              finalHistoryPreview,
+              finalHistoryPreview.length
+            ),
+            historyCount: promptHistory.length,
+          });
+
           const hasInvalidImageUrl = providerMessages.some((entry) =>
             Array.isArray((entry as any)?.content) &&
             (entry as any).content.some((item: any) => {
