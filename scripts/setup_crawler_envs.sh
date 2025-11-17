@@ -32,11 +32,23 @@ create_env() {
     echo "Using existing virtual environment $env_dir"
   fi
 
+  # Choose correct activate script depending on OS (Windows vs Linux/Mac)
+  ACTIVATE_SCRIPT="$env_dir/bin/activate"
+  if [[ ! -f "$ACTIVATE_SCRIPT" ]]; then
+    ACTIVATE_SCRIPT="$env_dir/Scripts/activate"
+  fi
+
+  if [[ ! -f "$ACTIVATE_SCRIPT" ]]; then
+    echo "Could not find activate script in $env_dir (tried bin/activate and Scripts/activate)" >&2
+    exit 1
+  fi
+
   # shellcheck disable=SC1090
-  source "$env_dir/bin/activate"
+  source "$ACTIVATE_SCRIPT"
   python -m pip install --upgrade pip
   python -m pip install -r "$requirements_file"
-  python -m playwright install --with-deps chromium
+  # python -m playwright install --with-deps chromium # --with-deps is mainly for Linux
+  python -m playwright install chromium # chromium is mainly for Windows
   deactivate
 }
 
