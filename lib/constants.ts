@@ -5,3 +5,10 @@ export const CONVO_LABELS = {
   expired: "queue-expired",
   complaint: "complaint",
 } as const;
+
+export const HANDOFF_STATUS_LABELS = [
+  CONVO_LABELS.waiting,
+  CONVO_LABELS.awaiting,
+  CONVO_LABELS.assigned,
+  CONVO_LABELS.expired,
+] as const;

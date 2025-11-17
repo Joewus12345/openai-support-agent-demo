@@ -18,7 +18,7 @@ import {
   setConversationLabels,
   updateConversationCustomAttributes,
 } from "@/lib/chatwoot";
-import { CONVO_LABELS } from "@/lib/constants";
+import { CONVO_LABELS, HANDOFF_STATUS_LABELS } from "@/lib/constants";
 import { getProvider } from "@/lib/providers";
 import { ProviderRetryError } from "@/lib/providers/retry";
 import { INBOX_MODE } from "@/config/inboxMode";
@@ -130,6 +130,100 @@ function shouldSkipFallbackForError(error: unknown): boolean {
       typeof error === "object" &&
       (error as Record<symbol, unknown>)[SKIP_FALLBACK_SYMBOL]
   );
+}
+
+const HANDOFF_STATUS_LABEL_SET = new Set<string>(HANDOFF_STATUS_LABELS);
+
+function normalizeLabelArray(labels: unknown): string[] {
+  if (!Array.isArray(labels)) {
+    return [];
+  }
+  const seen = new Set<string>();
+  const normalized: string[] = [];
+  for (const label of labels) {
+    if (typeof label !== "string") continue;
+    const trimmed = label.trim();
+    if (!trimmed || seen.has(trimmed)) continue;
+    seen.add(trimmed);
+    normalized.push(trimmed);
+  }
+  return normalized;
+}
+
+function dedupeLabels(labels: string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const label of labels) {
+    if (seen.has(label)) continue;
+    seen.add(label);
+    result.push(label);
+  }
+  return result;
+}
+
+/**
+ * Ensures status updates preserve any non-handoff labels on the conversation.
+ *
+ * The managed status labels are defined in HANDOFF_STATUS_LABELS (see
+ * lib/constants.ts) so other pipelines can share the same allowlist.
+ */
+async function mergeStatusLabelForConversation({
+  accountId,
+  conversationId,
+  conversation,
+  statusLabel,
+  logContext,
+}: {
+  accountId: number | undefined;
+  conversationId: number | undefined;
+  conversation?: Conversation | null;
+  statusLabel: string;
+  logContext?: string;
+}): Promise<string[]> {
+  if (typeof accountId !== "number" || typeof conversationId !== "number") {
+    return [statusLabel];
+  }
+
+  let existingLabels = normalizeLabelArray((conversation as any)?.label_list);
+  let source: "payload" | "fetched" | "none" = existingLabels.length
+    ? "payload"
+    : "none";
+
+  if (!existingLabels.length) {
+    try {
+      const current = await getConversationLabels(accountId, conversationId);
+      const fetched = normalizeLabelArray((current as any)?.payload);
+      if (fetched.length) {
+        existingLabels = fetched;
+        source = "fetched";
+      }
+    } catch (err) {
+      console.error("handoff merge labels fetch error", err);
+    }
+  }
+
+  const preserved = existingLabels.filter(
+    (label) => !HANDOFF_STATUS_LABEL_SET.has(label)
+  );
+  const merged = dedupeLabels([...preserved, statusLabel]);
+
+  if (conversation && typeof conversation === "object") {
+    (conversation as Record<string, unknown>).label_list = merged;
+  }
+
+  if (logContext) {
+    console.info("handoff", {
+      step: "merge-labels",
+      context: logContext,
+      accountId,
+      conversationId,
+      statusLabel,
+      source,
+      preservedCount: preserved.length,
+    });
+  }
+
+  return merged;
 }
 
 function logChatwootJobPhase(details: ChatwootJobPhaseLog) {
@@ -1713,37 +1807,13 @@ async function processChatwootWebhookJob(
                   "A human agent will join shortly."
                 );
                 console.info("handoff", "message sent");
-                  let labels = [CONVO_LABELS.assigned];
-                  try {
-                    console.info("handoff", {
-                      step: "get-labels",
-                      accountId,
-                      conversationId,
-                    });
-                    const current = await getConversationLabels(
-                      accountId,
-                      conversationId
-                    );
-                    console.info(
-                      "handoff",
-                      "labels fetched",
-                      (current as any)?.payload
-                    );
-                    labels = Array.isArray((current as any)?.payload)
-                      ? Array.from(
-                          new Set(
-                            [
-                              ...(current as any).payload.filter(
-                                (l: string) => l !== CONVO_LABELS.awaiting
-                              ),
-                              CONVO_LABELS.assigned,
-                            ]
-                          )
-                        )
-                      : [CONVO_LABELS.assigned];
-                  } catch (err) {
-                    console.error("handoff fetch labels error", err);
-                  }
+                  const labels = await mergeStatusLabelForConversation({
+                    accountId,
+                    conversationId,
+                    conversation,
+                    statusLabel: CONVO_LABELS.assigned,
+                    logContext: "confirmation-assigned",
+                  });
                   console.info("handoff", {
                     step: "set-labels",
                     accountId,
@@ -1781,30 +1851,13 @@ async function processChatwootWebhookJob(
               }
               return NextResponse.json({ status: "fallback" });
             }
-            let labels = [CONVO_LABELS.expired];
-            try {
-              console.info("handoff", { step: "get-labels", accountId, conversationId });
-              const current = await getConversationLabels(accountId, conversationId);
-              console.info(
-                "handoff",
-                "labels fetched",
-                (current as any)?.payload
-              );
-              labels = Array.isArray((current as any)?.payload)
-                ? Array.from(
-                    new Set(
-                      [
-                        ...(current as any).payload.filter(
-                          (l: string) => l !== CONVO_LABELS.awaiting
-                        ),
-                        CONVO_LABELS.expired,
-                      ]
-                    )
-                  )
-                : [CONVO_LABELS.expired];
-            } catch (err) {
-              console.error("handoff fetch labels error", err);
-            }
+            const labels = await mergeStatusLabelForConversation({
+              accountId,
+              conversationId,
+              conversation,
+              statusLabel: CONVO_LABELS.expired,
+              logContext: "confirmation-expired",
+            });
             console.info("handoff", { step: "set-labels", accountId, conversationId });
             try {
               await setConversationLabels(accountId, conversationId, labels);
@@ -1933,7 +1986,13 @@ async function processChatwootWebhookJob(
                 "A human agent will join shortly."
               );
               console.info("handoff", "message sent");
-                const labels = [CONVO_LABELS.assigned];
+                const labels = await mergeStatusLabelForConversation({
+                  accountId,
+                  conversationId,
+                  conversation: currentConversation,
+                  statusLabel: CONVO_LABELS.assigned,
+                  logContext: "immediate-assigned",
+                });
                 console.info("handoff", {
                   step: "set-labels",
                   accountId,
@@ -2001,7 +2060,13 @@ async function processChatwootWebhookJob(
                 } catch (err) {
                   console.error("updateQueuePositions error", err);
                 }
-                  const labels = [CONVO_LABELS.waiting];
+                  const labels = await mergeStatusLabelForConversation({
+                    accountId,
+                    conversationId,
+                    conversation: currentConversation,
+                    statusLabel: CONVO_LABELS.waiting,
+                    logContext: "queue-waiting",
+                  });
                   console.info("handoff", {
                     step: "set-labels",
                     accountId,

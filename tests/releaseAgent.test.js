@@ -126,6 +126,67 @@ test.beforeEach(() => {
   fetchMock.mock.resetCalls();
 });
 
+test('releaseAgent preserves non-status labels when clearing handoff labels', async () => {
+  chatwoot.setConversationLabels.mock.resetCalls();
+  chatwoot.getConversationLabels.mock.mockImplementationOnce(async () => ({
+    payload: [
+      CONVO_LABELS.complaint,
+      'vip-customer',
+      CONVO_LABELS.assigned,
+      CONVO_LABELS.waiting,
+    ],
+  }));
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  const firstCall = chatwoot.setConversationLabels.mock.calls.at(0);
+  assert.ok(firstCall, 'expected setConversationLabels to be called');
+  assert.deepStrictEqual(firstCall.arguments, [
+    accountId,
+    releasedConversationId,
+    [CONVO_LABELS.complaint, 'vip-customer'],
+  ]);
+});
+
+test('releaseAgent preserves queued conversation labels when assigning next request', async () => {
+  chatwoot.setConversationLabels.mock.resetCalls();
+  chatwoot.getConversationLabels.mock.resetCalls();
+  chatwoot.getConversationLabels.mock.mockImplementationOnce(async () => ({
+    payload: [CONVO_LABELS.waiting],
+  }));
+
+  dequeueRequestMock.mock.mockImplementationOnce(async () => ({
+    conversationId: queuedConversationId,
+    conversationKey: `chatwoot:${accountId}:${inboxId}:${queuedConversationId}`,
+    accountId,
+    inboxId,
+    requestedAt: new Date(),
+    status: 'pending',
+    agentId: null,
+    lastPositionNotified: null,
+    labels: [CONVO_LABELS.complaint, CONVO_LABELS.waiting],
+  }));
+
+  await conversationResolution.releaseAgent(accountId, releasedConversationId, {
+    assignee_id: freedAgentId,
+    inbox_id: inboxId,
+  });
+
+  const assignmentCall = chatwoot.setConversationLabels.mock.calls.find(
+    (call) => call.arguments?.[1] === queuedConversationId
+  );
+  assert.ok(assignmentCall, 'expected labels to be set for queued conversation');
+  assert.deepStrictEqual(assignmentCall.arguments, [
+    accountId,
+    queuedConversationId,
+    [CONVO_LABELS.complaint, CONVO_LABELS.assigned],
+  ]);
+  assert.strictEqual(chatwoot.getConversationLabels.mock.calls.length, 1);
+});
+
 let status = 'resolved';
 
 let nextMessageId = 0;
