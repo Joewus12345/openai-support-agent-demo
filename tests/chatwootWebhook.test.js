@@ -10,6 +10,7 @@ const {
   CHATWOOT_CONVERSATION_ATTRIBUTE_KEYS: ATTRIBUTE_KEYS,
 } = require('../config/chatwootAttributes.ts');
 const { HOST_COMPANY_NAME } = require('../config/constants.ts');
+const { AGENT_NAME } = require('../config/demoData.ts');
 const { submitChatwootComplaint } = require('../lib/chatwoot/complaintSubmission.ts');
 const {
   COMPLAINT_FORM_REMINDER_TEXT,
@@ -522,6 +523,21 @@ test('complaint form omits host brand placeholder defaults', () => {
   assert.ok(companyField, 'Company field should be present');
   assert.strictEqual(companyField.default, undefined);
   assert.strictEqual(companyField.placeholder, 'Company or organization');
+});
+
+test('complaint form omits agent placeholder defaults', () => {
+  const formDefaults = {
+    [ATTRIBUTE_KEYS.customerName]: AGENT_NAME,
+  };
+
+  const formContent = buildComplaintFormContent(formDefaults);
+  const customerField = formContent.items.find(
+    (item) => item.name === ATTRIBUTE_KEYS.customerName
+  );
+
+  assert.ok(customerField, 'Customer field should be present');
+  assert.strictEqual(customerField.default, undefined);
+  assert.strictEqual(customerField.placeholder, 'Customer full name');
 });
 
 async function tickAndFlush(ms = 0) {
