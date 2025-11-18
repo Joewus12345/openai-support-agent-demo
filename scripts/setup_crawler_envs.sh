@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ENV_FILE="$ROOT_DIR/.env.scrapers"
+LOADER_POSIX="$ROOT_DIR/scripts/load_scraper_env.sh"
+LOADER_POWERSHELL="$ROOT_DIR/scripts/load_scraper_env.ps1"
+LOADER_BATCH="$ROOT_DIR/scripts/load_scraper_env.bat"
+HOOK_MARKER="crawl4AI scraper env"
+
+if [[ -f "$ENV_FILE" ]]; then
+  echo "Loading scraper environment variables from $ENV_FILE"
+  set -a
+  # shellcheck source=/dev/null
+  source "$ENV_FILE"
+  set +a
+else
+  echo "No $ENV_FILE file found. Create one to override scraper URLs."
+fi
+
+command -v python3 >/dev/null 2>&1 || { echo "python3 is required"; exit 1; }
+
+append_posix_hook() {
+  local activate_file="$1"
+  [[ -f "$activate_file" ]] || return
+  if grep -Fq "$HOOK_MARKER" "$activate_file"; then
+    return
+  fi
+  cat <<EOF_HOOK >> "$activate_file"
+
+# >>> $HOOK_MARKER >>>
+if [ -f "$LOADER_POSIX" ]; then
+  . "$LOADER_POSIX"
+fi
+# <<< $HOOK_MARKER <<<
+EOF_HOOK
+}
+
+append_batch_hook() {
+  local activate_file="$1"
+  local loader_path="$2"
+  [[ -f "$activate_file" ]] || return
+  if grep -Fq "$HOOK_MARKER" "$activate_file"; then
+    return
+  fi
+  cat <<EOF_HOOK >> "$activate_file"
+
+
+
+REM >>> $HOOK_MARKER >>>
+
+IF EXIST "$loader_path" CALL "$loader_path"
+
+REM <<< $HOOK_MARKER <<<
+
+EOF_HOOK
+}
+
+append_ps_hook() {
+  local activate_file="$1"
+  local loader_path="$2"
+  [[ -f "$activate_file" ]] || return
+  if grep -Fq "$HOOK_MARKER" "$activate_file"; then
+    return
+  fi
+  cat <<EOF_HOOK >> "$activate_file"
+
+# >>> $HOOK_MARKER >>>
+\$scraperEnvScript = '$loader_path'
+if (Test-Path \$scraperEnvScript) {
+    . \$scraperEnvScript
+}
+# <<< $HOOK_MARKER <<<
+EOF_HOOK
+}
+
+to_windows_path() {
+  local path="$1"
+  if command -v cygpath >/dev/null 2>&1; then
+    cygpath -w "$path"
+  else
+    printf '%s' "$path"
+  fi
+}
+
+install_scraper_env_hooks() {
+  local env_dir="$1"
+  append_posix_hook "$env_dir/bin/activate"
+
+  local win_activate_dir="$env_dir/Scripts"
+  local batch_loader
+  batch_loader=$(to_windows_path "$LOADER_BATCH")
+  append_batch_hook "$win_activate_dir/activate.bat" "$batch_loader"
+
+  local ps_loader
+  ps_loader=$(to_windows_path "$LOADER_POWERSHELL")
+  append_ps_hook "$win_activate_dir/Activate.ps1" "$ps_loader"
+}
+
+create_env() {
+  local env_dir="$1"
+  local requirements_file="$2"
+
+  if [[ ! -f "$requirements_file" ]]; then
+    echo "Requirements file not found: $requirements_file" >&2
+    exit 1
+  fi
+
+  if [[ ! -d "$env_dir" ]]; then
+    echo "Creating virtual environment $env_dir"
+    python3 -m venv "$env_dir"
+  else
+    echo "Using existing virtual environment $env_dir"
+  fi
+
+  # shellcheck disable=SC1090
+  source "$env_dir/bin/activate"
+  python -m pip install --upgrade pip
+  python -m pip install -r "$requirements_file"
+  python -m playwright install --with-deps chromium
+  deactivate
+
+  install_scraper_env_hooks "$env_dir"
+}
+
+create_env "$ROOT_DIR/.venv-c4ai-v1" "$ROOT_DIR/crawl4AI-agent/requirements.txt"
+create_env "$ROOT_DIR/.venv-c4ai-v2" "$ROOT_DIR/crawl4AI-agent-v2/requirements.txt"
+
+echo "Virtual environments ready."

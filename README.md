@@ -328,6 +328,25 @@ When using the `ollama` provider you need a local server running.
   a `threshold` option to adjust the cutoff, or set `topKOnly: true` to ignore
   the threshold and rely solely on the highest scoring `limit` matches.
 
+   Before running the crawling scripts, bootstrap their Python environments and
+   shared configuration:
+
+   ```bash
+   # Optional: edit .env.scrapers to point at your sitemap roots/categories
+   ./scripts/setup_crawler_envs.sh
+   ```
+
+  The setup command provisions `.venv-c4ai-v1` for
+  `crawl4AI-agent/requirements.txt` and `.venv-c4ai-v2` for
+  `crawl4AI-agent-v2/requirements.txt`, then injects a hook into each
+  activation script (`bin/activate`, `Scripts/activate`, and
+  `Scripts/Activate.ps1`) so `.env.scrapers` is sourced every time you
+  activate either environment. Editing `.env.scrapers` therefore changes
+  values like `AUTOMATION_BASE_URL` or `WOOCOMMERCE_API_BASE` for the next
+  shell session without re-running the helper. During creation the script also
+  runs `playwright install --with-deps chromium` inside each environment to
+  satisfy the `AsyncWebCrawler` headless requirements.
+
 ## Demo Flow
 
 To try out the demo, you can ask questions that will trigger a file search.
