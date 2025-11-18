@@ -23,14 +23,30 @@ command -v python3 >/dev/null 2>&1 || { echo "python3 is required"; exit 1; }
 append_posix_hook() {
   local activate_file="$1"
   [[ -f "$activate_file" ]] || return
-  if grep -Fq "$HOOK_MARKER" "$activate_file"; then
-    return
-  fi
+
+  python3 - "$activate_file" "$HOOK_MARKER" <<'PY'
+import pathlib
+import re
+import sys
+
+path = pathlib.Path(sys.argv[1])
+marker = sys.argv[2]
+text = path.read_text()
+start = f"# >>> {marker} >>>"
+end = f"# <<< {marker} <<<"
+pattern = re.compile(rf"\n?{re.escape(start)}.*?{re.escape(end)}\n?", re.S)
+text = pattern.sub("\n", text)
+text = text.rstrip("\n") + "\n"
+path.write_text(text)
+PY
+
   cat <<EOF_HOOK >> "$activate_file"
 
 # >>> $HOOK_MARKER >>>
 if [ -f "$LOADER_POSIX" ]; then
-  . "$LOADER_POSIX"
+  SCRAPER_ENV_ROOT="$ROOT_DIR"
+  . "$LOADER_POSIX" "$ROOT_DIR"
+  unset SCRAPER_ENV_ROOT
 fi
 # <<< $HOOK_MARKER <<<
 EOF_HOOK
