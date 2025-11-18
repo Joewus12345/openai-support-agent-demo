@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Sinova](https://store.automationghana.com/product-category/sinova-siemens/) / MCCB, 3P-100A, 3VJ1110-3DA32-0AA0, Siemens
-[🔍](https://store.automationghana.com/product/mccb-3p-100a-3vj1110-3da32-0aa0-siemens/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mccb-3p-100a-3vj1110-3da32-0aa0-siemens/)
 [![MCCB, 3P-100A, 3VJ1110-3DA32-0AA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/mccb.jpg)](https://store.automationghana.com/wp-content/uploads/2025/03/mccb.jpg)
 ####  MCCB, 3P-100A, 3VJ1110-3DA32-0AA0, Siemens 
 **SKU :** MCCB, 3P-100A, 3VJ1110-3DA32-0AA0 
@@ -46,14 +46,14 @@ Product Description
 Circuit Breaker 3VJ1 IEC framesize 3VJ11 125A line protection FTFM 3-Pole Icu=36kA@415V Ics=75% Icu In=100A Overload Protection Ir=100A Short-Circuit Protection Ii=10 x In Screw Connection
 Related Products 
 ## Related products
-  * [![Miniature Circuit Breaker, 1P-16A-6KA-240/415V, 5TJ6116-7, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Miniature-Circuit-Breaker-300x300.jpg)Miniature Circuit Breaker, 1P-16A-6KA-240/415V, 5TJ6116-7, Siemens ₵57.50 ](https://store.automationghana.com/product/miniature-circuit-breaker-1p-16a-6ka-240-415v-5tj6116-7-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-100a-3vj1110-3da32-0aa0-siemens/?add-to-cart=24515)
-  * [![Auxiliary Switch Lateral, 1NO+1NC, 3MH79110CL22, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Lateral-300x300.jpg)Auxiliary Switch Lateral, 1NO+1NC, 3MH79110CL22, Siemens ₵125.00 ](https://store.automationghana.com/product/auxiliary-switch-lateral-1no1nc-3mh79110cl22-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-100a-3vj1110-3da32-0aa0-siemens/?add-to-cart=24506)
-  * [![Auxiliary Switch Front, 3MH7920-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7920-0CT10, Siemens ₵57.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7920-0ct10-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-100a-3vj1110-3da32-0aa0-siemens/?add-to-cart=24499)
+  * [![Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens ₵310.00 ](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-100a-3vj1110-3da32-0aa0-siemens/?add-to-cart=24512)
+  * [![Contactor, 3P-250A-230VAC, 3MT7250-7AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/contactor-1.jpg)Contactor, 3P-250A-230VAC, 3MT7250-7AA00-0AP0, Siemens ₵9,433.00 ](https://store.automationghana.com/product/contactor-3p-250a-230vac-3mt7250-7aa00-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-100a-3vj1110-3da32-0aa0-siemens/?add-to-cart=24496)
   * [![Contactor, 3P-120A-230VAC, 3MT7120-5AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-120A-230VAC, 3MT7120-5AA00-0AP0, Siemens ₵3,910.00 ](https://store.automationghana.com/product/contactor-3p-120a-230vac-3mt7120-5aa00-0ap0-siemens/)
 [Add to cart](https://store.automationghana.com/product/mccb-3p-100a-3vj1110-3da32-0aa0-siemens/?add-to-cart=24495)
+  * [![Contactor, 3P-12A-230VAC, 3MT7012-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-12A-230VAC, 3MT7012-0AA10-0AP0, Siemens ₵342.00 ](https://store.automationghana.com/product/contactor-3p-12a-230vac-3mt7012-0aa10-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-100a-3vj1110-3da32-0aa0-siemens/?add-to-cart=24486)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

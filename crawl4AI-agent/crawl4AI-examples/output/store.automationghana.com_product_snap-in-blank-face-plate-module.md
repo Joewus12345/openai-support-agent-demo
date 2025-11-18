@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / Snap-In Blank Face Plate Module
-[🔍](https://store.automationghana.com/product/snap-in-blank-face-plate-module/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/snap-in-blank-face-plate-module/)
 [![Snap-In Blank Face Plate Module](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-SNAP-IN-FACE-PLATE.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-SNAP-IN-FACE-PLATE.jpg)
 ####  Snap-In Blank Face Plate Module 
 **SKU :** RCA-SNAP IN FACE PLATE 
@@ -51,14 +51,14 @@ Snap-In Blank Face Plate Module
 
 Related Products 
 ## Related products
-  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
-[Add to cart](https://store.automationghana.com/product/snap-in-blank-face-plate-module/?add-to-cart=3590)
-  * [![1 Channel WiFi Relay Switch Used Without Neutral](https://store.automationghana.com/wp-content/uploads/2021/10/shelly-1l-wifi-relay-switch-300x300.jpg)1 Channel WiFi Relay Switch Used Without Neutral ₵840.00 ](https://store.automationghana.com/product/1-channel-wifi-relay-switch-used-without-neutral/)
-[Add to cart](https://store.automationghana.com/product/snap-in-blank-face-plate-module/?add-to-cart=3567)
-  * [![Split Core Current Transformer 50A](https://store.automationghana.com/wp-content/uploads/2021/03/Clamp-Up-300x300.jpeg)Split Core Current Transformer 50A ₵172.00 ](https://store.automationghana.com/product/50a-16ma-clamp-on-current-transformer/)
-[Add to cart](https://store.automationghana.com/product/snap-in-blank-face-plate-module/?add-to-cart=3308)
-  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
-[Add to cart](https://store.automationghana.com/product/snap-in-blank-face-plate-module/?add-to-cart=3252)
+  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
+[Add to cart](https://store.automationghana.com/product/snap-in-blank-face-plate-module/?add-to-cart=3583)
+  * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
+[Add to cart](https://store.automationghana.com/product/snap-in-blank-face-plate-module/?add-to-cart=3316)
+  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
+[Add to cart](https://store.automationghana.com/product/snap-in-blank-face-plate-module/?add-to-cart=3307)
+  * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
+[Add to cart](https://store.automationghana.com/product/snap-in-blank-face-plate-module/?add-to-cart=3300)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

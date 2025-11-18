@@ -16,7 +16,8 @@ cffi==1.17.1
 charset-normalizer==3.4.1
 click==8.1.8
 colorama==0.4.6
-Crawl4AI==0.4.247
+# Crawl4AI==0.4.247
+Crawl4AI==0.6.2
 cryptography==44.0.0
 Deprecated==1.2.15
 deprecation==2.1.0

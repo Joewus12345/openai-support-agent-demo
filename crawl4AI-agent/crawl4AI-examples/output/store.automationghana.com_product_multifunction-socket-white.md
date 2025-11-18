@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / Multifunction Double Socket, 2-Gang 3-Pin, 250V, 13A, NEW7-G41920, Chint
-[🔍](https://store.automationghana.com/product/multifunction-socket-white/)
-[![Multifunction Double Socket, 2-Gang 3-Pin, 250V, 13A, NEW7-G41920, Chint](https://store.automationghana.com/wp-content/uploads/2021/04/G-NEW7-G41920.jpg)](https://store.automationghana.com/wp-content/uploads/2021/04/G-NEW7-G41920.jpg)![](https://store.automationghana.com/wp-content/uploads/2021/04/G-NEW7-G41920.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/multifunction-socket-white/)
+[![Multifunction Double Socket, 2-Gang 3-Pin, 250V, 13A, NEW7-G41920, Chint](https://store.automationghana.com/wp-content/uploads/2021/04/G-NEW7-G41920.jpg)](https://store.automationghana.com/wp-content/uploads/2021/04/G-NEW7-G41920.jpg)![Multifunction Double Socket, 2-Gang 3-Pin, 250V, 13A, NEW7-G41920, Chint](https://store.automationghana.com/wp-content/uploads/2021/04/G-NEW7-G41920.jpg)
 ####  Multifunction Double Socket, 2-Gang 3-Pin, 250V, 13A, NEW7-G41920, Chint 
 **SKU :** NEW7-G41920 
 ₵79.00
@@ -51,14 +51,14 @@ NEW7-G41920, Multifunction Socket
 
 Related Products 
 ## Related products
-  * [![Switch, 1-Gang 1-Way 16A, 250V, NEW6-D00100, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-white-300x300.jpg)Switch, 1-Gang 1-Way 16A, 250V, NEW6-D00100, White, Chint ₵44.00 ](https://store.automationghana.com/product/switch-new6-d00100-chint/)
-[Add to cart](https://store.automationghana.com/product/multifunction-socket-white/?add-to-cart=1541)
-  * [![Single Socket\(Silver\), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket(Silver), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint ₵71.00 ](https://store.automationghana.com/product/single-socket-new6-d42708-chint/)
-[Add to cart](https://store.automationghana.com/product/multifunction-socket-white/?add-to-cart=1528)
-  * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-5-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42712-chint/)
-[Add to cart](https://store.automationghana.com/product/multifunction-socket-white/?add-to-cart=1529)
+  * [![Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42720-300x300.jpg)Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint ₵184.00 ](https://store.automationghana.com/product/single-socket-new6-d42720-chint/)
+[Add to cart](https://store.automationghana.com/product/multifunction-socket-white/?add-to-cart=1531)
+  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-4-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint ₵71.00 ](https://store.automationghana.com/product/singl-socket-new6-d42702-chint/)
+[Add to cart](https://store.automationghana.com/product/multifunction-socket-white/?add-to-cart=1526)
   * [![IT socket-NEW6-D21100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/the-two-300x300.jpg)IT socket-NEW6-D21100, Chint ₵124.00 ](https://store.automationghana.com/product/it-socket-new6-d21100-chint/)
 [Add to cart](https://store.automationghana.com/product/multifunction-socket-white/?add-to-cart=1519)
+  * [![Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint ₵127.00 ](https://store.automationghana.com/product/double-socket-with-neon-new6-d41938-chint/)
+[Add to cart](https://store.automationghana.com/product/multifunction-socket-white/?add-to-cart=1507)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

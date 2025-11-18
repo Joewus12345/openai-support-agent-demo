@@ -44,14 +44,14 @@ Product Description
 The Battery Temperature Sensor mounts on a terminal post of a battery in a bank or on the side of a battery and measures its temperature. It sends precise information to the charger or charge controller, which automatically adjusts voltage to ensure full battery charge depending on the ambient temperature of your battery installation. Gives the user flexibility to set maximum charger output current Allows the charger to be powered on or placed into standby while AC power is connected Displays the current status of each battery or each battery bank
 Related Products 
 ## Related products
-  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
-[Add to cart](https://store.automationghana.com/product/temperature-sensor-808-0232-02-schneider/?add-to-cart=2985)
-  * [![Busbar End Cover 141A-TR3E](https://store.automationghana.com/wp-content/uploads/2020/12/141A-TR3E-300x300.jpg)Busbar End Cover 141A-TR3E ₵78.50 ](https://store.automationghana.com/product/busbar-end-cover-141a-tr3e/)
-[Add to cart](https://store.automationghana.com/product/temperature-sensor-808-0232-02-schneider/?add-to-cart=2977)
-  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
-[Add to cart](https://store.automationghana.com/product/temperature-sensor-808-0232-02-schneider/?add-to-cart=2961)
-  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
-[Add to cart](https://store.automationghana.com/product/temperature-sensor-808-0232-02-schneider/?add-to-cart=2937)
+  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
+[Add to cart](https://store.automationghana.com/product/temperature-sensor-808-0232-02-schneider/?add-to-cart=2973)
+  * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
+[Add to cart](https://store.automationghana.com/product/temperature-sensor-808-0232-02-schneider/?add-to-cart=2948)
+  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
+[Add to cart](https://store.automationghana.com/product/temperature-sensor-808-0232-02-schneider/?add-to-cart=2946)
+  * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
+[Add to cart](https://store.automationghana.com/product/temperature-sensor-808-0232-02-schneider/?add-to-cart=2935)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

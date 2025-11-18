@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Auxiliary Contact 100-SB20
-[🔍](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
 [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S.jpg)
 ####  Auxiliary Contact 100-SB20 
 **SKU :** 100-SB20 
@@ -52,14 +52,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
-[Add to cart](https://store.automationghana.com/product/auxiliary-contact-100-sb20/?add-to-cart=2973)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/auxiliary-contact-100-sb20/?add-to-cart=2952)
-  * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
-[Add to cart](https://store.automationghana.com/product/auxiliary-contact-100-sb20/?add-to-cart=2941)
-  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
-[Add to cart](https://store.automationghana.com/product/auxiliary-contact-100-sb20/?add-to-cart=2937)
+  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
+[Add to cart](https://store.automationghana.com/product/auxiliary-contact-100-sb20/?add-to-cart=2967)
+  * [![Auxiliary Contact 140M-C-AFAR10A10](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A10-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A10 ₵415.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a10/)
+[Add to cart](https://store.automationghana.com/product/auxiliary-contact-100-sb20/?add-to-cart=2965)
+  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
+[Add to cart](https://store.automationghana.com/product/auxiliary-contact-100-sb20/?add-to-cart=2946)
+  * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
+[Add to cart](https://store.automationghana.com/product/auxiliary-contact-100-sb20/?add-to-cart=2944)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

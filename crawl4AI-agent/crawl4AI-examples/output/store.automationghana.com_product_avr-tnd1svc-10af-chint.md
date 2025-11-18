@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / AVR 10KVA 1 Phase, TND1(SVC)-10AF, Chint
-[🔍](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/)
 [![AVR 10KVA 1 Phase, TND1\(SVC\)-10AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)
 ####  AVR 10KVA 1 Phase, TND1(SVC)-10AF, Chint 
 **SKU :** TND1 SVC -10AF 
@@ -52,14 +52,14 @@ AVR TND1 (SVC)-10AF, 1 Phase
 
 Related Products 
 ## Related products
-  * [![MCB, C16A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C16-1P-300x300.jpg)MCB, C16A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c16-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/?add-to-cart=1777)
-  * [![AVR, 30KVA-3 Phase, TNSZ\(SBW\)-30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 30KVA-3 Phase, TNSZ(SBW)-30, Chint ₵32,548.00 ](https://store.automationghana.com/product/avr-tnszsbw-30-chint/)
-[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/?add-to-cart=1639)
-  * [![AVR, 20KVA-1 Phase, TND1\(SVC\)-20/AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-20_AF-300x300.png)AVR, 20KVA-1 Phase, TND1(SVC)-20/AF, Chint ₵10,925.00 ](https://store.automationghana.com/product/avr-tnd1svc-20-af-chint/)
-[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/?add-to-cart=1636)
-  * [![AVR 15KVA 1 Phase, TND1\(SVC\) -15AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 15KVA 1 Phase, TND1(SVC) -15AF, Chint ₵9,918.00 ](https://store.automationghana.com/product/avr-tnd1svc-15af-chint/)
-[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/?add-to-cart=1634)
+  * [![Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/?add-to-cart=1780)
+  * [![MCB, C10A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C10-1P-300x300.jpg)MCB, C10A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c10-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/?add-to-cart=1776)
+  * [![Manual Changeover Switch, 32A, 2P](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32-300x300.jpg)Manual Changeover Switch, 32A, 2P ₵95.00 ](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
+[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/?add-to-cart=1759)
+  * [![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)Automatic Voltage Regulator (AVR), 75kvA, 3 Phase ₵58,063.00 ](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
+[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/?add-to-cart=1641)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

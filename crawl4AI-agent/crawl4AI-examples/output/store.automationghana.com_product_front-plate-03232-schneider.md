@@ -43,14 +43,14 @@ Product Description
 03232 Product picture Schneider Electric FRONT PLATE NSX/CVS250 HORIZONTAL FIXED TOGGLE/ROTARY HANDLE W600 4M
 Related Products 
 ## Related products
-  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
-[Add to cart](https://store.automationghana.com/product/front-plate-03232-schneider/?add-to-cart=2983)
   * [![Circuit Breaker 140M-C2E-A16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-A16-300x300.jpg)Circuit Breaker 140M-C2E-A16 ₵873.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-a16/)
 [Add to cart](https://store.automationghana.com/product/front-plate-03232-schneider/?add-to-cart=2979)
-  * [![Busbar End Cover 141A-TR3E](https://store.automationghana.com/wp-content/uploads/2020/12/141A-TR3E-300x300.jpg)Busbar End Cover 141A-TR3E ₵78.50 ](https://store.automationghana.com/product/busbar-end-cover-141a-tr3e/)
-[Add to cart](https://store.automationghana.com/product/front-plate-03232-schneider/?add-to-cart=2977)
   * [![Auxiliary Contact 100-SB11](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB11 ₵270.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb11/)
 [Add to cart](https://store.automationghana.com/product/front-plate-03232-schneider/?add-to-cart=2954)
+  * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
+[Add to cart](https://store.automationghana.com/product/front-plate-03232-schneider/?add-to-cart=2948)
+  * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
+[Add to cart](https://store.automationghana.com/product/front-plate-03232-schneider/?add-to-cart=2941)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

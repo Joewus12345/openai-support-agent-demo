@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / Switch , 3-Gang 2-Way 250VAC, 16A, NEW6-D00608, Silver, Chint
-[🔍](https://store.automationghana.com/product/switch-new6-d00608-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/switch-new6-d00608-chint/)
 [![Switch , 3-Gang 2-Way 250VAC, 16A, NEW6-D00608, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/SWITCH.jpg)](https://store.automationghana.com/wp-content/uploads/2019/11/SWITCH.jpg)
 ####  Switch , 3-Gang 2-Way 250VAC, 16A, NEW6-D00608, Silver, Chint 
 **SKU :** NEW6-D00608 
@@ -52,14 +52,14 @@ NEW6-D00608, Switch, 3-Gang 2-Way
 
 Related Products 
 ## Related products
-  * [![Switch, Fan Speed Control, 250W, NEW7-G306, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/fan-speed-300x300.jpg)Switch, Fan Speed Control, 250W, NEW7-G306, Chint ₵83.00 ](https://store.automationghana.com/product/switch-new7-g306-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00608-chint/?add-to-cart=1538)
-  * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-5-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42712-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00608-chint/?add-to-cart=1529)
-  * [![IT socket-NEW6-D21100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/the-two-300x300.jpg)IT socket-NEW6-D21100, Chint ₵124.00 ](https://store.automationghana.com/product/it-socket-new6-d21100-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00608-chint/?add-to-cart=1519)
-  * [![Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-3-300x300.jpg)Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint ₵120.00 ](https://store.automationghana.com/product/double-socket-new6-d41932-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00608-chint/?add-to-cart=1508)
+  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-4-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint ₵71.00 ](https://store.automationghana.com/product/singl-socket-new6-d42702-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00608-chint/?add-to-cart=1526)
+  * [![IT socket-NEW6-D20300, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TELEPHONE-300x300.jpg)IT socket-NEW6-D20300, Chint ₵66.00 ](https://store.automationghana.com/product/it-socket-new6-d20300-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00608-chint/?add-to-cart=1516)
+  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00608-chint/?add-to-cart=1503)
+  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00608-chint/?add-to-cart=1502)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

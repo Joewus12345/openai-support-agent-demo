@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/climate-change/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -81,7 +73,7 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
 ## Climate Change And The Environment
-  1. [Home](https://automationghana.com)
+  1. [Home](https://18.197.210.112)
   2. Climate Change And The Environment
 
 
@@ -89,15 +81,15 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 We recognize our influence on the environment and the need for climate action. And we’re aware that to make an impact, we would have to continue to change the way we work and the way we interact with the environment, and we’re ready to take up this challenge. We call it future-proofing our business. We believe that this can only be achieved if we do it with everyone else: a collective effort.
 TAGG has adopted active measures to minimize our environmental footprints and protect our natural resources.
 ## Our Interventions
-![The Automation Ghana Group - ECSD Solar](https://automationghana.com/wp-content/uploads/2025/06/ECSD-Solar.jpg)
+![The Automation Ghana Group - ECSD Solar](https://18.197.210.112/wp-content/uploads/2025/06/ECSD-Solar.jpg)
 Energy & Resource Management 
 1. Energy-efficient HVAC systems to power our operations. 2. LED lights to reduce carbon emissions. 
 [ Learn more ](https://automationghana.com/energy-and-resource-management/)
-![The Automation Ghana Group - Solar farm](https://automationghana.com/wp-content/uploads/2025/06/Solar-farm.png)
+![The Automation Ghana Group - Solar farm](https://18.197.210.112/wp-content/uploads/2025/06/Solar-farm.png)
 Green Energy 
 1. Solar-powered operations (253kW solar PV system at the head office) 2. LED lighting 
 [ Learn more ](https://automationghana.com/green-energy/)
-![The Automation Ghana Group - Sustainability Website Plastic Recycling](https://automationghana.com/wp-content/uploads/2025/06/Sustainability_Website_Plastic-Recycling.jpg)
+![The Automation Ghana Group - Sustainability Website Plastic Recycling](https://18.197.210.112/wp-content/uploads/2025/06/Sustainability_Website_Plastic-Recycling.jpg)
 Waste Maagement 
 1. Waste segregation and plastic recycling. 2. Plastic recycling challenge for employees: PLASTICYCLE. 
 [ Learn more ](https://automationghana.com/waste-management/)

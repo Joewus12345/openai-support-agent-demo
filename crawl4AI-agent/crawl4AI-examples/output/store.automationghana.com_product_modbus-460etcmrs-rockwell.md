@@ -44,14 +44,14 @@ Product Description
 The 460ETCMRS moves data between a Modbus RTU master device and up to five different Allen-Bradley PLCs. It’s a simple tool to help you integrate legacy or low cost Modbus RTU controllers into your Allen-Bradley architecture. Best of all the product is Made in the USA, is always in stock and comes with 5 year warranty. Comes with din rail mount.
 Related Products 
 ## Related products
-  * [![Busbar End Cover 141A-TR3E](https://store.automationghana.com/wp-content/uploads/2020/12/141A-TR3E-300x300.jpg)Busbar End Cover 141A-TR3E ₵78.50 ](https://store.automationghana.com/product/busbar-end-cover-141a-tr3e/)
-[Add to cart](https://store.automationghana.com/product/modbus-460etcmrs-rockwell/?add-to-cart=2977)
+  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
+[Add to cart](https://store.automationghana.com/product/modbus-460etcmrs-rockwell/?add-to-cart=2956)
   * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
 [Add to cart](https://store.automationghana.com/product/modbus-460etcmrs-rockwell/?add-to-cart=2941)
   * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
 [Add to cart](https://store.automationghana.com/product/modbus-460etcmrs-rockwell/?add-to-cart=2939)
-  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
-[Add to cart](https://store.automationghana.com/product/modbus-460etcmrs-rockwell/?add-to-cart=2937)
+  * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
+[Add to cart](https://store.automationghana.com/product/modbus-460etcmrs-rockwell/?add-to-cart=2935)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

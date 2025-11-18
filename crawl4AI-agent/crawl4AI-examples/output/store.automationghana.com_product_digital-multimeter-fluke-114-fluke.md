@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Multimeter, Digital, 600V, Autovolt Selection, Fluke-114, Fluke
-[🔍](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/)
 [![Fluke 114](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-114.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-114.jpg)
 ####  Multimeter, Digital, 600V, Autovolt Selection, Fluke-114, Fluke 
 **SKU :** Fluke-114 
@@ -56,14 +56,14 @@ Digital Multimeter, Fluke-114 designed for easy one hand operation and a great c
 
 Related Products 
 ## Related products
-  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
-[Add to cart](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/?add-to-cart=2010)
-  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
-[Add to cart](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/?add-to-cart=2007)
-  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
-[Add to cart](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/?add-to-cart=2006)
-  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
-[Add to cart](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/?add-to-cart=2005)
+  * [![Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/MD-1150-300x300.jpg)Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel ₵1,515.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1150-metrel/)
+[Add to cart](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/?add-to-cart=2011)
+  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
+[Add to cart](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/?add-to-cart=2003)
+  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
+[Add to cart](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/?add-to-cart=2001)
+  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
+[Add to cart](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/?add-to-cart=1994)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

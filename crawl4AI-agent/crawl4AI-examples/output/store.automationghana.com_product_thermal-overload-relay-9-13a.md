@@ -24,13 +24,13 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Thermal Overload Relay, 9-13A, 1 N.O + 1 N.C, NXR-25 9-13A, Chint
-[🔍](https://store.automationghana.com/product/thermal-overload-relay-9-13a/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/thermal-overload-relay-9-13a/)
 [![Thermal Overload Relay, 9-13A, 1 N.O + 1 N.C, NXR-25 9-13A, Chint](https://store.automationghana.com/wp-content/uploads/2021/04/Thermal-Overload-Relay-NXR-12-7-10A-Chint.jpg)](https://store.automationghana.com/wp-content/uploads/2021/04/Thermal-Overload-Relay-NXR-12-7-10A-Chint.jpg)
 ####  Thermal Overload Relay, 9-13A, 1 N.O + 1 N.C, NXR-25 9-13A, Chint 
 **SKU :** NXR-25 9-13A 
 ₵86.00
 Item is sold per unit.
-143 in stock
+136 in stock
 Thermal Overload Relay, 9-13A, 1 N.O + 1 N.C, NXR-25 9-13A, Chint quantity
 Add to cart
   * Pickup: Available today in our stores
@@ -47,14 +47,14 @@ Product Description
 NXR-25 9-13A, Thermal Overload Relay ensures phase failure and overload protection.
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint ₵44.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-24vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-9-13a/?add-to-cart=1604)
-  * [![Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC (S), Omron ₵44.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-12vdc-s-omron/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-9-13a/?add-to-cart=1600)
   * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
 [Add to cart](https://store.automationghana.com/product/thermal-overload-relay-9-13a/?add-to-cart=1598)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-9-13a/?add-to-cart=1514)
+  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-9-13a/?add-to-cart=1592)
+  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-9-13a/?add-to-cart=1533)
+  * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-9-13a/?add-to-cart=1537)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -44,14 +44,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
-[Add to cart](https://store.automationghana.com/product/loop-isolator-base-ybo-r-sci-hochiki-2/?add-to-cart=2950)
+  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
+[Add to cart](https://store.automationghana.com/product/loop-isolator-base-ybo-r-sci-hochiki-2/?add-to-cart=2952)
   * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
 [Add to cart](https://store.automationghana.com/product/loop-isolator-base-ybo-r-sci-hochiki-2/?add-to-cart=2948)
+  * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
+[Add to cart](https://store.automationghana.com/product/loop-isolator-base-ybo-r-sci-hochiki-2/?add-to-cart=2944)
   * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
 [Add to cart](https://store.automationghana.com/product/loop-isolator-base-ybo-r-sci-hochiki-2/?add-to-cart=2941)
-  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
-[Add to cart](https://store.automationghana.com/product/loop-isolator-base-ybo-r-sci-hochiki-2/?add-to-cart=2939)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

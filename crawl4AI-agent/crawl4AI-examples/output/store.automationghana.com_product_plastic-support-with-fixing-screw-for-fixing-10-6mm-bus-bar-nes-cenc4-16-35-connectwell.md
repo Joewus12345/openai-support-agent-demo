@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Plastic Support with Fixing Screw for Fixing 10 / 6mm Bus Bar, NES CENC4/16/35, Connectwell
-[🔍](https://store.automationghana.com/product/plastic-support-with-fixing-screw-for-fixing-10-6mm-bus-bar-nes-cenc4-16-35-connectwell/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/plastic-support-with-fixing-screw-for-fixing-10-6mm-bus-bar-nes-cenc4-16-35-connectwell/)
 [![Plastic Support with Fixing Screw for Fixing 10 / 6mm Bus Bar, NES CENC4/16/35, Connectwell](https://store.automationghana.com/wp-content/uploads/2024/10/CENC4.jpg)](https://store.automationghana.com/wp-content/uploads/2024/10/CENC4.jpg)
 ####  Plastic Support with Fixing Screw for Fixing 10 / 6mm Bus Bar, NES CENC4/16/35, Connectwell 
 **SKU :** NES CENC4/16/35 
@@ -49,8 +49,8 @@ Related Products
 [Add to cart](https://store.automationghana.com/product/plastic-support-with-fixing-screw-for-fixing-10-6mm-bus-bar-nes-cenc4-16-35-connectwell/?add-to-cart=2985)
   * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
 [Add to cart](https://store.automationghana.com/product/plastic-support-with-fixing-screw-for-fixing-10-6mm-bus-bar-nes-cenc4-16-35-connectwell/?add-to-cart=2973)
-  * [![Auxiliary Contact 140M-C-AFAR10A10](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A10-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A10 ₵415.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a10/)
-[Add to cart](https://store.automationghana.com/product/plastic-support-with-fixing-screw-for-fixing-10-6mm-bus-bar-nes-cenc4-16-35-connectwell/?add-to-cart=2965)
+  * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
+[Add to cart](https://store.automationghana.com/product/plastic-support-with-fixing-screw-for-fixing-10-6mm-bus-bar-nes-cenc4-16-35-connectwell/?add-to-cart=2963)
   * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
 [Add to cart](https://store.automationghana.com/product/plastic-support-with-fixing-screw-for-fixing-10-6mm-bus-bar-nes-cenc4-16-35-connectwell/?add-to-cart=2944)
 

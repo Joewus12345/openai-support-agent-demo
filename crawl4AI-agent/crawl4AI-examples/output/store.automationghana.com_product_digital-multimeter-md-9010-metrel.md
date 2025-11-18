@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel
-[🔍](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
-[![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel.png)](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel.png)![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel.png)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
+[![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel.png)](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel.png)
 ####  Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel 
 **SKU :** MD 9010 
 ₵728.00
@@ -56,14 +56,14 @@ Metrel General Purpose Autocheck Digital Multimeter, MD 9010
 
 Related Products 
 ## Related products
-  * [![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115-300x300.jpg)Multimeter-FLUKE-115, Fluke ₵5,282.00 ](https://store.automationghana.com/product/multimeter-fluke-115-fluke/)
-[Add to cart](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/?add-to-cart=2013)
-  * [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ₵7,613.00 ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
-[Add to cart](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/?add-to-cart=2008)
-  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
-[Add to cart](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/?add-to-cart=2006)
-  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
-[Add to cart](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/?add-to-cart=1995)
+  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
+[Add to cart](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/?add-to-cart=2012)
+  * [![Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/MD-1150-300x300.jpg)Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel ₵1,515.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1150-metrel/)
+[Add to cart](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/?add-to-cart=2011)
+  * [![Fluke-424D](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-424D-300x300.jpg)Laser Distance Meter up to 100m, Fluke-424D, Fluke ₵11,623.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-424d-fluke/)
+[Add to cart](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/?add-to-cart=2009)
+  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
+[Add to cart](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/?add-to-cart=2005)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

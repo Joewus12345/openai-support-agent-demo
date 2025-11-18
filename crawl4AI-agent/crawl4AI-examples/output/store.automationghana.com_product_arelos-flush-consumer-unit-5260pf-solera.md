@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Enclosures and Junction Boxes](https://store.automationghana.com/product-category/enclosures-and-junction-boxes/) / 42-Way Arelos Flush Consumer Unit
-[🔍](https://store.automationghana.com/product/arelos-flush-consumer-unit-5260pf-solera/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/arelos-flush-consumer-unit-5260pf-solera/)
 [![42-Way Arelos Flush Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/5260pf-solera.png)](https://store.automationghana.com/wp-content/uploads/2020/04/5260pf-solera.png)
 ####  42-Way Arelos Flush Consumer Unit 
 **SKU :** 5260PF 
@@ -52,14 +52,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Distribution Board, 4 Way, Surface, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 4 Way, Surface, NX9-4, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/arelos-flush-consumer-unit-5260pf-solera/?add-to-cart=1704)
-  * [![Distribution Board, 4 Way, Flush, NX9-4M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)Distribution Board, 4 Way, Flush, NX9-4M, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/arelos-flush-consumer-unit-5260pf-solera/?add-to-cart=1705)
+  * [![Consumer Unit 8 Way, Metal, Recessed, NX8-8-J \(R\) Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit 8 Way, Metal, Recessed, NX8-8-J (R) Chint ₵280.00 ](https://store.automationghana.com/product/consumer-unit-nx8-8-j-r-chint/)
+[Add to cart](https://store.automationghana.com/product/arelos-flush-consumer-unit-5260pf-solera/?add-to-cart=1647)
   * [![Consumer Unit 18 Way, NX2-18, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX2-18-300x300.jpg)Consumer Unit 18 Way, NX2-18, Chint ₵763.00 ](https://store.automationghana.com/product/consumer-unit-nx2-18-chint/)
 [Add to cart](https://store.automationghana.com/product/arelos-flush-consumer-unit-5260pf-solera/?add-to-cart=1644)
-  * [![Distribution Board, 6 Way, Surface, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Surface, NX9-6M, Chint ₵1,514.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/arelos-flush-consumer-unit-5260pf-solera/?add-to-cart=1506)
+  * [![Consumer Unit, 5-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 5-Way ₵218.00 ](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/)
+[Add to cart](https://store.automationghana.com/product/arelos-flush-consumer-unit-5260pf-solera/?add-to-cart=1645)
+  * [![Distribution Board\(Flush\), 8 Way, NX9-8M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board(Flush), 8 Way, NX9-8M, Chint ₵1,800.00 ](https://store.automationghana.com/product/dist-board-nx9-8m-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/arelos-flush-consumer-unit-5260pf-solera/?add-to-cart=1504)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

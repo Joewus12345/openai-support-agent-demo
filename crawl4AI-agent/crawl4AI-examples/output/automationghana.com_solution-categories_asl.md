@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solution-categories/asl/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -87,11 +79,11 @@ Home Harness the Power of Data for Energy Efficiency Unlock the full potential o
 ## [Monitoring the Fermentation Process in Beer Production](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/)
 Home Maximize Energy Efficiency and Reduce Costs with Comprehensive Monitoring In the beer production process, fermentation is one of the most critical stages. Monitoring it accurately ensures that the beer develops the desired flavors, alcohol content, and quality. The Fermentation Monitor QWX43 is a cutting-edge device designed to provide continuous and precise monitoring of all […]
 ## [Integrated Terminal Management and Tank Farm Solutions](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/)
-Home Integrated Terminal Management & Tank Farm Solutions: Driving Efficiency & Reliability Integrated Terminal Management and Tank Farm Solutions are essential for optimizing operations in bulk liquid storage and distribution. Our solutions combine accurate loading metering, centralized inventory control, and seamless ERP integration to deliver precise measurements, real-time insights, and efficient workflows. With automation and […]
+Home 5Integrated Terminal Management & Tank Farm Solutions: Driving Efficiency & Reliability Integrated Terminal Management and Tank Farm Solutions are essential for optimizing operations in bulk liquid storage and distribution. Our solutions combine accurate loading metering, centralized inventory control, and seamless ERP integration to deliver precise measurements, real-time insights, and efficient workflows. With automation and […]
 ## [Optimizing Aeration in Wastewater Treatment](https://automationghana.com/solutions/wastewater-treatment/)
 In the food and beverage industry, wastewater treatment is a critical component. Our advanced aeration monitoring and control system is designed to significantly reduce energy consumption while maintaining optimal water quality. Given that aeration accounts for 45-75% of total energy use in wastewater treatment, optimizing this process is crucial for both operational efficiency and environmental […]
-## [Pipeline Monitoring and Automation](https://automationghana.com/solutions/pipeline-monitoring-and-automation/)
-Home Secure, Efficient, and Reliable: Your Partner in Advanced Pipeline Monitoring and Automation Our Pipeline Monitoring and Automation solution is designed to provide continuous, real-time visibility and control over product transfers, safeguarding your assets and minimizing risks. By integrating advanced flow measurement, density measurement, and leakage detection technologies, we ensure that your pipeline operations are […]
+## [Pipeline Monitoring](https://automationghana.com/solutions/pipeline-monitoring-and-automation/)
+Home Pipeline Monitoring: 10 Powerful and Trusted Methods for Unbeatable Reliability Pipeline Monitoring and Automation solution is designed to provide continuous, real-time visibility and control over product transfers, safeguarding your assets and minimizing risks. By integrating advanced flow measurement, density measurement, and leakage detection technologies, we ensure that your pipeline operations are secure, compliant, and […]
 ## [Inventory Monitoring and Tank Gauging](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/)
 Optimize inventory levels and enhance storage utilization with advanced monitoring solutions. We provide comprehensive turnkey systems that include smart radar level sensors, gateways, and cloud-based software for real-time data visualization and ERP integration. These solutions enable precise monitoring of liquids in tanks and silos, ensuring efficient inventory management and reducing costs. Hardware/Software Tank Gauging Level […]
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)

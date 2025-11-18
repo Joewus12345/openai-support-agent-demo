@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke
-[🔍](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
 [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN.jpg)
 ####  Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke 
 **SKU :** FLUKE-CV300 
@@ -53,14 +53,14 @@ Infrared Window FLUKE-CV300 saves time with quick and easy installation in less 
 
 Related Products 
 ## Related products
-  * [![MD-106-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-106-Metrel-300x300.png)Voltage Detector, Non-Contact, 90-1000VAC, MD 106, Metrel ₵202.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
-[Read more](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
-  * [![FLUKE-TL224](https://store.automationghana.com/wp-content/uploads/2020/04/Test-Leads-FLUKE-TL224-Fluke-300x275.png)Fluke-TL 224, SureGrip Insulated Test Leads ₵551.00 ](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/)
-[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2016)
-  * [![Fluke 114](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-114-300x300.jpg)Multimeter, Digital, 600V, Autovolt Selection, Fluke-114, Fluke ₵5,194.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/)
-[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=1997)
-  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
-[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=1992)
+  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
+[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2012)
+  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2007)
+  * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
+[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2000)
+  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
+[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=1994)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / UPS, 3kVA, UPA302N2NX0B035, Delta
-[🔍](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
 [![UPS, 3kVA, UPA302N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3.jpg)
 ####  UPS, 3kVA, UPA302N2NX0B035, Delta 
 **SKU :** UPA302N2NX0B035 
@@ -45,12 +45,12 @@ Product Description
 N 3kVA Gen 3, 230V, 1A charger, inbuilt 6*battery
 Related Products 
 ## Related products
-  * [![RCA Female Socket Connector](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-FEMALE-CONNECTOR.jpg)RCA Female Socket Connector ₵4.00 ](https://store.automationghana.com/product/rca-female-socket-connector/)
-[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=3637)
+  * [![RT UPS, 1kVA, UPA102R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)RT UPS, 1kVA, UPA102R2RX0B035, Delta ₵7,779.00 ](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=24750)
+  * [![UPS, 1kVA, UPA102N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 1kVA, UPA102N2NX0B035, Delta ₵6,980.00 ](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=24746)
   * [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)2-Way Surface Mount Consumer Unit ₵52.00 ](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
 [Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=1971)
-  * [![Pattress Box NEH1-201 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x3-patress-surface-300x300.jpg)Pattress Box NEH1-201 Chint ₵12.00 ](https://store.automationghana.com/product/pattress-box-neh1-201-chint/)
-[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=1831)
   * [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-300x300.jpeg)Infrared Sensor, NEW7-G31100A, Chint ₵168.00 ](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
 [Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=1753)
 

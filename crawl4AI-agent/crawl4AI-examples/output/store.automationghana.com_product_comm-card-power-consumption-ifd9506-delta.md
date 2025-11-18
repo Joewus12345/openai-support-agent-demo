@@ -44,14 +44,14 @@ Product Description
 Interface Modules COMMUNICATION MODULE 485/232-ETH E/IP AND MODBUS
 Related Products 
 ## Related products
-  * [![Base Socket 700-HN139](https://store.automationghana.com/wp-content/uploads/2020/12/700-HN139.jpg)Base Socket 700-HN139 ₵457.00 ](https://store.automationghana.com/product/base-socket-700-hn139/)
-[Add to cart](https://store.automationghana.com/product/comm-card-power-consumption-ifd9506-delta/?add-to-cart=2971)
-  * [![Auxiliary Contact 140M-C-AFAR10A10](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A10-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A10 ₵415.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a10/)
-[Add to cart](https://store.automationghana.com/product/comm-card-power-consumption-ifd9506-delta/?add-to-cart=2965)
-  * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
-[Add to cart](https://store.automationghana.com/product/comm-card-power-consumption-ifd9506-delta/?add-to-cart=2963)
+  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
+[Add to cart](https://store.automationghana.com/product/comm-card-power-consumption-ifd9506-delta/?add-to-cart=2973)
+  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
+[Add to cart](https://store.automationghana.com/product/comm-card-power-consumption-ifd9506-delta/?add-to-cart=2967)
   * [![Auxiliary Contact 100-SB11](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB11 ₵270.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb11/)
 [Add to cart](https://store.automationghana.com/product/comm-card-power-consumption-ifd9506-delta/?add-to-cart=2954)
+  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
+[Add to cart](https://store.automationghana.com/product/comm-card-power-consumption-ifd9506-delta/?add-to-cart=2952)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

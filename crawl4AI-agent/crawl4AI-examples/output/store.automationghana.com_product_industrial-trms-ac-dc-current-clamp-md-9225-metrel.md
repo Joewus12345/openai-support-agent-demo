@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225
-[🔍](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
 [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel.png)](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel.png)
 ####  Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 
 **SKU :** MD 9225 
@@ -57,14 +57,14 @@ Metrel Industrial TRMS AC/DC Current Clamp on + Full Multimeter Ranges, MD 9225
 
 Related Products 
 ## Related products
-  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
-[Add to cart](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/?add-to-cart=2010)
-  * [![Digital-MultimeterMD-9030-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-MultimeterMD-9030-Metrel-300x300.png)Multimeter,Digital, 1000VDC/VAC, 10A DC/AC, MD 9030, Metrel ₵1,819.00 ](https://store.automationghana.com/product/digital-multimetermd-9030-metrel/)
-[Add to cart](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/?add-to-cart=2002)
-  * [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke-300x300.png)Fluke T6-600, Electrical Tester with FieldSense Technology ₵4,525.00 ](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
-[Add to cart](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/?add-to-cart=2004)
-  * [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ₵3,161.00 ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
-[Add to cart](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/?add-to-cart=1996)
+  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
+[Add to cart](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/?add-to-cart=2012)
+  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+[Add to cart](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/?add-to-cart=2007)
+  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
+[Add to cart](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/?add-to-cart=2005)
+  * [![Clamp Meter, Fluke-376FC](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-Fluke-376FC-Fluke-300x300.png)Clamp Meter, True RMS AC/DC, 1000A/1000V, Fluke-376FC, Fluke ₵10,430.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376fc-fluke/)
+[Add to cart](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/?add-to-cart=1993)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / WIFI Smart Plug
-[🔍](https://store.automationghana.com/product/wifi-smart-plug/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/wifi-smart-plug/)
 [![WIFI Smart Plug](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Smart-Plug.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Smart-Plug.jpg)
 ####  WIFI Smart Plug 
 **SKU :** W-SM PLUG 
@@ -52,14 +52,14 @@ WiFi Smart Plug
 
 Related Products 
 ## Related products
-  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
-[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3583)
-  * [![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1-300x300.jpg)WIFI Relay Dummy Load ₵100.00 ](https://store.automationghana.com/product/wifi-relay-dummy-load/)
-[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3569)
-  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
-[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3307)
-  * [![1 Channel WIFI Metering Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/shelly1pm_x1-1000x1000-1-1-300x300.jpg)1 Channel WIFI Metering Relay Switch ₵560.00 ](https://store.automationghana.com/product/wifi-operated-relay-switch-16-a-with-power-measurement/)
-[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3302)
+  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
+[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3594)
+  * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
+[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3316)
+  * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
+[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3300)
+  * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3283)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

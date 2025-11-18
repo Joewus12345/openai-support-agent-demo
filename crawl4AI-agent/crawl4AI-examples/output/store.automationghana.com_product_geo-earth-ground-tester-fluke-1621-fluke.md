@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Fluke-1621, Geo Earth Ground Tester
-[🔍](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
 [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND.png)](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND.png)
 ####  Fluke-1621, Geo Earth Ground Tester 
 **SKU :** Fluke-1621 
@@ -53,14 +53,14 @@ GEO Earth Ground Tester, FLUKE-1621 is an easy-to-use earth ground tester for gr
 
 Related Products 
 ## Related products
-  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
-[Add to cart](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/?add-to-cart=2006)
-  * [![Digital-MultimeterMD-9030-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-MultimeterMD-9030-Metrel-300x300.png)Multimeter,Digital, 1000VDC/VAC, 10A DC/AC, MD 9030, Metrel ₵1,819.00 ](https://store.automationghana.com/product/digital-multimetermd-9030-metrel/)
-[Add to cart](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/?add-to-cart=2002)
-  * [![Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage-300x300.png)Multimeter, Digital, 600V, Non-contact Voltage Detection, Fluke-117, Fluke ₵4,698.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-117-fluke/)
-[Add to cart](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/?add-to-cart=1998)
-  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
-[Add to cart](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/?add-to-cart=1995)
+  * [![Fluke-424D](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-424D-300x300.jpg)Laser Distance Meter up to 100m, Fluke-424D, Fluke ₵11,623.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-424d-fluke/)
+[Add to cart](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/?add-to-cart=2009)
+  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
+[Add to cart](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/?add-to-cart=2003)
+  * [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ₵3,161.00 ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
+[Add to cart](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/?add-to-cart=1996)
+  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
+[Add to cart](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/?add-to-cart=1994)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

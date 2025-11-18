@@ -44,14 +44,14 @@ Product Description
 The M100T Ethernet Remote I/O Module is an industrial class, isolated designed, high reliability, high stability and high precision data acquisition module, embedded 32-Bit High Performance Microprocessor MCU, Integrated 1 Industrial 10/100M adaptive Ethernet module inside. It provides multi I/O, supports standard Modbus TCP, can be intergraded into SCADA, OPC server, and other automation systems. It is design for working in the harsh industrial application environment, widely used in a variety of industrial automation, security monitoring system, automatically measurement and control system.
 Related Products 
 ## Related products
-  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
-[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m100t-king-pigeon/?add-to-cart=2981)
-  * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
-[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m100t-king-pigeon/?add-to-cart=2969)
-  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
-[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m100t-king-pigeon/?add-to-cart=2967)
-  * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
-[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m100t-king-pigeon/?add-to-cart=2959)
+  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
+[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m100t-king-pigeon/?add-to-cart=2983)
+  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
+[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m100t-king-pigeon/?add-to-cart=2973)
+  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
+[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m100t-king-pigeon/?add-to-cart=2946)
+  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
+[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m100t-king-pigeon/?add-to-cart=2937)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

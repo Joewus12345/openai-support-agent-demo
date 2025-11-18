@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Control Relay 700-CF310KD
-[🔍](https://store.automationghana.com/product/control-relay-700-cf310kd/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/control-relay-700-cf310kd/)
 [![Control Relay 700-CF310KD](https://store.automationghana.com/wp-content/uploads/2020/12/700-CF310KD.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/700-CF310KD.jpg)
 ####  Control Relay 700-CF310KD 
 **SKU :** 700-CF310KD 
@@ -54,14 +54,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
-[Add to cart](https://store.automationghana.com/product/control-relay-700-cf310kd/?add-to-cart=2983)
-  * [![Busbar End Cover 141A-TR3E](https://store.automationghana.com/wp-content/uploads/2020/12/141A-TR3E-300x300.jpg)Busbar End Cover 141A-TR3E ₵78.50 ](https://store.automationghana.com/product/busbar-end-cover-141a-tr3e/)
-[Add to cart](https://store.automationghana.com/product/control-relay-700-cf310kd/?add-to-cart=2977)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/control-relay-700-cf310kd/?add-to-cart=2952)
+  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
+[Add to cart](https://store.automationghana.com/product/control-relay-700-cf310kd/?add-to-cart=2973)
+  * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
+[Add to cart](https://store.automationghana.com/product/control-relay-700-cf310kd/?add-to-cart=2969)
   * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
 [Add to cart](https://store.automationghana.com/product/control-relay-700-cf310kd/?add-to-cart=2937)
+  * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
+[Add to cart](https://store.automationghana.com/product/control-relay-700-cf310kd/?add-to-cart=2935)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

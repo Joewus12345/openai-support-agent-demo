@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / RT UPS, 6kVA, UPS602R2RT0B035, Delta
-[🔍](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
 [![RT UPS, 6kVA, UPS602R2RT0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S.jpg)
 ####  RT UPS, 6kVA, UPS602R2RT0B035, Delta 
 **SKU :** UPS602R2RT0B035 
@@ -45,14 +45,14 @@ Product Description
 RT 6kVA S w/ 16x7Ah batt. & PDB
 Related Products 
 ## Related products
-  * [![UPS \(Amplon RT-3KVA\), UPA302R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)UPS (Amplon RT-3KVA), UPA302R2RX0B035, Delta ₵16,347.50 ](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=24752)
-  * [![RT UPS, 1kVA, UPA102R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)RT UPS, 1kVA, UPA102R2RX0B035, Delta ₵7,779.00 ](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=24750)
-  * [![UPS, 3kVA, UPA302N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 3kVA, UPA302N2NX0B035, Delta ₵9,432.00 ](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=24749)
-  * [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)2-Way Surface Mount Consumer Unit ₵52.00 ](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=1971)
+  * [![RCA Female Socket Connector](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-FEMALE-CONNECTOR.jpg)RCA Female Socket Connector ₵4.00 ](https://store.automationghana.com/product/rca-female-socket-connector/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=3637)
+  * [![Pattress Box-NEH1-004A, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box-NEH1-004A, Chint ₵12.00 ](https://store.automationghana.com/product/recessed-mounting-box/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=3373)
+  * [![Venting Fans, NEF1-260, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-260, Chint ₵449.50 ](https://store.automationghana.com/product/venting-fans-nef1-260-chint/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=1920)
+  * [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-300x300.jpeg)Infrared Sensor, NEW7-G31100A, Chint ₵168.00 ](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=1753)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

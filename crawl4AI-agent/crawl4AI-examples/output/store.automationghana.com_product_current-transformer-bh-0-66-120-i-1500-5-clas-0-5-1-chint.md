@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Current Transformer, 1500/5A, BH-0.66 120 I, Chint
-[🔍](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/)
 [![Current Transformer, 1500/5A, BH-0.66 120 I, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/BH-0.66-120-I-1500-5A-Class-0.5-1-Chint-Copy-Copy-1.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/BH-0.66-120-I-1500-5A-Class-0.5-1-Chint-Copy-Copy-1.jpg)
 ####  Current Transformer, 1500/5A, BH-0.66 120 I, Chint 
 **SKU :** BH-0.66 120 I 1500/5 
@@ -53,14 +53,14 @@ BH-0.66 120 I 1500/5A, Current Transformer
 
 Related Products 
 ## Related products
-  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
-[Add to cart](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/?add-to-cart=1594)
-  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
-[Add to cart](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/?add-to-cart=1593)
-  * [![Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903131A.png)Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera ₵66.00 ](https://store.automationghana.com/product/industrial-socket-903131a-solera/)
-[Add to cart](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/?add-to-cart=1513)
-  * [![Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902154A.png)Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera ₵108.00 ](https://store.automationghana.com/product/industrial-plug-902154a-solera/)
-[Add to cart](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/?add-to-cart=1511)
+  * [![Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint ₵44.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/?add-to-cart=1604)
+  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/?add-to-cart=1602)
+  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
+[Add to cart](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/?add-to-cart=1599)
+  * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
+[Add to cart](https://store.automationghana.com/product/current-transformer-bh-0-66-120-i-1500-5-clas-0-5-1-chint/?add-to-cart=1522)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

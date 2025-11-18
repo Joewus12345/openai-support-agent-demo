@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / RCD Socket-NE2-RCD 13A, Chint
-[🔍](https://store.automationghana.com/product/rcd-socket-13a-2-gang-metal/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/rcd-socket-13a-2-gang-metal/)
 [![RCD Socket-NE2-RCD 13A, Chint](https://store.automationghana.com/wp-content/uploads/2023/07/chint_ne2-rcd13a_m_.jpg)](https://store.automationghana.com/wp-content/uploads/2023/07/chint_ne2-rcd13a_m_.jpg)
 ####  RCD Socket-NE2-RCD 13A, Chint 
 **SKU :** NE2-RCD 13A - M 
@@ -51,14 +51,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Switch, 1-Gang 1-Way 16A, 250V, NEW6-D00100, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-white-300x300.jpg)Switch, 1-Gang 1-Way 16A, 250V, NEW6-D00100, White, Chint ₵44.00 ](https://store.automationghana.com/product/switch-new6-d00100-chint/)
-[Add to cart](https://store.automationghana.com/product/rcd-socket-13a-2-gang-metal/?add-to-cart=1541)
+  * [![Switch, Fan Speed Control, 250W, NEW7-G306, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/fan-speed-300x300.jpg)Switch, Fan Speed Control, 250W, NEW7-G306, Chint ₵83.00 ](https://store.automationghana.com/product/switch-new7-g306-chint/)
+[Add to cart](https://store.automationghana.com/product/rcd-socket-13a-2-gang-metal/?add-to-cart=1538)
+  * [![Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/dimmer-switch.jpg)Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint ₵159.00 ](https://store.automationghana.com/product/light-dimmer-new6-d30510-chint/)
+[Add to cart](https://store.automationghana.com/product/rcd-socket-13a-2-gang-metal/?add-to-cart=1520)
   * [![IT socket-NEW6-D20500, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-300x300.jpg)IT socket-NEW6-D20500, Chint ₵256.00 ](https://store.automationghana.com/product/it-socket-new6-d20500-chint/)
 [Add to cart](https://store.automationghana.com/product/rcd-socket-13a-2-gang-metal/?add-to-cart=1518)
-  * [![IT socket-NEW6-D20300, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TELEPHONE-300x300.jpg)IT socket-NEW6-D20300, Chint ₵66.00 ](https://store.automationghana.com/product/it-socket-new6-d20300-chint/)
-[Add to cart](https://store.automationghana.com/product/rcd-socket-13a-2-gang-metal/?add-to-cart=1516)
-  * [![Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41918-chint/)
-[Add to cart](https://store.automationghana.com/product/rcd-socket-13a-2-gang-metal/?add-to-cart=1510)
+  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
+[Add to cart](https://store.automationghana.com/product/rcd-socket-13a-2-gang-metal/?add-to-cart=1503)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

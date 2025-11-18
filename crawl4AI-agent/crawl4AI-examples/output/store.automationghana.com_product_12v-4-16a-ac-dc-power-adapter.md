@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / 12V 4.16A AC/DC Power Adapter
-[🔍](https://store.automationghana.com/product/12v-4-16a-ac-dc-power-adapter/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/12v-4-16a-ac-dc-power-adapter/)
 [![12V 4.16A AC/DC Power Adapter](https://store.automationghana.com/wp-content/uploads/2021/10/12V-416A-ACDC-Power-Adapter.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/12V-416A-ACDC-Power-Adapter.jpg)
 ####  12V 4.16A AC/DC Power Adapter 
 **SKU :** PWR-12V5A-UK 
@@ -51,14 +51,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![WiFi-Operated 3 Phase Energy Meter and Contactor Control](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-3em-300x300.jpeg)WiFi-Operated 3 Phase Energy Meter and Contactor Control ₵1,499.24 ](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/)
-[Add to cart](https://store.automationghana.com/product/12v-4-16a-ac-dc-power-adapter/?add-to-cart=3304)
-  * [![1 Channel WIFI Metering Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/shelly1pm_x1-1000x1000-1-1-300x300.jpg)1 Channel WIFI Metering Relay Switch ₵560.00 ](https://store.automationghana.com/product/wifi-operated-relay-switch-16-a-with-power-measurement/)
-[Add to cart](https://store.automationghana.com/product/12v-4-16a-ac-dc-power-adapter/?add-to-cart=3302)
+  * [![Split Core Current Transformer 50A](https://store.automationghana.com/wp-content/uploads/2021/03/Clamp-Up-300x300.jpeg)Split Core Current Transformer 50A ₵172.00 ](https://store.automationghana.com/product/50a-16ma-clamp-on-current-transformer/)
+[Add to cart](https://store.automationghana.com/product/12v-4-16a-ac-dc-power-adapter/?add-to-cart=3308)
+  * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
+[Add to cart](https://store.automationghana.com/product/12v-4-16a-ac-dc-power-adapter/?add-to-cart=3300)
   * [![WIFI IR Blaster](https://store.automationghana.com/wp-content/uploads/2021/03/images-4.jpg)WIFI IR Blaster ₵626.00 ](https://store.automationghana.com/product/ir-rf-universal-remote/)
 [Add to cart](https://store.automationghana.com/product/12v-4-16a-ac-dc-power-adapter/?add-to-cart=3293)
-  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
-[Add to cart](https://store.automationghana.com/product/12v-4-16a-ac-dc-power-adapter/?add-to-cart=3252)
+  * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+[Add to cart](https://store.automationghana.com/product/12v-4-16a-ac-dc-power-adapter/?add-to-cart=3283)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

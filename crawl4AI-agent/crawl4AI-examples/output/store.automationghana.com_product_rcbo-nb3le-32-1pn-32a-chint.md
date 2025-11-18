@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / RCBO-NB3LE-32 1P+N 32A, Chint
-[🔍](https://store.automationghana.com/product/rcbo-nb3le-32-1pn-32a-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/rcbo-nb3le-32-1pn-32a-chint/)
 [![RCBO-NB3LE-32 1P+N 32A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/RCBO-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/RCBO.jpg)
 ####  RCBO-NB3LE-32 1P+N 32A, Chint 
 **SKU :** NB3LE-32 1P+N 32A 
@@ -53,10 +53,10 @@ NB3LE-32 1P+N 32A, 30mA RCBO
 
 Related Products 
 ## Related products
-  * [![MCB, C20A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C20-1P-300x300.jpg)MCB, C20A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/rcbo-nb3le-32-1pn-32a-chint/?add-to-cart=1778)
-  * [![AVR, 100KVA-3 Phase, TNSZ\(SBW\)-100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)AVR, 100KVA-3 Phase, TNSZ(SBW)-100, Chint ₵62,258.00 ](https://store.automationghana.com/product/avr-tnszsbw-100-chint/)
-[Add to cart](https://store.automationghana.com/product/rcbo-nb3le-32-1pn-32a-chint/?add-to-cart=1638)
+  * [![MCB 20A 3P, NXB-63 3P C20 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/BREAKER-5-300x300.jpg)MCB 20A 3P, NXB-63 3P C20 6kA, Chint ₵110.00 ](https://store.automationghana.com/product/mcb-nxb-63-3p-c20-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/rcbo-nb3le-32-1pn-32a-chint/?add-to-cart=1784)
+  * [![Manual Changeover Switch, 32A, 2P](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32-300x300.jpg)Manual Changeover Switch, 32A, 2P ₵95.00 ](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
+[Add to cart](https://store.automationghana.com/product/rcbo-nb3le-32-1pn-32a-chint/?add-to-cart=1759)
   * [![AVR 15KVA 1 Phase, TND1\(SVC\) -15AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 15KVA 1 Phase, TND1(SVC) -15AF, Chint ₵9,918.00 ](https://store.automationghana.com/product/avr-tnd1svc-15af-chint/)
 [Add to cart](https://store.automationghana.com/product/rcbo-nb3le-32-1pn-32a-chint/?add-to-cart=1634)
   * [![Automatic Changeover Switch, 63A, NZ7-125H/4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover Switch, 63A, NZ7-125H/4, Chint ₵2,731.00 ](https://store.automationghana.com/product/automatic-changeover-switch-nz7-125h-4-63a-chint/)

@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Automation & Drives](https://store.automationghana.com/product-category/industrial-automation/) / MX Inverter Drive 400VAC, 5.5kW, 3Phase
-[🔍](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/)
-[![MX Inverter Drive 400VAC, 5.5kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON.jpg)![MX Inverter Drive 400VAC, 5.5kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/)
+[![MX Inverter Drive 400VAC, 5.5kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON.jpg)
 ####  MX Inverter Drive 400VAC, 5.5kW, 3Phase 
 **SKU :** 3G3MX2-A4055-E 
 ₵9,706.00
@@ -58,12 +58,12 @@ Related Products
 ## Related products
   * [![Inverter Drive \(RX\), 22kW, 48A, 3-Phase, 400 VAC, 3G3RX-A4220-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 22kW, 48A, 3-Phase, 400 VAC, 3G3RX-A4220-E1F CHN, Omron ₵16,727.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4220-e1f-chn-omron/)
 [Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/?add-to-cart=1587)
-  * [![Inverter Drive \(RX\), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron ₵46,785.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4370-e1f-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/?add-to-cart=1588)
-  * [![MX Inverter Drive 400VAC, 2.2kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 2.2kW, 3Phase ₵5,443.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4022-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/?add-to-cart=1577)
-  * [![Input/Output Expansion Unit, Digital,2A, CP1W8D.2 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W.png)Input/Output Expansion Unit, Digital,2A, CP1W8D.2 Omron ₵996.00 ](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/)
-[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/?add-to-cart=1570)
+  * [![Inverter Drive\(MX\), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron ₵7,561.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4040-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/?add-to-cart=1579)
+  * [![Temperature Controller, 0/4-20mA Current Output, 3 Aux, E5CC-CX3A5M-004, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/PID-Temperature-Controller-E5CC-CX3A5M-004-Omron-300x300.png)Temperature Controller, 0/4-20mA Current Output, 3 Aux, E5CC-CX3A5M-004, Omron ₵1,324.00 ](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/)
+[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/?add-to-cart=1584)
+  * [![Inverter Drive\(MX\), 0.75kW, 3.4/4.1A , 3~Phase, 400 VAC, 3G3MX2-A4007-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 0.75kW, 3.4/4.1A , 3~Phase, 400 VAC, 3G3MX2-A4007-E CHN, Omron ₵4,267.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4007-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/?add-to-cart=1575)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

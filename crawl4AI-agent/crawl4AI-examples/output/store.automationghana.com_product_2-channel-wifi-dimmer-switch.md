@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / 2 Channel WiFi Dimmer Switch
-[🔍](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/)
 [![2 Channel WiFi Dimmer Switch](https://store.automationghana.com/wp-content/uploads/2021/10/image.thumb_.png.53d2d5bf0ada5ff3649de0faf116a756-600x600.png)](https://store.automationghana.com/wp-content/uploads/2021/10/image.thumb_.png.53d2d5bf0ada5ff3649de0faf116a756.png)
 ####  2 Channel WiFi Dimmer Switch 
 **SKU :** Y-R-DIM W2CH 
@@ -56,14 +56,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
-[Add to cart](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/?add-to-cart=3594)
-  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
-[Add to cart](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/?add-to-cart=3313)
   * [![1 Channel WIFI Metering Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/shelly1pm_x1-1000x1000-1-1-300x300.jpg)1 Channel WIFI Metering Relay Switch ₵560.00 ](https://store.automationghana.com/product/wifi-operated-relay-switch-16-a-with-power-measurement/)
 [Add to cart](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/?add-to-cart=3302)
-  * [![F-CAM-Wireless IP PTZ Security Camera](https://store.automationghana.com/wp-content/uploads/2021/03/Sonoff-Wifi-Wireless-Security-Camera-GK-200mp2-B-300x300.jpg)F-CAM-Wireless IP PTZ Security Camera ₵1,266.00 ](https://store.automationghana.com/product/3209/)
-[Add to cart](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/?add-to-cart=3209)
+  * [![2 Channel WIFI Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/Double.png)2 Channel WIFI Relay Switch ₵840.00 ](https://store.automationghana.com/product/wi-fi-dual-relay-switch/)
+[Add to cart](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/?add-to-cart=3295)
+  * [![WIFI IR Blaster](https://store.automationghana.com/wp-content/uploads/2021/03/images-4.jpg)WIFI IR Blaster ₵626.00 ](https://store.automationghana.com/product/ir-rf-universal-remote/)
+[Add to cart](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/?add-to-cart=3293)
+  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
+[Add to cart](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/?add-to-cart=3252)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

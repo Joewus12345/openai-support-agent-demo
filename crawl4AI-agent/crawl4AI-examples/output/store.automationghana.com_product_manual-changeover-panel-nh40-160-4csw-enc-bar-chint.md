@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint
-[🔍](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
 [![Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1.jpg)](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1.jpg)
 ####  Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint 
 **SKU :** NH40-160/4CSW/ENC/BAR 
@@ -51,14 +51,14 @@ NH40-160/4CSW, Manual Changeover Panel With Iron Shield, 160A
 
 Related Products 
 ## Related products
+  * [![Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/?add-to-cart=1780)
   * [![MCB 6A 1P, NXB-63 1P C6 6kA Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)MCB 6A 1P, NXB-63 1P C6 6kA Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c6-6ka-chint/)
 [Add to cart](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/?add-to-cart=1781)
-  * [![MCB, C10A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C10-1P-300x300.jpg)MCB, C10A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c10-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/?add-to-cart=1776)
-  * [![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)Automatic Voltage Regulator (AVR), 75kvA, 3 Phase ₵58,063.00 ](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/?add-to-cart=1641)
-  * [![AVR, 100KVA-3 Phase, TNSZ\(SBW\)-100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)AVR, 100KVA-3 Phase, TNSZ(SBW)-100, Chint ₵62,258.00 ](https://store.automationghana.com/product/avr-tnszsbw-100-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/?add-to-cart=1638)
+  * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/?add-to-cart=1779)
+  * [![Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint ₵1,722.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-63-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/?add-to-cart=1758)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

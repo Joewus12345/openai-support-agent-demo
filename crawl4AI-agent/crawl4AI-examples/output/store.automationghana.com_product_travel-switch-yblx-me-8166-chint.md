@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Travel Switch YBLX-ME/8166 Chint
-[🔍](https://store.automationghana.com/product/travel-switch-yblx-me-8166-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/travel-switch-yblx-me-8166-chint/)
 [![Travel Switch YBLX-ME/8166 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/YBLX-ME_8166.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/YBLX-ME_8166.jpg)
 ####  Travel Switch YBLX-ME/8166 Chint 
 **SKU :** YBLX-ME/8166 
@@ -53,12 +53,12 @@ Related Products
 ## Related products
   * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
 [Add to cart](https://store.automationghana.com/product/travel-switch-yblx-me-8166-chint/?add-to-cart=1594)
-  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/travel-switch-yblx-me-8166-chint/?add-to-cart=1592)
   * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
 [Add to cart](https://store.automationghana.com/product/travel-switch-yblx-me-8166-chint/?add-to-cart=1537)
   * [![Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-8-300x300.jpg)Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera ₵608.00 ](https://store.automationghana.com/product/plug-902456a-solera/)
 [Add to cart](https://store.automationghana.com/product/travel-switch-yblx-me-8166-chint/?add-to-cart=1524)
+  * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
+[Add to cart](https://store.automationghana.com/product/travel-switch-yblx-me-8166-chint/?add-to-cart=1522)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

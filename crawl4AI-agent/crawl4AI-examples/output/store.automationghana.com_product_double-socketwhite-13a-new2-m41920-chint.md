@@ -24,11 +24,11 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / Double Socket(White), 13A, NEW2-M41920, Chint
-[🔍](https://store.automationghana.com/product/double-socketwhite-13a-new2-m41920-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/double-socketwhite-13a-new2-m41920-chint/)
 [![Double Socket\(White\), 13A, NEW2-M41920, Chint](https://store.automationghana.com/wp-content/uploads/2024/08/Double-SocketWhite-13A-NEW2M41920-Chint.jpg)](https://store.automationghana.com/wp-content/uploads/2024/08/Double-SocketWhite-13A-NEW2M41920-Chint.jpg)
 ####  Double Socket(White), 13A, NEW2-M41920, Chint 
 **SKU :** Double Socket(White), 13A, NEW2-M41920 
-₵93.00
+₵51.70
 Chint Double Socket 2-Gang 3-Pin 13A 250VAC
 Double Socket(White), 13A, NEW2-M41920, Chint quantity
 Add to cart
@@ -45,14 +45,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Double Socket 2-Gang 3-Pin, NEW7-G41910K, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-2-300x300.jpg)Double Socket 2-Gang 3-Pin, NEW7-G41910K, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new7-g41910k-chint/)
-[Add to cart](https://store.automationghana.com/product/double-socketwhite-13a-new2-m41920-chint/?add-to-cart=1540)
-  * [![Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42720-300x300.jpg)Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint ₵184.00 ](https://store.automationghana.com/product/single-socket-new6-d42720-chint/)
-[Add to cart](https://store.automationghana.com/product/double-socketwhite-13a-new2-m41920-chint/?add-to-cart=1531)
+  * [![Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-gold-300x300.jpg)Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint ₵79.00 ](https://store.automationghana.com/product/switch-new6-d00402-chint/)
+[Add to cart](https://store.automationghana.com/product/double-socketwhite-13a-new2-m41920-chint/?add-to-cart=1539)
+  * [![IT socket-NEW6-D20400, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20400, Chint ₵148.00 ](https://store.automationghana.com/product/it-socket-new6-d20400-chint/)
+[Add to cart](https://store.automationghana.com/product/double-socketwhite-13a-new2-m41920-chint/?add-to-cart=1517)
+  * [![Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-3-300x300.jpg)Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint ₵120.00 ](https://store.automationghana.com/product/double-socket-new6-d41932-chint/)
+[Add to cart](https://store.automationghana.com/product/double-socketwhite-13a-new2-m41920-chint/?add-to-cart=1508)
   * [![Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint ₵127.00 ](https://store.automationghana.com/product/double-socket-with-neon-new6-d41938-chint/)
 [Add to cart](https://store.automationghana.com/product/double-socketwhite-13a-new2-m41920-chint/?add-to-cart=1507)
-  * [![Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-5-300x300.jpg)Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41912-chint/)
-[Add to cart](https://store.automationghana.com/product/double-socketwhite-13a-new2-m41920-chint/?add-to-cart=1509)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

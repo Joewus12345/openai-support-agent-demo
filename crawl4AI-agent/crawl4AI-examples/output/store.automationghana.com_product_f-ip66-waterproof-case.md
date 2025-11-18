@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / F-IP66 Waterproof Case
-[🔍](https://store.automationghana.com/product/f-ip66-waterproof-case/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/f-ip66-waterproof-case/)
 [![F-IP66 Waterproof Case](https://store.automationghana.com/wp-content/uploads/2021/10/F-IP66-Waterproof-Case.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/F-IP66-Waterproof-Case.jpg)
 ####  F-IP66 Waterproof Case 
 **SKU :** F-IP66 CASE 
@@ -52,14 +52,14 @@ F-IP66 Waterproof Case
 
 Related Products 
 ## Related products
-  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
-[Add to cart](https://store.automationghana.com/product/f-ip66-waterproof-case/?add-to-cart=3594)
-  * [![F-Sensor Mounting Base](https://store.automationghana.com/wp-content/uploads/2021/10/430x430x90-sonoff_pir_motion_sensor_base_1623831045-removebg-preview-300x300.webp)F-Sensor Mounting Base ₵106.00 ](https://store.automationghana.com/product/f-sensor-mounting-base/)
-[Add to cart](https://store.automationghana.com/product/f-ip66-waterproof-case/?add-to-cart=3592)
-  * [![XYE MASTER \(MINI COMPUTER\)](https://store.automationghana.com/wp-content/uploads/2021/03/Picture1-300x218.png)XYE MASTER (MINI COMPUTER) ₵3,744.00 ](https://store.automationghana.com/product/smarthome-hub-integration-module/)
-[Add to cart](https://store.automationghana.com/product/f-ip66-waterproof-case/?add-to-cart=3276)
-  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
-[Add to cart](https://store.automationghana.com/product/f-ip66-waterproof-case/?add-to-cart=3252)
+  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
+[Add to cart](https://store.automationghana.com/product/f-ip66-waterproof-case/?add-to-cart=3583)
+  * [![WiFi-Operated 3 Phase Energy Meter and Contactor Control](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-3em-300x300.jpeg)WiFi-Operated 3 Phase Energy Meter and Contactor Control ₵1,499.24 ](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/)
+[Add to cart](https://store.automationghana.com/product/f-ip66-waterproof-case/?add-to-cart=3304)
+  * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+[Add to cart](https://store.automationghana.com/product/f-ip66-waterproof-case/?add-to-cart=3283)
+  * [![F-CAM-Wireless IP PTZ Security Camera](https://store.automationghana.com/wp-content/uploads/2021/03/Sonoff-Wifi-Wireless-Security-Camera-GK-200mp2-B-300x300.jpg)F-CAM-Wireless IP PTZ Security Camera ₵1,266.00 ](https://store.automationghana.com/product/3209/)
+[Add to cart](https://store.automationghana.com/product/f-ip66-waterproof-case/?add-to-cart=3209)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / LED Round Panel Light, 18W, 6000K, LED60005-RD-18W, West New Tech
-[🔍](https://store.automationghana.com/product/led-round-panel-light/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/led-round-panel-light/)
 [![LED Round Panel Light, 18W, 6000K, LED60005-RD-18W, West New Tech](https://store.automationghana.com/wp-content/uploads/2022/04/round-light-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2022/04/round-light.jpg)
 ####  LED Round Panel Light, 18W, 6000K, LED60005-RD-18W, West New Tech 
 **SKU :** LED60005-RD-18W 
@@ -50,14 +50,14 @@ LED60005-RD-18W, LED Round Panel Light To deliver consistent and effective light
 
 Related Products 
 ## Related products
-  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-4-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint ₵71.00 ](https://store.automationghana.com/product/singl-socket-new6-d42702-chint/)
-[Add to cart](https://store.automationghana.com/product/led-round-panel-light/?add-to-cart=1526)
+  * [![Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42720-300x300.jpg)Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint ₵184.00 ](https://store.automationghana.com/product/single-socket-new6-d42720-chint/)
+[Add to cart](https://store.automationghana.com/product/led-round-panel-light/?add-to-cart=1531)
+  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
+[Add to cart](https://store.automationghana.com/product/led-round-panel-light/?add-to-cart=1525)
   * [![IT socket-NEW6-D21100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/the-two-300x300.jpg)IT socket-NEW6-D21100, Chint ₵124.00 ](https://store.automationghana.com/product/it-socket-new6-d21100-chint/)
 [Add to cart](https://store.automationghana.com/product/led-round-panel-light/?add-to-cart=1519)
-  * [![Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/dimmer-switch.jpg)Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint ₵159.00 ](https://store.automationghana.com/product/light-dimmer-new6-d30510-chint/)
-[Add to cart](https://store.automationghana.com/product/led-round-panel-light/?add-to-cart=1520)
-  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
-[Add to cart](https://store.automationghana.com/product/led-round-panel-light/?add-to-cart=1502)
+  * [![Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-5-300x300.jpg)Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41912-chint/)
+[Add to cart](https://store.automationghana.com/product/led-round-panel-light/?add-to-cart=1509)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

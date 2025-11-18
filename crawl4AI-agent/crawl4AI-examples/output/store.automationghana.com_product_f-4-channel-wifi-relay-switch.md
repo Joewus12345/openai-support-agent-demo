@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / F-4 Channel WiFi Relay Switch
-[🔍](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/)
 [![F-4 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/F-4-Channel-WiFi-Relay-Switch-1.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/F-4-Channel-WiFi-Relay-Switch-1.jpg)
 ####  F-4 Channel WiFi Relay Switch 
 **SKU :** F-R W4CH 
@@ -52,14 +52,14 @@ F-4 Channel WiFi Relay Switch
 
 Related Products 
 ## Related products
-  * [![F-Sensor Mounting Base](https://store.automationghana.com/wp-content/uploads/2021/10/430x430x90-sonoff_pir_motion_sensor_base_1623831045-removebg-preview-300x300.webp)F-Sensor Mounting Base ₵106.00 ](https://store.automationghana.com/product/f-sensor-mounting-base/)
-[Add to cart](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/?add-to-cart=3592)
-  * [![F-RF Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/F-RF-Door-Window-Sensor.jpg)F-RF Door & Window Sensor ₵282.00 ](https://store.automationghana.com/product/f-rf-door-window-sensor/)
-[Add to cart](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/?add-to-cart=3586)
-  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
-[Add to cart](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/?add-to-cart=3313)
-  * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
-[Add to cart](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/?add-to-cart=3283)
+  * [![F-RF Wireless Gateway](https://store.automationghana.com/wp-content/uploads/2021/10/elan-rf-103-preview-1-300x300.png)F-RF Wireless Gateway ₵441.00 ](https://store.automationghana.com/product/f-rf-wireless-gateway/)
+[Add to cart](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/?add-to-cart=3588)
+  * [![WiFi-Operated 3 Phase Energy Meter and Contactor Control](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-3em-300x300.jpeg)WiFi-Operated 3 Phase Energy Meter and Contactor Control ₵1,499.24 ](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/)
+[Add to cart](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/?add-to-cart=3304)
+  * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
+[Add to cart](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/?add-to-cart=3300)
+  * [![1 Channel WiFi-Relay,16A](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-1-wifi--300x300.png)WIFI Relay Switch, 1 Channel, Y-R-W1CH, Smarthome ₵344.00 ](https://store.automationghana.com/product/shelly-1/)
+[Add to cart](https://store.automationghana.com/product/f-4-channel-wifi-relay-switch/?add-to-cart=3254)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

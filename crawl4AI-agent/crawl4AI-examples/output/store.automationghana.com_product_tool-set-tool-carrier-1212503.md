@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Tool set – TOOL-CARRIER 1212503
-[🔍](https://store.automationghana.com/product/tool-set-tool-carrier-1212503/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/tool-set-tool-carrier-1212503/)
 [![Tool set - TOOL-CARRIER 1212503](https://store.automationghana.com/wp-content/uploads/2025/02/CARRIER-600x551.png)](https://store.automationghana.com/wp-content/uploads/2025/02/CARRIER.png)
 ####  Tool set – TOOL-CARRIER 1212503 
 **SKU :** 1212503 
@@ -45,14 +45,14 @@ Product Description
 Tool bag, equipped with: cable cutter, diagonal cutter, stripping pliers, NYM stripping tool, stripping tool for removing sheath, crimping pliers, crimping die for ferrules, combination, needle-nose, and water pump pliers, VDE screwdriver, bladed: 0.4 x 2.5/0.5 x 3.0/1.0 x 4.0/1.0 x 6.5, Philips: PHO/PH1/PH2, voltage tester, control cabinet key, knife, tape measure
 Related Products 
 ## Related products
-  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503/?add-to-cart=2006)
+  * [![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115-300x300.jpg)Multimeter-FLUKE-115, Fluke ₵5,282.00 ](https://store.automationghana.com/product/multimeter-fluke-115-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503/?add-to-cart=2013)
+  * [![Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/MD-1150-300x300.jpg)Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel ₵1,515.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1150-metrel/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503/?add-to-cart=2011)
   * [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke-300x300.png)Fluke T6-600, Electrical Tester with FieldSense Technology ₵4,525.00 ](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
 [Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503/?add-to-cart=2004)
-  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503/?add-to-cart=2005)
-  * [![Digital-MultimeterMD-9030-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-MultimeterMD-9030-Metrel-300x300.png)Multimeter,Digital, 1000VDC/VAC, 10A DC/AC, MD 9030, Metrel ₵1,819.00 ](https://store.automationghana.com/product/digital-multimetermd-9030-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503/?add-to-cart=2002)
+  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503/?add-to-cart=2003)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

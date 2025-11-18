@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/smelter-cooling-circuit-leakage-detection/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -115,11 +107,11 @@ Early detection of leaks reduces the risk of system failures and hazardous situa
 Accurate monitoring and alarm systems help maintain optimal cooling performance, reducing energy consumption and operating costs.
 ## User-Friendly
 The intuitive touchscreen interface ensures easy operation and quick access to system data.
-[ How Can We Help? ](https://automationghana.com/solutions/smelter-cooling-circuit-leakage-detection/#collapse-a0fd1106868a791d9b65)
+[ How Can We Help? ](https://automationghana.com/solutions/smelter-cooling-circuit-leakage-detection/#collapse-a0fd110691b0c40a2962)
 With over 20 years of experience in electrical engineering and automation, we specialize in customizing and deploying solutions for any industry and scale. Our solutions conform to international standards and protocols, ensuring seamless interoperability with top automation and integrated systems.
 **We Offer Upgrades for Obsolete Systems and Collaborate with You to Scale Existing Systems to Save Costs and Meet Your Business Objectives.** Leverage our expertise and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation, and controls engineering.
 We provide end-to-end integration of our temperature-compensated leakage detection system into your smelter cooling circuits. Our team ensures seamless installation and configuration within your existing control architecture, offering ongoing support to maximize system performance and ensure reliable operations in your mining processes.
-[ What We Offer ](https://automationghana.com/solutions/smelter-cooling-circuit-leakage-detection/#collapse-3ee49346868a791d9b65)
+[ What We Offer ](https://automationghana.com/solutions/smelter-cooling-circuit-leakage-detection/#collapse-3ee4934691b0c40a2962)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -129,7 +121,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/smelter-cooling-circuit-leakage-detection/#collapse-62ecacd6868a791d9b65)
+[ Services ](https://automationghana.com/solutions/smelter-cooling-circuit-leakage-detection/#collapse-62ecacd691b0c40a2962)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -140,6 +132,10 @@ We offer after sales support services including:
 
 
 ## Explore Other Solutions
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Motor Control Center (MCC)
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/motor-control-center/)
 ![pexels-hannu-iso-oja-3301403-4946886](https://automationghana.com/wp-content/uploads/2024/10/pexels-hannu-iso-oja-3301403-4946886-scaled.jpg)
 ##### Crusher and Conveyor Monitoring
 Optimize energy consumption and ensure seamless operation in crushing and conveyor systems for mining and cement plants. Our advanced monitoring solutions prevent crusher overfill, reduce downtime, and help maintain smooth, efficient processes. These systems offer real-time data integration and alarm systems to help you maintain critical operations.
@@ -149,7 +145,7 @@ Optimize energy consumption and ensure seamless operation in crushing and convey
 Our valves solutions are engineered to meet the demanding needs of the mining sector and other industries requiring robust, reliable, and efficient fluid control systems. We offer a diverse range of valve types designed to handle various applications, from abrasive fluids to general fluid management.
 [ Learn More ](https://automationghana.com/solutions/valves/)
 ![Pipeline and Transportation](https://automationghana.com/wp-content/uploads/2024/09/Pipeline-and-Transportation.jpg)
-##### Pipeline & Transportation
+##### Pipeline & Transportation Monitoring
 In the mining sector, efficient pipeline and transportation operations are crucial for optimizing resource management and reducing operational costs. Our solutions offer advanced pipeline automation that incorporates the latest best practices to ensure seamless and reliable operations.
 [ Learn More ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/)
 ![Flotation](https://automationghana.com/wp-content/uploads/2024/08/Flotation.jpg)

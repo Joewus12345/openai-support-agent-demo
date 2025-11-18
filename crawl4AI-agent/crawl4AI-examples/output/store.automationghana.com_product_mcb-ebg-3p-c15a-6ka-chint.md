@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / MCB, EBG, 3P-C15A-6kA, Chint
-[🔍](https://store.automationghana.com/product/mcb-ebg-3p-c15a-6ka-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mcb-ebg-3p-c15a-6ka-chint/)
 [![MCB, EBG, 3P-C15A-6kA, Chint](https://store.automationghana.com/wp-content/uploads/2024/05/EB3PC10A-1-1-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2024/05/EB3PC10A-1-1.jpg)
 ####  MCB, EBG, 3P-C15A-6kA, Chint 
 **SKU :** MCB, EBG, 3P-C15A-6kA 
@@ -47,12 +47,12 @@ Related Products
 ## Related products
   * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
 [Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c15a-6ka-chint/?add-to-cart=2985)
-  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c15a-6ka-chint/?add-to-cart=2983)
-  * [![Busbar End Cover 141A-TR3E](https://store.automationghana.com/wp-content/uploads/2020/12/141A-TR3E-300x300.jpg)Busbar End Cover 141A-TR3E ₵78.50 ](https://store.automationghana.com/product/busbar-end-cover-141a-tr3e/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c15a-6ka-chint/?add-to-cart=2977)
-  * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c15a-6ka-chint/?add-to-cart=2959)
+  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c15a-6ka-chint/?add-to-cart=2981)
+  * [![Auxiliary Contact 100-SB11](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB11 ₵270.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb11/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c15a-6ka-chint/?add-to-cart=2954)
+  * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c15a-6ka-chint/?add-to-cart=2944)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

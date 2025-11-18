@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / Antenna for WIFI & Bluetooth HIFI Amplifier
-[🔍](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/)
 [![Antenna for WIFI & Bluetooth HIFI Amplifier](https://store.automationghana.com/wp-content/uploads/2021/10/images-1.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/images-1.jpg)
 ####  Antenna for WIFI & Bluetooth HIFI Amplifier 
 **SKU :** A-W/BT-ANTENNA 
@@ -51,14 +51,14 @@ Antenna for WIFI & Bluetooth HIFI Amplifier
 
 Related Products 
 ## Related products
-  * [![WIFI Humidity & Temperature Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Humidity-Temperature-Sensor-300x300.jpg)WIFI Humidity & Temperature Sensor ₵750.00 ](https://store.automationghana.com/product/wifi-humidity-temperature-sensor/)
-[Add to cart](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/?add-to-cart=3580)
-  * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
-[Add to cart](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/?add-to-cart=3316)
-  * [![WiFi-Operated 3 Phase Energy Meter and Contactor Control](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-3em-300x300.jpeg)WiFi-Operated 3 Phase Energy Meter and Contactor Control ₵1,499.24 ](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/)
-[Add to cart](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/?add-to-cart=3304)
-  * [![1 Channel WIFI Metering Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/shelly1pm_x1-1000x1000-1-1-300x300.jpg)1 Channel WIFI Metering Relay Switch ₵560.00 ](https://store.automationghana.com/product/wifi-operated-relay-switch-16-a-with-power-measurement/)
-[Add to cart](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/?add-to-cart=3302)
+  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
+[Add to cart](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/?add-to-cart=3594)
+  * [![F-Sensor Mounting Base](https://store.automationghana.com/wp-content/uploads/2021/10/430x430x90-sonoff_pir_motion_sensor_base_1623831045-removebg-preview-300x300.webp)F-Sensor Mounting Base ₵106.00 ](https://store.automationghana.com/product/f-sensor-mounting-base/)
+[Add to cart](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/?add-to-cart=3592)
+  * [![1 Channel WiFi Relay Switch Used Without Neutral](https://store.automationghana.com/wp-content/uploads/2021/10/shelly-1l-wifi-relay-switch-300x300.jpg)1 Channel WiFi Relay Switch Used Without Neutral ₵840.00 ](https://store.automationghana.com/product/1-channel-wifi-relay-switch-used-without-neutral/)
+[Add to cart](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/?add-to-cart=3567)
+  * [![XYE MASTER \(MINI COMPUTER\)](https://store.automationghana.com/wp-content/uploads/2021/03/Picture1-300x218.png)XYE MASTER (MINI COMPUTER) ₵3,744.00 ](https://store.automationghana.com/product/smarthome-hub-integration-module/)
+[Add to cart](https://store.automationghana.com/product/antenna-for-wifi-bluetooth-hifi-amplifier/?add-to-cart=3276)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

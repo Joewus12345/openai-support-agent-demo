@@ -44,12 +44,12 @@ Product Description
 The Honeywell 940WH is a white, surface mount, magnet contact designed to monitor windows and doors and trigger an alarm when unauthorized entry occurs. The unit has a sleek, low profile cover that hides mounting screws and terminals. But don’t let this contact’s small size fool you. It uses advanced, magnet gap technology to determine if a door or window opens, and then transmits a signal back to the alarm panel. The 940WH is an ideal contact for securing access points in homes or offices.
 Related Products 
 ## Related products
-  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
-[Add to cart](https://store.automationghana.com/product/940wh-magnetic-contact-honeywell-940wh-honeywell/?add-to-cart=2983)
+  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
+[Add to cart](https://store.automationghana.com/product/940wh-magnetic-contact-honeywell-940wh-honeywell/?add-to-cart=2985)
   * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
 [Add to cart](https://store.automationghana.com/product/940wh-magnetic-contact-honeywell-940wh-honeywell/?add-to-cart=2952)
-  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
-[Add to cart](https://store.automationghana.com/product/940wh-magnetic-contact-honeywell-940wh-honeywell/?add-to-cart=2950)
+  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
+[Add to cart](https://store.automationghana.com/product/940wh-magnetic-contact-honeywell-940wh-honeywell/?add-to-cart=2937)
   * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
 [Add to cart](https://store.automationghana.com/product/940wh-magnetic-contact-honeywell-940wh-honeywell/?add-to-cart=2935)
 

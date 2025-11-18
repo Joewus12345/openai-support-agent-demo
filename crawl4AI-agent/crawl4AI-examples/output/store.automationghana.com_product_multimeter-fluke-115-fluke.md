@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Multimeter-FLUKE-115, Fluke
-[🔍](https://store.automationghana.com/product/multimeter-fluke-115-fluke/)
-[![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115.jpg)![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/multimeter-fluke-115-fluke/)
+[![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115.jpg)
 ####  Multimeter-FLUKE-115, Fluke 
 **SKU :** FLUKE-115 
 ₵5,282.00
@@ -51,14 +51,14 @@ True RMS Digital Multimeter, Fluke-115
 
 Related Products 
 ## Related products
-  * [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ₵7,613.00 ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
-[Add to cart](https://store.automationghana.com/product/multimeter-fluke-115-fluke/?add-to-cart=2008)
-  * [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke-300x300.png)Fluke T6-600, Electrical Tester with FieldSense Technology ₵4,525.00 ](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
-[Add to cart](https://store.automationghana.com/product/multimeter-fluke-115-fluke/?add-to-cart=2004)
-  * [![Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage-300x300.png)Multimeter, Digital, 600V, Non-contact Voltage Detection, Fluke-117, Fluke ₵4,698.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-117-fluke/)
-[Add to cart](https://store.automationghana.com/product/multimeter-fluke-115-fluke/?add-to-cart=1998)
-  * [![FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER-300x300.jpg)Multimeter, Digital with Temperature Reading, FLUKE-179, Fluke ₵5,505.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-179-fluke/)
-[Add to cart](https://store.automationghana.com/product/multimeter-fluke-115-fluke/?add-to-cart=1999)
+  * [![FLUKE-TL224](https://store.automationghana.com/wp-content/uploads/2020/04/Test-Leads-FLUKE-TL224-Fluke-300x275.png)Fluke-TL 224, SureGrip Insulated Test Leads ₵551.00 ](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/)
+[Add to cart](https://store.automationghana.com/product/multimeter-fluke-115-fluke/?add-to-cart=2016)
+  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+[Add to cart](https://store.automationghana.com/product/multimeter-fluke-115-fluke/?add-to-cart=2007)
+  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+[Add to cart](https://store.automationghana.com/product/multimeter-fluke-115-fluke/?add-to-cart=2010)
+  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
+[Add to cart](https://store.automationghana.com/product/multimeter-fluke-115-fluke/?add-to-cart=1992)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

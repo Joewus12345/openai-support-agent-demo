@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / 2-Way Surface Mount Consumer Unit
-[🔍](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
 [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)
 ####  2-Way Surface Mount Consumer Unit 
 **SKU :** 8692SPF Solera 
@@ -52,14 +52,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Ceiling Fan, 48", 65W](https://store.automationghana.com/wp-content/uploads/2022/04/FC-120-3-2.jpg)Ceiling Fan, 48″, 65W ₵452.00 ](https://store.automationghana.com/product/ceiling-fan-48-65w/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=4472)
-  * [![Pattress Box-NEH1-004A, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box-NEH1-004A, Chint ₵12.00 ](https://store.automationghana.com/product/recessed-mounting-box/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=3373)
-  * [![Patress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Patress Box 3 x 3, NEH1-001A Chint ₵13.00 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=1829)
-  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=1503)
+  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 42", IBCF-C03, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/31GqGkJyvuL._AC_US750_-300x300.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 42″, IBCF-C03, Zhongshan Weiyu ~~₵ 2,099.50~~ Original price was: ₵2,099.50.₵1,747.00Current price is: ₵1,747.00. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-42-ibcf-c03-zhongshan-weiyu/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=24814)
+  * [![RT UPS, 6kVA, UPS602R2RT0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S-300x300.jpg)RT UPS, 6kVA, UPS602R2RT0B035, Delta ₵36,103.50 ](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=24753)
+  * [![UPS, 1kVA, UPA102N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 1kVA, UPA102N2NX0B035, Delta ₵6,980.00 ](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=24746)
+  * [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-300x300.jpg)Pattress Box NEH1-202 Chint ₵17.00 ](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=1832)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

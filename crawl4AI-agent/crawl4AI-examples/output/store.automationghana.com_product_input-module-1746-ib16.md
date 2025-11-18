@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Input Module 1746-IB16 Rockwell
-[🔍](https://store.automationghana.com/product/input-module-1746-ib16/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/input-module-1746-ib16/)
 [![Input Module 1746-IB16 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/12/Input-Module-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/Input-Module.jpg)
 ####  Input Module 1746-IB16 Rockwell 
 **SKU :** 1746-IB16 
@@ -52,14 +52,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Auxiliary Contact 140M-C-AFAR10A10](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A10-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A10 ₵415.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a10/)
-[Add to cart](https://store.automationghana.com/product/input-module-1746-ib16/?add-to-cart=2965)
-  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
-[Add to cart](https://store.automationghana.com/product/input-module-1746-ib16/?add-to-cart=2961)
+  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
+[Add to cart](https://store.automationghana.com/product/input-module-1746-ib16/?add-to-cart=2983)
   * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
 [Add to cart](https://store.automationghana.com/product/input-module-1746-ib16/?add-to-cart=2956)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/input-module-1746-ib16/?add-to-cart=2952)
+  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
+[Add to cart](https://store.automationghana.com/product/input-module-1746-ib16/?add-to-cart=2937)
+  * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
+[Add to cart](https://store.automationghana.com/product/input-module-1746-ib16/?add-to-cart=2935)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

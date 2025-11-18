@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / MCCB-NXM-125S/3300 100A, Chint
-[🔍](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/)
 [![MCCB-NXM-125S/3300 100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/nxm-125-3p-600x726.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/nxm-125-3p.jpg)
 ####  MCCB-NXM-125S/3300 100A, Chint 
 **SKU :** NXM-125S/3300 100A 
@@ -53,14 +53,14 @@ MCCB-NXM-125S/3300 100A
 
 Related Products 
 ## Related products
-  * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/?add-to-cart=1779)
-  * [![AVR, 20KVA-1 Phase, TND1\(SVC\)-20/AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-20_AF-300x300.png)AVR, 20KVA-1 Phase, TND1(SVC)-20/AF, Chint ₵10,925.00 ](https://store.automationghana.com/product/avr-tnd1svc-20-af-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/?add-to-cart=1636)
-  * [![Automatic Changeover, 125A, 4P](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover, 125A, 4P ₵5,390.00 ](https://store.automationghana.com/product/automatic-changeover-nz7-125h-4-125a-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/?add-to-cart=1628)
-  * [![Automatic Changeover Switch, 63A, NZ7-125H/4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover Switch, 63A, NZ7-125H/4, Chint ₵2,731.00 ](https://store.automationghana.com/product/automatic-changeover-switch-nz7-125h-4-63a-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/?add-to-cart=1627)
+  * [![MCB, C63A-2P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-2P-300x300.jpg)MCB, C63A-2P-6kA, NXB-63, Chint ₵78.50 ](https://store.automationghana.com/product/mcb-nxb-63-2p-c63-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/?add-to-cart=1783)
+  * [![Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/?add-to-cart=1780)
+  * [![AVR, 100KVA-3 Phase, TNSZ\(SBW\)-100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)AVR, 100KVA-3 Phase, TNSZ(SBW)-100, Chint ₵62,258.00 ](https://store.automationghana.com/product/avr-tnszsbw-100-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/?add-to-cart=1638)
+  * [![AVR, 30KVA-3 Phase, TNSZ\(SBW\)-30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 30KVA-3 Phase, TNSZ(SBW)-30, Chint ₵32,548.00 ](https://store.automationghana.com/product/avr-tnszsbw-30-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-nxm-125s-3300-100a-chint/?add-to-cart=1639)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

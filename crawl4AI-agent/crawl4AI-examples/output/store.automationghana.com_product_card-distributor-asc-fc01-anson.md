@@ -44,14 +44,14 @@ Product Description
 ASC-FC01 ID Card Distributor (EM Card) Sensing Distance 3~15CM Size 10.6x82x2.5cm
 Related Products 
 ## Related products
-  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
-[Add to cart](https://store.automationghana.com/product/card-distributor-asc-fc01-anson/?add-to-cart=2967)
-  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
-[Add to cart](https://store.automationghana.com/product/card-distributor-asc-fc01-anson/?add-to-cart=2961)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/card-distributor-asc-fc01-anson/?add-to-cart=2952)
-  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
-[Add to cart](https://store.automationghana.com/product/card-distributor-asc-fc01-anson/?add-to-cart=2950)
+  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
+[Add to cart](https://store.automationghana.com/product/card-distributor-asc-fc01-anson/?add-to-cart=2983)
+  * [![Circuit Breaker 140M-C2E-A16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-A16-300x300.jpg)Circuit Breaker 140M-C2E-A16 ₵873.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-a16/)
+[Add to cart](https://store.automationghana.com/product/card-distributor-asc-fc01-anson/?add-to-cart=2979)
+  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
+[Add to cart](https://store.automationghana.com/product/card-distributor-asc-fc01-anson/?add-to-cart=2973)
+  * [![Auxiliary Contact 140M-C-AFAR10A10](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A10-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A10 ₵415.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a10/)
+[Add to cart](https://store.automationghana.com/product/card-distributor-asc-fc01-anson/?add-to-cart=2965)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

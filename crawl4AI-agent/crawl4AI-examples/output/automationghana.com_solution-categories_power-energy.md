@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solution-categories/power-energy/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -84,24 +76,24 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 We understand that ensuring system throughput and minimizing downtime is crucial. TAGG provides solutions to monitor risk factors and critical nodes across power networks in real time. Through the combined expertise of the TAGG companies and our international OEM partners
 [ Discover More ](https://automationghana.com/solution-categories/power-energy/#more)
 ## Our Solutions Include:
+## Motor Control Center (MCC)
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/motor-control-center/)
+## Flood Detection System – Protecting Critical Infrastructure from Water Damage
+Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities. 
+[ Learn More ](https://automationghana.com/solutions/flood-detection-system/)
+## Energy Audits
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/energy-audits/)
+## Panel Retrofitting: 5 Powerful Benefits for Safe & Reliable Power Systems
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/panel-retroffitting/)
+## Distribution Boards: 5 Advanced Distribution Solutions
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
 ## Transformer Maintenance & Oil Treatment: 5 Key Solutions
 From oil testing and filtration to comprehensive maintenance programs, we provide solutions that enhance transformer reliability, efficiency, and lifespan. 
 [ Learn More ](https://automationghana.com/solutions/transformer-maintenance-service/)
-## Earth Resistance Testing |5 Accurate Grounding Solutions
-Ensure your facility’s electrical systems are safely grounded with our specialized earth resistance testing services. TAGG’s experts provide comprehensive testing, detailed assessments, and tailored solutions to keep your operations safe and compliant with electrical safety standards. 
-[ Learn More ](https://automationghana.com/solutions/earth-resistance-testing/)
-## Lightning Protection Systems: 5 Ultimate Safety Solutions
-From comprehensive diagnostics to tailored solutions, we can help you identify and resolve power quality issues to improve your operational efficiency 
-[ Learn More ](https://automationghana.com/solutions/lightning-protection-systems/)
-## Demand-Side Management: Boost Energy Efficiency & Savings
-With a strong commitment to innovation, reliability, and customer satisfaction, Automation Ghana Group is your trusted partner in delivering outdoor telecom power solutions. Our extensive experience and industry expertise allow us to provide solutions that align with your business goals, ensuring you achieve sustainable growth and operational efficiency. 
-[ Learn More ](https://automationghana.com/solutions/demand-side-management/)
-## Distribution Automation and Smart Grid Technologies
-We offer a comprehensive suite of solutions includes distribution automation, smart grid technologies, and demand-side management strategies designed to enhance grid performance, improve energy efficiency, and provide robust reliability. Our aim is to empower utility companies, industrial clients, and end-users to achieve greater control over their energy usage while minimizing operational costs. 
-[ Learn More ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/)
-## Integrated Electrical Solutions
-Recognizing the vital importance of electrical systems in the power industry, we provide comprehensive integrated electrical solutions to optimize reliability, enhance efficiency, and maintain the highest safety standards in power management. 
-[ Learn More ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/)
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)

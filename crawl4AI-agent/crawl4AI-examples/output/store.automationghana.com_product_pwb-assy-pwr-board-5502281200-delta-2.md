@@ -42,14 +42,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
-[Add to cart](https://store.automationghana.com/product/pwb-assy-pwr-board-5502281200-delta-2/?add-to-cart=2981)
-  * [![Circuit Breaker 140M-C2E-A16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-A16-300x300.jpg)Circuit Breaker 140M-C2E-A16 ₵873.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-a16/)
-[Add to cart](https://store.automationghana.com/product/pwb-assy-pwr-board-5502281200-delta-2/?add-to-cart=2979)
-  * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
-[Add to cart](https://store.automationghana.com/product/pwb-assy-pwr-board-5502281200-delta-2/?add-to-cart=2969)
-  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
-[Add to cart](https://store.automationghana.com/product/pwb-assy-pwr-board-5502281200-delta-2/?add-to-cart=2937)
+  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
+[Add to cart](https://store.automationghana.com/product/pwb-assy-pwr-board-5502281200-delta-2/?add-to-cart=2985)
+  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
+[Add to cart](https://store.automationghana.com/product/pwb-assy-pwr-board-5502281200-delta-2/?add-to-cart=2973)
+  * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
+[Add to cart](https://store.automationghana.com/product/pwb-assy-pwr-board-5502281200-delta-2/?add-to-cart=2963)
+  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
+[Add to cart](https://store.automationghana.com/product/pwb-assy-pwr-board-5502281200-delta-2/?add-to-cart=2956)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

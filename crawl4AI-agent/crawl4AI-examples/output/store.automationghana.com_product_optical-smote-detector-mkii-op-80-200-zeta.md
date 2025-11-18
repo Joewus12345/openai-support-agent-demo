@@ -44,14 +44,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
-[Add to cart](https://store.automationghana.com/product/optical-smote-detector-mkii-op-80-200-zeta/?add-to-cart=2985)
-  * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
-[Add to cart](https://store.automationghana.com/product/optical-smote-detector-mkii-op-80-200-zeta/?add-to-cart=2963)
-  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
-[Add to cart](https://store.automationghana.com/product/optical-smote-detector-mkii-op-80-200-zeta/?add-to-cart=2950)
-  * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
-[Add to cart](https://store.automationghana.com/product/optical-smote-detector-mkii-op-80-200-zeta/?add-to-cart=2948)
+  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
+[Add to cart](https://store.automationghana.com/product/optical-smote-detector-mkii-op-80-200-zeta/?add-to-cart=2967)
+  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
+[Add to cart](https://store.automationghana.com/product/optical-smote-detector-mkii-op-80-200-zeta/?add-to-cart=2946)
+  * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
+[Add to cart](https://store.automationghana.com/product/optical-smote-detector-mkii-op-80-200-zeta/?add-to-cart=2944)
+  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
+[Add to cart](https://store.automationghana.com/product/optical-smote-detector-mkii-op-80-200-zeta/?add-to-cart=2939)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -42,14 +42,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Busbar End Cover 141A-TR3E](https://store.automationghana.com/wp-content/uploads/2020/12/141A-TR3E-300x300.jpg)Busbar End Cover 141A-TR3E ₵78.50 ](https://store.automationghana.com/product/busbar-end-cover-141a-tr3e/)
-[Add to cart](https://store.automationghana.com/product/acti-9-comb-busbar-a9xph106-100a-schneider-2/?add-to-cart=2977)
-  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
-[Add to cart](https://store.automationghana.com/product/acti-9-comb-busbar-a9xph106-100a-schneider-2/?add-to-cart=2973)
+  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
+[Add to cart](https://store.automationghana.com/product/acti-9-comb-busbar-a9xph106-100a-schneider-2/?add-to-cart=2983)
+  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
+[Add to cart](https://store.automationghana.com/product/acti-9-comb-busbar-a9xph106-100a-schneider-2/?add-to-cart=2981)
   * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
 [Add to cart](https://store.automationghana.com/product/acti-9-comb-busbar-a9xph106-100a-schneider-2/?add-to-cart=2959)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/acti-9-comb-busbar-a9xph106-100a-schneider-2/?add-to-cart=2952)
+  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
+[Add to cart](https://store.automationghana.com/product/acti-9-comb-busbar-a9xph106-100a-schneider-2/?add-to-cart=2956)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

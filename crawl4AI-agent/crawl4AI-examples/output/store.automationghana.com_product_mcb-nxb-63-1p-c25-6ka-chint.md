@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / MCB 25A 1P, NXB-63 1P C25 6kA, Chint
-[🔍](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
 [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P.jpg)
 ####  MCB 25A 1P, NXB-63 1P C25 6kA, Chint 
 **SKU :** NXB-63 1P C25 6KA 
@@ -54,10 +54,10 @@ Related Products
 ## Related products
   * [![MCB, C63A-2P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-2P-300x300.jpg)MCB, C63A-2P-6kA, NXB-63, Chint ₵78.50 ](https://store.automationghana.com/product/mcb-nxb-63-2p-c63-6ka-chint/)
 [Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/?add-to-cart=1783)
-  * [![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)Automatic Voltage Regulator (AVR), 75kvA, 3 Phase ₵58,063.00 ](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
-[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/?add-to-cart=1641)
-  * [![Automatic Voltage Regulator \(AVR\), 5kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-5-300x300.jpg)Automatic Voltage Regulator (AVR), 5kvA, 1Phase ₵3,381.00 ](https://store.automationghana.com/product/avr-tnd1svc-5-chint/)
-[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/?add-to-cart=1637)
+  * [![Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/?add-to-cart=1780)
+  * [![Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint ₵2,807.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-200-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/?add-to-cart=1757)
   * [![AVR 15KVA 1 Phase, TND1\(SVC\) -15AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 15KVA 1 Phase, TND1(SVC) -15AF, Chint ₵9,918.00 ](https://store.automationghana.com/product/avr-tnd1svc-15af-chint/)
 [Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/?add-to-cart=1634)
 

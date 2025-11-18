@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Multifunction Installation Tester, 500V, Fluke-1662 Sch Fluke
-[🔍](https://store.automationghana.com/product/fluke-1662/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/fluke-1662/)
 [![Multifunction Installation Tester, 500V, Fluke-1662 Sch Fluke](https://store.automationghana.com/wp-content/uploads/2024/07/photo_2024-07-29_12-48-38-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2024/07/photo_2024-07-29_12-48-38.jpg)
 ####  Multifunction Installation Tester, 500V, Fluke-1662 Sch Fluke 
 **SKU :** Fluke-1662 SCH 
@@ -45,14 +45,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-1662/?add-to-cart=2007)
-  * [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ₵7,613.00 ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-1662/?add-to-cart=2008)
-  * [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke-300x300.png)Fluke T6-600, Electrical Tester with FieldSense Technology ₵4,525.00 ](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-1662/?add-to-cart=2004)
-  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
-[Add to cart](https://store.automationghana.com/product/fluke-1662/?add-to-cart=2001)
+  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-1662/?add-to-cart=2010)
+  * [![Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage-300x300.png)Multimeter, Digital, 600V, Non-contact Voltage Detection, Fluke-117, Fluke ₵4,698.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-117-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-1662/?add-to-cart=1998)
+  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-1662/?add-to-cart=1995)
+  * [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ₵3,161.00 ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-1662/?add-to-cart=1996)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

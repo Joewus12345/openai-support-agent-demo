@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solution-categories/food-beverage/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -86,6 +78,9 @@ At TAGG, we offer technological solutions to ensure efficiency, profitability an
 We provide technical support for every process including; • Pasteurization • Clean In Place • Mixing • Filling, Bottling & Labelling • Packaging and Storage
 [ Discover More ](https://automationghana.com/solution-categories/food-beverage/#more)
 ## Our Solutions Include:
+## Distribution Boards: 5 Advanced Distribution Solutions
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
 ## Monitoring the Fermentation Process in Beer Production
 Implement the QWX43 Fermentation Monitor to gain real-time, multi-parameter insights into the fermentation process. This device measures key parameters such as density, temperature, acoustic velocity, and viscosity directly inside the fermentation tank, providing crucial data for optimizing beer quality and consistency. 
 [ Learn More ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/)

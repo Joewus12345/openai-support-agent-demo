@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / Single Infrared Beam Sensor
-[🔍](https://store.automationghana.com/product/single-infrared-beam-sensor/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/single-infrared-beam-sensor/)
 [![Single Infrared Beam Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/Single-Infrared-Beam-Sensor.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/Single-Infrared-Beam-Sensor.jpg)
 ####  Single Infrared Beam Sensor 
 **SKU :** SR-IR-1 BEAM123 
@@ -54,12 +54,12 @@ Single Infrared Beam Sensor
 
 Related Products 
 ## Related products
-  * [![2 Channel WiFi Dimmer Switch](https://store.automationghana.com/wp-content/uploads/2021/10/image.thumb_.png.53d2d5bf0ada5ff3649de0faf116a756-300x300.png)2 Channel WiFi Dimmer Switch ₵1,051.00 ](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/)
-[Add to cart](https://store.automationghana.com/product/single-infrared-beam-sensor/?add-to-cart=3571)
-  * [![WiFi-Operated 3 Phase Energy Meter and Contactor Control](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-3em-300x300.jpeg)WiFi-Operated 3 Phase Energy Meter and Contactor Control ₵1,499.24 ](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/)
-[Add to cart](https://store.automationghana.com/product/single-infrared-beam-sensor/?add-to-cart=3304)
-  * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
-[Add to cart](https://store.automationghana.com/product/single-infrared-beam-sensor/?add-to-cart=3300)
+  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
+[Add to cart](https://store.automationghana.com/product/single-infrared-beam-sensor/?add-to-cart=3590)
+  * [![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1-300x300.jpg)WIFI Relay Dummy Load ₵100.00 ](https://store.automationghana.com/product/wifi-relay-dummy-load/)
+[Add to cart](https://store.automationghana.com/product/single-infrared-beam-sensor/?add-to-cart=3569)
+  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
+[Add to cart](https://store.automationghana.com/product/single-infrared-beam-sensor/?add-to-cart=3307)
   * [![XYE MASTER \(MINI COMPUTER\)](https://store.automationghana.com/wp-content/uploads/2021/03/Picture1-300x218.png)XYE MASTER (MINI COMPUTER) ₵3,744.00 ](https://store.automationghana.com/product/smarthome-hub-integration-module/)
 [Add to cart](https://store.automationghana.com/product/single-infrared-beam-sensor/?add-to-cart=3276)
 

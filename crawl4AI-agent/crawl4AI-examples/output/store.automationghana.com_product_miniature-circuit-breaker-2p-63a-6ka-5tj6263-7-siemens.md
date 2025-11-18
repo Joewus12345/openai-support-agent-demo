@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Sinova](https://store.automationghana.com/product-category/sinova-siemens/) / Miniature Circuit Breaker, 2P-63A-6kA, 5TJ6263-7, Siemens
-[🔍](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/)
 [![Miniature Circuit Breaker, 2P-63A-6kA, 5TJ6263-7, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/mcb1.jpg)](https://store.automationghana.com/wp-content/uploads/2025/03/mcb1.jpg)
 ####  Miniature Circuit Breaker, 2P-63A-6kA, 5TJ6263-7, Siemens 
 **SKU :** Miniature Circuit Breaker, 2P-63A-6kA, 5TJ6263-7 
@@ -45,14 +45,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/contactor-1.jpg)Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens ₵11,487.00 ](https://store.automationghana.com/product/contactor-3p-300a-3mt7300-7aa00-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/?add-to-cart=24498)
-  * [![Contactor, 3P-250A-230VAC, 3MT7250-7AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/contactor-1.jpg)Contactor, 3P-250A-230VAC, 3MT7250-7AA00-0AP0, Siemens ₵9,433.00 ](https://store.automationghana.com/product/contactor-3p-250a-230vac-3mt7250-7aa00-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/?add-to-cart=24496)
-  * [![Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens ₵920.00 ](https://store.automationghana.com/product/contactor-3p-32a-230vac-3mt7032-2aa10-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/?add-to-cart=24489)
-  * [![Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens ₵277.00 ](https://store.automationghana.com/product/contactor-3p-9a-230vac-3mt7010-0aa10-0ap0-siemens-2/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/?add-to-cart=24483)
+  * [![Miniature Circuit Breaker, 1P-20A-6kA-240/415V, 5TJ6120-7, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Miniature-Circuit-Breaker-300x300.jpg)Miniature Circuit Breaker, 1P-20A-6kA-240/415V, 5TJ6120-7, Siemens ₵57.50 ](https://store.automationghana.com/product/miniature-circuit-breaker-1p-20a-6ka-240-415v-5tj6120-7-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/?add-to-cart=24516)
+  * [![Miniature Circuit Breaker, 1P-16A-6KA-240/415V, 5TJ6116-7, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Miniature-Circuit-Breaker-300x300.jpg)Miniature Circuit Breaker, 1P-16A-6KA-240/415V, 5TJ6116-7, Siemens ₵57.50 ](https://store.automationghana.com/product/miniature-circuit-breaker-1p-16a-6ka-240-415v-5tj6116-7-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/?add-to-cart=24515)
+  * [![Miniature Circuit Breaker, 1P-10A-6kA-230/415V, 5TJ6110-7, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Miniature-Circuit-Breaker-300x300.jpg)Miniature Circuit Breaker, 1P-10A-6kA-230/415V, 5TJ6110-7, Siemens ₵57.50 ](https://store.automationghana.com/product/miniature-circuit-breaker-1p-10a-6ka-230-415v-5tj6110-7-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/?add-to-cart=24513)
+  * [![Auxiliary Switch Front, 3MH7920-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7920-0CT10, Siemens ₵57.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7920-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-63a-6ka-5tj6263-7-siemens/?add-to-cart=24499)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)
