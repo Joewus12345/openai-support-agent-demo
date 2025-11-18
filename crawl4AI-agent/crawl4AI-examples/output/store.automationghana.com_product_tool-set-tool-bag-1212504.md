@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Tool set – TOOL-BAG 1212504
-[🔍](https://store.automationghana.com/product/tool-set-tool-bag-1212504/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/tool-set-tool-bag-1212504/)
 [![Tool set - TOOL-BAG 1212504](https://store.automationghana.com/wp-content/uploads/2025/02/Tool-set-TOOL-BAG.png)](https://store.automationghana.com/wp-content/uploads/2025/02/Tool-set-TOOL-BAG.png)
 ####  Tool set – TOOL-BAG 1212504 
 ₵15,954.33
@@ -44,14 +44,14 @@ Product Description
 Tool bag, with laptop and document compartment, equipped with: cable cutter, diagonal cutter, stripping pliers, insulation stripper, crimp tool set, Combination, needle-nose, and water pump pliers, VDE screwdriver bladed: 0.4×2.5/0.5×3.0/1.0×4.0/1.0×5.5 crosshead: PHO/PH1/PH2 Control cabinet key, voltage tester, ferrule box Blades, tape measure, tool bag.
 Related Products 
 ## Related products
-  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-bag-1212504/?add-to-cart=2012)
-  * [![Non-Contact-Voltage-Detector-MD-116-Metre](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-116-Metrel-300x300.png)Voltage Detector, Non-Contact, 12-1000VAC, MD 116, Metrel ₵365.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-116-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-bag-1212504/?add-to-cart=2015)
-  * [![Fluke-424D](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-424D-300x300.jpg)Laser Distance Meter up to 100m, Fluke-424D, Fluke ₵11,623.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-424d-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-bag-1212504/?add-to-cart=2009)
-  * [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ₵7,613.00 ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-bag-1212504/?add-to-cart=2008)
+  * [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke-300x300.png)Fluke T6-600, Electrical Tester with FieldSense Technology ₵4,525.00 ](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-bag-1212504/?add-to-cart=2004)
+  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-bag-1212504/?add-to-cart=2003)
+  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-bag-1212504/?add-to-cart=1995)
+  * [![Clamp Meter, Fluke-376FC](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-Fluke-376FC-Fluke-300x300.png)Clamp Meter, True RMS AC/DC, 1000A/1000V, Fluke-376FC, Fluke ₵10,430.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376fc-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-bag-1212504/?add-to-cart=1993)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

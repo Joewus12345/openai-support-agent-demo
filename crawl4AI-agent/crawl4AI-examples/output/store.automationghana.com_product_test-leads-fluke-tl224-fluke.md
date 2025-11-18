@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Fluke-TL 224, SureGrip Insulated Test Leads
-[🔍](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/)
 [![FLUKE-TL224](https://store.automationghana.com/wp-content/uploads/2020/04/Test-Leads-FLUKE-TL224-Fluke.png)](https://store.automationghana.com/wp-content/uploads/2020/04/Test-Leads-FLUKE-TL224-Fluke.png)
 ####  Fluke-TL 224, SureGrip Insulated Test Leads 
 **SKU :** Fluke-TL224 
@@ -52,14 +52,14 @@ SureGrip Insulated Test Leads, FLUKE-TL 224
 
 Related Products 
 ## Related products
-  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
-[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=2012)
   * [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke-300x300.png)Fluke T6-600, Electrical Tester with FieldSense Technology ₵4,525.00 ](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
 [Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=2004)
-  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
-[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=2001)
-  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
-[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=1995)
+  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
+[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=2003)
+  * [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ₵3,161.00 ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
+[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=1996)
+  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
+[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=1992)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

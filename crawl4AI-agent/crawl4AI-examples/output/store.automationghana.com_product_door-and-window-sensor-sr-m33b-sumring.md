@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Legacy Items](https://store.automationghana.com/product-category/legacy-items/) / Door And Window Sensor, SR-M33B, Sumring
-[🔍](https://store.automationghana.com/product/door-and-window-sensor-sr-m33b-sumring/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/door-and-window-sensor-sr-m33b-sumring/)
 [![Door And Window Sensor, SR-M33B, Sumring](https://store.automationghana.com/wp-content/uploads/2024/10/Door-And-Window-Sensor-SR-M33B-Sumring.png)](https://store.automationghana.com/wp-content/uploads/2024/10/Door-And-Window-Sensor-SR-M33B-Sumring.png)
 [![Door And Window Sensor, SR-M33B, Sumring - Image 2](https://store.automationghana.com/wp-content/uploads/2024/10/Door-And-Window-Sensor-SR-M33B-Sumring.png)](https://store.automationghana.com/wp-content/uploads/2024/10/Door-And-Window-Sensor-SR-M33B-Sumring.png)
   1. ![Door And Window Sensor, SR-M33B, Sumring](https://store.automationghana.com/wp-content/uploads/2024/10/Door-And-Window-Sensor-SR-M33B-Sumring-100x100.png)

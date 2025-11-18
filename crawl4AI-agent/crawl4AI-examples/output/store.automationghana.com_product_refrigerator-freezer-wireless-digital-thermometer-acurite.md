@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Refrigerator/Freezer Wireless Digital Thermometer, AcuRite
-[🔍](https://store.automationghana.com/product/refrigerator-freezer-wireless-digital-thermometer-acurite/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/refrigerator-freezer-wireless-digital-thermometer-acurite/)
 [![Refrigerator/Freezer Wireless Digital Thermometer, AcuRite](https://store.automationghana.com/wp-content/uploads/2024/10/AcuRite-00986A2-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2024/10/AcuRite-00986A2.jpg)
 ####  Refrigerator/Freezer Wireless Digital Thermometer, AcuRite 
 **SKU :** AcuRite 00986A2 
@@ -45,12 +45,12 @@ Product Description
 AcuRite Digital Wireless Fridge and Freezer Thermometer with Alarm and Max/Min Temperature for Home ,LCD Display, Restaurants
 Related Products 
 ## Related products
-  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
-[Add to cart](https://store.automationghana.com/product/refrigerator-freezer-wireless-digital-thermometer-acurite/?add-to-cart=2983)
-  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
-[Add to cart](https://store.automationghana.com/product/refrigerator-freezer-wireless-digital-thermometer-acurite/?add-to-cart=2981)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/refrigerator-freezer-wireless-digital-thermometer-acurite/?add-to-cart=2952)
+  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
+[Add to cart](https://store.automationghana.com/product/refrigerator-freezer-wireless-digital-thermometer-acurite/?add-to-cart=2961)
+  * [![Auxiliary Contact 100-SB11](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB11 ₵270.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb11/)
+[Add to cart](https://store.automationghana.com/product/refrigerator-freezer-wireless-digital-thermometer-acurite/?add-to-cart=2954)
+  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
+[Add to cart](https://store.automationghana.com/product/refrigerator-freezer-wireless-digital-thermometer-acurite/?add-to-cart=2939)
   * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
 [Add to cart](https://store.automationghana.com/product/refrigerator-freezer-wireless-digital-thermometer-acurite/?add-to-cart=2935)
 

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / Switch, 4-Gang 2-Way 250VAC, 16A, NEW6-D00808, Silver, Chint
-[🔍](https://store.automationghana.com/product/switch-new6-d00808-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/switch-new6-d00808-chint/)
 [![Switch, 4-Gang 2-Way 250VAC, 16A, NEW6-D00808, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/4-gang-silver.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/4-gang-silver.jpg)
 ####  Switch, 4-Gang 2-Way 250VAC, 16A, NEW6-D00808, Silver, Chint 
 **SKU :** NEW6-D00808 
@@ -52,14 +52,14 @@ NEW6-D00808, Switch, 4-Gang 2-Way
 
 Related Products 
 ## Related products
-  * [![Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-gold-300x300.jpg)Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint ₵79.00 ](https://store.automationghana.com/product/switch-new6-d00402-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00808-chint/?add-to-cart=1539)
-  * [![Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/dimmer-switch.jpg)Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint ₵159.00 ](https://store.automationghana.com/product/light-dimmer-new6-d30510-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00808-chint/?add-to-cart=1520)
-  * [![Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41918-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00808-chint/?add-to-cart=1510)
-  * [![Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint ₵127.00 ](https://store.automationghana.com/product/double-socket-with-neon-new6-d41938-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00808-chint/?add-to-cart=1507)
+  * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-5-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42712-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00808-chint/?add-to-cart=1529)
+  * [![Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-3-300x300.jpg)Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint ₵120.00 ](https://store.automationghana.com/product/double-socket-new6-d41932-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00808-chint/?add-to-cart=1508)
+  * [![Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-5-300x300.jpg)Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41912-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00808-chint/?add-to-cart=1509)
+  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00808-chint/?add-to-cart=1503)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

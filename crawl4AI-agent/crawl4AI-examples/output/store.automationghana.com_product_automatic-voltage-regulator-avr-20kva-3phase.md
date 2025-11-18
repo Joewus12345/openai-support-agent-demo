@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / Automatic Voltage Regulator (AVR), 20kvA, 3Phase
-[🔍](https://store.automationghana.com/product/automatic-voltage-regulator-avr-20kva-3phase/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/automatic-voltage-regulator-avr-20kva-3phase/)
 [![Automatic Voltage Regulator \(AVR\), 20kvA, 3Phase](https://store.automationghana.com/wp-content/uploads/2021/07/TND1SVC-30_AF.png)](https://store.automationghana.com/wp-content/uploads/2021/07/TND1SVC-30_AF.png)
 ####  Automatic Voltage Regulator (AVR), 20kvA, 3Phase 
 **SKU :** TNS1(SVC)-20 
@@ -51,14 +51,14 @@ AVR TND1 (SVC)-20, 3 Phase
 
 Related Products 
 ## Related products
-  * [![MCB 20A 3P, NXB-63 3P C20 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/BREAKER-5-300x300.jpg)MCB 20A 3P, NXB-63 3P C20 6kA, Chint ₵110.00 ](https://store.automationghana.com/product/mcb-nxb-63-3p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-20kva-3phase/?add-to-cart=1784)
-  * [![Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint ₵1,722.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-63-4csw-enc-bar-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-20kva-3phase/?add-to-cart=1758)
+  * [![MCB 63A 1P, NXB-63 1P C63 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-1P-300x300.jpg)MCB 63A 1P, NXB-63 1P C63 6kA, Chint ₵37.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-20kva-3phase/?add-to-cart=1782)
+  * [![Manual Changeover Switch, 32A, 2P](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32-300x300.jpg)Manual Changeover Switch, 32A, 2P ₵95.00 ](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-20kva-3phase/?add-to-cart=1759)
   * [![Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint ₵2,719.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
 [Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-20kva-3phase/?add-to-cart=1756)
-  * [![Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint ₵1,825.00 ](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-20kva-3phase/?add-to-cart=1521)
+  * [![Automatic Voltage Regulator \(AVR\), 5kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-5-300x300.jpg)Automatic Voltage Regulator (AVR), 5kvA, 1Phase ₵3,381.00 ](https://store.automationghana.com/product/avr-tnd1svc-5-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-20kva-3phase/?add-to-cart=1637)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

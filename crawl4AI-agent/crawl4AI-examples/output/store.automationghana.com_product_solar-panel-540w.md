@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Renewables](https://store.automationghana.com/product-category/renewables/) / Solar Panel, CHSM72M-HC-540W, Chint
-[🔍](https://store.automationghana.com/product/solar-panel-540w/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/solar-panel-540w/)
 [![Solar Panel, CHSM72M-HC-540W, Chint](https://store.automationghana.com/wp-content/uploads/2022/07/Solar-Panel-540W.jpg)](https://store.automationghana.com/wp-content/uploads/2022/07/Solar-Panel-540W.jpg)
 ####  Solar Panel, CHSM72M-HC-540W, Chint 
 **SKU :** CHSM72M-HC-540W 

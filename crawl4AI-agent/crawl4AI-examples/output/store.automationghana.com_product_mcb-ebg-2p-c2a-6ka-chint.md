@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / MCB, EBG, 2P-C2A-6kA, Chint
-[🔍](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/)
 [![MCB, EBG, 2P-C2A-6kA, Chint](https://store.automationghana.com/wp-content/uploads/2024/05/ebg-2p-c32-6ka-500x500-1.webp)](https://store.automationghana.com/wp-content/uploads/2024/05/ebg-2p-c32-6ka-500x500-1.webp)
 [![MCB, EBG, 2P-C2A-6kA, Chint - Image 2](https://store.automationghana.com/wp-content/uploads/2024/05/ebg-2p-c32-6ka-500x500-1.webp)](https://store.automationghana.com/wp-content/uploads/2024/05/ebg-2p-c32-6ka-500x500-1.webp)
   1. ![MCB, EBG, 2P-C2A-6kA, Chint](https://store.automationghana.com/wp-content/uploads/2024/05/ebg-2p-c32-6ka-500x500-1-100x100.webp)
@@ -50,14 +50,14 @@ Product Description
 MCB, EBG, 2P-C2A-6kA High current limiting performance to limit, to the greatest extent, the destructive energy due to short circuit. C-Curve Miniature Circuit Breaker is used for the Protection of Circuits Against Short-Circuit Currents, Protection of Circuits Against Overload Currents.
 Related Products 
 ## Related products
-  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/?add-to-cart=2973)
-  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/?add-to-cart=2956)
-  * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/?add-to-cart=2948)
-  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/?add-to-cart=2946)
+  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/?add-to-cart=2985)
+  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/?add-to-cart=2983)
+  * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/?add-to-cart=2963)
+  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c2a-6ka-chint/?add-to-cart=2939)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

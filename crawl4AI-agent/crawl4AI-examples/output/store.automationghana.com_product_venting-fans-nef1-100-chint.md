@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / Venting Fans, NEF1-100, Chint
-[🔍](https://store.automationghana.com/product/venting-fans-nef1-100-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/venting-fans-nef1-100-chint/)
 [![Venting Fans, NEF1-100, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7.jpg)](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7.jpg)
 ####  Venting Fans, NEF1-100, Chint 
 **SKU :** NEF1-100 
@@ -52,14 +52,14 @@ NEF1-100 Venting Fans
 
 Related Products 
 ## Related products
-  * [![UPS, 3kVA, UPA302N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 3kVA, UPA302N2NX0B035, Delta ₵9,432.00 ](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=24749)
-  * [![RCA Female Socket Connector](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-FEMALE-CONNECTOR.jpg)RCA Female Socket Connector ₵4.00 ](https://store.automationghana.com/product/rca-female-socket-connector/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=3637)
-  * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵15.00 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
+  * [![RT UPS, 1kVA, UPA102R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)RT UPS, 1kVA, UPA102R2RX0B035, Delta ₵7,779.00 ](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=24750)
+  * [![Venting Fans, NEF1-260, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-260, Chint ₵449.50 ](https://store.automationghana.com/product/venting-fans-nef1-260-chint/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=1920)
+  * [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-300x300.jpg)Pattress Box NEH1-202 Chint ₵17.00 ](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=1832)
+  * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵9.80 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
 [Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=1830)
-  * [![Patress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Patress Box 3 x 3, NEH1-001A Chint ₵13.00 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=1829)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

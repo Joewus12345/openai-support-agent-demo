@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Fluke 1587 FC 2-in-1 Insulation Multimeter
-[🔍](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/)
 [![Fluke 1587 FC 2-in-1 Insulation Multimeter](https://store.automationghana.com/wp-content/uploads/2025/05/fluke.png)](https://store.automationghana.com/wp-content/uploads/2025/05/fluke.png)
 ####  Fluke 1587 FC 2-in-1 Insulation Multimeter 
 **SKU :** Fluke 1587 FC 
@@ -45,14 +45,14 @@ Product Description
 Fluke 1587 FC 2-in-1 Insulation Multimeter, True-RMS, Selectable Insulation Test Voltages Up To 1000 V, Pi/DAR Timed Ratio Tests, Measures Frequency, Includes Low-Pass Filter For Motor Drive VFD
 Related Products 
 ## Related products
-  * [![Non-Contact-Voltage-Detector-MD-116-Metre](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-116-Metrel-300x300.png)Voltage Detector, Non-Contact, 12-1000VAC, MD 116, Metrel ₵365.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-116-metrel/)
-[Add to cart](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/?add-to-cart=2015)
-  * [![Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/MD-1150-300x300.jpg)Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel ₵1,515.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1150-metrel/)
-[Add to cart](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/?add-to-cart=2011)
-  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
-[Add to cart](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/?add-to-cart=2006)
-  * [![Digital-MultimeterMD-9030-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-MultimeterMD-9030-Metrel-300x300.png)Multimeter,Digital, 1000VDC/VAC, 10A DC/AC, MD 9030, Metrel ₵1,819.00 ](https://store.automationghana.com/product/digital-multimetermd-9030-metrel/)
-[Add to cart](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/?add-to-cart=2002)
+  * [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ₵7,613.00 ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/?add-to-cart=2008)
+  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/?add-to-cart=2005)
+  * [![Clamp Meter, Fluke-376FC](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-Fluke-376FC-Fluke-300x300.png)Clamp Meter, True RMS AC/DC, 1000A/1000V, Fluke-376FC, Fluke ₵10,430.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376fc-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/?add-to-cart=1993)
+  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-1587-fc-2-in-1-insulation-multimeter/?add-to-cart=1994)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

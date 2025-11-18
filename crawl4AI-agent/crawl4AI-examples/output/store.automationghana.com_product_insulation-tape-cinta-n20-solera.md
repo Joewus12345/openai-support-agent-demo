@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Insulation Tape, Black, 20m, CINTA-N20, Solera
-[🔍](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/)
 [![Insulation Tape, Black, 20m, CINTA-N20, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/CINTA-N20.png)](https://store.automationghana.com/wp-content/uploads/2020/04/CINTA-N20.png)
 ####  Insulation Tape, Black, 20m, CINTA-N20, Solera 
 **SKU :** CINTA-N20 
@@ -51,14 +51,14 @@ CINTA-N20, Insulated Tape
 
 Related Products 
 ## Related products
-  * [![Autoflex Cable \(Black\), H07V-K-1Cx16mm², 29209, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx16mm², 29209, Helukabel ₵38.00 ](https://store.automationghana.com/product/autoflex-cable-29209-h07v-k-1cx16-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/?add-to-cart=1478)
-  * [![Autoflex Cable\(Black\), H07V-K-1Cx10mm², 29193, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable(Black), H07V-K-1Cx10mm², 29193, Helukabel ₵25.50 ](https://store.automationghana.com/product/autoflex-cable-29193-h07v-k-1cx10-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/?add-to-cart=1475)
-  * [![Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29177-h07v-k-1cx6-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/?add-to-cart=1471)
-  * [![Autoflex Cable, 29161-H07V-K-1Cx4 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29161-H07V-K-1Cx4 BLK, Helukabel ₵11.00 ](https://store.automationghana.com/product/autoflex-cable-29161-h07v-k-1cx4-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/?add-to-cart=1467)
+  * [![Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey](https://store.automationghana.com/wp-content/uploads/2020/04/CAT-6-FTP-300x300.jpg)Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey ₵22.00 ](https://store.automationghana.com/product/cat-6-cable-802174-u-ftp-4cx2xawg-26-7-pvc-helukabel/)
+[Add to cart](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/?add-to-cart=1487)
+  * [![Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel ₵68.00 ](https://store.automationghana.com/product/autoflex-cable-29241-h07v-k-1cx35-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/?add-to-cart=1482)
+  * [![Autoflex Cable \(Green-Yellow\), H07V-K-1Cx25mm², 29226, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable (Green-Yellow), H07V-K-1Cx25mm², 29226, Helukabel ₵51.50 ](https://store.automationghana.com/product/autoflex-cable-29226-h07v-k-1cx25-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/?add-to-cart=1481)
+  * [![Autoflex Cable \(Black\), H07V-K-1Cx1.5mm², 29129, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx1.5mm², 29129, Helukabel ₵4.80 ](https://store.automationghana.com/product/autoflex-cable-29129-h07v-k-1cx1-5-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/insulation-tape-cinta-n20-solera/?add-to-cart=1460)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

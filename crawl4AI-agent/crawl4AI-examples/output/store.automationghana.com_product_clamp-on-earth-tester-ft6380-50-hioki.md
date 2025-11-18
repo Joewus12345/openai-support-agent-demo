@@ -23,8 +23,8 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [HIOKI](https://store.automationghana.com/product-category/hioki/) / [HIOKI](https://store.automationghana.com/product-category/hioki/hioki-hioki/) / Clamp On Earth Tester, FT6380-50, Hioki
-[🔍](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/)
+[Home](https://store.automationghana.com) / [Uncategorised](https://store.automationghana.com/product-category/uncategorised/) / Clamp On Earth Tester, FT6380-50, Hioki
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/)
 [![Clamp On Earth Tester, FT6380-50, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Clamp-On-Earth-Tester-FT6380-50-Hioki-600x400.png)](https://store.automationghana.com/wp-content/uploads/2025/05/Clamp-On-Earth-Tester-FT6380-50-Hioki.png)
 ####  Clamp On Earth Tester, FT6380-50, Hioki 
 **SKU :** Clamp On Earth Tester, FT6380-50 
@@ -45,14 +45,14 @@ Product Description
 The Hioki FT6380-50 Clamp On Earth Tester revolutionizes ground resistance testing by eliminating the need for auxiliary stakes. It delivers precise earth resistance measurements safely and quickly using clamp-on technology, making it perfect for field engineers and electricians working on grounding systems. This instrument is vital for ensuring electrical safety, preventing equipment damage, and meeting regulatory standards.
 Related Products 
 ## Related products
-  * [![Infrared Thermometer, FT3700-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Infrared-Thermometer-FT3700-20-Hioki-300x300.png)Infrared Thermometer, FT3700-20, Hioki ₵2,235.20 ](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/)
-[Add to cart](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/?add-to-cart=24685)
+  * [![DC Signal Source, SS7012, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/DC-Signal-Source-SS7012-Hioki-300x300.png)DC Signal Source, SS7012, Hioki ₵33,104.40 ](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/)
+[Add to cart](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/?add-to-cart=24683)
   * [![Digital Insulation Tester, IR4056-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Insulation-Tester-IR4056-20-Hioki-300x300.png)Digital Insulation Tester, IR4056-20, Hioki ₵5,738.90 ](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/)
 [Add to cart](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/?add-to-cart=24681)
   * [![AC Clamp Meter, 3280-10F, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/AC-Clamp-Meter-328010F-Hioki-300x300.png)AC Clamp Meter, 3280-10F, Hioki ₵1,540.50 ](https://store.automationghana.com/product/ac-clamp-meter-3280-10f-hioki/)
 [Add to cart](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/?add-to-cart=24679)
-  * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/03/hioki-300x300.png)Hioki CM4373-50 Clamp Meter ₵12,541.50 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/)
-[Add to cart](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/?add-to-cart=24576)
+  * [![HIOKI DT4281 Digital Multimeter](https://store.automationghana.com/wp-content/uploads/2025/01/Hioki-Digital-4281-1-300x300.jpg)HIOKI DT4281 Digital Multimeter ₵8,654.73 ](https://store.automationghana.com/product/hioki-dt4281-digital-multimeter/)
+[Add to cart](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/?add-to-cart=22653)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

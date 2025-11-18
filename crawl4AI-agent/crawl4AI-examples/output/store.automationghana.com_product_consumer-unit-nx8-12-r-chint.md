@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / Consumer Unit-NX8-12 (R), CHINT
-[🔍](https://store.automationghana.com/product/consumer-unit-nx8-12-r-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/consumer-unit-nx8-12-r-chint/)
 [![Consumer Unit-NX8-12 \(R\), CHINT](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-3-1.jpg)](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-3-1.jpg)
 ####  Consumer Unit-NX8-12 (R), CHINT 
 **SKU :** NX8-12 R 
@@ -51,14 +51,14 @@ NX8-12 (R), 12-Way Consumer Unit
 
 Related Products 
 ## Related products
-  * [![MCB, C20A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C20-1P-300x300.jpg)MCB, C20A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-12-r-chint/?add-to-cart=1778)
+  * [![MCB, C16A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C16-1P-300x300.jpg)MCB, C16A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c16-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-12-r-chint/?add-to-cart=1777)
+  * [![Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint ₵2,807.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-200-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-12-r-chint/?add-to-cart=1757)
   * [![Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint ₵2,719.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
 [Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-12-r-chint/?add-to-cart=1756)
   * [![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)Automatic Voltage Regulator (AVR), 75kvA, 3 Phase ₵58,063.00 ](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
 [Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-12-r-chint/?add-to-cart=1641)
-  * [![AVR, 20KVA-1 Phase, TND1\(SVC\)-20/AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-20_AF-300x300.png)AVR, 20KVA-1 Phase, TND1(SVC)-20/AF, Chint ₵10,925.00 ](https://store.automationghana.com/product/avr-tnd1svc-20-af-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-12-r-chint/?add-to-cart=1636)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

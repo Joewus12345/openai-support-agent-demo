@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Tool set – TOOL-BELTPOUCH 1212506
-[🔍](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506/)
 [![Tool set - TOOL-BELTPOUCH 1212506](https://store.automationghana.com/wp-content/uploads/2025/02/BELTPOUCH-600x632.png)](https://store.automationghana.com/wp-content/uploads/2025/02/BELTPOUCH.png)
 ####  Tool set – TOOL-BELTPOUCH 1212506 
 ₵10,532.88
@@ -44,14 +44,14 @@ Product Description
 Tool bag belt, equipped with: cable cutter, side cutter, stripping tool, combination pliers, switch cabinet key, screwdriver, slit: 0.5×3.0/1.0×4.0/1.0×5.5 crosshead: PH1/PH2, voltage tester, blades, tape measure
 Related Products 
 ## Related products
+  * [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ₵7,613.00 ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506/?add-to-cart=2008)
+  * [![Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/MD-1150-300x300.jpg)Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel ₵1,515.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1150-metrel/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506/?add-to-cart=2011)
   * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
 [Add to cart](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506/?add-to-cart=2006)
-  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506/?add-to-cart=2001)
-  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506/?add-to-cart=1992)
-  * [![Clamp Meter, Fluke-376FC](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-Fluke-376FC-Fluke-300x300.png)Clamp Meter, True RMS AC/DC, 1000A/1000V, Fluke-376FC, Fluke ₵10,430.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376fc-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506/?add-to-cart=1993)
+  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506/?add-to-cart=1995)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

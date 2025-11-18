@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Autoflex Cable, 1X1.5mmsq, Brown
-[🔍](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/)
 [![Autoflex Cable, 1X1.5mmsq, Brown](https://store.automationghana.com/wp-content/uploads/2020/12/29132.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/29132.jpg)
 ####  Autoflex Cable, 1X1.5mmsq, Brown 
 **SKU :** 29132-H07V-K-1CX1.5-BN 
@@ -51,14 +51,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Autoflex Cable \(Black\), H07V-K-1Cx25mm², 29225, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx25mm², 29225, Helukabel ₵63.00 ](https://store.automationghana.com/product/autoflex-cable-29225-h07v-k-1cx25-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/?add-to-cart=1480)
-  * [![Autoflex Cable, 29194-H07V-K-1Cx10mm² Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29194-H07V-K-1Cx10mm² Y/G, Helukabel ₵25.50 ](https://store.automationghana.com/product/autoflex-cable-29194-h07v-k-1cx10-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/?add-to-cart=1476)
-  * [![Autoflex Cable \(Black\), H07V-K-1Cx1.5mm², 29129, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx1.5mm², 29129, Helukabel ₵4.80 ](https://store.automationghana.com/product/autoflex-cable-29129-h07v-k-1cx1-5-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/?add-to-cart=1460)
-  * [![Armoured Cable, 2311003122-XAV 2Cx16 /0.6/1kV, Lapp](https://store.automationghana.com/wp-content/uploads/2019/12/Armoured-cable-300x300.jpg)Armoured Cable, 2311003122-XAV 2Cx16 /0.6/1kV, Lapp ₵78.50 ](https://store.automationghana.com/product/armoured-cable-2311003122-xav-2cx16-0-6-1kv-lapp/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/?add-to-cart=1457)
+  * [![Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-3g15-300x300.png)Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel ₵18.10 ](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/?add-to-cart=1484)
+  * [![Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel ₵38.00 ](https://store.automationghana.com/product/autoflex-cable-29213-h07v-k-1cx16-red-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/?add-to-cart=1479)
+  * [![Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel ₵68.00 ](https://store.automationghana.com/product/autoflex-cable-29241-h07v-k-1cx35-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/?add-to-cart=1482)
+  * [![Autoflex Cable-29179-H07V-K-1Cx6 BE, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable-29179-H07V-K-1Cx6 BE, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29179-h07v-k-1cx6-be-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-1x1-5mmsq-brown/?add-to-cart=1473)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Current Transformer 3000/5A, RCT-110, CHINT
-[🔍](https://store.automationghana.com/product/current-transformer-rct-110-3000-5-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/current-transformer-rct-110-3000-5-chint/)
 [![Current Transformer 3000/5A, RCT-110, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/RCT-110.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/RCT-110.jpg)
 ####  Current Transformer 3000/5A, RCT-110, CHINT 
 **SKU :** RCT-110 3000/5 
@@ -56,12 +56,12 @@ Related Products
 ## Related products
   * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
 [Add to cart](https://store.automationghana.com/product/current-transformer-rct-110-3000-5-chint/?add-to-cart=1599)
-  * [![Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-12VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint ₵46.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/)
-[Add to cart](https://store.automationghana.com/product/current-transformer-rct-110-3000-5-chint/?add-to-cart=1596)
   * [![Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-24VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-12vdc-chint/)
 [Add to cart](https://store.automationghana.com/product/current-transformer-rct-110-3000-5-chint/?add-to-cart=1595)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
-[Add to cart](https://store.automationghana.com/product/current-transformer-rct-110-3000-5-chint/?add-to-cart=1537)
+  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
+[Add to cart](https://store.automationghana.com/product/current-transformer-rct-110-3000-5-chint/?add-to-cart=1593)
+  * [![Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-8-300x300.jpg)Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera ₵608.00 ](https://store.automationghana.com/product/plug-902456a-solera/)
+[Add to cart](https://store.automationghana.com/product/current-transformer-rct-110-3000-5-chint/?add-to-cart=1524)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

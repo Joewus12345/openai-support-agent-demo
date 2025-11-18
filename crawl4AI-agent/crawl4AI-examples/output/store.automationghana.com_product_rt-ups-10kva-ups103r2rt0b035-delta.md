@@ -24,11 +24,18 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / RT UPS, 10kVA, UPS103R2RT0B035, Delta
-[🔍](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/)
 [![RT UPS, 10kVA, UPS103R2RT0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S.jpg)
 ####  RT UPS, 10kVA, UPS103R2RT0B035, Delta 
 **SKU :** UPS103R2RT0B035 
 ₵41,770.00
+This UPS combines essential features that ensure reliability and efficiency in maintaining continuous power supply across various applications making it an ideal choice for those seeking dependable performance backed by comprehensive technical specifications tailored for professional use cases.
+  * Battery Charge Current: 1.5 A
+  * Battery Voltage: 240 VDC
+  * Input Frequency: 40–70 Hz
+  * Output Frequency: 50/60 Hz Rated Power: 10 kW
+
+
 RT UPS, 10kVA, UPS103R2RT0B035, Delta quantity
 Add to cart
   * Pickup: Available today in our stores
@@ -42,17 +49,17 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-RT 10kVA S w/ 20x9Ah batt. & PDB
+This UPS combines essential features that ensure reliability and efficiency in maintaining continuous power supply across various applications making it an ideal choice for those seeking dependable performance backed by comprehensive technical specifications tailored for professional use cases. 
 Related Products 
 ## Related products
-  * [![UPS, 3kVA, UPA302N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 3kVA, UPA302N2NX0B035, Delta ₵9,432.00 ](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/?add-to-cart=24749)
-  * [![Ceiling Fan, 56", FC-140-3C, 75W, Foshan](https://store.automationghana.com/wp-content/uploads/2022/04/FC-140-3C-1.jpg)Ceiling Fan, 56″, FC-140-3C, 75W, Foshan ₵471.00 ](https://store.automationghana.com/product/ceiling-fan-56-75w/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/?add-to-cart=4470)
+  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 42", IBCF-C03, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/31GqGkJyvuL._AC_US750_-300x300.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 42″, IBCF-C03, Zhongshan Weiyu ~~₵ 2,099.50~~ Original price was: ₵2,099.50.₵1,747.00Current price is: ₵1,747.00. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-42-ibcf-c03-zhongshan-weiyu/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/?add-to-cart=24814)
+  * [![RT UPS, 6kVA, UPS602R2RT0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S-300x300.jpg)RT UPS, 6kVA, UPS602R2RT0B035, Delta ₵36,103.50 ](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/?add-to-cart=24753)
   * [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)2-Way Surface Mount Consumer Unit ₵52.00 ](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
 [Add to cart](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/?add-to-cart=1971)
-  * [![Venting Fans, NEF1-260, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-260, Chint ₵630.00 ](https://store.automationghana.com/product/venting-fans-nef1-260-chint/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/?add-to-cart=1920)
+  * [![Blank Plate For 3 x 3 Patress, NEW7-G951, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate For 3 x 3 Patress, NEW7-G951, Chint ₵8.50 ](https://store.automationghana.com/product/blank-plate-new7-g951-chint/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/?add-to-cart=1642)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

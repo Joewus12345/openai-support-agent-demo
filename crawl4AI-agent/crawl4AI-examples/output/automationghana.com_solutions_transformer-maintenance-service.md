@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/transformer-maintenance-service/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -80,9 +72,9 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - tranformer oil testsing](https://automationghana.com/wp-content/uploads/2024/10/tranformer-oil-testsing-1024x481.png)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
+![The Automation Ghana Group - tranformer oil testsing](https://18.197.210.112/wp-content/uploads/2024/10/tranformer-oil-testsing-1024x481.png)
+  1. [Home](https://18.197.210.112)
+  2. [Solution](https://18.197.210.112/solutions/)
   3. Transformer Maintenance & Oil Treatment: 5 Key Solutions
 
 
@@ -92,13 +84,13 @@ We offer **transformer maintenance** and **oil treatment** services designed to 
   * Our transformer maintenance solutions cover a wide range of services, including routine inspections, cleaning, and minor repairs to ensure smooth and efficient operation. We conduct electrical testing, visual inspections, and thermal imaging to detect potential issues early. This helps prevent serious faults that can cause transformer failure or extended downtime.
 
 
-![Transformer Maintenance Services](https://automationghana.com/wp-content/uploads/2024/10/Transformer-Maintenance-and-Oil-Treatment.jpg)
-![Transformer Maintenance and Oil Treatment](https://automationghana.com/wp-content/uploads/2024/10/Transformer-oil-filtration.jpg)
+![Transformer Maintenance Services](https://18.197.210.112/wp-content/uploads/2024/10/Transformer-Maintenance-and-Oil-Treatment.jpg)
+![Transformer Maintenance and Oil Treatment](https://18.197.210.112/wp-content/uploads/2024/10/Transformer-oil-filtration.jpg)
 ## Transformer Oil Testing and Analysis
   * TAGG specializes in transformer oil testing, a critical aspect of transformer maintenance. We perform oil sampling and thorough dielectric analysis to measure moisture, acidity, and dissolved gases in the transformer oil. This analysis helps to detect potential problems, such as insulation breakdown or internal arcing, long before they become critical issues.
 
 
-![The Automation Ghana Group - Oil maintainace](https://automationghana.com/wp-content/uploads/2024/10/Oil-maintainace.jpg)
+![The Automation Ghana Group - Oil maintainace](https://18.197.210.112/wp-content/uploads/2024/10/Oil-maintainace.jpg)
 ## Transformer Testing and Diagnostics
   * TAGG provides transformer diagnostic testing to assess the overall condition of your equipment. Our tests include winding resistance testing, power factor testing, and insulation resistance testing, all of which provide valuable data on transformer health. By diagnosing potential faults early, we help you plan repairs before critical failures 
 
@@ -107,7 +99,7 @@ We offer **transformer maintenance** and **oil treatment** services designed to 
   * We offer customized preventive maintenance programs tailored to the unique needs of your facility. This includes scheduled inspections, oil treatment, and testing at regular intervals, ensuring that your transformers remain in peak condition over the long term. Our programs are designed to reduce downtime, improve performance, and prevent unexpected outages.
 
 
-![The Automation Ghana Group - transform](https://automationghana.com/wp-content/uploads/2024/10/transform.jpg)
+![The Automation Ghana Group - transform](https://18.197.210.112/wp-content/uploads/2024/10/transform.jpg)
 ## Benefits
 ## Increased Transformer Efficiency
 Regular maintenance improves transformer performance and efficiency, reducing energy losses.
@@ -117,9 +109,9 @@ Proper maintenance and oil treatment significantly increase the lifespan of your
 Well-maintained transformers operate safely, minimizing the risk of electrical hazards or fires.
 ## Reduced Downtime
 Preventive maintenance reduces the risk of unexpected failures and costly downtime, keeping your operations running smoothly.
-[ How Can We Help? ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-a0fd1106868a6b67d898)
+[ How Can We Help? ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-a0fd110691b3e1361c6a)
 TAGG’s **transformer maintenance and oil treatment** services ensure that your transformers remain in top working condition. Our expert team will perform all necessary maintenance, testing, and oil treatment to keep your transformers running efficiently and safely. We also offer tailored preventive maintenance plans to extend transformer life and avoid unexpected outages.
-[ What We Offer ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-3ee49346868a6b67d898)
+[ What We Offer ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-3ee4934691b3e1361c6a)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -129,7 +121,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-32d86556868a6b67d898)
+[ Hardware and Software ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-32d8655691b3e1361c6a)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -142,7 +134,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-62ecacd6868a6b67d898)
+[ Services ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-62ecacd691b3e1361c6a)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

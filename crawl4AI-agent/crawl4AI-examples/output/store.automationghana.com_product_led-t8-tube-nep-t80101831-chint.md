@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / LED T8 Tube, NEP-T80101831, Chint
-[🔍](https://store.automationghana.com/product/led-t8-tube-nep-t80101831-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/led-t8-tube-nep-t80101831-chint/)
 [![LED T8 Tube, NEP-T80101831, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CHINT-BATTEN-LIGHT.jpg)](https://store.automationghana.com/wp-content/uploads/2019/11/CHINT-BATTEN-LIGHT.jpg)
 ####  LED T8 Tube, NEP-T80101831, Chint 
 **SKU :** NEP-T80101831 
@@ -54,14 +54,14 @@ NEP-T80101831, LED T8 Tube
 
 Related Products 
 ## Related products
-  * [![Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-7-300x300.jpg)Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint ₵47.00 ](https://store.automationghana.com/product/single-socket-new6-d42700-chint/)
-[Add to cart](https://store.automationghana.com/product/led-t8-tube-nep-t80101831-chint/?add-to-cart=1527)
-  * [![Single Socket\(Silver\), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket(Silver), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint ₵71.00 ](https://store.automationghana.com/product/single-socket-new6-d42708-chint/)
-[Add to cart](https://store.automationghana.com/product/led-t8-tube-nep-t80101831-chint/?add-to-cart=1528)
   * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
 [Add to cart](https://store.automationghana.com/product/led-t8-tube-nep-t80101831-chint/?add-to-cart=1525)
-  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
-[Add to cart](https://store.automationghana.com/product/led-t8-tube-nep-t80101831-chint/?add-to-cart=1503)
+  * [![IT socket-NEW6-D20400, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20400, Chint ₵148.00 ](https://store.automationghana.com/product/it-socket-new6-d20400-chint/)
+[Add to cart](https://store.automationghana.com/product/led-t8-tube-nep-t80101831-chint/?add-to-cart=1517)
+  * [![Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint ₵127.00 ](https://store.automationghana.com/product/double-socket-with-neon-new6-d41938-chint/)
+[Add to cart](https://store.automationghana.com/product/led-t8-tube-nep-t80101831-chint/?add-to-cart=1507)
+  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
+[Add to cart](https://store.automationghana.com/product/led-t8-tube-nep-t80101831-chint/?add-to-cart=1502)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

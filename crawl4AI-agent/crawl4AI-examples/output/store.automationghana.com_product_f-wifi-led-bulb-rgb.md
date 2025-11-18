@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / F-WIFI LED BULB RGB
-[🔍](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/)
 [![F-WIFI LED BULB RGB](https://store.automationghana.com/wp-content/uploads/2021/10/F-WIFI-LED-BULB-RGB.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/F-WIFI-LED-BULB-RGB.jpg)
 ####  F-WIFI LED BULB RGB 
 **SKU :** F-LED- WRGB E27 BULB 
@@ -52,14 +52,14 @@ F-WIFI LED BULB RGB
 
 Related Products 
 ## Related products
-  * [![F-RF Wireless Gateway](https://store.automationghana.com/wp-content/uploads/2021/10/elan-rf-103-preview-1-300x300.png)F-RF Wireless Gateway ₵441.00 ](https://store.automationghana.com/product/f-rf-wireless-gateway/)
-[Add to cart](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/?add-to-cart=3588)
-  * [![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1-300x300.jpg)WIFI Relay Dummy Load ₵100.00 ](https://store.automationghana.com/product/wifi-relay-dummy-load/)
-[Add to cart](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/?add-to-cart=3569)
-  * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
-[Add to cart](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/?add-to-cart=3316)
-  * [![1 Channel WIFI Metering Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/shelly1pm_x1-1000x1000-1-1-300x300.jpg)1 Channel WIFI Metering Relay Switch ₵560.00 ](https://store.automationghana.com/product/wifi-operated-relay-switch-16-a-with-power-measurement/)
-[Add to cart](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/?add-to-cart=3302)
+  * [![Split Core Current Transformer 50A](https://store.automationghana.com/wp-content/uploads/2021/03/Clamp-Up-300x300.jpeg)Split Core Current Transformer 50A ₵172.00 ](https://store.automationghana.com/product/50a-16ma-clamp-on-current-transformer/)
+[Add to cart](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/?add-to-cart=3308)
+  * [![2 Channel WIFI Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/Double.png)2 Channel WIFI Relay Switch ₵840.00 ](https://store.automationghana.com/product/wi-fi-dual-relay-switch/)
+[Add to cart](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/?add-to-cart=3295)
+  * [![WIFI IR Blaster](https://store.automationghana.com/wp-content/uploads/2021/03/images-4.jpg)WIFI IR Blaster ₵626.00 ](https://store.automationghana.com/product/ir-rf-universal-remote/)
+[Add to cart](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/?add-to-cart=3293)
+  * [![F-CAM-Wireless IP PTZ Security Camera](https://store.automationghana.com/wp-content/uploads/2021/03/Sonoff-Wifi-Wireless-Security-Camera-GK-200mp2-B-300x300.jpg)F-CAM-Wireless IP PTZ Security Camera ₵1,266.00 ](https://store.automationghana.com/product/3209/)
+[Add to cart](https://store.automationghana.com/product/f-wifi-led-bulb-rgb/?add-to-cart=3209)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

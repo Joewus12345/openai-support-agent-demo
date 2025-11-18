@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solution-categories/esl/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -98,7 +90,7 @@ Home Power Factor Correction Power Factor Correction (PFC) Panels are designed t
 Home Robust Motor Control Solution Motor Starter Panels are essential for controlling the start, stop, and operation of motors in industrial settings. ESL’s Motor Starter Panels provide comprehensive solutions for motor start-up and protection, using industry-leading Direct-on-Line, Star-Delta, Soft Starter, and Variable Speed Drives. These systems allow for precise control over motor speed and operation, ensuring […]
 ## [Changeover/Transfer Switch Panels](https://automationghana.com/solutions/www-automationghana-com-changeover-transfer-switch-panels/)
 Home Changeover/Transfer Switch Panels Description: The changeover or transfer switch enables safe connection of loads to backup power sources such as generators, Solar PV systems and other renewable energy sources. Changeovers come in two broad types: Manual Changeovers Automatic Changeovers ESL offers standard and custom solutions from Up to 6300A. Features include, overcurrent, undervoltage, short circuit and earth leakage […]
-## [Power Distribution Boards](https://automationghana.com/solutions/power-distribution-boards/)
+## [Power Distribution Panel](https://automationghana.com/solutions/power-distribution-panel/)
 Home Versatile Power Distribution Power Distribution Panels are the central hub of any electrical system, managing the flow of electricity to various circuits. ESL’s panels are highly customizable, with options for cascaded circuit protection, remote monitoring, and scalable configurations. Built to handle up to 6300A, these panels are engineered for reliability, safety, and efficiency. Features: […]
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.

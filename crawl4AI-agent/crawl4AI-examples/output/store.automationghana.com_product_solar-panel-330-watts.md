@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Renewables](https://store.automationghana.com/product-category/renewables/) / Solar Panel 330W KD-P330-72
-[🔍](https://store.automationghana.com/product/solar-panel-330-watts/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/solar-panel-330-watts/)
 [![Solar Panel 330W KD-P330-72](https://store.automationghana.com/wp-content/uploads/2020/04/KD-P330-72-330W.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/KD-P330-72-330W.jpg)
 ####  Solar Panel 330W KD-P330-72 
 **SKU :** KD-P330-72, 330W 

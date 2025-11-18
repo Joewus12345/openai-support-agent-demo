@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / Switch, 1-Gang, 2-Way 16A, 250VAC, NEW6-D00200, White, Chint
-[🔍](https://store.automationghana.com/product/switch-new6-d00200-chint/)
-[![Switch, 1-Gang, 2-Way 16A, 250VAC, NEW6-D00200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-white-600x492.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-white.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/switch-new6-d00200-chint/)
+[![Switch, 1-Gang, 2-Way 16A, 250VAC, NEW6-D00200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-white-600x492.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-white.jpg)![](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-white.jpg)
 ####  Switch, 1-Gang, 2-Way 16A, 250VAC, NEW6-D00200, White, Chint 
 **SKU :** NEW6-D00200 
 ₵50.00
@@ -54,12 +54,12 @@ Related Products
 ## Related products
   * [![Single Socket\(Silver\), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket(Silver), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint ₵71.00 ](https://store.automationghana.com/product/single-socket-new6-d42708-chint/)
 [Add to cart](https://store.automationghana.com/product/switch-new6-d00200-chint/?add-to-cart=1528)
-  * [![IT socket-NEW6-D21100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/the-two-300x300.jpg)IT socket-NEW6-D21100, Chint ₵124.00 ](https://store.automationghana.com/product/it-socket-new6-d21100-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00200-chint/?add-to-cart=1519)
-  * [![IT socket-NEW6-D20400, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20400, Chint ₵148.00 ](https://store.automationghana.com/product/it-socket-new6-d20400-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00200-chint/?add-to-cart=1517)
+  * [![Single Switched Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42900, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Switched Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42900, Chint ₵56.00 ](https://store.automationghana.com/product/single-socket-new6-d42900-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00200-chint/?add-to-cart=1532)
   * [![Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41918-chint/)
 [Add to cart](https://store.automationghana.com/product/switch-new6-d00200-chint/?add-to-cart=1510)
+  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00200-chint/?add-to-cart=1503)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

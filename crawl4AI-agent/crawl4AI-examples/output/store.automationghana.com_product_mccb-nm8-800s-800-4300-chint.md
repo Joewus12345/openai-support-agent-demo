@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / MCCB-NM8-800S/800/4300, Chint
-[🔍](https://store.automationghana.com/product/mccb-nm8-800s-800-4300-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mccb-nm8-800s-800-4300-chint/)
 [![MCCB-NM8-800S/800/4300, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/800A.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/800A.jpg)
 ####  MCCB-NM8-800S/800/4300, Chint 
 **SKU :** NM8-800S/800/4300 
@@ -45,14 +45,14 @@ Product Description
 MCCB-NM8-800S/800/4300, Chint | MCCB-800A-4P
 Related Products 
 ## Related products
+  * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-nm8-800s-800-4300-chint/?add-to-cart=1597)
   * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
 [Add to cart](https://store.automationghana.com/product/mccb-nm8-800s-800-4300-chint/?add-to-cart=1598)
-  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
-[Add to cart](https://store.automationghana.com/product/mccb-nm8-800s-800-4300-chint/?add-to-cart=1594)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
-[Add to cart](https://store.automationghana.com/product/mccb-nm8-800s-800-4300-chint/?add-to-cart=1537)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
-[Add to cart](https://store.automationghana.com/product/mccb-nm8-800s-800-4300-chint/?add-to-cart=1514)
+  * [![Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-24VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-nm8-800s-800-4300-chint/?add-to-cart=1595)
+  * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
+[Add to cart](https://store.automationghana.com/product/mccb-nm8-800s-800-4300-chint/?add-to-cart=1522)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

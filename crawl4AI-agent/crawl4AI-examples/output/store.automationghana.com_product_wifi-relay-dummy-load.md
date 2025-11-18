@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / WIFI Relay Dummy Load
-[🔍](https://store.automationghana.com/product/wifi-relay-dummy-load/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/wifi-relay-dummy-load/)
 [![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1.jpg)![](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1.jpg)
 ####  WIFI Relay Dummy Load 
 **SKU :** Y-BYPASS 
@@ -50,14 +50,14 @@ WiFi Relay Dummy Load
 
 Related Products 
 ## Related products
-  * [![F-Sensor Mounting Base](https://store.automationghana.com/wp-content/uploads/2021/10/430x430x90-sonoff_pir_motion_sensor_base_1623831045-removebg-preview-300x300.webp)F-Sensor Mounting Base ₵106.00 ](https://store.automationghana.com/product/f-sensor-mounting-base/)
-[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3592)
-  * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
-[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3316)
-  * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
-[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3300)
-  * [![F-CAM-Wireless IP PTZ Security Camera](https://store.automationghana.com/wp-content/uploads/2021/03/Sonoff-Wifi-Wireless-Security-Camera-GK-200mp2-B-300x300.jpg)F-CAM-Wireless IP PTZ Security Camera ₵1,266.00 ](https://store.automationghana.com/product/3209/)
-[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3209)
+  * [![F-DIN Rail Tray](https://store.automationghana.com/wp-content/uploads/2021/10/F-DIN-Rail-Tray.jpg)F-DIN Rail Tray ₵71.00 ](https://store.automationghana.com/product/f-din-rail-tray/)
+[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3597)
+  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
+[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3594)
+  * [![F-RF Wireless Gateway](https://store.automationghana.com/wp-content/uploads/2021/10/elan-rf-103-preview-1-300x300.png)F-RF Wireless Gateway ₵441.00 ](https://store.automationghana.com/product/f-rf-wireless-gateway/)
+[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3588)
+  * [![F-RF Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/F-RF-Door-Window-Sensor.jpg)F-RF Door & Window Sensor ₵282.00 ](https://store.automationghana.com/product/f-rf-door-window-sensor/)
+[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3586)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

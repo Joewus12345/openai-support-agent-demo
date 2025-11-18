@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Automation & Drives](https://store.automationghana.com/product-category/industrial-automation/) / CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron
-[🔍](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/)
 [![CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron](https://store.automationghana.com/wp-content/uploads/2020/04/cp1ll14drd.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/cp1ll14drd.jpg)
 ####  CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron 
 **SKU :** CP1LL14DRD 
@@ -53,14 +53,14 @@ CP1LL14DRD, PLC 5K steps program + 10K words data memory
 
 Related Products 
 ## Related products
-  * [![MX Inverter Drive, 200VAC, 0.75kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive, 200VAC, 0.75kW, 1Phase ₵4,536.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab007-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1991)
-  * [![Temperature Controller, 12VDC, Pulse Output, 3 Aux, E5CC-QX3A5M-000, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-Omron-temp-controller-300x300.jpg)Temperature Controller, 12VDC, Pulse Output, 3 Aux, E5CC-QX3A5M-000, Omron ₵997.00 ](https://store.automationghana.com/product/pid-temperature-controller-e5cc-qx3a5m-000-omron/)
-[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1585)
-  * [![MX Inverter Drive 200VAC, 2.2kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 200VAC, 2.2kW, 1Phase ₵4,746.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab022-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1583)
-  * [![Inverter Drive\(MX\), 1.5kW, 4.8/5.4A , 3~Phase, 400 VAC, 3G3MX2-A4015-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 1.5kW, 4.8/5.4A , 3~Phase, 400 VAC, 3G3MX2-A4015-E CHN, Omron ₵4,990.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4015-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1576)
+  * [![MX Inverter Drive 400VAC, 5.5kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 5.5kW, 3Phase ₵9,706.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1580)
+  * [![Inverter Drive\(MX\), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron ₵7,561.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4040-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1579)
+  * [![Inverter Drive\(MX\), 0.75kW, 3.4/4.1A , 3~Phase, 400 VAC, 3G3MX2-A4007-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 0.75kW, 3.4/4.1A , 3~Phase, 400 VAC, 3G3MX2-A4007-E CHN, Omron ₵4,267.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4007-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1575)
+  * [![MX Inverter Drive 400VAC, 2.2kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 2.2kW, 3Phase ₵5,443.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4022-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1577)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

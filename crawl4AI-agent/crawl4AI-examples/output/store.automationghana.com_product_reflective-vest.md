@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Protective Personal Equipment](https://store.automationghana.com/product-category/ppes/) / Reflective Vest
-[🔍](https://store.automationghana.com/product/reflective-vest/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/reflective-vest/)
 [![Reflective Vest](https://store.automationghana.com/wp-content/uploads/2021/02/Reflective-Vest.jpg)](https://store.automationghana.com/wp-content/uploads/2021/02/Reflective-Vest.jpg)
 ####  Reflective Vest 
 **SKU :** Reflective Vest 
@@ -49,7 +49,7 @@ Related Products
 ## Related products
   * [![Safety Boots](https://store.automationghana.com/wp-content/uploads/2021/02/Safety-Boot-300x300.jpg)Safety Boots ₵420.00 ](https://store.automationghana.com/product/safety-boots/)
 [Add to cart](https://store.automationghana.com/product/reflective-vest/?add-to-cart=3151)
-  * [![Safety Helmet, Blue](https://store.automationghana.com/wp-content/uploads/2021/02/Safety-Helmet-300x300.jpg)Safety Helmet, Blue ₵0.00 ](https://store.automationghana.com/product/safety-helmet-blue/)
+  * [![Safety Helmet, Blue](https://store.automationghana.com/wp-content/uploads/2021/02/Safety-Helmet-300x300.jpg)Safety Helmet, Blue ₵8.00 ](https://store.automationghana.com/product/safety-helmet-blue/)
 [Add to cart](https://store.automationghana.com/product/reflective-vest/?add-to-cart=3147)
 
 

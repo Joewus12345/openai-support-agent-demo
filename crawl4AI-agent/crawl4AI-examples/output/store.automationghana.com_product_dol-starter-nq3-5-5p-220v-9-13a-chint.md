@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Direct On Line Starter 13A 220V, NQ3-5.5P, Chint
-[🔍](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/)
-[![Direct On Line Starter 13A 220V, NQ3-5.5P, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)![](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/)
+[![Direct On Line Starter 13A 220V, NQ3-5.5P, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)
 ####  Direct On Line Starter 13A 220V, NQ3-5.5P, Chint 
 **SKU :** NQ3-5.5P 220V 9-13A 
 ₵343.00
@@ -54,14 +54,14 @@ NQ3-5.5P, 9-13A, 220V, DOL Starter
 
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/?add-to-cart=1602)
-  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
-[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/?add-to-cart=1599)
-  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
-[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/?add-to-cart=1593)
-  * [![Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902454A.png)Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera ₵204.00 ](https://store.automationghana.com/product/industrial-plug-902454a-solera/)
-[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/?add-to-cart=1512)
+  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/?add-to-cart=1592)
+  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/?add-to-cart=1594)
+  * [![Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-12VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint ₵46.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/)
+[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/?add-to-cart=1596)
+  * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
+[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-9-13a-chint/?add-to-cart=1534)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / LED Bulb, 3W, Warm Light, NEP-QP0100331, Chint
-[🔍](https://store.automationghana.com/product/led-bulb-nep-qp0100331-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/led-bulb-nep-qp0100331-chint/)
 [![LED Bulb, 3W, Warm Light, NEP-QP0100331, Chint](https://store.automationghana.com/wp-content/uploads/2017/12/LED-Bulb-3-600x607.png)](https://store.automationghana.com/wp-content/uploads/2017/12/LED-Bulb-3.png)
 ####  LED Bulb, 3W, Warm Light, NEP-QP0100331, Chint 
 **SKU :** NEP-QP0100331 
@@ -54,14 +54,14 @@ NEP-QP0100331, LED Bulb
 
 Related Products 
 ## Related products
-  * [![Single Socket\(Silver\), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket(Silver), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint ₵71.00 ](https://store.automationghana.com/product/single-socket-new6-d42708-chint/)
-[Add to cart](https://store.automationghana.com/product/led-bulb-nep-qp0100331-chint/?add-to-cart=1528)
   * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-5-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42712-chint/)
 [Add to cart](https://store.automationghana.com/product/led-bulb-nep-qp0100331-chint/?add-to-cart=1529)
-  * [![IT socket-NEW6-D20100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20100, Chint ₵60.00 ](https://store.automationghana.com/product/it-socket-new6-d20100-chint/)
-[Add to cart](https://store.automationghana.com/product/led-bulb-nep-qp0100331-chint/?add-to-cart=1515)
+  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
+[Add to cart](https://store.automationghana.com/product/led-bulb-nep-qp0100331-chint/?add-to-cart=1525)
   * [![Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41918-chint/)
 [Add to cart](https://store.automationghana.com/product/led-bulb-nep-qp0100331-chint/?add-to-cart=1510)
+  * [![Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint ₵127.00 ](https://store.automationghana.com/product/double-socket-with-neon-new6-d41938-chint/)
+[Add to cart](https://store.automationghana.com/product/led-bulb-nep-qp0100331-chint/?add-to-cart=1507)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / Echo Dot Smart Speaker
-[🔍](https://store.automationghana.com/product/echo-dot-smart-speaker/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/echo-dot-smart-speaker/)
 [![Echo Dot Smart Speaker](https://store.automationghana.com/wp-content/uploads/2021/10/Echo-Dot-Smart-Speaker.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/Echo-Dot-Smart-Speaker.jpg)
 ####  Echo Dot Smart Speaker 
 **SKU :** VC-3G-ECHO DOT 
@@ -52,14 +52,14 @@ Echo Dot Smart Speaker
 
 Related Products 
 ## Related products
-  * [![2 Channel WiFi Dimmer Switch](https://store.automationghana.com/wp-content/uploads/2021/10/image.thumb_.png.53d2d5bf0ada5ff3649de0faf116a756-300x300.png)2 Channel WiFi Dimmer Switch ₵1,051.00 ](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/)
-[Add to cart](https://store.automationghana.com/product/echo-dot-smart-speaker/?add-to-cart=3571)
-  * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
-[Add to cart](https://store.automationghana.com/product/echo-dot-smart-speaker/?add-to-cart=3316)
-  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
-[Add to cart](https://store.automationghana.com/product/echo-dot-smart-speaker/?add-to-cart=3313)
-  * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
-[Add to cart](https://store.automationghana.com/product/echo-dot-smart-speaker/?add-to-cart=3283)
+  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
+[Add to cart](https://store.automationghana.com/product/echo-dot-smart-speaker/?add-to-cart=3594)
+  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
+[Add to cart](https://store.automationghana.com/product/echo-dot-smart-speaker/?add-to-cart=3590)
+  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
+[Add to cart](https://store.automationghana.com/product/echo-dot-smart-speaker/?add-to-cart=3307)
+  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
+[Add to cart](https://store.automationghana.com/product/echo-dot-smart-speaker/?add-to-cart=3252)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

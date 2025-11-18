@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / WiFi-Operated 3 Phase Energy Meter and Contactor Control
-[🔍](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/)
 [![WiFi-Operated 3 Phase Energy Meter and Contactor Control](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-3em-600x776.jpeg)](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-3em.jpeg)
 ####  WiFi-Operated 3 Phase Energy Meter and Contactor Control 
 **SKU :** SHELLY 3EM 
@@ -49,10 +49,10 @@ Related Products
 ## Related products
   * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
 [Add to cart](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/?add-to-cart=3590)
-  * [![F-RF Wireless Gateway](https://store.automationghana.com/wp-content/uploads/2021/10/elan-rf-103-preview-1-300x300.png)F-RF Wireless Gateway ₵441.00 ](https://store.automationghana.com/product/f-rf-wireless-gateway/)
-[Add to cart](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/?add-to-cart=3588)
-  * [![WIFI Humidity & Temperature Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Humidity-Temperature-Sensor-300x300.jpg)WIFI Humidity & Temperature Sensor ₵750.00 ](https://store.automationghana.com/product/wifi-humidity-temperature-sensor/)
-[Add to cart](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/?add-to-cart=3580)
+  * [![1 Channel WiFi Relay Switch Used Without Neutral](https://store.automationghana.com/wp-content/uploads/2021/10/shelly-1l-wifi-relay-switch-300x300.jpg)1 Channel WiFi Relay Switch Used Without Neutral ₵840.00 ](https://store.automationghana.com/product/1-channel-wifi-relay-switch-used-without-neutral/)
+[Add to cart](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/?add-to-cart=3567)
+  * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
+[Add to cart](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/?add-to-cart=3316)
   * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
 [Add to cart](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/?add-to-cart=3283)
 

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Socket Tester with LEDS, RCD Test Button, Beeper, FLUKE ST240+/ UK, Fluke
-[🔍](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/)
 [![Socket Tester with LEDS, RCD Test Button, Beeper, FLUKE ST240+/ UK, Fluke](https://store.automationghana.com/wp-content/uploads/2024/07/photo_2024-07-29_12-50-13-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2024/07/photo_2024-07-29_12-50-13.jpg)
 ####  Socket Tester with LEDS, RCD Test Button, Beeper, FLUKE ST240+/ UK, Fluke 
 **SKU :** FLUKE ST240+/ UK 
@@ -45,14 +45,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
-[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=2012)
-  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=2003)
-  * [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ₵3,161.00 ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=1996)
-  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=1995)
+  * [![MD-106-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-106-Metrel-300x300.png)Voltage Detector, Non-Contact, 90-1000VAC, MD 106, Metrel ₵202.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
+[Read more](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
+  * [![Non-Contact-Voltage-Detector-MD-116-Metre](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-116-Metrel-300x300.png)Voltage Detector, Non-Contact, 12-1000VAC, MD 116, Metrel ₵365.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-116-metrel/)
+[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=2015)
+  * [![FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER-300x300.jpg)Multimeter, Digital with Temperature Reading, FLUKE-179, Fluke ₵5,505.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-179-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=1999)
+  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
+[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=2001)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

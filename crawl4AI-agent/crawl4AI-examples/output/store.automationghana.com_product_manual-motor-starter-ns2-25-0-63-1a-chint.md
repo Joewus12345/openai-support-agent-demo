@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Manual Motor Starter 0.63-1A, NS2-25 0.63-1A, Chint
-[🔍](https://store.automationghana.com/product/manual-motor-starter-ns2-25-0-63-1a-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/manual-motor-starter-ns2-25-0-63-1a-chint/)
 [![Manual Motor Starter 0.63-1A, NS2-25 0.63-1A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ns2-25-600x545.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/ns2-25.jpg)
 ####  Manual Motor Starter 0.63-1A, NS2-25 0.63-1A, Chint 
 **SKU :** NS2-25 0.63-1A 
@@ -46,14 +46,14 @@ Product Description
 NS2-25 0.63 – 1A, Manual Motor Starter
 Related Products 
 ## Related products
-  * [![Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC (S), Omron ₵44.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-12vdc-s-omron/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-0-63-1a-chint/?add-to-cart=1600)
-  * [![Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932133.png)Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera ₵115.00 ](https://store.automationghana.com/product/surface-mounted-socket-932133-solera/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-0-63-1a-chint/?add-to-cart=1536)
+  * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-0-63-1a-chint/?add-to-cart=1598)
+  * [![Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC (S), Omron ₵72.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-24dc-s-omron/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-0-63-1a-chint/?add-to-cart=1601)
+  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-0-63-1a-chint/?add-to-cart=1592)
   * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
 [Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-0-63-1a-chint/?add-to-cart=1537)
-  * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-0-63-1a-chint/?add-to-cart=1522)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

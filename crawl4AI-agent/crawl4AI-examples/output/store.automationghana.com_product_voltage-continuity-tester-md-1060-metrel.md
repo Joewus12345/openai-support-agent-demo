@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Voltage/Continuity Tester, 690VAC/DC, 3.5m, MD 1060, Metrel
-[🔍](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/)
 [![Voltage/Continuity Tester, MD 1060, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Voltage-Continuity-Tester-MD-1060-Metrel.png)](https://store.automationghana.com/wp-content/uploads/2020/04/Voltage-Continuity-Tester-MD-1060-Metrel.png)
 ####  Voltage/Continuity Tester, 690VAC/DC, 3.5m, MD 1060, Metrel 
 **SKU :** MD 1060 
@@ -57,14 +57,14 @@ Metrel LED Voltage/Continuity Tester, MD 1060
 
 Related Products 
 ## Related products
-  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
-[Add to cart](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/?add-to-cart=2007)
-  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
-[Add to cart](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/?add-to-cart=2010)
-  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
-[Add to cart](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/?add-to-cart=2001)
-  * [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ₵3,161.00 ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
-[Add to cart](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/?add-to-cart=1996)
+  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
+[Add to cart](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/?add-to-cart=2012)
+  * [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke-300x300.png)Fluke T6-600, Electrical Tester with FieldSense Technology ₵4,525.00 ](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
+[Add to cart](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/?add-to-cart=2004)
+  * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
+[Add to cart](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/?add-to-cart=2000)
+  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
+[Add to cart](https://store.automationghana.com/product/voltage-continuity-tester-md-1060-metrel/?add-to-cart=1994)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

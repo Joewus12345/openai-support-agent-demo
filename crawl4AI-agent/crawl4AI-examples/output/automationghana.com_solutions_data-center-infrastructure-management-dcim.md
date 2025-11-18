@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -80,10 +72,9 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - Data Center 1](https://automationghana.com/wp-content/uploads/2024/08/Data-Center-1.jpg)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
-  3. Data Center Infrastructure Management (DCIM)
+![The Automation Ghana Group - Data Center 1](http://18.197.210.112/wp-content/uploads/2024/08/Data-Center-1.jpg)
+  1. [Home](http://18.197.210.112)
+  2. [Solution](http://18.197.210.112/solutions/)
 
 
 ## Gain Comprehensive Control Over Your Data Center Environment with Advanced DCIM
@@ -92,7 +83,7 @@ Our **Data Center Infrastructure Management (DCIM) solutions** provide an all-en
 Our DCIM solutions are designed to provide actionable insights and improve decision-making through advanced monitoring and automation capabilities
 **Security Alerts:** Instantly notify facility managers and security teams in the event of unauthorized access or security breaches, leveraging real-time data integration from surveillance, access control, and intrusion detection systems.
 **Emergency Response Managemen** t: Automate energy saver modes to immediately shut down non-critical loads, optimize load sharing, and sustain critical operations during power outages or unexpected surges.
-![The Automation Ghana Group - DCI management](https://automationghana.com/wp-content/uploads/2024/08/DCI-management.jpg)
+![The Automation Ghana Group - DCI management](http://18.197.210.112/wp-content/uploads/2024/08/DCI-management.jpg)
 ## Benefits
 ## Actionable Insights for Enhanced Decision-Making
 Utilize an extensive network of environmental sensors, including temperature, humidity, and energy consumption monitors, that provide real-time data analytics. This enables smarter, data-driven decisions to improve operational efficiency.
@@ -104,9 +95,9 @@ Monitor critical infrastructure components, such as power distribution units (PD
 Receive instant alerts for any critical conditions, such as temperature spikes, humidity changes, or equipment malfunctions. Our system’s early warning capabilities ensure rapid response to potential threats, minimizing downtime and damage.
 ## Energy Savings 
 Reduce cooling energy costs by optimizing environmental conditions.
-[ How Can We Help? ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-a0fd1106868a7f1f3789)
+[ How Can We Help? ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-a0fd110691b7d059c207)
 At **Automation Ghana Group** , we empower your data center operations with robust DCIM solutions that provide full visibility and control over your critical infrastructure. Our experts collaborate closely with your team to integrate advanced monitoring tools, data analytics, and automated response mechanisms. This approach ensures that your data center remains secure, efficient, and cost-effective while minimizing operational disruptions and extending equipment lifespan.
-[ What We Offer ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-3ee49346868a7f1f3789)
+[ What We Offer ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-3ee4934691b7d059c207)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -116,7 +107,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-62ecacd6868a7f1f3789)
+[ Services ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-62ecacd691b7d059c207)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -127,17 +118,17 @@ We offer after sales support services including:
 
 
 ## Key Components & Spares
-![PLC's](https://automationghana.com/wp-content/uploads/2024/08/PLCs.jpg)
+![PLC's](http://18.197.210.112/wp-content/uploads/elementor/thumbs/PLCs-qtby0xijxgxom0lyhkoko6m50fzrdcdkwbou126pqc.jpg)
 ### Solar PV Panels
-![Solar PV inverters](https://automationghana.com/wp-content/uploads/2024/03/Solar-PV-inverters.png)
+![Solar PV inverters](http://18.197.210.112/wp-content/uploads/elementor/thumbs/Solar-PV-inverters-qlpt8b2fnc0rwtq7fsrzzi2ubn8zeht3wax1wgdlfo.png)
 ### Solar PV inverters
-![Batteries](https://automationghana.com/wp-content/uploads/2024/03/Sensors.png)
+![Batteries](http://18.197.210.112/wp-content/uploads/2024/03/Sensors.png)
 ### Batteries
-![Cables and Cable management](https://automationghana.com/wp-content/uploads/2024/03/Cables-and-Cable-management.png)
+![Cables and Cable management](http://18.197.210.112/wp-content/uploads/elementor/thumbs/Cables-and-Cable-management-qlpt8a4lghzhl7rkladdf0bdq9dm6spdk69kf6ezlw.png)
 ### Cables and Cable management
-![Smart switches](https://automationghana.com/wp-content/uploads/2024/03/Smart-switches.png)
+![Smart switches](http://18.197.210.112/wp-content/uploads/elementor/thumbs/Smart-switches-qlle030vgj1fl63oliihribeyendcca1gfj9bxlosk.png)
 ### Charge Controllers
-![Energy meters](https://automationghana.com/wp-content/uploads/2024/03/Energy-meters.png)
+![Energy meters](http://18.197.210.112/wp-content/uploads/elementor/thumbs/Energy-meters-qlpt896r9ny79lsxqryquijx4vi8z3ln81m2xwgds4.png)
 ### Energy meters
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.

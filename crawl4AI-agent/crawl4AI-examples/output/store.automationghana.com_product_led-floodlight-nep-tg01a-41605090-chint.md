@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / LED Floodlight, 160W
-[🔍](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/)
 [![LED Floodlight, 160W](https://store.automationghana.com/wp-content/uploads/2019/11/FLOOD-Light.jpg)](https://store.automationghana.com/wp-content/uploads/2019/11/FLOOD-Light.jpg)
 ####  LED Floodlight, 160W 
 **SKU :** NEP-TG01A-41605090 
@@ -54,14 +54,14 @@ NEP-TG01A-41605090, LED Floodlight
 
 Related Products 
 ## Related products
-  * [![Switch, Fan Speed Control, 250W, NEW7-G306, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/fan-speed-300x300.jpg)Switch, Fan Speed Control, 250W, NEW7-G306, Chint ₵83.00 ](https://store.automationghana.com/product/switch-new7-g306-chint/)
-[Add to cart](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/?add-to-cart=1538)
-  * [![Single Switched Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42900, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Switched Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42900, Chint ₵56.00 ](https://store.automationghana.com/product/single-socket-new6-d42900-chint/)
-[Add to cart](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/?add-to-cart=1532)
-  * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-5-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42712-chint/)
-[Add to cart](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/?add-to-cart=1529)
-  * [![Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-7-300x300.jpg)Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint ₵47.00 ](https://store.automationghana.com/product/single-socket-new6-d42700-chint/)
-[Add to cart](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/?add-to-cart=1527)
+  * [![Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-gold-300x300.jpg)Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint ₵79.00 ](https://store.automationghana.com/product/switch-new6-d00402-chint/)
+[Add to cart](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/?add-to-cart=1539)
+  * [![Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41918-chint/)
+[Add to cart](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/?add-to-cart=1510)
+  * [![Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-3-300x300.jpg)Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint ₵120.00 ](https://store.automationghana.com/product/double-socket-new6-d41932-chint/)
+[Add to cart](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/?add-to-cart=1508)
+  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
+[Add to cart](https://store.automationghana.com/product/led-floodlight-nep-tg01a-41605090-chint/?add-to-cart=1502)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

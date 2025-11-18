@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Indicator Light, 230V AC/DC, ORG, ND16-22DS/4 230V ORG, Chint
-[🔍](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-230v-org-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-230v-org-chint/)
 [![Indicator Light, 230V AC/DC, ORG, ND16-22DS/4 230V ORG, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/orange.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/orange.jpg)
 ####  Indicator Light, 230V AC/DC, ORG, ND16-22DS/4 230V ORG, Chint 
 **SKU :** ND16-22DS/4 230V ORG 
@@ -45,14 +45,14 @@ Product Description
 Indicator Light-ND16-22DS/4 230V ORG, Chint | Chint, Indicator Light, 230VAC/DC, ORANGE 
 Related Products 
 ## Related products
+  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-230v-org-chint/?add-to-cart=1602)
+  * [![Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint ₵44.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-230v-org-chint/?add-to-cart=1604)
   * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
 [Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-230v-org-chint/?add-to-cart=1597)
-  * [![Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-24VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-12vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-230v-org-chint/?add-to-cart=1595)
-  * [![Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera ₵60.00 ](https://store.automationghana.com/product/plug-902131a-solera/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-230v-org-chint/?add-to-cart=1523)
-  * [![Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-8-300x300.jpg)Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera ₵608.00 ](https://store.automationghana.com/product/plug-902456a-solera/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-230v-org-chint/?add-to-cart=1524)
+  * [![Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902454A.png)Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera ₵204.00 ](https://store.automationghana.com/product/industrial-plug-902454a-solera/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-230v-org-chint/?add-to-cart=1512)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

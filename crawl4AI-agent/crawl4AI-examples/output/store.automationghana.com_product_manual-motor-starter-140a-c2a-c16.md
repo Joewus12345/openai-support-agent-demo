@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Manual Motor Starter 140A-C2A-C16
-[🔍](https://store.automationghana.com/product/manual-motor-starter-140a-c2a-c16/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/manual-motor-starter-140a-c2a-c16/)
 [![Manual Motor Starter 140A-C2A-C16](https://store.automationghana.com/wp-content/uploads/2020/12/Manual-Motor-Starter-140A-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/Manual-Motor-Starter-140A.jpg)
 ####  Manual Motor Starter 140A-C2A-C16 
 **SKU :** 140A-C2A-C16 
@@ -54,12 +54,12 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140a-c2a-c16/?add-to-cart=2969)
-  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140a-c2a-c16/?add-to-cart=2961)
-  * [![Auxiliary Contact 100-SB11](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB11 ₵270.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb11/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140a-c2a-c16/?add-to-cart=2954)
+  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140a-c2a-c16/?add-to-cart=2985)
+  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140a-c2a-c16/?add-to-cart=2983)
+  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140a-c2a-c16/?add-to-cart=2973)
   * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
 [Add to cart](https://store.automationghana.com/product/manual-motor-starter-140a-c2a-c16/?add-to-cart=2939)
 

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Relay, Electromagnetic, 8-Pin, 110/120VAC, MY2N 110/120VAC (S), Omron
-[🔍](https://store.automationghana.com/product/8-pin-relay-my2n-110-120vac-s-omron/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/8-pin-relay-my2n-110-120vac-s-omron/)
 [![Relay, Electromagnetic, 8-Pin, 110/120VAC, MY2N 110/120VAC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/8-Pin-Relay-MY2N-24VDC-S-Omron-600x450.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/8-Pin-Relay-MY2N-24VDC-S-Omron.jpg)
 ####  Relay, Electromagnetic, 8-Pin, 110/120VAC, MY2N 110/120VAC (S), Omron 
 **SKU :** MY2N 110/120VAC (S) 
@@ -53,14 +53,14 @@ MY2N 110/120VAC (S), Electromagnetic 8-Pin Relay
 
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/8-pin-relay-my2n-110-120vac-s-omron/?add-to-cart=1603)
-  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/8-pin-relay-my2n-110-120vac-s-omron/?add-to-cart=1602)
+  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
+[Add to cart](https://store.automationghana.com/product/8-pin-relay-my2n-110-120vac-s-omron/?add-to-cart=1599)
   * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
 [Add to cart](https://store.automationghana.com/product/8-pin-relay-my2n-110-120vac-s-omron/?add-to-cart=1598)
-  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
-[Add to cart](https://store.automationghana.com/product/8-pin-relay-my2n-110-120vac-s-omron/?add-to-cart=1593)
+  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/8-pin-relay-my2n-110-120vac-s-omron/?add-to-cart=1592)
+  * [![Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902454A.png)Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera ₵204.00 ](https://store.automationghana.com/product/industrial-plug-902454a-solera/)
+[Add to cart](https://store.automationghana.com/product/8-pin-relay-my2n-110-120vac-s-omron/?add-to-cart=1512)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/electrical-equipment-installation/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -80,7 +72,7 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![Electrical & Equipment Installation](https://automationghana.com/wp-content/uploads/2024/05/power-your-production.png)
+![Electrical & Equipment Installation](https://18.197.210.112/wp-content/uploads/2024/05/power-your-production.png)
 ## Electrical & Equipment installation
 ## **Powering Your Production:** Expert Electrical & Equipment Installations 
 Our team of skilled technicians ensures flawless electrical installations for your food & beverage processing equipment.
@@ -89,18 +81,18 @@ We handle everything from initial design to LV panel building and final integrat
 Installation of mesh cable trays, galvanized pipes, and comprehensive cable routing from panels to machines, ensuring efficient communication and minimal disruption during upgrades or installations.
 Precise running, termination, labeling, and testing of power and instrument cables, guaranteeing reliable performance and seamless integration with existing equipment.
 From wire mesh cable trays to distribution panels and junction boxes, we offer turnkey installation services to meet all your electrical and instrumentation needs, providing a seamless solution for production facility’s upgrades or expansions. 
-![Electrical & Equipment Installation](https://automationghana.com/wp-content/uploads/2024/05/Precise-Conectivity.png)
-![The Automation Ghana Group](https://automationghana.com/wp-content/uploads/2024/04/Energy-Audit.png)
+![Electrical & Equipment Installation](https://18.197.210.112/wp-content/uploads/2024/05/Precise-Conectivity.png)
+![The Automation Ghana Group](https://18.197.210.112/wp-content/uploads/2024/04/Energy-Audit.png)
 ## Energy Audit & Power Quality Analysis 
 Choose from a range of high-quality switchgear, transformers, and power synchronization panels, tailored to meet the unique needs in efficient energy measurement, ensuring reliable power supply for essential production processes such as boiling, baking, and frying.
 Opt for optional add-ons that include monitoring components tracking critical parameters and device status, increasing forecast accuracy, maximizing uptime and minimizing maintenance efforts during essential production processes such as pasteurization and sterilization.
-![The Automation Ghana Group](https://automationghana.com/wp-content/uploads/2024/05/Processing-Equip.png)
+![The Automation Ghana Group](https://18.197.210.112/wp-content/uploads/2024/05/Processing-Equip.png)
 ###  Processing Equipment Setup 
 Installation of food processing machinery like mixers, slicers, and cookers ensuring optimal production workflows and adherence to quality standards. 
-![The Automation Ghana Group](https://automationghana.com/wp-content/uploads/2024/05/Packaging-Machinery.png)
+![The Automation Ghana Group](https://18.197.210.112/wp-content/uploads/2024/05/Packaging-Machinery.png)
 ###  Packaging Machinery Deployment 
 Bottling lines, labeling machines, and packaging equipment maximizes production efficiency and product presentation for distribution. 
-![The Automation Ghana Group](https://automationghana.com/wp-content/uploads/2024/05/Storage-Machinery.png)
+![The Automation Ghana Group](https://18.197.210.112/wp-content/uploads/2024/05/Storage-Machinery.png)
 ###  Storage & Preservation 
 Tailored installation of refrigeration units and cooling systems guarantees precise temperature control, preserving food freshness and extending shelf life. 
 ## DAIRY INDUSTRY 
@@ -135,14 +127,14 @@ Ensuring new equipment seamlessly connects to existing systems, maximizing effic
 Ensuring proper power supply, avoiding overheating, and implementing preventative measures, you can maximize the return on investment for your equipment 
 ## Enhanced safety compliance
 Implement electrical installations according to the latest safety regulations, protecting personnel and assets. This includes proper grounding, arc flash protection, and adherence to all relevant safety codes to create a secure working environment. 
-[ How Can We Help? ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-a0fd1106868a700b9cae)
+[ How Can We Help? ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-a0fd110691b3dbd2c92f)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-3ee49346868a700b9cae)
+[ What We Offer ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-3ee4934691b3dbd2c92f)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -152,7 +144,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-62ecacd6868a700b9cae)
+[ Services ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-62ecacd691b3dbd2c92f)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -163,6 +155,10 @@ We offer after sales support services including:
 
 
 ## Explore Other Solutions
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Distribution Boards: 5 Advanced Distribution Solutions
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
 ![beer IV](https://automationghana.com/wp-content/uploads/2024/10/beer-IV-1.jpg)
 ##### Monitoring the Fermentation Process in Beer Production
 Implement the QWX43 Fermentation Monitor to gain real-time, multi-parameter insights into the fermentation process. This device measures key parameters such as density, temperature, acoustic velocity, and viscosity directly inside the fermentation tank, providing crucial data for optimizing beer quality and consistency.
@@ -183,10 +179,6 @@ We can help prevent losing critical data or experiencing costly downtime due to 
 ##### Automated Inventory Management
 We leverage our automation expertise to create integrated inventory management solutions. By linking your PLC systems with inventory tracking software, you gain real-time visibility into stock levels, triggering automatic reorders when necessary. This minimizes stockouts, optimizes storage space, and reduces waste.
 [ Learn More ](https://automationghana.com/solutions/automated-inventory-management-system/)
-![image_2024-09-20_10-03-56](https://automationghana.com/wp-content/uploads/2024/05/image_2024-09-20_10-03-56.png)
-##### PLC & SCADA Programming
-Complete control over your production process. Our skilled engineers create custom PLC programs to automate tasks, monitor performance in real-time. Every step, from mixing ingredients to final packaging is meticulously controlled and monitored ensuring consistent quality in every batch, eliminating the risk of human error and wasted ingredients.
-[ Learn More ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)

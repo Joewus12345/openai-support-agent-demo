@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/fire-detection-and-alarming/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -80,14 +72,36 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![Fire alarm on the wall. Emergency of Fire alarm or alert or bell warning equipment.](https://automationghana.com/wp-content/uploads/2024/08/fire-alarm-on-the-wall-emergency-of-fire-alarm-or-alert-or-bell-warning-equipment-.jpg)
+![Fire Detection](https://automationghana.com/wp-content/uploads/2024/08/fire-alarm-on-the-wall-emergency-of-fire-alarm-or-alert-or-bell-warning-equipment-.jpg)
   1. [Home](https://automationghana.com)
   2. [Solution](https://automationghana.com/solutions/)
-  3. Fire Detection and Alarming
+  3. Fire Detection Systems: 7 Ways We Keep Your Facility Safe
 
 
-## Fire Detection and Alarming Solutions
-We provide cutting-edge fire detection and alarming technology designed to protect lives and property. Our solutions utilize patented technology, ensuring reliable performance without frequent false alarms. Here’s what sets our system apart:
+## Innovative Fire Detection Technologies 
+At **Automation Ghana** , we provide **advanced fire detection systems in Ghana** that protect lives, equipment, and facilities from fire hazards. Our solutions combine cutting-edge technology with reliable accessories to deliver **early detection, fast response, and compliance** with international safety standards.
+### 6 Reasons to Choose Our Fire Detection Systems
+  1. **Early Detection Technology** – Smoke, heat, and flame detectors for rapid fire identification.
+  2. **Comprehensive Coverage** – Designed for factories, warehouses, offices, and industrial plants.
+  3. **Smart Integration** – Works seamlessly with **alarm systems, sprinklers, and automation controls**.
+  4. **Standards-Compliant** – Meets **NFPA, EN54, and Ghana Fire Service regulations**.
+  5. **Custom-Built Solutions** – Tailored design for specific risks in **mining, oil & gas, utilities, and manufacturing**.
+  6. **Proven Reliability** – Trusted by leading industries for safety and business continuity.
+
+
+### Fire Detection Sensors & Accessories We Provide
+Our fire detection solutions come complete with **sensors and system accessories** , including:
+  * **Smoke Sensors/Detectors** (optical, ionization, multi-sensor)
+  * **Heat Sensors/Detectors** (fixed temperature & rate-of-rise)
+  * **Flame Sensors/Detectors** (UV, IR, or combined technology)
+  * **Gas Sensors** (for combustible and toxic gases)
+  * **Manual Call Points (MCPs)** – for quick emergency alerts
+  * **Fire Alarm Control Panels (FACP)** – conventional & addressable
+  * **Sounders & Beacons** – audible and visual alarms for safe evacuation
+  * **Emergency Lighting Systems**
+  * **Battery Backups & Power Supplies**
+
+
 **Comprehensive Sensors**
 We offer a range of sensors including smoke and heat detectors, flame detectors, annunciation devices, call points, sounders, beacons, and more.
 **Early Detection and Warning**
@@ -108,9 +122,9 @@ We offer manual and automatic transfer switches from Up to 6300A with basic to c
 Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities.
 [ Learn More ](https://automationghana.com/solutions/cctv-surveillance-solutions/)
 ![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
-##### Power Distribution Boards
+##### Power Distribution Panel
 Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
-[ Learn More ](https://automationghana.com/solutions/power-distribution-boards/)
+[ Learn More ](https://automationghana.com/solutions/power-distribution-panel/)
 ![Website-Banner-solar-1](https://automationghana.com/wp-content/uploads/2024/04/Website-Banner-solar-1.jpg)
 ##### Solar PV Systems
 Consider investing in a reliable cost effective Solar PV system. Find out how you can start small with a back up solution and scale up to a completely off-grid system and make significant savings on your energy budget. 

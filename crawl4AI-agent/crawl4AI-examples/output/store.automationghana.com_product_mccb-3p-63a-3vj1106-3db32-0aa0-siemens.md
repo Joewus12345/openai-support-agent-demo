@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Sinova](https://store.automationghana.com/product-category/sinova-siemens/) / MCCB, 3P-63A, 3VJ1106-3DB32-0AA0, Siemens
-[🔍](https://store.automationghana.com/product/mccb-3p-63a-3vj1106-3db32-0aa0-siemens/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mccb-3p-63a-3vj1106-3db32-0aa0-siemens/)
 [![MCCB, 3P-63A, 3VJ1106-3DB32-0AA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/mccb.jpg)](https://store.automationghana.com/wp-content/uploads/2025/03/mccb.jpg)
 ####  MCCB, 3P-63A, 3VJ1106-3DB32-0AA0, Siemens 
 **SKU :** MCCB, 3P-63A, 3VJ1106-3DB32-0AA0 
@@ -46,14 +46,14 @@ Product Description
 Circuit Breaker 3VJ1 IEC framesize 3VJ11 125A Line Protection ATFM 3-Pole Icu=25kA@415V Ics=75% Icu In=63A Overload Protection Ir=50.4A…63A Short-Circuit Protection Ii=10 x In Screw Connection
 Related Products 
 ## Related products
-  * [![Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens ₵310.00 ](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-63a-3vj1106-3db32-0aa0-siemens/?add-to-cart=24512)
   * [![Thermal Overload Relay, 17-25A, 3MU7110-0QA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 17-25A, 3MU7110-0QA0, Siemens ₵346.00 ](https://store.automationghana.com/product/thermal-overload-relay-17-25a-3mu7110-0qa0-siemens/)
 [Add to cart](https://store.automationghana.com/product/mccb-3p-63a-3vj1106-3db32-0aa0-siemens/?add-to-cart=24511)
   * [![Thermal Overload Relay, 9-13A, 3MU7110-0NA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 9-13A, 3MU7110-0NA0, Siemens ₵310.00 ](https://store.automationghana.com/product/thermal-overload-relay-9-13a-3mu7110-0na0-siemens/)
 [Add to cart](https://store.automationghana.com/product/mccb-3p-63a-3vj1106-3db32-0aa0-siemens/?add-to-cart=24508)
-  * [![Contactor, 3P-65A-230VAC, 3MT7065-3AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-65A-230VAC, 3MT7065-3AA11-0AP0, Siemens ₵1,932.00 ](https://store.automationghana.com/product/contactor-3p-65a-230vac-3mt7065-3aa11-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-63a-3vj1106-3db32-0aa0-siemens/?add-to-cart=24491)
+  * [![Auxiliary Switch Front, 3MH7911-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7911-0CT10, Siemens ₵56.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7911-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-63a-3vj1106-3db32-0aa0-siemens/?add-to-cart=24505)
+  * [![Contactor, 3P-95A-230V, 3MT7095-4AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-95A-230V, 3MT7095-4AA11-0AP0, Siemens ₵2,997.00 ](https://store.automationghana.com/product/contactor-3p-95a-230v-3mt7095-4aa11-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-63a-3vj1106-3db32-0aa0-siemens/?add-to-cart=24494)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

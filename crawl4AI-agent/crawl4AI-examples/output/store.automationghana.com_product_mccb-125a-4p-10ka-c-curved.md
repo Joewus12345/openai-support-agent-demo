@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / MCCB 125A 4P 10kA C-Curved
-[🔍](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/)
 [![MCCB 125A 4P 10kA C-Curved](https://store.automationghana.com/wp-content/uploads/2021/10/NXB-125G-4P-C125A.png)](https://store.automationghana.com/wp-content/uploads/2021/10/NXB-125G-4P-C125A.png)
 ####  MCCB 125A 4P 10kA C-Curved 
 **SKU :** NXB-125G 4P C125A 
@@ -53,14 +53,14 @@ MCCB, NXB-125G, C-Curved
 
 Related Products 
 ## Related products
-  * [![MCB 20A 3P, NXB-63 3P C20 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/BREAKER-5-300x300.jpg)MCB 20A 3P, NXB-63 3P C20 6kA, Chint ₵110.00 ](https://store.automationghana.com/product/mcb-nxb-63-3p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/?add-to-cart=1784)
-  * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/?add-to-cart=1779)
-  * [![MCB, C20A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C20-1P-300x300.jpg)MCB, C20A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/?add-to-cart=1778)
-  * [![MCB, C10A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C10-1P-300x300.jpg)MCB, C10A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c10-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/?add-to-cart=1776)
+  * [![MCB, C63A-2P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-2P-300x300.jpg)MCB, C63A-2P-6kA, NXB-63, Chint ₵78.50 ](https://store.automationghana.com/product/mcb-nxb-63-2p-c63-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/?add-to-cart=1783)
+  * [![MCB, C16A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C16-1P-300x300.jpg)MCB, C16A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c16-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/?add-to-cart=1777)
+  * [![Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint ₵2,719.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/?add-to-cart=1756)
+  * [![Automatic Changeover Switch, 63A, NZ7-125H/4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover Switch, 63A, NZ7-125H/4, Chint ₵2,731.00 ](https://store.automationghana.com/product/automatic-changeover-switch-nz7-125h-4-63a-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-125a-4p-10ka-c-curved/?add-to-cart=1627)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)
