@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -80,7 +72,7 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - Pipeline Automation 2](https://automationghana.com/wp-content/uploads/2024/09/Pipeline-Automation-2.jpg)
+![Advanced pipeline monitoring c](https://automationghana.com/wp-content/uploads/2024/09/Pipeline-Automation-2.jpg)
   1. [Home](https://automationghana.com)
   2. [Solution](https://automationghana.com/solutions/)
   3. Distribution Automation and Smart Grid Technologies
@@ -107,7 +99,7 @@ By optimizing energy distribution and reducing peak demand, our systems help low
 Efficiently manage and distribute energy across the grid, reduce energy loss, and optimize the use of renewable sources. Our solutions help decrease greenhouse gas emissions, contributing to a sustainable environment.
 ## Increased Transparency and Compliance
 Continuous monitoring and detailed reporting support regulatory compliance and enhance transparency, building trust with stakeholders and regulatory bodies.
-[ How Can We Help? ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-a0fd1106868a7dedef44)
+[ How Can We Help? ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-a0fd110691bba19cae95)
 **How We Can Help You:**
 At Automation Ghana Group, we offer tailored solutions to modernize your energy distribution network. Whether you're a utility provider or an industrial client, our team of experts will work closely with you to:
   * **Design and Implement Customized Solutions:** From initial assessment to system design, we ensure our solutions meet your specific operational and regulatory needs.
@@ -115,7 +107,7 @@ At Automation Ghana Group, we offer tailored solutions to modernize your energy 
   * **Support Ongoing Operations:** With our comprehensive maintenance and support services, we ensure your systems continue to perform optimally, providing long-term reliability and efficiency.
 
 
-[ What We Offer ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-3ee49346868a7dedef44)
+[ What We Offer ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-3ee4934691bba19cae95)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -125,7 +117,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-32d86556868a7dedef44)
+[ Hardware and Software ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-32d8655691bba19cae95)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -138,7 +130,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-62ecacd6868a7dedef44)
+[ Services ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-62ecacd691bba19cae95)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -158,13 +150,13 @@ We offer manual and automatic transfer switches from Up to 6300A with basic to c
 Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities.
 [ Learn More ](https://automationghana.com/solutions/cctv-surveillance-solutions/)
 ![Fire Alarm with Strobe](https://automationghana.com/wp-content/uploads/2024/08/fire-alarm-with-strobe.jpg)
-##### Fire Detection and Alarming
+##### Fire Detection Systems: 7 Ways We Keep Your Facility Safe
 Our Fire Detection and Alarming system is a tried and tested, top of the range solution incorporating addressable heat, smoke and flame sensors with anti-electromagnetic interference capabilities to reduce nuisance alarms and improve accuracy. 
 [ Learn More ](https://automationghana.com/solutions/fire-detection-and-alarming/)
 ![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
-##### Power Distribution Boards
+##### Power Distribution Panel
 Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
-[ Learn More ](https://automationghana.com/solutions/power-distribution-boards/)
+[ Learn More ](https://automationghana.com/solutions/power-distribution-panel/)
 ![Website-Banner-solar-1](https://automationghana.com/wp-content/uploads/2024/04/Website-Banner-solar-1.jpg)
 ##### Solar PV Systems
 Consider investing in a reliable cost effective Solar PV system. Find out how you can start small with a back up solution and scale up to a completely off-grid system and make significant savings on your energy budget. 

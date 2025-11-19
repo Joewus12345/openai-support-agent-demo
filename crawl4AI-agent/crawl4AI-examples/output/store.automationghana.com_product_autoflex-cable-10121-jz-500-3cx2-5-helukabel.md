@@ -24,12 +24,20 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel
-[🔍](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/)
 [![Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-3g15.png)](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-3g15.png)
 ####  Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel 
 **SKU :** Autoflex Cable, JZ-500-3Cx2.5mm², 10121 
-₵24.00
-Cable is sold per meter.
+₵18.10
+This is used for flexible applications involving medium mechanical stress with free movement, without tensile stress and without forced motion control in dry, damp and wet rooms, however, not suitable for outdoor use.
+  * Wire insulation material : PVC
+  * Core structure : stranded
+  * Number of cores : 3
+  * Core section : 2.5mm2
+  * Core marking : black, numbered + ground wire
+  * Colour : grey
+
+
 Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel quantity
 Add to cart
   * Pickup: Available today in our stores
@@ -43,22 +51,25 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-10121-JZ-500 3C x 2.5mmsq, Flexible PVC Control Cable with green & yellow conductor 
-  * Core Structure: Multi-wire Stranded
-  * Insulation Colour: Black
-  * Number of Cores: 3
+This is used for flexible applications involving medium mechanical stress with free movement, without tensile stress and without forced motion control in dry, damp and wet rooms, however, not suitable for outdoor use. 
+  * Wire insulation material : PVC
+  * Core structure : stranded
+  * Number of cores : 3
+  * Core section : 2.5mm2
+  * Core marking : black, numbered + ground wire
+  * Colour : grey
 
 
 Related Products 
 ## Related products
-  * [![Autoflex Cable \(Black\), H07V-K-1Cx25mm², 29225, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx25mm², 29225, Helukabel ₵63.00 ](https://store.automationghana.com/product/autoflex-cable-29225-h07v-k-1cx25-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/?add-to-cart=1480)
-  * [![Autoflex Cable \(Green-Yellow\), H07V-K-1Cx25mm², 29226, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable (Green-Yellow), H07V-K-1Cx25mm², 29226, Helukabel ₵49.00 ](https://store.automationghana.com/product/autoflex-cable-29226-h07v-k-1cx25-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/?add-to-cart=1481)
+  * [![CAT 6 Cable \(FRNC Green\), 804766, Helukat 300 U/UTP 4Cx2xAWG 24/1, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/CAT-6-300x300.jpg)CAT 6 Cable (FRNC Green), 804766, Helukat 300 U/UTP 4Cx2xAWG 24/1, Helukabel ₵14.00 ](https://store.automationghana.com/product/cat-6-cable-804766-u-utp4cx2xawg24-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/?add-to-cart=1488)
   * [![Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel ₵38.00 ](https://store.automationghana.com/product/autoflex-cable-29213-h07v-k-1cx16-red-helukabel/)
 [Add to cart](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/?add-to-cart=1479)
-  * [![Autoflex Cable \(Blue\), 29147, H07V-K-1Cx2.5mm², Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), 29147, H07V-K-1Cx2.5mm², Helukabel ₵7.80 ](https://store.automationghana.com/product/autoflex-cable-29147-h07v-k-1cx2-5-be-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/?add-to-cart=1465)
+  * [![Autoflex Cable \(Black\), H07V-K-1Cx25mm², 29225, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx25mm², 29225, Helukabel ₵51.50 ](https://store.automationghana.com/product/autoflex-cable-29225-h07v-k-1cx25-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/?add-to-cart=1480)
+  * [![Autoflex Cable \(Black\), H07V-K-1Cx1.5mm², 29129, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx1.5mm², 29129, Helukabel ₵4.80 ](https://store.automationghana.com/product/autoflex-cable-29129-h07v-k-1cx1-5-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/?add-to-cart=1460)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

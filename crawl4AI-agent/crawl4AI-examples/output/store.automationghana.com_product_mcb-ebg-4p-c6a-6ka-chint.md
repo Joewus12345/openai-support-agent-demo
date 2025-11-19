@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / MCB, EBG, 4P-C6A-6kA, Chint
-[🔍](https://store.automationghana.com/product/mcb-ebg-4p-c6a-6ka-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mcb-ebg-4p-c6a-6ka-chint/)
 [![MCB, EBG, 4P-C6A-6kA, Chint](https://store.automationghana.com/wp-content/uploads/2024/05/chint-circuit-breaker-eb-4p-6a-45ka-c-4-modules-186536-600x600.webp)](https://store.automationghana.com/wp-content/uploads/2024/05/chint-circuit-breaker-eb-4p-6a-45ka-c-4-modules-186536.webp)
 ####  MCB, EBG, 4P-C6A-6kA, Chint 
 **SKU :** MCB, EBG, 4P-C6A-6kA 
@@ -45,14 +45,14 @@ Product Description
 MCB, EBG, 4P-C6A-6kA, Chint High current limiting performance to limit, to the greatest extent, the destructive energy due to short circuit. C-Curve Miniature Circuit Breaker is used for the protection of circuits against short-circuit currents, protection of circuits against overload current.
 Related Products 
 ## Related products
+  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-4p-c6a-6ka-chint/?add-to-cart=2981)
   * [![Circuit Breaker 140M-C2E-A16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-A16-300x300.jpg)Circuit Breaker 140M-C2E-A16 ₵873.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-a16/)
 [Add to cart](https://store.automationghana.com/product/mcb-ebg-4p-c6a-6ka-chint/?add-to-cart=2979)
   * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
 [Add to cart](https://store.automationghana.com/product/mcb-ebg-4p-c6a-6ka-chint/?add-to-cart=2973)
-  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-4p-c6a-6ka-chint/?add-to-cart=2967)
-  * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-4p-c6a-6ka-chint/?add-to-cart=2941)
+  * [![Base Socket 700-HN139](https://store.automationghana.com/wp-content/uploads/2020/12/700-HN139.jpg)Base Socket 700-HN139 ₵457.00 ](https://store.automationghana.com/product/base-socket-700-hn139/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-4p-c6a-6ka-chint/?add-to-cart=2971)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

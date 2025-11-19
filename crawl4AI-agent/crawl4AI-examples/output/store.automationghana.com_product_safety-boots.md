@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Protective Personal Equipment](https://store.automationghana.com/product-category/ppes/) / Safety Boots
-[🔍](https://store.automationghana.com/product/safety-boots/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/safety-boots/)
 [![Safety Boots](https://store.automationghana.com/wp-content/uploads/2021/02/Safety-Boot.jpg)](https://store.automationghana.com/wp-content/uploads/2021/02/Safety-Boot.jpg)
 ####  Safety Boots 
 **SKU :** Safety Boot 
@@ -52,7 +52,7 @@ Related Products
 ## Related products
   * [![Reflective Vest](https://store.automationghana.com/wp-content/uploads/2021/02/Reflective-Vest-300x300.jpg)Reflective Vest ₵44.00 ](https://store.automationghana.com/product/reflective-vest/)
 [Add to cart](https://store.automationghana.com/product/safety-boots/?add-to-cart=3149)
-  * [![Safety Helmet, Blue](https://store.automationghana.com/wp-content/uploads/2021/02/Safety-Helmet-300x300.jpg)Safety Helmet, Blue ₵0.00 ](https://store.automationghana.com/product/safety-helmet-blue/)
+  * [![Safety Helmet, Blue](https://store.automationghana.com/wp-content/uploads/2021/02/Safety-Helmet-300x300.jpg)Safety Helmet, Blue ₵8.00 ](https://store.automationghana.com/product/safety-helmet-blue/)
 [Add to cart](https://store.automationghana.com/product/safety-boots/?add-to-cart=3147)
 
 

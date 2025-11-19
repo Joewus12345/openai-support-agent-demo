@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Armoured Cable, 2311000908-XAV 4Cx16 /0.6/1kV, Lapp
-[🔍](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/)
 [![Armoured Cable, 2311000908-XAV 4Cx16 /0.6/1kV, Lapp](https://store.automationghana.com/wp-content/uploads/2019/12/Armoured-cable.jpg)](https://store.automationghana.com/wp-content/uploads/2019/12/Armoured-cable.jpg)
 ####  Armoured Cable, 2311000908-XAV 4Cx16 /0.6/1kV, Lapp 
 **SKU :** 2311000908-XAV 4Cx16 /0.6/1kV 
@@ -46,14 +46,14 @@ Product Description
 2311000908-XAV, 4C x 16mmsq, 0.6/1kV, Armoured Cable, Lapp
 Related Products 
 ## Related products
-  * [![Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel ₵38.00 ](https://store.automationghana.com/product/autoflex-cable-29213-h07v-k-1cx16-red-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/?add-to-cart=1479)
-  * [![Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29177-h07v-k-1cx6-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/?add-to-cart=1471)
-  * [![Autoflex Cable, 29194-H07V-K-1Cx10mm² Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29194-H07V-K-1Cx10mm² Y/G, Helukabel ₵25.50 ](https://store.automationghana.com/product/autoflex-cable-29194-h07v-k-1cx10-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/?add-to-cart=1476)
-  * [![Autoflex Cable \(Blue\), H07V-K-1Cx4mm², 29163, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), H07V-K-1Cx4mm², 29163, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29163-h07v-k-1cx4-be-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/?add-to-cart=1469)
+  * [![Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-3g15-300x300.png)Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel ₵18.10 ](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/?add-to-cart=1484)
+  * [![Autoflex Cable-29178-H07V-K-1Cx6 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable-29178-H07V-K-1Cx6 Y/G, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29178-h07v-k-1cx6-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/?add-to-cart=1472)
+  * [![Autoflex Cable\(Black\), H07V-K-1Cx10mm², 29193, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable(Black), H07V-K-1Cx10mm², 29193, Helukabel ₵25.50 ](https://store.automationghana.com/product/autoflex-cable-29193-h07v-k-1cx10-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/?add-to-cart=1475)
+  * [![Autoflex Cable, 29161-H07V-K-1Cx4 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29161-H07V-K-1Cx4 BLK, Helukabel ₵11.00 ](https://store.automationghana.com/product/autoflex-cable-29161-h07v-k-1cx4-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/?add-to-cart=1467)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / Automatic Voltage Regulator (AVR), 15kvA, 1Phase
-[🔍](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-1phase-2/)
-[![Automatic Voltage Regulator \(AVR\), 15kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2021/07/TND1SVC-30_AF.png)](https://store.automationghana.com/wp-content/uploads/2021/07/TND1SVC-30_AF.png)![Automatic Voltage Regulator \(AVR\), 15kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2021/07/TND1SVC-30_AF.png)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-1phase-2/)
+[![Automatic Voltage Regulator \(AVR\), 15kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2021/07/TND1SVC-30_AF.png)](https://store.automationghana.com/wp-content/uploads/2021/07/TND1SVC-30_AF.png)
 ####  Automatic Voltage Regulator (AVR), 15kvA, 1Phase 
 **SKU :** TND1(SVC)-15/AF 
 ₵9,918.00
@@ -51,14 +51,14 @@ AVR TND1 (SVC)-15/AF, 1 Phase
 
 Related Products 
 ## Related products
-  * [![Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-1phase-2/?add-to-cart=1780)
   * [![Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint ₵2,807.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-200-4csw-enc-bar-chint/)
 [Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-1phase-2/?add-to-cart=1757)
-  * [![Automatic Changeover Switch, 63A, NZ7-125H/4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover Switch, 63A, NZ7-125H/4, Chint ₵2,731.00 ](https://store.automationghana.com/product/automatic-changeover-switch-nz7-125h-4-63a-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-1phase-2/?add-to-cart=1627)
-  * [![Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint ₵1,825.00 ](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-1phase-2/?add-to-cart=1521)
+  * [![Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint ₵2,719.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-1phase-2/?add-to-cart=1756)
+  * [![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)Automatic Voltage Regulator (AVR), 75kvA, 3 Phase ₵58,063.00 ](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-1phase-2/?add-to-cart=1641)
+  * [![AVR, 50KVA-3 Phase, TNSZ\(SBW\)-50, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 50KVA-3 Phase, TNSZ(SBW)-50, Chint ₵50,216.00 ](https://store.automationghana.com/product/avr-tnszsbw-50-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-1phase-2/?add-to-cart=1640)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

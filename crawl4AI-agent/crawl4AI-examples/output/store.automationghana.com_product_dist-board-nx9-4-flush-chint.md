@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Enclosures and Junction Boxes](https://store.automationghana.com/product-category/enclosures-and-junction-boxes/) / Distribution Board, 4 Way, Flush, NX9-4, Chint
-[🔍](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/)
 [![Distribution Board, 4 Way, Flush, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint.jpg)
 ####  Distribution Board, 4 Way, Flush, NX9-4, Chint 
 **SKU :** NX9-4-FLUSH 
@@ -51,14 +51,14 @@ NX9-4, 4-Way Empty Distribution Board, Flush Type
 
 Related Products 
 ## Related products
-  * [![Distribution Board, 8 Way, Flush, NX9-8, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 8 Way, Flush, NX9-8, Chint ₵1,458.00 ](https://store.automationghana.com/product/dist-board-nx9-8-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/?add-to-cart=1708)
-  * [![Enclosure Wall Mount 800x600x300mm, NXW5-8060/30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 800x600x300mm, NXW5-8060/30, Chint ₵2,410.00 ](https://store.automationghana.com/product/enclosure-nxw5-8060-30-chint/)
+  * [![Distribution Board, 4 Way, Flush, NX9-4M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)Distribution Board, 4 Way, Flush, NX9-4M, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4m-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/?add-to-cart=1705)
+  * [![Enclosure Wall Mount 800x600x300mm, NXW5-8060/30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 800x600x300mm, NXW5-8060/30, Chint ₵1,450.00 ](https://store.automationghana.com/product/enclosure-nxw5-8060-30-chint/)
 [Add to cart](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/?add-to-cart=1568)
-  * [ Sale! ![Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint ~~₵ 595.00~~ Original price was: ₵595.00.₵532.00Current price is: ₵532.00. ](https://store.automationghana.com/product/enclosure-nxw5-3030-20-chint/)
-[Add to cart](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/?add-to-cart=1563)
   * [![Distribution Board, 6 Way, Flush, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Flush, NX9-6M, Chint ₵488.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/)
 [Add to cart](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/?add-to-cart=1505)
+  * [![Distribution Board\(Flush\), 8 Way, NX9-8M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board(Flush), 8 Way, NX9-8M, Chint ₵1,800.00 ](https://store.automationghana.com/product/dist-board-nx9-8m-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/?add-to-cart=1504)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

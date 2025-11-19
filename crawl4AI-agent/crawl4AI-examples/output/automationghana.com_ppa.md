@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/ppa/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -130,24 +122,24 @@ The company’s area of specialization includes but not limited to:
 
 ![The Automation Ghana Group - Chint cedsa 1335 11 2017](https://automationghana.com/wp-content/uploads/2024/09/Chint-cedsa-1335-11-2017.jpg)
 ## PPA Solutions
-## Transformer Maintenance & Oil Treatment: 5 Key Solutions
-From oil testing and filtration to comprehensive maintenance programs, we provide solutions that enhance transformer reliability, efficiency, and lifespan. 
-[ Learn More ](https://automationghana.com/solutions/transformer-maintenance-service/)
-## Earth Resistance Testing |5 Accurate Grounding Solutions
-Ensure your facility’s electrical systems are safely grounded with our specialized earth resistance testing services. TAGG’s experts provide comprehensive testing, detailed assessments, and tailored solutions to keep your operations safe and compliant with electrical safety standards. 
-[ Learn More ](https://automationghana.com/solutions/earth-resistance-testing/)
-## Lightning Protection Systems: 5 Ultimate Safety Solutions
-From comprehensive diagnostics to tailored solutions, we can help you identify and resolve power quality issues to improve your operational efficiency 
-[ Learn More ](https://automationghana.com/solutions/lightning-protection-systems/)
-## Terminal Management Solutions Enhanced1
-Our Terminal Management solutions are built to automate and optimize the complex logistics and operational processes that occur at oil and gas terminals. With our cutting-edge technology, you can enhance your terminal’s performance, reduce costs, and achieve compliance with international standards, all while maintaining a high level of safety and accuracy. 
-[ Learn More ](https://automationghana.com/solutions/terminal-management-solutions/)
-## Hybrid Energy Power Solution 1
-In the telecommunication industry, uninterrupted power supply is crucial for maintaining network availability and ensuring seamless communication. Our Hybrid Energy Power Solution is specifically designed to meet the energy demands of telecom operations. 
-[ Learn More ](https://automationghana.com/solutions/hybrid-energy-power-solution/)
-## Valves| 5 Advanced Industrial Solutions
-Our valves solutions are engineered to meet the demanding needs of the mining sector and other industries requiring robust, reliable, and efficient fluid control systems. We offer a diverse range of valve types designed to handle various applications, from abrasive fluids to general fluid management. 
-[ Learn More ](https://automationghana.com/solutions/valves/)
+## Tailings Management
+Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities. 
+[ Learn More ](https://automationghana.com/solutions/tailings-management/)
+## Motor Control Center (MCC)
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/motor-control-center/)
+## Flood Detection System – Protecting Critical Infrastructure from Water Damage
+Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities. 
+[ Learn More ](https://automationghana.com/solutions/flood-detection-system/)
+## Energy Audits
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/energy-audits/)
+## Panel Retrofitting: 5 Powerful Benefits for Safe & Reliable Power Systems
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/panel-retroffitting/)
+## Distribution Boards: 5 Advanced Distribution Solutions
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
 ## Products In Stock Include
 ![sinamics-variable-frequency-drives](https://automationghana.com/wp-content/uploads/2024/09/sinamics-variable-frequency-drives.webp)
 ### Variable Frequency Drives

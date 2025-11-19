@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/asl/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -125,7 +117,7 @@ Our Integrated Tank Farm and Terminal Management solutions are designed to optim
 ## Optimizing Aeration in Wastewater Treatment
 Efficient aeration is crucial in wastewater treatment plants, where energy consumption can skyrocket. Our solution streamlines the aeration process, drastically reducing energy usage while maintaining 
 [ Learn More ](https://automationghana.com/solutions/wastewater-treatment/)
-## Pipeline Monitoring and Automation
+## Pipeline Monitoring
 Our Pipeline Monitoring and Automation solution offers a comprehensive approach to managing your pipeline infrastructure with cutting-edge technology and real-time data. 
 [ Learn More ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/)
 ## Products In Stock Include

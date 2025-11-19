@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Pushbutton-NP8-11BND-Y 24V, CHINT
-[🔍](https://store.automationghana.com/product/pushbutton-np8-11bnd-y-24v-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/pushbutton-np8-11bnd-y-24v-chint/)
 [![Pushbutton-NP8-11BND-Y 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/PUSH-BUTTON.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/PUSH-BUTTON.jpg)
 ####  Pushbutton-NP8-11BND-Y 24V, CHINT 
 **SKU :** NP8-11BND-Y 24V 
@@ -45,14 +45,14 @@ Product Description
 Pushbutton-NP8-11BND-Y 24V, CHINT | Illuminated Push Button, Yellow, 24V 1 N.O 1 N.C
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/pushbutton-np8-11bnd-y-24v-chint/?add-to-cart=1597)
+  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/pushbutton-np8-11bnd-y-24v-chint/?add-to-cart=1602)
+  * [![Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint ₵44.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/pushbutton-np8-11bnd-y-24v-chint/?add-to-cart=1604)
   * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
 [Add to cart](https://store.automationghana.com/product/pushbutton-np8-11bnd-y-24v-chint/?add-to-cart=1599)
-  * [![Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902154A.png)Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera ₵108.00 ](https://store.automationghana.com/product/industrial-plug-902154a-solera/)
-[Add to cart](https://store.automationghana.com/product/pushbutton-np8-11bnd-y-24v-chint/?add-to-cart=1511)
-  * [![Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903131A.png)Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera ₵66.00 ](https://store.automationghana.com/product/industrial-socket-903131a-solera/)
-[Add to cart](https://store.automationghana.com/product/pushbutton-np8-11bnd-y-24v-chint/?add-to-cart=1513)
+  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
+[Add to cart](https://store.automationghana.com/product/pushbutton-np8-11bnd-y-24v-chint/?add-to-cart=1533)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

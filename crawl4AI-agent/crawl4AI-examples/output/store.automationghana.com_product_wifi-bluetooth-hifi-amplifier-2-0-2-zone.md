@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / WiFi and Bluetooth HiFi Amplifier 2.0 (2 Zone) Complete Pack
-[🔍](https://store.automationghana.com/product/wifi-bluetooth-hifi-amplifier-2-0-2-zone/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/wifi-bluetooth-hifi-amplifier-2-0-2-zone/)
 [![WiFi and Bluetooth HiFi Amplifier 2.0 \(2 Zone\) Complete Pack](https://store.automationghana.com/wp-content/uploads/2021/10/download.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/download.jpg)
 ####  WiFi and Bluetooth HiFi Amplifier 2.0 (2 Zone) Complete Pack 
 **SKU :** A-W/BT-AMP-2.0-ALL IN ONE 
@@ -65,12 +65,12 @@ Related Products
 ## Related products
   * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
 [Add to cart](https://store.automationghana.com/product/wifi-bluetooth-hifi-amplifier-2-0-2-zone/?add-to-cart=3590)
-  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
-[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-hifi-amplifier-2-0-2-zone/?add-to-cart=3307)
-  * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
-[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-hifi-amplifier-2-0-2-zone/?add-to-cart=3300)
-  * [![F-CAM-Wireless IP PTZ Security Camera](https://store.automationghana.com/wp-content/uploads/2021/03/Sonoff-Wifi-Wireless-Security-Camera-GK-200mp2-B-300x300.jpg)F-CAM-Wireless IP PTZ Security Camera ₵1,266.00 ](https://store.automationghana.com/product/3209/)
-[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-hifi-amplifier-2-0-2-zone/?add-to-cart=3209)
+  * [![2 Channel WiFi Dimmer Switch](https://store.automationghana.com/wp-content/uploads/2021/10/image.thumb_.png.53d2d5bf0ada5ff3649de0faf116a756-300x300.png)2 Channel WiFi Dimmer Switch ₵1,051.00 ](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/)
+[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-hifi-amplifier-2-0-2-zone/?add-to-cart=3571)
+  * [![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1-300x300.jpg)WIFI Relay Dummy Load ₵100.00 ](https://store.automationghana.com/product/wifi-relay-dummy-load/)
+[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-hifi-amplifier-2-0-2-zone/?add-to-cart=3569)
+  * [![Split Core Current Transformer 50A](https://store.automationghana.com/wp-content/uploads/2021/03/Clamp-Up-300x300.jpeg)Split Core Current Transformer 50A ₵172.00 ](https://store.automationghana.com/product/50a-16ma-clamp-on-current-transformer/)
+[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-hifi-amplifier-2-0-2-zone/?add-to-cart=3308)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / WIFI and Bluetooth Pre – Amplifier Mini (Complete Pack)
-[🔍](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/)
 [![WIFI and Bluetooth Pre - Amplifier Mini \(Complete Pack\)](https://store.automationghana.com/wp-content/uploads/2021/10/AWBTPREAMPMINIALL-IN-ONE.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/AWBTPREAMPMINIALL-IN-ONE.jpg)
 ####  WIFI and Bluetooth Pre – Amplifier Mini (Complete Pack) 
 **SKU :** A-W/BT-PREAMP-MINI-ALL IN ONE 
@@ -54,14 +54,14 @@ WIFI and Bluetooth Pre – Amplifier Mini Complete Pack (Pre-Amp, Power Supply, 
 
 Related Products 
 ## Related products
-  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
-[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3590)
-  * [![F-RF Wireless Gateway](https://store.automationghana.com/wp-content/uploads/2021/10/elan-rf-103-preview-1-300x300.png)F-RF Wireless Gateway ₵441.00 ](https://store.automationghana.com/product/f-rf-wireless-gateway/)
-[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3588)
-  * [![F-RF Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/F-RF-Door-Window-Sensor.jpg)F-RF Door & Window Sensor ₵282.00 ](https://store.automationghana.com/product/f-rf-door-window-sensor/)
-[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3586)
-  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
-[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3583)
+  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
+[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3594)
+  * [![WiFi-Operated 3 Phase Energy Meter and Contactor Control](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-3em-300x300.jpeg)WiFi-Operated 3 Phase Energy Meter and Contactor Control ₵1,499.24 ](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/)
+[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3304)
+  * [![1 Channel WIFI Metering Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/shelly1pm_x1-1000x1000-1-1-300x300.jpg)1 Channel WIFI Metering Relay Switch ₵560.00 ](https://store.automationghana.com/product/wifi-operated-relay-switch-16-a-with-power-measurement/)
+[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3302)
+  * [![F-CAM-Wireless IP PTZ Security Camera](https://store.automationghana.com/wp-content/uploads/2021/03/Sonoff-Wifi-Wireless-Security-Camera-GK-200mp2-B-300x300.jpg)F-CAM-Wireless IP PTZ Security Camera ₵1,266.00 ](https://store.automationghana.com/product/3209/)
+[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3209)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

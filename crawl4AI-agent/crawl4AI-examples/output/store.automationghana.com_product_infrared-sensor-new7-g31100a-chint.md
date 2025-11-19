@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / Infrared Sensor, NEW7-G31100A, Chint
-[🔍](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
 [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-600x600.jpeg)](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor.jpeg)
 ####  Infrared Sensor, NEW7-G31100A, Chint 
 **SKU :** Infrared Sensor, NEW7-G31100A 
@@ -53,14 +53,14 @@ NEW7-G31100A, Infrared Sensor Time-Delay Switch, 1-Gang
 
 Related Products 
 ## Related products
-  * [![UPS \(Amplon RT-3KVA\), UPA302R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)UPS (Amplon RT-3KVA), UPA302R2RX0B035, Delta ₵16,347.50 ](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/?add-to-cart=24752)
-  * [![Pattress Box NEH1-201 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x3-patress-surface-300x300.jpg)Pattress Box NEH1-201 Chint ₵12.00 ](https://store.automationghana.com/product/pattress-box-neh1-201-chint/)
-[Add to cart](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/?add-to-cart=1831)
-  * [![Patress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Patress Box 3 x 3, NEH1-001A Chint ₵13.00 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
-[Add to cart](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/?add-to-cart=1829)
+  * [![Venting Fans, NEF1-100, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-100, Chint ₵432.00 ](https://store.automationghana.com/product/venting-fans-nef1-100-chint/)
+[Add to cart](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/?add-to-cart=1919)
+  * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵9.80 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
+[Add to cart](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/?add-to-cart=1830)
   * [![Blank Plate For 3 x 3 Patress, NEW7-G951, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate For 3 x 3 Patress, NEW7-G951, Chint ₵8.50 ](https://store.automationghana.com/product/blank-plate-new7-g951-chint/)
 [Add to cart](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/?add-to-cart=1642)
+  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
+[Add to cart](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/?add-to-cart=1503)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

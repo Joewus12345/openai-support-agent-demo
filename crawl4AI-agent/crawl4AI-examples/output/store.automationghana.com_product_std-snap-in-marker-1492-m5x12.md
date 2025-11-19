@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / STD Snap In Marker 1492-M5X12
-[🔍](https://store.automationghana.com/product/std-snap-in-marker-1492-m5x12/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/std-snap-in-marker-1492-m5x12/)
 [![STD Snap In Marker 1492-M5X12](https://store.automationghana.com/wp-content/uploads/2020/12/1492-M5X12.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/1492-M5X12.jpg)
 ####  STD Snap In Marker 1492-M5X12 
 **SKU :** 1492-M5X12 
@@ -56,10 +56,10 @@ Related Products
 [Add to cart](https://store.automationghana.com/product/std-snap-in-marker-1492-m5x12/?add-to-cart=2985)
   * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
 [Add to cart](https://store.automationghana.com/product/std-snap-in-marker-1492-m5x12/?add-to-cart=2969)
-  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
-[Add to cart](https://store.automationghana.com/product/std-snap-in-marker-1492-m5x12/?add-to-cart=2961)
-  * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
-[Add to cart](https://store.automationghana.com/product/std-snap-in-marker-1492-m5x12/?add-to-cart=2935)
+  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
+[Add to cart](https://store.automationghana.com/product/std-snap-in-marker-1492-m5x12/?add-to-cart=2950)
+  * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
+[Add to cart](https://store.automationghana.com/product/std-snap-in-marker-1492-m5x12/?add-to-cart=2944)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

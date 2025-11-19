@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/category/uncategorized/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -81,6 +73,9 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
 # Category: Uncategorized
+## [Celebrating 10 Years of the Future Leaders Educational Fund](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
+[![Future Leaders Educational Fund](https://automationghana.com/wp-content/uploads/2025/11/IMG_0264-1024x535.jpg)](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
+“What if financial hardship never stopped a child from pursuing their education?” This was the question we asked ourselves in 2015 as a company, as we thought of ways to give back to our community. A decade later, this question has been answered through the Future Leaders Educational Fund. And while we remain on the […]
 ## [TAGG Open House Event: Celebrating 20+ Years of Excellence in Engineering](https://automationghana.com/2025/05/26/tagg-open-house-event-2025/)
 [![Electrical engineering and instrumentation](https://automationghana.com/wp-content/uploads/2025/05/273A0536-1024x683.jpg)](https://automationghana.com/2025/05/26/tagg-open-house-event-2025/)
 For over twenty years, The Automation Ghana Group (TAGG) has been a beacon in the Ghanaian industrial and building automation landscape, serving stakeholders with top-notch solutions through an unwavering commitment to excellence and an unrelenting desire to meet and exceed clients’ expectations. In celebration of this 20+ year odyssey, a three-day event, “Open House,” was […]

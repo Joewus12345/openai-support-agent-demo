@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -80,9 +72,9 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-# Smart Home
-Your Home, Easily Controlled, Intelligently Automated 
-[ Discover More ](https://automationghana.com/solutions/smart-home-solutions/) [ Free Consultation ](https://automationghana.com/contact-us/)
+# Electrical and Automation Services through innovation
+Industrial Automation Services, Smart Home Solutions, Electrical Switchgear, Medium & High Voltage Grid Automation. 
+[ Discover More ](https://automationghana.com/our-solutions/) [ Free Consultation ](https://automationghana.com/contact-us/)
 ![The Automation Ghana Group - Solar PV Systems](https://automationghana.com/wp-content/uploads/2024/03/Solar-PV-Systems.png)
 ![The Automation Ghana Group - Energy Monitoring and Management System](https://automationghana.com/wp-content/uploads/2024/03/Energy-Monitoring-and-Management-System.png)
 ![The Automation Ghana Group - Energy Monitoring and Management](https://automationghana.com/wp-content/uploads/2024/03/Energy-Monitoring-and-Management.png)
@@ -96,13 +88,13 @@ We provide unique electrical and automation services and products through innova
 Through respect, trust and integrity, we ensure customer satisfaction by operating as a team with the following as the defining boundaries: respect, trust, integrity, discipline, people development, sharing and knowledge seeking.
 [ Learn more ](https://automationghana.com/new-home-2/)
 ## Quick Facts
-20 +
+0 +
 #####  Years In Business 
-615 +
+0 +
 #####  Projects Delivered 
-500 +
+0 +
 #####  Satisfied Clients 
-93 %
+0 %
 #####  Satisfaction Rate 
 ## Our Brands
 ![The Automation Ghana Group - asl loog](https://automationghana.com/wp-content/uploads/2024/08/asl_loog.png)
@@ -237,6 +229,10 @@ TAGG designed a custom smart home system that simplified our lives. We couldn't 
 ## News
 Latest News and Events at The Automation Ghana Group. 
 [ More News ](https://automationghana.com/news/)
+[![Future Leaders Educational Fund](https://automationghana.com/wp-content/uploads/2025/11/IMG_0264-1024x535.jpg)](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
+###  [ Celebrating 10 Years of the Future Leaders Educational Fund ](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
+[ Read More » ](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
+November 12, 2025 
 [![Electrical engineering and instrumentation](https://automationghana.com/wp-content/uploads/2025/05/273A0536-1024x683.jpg)](https://automationghana.com/2025/05/26/tagg-open-house-event-2025/)
 ###  [ TAGG Open House Event: Celebrating 20+ Years of Excellence in Engineering ](https://automationghana.com/2025/05/26/tagg-open-house-event-2025/)
 [ Read More » ](https://automationghana.com/2025/05/26/tagg-open-house-event-2025/)

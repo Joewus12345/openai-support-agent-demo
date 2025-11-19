@@ -12,7 +12,7 @@ CATEGORIES = [
     "https://store.automationghana.com/product-category/cables-cable-management/",
     "https://store.automationghana.com/product-category/electrical-power-distribution/",
     "https://store.automationghana.com/product-category/enclosures-and-junction-boxes/",
-    "https://store.automationghana.com/product-category/hioki/",
+    "https://store.automationghana.com/product-category/hiok/",
     "https://store.automationghana.com/product-category/industrial-automation/",
     "https://store.automationghana.com/product-category/industrial-controls/",
     "https://store.automationghana.com/product-category/invisible-category/",

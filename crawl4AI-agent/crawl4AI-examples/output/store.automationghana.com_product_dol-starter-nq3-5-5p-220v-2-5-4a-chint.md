@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Direct On Line Starter, 2.5-4A, 220V, NQ3-5.5P, Chint
-[🔍](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-2-5-4a-chint/)
-[![Direct On Line Starter, 2.5-4A, 220V, NQ3-5.5P, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)![Direct On Line Starter, 2.5-4A, 220V, NQ3-5.5P, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-2-5-4a-chint/)
+[![Direct On Line Starter, 2.5-4A, 220V, NQ3-5.5P, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)](https://store.automationghana.com/wp-content/uploads/2020/04/NQ3-5.5P-220V-9-13A-Chint.png)
 ####  Direct On Line Starter, 2.5-4A, 220V, NQ3-5.5P, Chint 
 **SKU :** NQ3-5.5P 220V 2.5-4A 
 ₵384.00
@@ -51,14 +51,14 @@ NQ3-5.5P, 2.5-4A, 220V DOL Starter
 
 Related Products 
 ## Related products
-  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
-[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-2-5-4a-chint/?add-to-cart=1593)
-  * [![Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932133.png)Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera ₵115.00 ](https://store.automationghana.com/product/surface-mounted-socket-932133-solera/)
-[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-2-5-4a-chint/?add-to-cart=1536)
+  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
+[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-2-5-4a-chint/?add-to-cart=1599)
+  * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-2-5-4a-chint/?add-to-cart=1598)
+  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-2-5-4a-chint/?add-to-cart=1592)
   * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
 [Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-2-5-4a-chint/?add-to-cart=1522)
-  * [![Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903131A.png)Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera ₵66.00 ](https://store.automationghana.com/product/industrial-socket-903131a-solera/)
-[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-220v-2-5-4a-chint/?add-to-cart=1513)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

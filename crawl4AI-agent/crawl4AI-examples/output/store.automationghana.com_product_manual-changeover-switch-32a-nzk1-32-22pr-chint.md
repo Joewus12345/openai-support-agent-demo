@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / Manual Changeover Switch, 32A, 2P
-[🔍](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
 [![Manual Changeover Switch, 32A, 2P](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32.jpg)
 ####  Manual Changeover Switch, 32A, 2P 
 **SKU :** NZK1-32/2-2P-R 
@@ -48,10 +48,10 @@ Related Products
 ## Related products
   * [![MCB 4A 1P, NXB-63 1P C4 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C4-1P-300x300.jpg)MCB 4A 1P, NXB-63 1P C4 6kA, Chint ₵37.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c4-6ka-chint/)
 [Add to cart](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/?add-to-cart=1785)
-  * [![MCB 20A 3P, NXB-63 3P C20 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/BREAKER-5-300x300.jpg)MCB 20A 3P, NXB-63 3P C20 6kA, Chint ₵110.00 ](https://store.automationghana.com/product/mcb-nxb-63-3p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/?add-to-cart=1784)
-  * [![Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint ₵2,807.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-200-4csw-enc-bar-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/?add-to-cart=1757)
+  * [![Automatic Voltage Regulator \(AVR\), 5kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-5-300x300.jpg)Automatic Voltage Regulator (AVR), 5kvA, 1Phase ₵3,381.00 ](https://store.automationghana.com/product/avr-tnd1svc-5-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/?add-to-cart=1637)
+  * [![AVR, 20KVA-1 Phase, TND1\(SVC\)-20/AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-20_AF-300x300.png)AVR, 20KVA-1 Phase, TND1(SVC)-20/AF, Chint ₵10,925.00 ](https://store.automationghana.com/product/avr-tnd1svc-20-af-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/?add-to-cart=1636)
   * [![Automatic Changeover, 125A, 4P](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover, 125A, 4P ₵5,390.00 ](https://store.automationghana.com/product/automatic-changeover-nz7-125h-4-125a-chint/)
 [Add to cart](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/?add-to-cart=1628)
 

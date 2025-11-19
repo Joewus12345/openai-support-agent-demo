@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/terminal-management-solutions/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -112,10 +104,10 @@ With advanced metering and automation, you achieve enhanced accuracy in volume a
 Automating critical processes and integrating them with business systems results in streamlined operations, faster turnaround times, and improved overall terminal productivity.
 ## Flexible and Scalable Solution
 Our modular approach allows for easy scalability and customization, enabling you to adapt the system to changing requirements or terminal expansions.
-[ How Can We Help? ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-a0fd1106868a6c9347e7)
+[ How Can We Help? ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-a0fd110691b0c0ab6187)
 At Automation Ghana Group, we understand the complexities of terminal management in the oil and gas industry. With over a decade of experience, we offer tailored solutions that maximize efficiency, minimize costs, and ensure compliance with industry standards. Our team of experts will work closely with you to design, implement, and maintain a terminal management solution that aligns with your specific operational needs and business goals.
 From initial consultation and system design to deployment and ongoing support, we provide a full range of services to help you optimize your terminal operations. Trust us to deliver reliable, scalable, and future-ready terminal management solutions that drive your business forward.
-[ What We Offer ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-3ee49346868a6c9347e7)
+[ What We Offer ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-3ee4934691b0c0ab6187)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -125,7 +117,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-32d86556868a6c9347e7)
+[ Hardware and Software ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-32d8655691b0c0ab6187)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -138,7 +130,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-62ecacd6868a6c9347e7)
+[ Services ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-62ecacd691b0c0ab6187)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -149,26 +141,30 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
 
 
 ## Explore Other Solutions
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Motor Control Center (MCC)
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/motor-control-center/)
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Energy Audits
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/energy-audits/)
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Panel Retrofitting: 5 Powerful Benefits for Safe & Reliable Power Systems
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/panel-retroffitting/)
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Distribution Boards: 5 Advanced Distribution Solutions
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
 ![Tank Farm Terminal Monitoring 4](https://automationghana.com/wp-content/uploads/2024/09/Tank-Farm-Terminal-Monitoring-4.jpg)
 ##### Integrated Terminal Management and Tank Farm Solutions
 Our Integrated Tank Farm and Terminal Management solutions are designed to optimize the accuracy, safety, and efficiency of managing tank farms and terminals. We offer advanced technologies for measuring product levels, monitoring processes, and integrating with existing systems to ensure smooth and reliable operations.
 [ Learn More ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/)
 ![1000_F_879626877_xGxlJ2cX4n4Ti5ZuVutmVKfWzVzY4NzD-transformed](https://automationghana.com/wp-content/uploads/2024/09/1000_F_879626877_xGxlJ2cX4n4Ti5ZuVutmVKfWzVzY4NzD-transformed.jpeg)
-##### Pipeline Monitoring and Automation
+##### Pipeline Monitoring
 Our Pipeline Monitoring and Automation solution offers a comprehensive approach to managing your pipeline infrastructure with cutting-edge technology and real-time data.
 [ Learn More ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/)
-![Tank Inventory system for oil and gas](https://automationghana.com/wp-content/uploads/2024/09/Tank-Inventory-system-for-oil-and-gas.jpg)
-##### Tank Inventory Management System
-Our Tank Inventory Management System offers comprehensive solutions for monitoring and managing liquid storage tanks, ensuring real-time data accuracy and operational efficiency. Designed for the oil and gas industry, it provides precise inventory tracking, automated data collection, and seamless integration with existing systems. 
-[ Learn More ](https://automationghana.com/solutions/tank-inventory-management-system/)
-![Bunker](https://automationghana.com/wp-content/uploads/2024/08/Bunker.jpeg)
-##### Bunker Fuel Metering
-We deliver precise fuel management with advanced real-time monitoring and comprehensive data transparency, optimizing your bunkering operations and ensuring regulatory compliance in the oil and gas industry
-[ Learn More ](https://automationghana.com/solutions/automated-inventory-management-2/)
-![Overfill prevention banner](https://automationghana.com/wp-content/uploads/2024/08/Overfill-prevention-banner.jpg)
-##### Overfill Prevention for Consumables
-Enhance your offshore drilling operations with our advanced automation, control, and safety systems. From comprehensive FPSO solutions to integrated control and safety shutdown systems, we provide reliable and efficient solutions to boost safety, performance, and productivity in the oil and gas sector.
-[ Learn More ](https://automationghana.com/solutions/overfill-prevention-for-consumables/)
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)

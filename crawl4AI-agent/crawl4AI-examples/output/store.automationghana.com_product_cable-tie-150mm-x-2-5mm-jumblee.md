@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Cable Tie, 150mm X 2.5mm, Jumblee
-[🔍](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/)
 [![Cable Tie, 150mm X 2.5mm, Jumblee](https://store.automationghana.com/wp-content/uploads/2023/11/cable-ties-g-default-application-01_3nd-600x486.jpg)](https://store.automationghana.com/wp-content/uploads/2023/11/cable-ties-g-default-application-01_3nd.jpg)
 ####  Cable Tie, 150mm X 2.5mm, Jumblee 
 **SKU :** Cable Tie, 150mmX2.5mm, Jumblee 
@@ -47,14 +47,14 @@ Product Description
 A fastener designed for securing primarily electrical cables and wires together
 Related Products 
 ## Related products
-  * [![Autoflex Cable, 29242-H07V-K-1Cx35 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29242-H07V-K-1Cx35 Y/G, Helukabel ₵77.20 ](https://store.automationghana.com/product/autoflex-cable-29242-h07v-k-1cx35-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/?add-to-cart=1483)
+  * [![Autoflex Cable 2-Core x 1mmsq, 10616-OZ-600 2Cx1, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/SCREENED-CABLE-300x300.jpg)Autoflex Cable 2-Core x 1mmsq, 10616-OZ-600 2Cx1, Helukabel ₵7.00 ](https://store.automationghana.com/product/autoflex-cable-10616-oz-600-2cx1-helukabel/)
+[Add to cart](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/?add-to-cart=1485)
+  * [![Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-3g15-300x300.png)Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel ₵18.10 ](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/)
+[Add to cart](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/?add-to-cart=1484)
+  * [![Autoflex Cable \(Black\), H07V-K-1Cx16mm², 29209, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx16mm², 29209, Helukabel ₵33.00 ](https://store.automationghana.com/product/autoflex-cable-29209-h07v-k-1cx16-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/?add-to-cart=1478)
   * [![Autoflex Cable\(Black\), H07V-K-1Cx10mm², 29193, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable(Black), H07V-K-1Cx10mm², 29193, Helukabel ₵25.50 ](https://store.automationghana.com/product/autoflex-cable-29193-h07v-k-1cx10-blk-helukabel/)
 [Add to cart](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/?add-to-cart=1475)
-  * [![Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29177-h07v-k-1cx6-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/?add-to-cart=1471)
-  * [![Armoured Cable, 2311000908-XAV 4Cx16 /0.6/1kV, Lapp](https://store.automationghana.com/wp-content/uploads/2019/12/Armoured-cable-300x300.jpg)Armoured Cable, 2311000908-XAV 4Cx16 /0.6/1kV, Lapp ₵166.00 ](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/)
-[Add to cart](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/?add-to-cart=1455)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

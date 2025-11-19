@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -80,20 +72,20 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - beer fermentation scaled](https://automationghana.com/wp-content/uploads/2024/10/beer-fermentation-scaled.jpg)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
+![The Automation Ghana Group - beer fermentation scaled](http://18.197.210.112/wp-content/uploads/2024/10/beer-fermentation-scaled.jpg)
+  1. [Home](http://18.197.210.112)
+  2. [Solution](http://18.197.210.112/solutions/)
   3. Monitoring the Fermentation Process in Beer Production
 
 
 ## Maximize Energy Efficiency and Reduce Costs with Comprehensive Monitoring
 In the beer production process, fermentation is one of the most critical stages. Monitoring it accurately ensures that the beer develops the desired flavors, alcohol content, and quality. The **Fermentation Monitor QWX43** is a cutting-edge device designed to provide continuous and precise monitoring of all essential fermentation parameters, transforming the way breweries manage this crucial phase of production.
 ## Fermentation Monitor QWX43 
-![Fermentation Monitor QWX43 process](https://automationghana.com/wp-content/uploads/2024/10/Picture18.png)
+![Fermentation Monitor QWX43 process](http://18.197.210.112/wp-content/uploads/2024/10/Picture18.png)
 The Fermentation Monitor QWX43 is installed directly in the fermentation tank and measures directly Density, Viscosity, Acoustic Velocity and Temperature.
 The monitor calculates all relevant fermentation parameters, such as degree of fermentation, residual extract, and alcohol content, the sugars of the wort or the fermentation rate.
 ## How the QWX43 works
-![Fermentation Monitor QWX43](https://automationghana.com/wp-content/uploads/2024/10/Picture19.png)
+![Fermentation Monitor QWX43](http://18.197.210.112/wp-content/uploads/2024/10/Picture19.png)
 The measurement method is based on a combination of the vibronic principle with an integrated temperature measurement and a sound velocity measurement using ultrasound
   * Pt1000 for greater accuracy, and Compensation
   * The 2 Vibronic Forks for Density and Viscosity Calculations via the measurement of the frequency changes when in contact with the product
@@ -108,8 +100,8 @@ The measurement method is based on a combination of the vibronic principle with 
   * **Process optimization** : The data-driven system helps optimize brewing by comparing past batches and sending automatic alerts for deviations.
 
 
-![The Automation Ghana Group - beer III](https://automationghana.com/wp-content/uploads/2024/10/beer-III.jpg)
-![The Automation Ghana Group - beer f II](https://automationghana.com/wp-content/uploads/2024/10/beer-f-II.png)
+![The Automation Ghana Group - beer III](http://18.197.210.112/wp-content/uploads/2024/10/beer-III.jpg)
+![The Automation Ghana Group - beer f II](http://18.197.210.112/wp-content/uploads/2024/10/beer-f-II.png)
 ## The Advantage for Breweries:
   * **Precise and Repeatable Measurements** : Real-time data ensures more accurate control over fermentation, leading to consistently high-quality beer.
   * **Efficient Process Control** : Brewers can retrieve fermentation information instantly, enabling faster response times to potential issues.
@@ -130,14 +122,14 @@ The closed-loop system with a cleanable sensor minimizes contamination risks, id
 Enables quick responses to process changes, reducing energy use and product waste, and ensuring consistent quality for low/no-alcohol beers.
 ## Predictive Capabilities
 Provides alerts on potential issues and estimates fermentation completion time, improving process reliability and scheduling.
-[ How Can We Help? ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-a0fd1106868a730a1655)
+[ How Can We Help? ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-a0fd110691baf05729a1)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-3ee49346868a730a1655)
+[ What We Offer ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-3ee4934691baf05729a1)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -147,7 +139,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-62ecacd6868a730a1655)
+[ Services ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-62ecacd691baf05729a1)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -158,6 +150,10 @@ We offer after sales support services including:
 
 
 ## Explore Other Solutions
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Distribution Boards: 5 Advanced Distribution Solutions
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
 ![image of industrial wastewater treatment](https://automationghana.com/wp-content/uploads/2024/08/Industrial-Wastewater-Treatment.png)
 ##### Optimizing Aeration in Wastewater Treatment
 Efficient aeration is crucial in wastewater treatment plants, where energy consumption can skyrocket. Our solution streamlines the aeration process, drastically reducing energy usage while maintaining
@@ -178,10 +174,6 @@ We leverage our automation expertise to create integrated inventory management s
 ##### PLC & SCADA Programming
 Complete control over your production process. Our skilled engineers create custom PLC programs to automate tasks, monitor performance in real-time. Every step, from mixing ingredients to final packaging is meticulously controlled and monitored ensuring consistent quality in every batch, eliminating the risk of human error and wasted ingredients.
 [ Learn More ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
-![photo 5933636841892854672 w](https://automationghana.com/wp-content/uploads/2023/11/photo_5933636841892854672_w.jpg)
-##### Electrical & Equipment installation
-Downtime is a recipe for disaster. Our expert technicians ensure flawless electrical installations and equipment integration, keeping your production lines humming. We handle everything from low-voltage (LV) panels to complex automation systems, all with meticulous attention to detail and safety compliance.
-[ Learn More ](https://automationghana.com/solutions/electrical-equipment-installation/)
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)

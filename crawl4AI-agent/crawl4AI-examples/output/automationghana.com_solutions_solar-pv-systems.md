@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/solar-pv-systems/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -80,10 +72,9 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - SOLAR PV POWERSYSTEM](https://automationghana.com/wp-content/uploads/2024/03/SOLAR-PV-POWERSYSTEM.png)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
-  3. Solar PV Systems
+![The Automation Ghana Group - SOLAR PV POWERSYSTEM](https://18.197.210.112/wp-content/uploads/2024/03/SOLAR-PV-POWERSYSTEM.png)
+  1. [Home](https://18.197.210.112)
+  2. [Solution](https://18.197.210.112/solutions/)
 
 
 ## Harness the Power of the Sun with Our Solar PV Power Systems
@@ -97,8 +88,8 @@ TAGG’s solar PV systems offer the perfect blend of efficiency, reliability, an
   * Solar E-Charging Stations
 
 
-![The Automation Ghana Group - Solar farm](https://automationghana.com/wp-content/uploads/2024/03/Solar-farm.png)
-![The Automation Ghana Group - A wide range of possibilities depending on the industry and application](https://automationghana.com/wp-content/uploads/2024/03/A-wide-range-of-possibilities-depending-on-the-industry-and-application.png)
+![The Automation Ghana Group - Solar farm](https://18.197.210.112/wp-content/uploads/2024/03/Solar-farm.png)
+![The Automation Ghana Group - A wide range of possibilities depending on the industry and application](https://18.197.210.112/wp-content/uploads/2024/03/A-wide-range-of-possibilities-depending-on-the-industry-and-application.png)
 ## A wide range of possibilities depending on the industry and application 
   * Commercial Facilities
   * Schools
@@ -127,14 +118,14 @@ Choosing our Solar PV Power System offers the significant benefit of scalability
 Revolutionizing the way, we power our homes and businesses, our systems seamlessly integrate with the existing electrical grid. Say goodbye to soaring electricity bills. With our grid-tied solar systems, you’ll unlock substantial savings on your energy costs by generating your own electricity and offsetting your consumption from the grid. Enjoy immediate financial benefits and quicker returns on your investment. Suitable for commercial and industrial facilities.
 ## Data logging and monitoring 
 Monitor the performance of your PV Solar system on your smart devices With our smart monitoring system, gain instant access to comprehensive data on your PV system’s performance, energy production, and consumption patterns 
-[ How Can We Help? ](https://automationghana.com/solutions/solar-pv-systems/#collapse-a0fd1106868a7a1e64cb)
+[ How Can We Help? ](https://automationghana.com/solutions/solar-pv-systems/#collapse-a0fd110691b3db07d75b)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/solar-pv-systems/#collapse-3ee49346868a7a1e64cb)
+[ What We Offer ](https://automationghana.com/solutions/solar-pv-systems/#collapse-3ee4934691b3db07d75b)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -144,7 +135,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/solar-pv-systems/#collapse-32d86556868a7a1e64cb)
+[ Hardware and Software ](https://automationghana.com/solutions/solar-pv-systems/#collapse-32d8655691b3db07d75b)
   * Solar PV Panels
   * Inverters (Grid-tied, Hybrid)
   * Batteries
@@ -154,7 +145,7 @@ We offer after sales support services including:
   * Protection Equipment
 
 
-[ Services ](https://automationghana.com/solutions/solar-pv-systems/#collapse-62ecacd6868a7a1e64cb)
+[ Services ](https://automationghana.com/solutions/solar-pv-systems/#collapse-62ecacd691b3db07d75b)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -165,17 +156,17 @@ We offer after sales support services including:
 
 
 ## Key Components & Spares
-![Renewable energy of solar panels. Solar panels on a background of blue sky.](https://automationghana.com/wp-content/uploads/2024/04/renewable-energy-of-solar-panels-solar-panels-on-a-background-of-blue-sky-.jpg)
+![Renewable energy of solar panels. Solar panels on a background of blue sky.](https://18.197.210.112/wp-content/uploads/2024/04/renewable-energy-of-solar-panels-solar-panels-on-a-background-of-blue-sky-.jpg)
 ### Solar PV Panels
-![Huawei solar inverters](https://automationghana.com/wp-content/uploads/2024/08/Solar-Inverters-12.jpg)
+![Huawei solar inverters](https://18.197.210.112/wp-content/uploads/2024/08/Solar-Inverters-12.jpg)
 ### Solar PV inverters
-![Huawei solar batteries](https://automationghana.com/wp-content/uploads/2024/04/Huawei-Solar-Batteries-18.jpg)
+![Huawei solar batteries](https://18.197.210.112/wp-content/uploads/2024/04/Huawei-Solar-Batteries-18.jpg)
 ### Batteries
-![MC4 Connectors](https://automationghana.com/wp-content/uploads/2024/04/MC4-Connectors.jpg)
+![MC4 Connectors](https://18.197.210.112/wp-content/uploads/2024/04/MC4-Connectors.jpg)
 ### MC4 Connectors
-![Charge controllers-17](https://automationghana.com/wp-content/uploads/2024/04/Charge-controllers-17.jpg)
+![Charge controllers-17](https://18.197.210.112/wp-content/uploads/2024/04/Charge-controllers-17.jpg)
 ### Charge Controllers
-![smart guard I](https://automationghana.com/wp-content/uploads/2024/04/smart-guard-I-1.jpg)
+![smart guard I](https://18.197.210.112/wp-content/uploads/2024/04/smart-guard-I-1.jpg)
 ### SmartGuard
 ## Explore Other Solutions
 ![ats](https://automationghana.com/wp-content/uploads/2024/08/ats-1.jpg)
@@ -187,13 +178,13 @@ We offer manual and automatic transfer switches from Up to 6300A with basic to c
 Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities.
 [ Learn More ](https://automationghana.com/solutions/cctv-surveillance-solutions/)
 ![Fire Alarm with Strobe](https://automationghana.com/wp-content/uploads/2024/08/fire-alarm-with-strobe.jpg)
-##### Fire Detection and Alarming
+##### Fire Detection Systems: 7 Ways We Keep Your Facility Safe
 Our Fire Detection and Alarming system is a tried and tested, top of the range solution incorporating addressable heat, smoke and flame sensors with anti-electromagnetic interference capabilities to reduce nuisance alarms and improve accuracy. 
 [ Learn More ](https://automationghana.com/solutions/fire-detection-and-alarming/)
 ![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
-##### Power Distribution Boards
+##### Power Distribution Panel
 Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
-[ Learn More ](https://automationghana.com/solutions/power-distribution-boards/)
+[ Learn More ](https://automationghana.com/solutions/power-distribution-panel/)
 ![energy_monitoring_building](https://automationghana.com/wp-content/uploads/2024/04/energy_monitoring_building.jpg)
 ##### Energy Monitoring and Management
 Find out about how you can track energy consumption from multiple electricity sources and bill tenants for exactly what they use. We offer a wall to wall solution comprising of electrical distribution hardware connected to our cloud Xpro platform to give you global access.
