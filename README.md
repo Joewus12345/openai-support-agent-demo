@@ -349,6 +349,13 @@ When using the `ollama` provider you need a local server running.
   command on Windows/macOS so headless `AsyncWebCrawler` launches succeed on
   every OS.
 
+  Every crawler example (both `crawl4AI-agent` and `crawl4AI-agent-v2`) now
+  writes Markdown into `public/knowledge_base`, so once you activate a venv and
+  run something like `python crawl4AI-agent/crawl4AI-examples/2-crawl_docs_sequential.py`
+  the resulting `.md` files land next to the rest of the RAG assets without any
+  manual copying. The directory is created automatically if it doesn’t already
+  exist.
+
 ## Demo Flow
 
 To try out the demo, you can ask questions that will trigger a file search.

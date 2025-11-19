@@ -10,7 +10,7 @@ from insert_docs import parse_sitemap
 from urllib.parse import urlparse
 
 __location__ = os.path.dirname(os.path.abspath(__file__))
-__output__ = os.path.join(__location__, "output")
+__output__ = os.path.join(project_root, "public", "knowledge_base")
 os.makedirs(__output__, exist_ok=True)
 
 def _slugify(url: str) -> str:

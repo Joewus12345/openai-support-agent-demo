@@ -28,7 +28,10 @@ CATEGORIES = [
 
 API_BASE = "https://store.automationghana.com/wp-json/wp/v2"
 
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
+PROJECT_ROOT = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, "public", "knowledge_base")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
