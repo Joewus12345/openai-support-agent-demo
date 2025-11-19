@@ -72,12 +72,12 @@ async def crawl_parallel(urls: List[str], max_concurrent: int = 10):
 def get_pydantic_ai_docs_urls():
     """
     Fetches all URLs from the Pydantic AI documentation.
-    Uses the sitemap (https://ai.pydantic.dev/sitemap.xml) to get these URLs.
+    Uses the sitemap (https://automationghana.com/sitemap_index.xml) to get these URLs.
     
     Returns:
         List[str]: List of URLs
     """            
-    sitemap_url = "https://ai.pydantic.dev/sitemap.xml"
+    sitemap_url = "https://automationghana.com/sitemap_index.xml"
     return parse_sitemap(sitemap_url)
 
 async def main():

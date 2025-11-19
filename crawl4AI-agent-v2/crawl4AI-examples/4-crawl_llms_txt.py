@@ -36,5 +36,5 @@ async def scrape_and_chunk_markdown(url: str):
             print(f"\n--- Chunk {idx+1} ---\n{chunk}\n")
 
 if __name__ == "__main__":
-    url = "https://ai.pydantic.dev/llms-full.txt"
+    url = "https://automationghana.com/"
     asyncio.run(scrape_and_chunk_markdown(url))

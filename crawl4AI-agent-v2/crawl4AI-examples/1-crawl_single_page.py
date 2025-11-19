@@ -4,7 +4,7 @@ from crawl4ai import AsyncWebCrawler, BrowserConfig
 async def main():
     async with AsyncWebCrawler() as crawler:
         result = await crawler.arun(
-            url="https://ai.pydantic.dev/",
+            url="https://store.automationghana.com/",
         )
         print(result.markdown)
 

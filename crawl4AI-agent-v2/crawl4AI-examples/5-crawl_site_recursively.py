@@ -66,4 +66,4 @@ async def crawl_recursive_batch(start_urls, max_depth=3, max_concurrent=10):
             current_urls = next_level_urls
 
 if __name__ == "__main__":
-    asyncio.run(crawl_recursive_batch(["https://ai.pydantic.dev/"], max_depth=3, max_concurrent=10))
+    asyncio.run(crawl_recursive_batch(["https://automationghana.com/"], max_depth=3, max_concurrent=10))
