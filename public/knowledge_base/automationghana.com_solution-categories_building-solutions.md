@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solution-categories/building-solutions/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -92,12 +84,12 @@ We offer manual and automatic transfer switches from Up to 6300A with basic to c
 ## CCTV Surveillance Solutions
 Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities. 
 [ Learn More ](https://automationghana.com/solutions/cctv-surveillance-solutions/)
-## Fire Detection and Alarming
+## Fire Detection Systems: 7 Ways We Keep Your Facility Safe
 Our Fire Detection and Alarming system is a tried and tested, top of the range solution incorporating addressable heat, smoke and flame sensors with anti-electromagnetic interference capabilities to reduce nuisance alarms and improve accuracy. 
 [ Learn More ](https://automationghana.com/solutions/fire-detection-and-alarming/)
-## Power Distribution Boards
+## Power Distribution Panel
 Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
-[ Learn More ](https://automationghana.com/solutions/power-distribution-boards/)
+[ Learn More ](https://automationghana.com/solutions/power-distribution-panel/)
 ## Solar PV Systems
 Consider investing in a reliable cost effective Solar PV system. Find out how you can start small with a back up solution and scale up to a completely off-grid system and make significant savings on your energy budget. 
 [ Learn More ](https://automationghana.com/solutions/solar-pv-systems/)

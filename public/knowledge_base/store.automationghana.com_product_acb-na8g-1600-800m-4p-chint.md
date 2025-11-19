@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / ACB NA8G-1600-800M/4P Chint
-[🔍](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/)
-[![ACB NA8G-1600-800M/4P Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NA8G-1600-1600M_4P.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NA8G-1600-1600M_4P.jpg)![ACB NA8G-1600-800M/4P Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NA8G-1600-1600M_4P.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/)
+[![ACB NA8G-1600-800M/4P Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NA8G-1600-1600M_4P.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NA8G-1600-1600M_4P.jpg)
 ####  ACB NA8G-1600-800M/4P Chint 
 **SKU :** NA8G-1600-800M/4P 
 ₵27,666.00
@@ -52,14 +52,14 @@ NA8G-1600-800M/4P, ACB
 
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/?add-to-cart=1597)
-  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
-[Add to cart](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/?add-to-cart=1533)
-  * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
-[Add to cart](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/?add-to-cart=1534)
-  * [![Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-8-300x300.jpg)Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera ₵608.00 ](https://store.automationghana.com/product/plug-902456a-solera/)
-[Add to cart](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/?add-to-cart=1524)
+  * [![Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC (S), Omron ₵72.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-24dc-s-omron/)
+[Add to cart](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/?add-to-cart=1601)
+  * [![Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC (S), Omron ₵44.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-12vdc-s-omron/)
+[Add to cart](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/?add-to-cart=1600)
+  * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/?add-to-cart=1598)
+  * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
+[Add to cart](https://store.automationghana.com/product/acb-na8g-1600-800m-4p-chint/?add-to-cart=1514)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

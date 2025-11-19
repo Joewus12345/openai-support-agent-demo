@@ -23,14 +23,15 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Contactor 120A, 220V
-[🔍](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/)
-[![Contactor 120A, 220V](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-100-230V-Chint.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-100-230V-Chint.jpg)![Contactor 120A, 220V](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-100-230V-Chint.jpg)
-####  Contactor 120A, 220V 
+[Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Contactor, 3P-120A-220V, NXC-120, Chint
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/)
+[![Contactor, 3P-120A-220V, NXC-120, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-100-230V-Chint.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-100-230V-Chint.jpg)
+####  Contactor, 3P-120A-220V, NXC-120, Chint 
 **SKU :** NXC-120 3P 220V 
-₵1,998.00
-Item is sold per unit.
-Contactor 120A, 220V quantity
+₵1,616.00
+They are mainly used for frequent starts and control of AC motors as well as remote circuit making /breaking. They can also be combined with appropriate thermal overload relays to form electromagnetic starters.
+Coil rated voltage(V) : 230V Number of Poles(P) : 3P Current rate(A) : 120A Frequency(Hz) : 50/60 Hz
+Contactor, 3P-120A-220V, NXC-120, Chint quantity
 Add to cart
   * Pickup: Available today in our stores
 
@@ -43,22 +44,17 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-NXC-120 220V, Contactor 
-  * Amps: 120
-  * Number of Poles: 3
-  * Coil Voltage: 220V
-
-
+They are mainly used for frequent starts and control of AC motors as well as remote circuit making /breaking. They can also be combined with appropriate thermal overload relays to form electromagnetic starters. Coil rated voltage(V) : 230V Number of Poles(P) : 3P Current rate(A) : 120A Frequency(Hz) : 50/60 Hz
 Related Products 
 ## Related products
-  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/?add-to-cart=1533)
-  * [![Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-8-300x300.jpg)Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera ₵608.00 ](https://store.automationghana.com/product/plug-902456a-solera/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/?add-to-cart=1524)
-  * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/?add-to-cart=1522)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/?add-to-cart=1514)
+  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/?add-to-cart=1602)
+  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/?add-to-cart=1599)
+  * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/?add-to-cart=1537)
+  * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-120-220v-chint/?add-to-cart=1534)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

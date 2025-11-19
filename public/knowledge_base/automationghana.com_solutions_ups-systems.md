@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/ups-systems/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -107,14 +99,14 @@ Bridge the gap between power outages and the restoration of utility power, prote
 Power fluctuations and surges can damage sensitive electronic equipment. UPS systems provide clean and consistent power, protecting your valuable machinery and extending its lifespan. 
 ## Process continuity 
 Even a brief power interruption can disrupt your production process. UPS systems ensure uninterrupted power supply, allowing your operations to continue seamlessly and minimizing disruptions. 
-[ How Can We Help? ](https://automationghana.com/solutions/ups-systems/#collapse-a0fd1106868a71ed2d82)
+[ How Can We Help? ](https://automationghana.com/solutions/ups-systems/#collapse-a0fd110691db0a8c2e1e)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/ups-systems/#collapse-3ee49346868a71ed2d82)
+[ What We Offer ](https://automationghana.com/solutions/ups-systems/#collapse-3ee4934691db0a8c2e1e)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -124,7 +116,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/ups-systems/#collapse-62ecacd6868a71ed2d82)
+[ Services ](https://automationghana.com/solutions/ups-systems/#collapse-62ecacd691db0a8c2e1e)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -148,6 +140,10 @@ We offer after sales support services including:
 ![ups v](https://automationghana.com/wp-content/uploads/2024/05/ups-v.jpg)
 ### Single Phase Line-interactive 1.1/2/3 kVA
 ## Explore Other Solutions
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Distribution Boards: 5 Advanced Distribution Solutions
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
 ![beer IV](https://automationghana.com/wp-content/uploads/2024/10/beer-IV-1.jpg)
 ##### Monitoring the Fermentation Process in Beer Production
 Implement the QWX43 Fermentation Monitor to gain real-time, multi-parameter insights into the fermentation process. This device measures key parameters such as density, temperature, acoustic velocity, and viscosity directly inside the fermentation tank, providing crucial data for optimizing beer quality and consistency.
@@ -168,10 +164,6 @@ We leverage our automation expertise to create integrated inventory management s
 ##### PLC & SCADA Programming
 Complete control over your production process. Our skilled engineers create custom PLC programs to automate tasks, monitor performance in real-time. Every step, from mixing ingredients to final packaging is meticulously controlled and monitored ensuring consistent quality in every batch, eliminating the risk of human error and wasted ingredients.
 [ Learn More ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
-![photo 5933636841892854672 w](https://automationghana.com/wp-content/uploads/2023/11/photo_5933636841892854672_w.jpg)
-##### Electrical & Equipment installation
-Downtime is a recipe for disaster. Our expert technicians ensure flawless electrical installations and equipment integration, keeping your production lines humming. We handle everything from low-voltage (LV) panels to complex automation systems, all with meticulous attention to detail and safety compliance.
-[ Learn More ](https://automationghana.com/solutions/electrical-equipment-installation/)
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)

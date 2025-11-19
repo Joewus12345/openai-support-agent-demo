@@ -23,14 +23,15 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Contactor 85A 3P, 230VAC
-[🔍](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/)
-[![Contactor 85A 3P, 230VAC](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-65-230V-1.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-65-230V-1.jpg)![Contactor 85A 3P, 230VAC](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-65-230V-1.jpg)
-####  Contactor 85A 3P, 230VAC 
+[Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Contactor, 3P-85A-230V, NXC-85, Chint
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/)
+[![Contactor, 3P-85A-230V, NXC-85, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-65-230V-1.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-65-230V-1.jpg)
+####  Contactor, 3P-85A-230V, NXC-85, Chint 
 **SKU :** NXC-85 3P 230V 
-₵745.00
-Item is sold per unit.
-Contactor 85A 3P, 230VAC quantity
+₵744.30
+They are mainly used for frequent starts and control of AC motors as well as remote circuit making /breaking. They can also be combined with appropriate thermal overload relays to form electromagnetic starters.
+Coil rated voltage(V) : 230V Number of Poles(P) : 3P Current rate(A) : 85A Frequency(Hz) : 50/60 Hz
+Contactor, 3P-85A-230V, NXC-85, Chint quantity
 Add to cart
   * Pickup: Available today in our stores
 
@@ -43,22 +44,17 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-NXC-85 230V, Contactor 
-  * Amps: 85
-  * Number of Poles: 3
-  * Coil Voltage: 230V
-
-
+They are mainly used for frequent starts and control of AC motors as well as remote circuit making /breaking. They can also be combined with appropriate thermal overload relays to form electromagnetic starters. Coil rated voltage(V) : 230V Number of Poles(P) : 3P Current rate(A) : 85A Frequency(Hz) : 50/60 Hz
 Related Products 
 ## Related products
-  * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/?add-to-cart=1598)
-  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/?add-to-cart=1592)
-  * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/?add-to-cart=1522)
-  * [![Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902154A.png)Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera ₵108.00 ](https://store.automationghana.com/product/industrial-plug-902154a-solera/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/?add-to-cart=1511)
+  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/?add-to-cart=1603)
+  * [![Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC (S), Omron ₵44.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-12vdc-s-omron/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/?add-to-cart=1600)
+  * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/?add-to-cart=1597)
+  * [![Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-12VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint ₵46.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-85-230v-chint/?add-to-cart=1596)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

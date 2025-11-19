@@ -12,7 +12,7 @@ project_root = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspa
 _sys.path.append(_os.path.join(project_root, "crawl4AI-agent-v2"))
 from insert_docs import parse_sitemap
 
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
+OUTPUT_DIR = os.path.join(project_root, "public", "knowledge_base")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def _slugify(url: str) -> str:

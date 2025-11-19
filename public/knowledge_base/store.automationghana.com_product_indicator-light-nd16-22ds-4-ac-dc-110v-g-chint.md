@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Indicator Light 110VAC/DC, Green
-[🔍](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-110v-g-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-110v-g-chint/)
 [![Indicator Light 110VAC/DC, Green](https://store.automationghana.com/wp-content/uploads/2020/04/ND16-22DS_4-AC_DC-230V-G.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/ND16-22DS_4-AC_DC-230V-G.jpg)
 ####  Indicator Light 110VAC/DC, Green 
 **SKU :** ND16-22DS/4 110V G 
@@ -45,14 +45,14 @@ Product Description
 Indicator Light ND16-22DS/4 AC/DC 110V G Chint | Indicator Light Green 110VAC/DC
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-110v-g-chint/?add-to-cart=1603)
+  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-110v-g-chint/?add-to-cart=1594)
   * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
 [Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-110v-g-chint/?add-to-cart=1593)
-  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-110v-g-chint/?add-to-cart=1533)
-  * [![Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera ₵60.00 ](https://store.automationghana.com/product/plug-902131a-solera/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-110v-g-chint/?add-to-cart=1523)
+  * [![Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903131A.png)Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera ₵66.00 ](https://store.automationghana.com/product/industrial-socket-903131a-solera/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-110v-g-chint/?add-to-cart=1513)
+  * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-110v-g-chint/?add-to-cart=1514)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

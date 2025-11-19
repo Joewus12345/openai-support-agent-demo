@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/our-solutions/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -87,6 +79,38 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 
 ## We provide a wide range of solutions to the mining and manufacturing industries, as well as homes and offices.
 Our solution offerings include: 
+![CCTV security camera on the outdoor electrical pole concept of safety control, crime protect](https://automationghana.com/wp-content/uploads/2024/08/cctv-security-camera-on-the-outdoor-electrical-pole-concept-of-safety-control-crime-protect.jpg)
+##### Tailings Management
+Home Innovative Tailings Management for Sustainable Mining Operations Tailings management is transforming how mining and processing companies handle waste, ensuring safer, more efficient, and environmentally
+[ Learn More ](https://automationghana.com/solutions/tailings-management/)
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Motor Control Center (MCC)
+Home Motor Control Centers (MCCs) for Industrial Efficiency| 4 Proven Solutions Advanced Motor Control Centers (MCCs) are the backbone of modern industrial operations, providing centralized
+[ Learn More ](https://automationghana.com/solutions/motor-control-center/)
+![CCTV security camera on the outdoor electrical pole concept of safety control, crime protect](https://automationghana.com/wp-content/uploads/2024/08/cctv-security-camera-on-the-outdoor-electrical-pole-concept-of-safety-control-crime-protect.jpg)
+##### Flood Detection System – Protecting Critical Infrastructure from Water Damage
+Home Flood Detection System – Protecting Critical Infrastructure from Water Damage Flood Detection System solutions from TAGG provide early warning and real-time monitoring to safeguard
+[ Learn More ](https://automationghana.com/solutions/flood-detection-system/)
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Energy Audits
+Home 7 Ways TAGG’s Energy Audits Save You Money and Boost Efficiency Energy Audits help to identify inefficiencies, reduce operational costs, and ensure optimal use
+[ Learn More ](https://automationghana.com/solutions/energy-audits/)
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Panel Retrofitting: 5 Powerful Benefits for Safe & Reliable Power Systems
+Home Reliable Distribution Boards for Safe and Efficient Power Management Distribution Boards are the heart of every electrical system, responsible for safely dividing and distributing
+[ Learn More ](https://automationghana.com/solutions/panel-retroffitting/)
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Distribution Boards: 5 Advanced Distribution Solutions
+Home Reliable Distribution Boards for Safe and Efficient Power Management Distribution Boards are the heart of every electrical system, responsible for safely dividing and distributing
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
+![CCTV security camera on the outdoor electrical pole concept of safety control, crime protect](https://automationghana.com/wp-content/uploads/2024/08/cctv-security-camera-on-the-outdoor-electrical-pole-concept-of-safety-control-crime-protect.jpg)
+##### Power Quality Analysis: 5 Critical Insights to Boost Energy Performance
+Home Switchgear Solutions in Ghana Switchgear is the backbone of safe and reliable electrical power distribution. At Automation Ghana, we provide top-quality switchgear solutions for
+[ Learn More ](https://automationghana.com/solutions/power-quality-analysis-5-critical-insights-to-boost-energy-performance/)
+![CCTV security camera on the outdoor electrical pole concept of safety control, crime protect](https://automationghana.com/wp-content/uploads/2024/08/cctv-security-camera-on-the-outdoor-electrical-pole-concept-of-safety-control-crime-protect.jpg)
+##### Switchgear
+Home Switchgear Solutions in Ghana Switchgear is the backbone of safe and reliable electrical power distribution. At Automation Ghana, we provide top-quality switchgear solutions for
+[ Learn More ](https://automationghana.com/solutions/switchgear/)
 ![pexels-hannu-iso-oja-3301403-4946886](https://automationghana.com/wp-content/uploads/2024/10/pexels-hannu-iso-oja-3301403-4946886-scaled.jpg)
 ##### Crusher and Conveyor Monitoring
 Home Crushing Process in Mines and Cement Plants Our Crusher and Conveyor Monitoring system ensures optimal energy consumption, helps prevent overfilling, and reduces operational downtime
@@ -115,38 +139,6 @@ Home Safeguarding Your Infrastructure with Reliable Lightning Protection Solutio
 ##### Terminal Management Solutions Enhanced1
 Home Terminal Management Solution and Automation Systems Terminal Management Solutions are the cornerstone of efficient and safe operations in the oil and gas industry. By
 [ Learn More ](https://automationghana.com/solutions/terminal-management-solutions/)
-![Hybrid energy power solution](https://automationghana.com/wp-content/uploads/2024/09/Hybrid-energy-power-solution.jpg)
-##### Hybrid Energy Power Solution 1
-Home Hybrid Energy Power Solutions Our Hybrid Energy Power Solution is specifically designed to meet the energy demands of telecom operations. By integrating solar PV
-[ Learn More ](https://automationghana.com/solutions/hybrid-energy-power-solution/)
-![Valves](https://automationghana.com/wp-content/uploads/2024/09/Valves.jpg)
-##### Valves| 5 Advanced Industrial Solutions
-Home We Improve Your Fluid Control Systems with our Comprehensive Range of Valves Our valves solutions are engineered to meet the demanding needs of the
-[ Learn More ](https://automationghana.com/solutions/valves/)
-![Tank Farm Terminal Monitoring 4](https://automationghana.com/wp-content/uploads/2024/09/Tank-Farm-Terminal-Monitoring-4.jpg)
-##### Integrated Terminal Management and Tank Farm Solutions
-Home Integrated Terminal Management & Tank Farm Solutions: Driving Efficiency & Reliability Integrated Terminal Management and Tank Farm Solutions are essential for optimizing operations in
-[ Learn More ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/)
-![Pipeline and Transportation](https://automationghana.com/wp-content/uploads/2024/09/Pipeline-and-Transportation.jpg)
-##### Pipeline & Transportation
-Home We offer Advanced Pipeline Automation to Ensure Seamless and Reliable Operations In the mining sector, efficient pipeline and transportation operations are crucial for optimizing
-[ Learn More ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/)
-![Demand Side Management](https://automationghana.com/wp-content/uploads/2024/09/Demand-Side-Management.png)
-##### Demand-Side Management: Boost Energy Efficiency & Savings
-Improve Grid Reliability and Resilience with Advanced Demand Side Management Systems Home With our demand-side management solutions, you can efficiently manage energy demand through peak
-[ Learn More ](https://automationghana.com/solutions/demand-side-management/)
-![Demand side 2](https://automationghana.com/wp-content/uploads/2024/09/Demand-side-2-1.webp)
-##### Outdoor Telecom Power System
-Home Reliable Power Solutions Tailored for Your Outdoor Telecom Needs Your telecom base stations deserve the best in power management, especially in challenging outdoor environments.
-[ Learn More ](https://automationghana.com/solutions/outdoor-telecom-power-system/)
-![Smart grid](https://automationghana.com/wp-content/uploads/2024/09/Smart-grid.jpg)
-##### Distribution Automation and Smart Grid Technologies
-Home Transform Your Energy Distribution with Advanced Automation and Smart Grid Technologies At Automation Ghana Group, we are committed to revolutionizing the way energy is
-[ Learn More ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/)
-![image of industrial wastewater treatment](https://automationghana.com/wp-content/uploads/2024/08/Industrial-Wastewater-Treatment.png)
-##### Optimizing Aeration in Wastewater Treatment
-In the food and beverage industry, wastewater treatment is a critical component. Our advanced aeration monitoring and control system is designed to significantly reduce energy
-[ Learn More ](https://automationghana.com/solutions/wastewater-treatment/)
 [ Load More ](https://automationghana.com/our-solutions/)
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.

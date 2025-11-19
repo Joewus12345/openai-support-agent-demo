@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Sinova](https://store.automationghana.com/product-category/sinova-siemens/) / Auxiliary Switch Front, 3MH7901-0CT10, Siemens
-[🔍](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/)
 [![Auxiliary Switch Front, 3MH7901-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front.jpg)
 ####  Auxiliary Switch Front, 3MH7901-0CT10, Siemens 
 **SKU :** Auxiliary Switch Front, 3MH7901-0CT10 
@@ -44,14 +44,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Miniature Circuit Breaker, 1P-10A-6kA-230/415V, 5TJ6110-7, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Miniature-Circuit-Breaker-300x300.jpg)Miniature Circuit Breaker, 1P-10A-6kA-230/415V, 5TJ6110-7, Siemens ₵57.50 ](https://store.automationghana.com/product/miniature-circuit-breaker-1p-10a-6ka-230-415v-5tj6110-7-siemens/)
-[Add to cart](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/?add-to-cart=24513)
-  * [![Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens ₵920.00 ](https://store.automationghana.com/product/contactor-3p-32a-230vac-3mt7032-2aa10-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/?add-to-cart=24489)
-  * [![Contactor, 3P-12A-230VAC, 3MT7012-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-12A-230VAC, 3MT7012-0AA10-0AP0, Siemens ₵342.00 ](https://store.automationghana.com/product/contactor-3p-12a-230vac-3mt7012-0aa10-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/?add-to-cart=24486)
-  * [![Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens ₵277.00 ](https://store.automationghana.com/product/contactor-3p-9a-230vac-3mt7010-0aa10-0ap0-siemens-2/)
-[Add to cart](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/?add-to-cart=24483)
+  * [![Miniature Circuit Breaker, 1P-16A-6KA-240/415V, 5TJ6116-7, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Miniature-Circuit-Breaker-300x300.jpg)Miniature Circuit Breaker, 1P-16A-6KA-240/415V, 5TJ6116-7, Siemens ₵57.50 ](https://store.automationghana.com/product/miniature-circuit-breaker-1p-16a-6ka-240-415v-5tj6116-7-siemens/)
+[Add to cart](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/?add-to-cart=24515)
+  * [![Thermal Overload Relay, 17-25A, 3MU7110-0QA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 17-25A, 3MU7110-0QA0, Siemens ₵346.00 ](https://store.automationghana.com/product/thermal-overload-relay-17-25a-3mu7110-0qa0-siemens/)
+[Add to cart](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/?add-to-cart=24511)
+  * [![Auxiliary Switch Front, 3MH7910-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7910-0CT10, Siemens ₵42.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7910-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/?add-to-cart=24503)
+  * [![Contactor, 3P-25A-230V, 3MT7025-2AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-25A-230V, 3MT7025-2AA10-0AP0, Siemens ₵616.00 ](https://store.automationghana.com/product/contactor-3p-25a-230v-3mt7025-2aa10-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/?add-to-cart=24488)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

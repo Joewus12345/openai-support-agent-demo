@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -104,9 +96,9 @@ Monitor critical infrastructure components, such as power distribution units (PD
 Receive instant alerts for any critical conditions, such as temperature spikes, humidity changes, or equipment malfunctions. Our system’s early warning capabilities ensure rapid response to potential threats, minimizing downtime and damage.
 ## Energy Savings 
 Reduce cooling energy costs by optimizing environmental conditions.
-[ How Can We Help? ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-a0fd1106868a7f1f3789)
+[ How Can We Help? ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-a0fd110691dbee15594c)
 At **Automation Ghana Group** , we empower your data center operations with robust DCIM solutions that provide full visibility and control over your critical infrastructure. Our experts collaborate closely with your team to integrate advanced monitoring tools, data analytics, and automated response mechanisms. This approach ensures that your data center remains secure, efficient, and cost-effective while minimizing operational disruptions and extending equipment lifespan.
-[ What We Offer ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-3ee49346868a7f1f3789)
+[ What We Offer ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-3ee4934691dbee15594c)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -116,7 +108,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-62ecacd6868a7f1f3789)
+[ Services ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-62ecacd691dbee15594c)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

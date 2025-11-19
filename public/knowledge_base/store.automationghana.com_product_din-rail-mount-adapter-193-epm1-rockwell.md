@@ -43,12 +43,12 @@ Product Description
 Allen-Bradley 193-EPM1 Bulletin 193-EA/-ES Solid State Overload Relay DIN Rail/Panel Adapter for separate mounting of the Electronic Motor Protection Relay, for use with Bulletin 193-EA…B, 193-EA…C, 193-ES…B, 193-ES…C Solid State Overload Relays
 Related Products 
 ## Related products
+  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
+[Add to cart](https://store.automationghana.com/product/din-rail-mount-adapter-193-epm1-rockwell/?add-to-cart=2985)
   * [![Busbar End Cover 141A-TR3E](https://store.automationghana.com/wp-content/uploads/2020/12/141A-TR3E-300x300.jpg)Busbar End Cover 141A-TR3E ₵78.50 ](https://store.automationghana.com/product/busbar-end-cover-141a-tr3e/)
 [Add to cart](https://store.automationghana.com/product/din-rail-mount-adapter-193-epm1-rockwell/?add-to-cart=2977)
-  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
-[Add to cart](https://store.automationghana.com/product/din-rail-mount-adapter-193-epm1-rockwell/?add-to-cart=2956)
-  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
-[Add to cart](https://store.automationghana.com/product/din-rail-mount-adapter-193-epm1-rockwell/?add-to-cart=2946)
+  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
+[Add to cart](https://store.automationghana.com/product/din-rail-mount-adapter-193-epm1-rockwell/?add-to-cart=2961)
   * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
 [Add to cart](https://store.automationghana.com/product/din-rail-mount-adapter-193-epm1-rockwell/?add-to-cart=2935)
 

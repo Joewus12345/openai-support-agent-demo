@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/esl/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -136,9 +128,9 @@ Optimize motor control with ESL’s Motor Starter Panels. These panels support v
 ## Changeover/Transfer Switch Panels
 We offer manual and automatic transfer switches from Up to 6300A with basic to custom solutions. Learn more about switching more than two power sources in multi-tiered and redundancy configurations. 
 [ Learn More ](https://automationghana.com/solutions/www-automationghana-com-changeover-transfer-switch-panels/)
-## Power Distribution Boards
+## Power Distribution Panel
 Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
-[ Learn More ](https://automationghana.com/solutions/power-distribution-boards/)
+[ Learn More ](https://automationghana.com/solutions/power-distribution-panel/)
   * [About Us](https://automationghana.com/new-home-2/)
   * [Sustainability](https://automationghana.com/sustainability/)
     * [Quality](https://automationghana.com/quality/)

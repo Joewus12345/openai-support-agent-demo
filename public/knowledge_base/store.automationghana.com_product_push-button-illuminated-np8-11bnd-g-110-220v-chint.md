@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Push Button Illuminated NP8-11BND-G 110-220V Chint
-[🔍](https://store.automationghana.com/product/push-button-illuminated-np8-11bnd-g-110-220v-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/push-button-illuminated-np8-11bnd-g-110-220v-chint/)
 [![Push Button Illuminated NP8-11BND-G 110-220V Chint](https://store.automationghana.com/wp-content/uploads/2020/04/PUSH-BUTTON.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/PUSH-BUTTON.jpg)
 ####  Push Button Illuminated NP8-11BND-G 110-220V Chint 
 **SKU :** NP8-11BND-G 110-220V 
@@ -47,12 +47,12 @@ Related Products
 ## Related products
   * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
 [Add to cart](https://store.automationghana.com/product/push-button-illuminated-np8-11bnd-g-110-220v-chint/?add-to-cart=1603)
-  * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
-[Add to cart](https://store.automationghana.com/product/push-button-illuminated-np8-11bnd-g-110-220v-chint/?add-to-cart=1534)
-  * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
-[Add to cart](https://store.automationghana.com/product/push-button-illuminated-np8-11bnd-g-110-220v-chint/?add-to-cart=1522)
-  * [![Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902154A.png)Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera ₵108.00 ](https://store.automationghana.com/product/industrial-plug-902154a-solera/)
-[Add to cart](https://store.automationghana.com/product/push-button-illuminated-np8-11bnd-g-110-220v-chint/?add-to-cart=1511)
+  * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/push-button-illuminated-np8-11bnd-g-110-220v-chint/?add-to-cart=1598)
+  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
+[Add to cart](https://store.automationghana.com/product/push-button-illuminated-np8-11bnd-g-110-220v-chint/?add-to-cart=1533)
+  * [![Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera ₵60.00 ](https://store.automationghana.com/product/plug-902131a-solera/)
+[Add to cart](https://store.automationghana.com/product/push-button-illuminated-np8-11bnd-g-110-220v-chint/?add-to-cart=1523)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

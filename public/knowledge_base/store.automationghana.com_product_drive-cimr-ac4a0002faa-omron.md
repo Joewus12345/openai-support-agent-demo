@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Automation & Drives](https://store.automationghana.com/product-category/industrial-automation/) / Inverter Drive(A1000), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron
-[🔍](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/)
 [![Inverter Drive\(A1000\), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CIMR-A-A1000-Variable-Freq-Drive.png)](https://store.automationghana.com/wp-content/uploads/2020/04/CIMR-A-A1000-Variable-Freq-Drive.png)
 ####  Inverter Drive(A1000), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron 
 **SKU :** Inverter Drive(A1000), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA 
@@ -52,14 +52,14 @@ CIMR-AC4A0002FAA A1000 Inverter Drive 400VAC, 0.4KW
 
 Related Products 
 ## Related products
-  * [![Temperature Controller, 12VDC, Pulse Output, 3 Aux, E5CC-QX3A5M-000, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-Omron-temp-controller-300x300.jpg)Temperature Controller, 12VDC, Pulse Output, 3 Aux, E5CC-QX3A5M-000, Omron ₵997.00 ](https://store.automationghana.com/product/pid-temperature-controller-e5cc-qx3a5m-000-omron/)
-[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1585)
-  * [![Input/Output Expansion Unit, Digital, 5-24VDC, CP1W40EDR.1, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W4EDR-IO-EXPANSION-UNIT-300x300.jpg)Input/Output Expansion Unit, Digital, 5-24VDC, CP1W40EDR.1, Omron ₵2,424.00 ](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/)
-[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1573)
-  * [![Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/NB3Q_640px-300x300.jpg)Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron ₵3,126.00 ](https://store.automationghana.com/product/human-machine-interface-nb3q-tw01b-omron/)
-[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1572)
-  * [![Input/Output Expansion Unit, Digital,2A, CP1W8D.2 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W.png)Input/Output Expansion Unit, Digital,2A, CP1W8D.2 Omron ₵996.00 ](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/)
-[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1570)
+  * [![MX Inverter Drive, 200VAC, 0.75kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive, 200VAC, 0.75kW, 1Phase ₵4,536.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab007-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1991)
+  * [![CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron](https://store.automationghana.com/wp-content/uploads/2020/04/cp1ll14drd-300x300.jpg)CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron ₵3,001.00 ](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/)
+[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1586)
+  * [![Inverter Drive \(RX\), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron ₵24,297.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1589)
+  * [![MX Inverter Drive 200VAC, 1.5kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 200VAC, 1.5kW, 1Phase ₵4,721.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1581)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

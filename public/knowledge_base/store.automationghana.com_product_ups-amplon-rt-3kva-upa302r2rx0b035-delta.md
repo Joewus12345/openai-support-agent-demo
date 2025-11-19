@@ -47,12 +47,12 @@ Related Products
 ## Related products
   * [![Pattress Box-NEH1-004A, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box-NEH1-004A, Chint ₵12.00 ](https://store.automationghana.com/product/recessed-mounting-box/)
 [Add to cart](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/?add-to-cart=3373)
-  * [![Venting Fans, NEF1-260, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-260, Chint ₵630.00 ](https://store.automationghana.com/product/venting-fans-nef1-260-chint/)
-[Add to cart](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/?add-to-cart=1920)
-  * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵15.00 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
+  * [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)2-Way Surface Mount Consumer Unit ₵52.00 ](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
+[Add to cart](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/?add-to-cart=1971)
+  * [![Pattress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box 3 x 3, NEH1-001A Chint ₵7.50 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
+[Add to cart](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/?add-to-cart=1829)
+  * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵9.80 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
 [Add to cart](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/?add-to-cart=1830)
-  * [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-300x300.jpeg)Infrared Sensor, NEW7-G31100A, Chint ₵168.00 ](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
-[Add to cart](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/?add-to-cart=1753)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

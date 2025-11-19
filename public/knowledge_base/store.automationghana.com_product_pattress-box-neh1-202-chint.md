@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Enclosures and Junction Boxes](https://store.automationghana.com/product-category/enclosures-and-junction-boxes/) / Pattress Box NEH1-202 Chint
-[🔍](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
 [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress.jpg)
 ####  Pattress Box NEH1-202 Chint 
 **SKU :** NEH1-202 
@@ -46,14 +46,14 @@ Product Description
 NEH1-202, 3 X 6 Surface Mount Pattress Box, Plastic 
 Related Products 
 ## Related products
-  * [![Distribution Board, 6 Way, Flush, NX9-6, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 6 Way, Flush, NX9-6, Chint ₵1,375.00 ](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/pattress-box-neh1-202-chint/?add-to-cart=1706)
-  * [![Consumer Unit, 5-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 5-Way ₵218.00 ](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/)
-[Add to cart](https://store.automationghana.com/product/pattress-box-neh1-202-chint/?add-to-cart=1645)
-  * [![Enclosure Wall Mount 800x600x300mm, NXW5-8060/30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 800x600x300mm, NXW5-8060/30, Chint ₵2,410.00 ](https://store.automationghana.com/product/enclosure-nxw5-8060-30-chint/)
-[Add to cart](https://store.automationghana.com/product/pattress-box-neh1-202-chint/?add-to-cart=1568)
-  * [![din-rail-th35-7.5-chint](https://store.automationghana.com/wp-content/uploads/2020/04/din-rail-th35-7.5-chint-300x300.jpg)Din Rail-TH35-7.5, Chint ₵25.00 ](https://store.automationghana.com/product/din-rail-th35-7-5-chint/)
-[Add to cart](https://store.automationghana.com/product/pattress-box-neh1-202-chint/?add-to-cart=1562)
+  * [![Distribution Board, 4 Way, Surface, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 4 Way, Surface, NX9-4, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4-surface-chint/)
+[Add to cart](https://store.automationghana.com/product/pattress-box-neh1-202-chint/?add-to-cart=1704)
+  * [![Distribution Board \(Flush\), 16 Way, NX9-16M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board (Flush), 16 Way, NX9-16M, Chint ₵2,485.00 ](https://store.automationghana.com/product/dist-board-nx9-16m-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/pattress-box-neh1-202-chint/?add-to-cart=1701)
+  * [![Consumer Unit 8 Way, Metal, Recessed, NX8-8-J \(R\) Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit 8 Way, Metal, Recessed, NX8-8-J (R) Chint ₵280.00 ](https://store.automationghana.com/product/consumer-unit-nx8-8-j-r-chint/)
+[Add to cart](https://store.automationghana.com/product/pattress-box-neh1-202-chint/?add-to-cart=1647)
+  * [![Enclosure Wall Mount, 1200x800x380mm, NXW5-12080/38, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount, 1200x800x380mm, NXW5-12080/38, Chint ₵2,764.00 ](https://store.automationghana.com/product/enclosure-nxw5-12080-38-chint/)
+[Add to cart](https://store.automationghana.com/product/pattress-box-neh1-202-chint/?add-to-cart=1565)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

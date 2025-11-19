@@ -24,14 +24,20 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Contactor, 220-240V-3P, NXC-40, Chint
-[🔍](https://store.automationghana.com/product/contactor-nxc-40-230v-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/contactor-nxc-40-230v-chint/)
 [![Contactor, 220-240V-3P, NXC-40, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-40-230V.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NXC-40-230V.jpg)
-Sale!
 ####  Contactor, 220-240V-3P, NXC-40, Chint 
 **SKU :** Contactor, 220-240V-3P, NXC-40 
-~~₵ 400.00~~ Original price was: ₵400.00.₵354.00Current price is: ₵354.00.
-Item is sold per unit.
-Out of stock
+₵261.50
+This is mainly used for frequent starts and control of AC motors as well as remote circuit making /breaking and can also be combined with appropriate thermal overload relays to form electromagnetic starters.
+  * Coil rated voltage(V) : 230V
+  * Number of Poles(P) : 3P
+  * Current rate(A) : 40 A
+  * Frequency(Hz) : 50/60 Hz
+
+
+Contactor, 220-240V-3P, NXC-40, Chint quantity
+Add to cart
   * Pickup: Available today in our stores
 
 
@@ -43,20 +49,21 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-NXC-40 230V, Contactor 
-  * Amps: 40
-  * Number of Poles: 3
-  * Coil Voltage: 230V
+This is mainly used for frequent starts and control of AC motors as well as remote circuit making /breaking and can also be combined with appropriate thermal overload relays to form electromagnetic starters. 
+  * Coil rated voltage(V) : 230V
+  * Number of Poles(P) : 3P
+  * Current rate(A) : 40 A
+  * Frequency(Hz) : 50/60 Hz
 
 
 Related Products 
 ## Related products
-  * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-40-230v-chint/?add-to-cart=1598)
   * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
 [Add to cart](https://store.automationghana.com/product/contactor-nxc-40-230v-chint/?add-to-cart=1597)
-  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
-[Add to cart](https://store.automationghana.com/product/contactor-nxc-40-230v-chint/?add-to-cart=1593)
+  * [![Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-24VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-40-230v-chint/?add-to-cart=1595)
+  * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
+[Add to cart](https://store.automationghana.com/product/contactor-nxc-40-230v-chint/?add-to-cart=1537)
   * [![Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932133.png)Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera ₵115.00 ](https://store.automationghana.com/product/surface-mounted-socket-932133-solera/)
 [Add to cart](https://store.automationghana.com/product/contactor-nxc-40-230v-chint/?add-to-cart=1536)
 

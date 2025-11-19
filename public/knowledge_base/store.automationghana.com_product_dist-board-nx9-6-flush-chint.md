@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Enclosures and Junction Boxes](https://store.automationghana.com/product-category/enclosures-and-junction-boxes/) / Distribution Board, 6 Way, Flush, NX9-6, Chint
-[🔍](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/)
 [![Distribution Board, 6 Way, Flush, NX9-6, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint.jpg)
 ####  Distribution Board, 6 Way, Flush, NX9-6, Chint 
 **SKU :** NX9-6-FLUSH 
@@ -51,14 +51,14 @@ NX9-6, 6-Way Empty Distribution Board, Flush Type
 
 Related Products 
 ## Related products
-  * [![Distribution Board, 4 Way, Flush, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 4 Way, Flush, NX9-4, Chint ₵1,237.00 ](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/?add-to-cart=1703)
-  * [ Sale! ![Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint ~~₵ 1,901.00~~ Original price was: ₵1,901.00.₵1,630.00Current price is: ₵1,630.00. ](https://store.automationghana.com/product/enclosure-nxw5-7050-30-chint/)
-[Add to cart](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/?add-to-cart=1567)
-  * [![din-rail-th35-7.5-chint](https://store.automationghana.com/wp-content/uploads/2020/04/din-rail-th35-7.5-chint-300x300.jpg)Din Rail-TH35-7.5, Chint ₵25.00 ](https://store.automationghana.com/product/din-rail-th35-7-5-chint/)
-[Add to cart](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/?add-to-cart=1562)
-  * [![Distribution Board, 6 Way, Flush, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Flush, NX9-6M, Chint ₵488.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/?add-to-cart=1505)
+  * [![Distribution Board, 4 Way, Flush, NX9-4M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)Distribution Board, 4 Way, Flush, NX9-4M, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4m-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/?add-to-cart=1705)
+  * [![Distribution Board, 12 Way, 125A Incomer, Flush, NX9-12M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)Distribution Board, 12 Way, 125A Incomer, Flush, NX9-12M, Chint ₵1,954.00 ](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/)
+[Add to cart](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/?add-to-cart=1699)
+  * [![Distribution Board, 12 Way, 250A Incomer, Flush, NX9-12M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board, 12 Way, 250A Incomer, Flush, NX9-12M, Chint ₵2,111.00 ](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-250-chint/)
+[Add to cart](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/?add-to-cart=1700)
+  * [![Consumer Unit 8 Way, Metal, Recessed, NX8-8-J \(R\) Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit 8 Way, Metal, Recessed, NX8-8-J (R) Chint ₵280.00 ](https://store.automationghana.com/product/consumer-unit-nx8-8-j-r-chint/)
+[Add to cart](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/?add-to-cart=1647)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

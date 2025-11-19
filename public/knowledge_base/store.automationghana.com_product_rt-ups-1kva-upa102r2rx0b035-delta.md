@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / RT UPS, 1kVA, UPA102R2RX0B035, Delta
-[🔍](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/)
 [![RT UPS, 1kVA, UPA102R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen.jpg)
 ####  RT UPS, 1kVA, UPA102R2RX0B035, Delta 
 **SKU :** UPA102R2RX0B035 
@@ -45,14 +45,14 @@ Product Description
 RT 1kVA Gen 3, 230V, standard runtime model, 1A charger, inbuilt 2*battery
 Related Products 
 ## Related products
-  * [![UPS \(Amplon RT-3KVA\), UPA302R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)UPS (Amplon RT-3KVA), UPA302R2RX0B035, Delta ₵16,347.50 ](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/?add-to-cart=24752)
-  * [![UPS, 1kVA, UPA102N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 1kVA, UPA102N2NX0B035, Delta ₵6,980.00 ](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/?add-to-cart=24746)
-  * [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)2-Way Surface Mount Consumer Unit ₵52.00 ](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/?add-to-cart=1971)
+  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/photo_2025-08-21_10-59-29-300x287.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 60″, DCF-FS52920, Zhongshan Weiyu ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/?add-to-cart=24817)
+  * [![RT UPS, 6kVA, UPS602R2RT0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S-300x300.jpg)RT UPS, 6kVA, UPS602R2RT0B035, Delta ₵36,103.50 ](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/?add-to-cart=24753)
   * [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-300x300.jpg)Pattress Box NEH1-202 Chint ₵17.00 ](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
 [Add to cart](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/?add-to-cart=1832)
+  * [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-300x300.jpeg)Infrared Sensor, NEW7-G31100A, Chint ₵168.00 ](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/?add-to-cart=1753)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

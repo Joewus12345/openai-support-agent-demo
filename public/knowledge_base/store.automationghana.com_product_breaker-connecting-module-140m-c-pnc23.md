@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Breaker Connecting Module 140M-C-PNC23
-[🔍](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
-[![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23.jpg)![](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
+[![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23.jpg)
 ####  Breaker Connecting Module 140M-C-PNC23 
 **SKU :** 140M-C-PNC23 
 ₵198.00
@@ -52,12 +52,12 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
-[Add to cart](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/?add-to-cart=2983)
-  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
-[Add to cart](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/?add-to-cart=2981)
+  * [![Connecting Module 150-CC25](https://store.automationghana.com/wp-content/uploads/2020/12/150-CC25.jpg)Connecting Module 150-CC25 ₵166.00 ](https://store.automationghana.com/product/connecting-module-150-cc25/)
+[Add to cart](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/?add-to-cart=2987)
   * [![Auxiliary Contact 100-SB11](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB11 ₵270.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb11/)
 [Add to cart](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/?add-to-cart=2954)
+  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
+[Add to cart](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/?add-to-cart=2950)
   * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
 [Add to cart](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/?add-to-cart=2944)
 

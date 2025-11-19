@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / 5V, 2A Power Adapter with Standard USB Output
-[🔍](https://store.automationghana.com/product/5v-2a-power-adapter-with-standard-usb-output-2/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/5v-2a-power-adapter-with-standard-usb-output-2/)
 [![5V, 2A Power Adapter with Standard USB Output](https://store.automationghana.com/wp-content/uploads/2021/10/5V-2A-Power-Adapter-with-Standard-USB-Output.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/5V-2A-Power-Adapter-with-Standard-USB-Output.jpg)
 ####  5V, 2A Power Adapter with Standard USB Output 
 **SKU :** PWR-5V2A-ETAU9EBE 
@@ -51,14 +51,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
-[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-standard-usb-output-2/?add-to-cart=3590)
-  * [![WiFi-Operated 3 Phase Energy Meter and Contactor Control](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-3em-300x300.jpeg)WiFi-Operated 3 Phase Energy Meter and Contactor Control ₵1,499.24 ](https://store.automationghana.com/product/wifi-operated-3-phase-energy-meter-and-contactor-control/)
-[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-standard-usb-output-2/?add-to-cart=3304)
+  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
+[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-standard-usb-output-2/?add-to-cart=3583)
+  * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
+[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-standard-usb-output-2/?add-to-cart=3316)
   * [![WIFI IR Blaster](https://store.automationghana.com/wp-content/uploads/2021/03/images-4.jpg)WIFI IR Blaster ₵626.00 ](https://store.automationghana.com/product/ir-rf-universal-remote/)
 [Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-standard-usb-output-2/?add-to-cart=3293)
-  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
-[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-standard-usb-output-2/?add-to-cart=3252)
+  * [![F-CAM-Wireless IP PTZ Security Camera](https://store.automationghana.com/wp-content/uploads/2021/03/Sonoff-Wifi-Wireless-Security-Camera-GK-200mp2-B-300x300.jpg)F-CAM-Wireless IP PTZ Security Camera ₵1,266.00 ](https://store.automationghana.com/product/3209/)
+[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-standard-usb-output-2/?add-to-cart=3209)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

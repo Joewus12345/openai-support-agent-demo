@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / RCBO, NB1L-63 4P C63 30mA, Chint
-[🔍](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/)
-[![RCBO, NB1L-63 4P C63 30mA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/rcbo1.png)](https://store.automationghana.com/wp-content/uploads/2020/04/rcbo1.png)![RCBO, NB1L-63 4P C63 30mA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/rcbo1.png)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/)
+[![RCBO, NB1L-63 4P C63 30mA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/rcbo1.png)](https://store.automationghana.com/wp-content/uploads/2020/04/rcbo1.png)
 ####  RCBO, NB1L-63 4P C63 30mA, Chint 
 **SKU :** NB1L-63 4P C63 30mA 
 ₵356.00
@@ -52,14 +52,14 @@ NB1L-63 4P 63A 30mA, RCBO
 
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/?add-to-cart=1602)
-  * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
-[Add to cart](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/?add-to-cart=1598)
-  * [![Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC (S), Omron ₵72.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-24dc-s-omron/)
-[Add to cart](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/?add-to-cart=1601)
-  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
-[Add to cart](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/?add-to-cart=1533)
+  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/?add-to-cart=1603)
+  * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/?add-to-cart=1597)
+  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
+[Add to cart](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/?add-to-cart=1599)
+  * [![Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903131A.png)Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera ₵66.00 ](https://store.automationghana.com/product/industrial-socket-903131a-solera/)
+[Add to cart](https://store.automationghana.com/product/rcbo-nb1l-63-4p-c63-30ma-chint/?add-to-cart=1513)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

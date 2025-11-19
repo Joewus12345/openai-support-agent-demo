@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/valves/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -112,9 +104,9 @@ Provides precise control over fluid flow to optimize performance and reduce wast
 Lowers maintenance requirements and operational costs through robust construction and efficient design.
 ## Versatility
 Accommodates a wide range of fluid types and applications, making it suitable for various industrial processes.
-[ How Can We Help? ](https://automationghana.com/solutions/valves/#collapse-a0fd1106868a6b069bdb)
+[ How Can We Help? ](https://automationghana.com/solutions/valves/#collapse-a0fd110691c7a866acbb)
 We optimize your fluid control systems with our comprehensive range of valves tailored for the mining sector. Our solutions enhance efficiency and reliability in managing abrasive and general fluids, ensuring smooth operations and reduced downtime. Our expert team is ready to assist in selecting and integrating the right valves for your specific needs, providing ongoing support for optimal performance.
-[ What We Offer ](https://automationghana.com/solutions/valves/#collapse-3ee49346868a6b069bdb)
+[ What We Offer ](https://automationghana.com/solutions/valves/#collapse-3ee4934691c7a866acbb)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -124,7 +116,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/valves/#collapse-32d86556868a6b069bdb)
+[ Hardware and Software ](https://automationghana.com/solutions/valves/#collapse-32d8655691c7a866acbb)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -137,7 +129,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/valves/#collapse-62ecacd6868a6b069bdb)
+[ Services ](https://automationghana.com/solutions/valves/#collapse-62ecacd691c7a866acbb)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -148,12 +140,16 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
 
 
 ## Explore Other Solutions
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Motor Control Center (MCC)
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/motor-control-center/)
 ![pexels-hannu-iso-oja-3301403-4946886](https://automationghana.com/wp-content/uploads/2024/10/pexels-hannu-iso-oja-3301403-4946886-scaled.jpg)
 ##### Crusher and Conveyor Monitoring
 Optimize energy consumption and ensure seamless operation in crushing and conveyor systems for mining and cement plants. Our advanced monitoring solutions prevent crusher overfill, reduce downtime, and help maintain smooth, efficient processes. These systems offer real-time data integration and alarm systems to help you maintain critical operations.
 [ Learn More ](https://automationghana.com/solutions/tagg-conveyor-monitoring-solution/)
 ![Pipeline and Transportation](https://automationghana.com/wp-content/uploads/2024/09/Pipeline-and-Transportation.jpg)
-##### Pipeline & Transportation
+##### Pipeline & Transportation Monitoring
 In the mining sector, efficient pipeline and transportation operations are crucial for optimizing resource management and reducing operational costs. Our solutions offer advanced pipeline automation that incorporates the latest best practices to ensure seamless and reliable operations.
 [ Learn More ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/)
 ![Flotation](https://automationghana.com/wp-content/uploads/2024/08/Flotation.jpg)

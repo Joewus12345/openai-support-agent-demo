@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Automation & Drives](https://store.automationghana.com/product-category/industrial-automation/) / Temperature Controller, 0/4-20mA Current Output, 3 Aux, E5CC-CX3A5M-004, Omron
-[🔍](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/)
 [![Temperature Controller, 0/4-20mA Current Output, 3 Aux, E5CC-CX3A5M-004, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/PID-Temperature-Controller-E5CC-CX3A5M-004-Omron.png)](https://store.automationghana.com/wp-content/uploads/2020/04/PID-Temperature-Controller-E5CC-CX3A5M-004-Omron.png)
 ####  Temperature Controller, 0/4-20mA Current Output, 3 Aux, E5CC-CX3A5M-004, Omron 
 **SKU :** E5CC-CX3A5M-004 
@@ -53,14 +53,14 @@ E5CC-CX3A5M-004, Temperature Controller
 
 Related Products 
 ## Related products
+  * [![Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-RX3A5M.jpg)Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron ₵775.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/)
+[Add to cart](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/?add-to-cart=1590)
+  * [![MX Inverter Drive 400VAC, 5.5kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 5.5kW, 3Phase ₵9,706.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/?add-to-cart=1580)
   * [![Inverter Drive\(MX\), 1.5kW, 4.8/5.4A , 3~Phase, 400 VAC, 3G3MX2-A4015-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 1.5kW, 4.8/5.4A , 3~Phase, 400 VAC, 3G3MX2-A4015-E CHN, Omron ₵4,990.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4015-e-chn-omron/)
 [Add to cart](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/?add-to-cart=1576)
-  * [![Inverter Drive\(MX\), 0.75kW, 3.4/4.1A , 3~Phase, 400 VAC, 3G3MX2-A4007-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 0.75kW, 3.4/4.1A , 3~Phase, 400 VAC, 3G3MX2-A4007-E CHN, Omron ₵4,267.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4007-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/?add-to-cart=1575)
-  * [![MX Inverter Drive 400VAC, 2.2kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 2.2kW, 3Phase ₵5,443.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4022-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/?add-to-cart=1577)
-  * [![Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/NB3Q_640px-300x300.jpg)Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron ₵3,126.00 ](https://store.automationghana.com/product/human-machine-interface-nb3q-tw01b-omron/)
-[Add to cart](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/?add-to-cart=1572)
+  * [![Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W-AD041_640px-300x300.jpg)Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron ₵1,767.00 ](https://store.automationghana.com/product/i-o-expansion-unit-4ai-cp1wad041-1-omron/)
+[Add to cart](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/?add-to-cart=1574)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

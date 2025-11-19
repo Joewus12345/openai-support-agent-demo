@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / UPS, 3kVA, UPA302N2NX0B035, Delta
-[🔍](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
 [![UPS, 3kVA, UPA302N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3.jpg)
 ####  UPS, 3kVA, UPA302N2NX0B035, Delta 
 **SKU :** UPA302N2NX0B035 
@@ -45,14 +45,14 @@ Product Description
 N 3kVA Gen 3, 230V, 1A charger, inbuilt 6*battery
 Related Products 
 ## Related products
-  * [![RCA Female Socket Connector](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-FEMALE-CONNECTOR.jpg)RCA Female Socket Connector ₵4.00 ](https://store.automationghana.com/product/rca-female-socket-connector/)
-[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=3637)
-  * [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)2-Way Surface Mount Consumer Unit ₵52.00 ](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
-[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=1971)
-  * [![Pattress Box NEH1-201 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x3-patress-surface-300x300.jpg)Pattress Box NEH1-201 Chint ₵12.00 ](https://store.automationghana.com/product/pattress-box-neh1-201-chint/)
-[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=1831)
-  * [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-300x300.jpeg)Infrared Sensor, NEW7-G31100A, Chint ₵168.00 ](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
-[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=1753)
+  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/photo_2025-08-21_10-59-29-300x287.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 60″, DCF-FS52920, Zhongshan Weiyu ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=24817)
+  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 42", IBCF-C03, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/31GqGkJyvuL._AC_US750_-300x300.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 42″, IBCF-C03, Zhongshan Weiyu ~~₵ 2,099.50~~ Original price was: ₵2,099.50.₵1,747.00Current price is: ₵1,747.00. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-42-ibcf-c03-zhongshan-weiyu/)
+[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=24814)
+  * [![Venting Fans, NEF1-100, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-100, Chint ₵432.00 ](https://store.automationghana.com/product/venting-fans-nef1-100-chint/)
+[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=1919)
+  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
+[Add to cart](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/?add-to-cart=1503)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

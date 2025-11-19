@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Enclosures and Junction Boxes](https://store.automationghana.com/product-category/enclosures-and-junction-boxes/) / Distribution Board, 6 Way, Flush, NX9-6M, Chint
-[🔍](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/)
 [![Distribution Board, 6 Way, Flush, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786.jpg)](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786.jpg)
 ####  Distribution Board, 6 Way, Flush, NX9-6M, Chint 
 **SKU :** NX9-6M FLUSH 
@@ -51,14 +51,14 @@ NX9-6M, Distribution Board, 6-Way, Flush Type
 
 Related Products 
 ## Related products
-  * [![Consumer Unit 18 Way, NX2-18, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX2-18-300x300.jpg)Consumer Unit 18 Way, NX2-18, Chint ₵763.00 ](https://store.automationghana.com/product/consumer-unit-nx2-18-chint/)
-[Add to cart](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/?add-to-cart=1644)
-  * [![Consumer Unit, 8-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 8-Way ₵254.00 ](https://store.automationghana.com/product/consumer-unit-nx8-8-r-chint/)
-[Add to cart](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/?add-to-cart=1646)
-  * [![Distribution Board, 6 Way, Surface, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Surface, NX9-6M, Chint ₵1,514.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/?add-to-cart=1506)
-  * [![Distribution Board\(Flush\), 8 Way, NX9-8M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board(Flush), 8 Way, NX9-8M, Chint ₵1,800.00 ](https://store.automationghana.com/product/dist-board-nx9-8m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/?add-to-cart=1504)
+  * [![Distribution Board, 12 Way, 125A Incomer, Flush, NX9-12M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)Distribution Board, 12 Way, 125A Incomer, Flush, NX9-12M, Chint ₵1,954.00 ](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/)
+[Add to cart](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/?add-to-cart=1699)
+  * [![Distribution Board, 12 Way, 250A Incomer, Flush, NX9-12M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board, 12 Way, 250A Incomer, Flush, NX9-12M, Chint ₵2,111.00 ](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-250-chint/)
+[Add to cart](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/?add-to-cart=1700)
+  * [![Distribution Board \(Flush\), 16 Way, NX9-16M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board (Flush), 16 Way, NX9-16M, Chint ₵2,485.00 ](https://store.automationghana.com/product/dist-board-nx9-16m-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/?add-to-cart=1701)
+  * [![din-rail-th35-7.5-chint](https://store.automationghana.com/wp-content/uploads/2020/04/din-rail-th35-7.5-chint-300x300.jpg)Din Rail-TH35-7.5, Chint ₵25.00 ](https://store.automationghana.com/product/din-rail-th35-7-5-chint/)
+[Add to cart](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/?add-to-cart=1562)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

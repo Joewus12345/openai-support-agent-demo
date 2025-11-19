@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Automation & Drives](https://store.automationghana.com/product-category/industrial-automation/) / Inverter Drive (RX), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron
-[🔍](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/)
 [![Inverter Drive \(RX\), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1.jpg)
 ####  Inverter Drive (RX), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron 
 **SKU :** 3G3RX-A4450-E1F CHN 
@@ -56,14 +56,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Inverter Drive \(RX\), 22kW, 48A, 3-Phase, 400 VAC, 3G3RX-A4220-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 22kW, 48A, 3-Phase, 400 VAC, 3G3RX-A4220-E1F CHN, Omron ₵16,727.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4220-e1f-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/?add-to-cart=1587)
-  * [![Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-Omron-temp-controller-300x300.jpg)Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron ₵953.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/)
-[Add to cart](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/?add-to-cart=1591)
-  * [![Temperature Controller, 12VDC, Pulse Output, 3 Aux, E5CC-QX3A5M-000, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-Omron-temp-controller-300x300.jpg)Temperature Controller, 12VDC, Pulse Output, 3 Aux, E5CC-QX3A5M-000, Omron ₵997.00 ](https://store.automationghana.com/product/pid-temperature-controller-e5cc-qx3a5m-000-omron/)
-[Add to cart](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/?add-to-cart=1585)
+  * [![Inverter Drive \(RX\), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron ₵46,785.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4370-e1f-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/?add-to-cart=1588)
+  * [![Inverter Drive\(A1000\), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CIMR-A-A1000-Variable-Freq-Drive.png)Inverter Drive(A1000), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron ₵4,913.00 ](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/)
+[Add to cart](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/?add-to-cart=1571)
   * [![Input/Output Expansion Unit, Digital, 5-24VDC, CP1W40EDR.1, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W4EDR-IO-EXPANSION-UNIT-300x300.jpg)Input/Output Expansion Unit, Digital, 5-24VDC, CP1W40EDR.1, Omron ₵2,424.00 ](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/)
 [Add to cart](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/?add-to-cart=1573)
+  * [![Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W-AD041_640px-300x300.jpg)Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron ₵1,767.00 ](https://store.automationghana.com/product/i-o-expansion-unit-4ai-cp1wad041-1-omron/)
+[Add to cart](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/?add-to-cart=1574)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Relay Socket, 11-Pin, 10A, PF113A-E Omron
-[🔍](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/)
-[![Relay Socket, 11-Pin, 10A, PF113A-E Omron](https://store.automationghana.com/wp-content/uploads/2020/04/relay-base-11-pin.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/relay-base-11-pin.jpg)![Relay Socket, 11-Pin, 10A, PF113A-E Omron](https://store.automationghana.com/wp-content/uploads/2020/04/relay-base-11-pin.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/)
+[![Relay Socket, 11-Pin, 10A, PF113A-E Omron](https://store.automationghana.com/wp-content/uploads/2020/04/relay-base-11-pin.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/relay-base-11-pin.jpg)
 ####  Relay Socket, 11-Pin, 10A, PF113A-E Omron 
 **SKU :** PF113A-E 
 ₵26.00
@@ -53,14 +53,14 @@ PF113A-E 11 Pin Relay Socket
 
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint ₵44.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-24vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/?add-to-cart=1604)
-  * [![Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC (S), Omron ₵44.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-12vdc-s-omron/)
-[Add to cart](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/?add-to-cart=1600)
-  * [![Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-12VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint ₵46.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/)
-[Add to cart](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/?add-to-cart=1596)
-  * [![Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932133.png)Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera ₵115.00 ](https://store.automationghana.com/product/surface-mounted-socket-932133-solera/)
-[Add to cart](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/?add-to-cart=1536)
+  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/?add-to-cart=1602)
+  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/?add-to-cart=1592)
+  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
+[Add to cart](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/?add-to-cart=1593)
+  * [![Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera ₵60.00 ](https://store.automationghana.com/product/plug-902131a-solera/)
+[Add to cart](https://store.automationghana.com/product/relay-socket-pf113a-e-omron/?add-to-cart=1523)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

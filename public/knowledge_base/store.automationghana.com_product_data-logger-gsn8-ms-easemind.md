@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Data Logger-GSN8-MS, Easemind
-[🔍](https://store.automationghana.com/product/data-logger-gsn8-ms-easemind/)
-[![Data Logger-GSN8-MS, Easemind](https://store.automationghana.com/wp-content/uploads/2024/10/Data-Logger-GSN8-MS-Easemind.jpg)](https://store.automationghana.com/wp-content/uploads/2024/10/Data-Logger-GSN8-MS-Easemind.jpg)![Data Logger-GSN8-MS, Easemind](https://store.automationghana.com/wp-content/uploads/2024/10/Data-Logger-GSN8-MS-Easemind.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/data-logger-gsn8-ms-easemind/)
+[![Data Logger-GSN8-MS, Easemind](https://store.automationghana.com/wp-content/uploads/2024/10/Data-Logger-GSN8-MS-Easemind.jpg)](https://store.automationghana.com/wp-content/uploads/2024/10/Data-Logger-GSN8-MS-Easemind.jpg)
 ####  Data Logger-GSN8-MS, Easemind 
 **SKU :** GSN8-MS 
 ₵5,276.00
@@ -45,14 +45,14 @@ Product Description
 GPRS Data Logger [GSX8-MS / GSX8-HV] 1. GSM Quad Band Module 2. 4MB Internal Data Logging Memory w/SD Memory Card Expansion Slot 3. Data & Alarm via GPRS, SMS & Ethernet 4. Mobile Phone SMS Alarm 5. Programmable Data Upload Interval as fast as 5s 6. Programmable Data Logging Interval 7. Multi-I/O Channels: temperature, humidity, analog, digital, pulse channels or RS232/485 Modbus 8. Digital Alarm Input & Relay Output 9. Up to 11 temperature sensors
 Related Products 
 ## Related products
-  * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
-[Add to cart](https://store.automationghana.com/product/data-logger-gsn8-ms-easemind/?add-to-cart=2969)
+  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
+[Add to cart](https://store.automationghana.com/product/data-logger-gsn8-ms-easemind/?add-to-cart=2967)
+  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
+[Add to cart](https://store.automationghana.com/product/data-logger-gsn8-ms-easemind/?add-to-cart=2961)
+  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
+[Add to cart](https://store.automationghana.com/product/data-logger-gsn8-ms-easemind/?add-to-cart=2950)
   * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
 [Add to cart](https://store.automationghana.com/product/data-logger-gsn8-ms-easemind/?add-to-cart=2948)
-  * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
-[Add to cart](https://store.automationghana.com/product/data-logger-gsn8-ms-easemind/?add-to-cart=2944)
-  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
-[Add to cart](https://store.automationghana.com/product/data-logger-gsn8-ms-easemind/?add-to-cart=2939)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

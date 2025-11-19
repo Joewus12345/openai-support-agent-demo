@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / RCA Female Socket Connector
-[🔍](https://store.automationghana.com/product/rca-female-socket-connector/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/rca-female-socket-connector/)
 [![RCA Female Socket Connector](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-FEMALE-CONNECTOR.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-FEMALE-CONNECTOR.jpg)
 ####  RCA Female Socket Connector 
 **SKU :** RCA FEMALE CONNECTOR 
@@ -51,14 +51,14 @@ RCA Female Socket Connector
 
 Related Products 
 ## Related products
-  * [![Pattress Box-NEH1-004A, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box-NEH1-004A, Chint ₵12.00 ](https://store.automationghana.com/product/recessed-mounting-box/)
-[Add to cart](https://store.automationghana.com/product/rca-female-socket-connector/?add-to-cart=3373)
-  * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵15.00 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
-[Add to cart](https://store.automationghana.com/product/rca-female-socket-connector/?add-to-cart=1830)
-  * [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-300x300.jpeg)Infrared Sensor, NEW7-G31100A, Chint ₵168.00 ](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
-[Add to cart](https://store.automationghana.com/product/rca-female-socket-connector/?add-to-cart=1753)
-  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
-[Add to cart](https://store.automationghana.com/product/rca-female-socket-connector/?add-to-cart=1503)
+  * [![UPS, 3kVA, UPA302N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 3kVA, UPA302N2NX0B035, Delta ₵9,432.00 ](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/rca-female-socket-connector/?add-to-cart=24749)
+  * [![UPS, 1kVA, UPA102N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 1kVA, UPA102N2NX0B035, Delta ₵6,980.00 ](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/rca-female-socket-connector/?add-to-cart=24746)
+  * [![Venting Fans, NEF1-100, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-100, Chint ₵432.00 ](https://store.automationghana.com/product/venting-fans-nef1-100-chint/)
+[Add to cart](https://store.automationghana.com/product/rca-female-socket-connector/?add-to-cart=1919)
+  * [![Pattress Box NEH1-201 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x3-patress-surface-300x300.jpg)Pattress Box NEH1-201 Chint ₵12.00 ](https://store.automationghana.com/product/pattress-box-neh1-201-chint/)
+[Add to cart](https://store.automationghana.com/product/rca-female-socket-connector/?add-to-cart=1831)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

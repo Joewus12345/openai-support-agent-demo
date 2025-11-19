@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/smart-home-solutions/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -165,13 +157,13 @@ Our Smart Home technology brings a new level of audio enjoyment, ensuring that w
 With Smart Home solutions, luxury and convenience seamlessly blend into your daily life. Imagine adjusting your curtains with a simple tap on your smartphone, automating them to welcome the morning sun or close at dusk for privacy. 
 ## Transform your living space into a dynamic environment that caters to every aspect of your life, making it not just a home, but a smart haven 
 Elevate your living and bedroom ambiance with colored lighting that adapts to your mood, occasion, or time of day—effortlessly shifting from a cozy movie night to vibrant party vibes. Our Smart Home system allows you to indulge in various themes like Theater, Sleep/Wake Up, Romantic or Party Moods, while also offering Energy Saver and Security Modes for efficiency and peace of mind. 
-[ How Can We Help? ](https://automationghana.com/solutions/smart-home-solutions/#collapse-a0fd1106868a74201d63)
+[ How Can We Help? ](https://automationghana.com/solutions/smart-home-solutions/#collapse-a0fd110691c92b4463cd)
   * We deploy our solution in conformance to international standards and protocols ensuring interoperability with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/smart-home-solutions/#collapse-3ee49346868a74201d63)
+[ What We Offer ](https://automationghana.com/solutions/smart-home-solutions/#collapse-3ee4934691c92b4463cd)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -181,7 +173,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/smart-home-solutions/#collapse-32d86556868a74201d63)
+[ Hardware and Software ](https://automationghana.com/solutions/smart-home-solutions/#collapse-32d8655691c92b4463cd)
   * Xye Master
   * Internet Router
   * Rack Cabinet
@@ -197,7 +189,7 @@ We offer after sales support services including:
   * Apple Homekit
 
 
-[ Services ](https://automationghana.com/solutions/smart-home-solutions/#collapse-62ecacd6868a74201d63)
+[ Services ](https://automationghana.com/solutions/smart-home-solutions/#collapse-62ecacd691c92b4463cd)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -243,13 +235,13 @@ We offer manual and automatic transfer switches from Up to 6300A with basic to c
 Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities.
 [ Learn More ](https://automationghana.com/solutions/cctv-surveillance-solutions/)
 ![Fire Alarm with Strobe](https://automationghana.com/wp-content/uploads/2024/08/fire-alarm-with-strobe.jpg)
-##### Fire Detection and Alarming
+##### Fire Detection Systems: 7 Ways We Keep Your Facility Safe
 Our Fire Detection and Alarming system is a tried and tested, top of the range solution incorporating addressable heat, smoke and flame sensors with anti-electromagnetic interference capabilities to reduce nuisance alarms and improve accuracy. 
 [ Learn More ](https://automationghana.com/solutions/fire-detection-and-alarming/)
 ![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
-##### Power Distribution Boards
+##### Power Distribution Panel
 Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
-[ Learn More ](https://automationghana.com/solutions/power-distribution-boards/)
+[ Learn More ](https://automationghana.com/solutions/power-distribution-panel/)
 ![Website-Banner-solar-1](https://automationghana.com/wp-content/uploads/2024/04/Website-Banner-solar-1.jpg)
 ##### Solar PV Systems
 Consider investing in a reliable cost effective Solar PV system. Find out how you can start small with a back up solution and scale up to a completely off-grid system and make significant savings on your energy budget. 

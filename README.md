@@ -336,14 +336,25 @@ When using the `ollama` provider you need a local server running.
    ./scripts/setup_crawler_envs.sh
    ```
 
-   The setup command provisions `.venv-c4ai-v1` for
-   `crawl4AI-agent/requirements.txt` and `.venv-c4ai-v2` for
-   `crawl4AI-agent-v2/requirements.txt`, sourcing `.env.scrapers` (or your
-   overridden copy) before activating each virtual environment so values like
-   `AUTOMATION_BASE_URL` or `WOOCOMMERCE_API_BASE` are available to the scraper
-   runtime. During creation the script also runs
-   `playwright install --with-deps chromium` inside each environment to satisfy
-   the `AsyncWebCrawler` headless requirements.
+  The setup command provisions `.venv-c4ai-v1` for
+  `crawl4AI-agent/requirements.txt` and `.venv-c4ai-v2` for
+  `crawl4AI-agent-v2/requirements.txt`, then injects a hook into every
+  activation script (`bin/activate`, `Scripts/activate`,
+  `Scripts/activate.bat`, and `Scripts/Activate.ps1`) so `.env.scrapers` is
+  sourced each time you activate either environment. Editing `.env.scrapers`
+  therefore changes values like `AUTOMATION_BASE_URL` or `WOOCOMMERCE_API_BASE`
+  for the next shell session without re-running the helper. During creation
+  the script also installs Playwright’s Chromium build inside each environment,
+  using `--with-deps` automatically on Linux and the regular `install chromium`
+  command on Windows/macOS so headless `AsyncWebCrawler` launches succeed on
+  every OS.
+
+  Every crawler example (both `crawl4AI-agent` and `crawl4AI-agent-v2`) now
+  writes Markdown into `public/knowledge_base`, so once you activate a venv and
+  run something like `python crawl4AI-agent/crawl4AI-examples/2-crawl_docs_sequential.py`
+  the resulting `.md` files land next to the rest of the RAG assets without any
+  manual copying. The directory is created automatically if it doesn’t already
+  exist.
 
 ## Demo Flow
 

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / MCCB 180A 3P, NM1-250S/3300, Chint
-[🔍](https://store.automationghana.com/product/mccb-180a-3p-nm1-250s-3300-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mccb-180a-3p-nm1-250s-3300-chint/)
 [![MCCB 180A 3P, NM1-250S/3300, Chint](https://store.automationghana.com/wp-content/uploads/2024/05/CHINT-Moulded-Case-Circuit-Breaker-NM1-250S-3300-3-poles-MCCB-100A-125A-160A-180A-200A.jpg_-600x600.webp)](https://store.automationghana.com/wp-content/uploads/2024/05/CHINT-Moulded-Case-Circuit-Breaker-NM1-250S-3300-3-poles-MCCB-100A-125A-160A-180A-200A.jpg_.webp)
 ####  MCCB 180A 3P, NM1-250S/3300, Chint 
 **SKU :** NM1-250S/3300 180A 
@@ -45,14 +45,14 @@ Product Description
 Brand Name : Chint Type of Product : Fixed Type Thermal Magnetic MCCB Current Rating : 180 Amp No. of Pole : 3 Pole Model No : NM1-250S/3300
 Related Products 
 ## Related products
-  * [![MCB 63A 1P, NXB-63 1P C63 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-1P-300x300.jpg)MCB 63A 1P, NXB-63 1P C63 6kA, Chint ₵37.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-180a-3p-nm1-250s-3300-chint/?add-to-cart=1782)
-  * [![Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint ₵1,722.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-63-4csw-enc-bar-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-180a-3p-nm1-250s-3300-chint/?add-to-cart=1758)
-  * [![Manual Changeover Switch, 32A, 2P](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32-300x300.jpg)Manual Changeover Switch, 32A, 2P ₵95.00 ](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-180a-3p-nm1-250s-3300-chint/?add-to-cart=1759)
+  * [![MCB, C63A-2P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-2P-300x300.jpg)MCB, C63A-2P-6kA, NXB-63, Chint ₵78.50 ](https://store.automationghana.com/product/mcb-nxb-63-2p-c63-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-180a-3p-nm1-250s-3300-chint/?add-to-cart=1783)
+  * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-180a-3p-nm1-250s-3300-chint/?add-to-cart=1779)
   * [![AVR, 20KVA-1 Phase, TND1\(SVC\)-20/AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-20_AF-300x300.png)AVR, 20KVA-1 Phase, TND1(SVC)-20/AF, Chint ₵10,925.00 ](https://store.automationghana.com/product/avr-tnd1svc-20-af-chint/)
 [Add to cart](https://store.automationghana.com/product/mccb-180a-3p-nm1-250s-3300-chint/?add-to-cart=1636)
+  * [![Automatic Changeover Switch, 63A, NZ7-125H/4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover Switch, 63A, NZ7-125H/4, Chint ₵2,731.00 ](https://store.automationghana.com/product/automatic-changeover-switch-nz7-125h-4-63a-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-180a-3p-nm1-250s-3300-chint/?add-to-cart=1627)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

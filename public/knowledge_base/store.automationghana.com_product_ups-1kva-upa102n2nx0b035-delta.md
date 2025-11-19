@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / UPS, 1kVA, UPA102N2NX0B035, Delta
-[🔍](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/)
 [![UPS, 1kVA, UPA102N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3.jpg)
 ####  UPS, 1kVA, UPA102N2NX0B035, Delta 
 **SKU :** UPA102N2NX0B035 
@@ -45,14 +45,14 @@ Product Description
 N 1kVA Gen 3, 230V, 1A charger, inbuilt 2*battery
 Related Products 
 ## Related products
-  * [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)2-Way Surface Mount Consumer Unit ₵52.00 ](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
-[Add to cart](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/?add-to-cart=1971)
-  * [![Venting Fans, NEF1-100, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-100, Chint ₵432.00 ](https://store.automationghana.com/product/venting-fans-nef1-100-chint/)
-[Add to cart](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/?add-to-cart=1919)
-  * [![Patress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Patress Box 3 x 3, NEH1-001A Chint ₵13.00 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
+  * [![RT UPS, 6kVA, UPS602R2RT0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S-300x300.jpg)RT UPS, 6kVA, UPS602R2RT0B035, Delta ₵36,103.50 ](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/?add-to-cart=24753)
+  * [![RCA Female Socket Connector](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-FEMALE-CONNECTOR.jpg)RCA Female Socket Connector ₵4.00 ](https://store.automationghana.com/product/rca-female-socket-connector/)
+[Add to cart](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/?add-to-cart=3637)
+  * [![Pattress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box 3 x 3, NEH1-001A Chint ₵7.50 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
 [Add to cart](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/?add-to-cart=1829)
-  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
-[Add to cart](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/?add-to-cart=1503)
+  * [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-300x300.jpg)Pattress Box NEH1-202 Chint ₵17.00 ](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
+[Add to cart](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/?add-to-cart=1832)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

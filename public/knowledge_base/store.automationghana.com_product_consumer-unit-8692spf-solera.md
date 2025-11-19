@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / 2-Way Surface Mount Consumer Unit
-[🔍](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
 [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)
 ####  2-Way Surface Mount Consumer Unit 
 **SKU :** 8692SPF Solera 
@@ -52,12 +52,12 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Ceiling Fan, 48", 65W](https://store.automationghana.com/wp-content/uploads/2022/04/FC-120-3-2.jpg)Ceiling Fan, 48″, 65W ₵452.00 ](https://store.automationghana.com/product/ceiling-fan-48-65w/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=4472)
+  * [![UPS \(Amplon RT-3KVA\), UPA302R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)UPS (Amplon RT-3KVA), UPA302R2RX0B035, Delta ₵16,347.50 ](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=24752)
   * [![Pattress Box-NEH1-004A, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box-NEH1-004A, Chint ₵12.00 ](https://store.automationghana.com/product/recessed-mounting-box/)
 [Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=3373)
-  * [![Patress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Patress Box 3 x 3, NEH1-001A Chint ₵13.00 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=1829)
+  * [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-300x300.jpeg)Infrared Sensor, NEW7-G31100A, Chint ₵168.00 ](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=1753)
   * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
 [Add to cart](https://store.automationghana.com/product/consumer-unit-8692spf-solera/?add-to-cart=1503)
 
