@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / Zone-Beast Control Module-SB-ZMix23-DN, Smarthome
-[🔍](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
-[![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600.jpg)![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
+[![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600.jpg)
 ####  Zone-Beast Control Module-SB-ZMix23-DN, Smarthome 
 **SKU :** SB-ZMix23-DN 
 ₵2,836.00
@@ -46,14 +46,14 @@ Product Description
 SB-ZMix23-DN, Zone-Beast 23 port mix Control Module
 Related Products 
 ## Related products
-  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
-[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3594)
-  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
-[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3590)
-  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
-[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3583)
-  * [![1 Channel WIFI Metering Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/shelly1pm_x1-1000x1000-1-1-300x300.jpg)1 Channel WIFI Metering Relay Switch ₵560.00 ](https://store.automationghana.com/product/wifi-operated-relay-switch-16-a-with-power-measurement/)
-[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3302)
+  * [![F-DIN Rail Tray](https://store.automationghana.com/wp-content/uploads/2021/10/F-DIN-Rail-Tray.jpg)F-DIN Rail Tray ₵71.00 ](https://store.automationghana.com/product/f-din-rail-tray/)
+[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3597)
+  * [![F-RF Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/F-RF-Door-Window-Sensor.jpg)F-RF Door & Window Sensor ₵282.00 ](https://store.automationghana.com/product/f-rf-door-window-sensor/)
+[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3586)
+  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
+[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3313)
+  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
+[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3252)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

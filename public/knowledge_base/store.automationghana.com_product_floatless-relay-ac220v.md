@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Floatless Relay-NJB1-YW AC220V, Chint
-[🔍](https://store.automationghana.com/product/floatless-relay-ac220v/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/floatless-relay-ac220v/)
 [![Floatless Relay-NJB1-YW AC220V, Chint](https://store.automationghana.com/wp-content/uploads/2021/04/Floatless-Relay-NJB1-YW-AC220V.jpg)](https://store.automationghana.com/wp-content/uploads/2021/04/Floatless-Relay-NJB1-YW-AC220V.jpg)
 ####  Floatless Relay-NJB1-YW AC220V, Chint 
 **SKU :** NJB1-YW AC220V 
@@ -51,12 +51,12 @@ NJB1-YW Liquid Floatless Relay is applicable for water level automatic control i
 
 Related Products 
 ## Related products
-  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
-[Add to cart](https://store.automationghana.com/product/floatless-relay-ac220v/?add-to-cart=1533)
-  * [![Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902154A.png)Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera ₵108.00 ](https://store.automationghana.com/product/industrial-plug-902154a-solera/)
-[Add to cart](https://store.automationghana.com/product/floatless-relay-ac220v/?add-to-cart=1511)
-  * [![Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902454A.png)Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera ₵204.00 ](https://store.automationghana.com/product/industrial-plug-902454a-solera/)
-[Add to cart](https://store.automationghana.com/product/floatless-relay-ac220v/?add-to-cart=1512)
+  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/floatless-relay-ac220v/?add-to-cart=1602)
+  * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/floatless-relay-ac220v/?add-to-cart=1597)
+  * [![Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-12VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint ₵46.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/)
+[Add to cart](https://store.automationghana.com/product/floatless-relay-ac220v/?add-to-cart=1596)
   * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
 [Add to cart](https://store.automationghana.com/product/floatless-relay-ac220v/?add-to-cart=1514)
 

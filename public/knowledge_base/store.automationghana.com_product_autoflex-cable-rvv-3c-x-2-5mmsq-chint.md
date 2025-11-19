@@ -23,14 +23,20 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Autoflex Cable Rvv-3C X 2.5mmsq Chint
-[🔍](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/)
-[![Autoflex Cable Rvv-3C X 2.5mmsq Chint](https://store.automationghana.com/wp-content/uploads/2020/04/RVV-3C-X-2.5MMSQ-600x463.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/RVV-3C-X-2.5MMSQ.jpg)
-####  Autoflex Cable Rvv-3C X 2.5mmsq Chint 
-**SKU :** RVV-3C X 2.5MMSQ 
-₵18.00
-Cable is sold per meter.
-Autoflex Cable Rvv-3C X 2.5mmsq Chint quantity
+[Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Autoflex Cable (Grey), JZ-500-3Cx1.5mm², 10091, Helukabel
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/)
+[![Autoflex Cable \(Grey\), JZ-500-3Cx1.5mm², 10091, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-Cable-Grey-JZ-500-3Cx1.5mm²-10091-Helukabel.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-Cable-Grey-JZ-500-3Cx1.5mm²-10091-Helukabel.jpg)
+####  Autoflex Cable (Grey), JZ-500-3Cx1.5mm², 10091, Helukabel 
+**SKU :** Autoflex Cable (Grey), JZ-500-3Cx1.5mm², 10091 
+₵11.60
+This is a flexible control cable renowned for its durability and reliability in industrial settings. Its main features include oil and chemical resistance as well as a high degree of flexibility and is typically used for machine tool, conveyor, and plant equipment applications where precise cable routing is essential.
+  * Cross section : 1.50mm²
+  * Cable features : Flexible ,Oil-resistant ,Flame-retardant, chemical-resistant
+  * Colour : Grey
+  * Insulation material : PVC
+
+
+Autoflex Cable (Grey), JZ-500-3Cx1.5mm², 10091, Helukabel quantity
 Add to cart
   * Pickup: Available today in our stores
 
@@ -43,17 +49,23 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-Rvv-3C X 2.5mmsq, Autoflex Cable 
+This is a flexible control cable renowned for its durability and reliability in industrial settings. Its main features include oil and chemical resistance as well as a high degree of flexibility and is typically used for machine tool, conveyor, and plant equipment applications where precise cable routing is essential. 
+  * Cross section : 1.50mm²
+  * Cable features : Flexible ,Oil-resistant ,Flame-retardant, chemical-resistant
+  * Colour : Grey
+  * Insulation material : PVC
+
+
 Related Products 
 ## Related products
-  * [![Autoflex Cable \(Black\), H07V-K-1Cx25mm², 29225, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx25mm², 29225, Helukabel ₵63.00 ](https://store.automationghana.com/product/autoflex-cable-29225-h07v-k-1cx25-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1480)
-  * [![Autoflex Cable \(Black\), H07V-K-1Cx16mm², 29209, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx16mm², 29209, Helukabel ₵38.00 ](https://store.automationghana.com/product/autoflex-cable-29209-h07v-k-1cx16-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1478)
-  * [![Autoflex Cable-29178-H07V-K-1Cx6 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable-29178-H07V-K-1Cx6 Y/G, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29178-h07v-k-1cx6-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1472)
-  * [![Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29177-h07v-k-1cx6-blk-helukabel/)
+  * [![Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey](https://store.automationghana.com/wp-content/uploads/2020/04/CAT-6-FTP-300x300.jpg)Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey ₵22.00 ](https://store.automationghana.com/product/cat-6-cable-802174-u-ftp-4cx2xawg-26-7-pvc-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1487)
+  * [![Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel ₵38.00 ](https://store.automationghana.com/product/autoflex-cable-29213-h07v-k-1cx16-red-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1479)
+  * [![Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29177-h07v-k-1cx6-blk-helukabel/)
 [Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1471)
+  * [![Autoflex Cable \(Blue\), H07V-K-1Cx4mm², 29163, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), H07V-K-1Cx4mm², 29163, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29163-h07v-k-1cx4-be-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1469)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

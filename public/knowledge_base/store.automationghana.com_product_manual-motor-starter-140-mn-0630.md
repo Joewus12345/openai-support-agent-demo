@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Manual Motor Starter 140-MN-0630
-[🔍](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/)
 [![Manual Motor Starter 140-MN-0630](https://store.automationghana.com/wp-content/uploads/2020/12/Manual-Motor-Starter-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/Manual-Motor-Starter.jpg)
 ####  Manual Motor Starter 140-MN-0630 
 **SKU :** 140-MN-0630 
@@ -52,14 +52,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/?add-to-cart=2961)
-  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/?add-to-cart=2950)
-  * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/?add-to-cart=2948)
-  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/?add-to-cart=2946)
+  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/?add-to-cart=2981)
+  * [![Auxiliary Contact 140M-C-AFAR10A10](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A10-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A10 ₵415.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a10/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/?add-to-cart=2965)
+  * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/?add-to-cart=2959)
+  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-140-mn-0630/?add-to-cart=2956)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -42,14 +42,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
-[Add to cart](https://store.automationghana.com/product/acti9-smartlink-ethernetgateway-a9xmea08-schneider-2/?add-to-cart=2973)
-  * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
-[Add to cart](https://store.automationghana.com/product/acti9-smartlink-ethernetgateway-a9xmea08-schneider-2/?add-to-cart=2959)
-  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
-[Add to cart](https://store.automationghana.com/product/acti9-smartlink-ethernetgateway-a9xmea08-schneider-2/?add-to-cart=2956)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/acti9-smartlink-ethernetgateway-a9xmea08-schneider-2/?add-to-cart=2952)
+  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
+[Add to cart](https://store.automationghana.com/product/acti9-smartlink-ethernetgateway-a9xmea08-schneider-2/?add-to-cart=2981)
+  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
+[Add to cart](https://store.automationghana.com/product/acti9-smartlink-ethernetgateway-a9xmea08-schneider-2/?add-to-cart=2967)
+  * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
+[Add to cart](https://store.automationghana.com/product/acti9-smartlink-ethernetgateway-a9xmea08-schneider-2/?add-to-cart=2941)
+  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
+[Add to cart](https://store.automationghana.com/product/acti9-smartlink-ethernetgateway-a9xmea08-schneider-2/?add-to-cart=2939)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

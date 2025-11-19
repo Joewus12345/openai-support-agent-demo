@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Automation & Drives](https://store.automationghana.com/product-category/industrial-automation/) / Input/Output Expansion Unit, Digital,2A, CP1W8D.2 Omron
-[🔍](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/)
 [![Input/Output Expansion Unit, Digital,2A, CP1W8D.2 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W.png)](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W.png)
 ####  Input/Output Expansion Unit, Digital,2A, CP1W8D.2 Omron 
 **SKU :** CP1W8D.2 
@@ -46,14 +46,14 @@ Product Description
 CP1W8D.2, Digital Input Module
 Related Products 
 ## Related products
-  * [![MX Inverter Drive, 200VAC, 0.75kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive, 200VAC, 0.75kW, 1Phase ₵4,536.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab007-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1991)
-  * [![Inverter Drive \(RX\), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron ₵24,297.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1589)
   * [![Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-RX3A5M.jpg)Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron ₵775.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/)
 [Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1590)
-  * [![Inverter Drive\(MX\), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron ₵7,561.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4040-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1579)
+  * [![Inverter Drive\(MX\), 1.5kW, 4.8/5.4A , 3~Phase, 400 VAC, 3G3MX2-A4015-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 1.5kW, 4.8/5.4A , 3~Phase, 400 VAC, 3G3MX2-A4015-E CHN, Omron ₵4,990.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4015-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1576)
+  * [![Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W-AD041_640px-300x300.jpg)Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron ₵1,767.00 ](https://store.automationghana.com/product/i-o-expansion-unit-4ai-cp1wad041-1-omron/)
+[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1574)
+  * [![Inverter Drive\(A1000\), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CIMR-A-A1000-Variable-Freq-Drive.png)Inverter Drive(A1000), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron ₵4,913.00 ](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/)
+[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1571)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

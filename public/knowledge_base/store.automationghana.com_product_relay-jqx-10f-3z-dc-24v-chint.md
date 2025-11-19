@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Relay-JQX-10F/3Z DC 24V, CHINT
-[🔍](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
 [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-600x561.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2.jpg)
 ####  Relay-JQX-10F/3Z DC 24V, CHINT 
 **SKU :** JQX-10F/3Z DC 24V 
@@ -51,14 +51,14 @@ JQX-10F/3Z, 11-Pin Relay, 24V
 
 Related Products 
 ## Related products
-  * [![Relay Socket, 8-Pin, PYF08A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/8-Pin-Relay-Socket-PYF08A-E-Omron.jpg)Relay Socket, 8-Pin, PYF08A-E, Omron ₵21.00 ](https://store.automationghana.com/product/8-pin-relay-socket-pyf08a-e-omron/)
-[Add to cart](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/?add-to-cart=1605)
   * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
 [Add to cart](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/?add-to-cart=1599)
-  * [![Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-24VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-12vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/?add-to-cart=1595)
-  * [![Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902454A.png)Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera ₵204.00 ](https://store.automationghana.com/product/industrial-plug-902454a-solera/)
-[Add to cart](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/?add-to-cart=1512)
+  * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/?add-to-cart=1597)
+  * [![Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932133.png)Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera ₵115.00 ](https://store.automationghana.com/product/surface-mounted-socket-932133-solera/)
+[Add to cart](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/?add-to-cart=1536)
+  * [![Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera ₵60.00 ](https://store.automationghana.com/product/plug-902131a-solera/)
+[Add to cart](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/?add-to-cart=1523)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

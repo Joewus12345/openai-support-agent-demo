@@ -43,14 +43,14 @@ Product Description
 Delta VFD220B43A AC Drive Delta no longer considers this drive to be a core product. There is limited stock or long lead times. Call 800-985-6929 to check stock. Newer model recommended replacement drive: Three Phase Input: VFD220C43A
 Related Products 
 ## Related products
-  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
-[Add to cart](https://store.automationghana.com/product/variable-frequency-drive-vfd220b43a-delta/?add-to-cart=2981)
-  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
-[Add to cart](https://store.automationghana.com/product/variable-frequency-drive-vfd220b43a-delta/?add-to-cart=2967)
-  * [![Auxiliary Contact 140M-C-AFAR10A10](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A10-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A10 ₵415.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a10/)
-[Add to cart](https://store.automationghana.com/product/variable-frequency-drive-vfd220b43a-delta/?add-to-cart=2965)
-  * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
-[Add to cart](https://store.automationghana.com/product/variable-frequency-drive-vfd220b43a-delta/?add-to-cart=2948)
+  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
+[Add to cart](https://store.automationghana.com/product/variable-frequency-drive-vfd220b43a-delta/?add-to-cart=2952)
+  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
+[Add to cart](https://store.automationghana.com/product/variable-frequency-drive-vfd220b43a-delta/?add-to-cart=2946)
+  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
+[Add to cart](https://store.automationghana.com/product/variable-frequency-drive-vfd220b43a-delta/?add-to-cart=2939)
+  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
+[Add to cart](https://store.automationghana.com/product/variable-frequency-drive-vfd220b43a-delta/?add-to-cart=2937)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

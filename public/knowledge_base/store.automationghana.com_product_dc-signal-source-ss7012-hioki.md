@@ -23,7 +23,7 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [HIOKI](https://store.automationghana.com/product-category/hioki/) / [HIOKI](https://store.automationghana.com/product-category/hioki/hioki-hioki/) / DC Signal Source, SS7012, Hioki
+[Home](https://store.automationghana.com) / [Uncategorised](https://store.automationghana.com/product-category/uncategorised/) / DC Signal Source, SS7012, Hioki
 [🔍](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/)
 [![DC Signal Source, SS7012, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/DC-Signal-Source-SS7012-Hioki-600x400.png)](https://store.automationghana.com/wp-content/uploads/2025/05/DC-Signal-Source-SS7012-Hioki.png)
 ####  DC Signal Source, SS7012, Hioki 
@@ -45,14 +45,14 @@ Product Description
 The Hioki SS7012 DC Signal Source is a high-precision generator designed for calibration and testing of electrical instruments. It produces stable and accurate DC voltages and currents, facilitating the verification and adjustment of measurement equipment. With fine output control and wide range, it supports laboratory and field calibration tasks, ensuring measurement reliability and accuracy in critical applications.
 Related Products 
 ## Related products
-  * [![Infrared Thermometer, FT3700-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Infrared-Thermometer-FT3700-20-Hioki-300x300.png)Infrared Thermometer, FT3700-20, Hioki ₵2,235.20 ](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/)
-[Add to cart](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/?add-to-cart=24685)
   * [![Digital Insulation Tester, IR4056-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Insulation-Tester-IR4056-20-Hioki-300x300.png)Digital Insulation Tester, IR4056-20, Hioki ₵5,738.90 ](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/)
 [Add to cart](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/?add-to-cart=24681)
-  * [![AC Clamp Meter, 3280-10F, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/AC-Clamp-Meter-328010F-Hioki-300x300.png)AC Clamp Meter, 3280-10F, Hioki ₵1,540.50 ](https://store.automationghana.com/product/ac-clamp-meter-3280-10f-hioki/)
-[Add to cart](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/?add-to-cart=24679)
   * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/05/ACDC-Clamp-Meter-300x300.png)Hioki CM4373-50 Clamp Meter ₵8,790.00 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/)
 [Add to cart](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/?add-to-cart=24675)
+  * [![Digital Multimeter, DT4282, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Multimeter-DT4282-300x300.png)Digital Multimeter, DT4282, Hioki ₵9,304.00 ](https://store.automationghana.com/product/digital-multimeter-dt4282-hioki/)
+[Add to cart](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/?add-to-cart=24673)
+  * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/03/hioki-300x300.png)Hioki CM4373-50 Clamp Meter ₵12,541.50 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/)
+[Add to cart](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/?add-to-cart=24576)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

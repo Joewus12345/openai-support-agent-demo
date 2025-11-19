@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Indicator Light, 400V AC/DC, ND16-22DS/4 AC/DC 400V Y, Chint
-[🔍](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-400v-y-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-400v-y-chint/)
 [![Indicator Light, 400V AC/DC, ND16-22DS/4 AC/DC 400V Y, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ND16-22DS_4-AC_DC-230V-Y.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/ND16-22DS_4-AC_DC-230V-Y.jpg)
 ####  Indicator Light, 400V AC/DC, ND16-22DS/4 AC/DC 400V Y, Chint 
 **SKU :** ND16-22DS/4 AC/DC 400V Y 
@@ -46,14 +46,14 @@ Product Description
 Indicator Light, ND16-22DS/4 AC/DC 400V Y, Chint | Indicator Light 400V Yellow
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-400v-y-chint/?add-to-cart=1603)
   * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
 [Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-400v-y-chint/?add-to-cart=1602)
-  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-400v-y-chint/?add-to-cart=1593)
-  * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-400v-y-chint/?add-to-cart=1534)
+  * [![Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC (S), Omron ₵72.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-24dc-s-omron/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-400v-y-chint/?add-to-cart=1601)
+  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-400v-y-chint/?add-to-cart=1592)
+  * [![Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902454A.png)Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera ₵204.00 ](https://store.automationghana.com/product/industrial-plug-902454a-solera/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-400v-y-chint/?add-to-cart=1512)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

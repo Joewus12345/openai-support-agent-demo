@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / 4V, 4.16A AC/DC POWER ADAPTER
-[🔍](https://store.automationghana.com/product/4v-4-16a-ac-dc-power-adapter/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/4v-4-16a-ac-dc-power-adapter/)
 [![4V, 4.16A AC/DC POWER ADAPTER](https://store.automationghana.com/wp-content/uploads/2021/10/4V-416A-ACDC-POWER-ADAPTER.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/4V-416A-ACDC-POWER-ADAPTER.jpg)
 ####  4V, 4.16A AC/DC POWER ADAPTER 
 **SKU :** PWR-24V4.16A-UK 
@@ -52,14 +52,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
-[Add to cart](https://store.automationghana.com/product/4v-4-16a-ac-dc-power-adapter/?add-to-cart=3590)
-  * [![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1-300x300.jpg)WIFI Relay Dummy Load ₵100.00 ](https://store.automationghana.com/product/wifi-relay-dummy-load/)
-[Add to cart](https://store.automationghana.com/product/4v-4-16a-ac-dc-power-adapter/?add-to-cart=3569)
-  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
-[Add to cart](https://store.automationghana.com/product/4v-4-16a-ac-dc-power-adapter/?add-to-cart=3307)
+  * [![Split Core Current Transformer 50A](https://store.automationghana.com/wp-content/uploads/2021/03/Clamp-Up-300x300.jpeg)Split Core Current Transformer 50A ₵172.00 ](https://store.automationghana.com/product/50a-16ma-clamp-on-current-transformer/)
+[Add to cart](https://store.automationghana.com/product/4v-4-16a-ac-dc-power-adapter/?add-to-cart=3308)
   * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
 [Add to cart](https://store.automationghana.com/product/4v-4-16a-ac-dc-power-adapter/?add-to-cart=3283)
+  * [![1 Channel WiFi-Relay,16A](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-1-wifi--300x300.png)WIFI Relay Switch, 1 Channel, Y-R-W1CH, Smarthome ₵344.00 ](https://store.automationghana.com/product/shelly-1/)
+[Add to cart](https://store.automationghana.com/product/4v-4-16a-ac-dc-power-adapter/?add-to-cart=3254)
+  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
+[Add to cart](https://store.automationghana.com/product/4v-4-16a-ac-dc-power-adapter/?add-to-cart=3252)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

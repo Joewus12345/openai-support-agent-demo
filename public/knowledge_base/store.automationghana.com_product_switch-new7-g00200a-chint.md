@@ -24,11 +24,11 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / Switch, 1-Gang 2-Way 250VAC, 10A, White, NEW7-G00200A, Chint
-[🔍](https://store.automationghana.com/product/switch-new7-g00200a-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/switch-new7-g00200a-chint/)
 [![Switch, 1-Gang 2-Way 250VAC, 10A, White, NEW7-G00200A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SWITCH-8.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/SWITCH-8.jpg)
 ####  Switch, 1-Gang 2-Way 250VAC, 10A, White, NEW7-G00200A, Chint 
 **SKU :** NEW7-G00200A 
-₵24.00
+₵17.20
 Item is sold per unit.
 Switch, 1-Gang 2-Way 250VAC, 10A, White, NEW7-G00200A, Chint quantity
 Add to cart
@@ -52,14 +52,14 @@ NEW7-G00200A, Switch, 1-Gang 2-Way
 
 Related Products 
 ## Related products
-  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new7-g00200a-chint/?add-to-cart=1525)
-  * [![IT socket-NEW6-D20100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20100, Chint ₵60.00 ](https://store.automationghana.com/product/it-socket-new6-d20100-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new7-g00200a-chint/?add-to-cart=1515)
-  * [![IT socket-NEW6-D20400, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20400, Chint ₵148.00 ](https://store.automationghana.com/product/it-socket-new6-d20400-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new7-g00200a-chint/?add-to-cart=1517)
-  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new7-g00200a-chint/?add-to-cart=1502)
+  * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-5-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42712-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new7-g00200a-chint/?add-to-cart=1529)
+  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-4-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint ₵71.00 ](https://store.automationghana.com/product/singl-socket-new6-d42702-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new7-g00200a-chint/?add-to-cart=1526)
+  * [![IT socket-NEW6-D21100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/the-two-300x300.jpg)IT socket-NEW6-D21100, Chint ₵124.00 ](https://store.automationghana.com/product/it-socket-new6-d21100-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new7-g00200a-chint/?add-to-cart=1519)
+  * [![IT socket-NEW6-D20300, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TELEPHONE-300x300.jpg)IT socket-NEW6-D20300, Chint ₵66.00 ](https://store.automationghana.com/product/it-socket-new6-d20300-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new7-g00200a-chint/?add-to-cart=1516)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

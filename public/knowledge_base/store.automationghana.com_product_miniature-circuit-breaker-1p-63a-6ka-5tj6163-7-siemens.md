@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Sinova](https://store.automationghana.com/product-category/sinova-siemens/) / Miniature Circuit Breaker, 1P-63A-6KA, 5TJ6163-7, Siemens
-[🔍](https://store.automationghana.com/product/miniature-circuit-breaker-1p-63a-6ka-5tj6163-7-siemens/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/miniature-circuit-breaker-1p-63a-6ka-5tj6163-7-siemens/)
 [![Miniature Circuit Breaker, 1P-63A-6KA, 5TJ6163-7, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Miniature-Circuit-Breaker-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2025/03/Miniature-Circuit-Breaker.jpg)
 ####  Miniature Circuit Breaker, 1P-63A-6KA, 5TJ6163-7, Siemens 
 **SKU :** Miniature Circuit Breaker, 1P-63A-6KA, 5TJ6163-7 
@@ -45,14 +45,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Thermal Overload Relay, 12-18A, 3MU7110-0PA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 12-18A, 3MU7110-0PA0, Siemens ₵310.00 ](https://store.automationghana.com/product/thermal-overload-relay-12-18a-3mu7110-0pa0-siemens/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-1p-63a-6ka-5tj6163-7-siemens/?add-to-cart=24510)
-  * [![Auxiliary Switch Front, 3MH7920-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7920-0CT10, Siemens ₵57.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7920-0ct10-siemens/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-1p-63a-6ka-5tj6163-7-siemens/?add-to-cart=24499)
+  * [![Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens ₵310.00 ](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-1p-63a-6ka-5tj6163-7-siemens/?add-to-cart=24512)
+  * [![Auxiliary Switch Front, 3MH7911-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7911-0CT10, Siemens ₵56.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7911-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-1p-63a-6ka-5tj6163-7-siemens/?add-to-cart=24505)
+  * [![Auxiliary Switch Front, 3MH7902-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7902-0CT10, Siemens ₵57.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7902-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-1p-63a-6ka-5tj6163-7-siemens/?add-to-cart=24501)
   * [![Contactor, 3P-65A-230VAC, 3MT7065-3AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-65A-230VAC, 3MT7065-3AA11-0AP0, Siemens ₵1,932.00 ](https://store.automationghana.com/product/contactor-3p-65a-230vac-3mt7065-3aa11-0ap0-siemens/)
 [Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-1p-63a-6ka-5tj6163-7-siemens/?add-to-cart=24491)
-  * [![Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens ₵277.00 ](https://store.automationghana.com/product/contactor-3p-9a-230vac-3mt7010-0aa10-0ap0-siemens-2/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-1p-63a-6ka-5tj6163-7-siemens/?add-to-cart=24483)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

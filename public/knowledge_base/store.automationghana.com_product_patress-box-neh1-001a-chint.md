@@ -23,15 +23,19 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [Enclosures and Junction Boxes](https://store.automationghana.com/product-category/enclosures-and-junction-boxes/) / Patress Box 3 x 3, NEH1-001A Chint
-[🔍](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
-[![Patress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1.jpg)](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1.jpg)
-####  Patress Box 3 x 3, NEH1-001A Chint 
+[Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / Pattress Box 3 x 3, NEH1-001A Chint
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
+[![Pattress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1.jpg)](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1.jpg)
+####  Pattress Box 3 x 3, NEH1-001A Chint 
 **SKU :** NEH1-001A 
-₵13.00
-NEH1-001A, 3 X 3 Recessed Pattress Box, Plastic
-Item is sold per unit.
-Patress Box 3 x 3, NEH1-001A Chint quantity
+₵7.50
+The 3X3 Patress Box is a durable and essential component for electrical installations. Designed to securely house switches and sockets, it ensures safe and organized wiring.
+Ideal for both residential and commercial use, this box is easy to install and provides a reliable base for your electrical fittings.
+  * Material : High quality plastic
+  * Size : 3×6 inches
+
+
+Pattress Box 3 x 3, NEH1-001A Chint quantity
 Add to cart
   * Pickup: Available today in our stores
 
@@ -44,17 +48,17 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-The NEH1-001A, 3 X 3 Recessed Pattress Box, Plastic is an excellent replacement for the conventional metal pattress box that removes the risk of rust. It is suitable for both domestic and industrial applications. 
+The 3X3 Patress Box is a durable and essential component for electrical installations. Designed to securely house switches and sockets, it ensures safe and organized wiring. Ideal for both residential and commercial use, this box is easy to install and provides a reliable base for your electrical fittings. 
 Related Products 
 ## Related products
-  * [![Distribution Board, 4 Way, Flush, NX9-4M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)Distribution Board, 4 Way, Flush, NX9-4M, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1705)
-  * [![Consumer Unit 8 Way, Metal, Recessed, NX8-8-J \(R\) Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit 8 Way, Metal, Recessed, NX8-8-J (R) Chint ₵280.00 ](https://store.automationghana.com/product/consumer-unit-nx8-8-j-r-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1647)
-  * [ Sale! ![Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint ~~₵ 595.00~~ Original price was: ₵595.00.₵532.00Current price is: ₵532.00. ](https://store.automationghana.com/product/enclosure-nxw5-3030-20-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1563)
-  * [![Distribution Board, 6 Way, Surface, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Surface, NX9-6M, Chint ₵1,514.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1506)
+  * [![UPS, 3kVA, UPA302N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 3kVA, UPA302N2NX0B035, Delta ₵9,432.00 ](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=24749)
+  * [![Venting Fans, NEF1-260, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-260, Chint ₵449.50 ](https://store.automationghana.com/product/venting-fans-nef1-260-chint/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1920)
+  * [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-300x300.jpg)Pattress Box NEH1-202 Chint ₵17.00 ](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1832)
+  * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵9.80 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1830)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

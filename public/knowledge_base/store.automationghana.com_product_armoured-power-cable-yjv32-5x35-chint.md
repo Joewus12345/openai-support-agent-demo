@@ -23,14 +23,22 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Armoured Power Cable 5-Core X 35mmsq YJV32, Chint
-[🔍](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/)
-[![Armoured Power Cable 5-Core X 35mmsq YJV32, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/YJV32-5X95.png)](https://store.automationghana.com/wp-content/uploads/2020/04/YJV32-5X95.png)![Armoured Power Cable 5-Core X 35mmsq YJV32, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/YJV32-5X95.png)
-####  Armoured Power Cable 5-Core X 35mmsq YJV32, Chint 
-**SKU :** YJV32 5X35 
-₵398.00
-Cable is sold per meter.
-Armoured Power Cable 5-Core X 35mmsq YJV32, Chint quantity
+[Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Flexible Cable(Black), OZ-600-Y-CY-2CX1mm², 11516, Helukabel
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/)
+[![Flexible Cable\(Black\), OZ-600-Y-CY-2CX1mm², 11516, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/HELUKABEL-115-600x130.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/HELUKABEL-115.jpg)
+####  Flexible Cable(Black), OZ-600-Y-CY-2CX1mm², 11516, Helukabel 
+**SKU :** Flexible Cable(Black), OZ-600-Y-CY-2CX1mm², 11516 
+₵18.80
+Suitable for installation for flexible use for medium mechanical stresses with free movement without tensile stress or forced movements in dry, moist and wet rooms as well as outside (fixed installation).
+  * Net Weight : 0.15 kg
+  * Cable type : OZ-600
+  * Cross section : 1 mm²
+
+
+  * Number of cores : 2
+
+
+Flexible Cable(Black), OZ-600-Y-CY-2CX1mm², 11516, Helukabel quantity
 Add to cart
   * Pickup: Available today in our stores
 
@@ -43,23 +51,25 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-YJV32 5C X 35mmsq, Armoured Power Cable 
-  * For Construction, Underground, Industrial and Power Station Purposes
-  * Low and Medium Voltage Cable
-  * Conductor Material: Copper
-  * Number of Cores: 5
+Suitable for installation for flexible use for medium mechanical stresses with free movement without tensile stress or forced movements in dry, moist and wet rooms as well as outside (fixed installation). 
+  * Net Weight : 0.15 kg
+  * Cable type : OZ-600
+  * Cross section : 1 mm²
+
+
+  * Number of cores : 2
 
 
 Related Products 
 ## Related products
-  * [![Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel ₵68.00 ](https://store.automationghana.com/product/autoflex-cable-29241-h07v-k-1cx35-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/?add-to-cart=1482)
-  * [![Autoflex Cable-29179-H07V-K-1Cx6 BE, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable-29179-H07V-K-1Cx6 BE, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29179-h07v-k-1cx6-be-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/?add-to-cart=1473)
-  * [![Autoflex Cable \(Blue\), H07V-K-1Cx4mm², 29163, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), H07V-K-1Cx4mm², 29163, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29163-h07v-k-1cx4-be-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/?add-to-cart=1469)
-  * [![Armoured Cable, 2311000928-XAV 4Cx25 /0.6/1kV, Lapp](https://store.automationghana.com/wp-content/uploads/2019/12/Armoured-cable-300x300.jpg)Armoured Cable, 2311000928-XAV 4Cx25 /0.6/1kV, Lapp ₵188.00 ](https://store.automationghana.com/product/armoured-cable-2311000928-xav-4cx25-0-6-1kv-lapp/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/?add-to-cart=1456)
+  * [![Autoflex Cable \(Black\), H07V-K-1Cx16mm², 29209, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx16mm², 29209, Helukabel ₵33.00 ](https://store.automationghana.com/product/autoflex-cable-29209-h07v-k-1cx16-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/?add-to-cart=1478)
+  * [![Autoflex Cable, 29197-H07V-K-1Cx10 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable, 29197-H07V-K-1Cx10 RED, Helukabel ₵25.00 ](https://store.automationghana.com/product/autoflex-cable-29197-h07v-k-1cx10-red-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/?add-to-cart=1477)
+  * [![Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel ₵12.00 ](https://store.automationghana.com/product/autoflex-cable-29162-h07v-k-1cx4-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/?add-to-cart=1468)
+  * [![Autoflex Cable \(Black\), 29145, H07V-K-1Cx2.5mmsq, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), 29145, H07V-K-1Cx2.5mmsq, Helukabel ₵7.80 ](https://store.automationghana.com/product/autoflex-cable-29145-h07v-k-1cx2-5-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x35-chint/?add-to-cart=1463)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

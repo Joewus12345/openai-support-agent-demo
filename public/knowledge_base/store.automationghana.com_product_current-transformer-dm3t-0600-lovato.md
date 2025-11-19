@@ -43,14 +43,14 @@ Product Description
 Current transformer, solid-core, for Ø30mm cable. For 40X10mm, 30X20mm, 25X25mm busbars, 600A Type of product: Current transformers Type of CT: Solid-core Primary current Ipn (/5) [A]: 600
 Related Products 
 ## Related products
-  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
-[Add to cart](https://store.automationghana.com/product/current-transformer-dm3t-0600-lovato/?add-to-cart=2961)
+  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
+[Add to cart](https://store.automationghana.com/product/current-transformer-dm3t-0600-lovato/?add-to-cart=2983)
+  * [![Auxiliary Contact 140M-C-AFAR10A10](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A10-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A10 ₵415.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a10/)
+[Add to cart](https://store.automationghana.com/product/current-transformer-dm3t-0600-lovato/?add-to-cart=2965)
   * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
 [Add to cart](https://store.automationghana.com/product/current-transformer-dm3t-0600-lovato/?add-to-cart=2959)
-  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
-[Add to cart](https://store.automationghana.com/product/current-transformer-dm3t-0600-lovato/?add-to-cart=2950)
-  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
-[Add to cart](https://store.automationghana.com/product/current-transformer-dm3t-0600-lovato/?add-to-cart=2939)
+  * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
+[Add to cart](https://store.automationghana.com/product/current-transformer-dm3t-0600-lovato/?add-to-cart=2948)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

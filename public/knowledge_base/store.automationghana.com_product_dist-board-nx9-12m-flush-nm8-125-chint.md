@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Enclosures and Junction Boxes](https://store.automationghana.com/product-category/enclosures-and-junction-boxes/) / Distribution Board, 12 Way, 125A Incomer, Flush, NX9-12M, Chint
-[🔍](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/)
 [![Distribution Board, 12 Way, 125A Incomer, Flush, NX9-12M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)
 ####  Distribution Board, 12 Way, 125A Incomer, Flush, NX9-12M, Chint 
 **SKU :** NX9-12M-FLUSH NM8-125 
@@ -51,13 +51,13 @@ NX9-12M, 12-Way Empty Distribution Board, Flush Type
 
 Related Products 
 ## Related products
-  * [![Distribution Board, 4 Way, Flush, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 4 Way, Flush, NX9-4, Chint ₵1,237.00 ](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/?add-to-cart=1703)
-  * [![Distribution Board, 4 Way, Surface, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 4 Way, Surface, NX9-4, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/?add-to-cart=1704)
-  * [![din-rail-th35-7.5-chint](https://store.automationghana.com/wp-content/uploads/2020/04/din-rail-th35-7.5-chint-300x300.jpg)Din Rail-TH35-7.5, Chint ₵25.00 ](https://store.automationghana.com/product/din-rail-th35-7-5-chint/)
-[Add to cart](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/?add-to-cart=1562)
-  * [ Sale! ![Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint ~~₵ 595.00~~ Original price was: ₵595.00.₵532.00Current price is: ₵532.00. ](https://store.automationghana.com/product/enclosure-nxw5-3030-20-chint/)
+  * [![Distribution Board, 8 Way, Surface, NX9-8, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 8 Way, Surface, NX9-8, Chint ₵1,458.00 ](https://store.automationghana.com/product/dist-board-nx9-8-surface-chint/)
+[Add to cart](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/?add-to-cart=1709)
+  * [![Distribution Board \(Flush\), 16 Way, NX9-16M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board (Flush), 16 Way, NX9-16M, Chint ₵2,485.00 ](https://store.automationghana.com/product/dist-board-nx9-16m-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/?add-to-cart=1701)
+  * [![Consumer Unit, 5-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 5-Way ₵218.00 ](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/)
+[Add to cart](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/?add-to-cart=1645)
+  * [![Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint ₵595.00 ](https://store.automationghana.com/product/enclosure-nxw5-3030-20-chint/)
 [Add to cart](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/?add-to-cart=1563)
 
 

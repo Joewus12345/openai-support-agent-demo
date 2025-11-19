@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / Switch Disconnector-NH4-125 3P 100A, Chint
-[🔍](https://store.automationghana.com/product/switch-disconnector-3p-100a/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/switch-disconnector-3p-100a/)
 [![Switch Disconnector-NH4-125 3P 100A, Chint](https://store.automationghana.com/wp-content/uploads/2021/07/nh.jpg)](https://store.automationghana.com/wp-content/uploads/2021/07/nh.jpg)
 ####  Switch Disconnector-NH4-125 3P 100A, Chint 
 **SKU :** NH4-125 3P 100A 
@@ -51,14 +51,14 @@ NH4-125, Switch Disconnector
 
 Related Products 
 ## Related products
-  * [![Automatic Voltage Regulator \(AVR\), 5kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-5-300x300.jpg)Automatic Voltage Regulator (AVR), 5kvA, 1Phase ₵3,381.00 ](https://store.automationghana.com/product/avr-tnd1svc-5-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-disconnector-3p-100a/?add-to-cart=1637)
-  * [![AVR, 100KVA-3 Phase, TNSZ\(SBW\)-100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)AVR, 100KVA-3 Phase, TNSZ(SBW)-100, Chint ₵62,258.00 ](https://store.automationghana.com/product/avr-tnszsbw-100-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-disconnector-3p-100a/?add-to-cart=1638)
-  * [![AVR, 20KVA-1 Phase, TND1\(SVC\)-20/AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-20_AF-300x300.png)AVR, 20KVA-1 Phase, TND1(SVC)-20/AF, Chint ₵10,925.00 ](https://store.automationghana.com/product/avr-tnd1svc-20-af-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-disconnector-3p-100a/?add-to-cart=1636)
-  * [![AVR 10KVA 1 Phase, TND1\(SVC\)-10AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 10KVA 1 Phase, TND1(SVC)-10AF, Chint ₵7,405.00 ](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-disconnector-3p-100a/?add-to-cart=1635)
+  * [![Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-disconnector-3p-100a/?add-to-cart=1780)
+  * [![MCB 63A 1P, NXB-63 1P C63 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-1P-300x300.jpg)MCB 63A 1P, NXB-63 1P C63 6kA, Chint ₵37.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-disconnector-3p-100a/?add-to-cart=1782)
+  * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-disconnector-3p-100a/?add-to-cart=1779)
+  * [![Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint ₵2,719.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-disconnector-3p-100a/?add-to-cart=1756)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / AUDIO PLUG BACK BOX
-[🔍](https://store.automationghana.com/product/audio-plug-back-box/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/audio-plug-back-box/)
 [![AUDIO PLUG BACK BOX](https://store.automationghana.com/wp-content/uploads/2021/10/AUDIO-PLUG-BACK-BOX-1.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/AUDIO-PLUG-BACK-BOX-1.jpg)
 ####  AUDIO PLUG BACK BOX 
 **SKU :** MSB-1G-DEVICE BOX 
@@ -53,14 +53,14 @@ Audio Plug Back Box
 
 Related Products 
 ## Related products
-  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
-[Add to cart](https://store.automationghana.com/product/audio-plug-back-box/?add-to-cart=3583)
-  * [![Split Core Current Transformer 50A](https://store.automationghana.com/wp-content/uploads/2021/03/Clamp-Up-300x300.jpeg)Split Core Current Transformer 50A ₵172.00 ](https://store.automationghana.com/product/50a-16ma-clamp-on-current-transformer/)
-[Add to cart](https://store.automationghana.com/product/audio-plug-back-box/?add-to-cart=3308)
-  * [![WIFI IR Blaster](https://store.automationghana.com/wp-content/uploads/2021/03/images-4.jpg)WIFI IR Blaster ₵626.00 ](https://store.automationghana.com/product/ir-rf-universal-remote/)
-[Add to cart](https://store.automationghana.com/product/audio-plug-back-box/?add-to-cart=3293)
-  * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
-[Add to cart](https://store.automationghana.com/product/audio-plug-back-box/?add-to-cart=3283)
+  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
+[Add to cart](https://store.automationghana.com/product/audio-plug-back-box/?add-to-cart=3590)
+  * [![F-RF Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/F-RF-Door-Window-Sensor.jpg)F-RF Door & Window Sensor ₵282.00 ](https://store.automationghana.com/product/f-rf-door-window-sensor/)
+[Add to cart](https://store.automationghana.com/product/audio-plug-back-box/?add-to-cart=3586)
+  * [![2 Channel WiFi Dimmer Switch](https://store.automationghana.com/wp-content/uploads/2021/10/image.thumb_.png.53d2d5bf0ada5ff3649de0faf116a756-300x300.png)2 Channel WiFi Dimmer Switch ₵1,051.00 ](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/)
+[Add to cart](https://store.automationghana.com/product/audio-plug-back-box/?add-to-cart=3571)
+  * [![2 Channel WIFI Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/Double.png)2 Channel WIFI Relay Switch ₵840.00 ](https://store.automationghana.com/product/wi-fi-dual-relay-switch/)
+[Add to cart](https://store.automationghana.com/product/audio-plug-back-box/?add-to-cart=3295)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

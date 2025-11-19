@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint
-[🔍](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/)
 [![Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-12VDC-Chint-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-12VDC-Chint.jpg)
 ####  Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint 
 **SKU :** JZX-22F-D-4Z 220V 
@@ -51,14 +51,14 @@ JZX-22F-D-4Z, 14-Pin Relay, 220VAC
 
 Related Products 
 ## Related products
-  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
-[Add to cart](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/?add-to-cart=1599)
-  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/?add-to-cart=1592)
-  * [![Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-8-300x300.jpg)Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera ₵608.00 ](https://store.automationghana.com/product/plug-902456a-solera/)
-[Add to cart](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/?add-to-cart=1524)
-  * [![Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902154A.png)Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera ₵108.00 ](https://store.automationghana.com/product/industrial-plug-902154a-solera/)
-[Add to cart](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/?add-to-cart=1511)
+  * [![Relay Socket, 8-Pin, PYF08A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/8-Pin-Relay-Socket-PYF08A-E-Omron.jpg)Relay Socket, 8-Pin, PYF08A-E, Omron ₵21.00 ](https://store.automationghana.com/product/8-pin-relay-socket-pyf08a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/?add-to-cart=1605)
+  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/?add-to-cart=1594)
+  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
+[Add to cart](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/?add-to-cart=1593)
+  * [![Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera ₵60.00 ](https://store.automationghana.com/product/plug-902131a-solera/)
+[Add to cart](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/?add-to-cart=1523)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

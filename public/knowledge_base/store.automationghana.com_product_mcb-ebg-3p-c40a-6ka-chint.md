@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / MCB, EBG, 3P-C40A-6kA, Chint
-[🔍](https://store.automationghana.com/product/mcb-ebg-3p-c40a-6ka-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mcb-ebg-3p-c40a-6ka-chint/)
 [![MCB, EBG, 3P-C40A-6kA, Chint](https://store.automationghana.com/wp-content/uploads/2024/05/EB3PC10A-1-3-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2024/05/EB3PC10A-1-3.jpg)
 Sale!
 ####  MCB, EBG, 3P-C40A-6kA, Chint 
@@ -46,12 +46,12 @@ Product Description
 MCB, EBG, 3P-C40A-6kA High current limiting performance to limit, to the greatest extent, the destructive energy due to short circuit. C-Curve Miniature Circuit Breaker is used for the protection of circuits against short-circuit currents, protection of circuits against overload currents
 Related Products 
 ## Related products
-  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c40a-6ka-chint/?add-to-cart=2981)
-  * [![Base Socket 700-HN139](https://store.automationghana.com/wp-content/uploads/2020/12/700-HN139.jpg)Base Socket 700-HN139 ₵457.00 ](https://store.automationghana.com/product/base-socket-700-hn139/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c40a-6ka-chint/?add-to-cart=2971)
-  * [![Auxiliary Contact 140M-C-AFAR10A10](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A10-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A10 ₵415.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a10/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c40a-6ka-chint/?add-to-cart=2965)
+  * [![Circuit Breaker 140M-C2E-A16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-A16-300x300.jpg)Circuit Breaker 140M-C2E-A16 ₵873.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-a16/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c40a-6ka-chint/?add-to-cart=2979)
+  * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c40a-6ka-chint/?add-to-cart=2959)
+  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c40a-6ka-chint/?add-to-cart=2950)
   * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
 [Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c40a-6ka-chint/?add-to-cart=2946)
 

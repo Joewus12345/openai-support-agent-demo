@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Fluke T6-600, Electrical Tester with FieldSense Technology
-[🔍](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
 [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke.png)](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke.png)
 ####  Fluke T6-600, Electrical Tester with FieldSense Technology 
 **SKU :** Fluke-T6-600 
@@ -54,12 +54,12 @@ Related Products
 ## Related products
   * [![MD-106-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-106-Metrel-300x300.png)Voltage Detector, Non-Contact, 90-1000VAC, MD 106, Metrel ₵202.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
 [Read more](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
-  * [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ₵7,613.00 ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
-[Add to cart](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/?add-to-cart=2008)
-  * [![Clamp Meter, Fluke-376FC](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-Fluke-376FC-Fluke-300x300.png)Clamp Meter, True RMS AC/DC, 1000A/1000V, Fluke-376FC, Fluke ₵10,430.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376fc-fluke/)
-[Add to cart](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/?add-to-cart=1993)
-  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
-[Add to cart](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/?add-to-cart=1994)
+  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
+[Add to cart](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/?add-to-cart=2012)
+  * [![Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/MD-1150-300x300.jpg)Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel ₵1,515.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1150-metrel/)
+[Add to cart](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/?add-to-cart=2011)
+  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
+[Add to cart](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/?add-to-cart=2006)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

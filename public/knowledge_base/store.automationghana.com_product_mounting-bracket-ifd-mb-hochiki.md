@@ -44,12 +44,12 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
-[Add to cart](https://store.automationghana.com/product/mounting-bracket-ifd-mb-hochiki/?add-to-cart=2985)
-  * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
-[Add to cart](https://store.automationghana.com/product/mounting-bracket-ifd-mb-hochiki/?add-to-cart=2944)
-  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
-[Add to cart](https://store.automationghana.com/product/mounting-bracket-ifd-mb-hochiki/?add-to-cart=2937)
+  * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
+[Add to cart](https://store.automationghana.com/product/mounting-bracket-ifd-mb-hochiki/?add-to-cart=2969)
+  * [![Auxiliary Contact-1492-ASPH3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPH3-300x300.jpg)Auxiliary Contact-1492-ASPH3 ₵733.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asph3/)
+[Add to cart](https://store.automationghana.com/product/mounting-bracket-ifd-mb-hochiki/?add-to-cart=2967)
+  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
+[Add to cart](https://store.automationghana.com/product/mounting-bracket-ifd-mb-hochiki/?add-to-cart=2952)
   * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
 [Add to cart](https://store.automationghana.com/product/mounting-bracket-ifd-mb-hochiki/?add-to-cart=2935)
 

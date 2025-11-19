@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / WIFI Relay Dummy Load
-[🔍](https://store.automationghana.com/product/wifi-relay-dummy-load/)
-[![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1.jpg)![](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/wifi-relay-dummy-load/)
+[![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1.jpg)
 ####  WIFI Relay Dummy Load 
 **SKU :** Y-BYPASS 
 ₵100.00
@@ -50,14 +50,14 @@ WiFi Relay Dummy Load
 
 Related Products 
 ## Related products
-  * [![F-Sensor Mounting Base](https://store.automationghana.com/wp-content/uploads/2021/10/430x430x90-sonoff_pir_motion_sensor_base_1623831045-removebg-preview-300x300.webp)F-Sensor Mounting Base ₵106.00 ](https://store.automationghana.com/product/f-sensor-mounting-base/)
-[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3592)
   * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
 [Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3316)
-  * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
-[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3300)
-  * [![F-CAM-Wireless IP PTZ Security Camera](https://store.automationghana.com/wp-content/uploads/2021/03/Sonoff-Wifi-Wireless-Security-Camera-GK-200mp2-B-300x300.jpg)F-CAM-Wireless IP PTZ Security Camera ₵1,266.00 ](https://store.automationghana.com/product/3209/)
-[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3209)
+  * [![Split Core Current Transformer 50A](https://store.automationghana.com/wp-content/uploads/2021/03/Clamp-Up-300x300.jpeg)Split Core Current Transformer 50A ₵172.00 ](https://store.automationghana.com/product/50a-16ma-clamp-on-current-transformer/)
+[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3308)
+  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
+[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3307)
+  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
+[Add to cart](https://store.automationghana.com/product/wifi-relay-dummy-load/?add-to-cart=3252)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

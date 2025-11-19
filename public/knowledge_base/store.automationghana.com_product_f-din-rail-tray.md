@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / F-DIN Rail Tray
-[🔍](https://store.automationghana.com/product/f-din-rail-tray/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/f-din-rail-tray/)
 [![F-DIN Rail Tray](https://store.automationghana.com/wp-content/uploads/2021/10/F-DIN-Rail-Tray.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/F-DIN-Rail-Tray.jpg)
 ####  F-DIN Rail Tray 
 **SKU :** F-DR 
@@ -50,14 +50,14 @@ F-DIN Rail Tray
 
 Related Products 
 ## Related products
-  * [![1 Channel WiFi Relay Switch Used Without Neutral](https://store.automationghana.com/wp-content/uploads/2021/10/shelly-1l-wifi-relay-switch-300x300.jpg)1 Channel WiFi Relay Switch Used Without Neutral ₵840.00 ](https://store.automationghana.com/product/1-channel-wifi-relay-switch-used-without-neutral/)
-[Add to cart](https://store.automationghana.com/product/f-din-rail-tray/?add-to-cart=3567)
   * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
 [Add to cart](https://store.automationghana.com/product/f-din-rail-tray/?add-to-cart=3316)
   * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
 [Add to cart](https://store.automationghana.com/product/f-din-rail-tray/?add-to-cart=3313)
-  * [![1 Channel WiFi-Relay,16A](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-1-wifi--300x300.png)WIFI Relay Switch, 1 Channel, Y-R-W1CH, Smarthome ₵344.00 ](https://store.automationghana.com/product/shelly-1/)
-[Add to cart](https://store.automationghana.com/product/f-din-rail-tray/?add-to-cart=3254)
+  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
+[Add to cart](https://store.automationghana.com/product/f-din-rail-tray/?add-to-cart=3307)
+  * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
+[Add to cart](https://store.automationghana.com/product/f-din-rail-tray/?add-to-cart=3300)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

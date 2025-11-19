@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / IT socket-NEW6-D20500, Chint
-[🔍](https://store.automationghana.com/product/it-socket-new6-d20500-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/it-socket-new6-d20500-chint/)
 [![IT socket-NEW6-D20500, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket.jpg)
 ####  IT socket-NEW6-D20500, Chint 
 **SKU :** NEW6-D20500 
@@ -55,8 +55,8 @@ Related Products
 [Add to cart](https://store.automationghana.com/product/it-socket-new6-d20500-chint/?add-to-cart=1531)
   * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42718, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42718, Silver, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42718-chint/)
 [Add to cart](https://store.automationghana.com/product/it-socket-new6-d20500-chint/?add-to-cart=1530)
-  * [![Single Socket\(Silver\), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket(Silver), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint ₵71.00 ](https://store.automationghana.com/product/single-socket-new6-d42708-chint/)
-[Add to cart](https://store.automationghana.com/product/it-socket-new6-d20500-chint/?add-to-cart=1528)
+  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-4-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42702, Gold , Chint ₵71.00 ](https://store.automationghana.com/product/singl-socket-new6-d42702-chint/)
+[Add to cart](https://store.automationghana.com/product/it-socket-new6-d20500-chint/?add-to-cart=1526)
   * [![IT socket-NEW6-D20100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20100, Chint ₵60.00 ](https://store.automationghana.com/product/it-socket-new6-d20100-chint/)
 [Add to cart](https://store.automationghana.com/product/it-socket-new6-d20500-chint/?add-to-cart=1515)
 

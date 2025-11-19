@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera
-[🔍](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
 [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-600x501.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin.jpg)
 ####  Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera 
 **SKU :** 902133A 
@@ -52,12 +52,12 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-24VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-12vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/industrial-plug-902133a-solera/?add-to-cart=1595)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
-[Add to cart](https://store.automationghana.com/product/industrial-plug-902133a-solera/?add-to-cart=1537)
-  * [![Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932133.png)Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera ₵115.00 ](https://store.automationghana.com/product/surface-mounted-socket-932133-solera/)
-[Add to cart](https://store.automationghana.com/product/industrial-plug-902133a-solera/?add-to-cart=1536)
+  * [![Relay Socket, 8-Pin, PYF08A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/8-Pin-Relay-Socket-PYF08A-E-Omron.jpg)Relay Socket, 8-Pin, PYF08A-E, Omron ₵21.00 ](https://store.automationghana.com/product/8-pin-relay-socket-pyf08a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/industrial-plug-902133a-solera/?add-to-cart=1605)
+  * [![Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC (S), Omron ₵44.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-12vdc-s-omron/)
+[Add to cart](https://store.automationghana.com/product/industrial-plug-902133a-solera/?add-to-cart=1600)
+  * [![Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC (S), Omron ₵72.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-24dc-s-omron/)
+[Add to cart](https://store.automationghana.com/product/industrial-plug-902133a-solera/?add-to-cart=1601)
   * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
 [Add to cart](https://store.automationghana.com/product/industrial-plug-902133a-solera/?add-to-cart=1514)
 

@@ -23,14 +23,22 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Armoured Power Cable 5-Core X 120mmsq YJV32, Chint
-[🔍](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/)
-[![Armoured Power Cable 5-Core X 120mmsq YJV32, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/YJV32-5X95.png)](https://store.automationghana.com/wp-content/uploads/2020/04/YJV32-5X95.png)![](https://store.automationghana.com/wp-content/uploads/2020/04/YJV32-5X95.png)
-####  Armoured Power Cable 5-Core X 120mmsq YJV32, Chint 
-**SKU :** YJV32 5X120 
-₵1,350.00
-Cable is sold per meter.
-Armoured Power Cable 5-Core X 120mmsq YJV32, Chint quantity
+[Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Autoflex Cable (Grey), 4Cx6mm², JZ-500, Helukabel
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/)
+[![Autoflex Cable \(Grey\), 4Cx6mm², JZ-500, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/4Cx4mm²-1.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/4Cx4mm²-1.jpg)
+####  Autoflex Cable (Grey), 4Cx6mm², JZ-500, Helukabel 
+**SKU :** Autoflex Cable (Grey), 4Cx6mm², JZ-500 
+₵56.50
+This is used for flexible applications involving medium mechanical stress with free movement, without tensile stress and without forced motion control in dry, damp and wet rooms, as well as outdoors.
+  * Core Structure: Multi-wire Stranded
+  * Colour: Grey
+  * Cable features: Flexible
+  * Core size: 4x6mm²
+  * Insulation material : PVC
+  * Number of cores :4
+
+
+Autoflex Cable (Grey), 4Cx6mm², JZ-500, Helukabel quantity
 Add to cart
   * Pickup: Available today in our stores
 
@@ -43,23 +51,25 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-YJV32 5C X 120mmsq, Armoured Power Cable 
-  * For Construction, Underground, Industrial and Power Station Purposes
-  * Low and Medium Voltage Cable
-  * Conductor Material: Copper
-  * Number of Cores: 5
+This is used for flexible applications involving medium mechanical stress with free movement, without tensile stress and without forced motion control in dry, damp and wet rooms, as well as outdoors. 
+  * Core Structure: Multi-wire Stranded
+  * Colour: Grey
+  * Cable features: Flexible
+  * Core size: 4x6mm²
+  * Insulation material : PVC
+  * Number of cores :4
 
 
 Related Products 
 ## Related products
-  * [![Autoflex Cable, 29242-H07V-K-1Cx35 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29242-H07V-K-1Cx35 Y/G, Helukabel ₵77.20 ](https://store.automationghana.com/product/autoflex-cable-29242-h07v-k-1cx35-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/?add-to-cart=1483)
-  * [![Autoflex Cable, 29197-H07V-K-1Cx10 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable, 29197-H07V-K-1Cx10 RED, Helukabel ₵25.00 ](https://store.automationghana.com/product/autoflex-cable-29197-h07v-k-1cx10-red-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/?add-to-cart=1477)
-  * [![Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel ₵68.00 ](https://store.automationghana.com/product/autoflex-cable-29241-h07v-k-1cx35-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/?add-to-cart=1482)
-  * [![Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel ₵12.00 ](https://store.automationghana.com/product/autoflex-cable-29162-h07v-k-1cx4-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/?add-to-cart=1468)
+  * [![Autoflex Cable 2-Core x 1mmsq, 10616-OZ-600 2Cx1, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/SCREENED-CABLE-300x300.jpg)Autoflex Cable 2-Core x 1mmsq, 10616-OZ-600 2Cx1, Helukabel ₵7.00 ](https://store.automationghana.com/product/autoflex-cable-10616-oz-600-2cx1-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/?add-to-cart=1485)
+  * [![Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel ₵38.00 ](https://store.automationghana.com/product/autoflex-cable-29213-h07v-k-1cx16-red-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/?add-to-cart=1479)
+  * [![Autoflex Cable \(Black\), H07V-K-1Cx25mm², 29225, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx25mm², 29225, Helukabel ₵51.50 ](https://store.automationghana.com/product/autoflex-cable-29225-h07v-k-1cx25-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/?add-to-cart=1480)
+  * [![Autoflex Cable \(Blue\), H07V-K-1Cx4mm², 29163, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), H07V-K-1Cx4mm², 29163, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29163-h07v-k-1cx4-be-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-5x120-chint/?add-to-cart=1469)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

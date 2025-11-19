@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Thermal Overload Relay, 12-18A, 1 N.O + 1 N.C, NXR-25 12-18A, Chint
-[🔍](https://store.automationghana.com/product/thermal-overload-relay-12-18a/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/thermal-overload-relay-12-18a/)
 [![Thermal Overload Relay, 12-18A, 1 N.O + 1 N.C, NXR-25 12-18A, Chint](https://store.automationghana.com/wp-content/uploads/2021/04/Thermal-Overload-Relay-NXR-12-7-10A-Chint.jpg)](https://store.automationghana.com/wp-content/uploads/2021/04/Thermal-Overload-Relay-NXR-12-7-10A-Chint.jpg)
 ####  Thermal Overload Relay, 12-18A, 1 N.O + 1 N.C, NXR-25 12-18A, Chint 
 **SKU :** NXR-25 12-18A 
@@ -46,14 +46,14 @@ Product Description
 NXR-25 12-18A, Thermal Overload Relay ensures phase failure and overload protection.
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint ₵44.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-24vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-12-18a/?add-to-cart=1604)
-  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-12-18a/?add-to-cart=1594)
-  * [![Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932133.png)Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera ₵115.00 ](https://store.automationghana.com/product/surface-mounted-socket-932133-solera/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-12-18a/?add-to-cart=1536)
-  * [![Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902154A.png)Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera ₵108.00 ](https://store.automationghana.com/product/industrial-plug-902154a-solera/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-12-18a/?add-to-cart=1511)
+  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-12-18a/?add-to-cart=1602)
+  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-12-18a/?add-to-cart=1603)
+  * [![Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-24VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-12-18a/?add-to-cart=1595)
+  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-12-18a/?add-to-cart=1533)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

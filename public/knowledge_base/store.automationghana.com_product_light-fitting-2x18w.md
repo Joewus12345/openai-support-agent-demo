@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / Light Fitting, 2X36W Plastic, HN70014-PS-TA8-218, West New Tech
-[🔍](https://store.automationghana.com/product/light-fitting-2x18w/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/light-fitting-2x18w/)
 [![Light Fitting, 2X36W Plastic, HN70014-PS-TA8-218, West New Tech](https://store.automationghana.com/wp-content/uploads/2022/04/Light-Fitting.jpeg)](https://store.automationghana.com/wp-content/uploads/2022/04/Light-Fitting.jpeg)
 ####  Light Fitting, 2X36W Plastic, HN70014-PS-TA8-218, West New Tech 
 **SKU :** HN70014-PS-TA8-218 
@@ -52,14 +52,14 @@ HN70014-PS-TA8-218, Light Fitting
 
 Related Products 
 ## Related products
-  * [![Double Socket 2-Gang 3-Pin, NEW7-G41910K, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-2-300x300.jpg)Double Socket 2-Gang 3-Pin, NEW7-G41910K, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new7-g41910k-chint/)
-[Add to cart](https://store.automationghana.com/product/light-fitting-2x18w/?add-to-cart=1540)
-  * [![Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-7-300x300.jpg)Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint ₵47.00 ](https://store.automationghana.com/product/single-socket-new6-d42700-chint/)
-[Add to cart](https://store.automationghana.com/product/light-fitting-2x18w/?add-to-cart=1527)
-  * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-5-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42712-chint/)
-[Add to cart](https://store.automationghana.com/product/light-fitting-2x18w/?add-to-cart=1529)
+  * [![IT socket-NEW6-D21100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/the-two-300x300.jpg)IT socket-NEW6-D21100, Chint ₵124.00 ](https://store.automationghana.com/product/it-socket-new6-d21100-chint/)
+[Add to cart](https://store.automationghana.com/product/light-fitting-2x18w/?add-to-cart=1519)
   * [![IT socket-NEW6-D20100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20100, Chint ₵60.00 ](https://store.automationghana.com/product/it-socket-new6-d20100-chint/)
 [Add to cart](https://store.automationghana.com/product/light-fitting-2x18w/?add-to-cart=1515)
+  * [![Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint ₵127.00 ](https://store.automationghana.com/product/double-socket-with-neon-new6-d41938-chint/)
+[Add to cart](https://store.automationghana.com/product/light-fitting-2x18w/?add-to-cart=1507)
+  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
+[Add to cart](https://store.automationghana.com/product/light-fitting-2x18w/?add-to-cart=1502)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / Automatic Changeover 160A, NZ7-250H/4, Chint
-[🔍](https://store.automationghana.com/product/automatic-changeover-nz7-250h-4-160a-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/automatic-changeover-nz7-250h-4-160a-chint/)
 [![Automatic Changeover 160A, NZ7-250H/4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)
 ####  Automatic Changeover 160A, NZ7-250H/4, Chint 
 **SKU :** NZ7-250H/4 160A 
@@ -43,7 +43,7 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-NZ7-250H/4 160A, Automatic Changeover 
+The automatic transfer switching equipment can automatically connect one or several loads from one power source to another to ensure the normal power supply of the load circuit. This product is applicable to important places such as industrial, commercial, and storied buildings, and residential houses 
   * Current Rating: 160A
   * Voltage: 400A
   * Number of poles: 4
@@ -51,14 +51,14 @@ NZ7-250H/4 160A, Automatic Changeover
 
 Related Products 
 ## Related products
-  * [![Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-250h-4-160a-chint/?add-to-cart=1780)
+  * [![MCB, C63A-2P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-2P-300x300.jpg)MCB, C63A-2P-6kA, NXB-63, Chint ₵78.50 ](https://store.automationghana.com/product/mcb-nxb-63-2p-c63-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-250h-4-160a-chint/?add-to-cart=1783)
+  * [![MCB, C20A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C20-1P-300x300.jpg)MCB, C20A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c20-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-250h-4-160a-chint/?add-to-cart=1778)
   * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
 [Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-250h-4-160a-chint/?add-to-cart=1779)
-  * [![MCB, C16A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C16-1P-300x300.jpg)MCB, C16A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c16-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-250h-4-160a-chint/?add-to-cart=1777)
-  * [![Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint ₵2,807.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-200-4csw-enc-bar-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-250h-4-160a-chint/?add-to-cart=1757)
+  * [![Automatic Voltage Regulator \(AVR\), 5kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-5-300x300.jpg)Automatic Voltage Regulator (AVR), 5kvA, 1Phase ₵3,381.00 ](https://store.automationghana.com/product/avr-tnd1svc-5-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-250h-4-160a-chint/?add-to-cart=1637)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

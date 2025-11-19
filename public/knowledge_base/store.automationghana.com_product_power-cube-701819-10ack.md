@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Power Cube 701819-10ACK
-[🔍](https://store.automationghana.com/product/power-cube-701819-10ack/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/power-cube-701819-10ack/)
 [![Power Cube 701819-10ACK](https://store.automationghana.com/wp-content/uploads/2020/12/701819-10ACK.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/701819-10ACK.jpg)
 ####  Power Cube 701819-10ACK 
 **SKU :** 701819-10ACK 
@@ -51,14 +51,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
-[Add to cart](https://store.automationghana.com/product/power-cube-701819-10ack/?add-to-cart=2981)
-  * [![Base Socket 700-HN139](https://store.automationghana.com/wp-content/uploads/2020/12/700-HN139.jpg)Base Socket 700-HN139 ₵457.00 ](https://store.automationghana.com/product/base-socket-700-hn139/)
-[Add to cart](https://store.automationghana.com/product/power-cube-701819-10ack/?add-to-cart=2971)
-  * [![Auxiliary Contact 100-SB11](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB11 ₵270.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb11/)
-[Add to cart](https://store.automationghana.com/product/power-cube-701819-10ack/?add-to-cart=2954)
+  * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
+[Add to cart](https://store.automationghana.com/product/power-cube-701819-10ack/?add-to-cart=2963)
+  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
+[Add to cart](https://store.automationghana.com/product/power-cube-701819-10ack/?add-to-cart=2961)
   * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
 [Add to cart](https://store.automationghana.com/product/power-cube-701819-10ack/?add-to-cart=2948)
+  * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
+[Add to cart](https://store.automationghana.com/product/power-cube-701819-10ack/?add-to-cart=2941)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

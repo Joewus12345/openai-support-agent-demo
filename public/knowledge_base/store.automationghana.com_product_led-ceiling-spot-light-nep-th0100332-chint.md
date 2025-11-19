@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / LED Ceiling Spot Light, 3W
-[🔍](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/)
 [![LED Ceiling Spot Light, 3W](https://store.automationghana.com/wp-content/uploads/2020/04/NEP-TH0100332.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NEP-TH0100332.jpg)
 ####  LED Ceiling Spot Light, 3W 
 **SKU :** NEP-TH0100332 
@@ -55,14 +55,14 @@ NEP-TH0100332, LED Ceiling Spot Light
 
 Related Products 
 ## Related products
-  * [![IT socket-NEW6-D20500, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-300x300.jpg)IT socket-NEW6-D20500, Chint ₵256.00 ](https://store.automationghana.com/product/it-socket-new6-d20500-chint/)
-[Add to cart](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/?add-to-cart=1518)
-  * [![IT socket-NEW6-D20300, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TELEPHONE-300x300.jpg)IT socket-NEW6-D20300, Chint ₵66.00 ](https://store.automationghana.com/product/it-socket-new6-d20300-chint/)
-[Add to cart](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/?add-to-cart=1516)
-  * [![Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-5-300x300.jpg)Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41912-chint/)
-[Add to cart](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/?add-to-cart=1509)
-  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
-[Add to cart](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/?add-to-cart=1502)
+  * [![Switch, 1-Gang 1-Way 16A, 250V, NEW6-D00100, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-white-300x300.jpg)Switch, 1-Gang 1-Way 16A, 250V, NEW6-D00100, White, Chint ₵44.00 ](https://store.automationghana.com/product/switch-new6-d00100-chint/)
+[Add to cart](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/?add-to-cart=1541)
+  * [![IT socket-NEW6-D20400, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20400, Chint ₵148.00 ](https://store.automationghana.com/product/it-socket-new6-d20400-chint/)
+[Add to cart](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/?add-to-cart=1517)
+  * [![IT socket-NEW6-D20100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20100, Chint ₵60.00 ](https://store.automationghana.com/product/it-socket-new6-d20100-chint/)
+[Add to cart](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/?add-to-cart=1515)
+  * [![Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-3-300x300.jpg)Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint ₵120.00 ](https://store.automationghana.com/product/double-socket-new6-d41932-chint/)
+[Add to cart](https://store.automationghana.com/product/led-ceiling-spot-light-nep-th0100332-chint/?add-to-cart=1508)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

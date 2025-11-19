@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Enclosures and Junction Boxes](https://store.automationghana.com/product-category/enclosures-and-junction-boxes/) / Push Button Enclosure NPH1-20 Chint
-[🔍](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/)
 [![Push Button Enclosure NPH1-20 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/nphi-20-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/nphi-20.jpg)
 ####  Push Button Enclosure NPH1-20 Chint 
 **SKU :** NPH1-20 
@@ -50,14 +50,14 @@ NPH1-20, Push Button Enclosure
 
 Related Products 
 ## Related products
-  * [![Distribution Board \(Flush\), 16 Way, NX9-16M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board (Flush), 16 Way, NX9-16M, Chint ₵2,485.00 ](https://store.automationghana.com/product/dist-board-nx9-16m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1701)
   * [![Consumer Unit, 5-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 5-Way ₵218.00 ](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/)
 [Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1645)
-  * [![Distribution Board, 6 Way, Flush, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Flush, NX9-6M, Chint ₵488.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1505)
-  * [![Distribution Board\(Flush\), 8 Way, NX9-8M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board(Flush), 8 Way, NX9-8M, Chint ₵1,800.00 ](https://store.automationghana.com/product/dist-board-nx9-8m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1504)
+  * [![Enclosure, 500 X 400 X 230mm](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure, 500 X 400 X 230mm ₵532.00 ](https://store.automationghana.com/product/enclosure-nxw5-5040-23-chint/)
+[Read more](https://store.automationghana.com/product/enclosure-nxw5-5040-23-chint/)
+  * [![din-rail-th35-7.5-chint](https://store.automationghana.com/wp-content/uploads/2020/04/din-rail-th35-7.5-chint-300x300.jpg)Din Rail-TH35-7.5, Chint ₵25.00 ](https://store.automationghana.com/product/din-rail-th35-7-5-chint/)
+[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1562)
+  * [![Distribution Board, 6 Way, Surface, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Surface, NX9-6M, Chint ₵1,514.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-surface-chint/)
+[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1506)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

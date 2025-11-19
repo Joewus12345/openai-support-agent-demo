@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Flexible Cable 11489 OZ-600-Y-CY 2Cx0.75 Helukabel
-[🔍](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/)
 [![Flexible Cable 11489 OZ-600-Y-CY 2Cx0.75 Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/SCREENED-CABLE.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/SCREENED-CABLE.jpg)
 ####  Flexible Cable 11489 OZ-600-Y-CY 2Cx0.75 Helukabel 
 **SKU :** 11489 OZ-600-Y-CY 2CX0.75mmsq 
@@ -53,14 +53,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Autoflex Cable, 29242-H07V-K-1Cx35 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29242-H07V-K-1Cx35 Y/G, Helukabel ₵77.20 ](https://store.automationghana.com/product/autoflex-cable-29242-h07v-k-1cx35-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/?add-to-cart=1483)
-  * [![Autoflex Cable \(Black\), 29145, H07V-K-1Cx2.5mmsq, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), 29145, H07V-K-1Cx2.5mmsq, Helukabel ₵7.80 ](https://store.automationghana.com/product/autoflex-cable-29145-h07v-k-1cx2-5-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/?add-to-cart=1463)
-  * [![Armoured Cable, 2311003123-XAV 3Cx16 /0.6/1kV, Lapp](https://store.automationghana.com/wp-content/uploads/2019/12/Armoured-cable-300x300.jpg)Armoured Cable, 2311003123-XAV 3Cx16 /0.6/1kV, Lapp ₵97.00 ](https://store.automationghana.com/product/armoured-cable-2311003123-xav-3cx16-0-6-1kv-lapp/)
-[Add to cart](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/?add-to-cart=1458)
-  * [![Armoured Cable, 2311000908-XAV 4Cx16 /0.6/1kV, Lapp](https://store.automationghana.com/wp-content/uploads/2019/12/Armoured-cable-300x300.jpg)Armoured Cable, 2311000908-XAV 4Cx16 /0.6/1kV, Lapp ₵166.00 ](https://store.automationghana.com/product/armoured-cable-2311000908-xav-4cx16-0-6-1kv-lapp/)
-[Add to cart](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/?add-to-cart=1455)
+  * [![Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey](https://store.automationghana.com/wp-content/uploads/2020/04/CAT-6-FTP-300x300.jpg)Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey ₵22.00 ](https://store.automationghana.com/product/cat-6-cable-802174-u-ftp-4cx2xawg-26-7-pvc-helukabel/)
+[Add to cart](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/?add-to-cart=1487)
+  * [![Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-3g15-300x300.png)Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel ₵18.10 ](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/)
+[Add to cart](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/?add-to-cart=1484)
+  * [![Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel ₵38.00 ](https://store.automationghana.com/product/autoflex-cable-29213-h07v-k-1cx16-red-helukabel/)
+[Add to cart](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/?add-to-cart=1479)
+  * [![Autoflex Cable\(Black\), H07V-K-1Cx10mm², 29193, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable(Black), H07V-K-1Cx10mm², 29193, Helukabel ₵25.50 ](https://store.automationghana.com/product/autoflex-cable-29193-h07v-k-1cx10-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/flexible-cable-11489-oz-600-y-cy-2cx0-75-helukabel/?add-to-cart=1475)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

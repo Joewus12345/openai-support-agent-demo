@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / WIFI and Bluetooth Pre Amplifier Mini
-[🔍](https://store.automationghana.com/product/wifi-bluetooth-pre-amplifier-mini/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/wifi-bluetooth-pre-amplifier-mini/)
 [![WIFI and Bluetooth Pre Amplifier Mini](https://store.automationghana.com/wp-content/uploads/2021/10/AWBTPREAMPMINI.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/AWBTPREAMPMINI.jpg)
 ####  WIFI and Bluetooth Pre Amplifier Mini 
 **SKU :** A-W/BT-PREAMP-MINI 
@@ -55,10 +55,10 @@ WIFI & Bluetooth Pre Amplifier Mini
 
 Related Products 
 ## Related products
-  * [![2 Channel WiFi Dimmer Switch](https://store.automationghana.com/wp-content/uploads/2021/10/image.thumb_.png.53d2d5bf0ada5ff3649de0faf116a756-300x300.png)2 Channel WiFi Dimmer Switch ₵1,051.00 ](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/)
-[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-pre-amplifier-mini/?add-to-cart=3571)
-  * [![Zone-Beast Control Module-SB-ZMix23-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/DSC0766_1600x1067dF7bb3gOp6MrT_600x600-300x300.jpg)Zone-Beast Control Module-SB-ZMix23-DN, Smarthome ₵2,836.00 ](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/)
-[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-pre-amplifier-mini/?add-to-cart=3316)
+  * [![F-Sensor Mounting Base](https://store.automationghana.com/wp-content/uploads/2021/10/430x430x90-sonoff_pir_motion_sensor_base_1623831045-removebg-preview-300x300.webp)F-Sensor Mounting Base ₵106.00 ](https://store.automationghana.com/product/f-sensor-mounting-base/)
+[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-pre-amplifier-mini/?add-to-cart=3592)
+  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
+[Add to cart](https://store.automationghana.com/product/wifi-bluetooth-pre-amplifier-mini/?add-to-cart=3313)
   * [![2 CH WiFi Energy Meter \(Without CT\)](https://store.automationghana.com/wp-content/uploads/2021/03/1717575443517ntg603-300x300.jpg)2 CH WiFi Energy Meter (Without CT) ₵1,804.00 ](https://store.automationghana.com/product/wifi-operated-energy-meter-and-contactor-control-c-w-1-ct/)
 [Add to cart](https://store.automationghana.com/product/wifi-bluetooth-pre-amplifier-mini/?add-to-cart=3300)
   * [![F-CAM-Wireless IP PTZ Security Camera](https://store.automationghana.com/wp-content/uploads/2021/03/Sonoff-Wifi-Wireless-Security-Camera-GK-200mp2-B-300x300.jpg)F-CAM-Wireless IP PTZ Security Camera ₵1,266.00 ](https://store.automationghana.com/product/3209/)

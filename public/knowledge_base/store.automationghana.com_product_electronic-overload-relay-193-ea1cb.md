@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Electronic Overload Relay 193-EA1CB
-[🔍](https://store.automationghana.com/product/electronic-overload-relay-193-ea1cb/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/electronic-overload-relay-193-ea1cb/)
 [![Electronic Overload Relay 193-EA1CB](https://store.automationghana.com/wp-content/uploads/2020/12/Electronic-Overload-Relay-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/Electronic-Overload-Relay.jpg)
 ####  Electronic Overload Relay 193-EA1CB 
 **SKU :** 193-EA1CB 
@@ -46,14 +46,14 @@ Product Description
 193-EA1CB Solid state electronic motor protection overload relay 0.32-1.0A with manual reset.
 Related Products 
 ## Related products
-  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
-[Add to cart](https://store.automationghana.com/product/electronic-overload-relay-193-ea1cb/?add-to-cart=2985)
-  * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
-[Add to cart](https://store.automationghana.com/product/electronic-overload-relay-193-ea1cb/?add-to-cart=2969)
   * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
 [Add to cart](https://store.automationghana.com/product/electronic-overload-relay-193-ea1cb/?add-to-cart=2963)
   * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
 [Add to cart](https://store.automationghana.com/product/electronic-overload-relay-193-ea1cb/?add-to-cart=2961)
+  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
+[Add to cart](https://store.automationghana.com/product/electronic-overload-relay-193-ea1cb/?add-to-cart=2952)
+  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
+[Add to cart](https://store.automationghana.com/product/electronic-overload-relay-193-ea1cb/?add-to-cart=2950)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

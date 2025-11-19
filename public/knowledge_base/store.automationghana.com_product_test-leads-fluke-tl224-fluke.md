@@ -52,12 +52,12 @@ SureGrip Insulated Test Leads, FLUKE-TL 224
 
 Related Products 
 ## Related products
-  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
-[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=2012)
-  * [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke-300x300.png)Fluke T6-600, Electrical Tester with FieldSense Technology ₵4,525.00 ](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
-[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=2004)
-  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
-[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=2001)
+  * [![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115-300x300.jpg)Multimeter-FLUKE-115, Fluke ₵5,282.00 ](https://store.automationghana.com/product/multimeter-fluke-115-fluke/)
+[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=2013)
+  * [![Fluke 114](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-114-300x300.jpg)Multimeter, Digital, 600V, Autovolt Selection, Fluke-114, Fluke ₵5,194.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/)
+[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=1997)
+  * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
+[Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=2000)
   * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
 [Add to cart](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/?add-to-cart=1995)
 

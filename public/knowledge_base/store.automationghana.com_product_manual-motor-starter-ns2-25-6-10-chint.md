@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Manual Motor Starter, 6 – 10A
-[🔍](https://store.automationghana.com/product/manual-motor-starter-ns2-25-6-10-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/manual-motor-starter-ns2-25-6-10-chint/)
 [![Manual Motor Starter, 6 - 10A](https://store.automationghana.com/wp-content/uploads/2020/04/ns2-25-600x545.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/ns2-25.jpg)
 ####  Manual Motor Starter, 6 – 10A 
 **SKU :** NS2-25 6-10A 
@@ -46,12 +46,12 @@ Product Description
 NS2-25 6-10, Manual Motor Starter
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-6-10-chint/?add-to-cart=1603)
-  * [![Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC (S), Omron ₵44.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-12vdc-s-omron/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-6-10-chint/?add-to-cart=1600)
-  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-6-10-chint/?add-to-cart=1593)
+  * [![Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint ₵44.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-6-10-chint/?add-to-cart=1604)
+  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-6-10-chint/?add-to-cart=1599)
+  * [![Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay,Flat, 14-Pin, 24VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-24vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-6-10-chint/?add-to-cart=1597)
   * [![Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-12VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat 14-Pin, 220VAC, JZX-22F-D-4Z 220V, Chint ₵46.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-220v-chint/)
 [Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-25-6-10-chint/?add-to-cart=1596)
 

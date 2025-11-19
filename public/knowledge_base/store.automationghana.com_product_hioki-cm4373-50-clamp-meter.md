@@ -23,7 +23,7 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [HIOKI](https://store.automationghana.com/product-category/hioki/) / [HIOKI](https://store.automationghana.com/product-category/hioki/hioki-hioki/) / Hioki CM4373-50 Clamp Meter
+[Home](https://store.automationghana.com) / [Uncategorised](https://store.automationghana.com/product-category/uncategorised/) / Hioki CM4373-50 Clamp Meter
 [🔍](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/)
 [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/03/hioki-600x400.png)](https://store.automationghana.com/wp-content/uploads/2025/03/hioki.png)
 ####  Hioki CM4373-50 Clamp Meter 
@@ -45,12 +45,12 @@ Product Description
 Features: ✔️ True RMS up to 2000 A AC/DC for accurate readings ✔️ Measures up to 2000 V DC – ideal for solar PV inspections ✔️ Stronger jaws & IP54 rating – dustproof, waterproof, and durable ✔️ Smart Data Transfer – use the GENNECT Cross app for reports & analysis ✔️ Safety First – CAT IV 600V | CAT III 1000V ✔️ Efficiency Boost – Auto AC/DC switching & easy data management Order Now: 0501644341
 Related Products 
 ## Related products
+  * [![Clamp On Earth Tester, FT6380-50, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Clamp-On-Earth-Tester-FT6380-50-Hioki-300x300.png)Clamp On Earth Tester, FT6380-50, Hioki ₵22,774.40 ](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/)
+[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24687)
   * [![Infrared Thermometer, FT3700-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Infrared-Thermometer-FT3700-20-Hioki-300x300.png)Infrared Thermometer, FT3700-20, Hioki ₵2,235.20 ](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/)
 [Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24685)
-  * [![DC Signal Source, SS7012, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/DC-Signal-Source-SS7012-Hioki-300x300.png)DC Signal Source, SS7012, Hioki ₵33,104.40 ](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/)
-[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24683)
-  * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/05/ACDC-Clamp-Meter-300x300.png)Hioki CM4373-50 Clamp Meter ₵8,790.00 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/)
-[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24675)
+  * [![Digital Insulation Tester, IR4056-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Insulation-Tester-IR4056-20-Hioki-300x300.png)Digital Insulation Tester, IR4056-20, Hioki ₵5,738.90 ](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/)
+[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24681)
   * [![Digital Multimeter, DT4282, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Multimeter-DT4282-300x300.png)Digital Multimeter, DT4282, Hioki ₵9,304.00 ](https://store.automationghana.com/product/digital-multimeter-dt4282-hioki/)
 [Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24673)
 

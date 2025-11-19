@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Modular Contactor 63A, 3P, 240V, Modular Contactor 63A, 2NO, 2NC, NCH8-63M/22, Chint
-[🔍](https://store.automationghana.com/product/modular-contactor-63a-3p-240v/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/modular-contactor-63a-3p-240v/)
 [![Modular Contactor 63A, 3P, 240V, Modular Contactor 63A, 2NO, 2NC, NCH8-63M/22, Chint](https://store.automationghana.com/wp-content/uploads/2021/10/Contactor-NCH8-63_40-230VAC.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/Contactor-NCH8-63_40-230VAC.jpg)
 ####  Modular Contactor 63A, 3P, 240V, Modular Contactor 63A, 2NO, 2NC, NCH8-63M/22, Chint 
 **SKU :** NCH8-63M/22 
@@ -54,12 +54,12 @@ Related Products
 ## Related products
   * [![Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 24VDC, JQX-10F/2Z, Chint ₵44.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-24vdc-chint/)
 [Add to cart](https://store.automationghana.com/product/modular-contactor-63a-3p-240v/?add-to-cart=1604)
-  * [![Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera ₵60.00 ](https://store.automationghana.com/product/plug-902131a-solera/)
-[Add to cart](https://store.automationghana.com/product/modular-contactor-63a-3p-240v/?add-to-cart=1523)
+  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/modular-contactor-63a-3p-240v/?add-to-cart=1592)
+  * [![Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-8-300x300.jpg)Industrial Plug, 63A, 3P+N+E, 400VAC, 902456A, Solera ₵608.00 ](https://store.automationghana.com/product/plug-902456a-solera/)
+[Add to cart](https://store.automationghana.com/product/modular-contactor-63a-3p-240v/?add-to-cart=1524)
   * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
 [Add to cart](https://store.automationghana.com/product/modular-contactor-63a-3p-240v/?add-to-cart=1522)
-  * [![Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903131A.png)Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera ₵66.00 ](https://store.automationghana.com/product/industrial-socket-903131a-solera/)
-[Add to cart](https://store.automationghana.com/product/modular-contactor-63a-3p-240v/?add-to-cart=1513)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

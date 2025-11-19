@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / Switch, 3-Gang 2-Way 250VAC, 10A, NEW7-G00600A, White, Chint
-[🔍](https://store.automationghana.com/product/switch-new7-g00600a-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/switch-new7-g00600a-chint/)
 [![Switch, 3-Gang 2-Way 250VAC, 10A, NEW7-G00600A, White, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/SWITCH-7-1.jpg)](https://store.automationghana.com/wp-content/uploads/2019/11/SWITCH-7-1.jpg)
 ####  Switch, 3-Gang 2-Way 250VAC, 10A, NEW7-G00600A, White, Chint 
 **SKU :** NEW7-G00600A 
@@ -52,14 +52,14 @@ NEW7-G00600A, Switch, 3-Gang 2-Way
 
 Related Products 
 ## Related products
-  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new7-g00600a-chint/?add-to-cart=1525)
-  * [![IT socket-NEW6-D20500, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-300x300.jpg)IT socket-NEW6-D20500, Chint ₵256.00 ](https://store.automationghana.com/product/it-socket-new6-d20500-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new7-g00600a-chint/?add-to-cart=1518)
-  * [![IT socket-NEW6-D20300, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TELEPHONE-300x300.jpg)IT socket-NEW6-D20300, Chint ₵66.00 ](https://store.automationghana.com/product/it-socket-new6-d20300-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new7-g00600a-chint/?add-to-cart=1516)
-  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new7-g00600a-chint/?add-to-cart=1502)
+  * [![Switch, Fan Speed Control, 250W, NEW7-G306, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/fan-speed-300x300.jpg)Switch, Fan Speed Control, 250W, NEW7-G306, Chint ₵83.00 ](https://store.automationghana.com/product/switch-new7-g306-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new7-g00600a-chint/?add-to-cart=1538)
+  * [![Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42720-300x300.jpg)Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint ₵184.00 ](https://store.automationghana.com/product/single-socket-new6-d42720-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new7-g00600a-chint/?add-to-cart=1531)
+  * [![Single Switched Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42900, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Switched Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42900, Chint ₵56.00 ](https://store.automationghana.com/product/single-socket-new6-d42900-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new7-g00600a-chint/?add-to-cart=1532)
+  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new7-g00600a-chint/?add-to-cart=1503)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

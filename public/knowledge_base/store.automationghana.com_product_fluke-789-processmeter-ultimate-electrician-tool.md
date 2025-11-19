@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Process Meter Loop Calibrator, 0-1000 V AC (True-RMS) or DC, Fluke-789, Fluke
-[🔍](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/)
 [![Process Meter Loop Calibrator, 0-1000 V AC \(True-RMS\) or DC, Fluke-789, Fluke](https://store.automationghana.com/wp-content/uploads/2024/07/photo_2024-07-29_12-31-58-1-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2024/07/photo_2024-07-29_12-31-58-1.jpg)
 ####  Process Meter Loop Calibrator, 0-1000 V AC (True-RMS) or DC, Fluke-789, Fluke 
 **SKU :** Fluke-789 
@@ -44,14 +44,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Non-Contact-Voltage-Detector-MD-116-Metre](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-116-Metrel-300x300.png)Voltage Detector, Non-Contact, 12-1000VAC, MD 116, Metrel ₵365.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-116-metrel/)
-[Add to cart](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/?add-to-cart=2015)
-  * [![Digital-MultimeterMD-9030-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-MultimeterMD-9030-Metrel-300x300.png)Multimeter,Digital, 1000VDC/VAC, 10A DC/AC, MD 9030, Metrel ₵1,819.00 ](https://store.automationghana.com/product/digital-multimetermd-9030-metrel/)
-[Add to cart](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/?add-to-cart=2002)
-  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/?add-to-cart=2005)
-  * [![FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER-300x300.jpg)Multimeter, Digital with Temperature Reading, FLUKE-179, Fluke ₵5,505.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-179-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/?add-to-cart=1999)
+  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
+[Add to cart](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/?add-to-cart=2012)
+  * [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ₵3,161.00 ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/?add-to-cart=1996)
+  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/?add-to-cart=1992)
+  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-789-processmeter-ultimate-electrician-tool/?add-to-cart=1994)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

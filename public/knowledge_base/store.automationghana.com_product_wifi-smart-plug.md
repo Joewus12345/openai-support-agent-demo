@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / WIFI Smart Plug
-[🔍](https://store.automationghana.com/product/wifi-smart-plug/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/wifi-smart-plug/)
 [![WIFI Smart Plug](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Smart-Plug.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Smart-Plug.jpg)
 ####  WIFI Smart Plug 
 **SKU :** W-SM PLUG 
@@ -52,14 +52,14 @@ WiFi Smart Plug
 
 Related Products 
 ## Related products
-  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
-[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3583)
-  * [![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1-300x300.jpg)WIFI Relay Dummy Load ₵100.00 ](https://store.automationghana.com/product/wifi-relay-dummy-load/)
-[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3569)
-  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
-[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3307)
-  * [![1 Channel WIFI Metering Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/shelly1pm_x1-1000x1000-1-1-300x300.jpg)1 Channel WIFI Metering Relay Switch ₵560.00 ](https://store.automationghana.com/product/wifi-operated-relay-switch-16-a-with-power-measurement/)
-[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3302)
+  * [![F-RF Wireless Gateway](https://store.automationghana.com/wp-content/uploads/2021/10/elan-rf-103-preview-1-300x300.png)F-RF Wireless Gateway ₵441.00 ](https://store.automationghana.com/product/f-rf-wireless-gateway/)
+[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3588)
+  * [![F-RF Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/F-RF-Door-Window-Sensor.jpg)F-RF Door & Window Sensor ₵282.00 ](https://store.automationghana.com/product/f-rf-door-window-sensor/)
+[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3586)
+  * [![2 Channel WiFi Dimmer Switch](https://store.automationghana.com/wp-content/uploads/2021/10/image.thumb_.png.53d2d5bf0ada5ff3649de0faf116a756-300x300.png)2 Channel WiFi Dimmer Switch ₵1,051.00 ](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/)
+[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3571)
+  * [![1 Channel WiFi Relay Switch Used Without Neutral](https://store.automationghana.com/wp-content/uploads/2021/10/shelly-1l-wifi-relay-switch-300x300.jpg)1 Channel WiFi Relay Switch Used Without Neutral ₵840.00 ](https://store.automationghana.com/product/1-channel-wifi-relay-switch-used-without-neutral/)
+[Add to cart](https://store.automationghana.com/product/wifi-smart-plug/?add-to-cart=3567)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

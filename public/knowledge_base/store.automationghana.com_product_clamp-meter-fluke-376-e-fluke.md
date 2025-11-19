@@ -53,14 +53,14 @@ True RMS AC/DC Clamp Meter With iFlex, Fluke-376/E
 
 Related Products 
 ## Related products
-  * [![Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage-300x300.png)Multimeter, Digital, 600V, Non-contact Voltage Detection, Fluke-117, Fluke ₵4,698.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-117-fluke/)
-[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/?add-to-cart=1998)
+  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/?add-to-cart=2010)
+  * [![Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/MD-1150-300x300.jpg)Voltage/Continuity Tester, 60V-1000V, 0-400Hz, MD 1150, Metrel ₵1,515.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1150-metrel/)
+[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/?add-to-cart=2011)
   * [![Fluke 114](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-114-300x300.jpg)Multimeter, Digital, 600V, Autovolt Selection, Fluke-114, Fluke ₵5,194.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/)
 [Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/?add-to-cart=1997)
-  * [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ₵3,161.00 ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
-[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/?add-to-cart=1996)
-  * [![Clamp Meter, Fluke-376FC](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-Fluke-376FC-Fluke-300x300.png)Clamp Meter, True RMS AC/DC, 1000A/1000V, Fluke-376FC, Fluke ₵10,430.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376fc-fluke/)
-[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/?add-to-cart=1993)
+  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
+[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/?add-to-cart=1994)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

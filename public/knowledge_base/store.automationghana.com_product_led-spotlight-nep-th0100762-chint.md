@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / LED Spotlight, NEP-TH0100762, Chint
-[🔍](https://store.automationghana.com/product/led-spotlight-nep-th0100762-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/led-spotlight-nep-th0100762-chint/)
 [![LED Spotlight, NEP-TH0100762, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEP-TH0100762.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/NEP-TH0100762.jpg)
 ####  LED Spotlight, NEP-TH0100762, Chint 
 **SKU :** NEP-TH0100762 
@@ -54,12 +54,12 @@ NEP-TH0100762, LED Ceiling Spot Light
 
 Related Products 
 ## Related products
-  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
-[Add to cart](https://store.automationghana.com/product/led-spotlight-nep-th0100762-chint/?add-to-cart=1525)
-  * [![IT socket-NEW6-D20500, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-300x300.jpg)IT socket-NEW6-D20500, Chint ₵256.00 ](https://store.automationghana.com/product/it-socket-new6-d20500-chint/)
-[Add to cart](https://store.automationghana.com/product/led-spotlight-nep-th0100762-chint/?add-to-cart=1518)
-  * [![Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-5-300x300.jpg)Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41912-chint/)
-[Add to cart](https://store.automationghana.com/product/led-spotlight-nep-th0100762-chint/?add-to-cart=1509)
+  * [![Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-7-300x300.jpg)Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint ₵47.00 ](https://store.automationghana.com/product/single-socket-new6-d42700-chint/)
+[Add to cart](https://store.automationghana.com/product/led-spotlight-nep-th0100762-chint/?add-to-cart=1527)
+  * [![Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41918-chint/)
+[Add to cart](https://store.automationghana.com/product/led-spotlight-nep-th0100762-chint/?add-to-cart=1510)
+  * [![Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-3-300x300.jpg)Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint ₵120.00 ](https://store.automationghana.com/product/double-socket-new6-d41932-chint/)
+[Add to cart](https://store.automationghana.com/product/led-spotlight-nep-th0100762-chint/?add-to-cart=1508)
   * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
 [Add to cart](https://store.automationghana.com/product/led-spotlight-nep-th0100762-chint/?add-to-cart=1503)
 

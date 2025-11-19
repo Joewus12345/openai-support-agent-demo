@@ -43,14 +43,14 @@ Product Description
 Delta PLC DVP32ES200R 100-240VAC 16DI 16DO Output
 Related Products 
 ## Related products
+  * [![Base Socket 700-HN139](https://store.automationghana.com/wp-content/uploads/2020/12/700-HN139.jpg)Base Socket 700-HN139 ₵457.00 ](https://store.automationghana.com/product/base-socket-700-hn139/)
+[Add to cart](https://store.automationghana.com/product/plc-16-di-16-dvp32es200r-delta/?add-to-cart=2971)
   * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
 [Add to cart](https://store.automationghana.com/product/plc-16-di-16-dvp32es200r-delta/?add-to-cart=2969)
-  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
-[Add to cart](https://store.automationghana.com/product/plc-16-di-16-dvp32es200r-delta/?add-to-cart=2956)
-  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
-[Add to cart](https://store.automationghana.com/product/plc-16-di-16-dvp32es200r-delta/?add-to-cart=2950)
-  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
-[Add to cart](https://store.automationghana.com/product/plc-16-di-16-dvp32es200r-delta/?add-to-cart=2939)
+  * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
+[Add to cart](https://store.automationghana.com/product/plc-16-di-16-dvp32es200r-delta/?add-to-cart=2959)
+  * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
+[Add to cart](https://store.automationghana.com/product/plc-16-di-16-dvp32es200r-delta/?add-to-cart=2935)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

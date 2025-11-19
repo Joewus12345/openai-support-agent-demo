@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / LED Down Light, 3W, Warm Light, NEP-TD0300332, Chint
-[🔍](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/)
 [![LED Down Light, 3W, Warm Light, NEP-TD0300332, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/Downlight-3.jpg)](https://store.automationghana.com/wp-content/uploads/2019/11/Downlight-3.jpg)
 ####  LED Down Light, 3W, Warm Light, NEP-TD0300332, Chint 
 **SKU :** NEP-TD0300332 
@@ -54,14 +54,14 @@ NEP-TD0300332, LED Down Light
 
 Related Products 
 ## Related products
-  * [![Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-gold-300x300.jpg)Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint ₵79.00 ](https://store.automationghana.com/product/switch-new6-d00402-chint/)
-[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/?add-to-cart=1539)
-  * [![Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-7-300x300.jpg)Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint ₵47.00 ](https://store.automationghana.com/product/single-socket-new6-d42700-chint/)
-[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/?add-to-cart=1527)
-  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
-[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/?add-to-cart=1525)
-  * [![IT socket-NEW6-D20100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20100, Chint ₵60.00 ](https://store.automationghana.com/product/it-socket-new6-d20100-chint/)
-[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/?add-to-cart=1515)
+  * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-5-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42712-chint/)
+[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/?add-to-cart=1529)
+  * [![Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/dimmer-switch.jpg)Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint ₵159.00 ](https://store.automationghana.com/product/light-dimmer-new6-d30510-chint/)
+[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/?add-to-cart=1520)
+  * [![Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-3-300x300.jpg)Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint ₵120.00 ](https://store.automationghana.com/product/double-socket-new6-d41932-chint/)
+[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/?add-to-cart=1508)
+  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
+[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300332-chint/?add-to-cart=1502)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

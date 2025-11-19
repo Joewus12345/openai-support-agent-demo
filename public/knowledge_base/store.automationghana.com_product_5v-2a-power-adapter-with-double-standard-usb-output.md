@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / 5V, 2A Power Adapter with Double Standard USB Output
-[🔍](https://store.automationghana.com/product/5v-2a-power-adapter-with-double-standard-usb-output/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/5v-2a-power-adapter-with-double-standard-usb-output/)
 [![5V, 2A Power Adapter with Double Standard USB Output](https://store.automationghana.com/wp-content/uploads/2021/10/5V-2A-Power-Adapter-with-Double-Standard-USB-Output.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/5V-2A-Power-Adapter-with-Double-Standard-USB-Output.jpg)
 ####  5V, 2A Power Adapter with Double Standard USB Output 
 **SKU :** PWR-5V3.1A-NOKOKO-10 
@@ -51,14 +51,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![F-RF Wireless Gateway](https://store.automationghana.com/wp-content/uploads/2021/10/elan-rf-103-preview-1-300x300.png)F-RF Wireless Gateway ₵441.00 ](https://store.automationghana.com/product/f-rf-wireless-gateway/)
-[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-double-standard-usb-output/?add-to-cart=3588)
-  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
-[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-double-standard-usb-output/?add-to-cart=3583)
+  * [![F-Sensor Mounting Base](https://store.automationghana.com/wp-content/uploads/2021/10/430x430x90-sonoff_pir_motion_sensor_base_1623831045-removebg-preview-300x300.webp)F-Sensor Mounting Base ₵106.00 ](https://store.automationghana.com/product/f-sensor-mounting-base/)
+[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-double-standard-usb-output/?add-to-cart=3592)
   * [![WIFI Humidity & Temperature Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Humidity-Temperature-Sensor-300x300.jpg)WIFI Humidity & Temperature Sensor ₵750.00 ](https://store.automationghana.com/product/wifi-humidity-temperature-sensor/)
 [Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-double-standard-usb-output/?add-to-cart=3580)
-  * [![2 Channel WIFI Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/Double.png)2 Channel WIFI Relay Switch ₵840.00 ](https://store.automationghana.com/product/wi-fi-dual-relay-switch/)
-[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-double-standard-usb-output/?add-to-cart=3295)
+  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
+[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-double-standard-usb-output/?add-to-cart=3313)
+  * [![Split Core Current Transformer 50A](https://store.automationghana.com/wp-content/uploads/2021/03/Clamp-Up-300x300.jpeg)Split Core Current Transformer 50A ₵172.00 ](https://store.automationghana.com/product/50a-16ma-clamp-on-current-transformer/)
+[Add to cart](https://store.automationghana.com/product/5v-2a-power-adapter-with-double-standard-usb-output/?add-to-cart=3308)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

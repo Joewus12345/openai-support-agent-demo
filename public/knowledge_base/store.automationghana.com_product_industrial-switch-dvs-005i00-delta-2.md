@@ -42,14 +42,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
+  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
+[Add to cart](https://store.automationghana.com/product/industrial-switch-dvs-005i00-delta-2/?add-to-cart=2981)
   * [![Circuit Breaker 140M-C2E-A16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-A16-300x300.jpg)Circuit Breaker 140M-C2E-A16 ₵873.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-a16/)
 [Add to cart](https://store.automationghana.com/product/industrial-switch-dvs-005i00-delta-2/?add-to-cart=2979)
-  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
-[Add to cart](https://store.automationghana.com/product/industrial-switch-dvs-005i00-delta-2/?add-to-cart=2973)
-  * [![Base Socket 700-HN139](https://store.automationghana.com/wp-content/uploads/2020/12/700-HN139.jpg)Base Socket 700-HN139 ₵457.00 ](https://store.automationghana.com/product/base-socket-700-hn139/)
-[Add to cart](https://store.automationghana.com/product/industrial-switch-dvs-005i00-delta-2/?add-to-cart=2971)
-  * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
-[Add to cart](https://store.automationghana.com/product/industrial-switch-dvs-005i00-delta-2/?add-to-cart=2969)
+  * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
+[Add to cart](https://store.automationghana.com/product/industrial-switch-dvs-005i00-delta-2/?add-to-cart=2959)
+  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
+[Add to cart](https://store.automationghana.com/product/industrial-switch-dvs-005i00-delta-2/?add-to-cart=2939)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

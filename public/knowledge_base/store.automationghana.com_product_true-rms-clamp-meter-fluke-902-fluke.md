@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Clamp Meter True RMS, 0-200AC, 0-200µDC, 600V, Fluke-902 Fluke
-[🔍](https://store.automationghana.com/product/true-rms-clamp-meter-fluke-902-fluke/)
-[![True-RMS-Clamp-Meter-Fluke-902-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/True-RMS-Clamp-Meter-Fluke-902-Fluke.png)](https://store.automationghana.com/wp-content/uploads/2020/04/True-RMS-Clamp-Meter-Fluke-902-Fluke.png)![](https://store.automationghana.com/wp-content/uploads/2020/04/True-RMS-Clamp-Meter-Fluke-902-Fluke.png)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/true-rms-clamp-meter-fluke-902-fluke/)
+[![True-RMS-Clamp-Meter-Fluke-902-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/True-RMS-Clamp-Meter-Fluke-902-Fluke.png)](https://store.automationghana.com/wp-content/uploads/2020/04/True-RMS-Clamp-Meter-Fluke-902-Fluke.png)
 ####  Clamp Meter True RMS, 0-200AC, 0-200µDC, 600V, Fluke-902 Fluke 
 **SKU :** Fluke-902 
 ₵4,508.00
@@ -53,14 +53,14 @@ True RMS Clamp Meter Fluke-902, Designed for HVAC applications with capacitance,
 
 Related Products 
 ## Related products
-  * [![Non-Contact-Voltage-Detector-MD-116-Metre](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-116-Metrel-300x300.png)Voltage Detector, Non-Contact, 12-1000VAC, MD 116, Metrel ₵365.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-116-metrel/)
-[Add to cart](https://store.automationghana.com/product/true-rms-clamp-meter-fluke-902-fluke/?add-to-cart=2015)
-  * [![Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage-300x300.png)Multimeter, Digital, 600V, Non-contact Voltage Detection, Fluke-117, Fluke ₵4,698.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-117-fluke/)
-[Add to cart](https://store.automationghana.com/product/true-rms-clamp-meter-fluke-902-fluke/?add-to-cart=1998)
-  * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
-[Add to cart](https://store.automationghana.com/product/true-rms-clamp-meter-fluke-902-fluke/?add-to-cart=2000)
-  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
-[Add to cart](https://store.automationghana.com/product/true-rms-clamp-meter-fluke-902-fluke/?add-to-cart=1995)
+  * [![MD-106-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-106-Metrel-300x300.png)Voltage Detector, Non-Contact, 90-1000VAC, MD 106, Metrel ₵202.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
+[Read more](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
+  * [![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115-300x300.jpg)Multimeter-FLUKE-115, Fluke ₵5,282.00 ](https://store.automationghana.com/product/multimeter-fluke-115-fluke/)
+[Add to cart](https://store.automationghana.com/product/true-rms-clamp-meter-fluke-902-fluke/?add-to-cart=2013)
+  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+[Add to cart](https://store.automationghana.com/product/true-rms-clamp-meter-fluke-902-fluke/?add-to-cart=2010)
+  * [![Fluke 114](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-114-300x300.jpg)Multimeter, Digital, 600V, Autovolt Selection, Fluke-114, Fluke ₵5,194.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/)
+[Add to cart](https://store.automationghana.com/product/true-rms-clamp-meter-fluke-902-fluke/?add-to-cart=1997)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

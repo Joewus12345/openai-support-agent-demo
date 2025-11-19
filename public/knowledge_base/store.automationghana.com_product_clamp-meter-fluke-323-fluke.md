@@ -53,14 +53,14 @@ True RMS Clamp Meter, Fluke-323
 
 Related Products 
 ## Related products
-  * [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ₵7,613.00 ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
-[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/?add-to-cart=2008)
+  * [![FLUKE-TL224](https://store.automationghana.com/wp-content/uploads/2020/04/Test-Leads-FLUKE-TL224-Fluke-300x275.png)Fluke-TL 224, SureGrip Insulated Test Leads ₵551.00 ](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/)
+[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/?add-to-cart=2016)
+  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/?add-to-cart=2007)
   * [![Digital-MultimeterMD-9030-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-MultimeterMD-9030-Metrel-300x300.png)Multimeter,Digital, 1000VDC/VAC, 10A DC/AC, MD 9030, Metrel ₵1,819.00 ](https://store.automationghana.com/product/digital-multimetermd-9030-metrel/)
 [Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/?add-to-cart=2002)
-  * [![FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER-300x300.jpg)Multimeter, Digital with Temperature Reading, FLUKE-179, Fluke ₵5,505.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-179-fluke/)
-[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/?add-to-cart=1999)
-  * [![Clamp Meter, Fluke-376FC](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-Fluke-376FC-Fluke-300x300.png)Clamp Meter, True RMS AC/DC, 1000A/1000V, Fluke-376FC, Fluke ₵10,430.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376fc-fluke/)
-[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/?add-to-cart=1993)
+  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
+[Add to cart](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/?add-to-cart=1992)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

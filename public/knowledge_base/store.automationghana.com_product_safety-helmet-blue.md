@@ -24,11 +24,11 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Protective Personal Equipment](https://store.automationghana.com/product-category/ppes/) / Safety Helmet, Blue
-[🔍](https://store.automationghana.com/product/safety-helmet-blue/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/safety-helmet-blue/)
 [![Safety Helmet, Blue](https://store.automationghana.com/wp-content/uploads/2021/02/Safety-Helmet.jpg)](https://store.automationghana.com/wp-content/uploads/2021/02/Safety-Helmet.jpg)
 ####  Safety Helmet, Blue 
 **SKU :** Safety Helmet 
-₵0.00
+₵8.00
 Item is sold per unit.
 Safety Helmet, Blue quantity
 Add to cart

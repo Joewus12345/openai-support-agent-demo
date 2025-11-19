@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Automation & Drives](https://store.automationghana.com/product-category/industrial-automation/) / Input/Output Expansion Unit, Digital, 5-24VDC, CP1W40EDR.1, Omron
-[🔍](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/)
 [![Input/Output Expansion Unit, Digital, 5-24VDC, CP1W40EDR.1, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W4EDR-IO-EXPANSION-UNIT-600x493.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W4EDR-IO-EXPANSION-UNIT.jpg)
 ####  Input/Output Expansion Unit, Digital, 5-24VDC, CP1W40EDR.1, Omron 
 **SKU :** CP1W40EDR.1 
@@ -54,14 +54,14 @@ CP1W40EDR.1, I/O Expansion Unit 24 Digital / 16 Relay
 
 Related Products 
 ## Related products
-  * [![MX Inverter Drive 400VAC, 5.5kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 5.5kW, 3Phase ₵9,706.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/?add-to-cart=1580)
-  * [![MX Inverter Drive 200VAC, 1.5kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 200VAC, 1.5kW, 1Phase ₵4,721.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/?add-to-cart=1581)
-  * [![MX Inverter Drive 400VAC, 2.2kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 2.2kW, 3Phase ₵5,443.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4022-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/?add-to-cart=1577)
-  * [![Inverter Drive\(A1000\), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CIMR-A-A1000-Variable-Freq-Drive.png)Inverter Drive(A1000), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron ₵4,913.00 ](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/)
-[Add to cart](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/?add-to-cart=1571)
+  * [![MX Inverter Drive, 200VAC, 0.75kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive, 200VAC, 0.75kW, 1Phase ₵4,536.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab007-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/?add-to-cart=1991)
+  * [![Inverter Drive \(RX\), 22kW, 48A, 3-Phase, 400 VAC, 3G3RX-A4220-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 22kW, 48A, 3-Phase, 400 VAC, 3G3RX-A4220-E1F CHN, Omron ₵16,727.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4220-e1f-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/?add-to-cart=1587)
+  * [![CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron](https://store.automationghana.com/wp-content/uploads/2020/04/cp1ll14drd-300x300.jpg)CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron ₵3,001.00 ](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/)
+[Add to cart](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/?add-to-cart=1586)
+  * [![Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/NB3Q_640px-300x300.jpg)Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron ₵3,126.00 ](https://store.automationghana.com/product/human-machine-interface-nb3q-tw01b-omron/)
+[Add to cart](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/?add-to-cart=1572)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

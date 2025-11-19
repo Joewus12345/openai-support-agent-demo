@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / LED Panel Light, Round, 6W, 3000k 100-240V, NEP-PB0200631-Y, Chint
-[🔍](https://store.automationghana.com/product/led-panel-light-nep-pb0200631-y-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/led-panel-light-nep-pb0200631-y-chint/)
 [![LED Panel Light, Round, 6W, 3000k 100-240V, NEP-PB0200631-Y, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/LED-2.jpg)](https://store.automationghana.com/wp-content/uploads/2019/11/LED-2.jpg)
 ####  LED Panel Light, Round, 6W, 3000k 100-240V, NEP-PB0200631-Y, Chint 
 **SKU :** NEP-PB0200631-Y 
@@ -54,14 +54,14 @@ NEP-PB0200631-Y, LED Panel Light, Round Type
 
 Related Products 
 ## Related products
+  * [![Switch, Fan Speed Control, 250W, NEW7-G306, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/fan-speed-300x300.jpg)Switch, Fan Speed Control, 250W, NEW7-G306, Chint ₵83.00 ](https://store.automationghana.com/product/switch-new7-g306-chint/)
+[Add to cart](https://store.automationghana.com/product/led-panel-light-nep-pb0200631-y-chint/?add-to-cart=1538)
+  * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42718, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42718, Silver, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42718-chint/)
+[Add to cart](https://store.automationghana.com/product/led-panel-light-nep-pb0200631-y-chint/?add-to-cart=1530)
   * [![Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42720-300x300.jpg)Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint ₵184.00 ](https://store.automationghana.com/product/single-socket-new6-d42720-chint/)
 [Add to cart](https://store.automationghana.com/product/led-panel-light-nep-pb0200631-y-chint/?add-to-cart=1531)
-  * [![Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-7-300x300.jpg)Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint ₵47.00 ](https://store.automationghana.com/product/single-socket-new6-d42700-chint/)
-[Add to cart](https://store.automationghana.com/product/led-panel-light-nep-pb0200631-y-chint/?add-to-cart=1527)
-  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
-[Add to cart](https://store.automationghana.com/product/led-panel-light-nep-pb0200631-y-chint/?add-to-cart=1525)
-  * [![IT socket-NEW6-D20300, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TELEPHONE-300x300.jpg)IT socket-NEW6-D20300, Chint ₵66.00 ](https://store.automationghana.com/product/it-socket-new6-d20300-chint/)
-[Add to cart](https://store.automationghana.com/product/led-panel-light-nep-pb0200631-y-chint/?add-to-cart=1516)
+  * [![Single Socket\(Silver\), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket(Silver), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint ₵71.00 ](https://store.automationghana.com/product/single-socket-new6-d42708-chint/)
+[Add to cart](https://store.automationghana.com/product/led-panel-light-nep-pb0200631-y-chint/?add-to-cart=1528)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

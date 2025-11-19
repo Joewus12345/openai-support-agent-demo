@@ -24,8 +24,8 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / Thermal Overload Relay 193-M-B12
-[🔍](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/)
-[![Thermal Overload Relay 193-M-B12](https://store.automationghana.com/wp-content/uploads/2020/12/193-M-B12.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/193-M-B12.jpg)![](https://store.automationghana.com/wp-content/uploads/2020/12/193-M-B12.jpg)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/)
+[![Thermal Overload Relay 193-M-B12](https://store.automationghana.com/wp-content/uploads/2020/12/193-M-B12.jpg)](https://store.automationghana.com/wp-content/uploads/2020/12/193-M-B12.jpg)
 ####  Thermal Overload Relay 193-M-B12 
 **SKU :** 193-M-B12 
 ₵716.00
@@ -50,14 +50,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Commoning Links 1492-ASPCL1A09](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPCL1A09.jpg)Commoning Links 1492-ASPCL1A09 ₵116.00 ](https://store.automationghana.com/product/commoning-links-1492-aspcl1a09/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/?add-to-cart=2985)
-  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/?add-to-cart=2961)
-  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/?add-to-cart=2956)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/?add-to-cart=2952)
+  * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/?add-to-cart=2963)
+  * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/?add-to-cart=2959)
+  * [![Auxiliary Contact 100-SB11](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB11 ₵270.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb11/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/?add-to-cart=2954)
+  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-193-m-b12/?add-to-cart=2946)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

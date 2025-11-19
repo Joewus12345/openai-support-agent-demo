@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / Micro USB Cable
-[🔍](https://store.automationghana.com/product/micro-usb-cable/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/micro-usb-cable/)
 [![Micro USB Cable](https://store.automationghana.com/wp-content/uploads/2021/10/Micro-USB-Cable.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/Micro-USB-Cable.jpg)
 ####  Micro USB Cable 
 **SKU :** MICRO USB CABLE 
@@ -49,14 +49,14 @@ Micro USB Cable
 
 Related Products 
 ## Related products
-  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
-[Add to cart](https://store.automationghana.com/product/micro-usb-cable/?add-to-cart=3594)
-  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
-[Add to cart](https://store.automationghana.com/product/micro-usb-cable/?add-to-cart=3583)
-  * [![XYE MASTER \(MINI COMPUTER\)](https://store.automationghana.com/wp-content/uploads/2021/03/Picture1-300x218.png)XYE MASTER (MINI COMPUTER) ₵3,744.00 ](https://store.automationghana.com/product/smarthome-hub-integration-module/)
-[Add to cart](https://store.automationghana.com/product/micro-usb-cable/?add-to-cart=3276)
-  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
-[Add to cart](https://store.automationghana.com/product/micro-usb-cable/?add-to-cart=3252)
+  * [![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1-300x300.jpg)WIFI Relay Dummy Load ₵100.00 ](https://store.automationghana.com/product/wifi-relay-dummy-load/)
+[Add to cart](https://store.automationghana.com/product/micro-usb-cable/?add-to-cart=3569)
+  * [![2 Channel WIFI Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/Double.png)2 Channel WIFI Relay Switch ₵840.00 ](https://store.automationghana.com/product/wi-fi-dual-relay-switch/)
+[Add to cart](https://store.automationghana.com/product/micro-usb-cable/?add-to-cart=3295)
+  * [![WIFI IR Blaster](https://store.automationghana.com/wp-content/uploads/2021/03/images-4.jpg)WIFI IR Blaster ₵626.00 ](https://store.automationghana.com/product/ir-rf-universal-remote/)
+[Add to cart](https://store.automationghana.com/product/micro-usb-cable/?add-to-cart=3293)
+  * [![1 Channel WiFi-Relay,16A](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-1-wifi--300x300.png)WIFI Relay Switch, 1 Channel, Y-R-W1CH, Smarthome ₵344.00 ](https://store.automationghana.com/product/shelly-1/)
+[Add to cart](https://store.automationghana.com/product/micro-usb-cable/?add-to-cart=3254)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

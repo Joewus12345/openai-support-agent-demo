@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Solid State Relay, 1-Phase, 50A, 5-24VDC, G3NA-450B-UTU-2 DC5-24, Omron
-[🔍](https://store.automationghana.com/product/solid-state-relay-g3na-450b-utu-2-dc5-24-omron/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/solid-state-relay-g3na-450b-utu-2-dc5-24-omron/)
 [![Solid State Relay, 1-Phase, 50A, 5-24VDC, G3NA-450B-UTU-2 DC5-24, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/solid-state-relay-600x559.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/solid-state-relay.jpg)
 ####  Solid State Relay, 1-Phase, 50A, 5-24VDC, G3NA-450B-UTU-2 DC5-24, Omron 
 **SKU :** G3NA-450B-UTU-2 DC5-24 
@@ -54,12 +54,12 @@ G3NA-450B-UTU-2 DC5-24, Surface Mount Solid State Relay
 
 Related Products 
 ## Related products
-  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
-[Add to cart](https://store.automationghana.com/product/solid-state-relay-g3na-450b-utu-2-dc5-24-omron/?add-to-cart=1599)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
-[Add to cart](https://store.automationghana.com/product/solid-state-relay-g3na-450b-utu-2-dc5-24-omron/?add-to-cart=1537)
-  * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
-[Add to cart](https://store.automationghana.com/product/solid-state-relay-g3na-450b-utu-2-dc5-24-omron/?add-to-cart=1534)
+  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/solid-state-relay-g3na-450b-utu-2-dc5-24-omron/?add-to-cart=1603)
+  * [![Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-JZX-22F-D-4Z-24VDC-Chint-300x300.jpg)Electromagnetic Relay, Flat,14-Pin, 12VDC, JZX-22F-D-4Z, Chint ₵36.00 ](https://store.automationghana.com/product/14-pin-relay-jzx-22f-d-4z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/solid-state-relay-g3na-450b-utu-2-dc5-24-omron/?add-to-cart=1595)
+  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
+[Add to cart](https://store.automationghana.com/product/solid-state-relay-g3na-450b-utu-2-dc5-24-omron/?add-to-cart=1593)
   * [![Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903131A.png)Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera ₵66.00 ](https://store.automationghana.com/product/industrial-socket-903131a-solera/)
 [Add to cart](https://store.automationghana.com/product/solid-state-relay-g3na-450b-utu-2-dc5-24-omron/?add-to-cart=1513)
 

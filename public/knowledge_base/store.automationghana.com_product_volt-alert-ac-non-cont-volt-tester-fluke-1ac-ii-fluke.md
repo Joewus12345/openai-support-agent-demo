@@ -52,12 +52,12 @@ VoltAlert Non-Contact Voltage Tester Fluke-1AC-II, Easy to carry in your shirt p
 
 Related Products 
 ## Related products
-  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
-[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=2007)
-  * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
-[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=2000)
-  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
-[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1992)
+  * [![Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage-300x300.png)Multimeter, Digital, 600V, Non-contact Voltage Detection, Fluke-117, Fluke ₵4,698.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-117-fluke/)
+[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1998)
+  * [![Fluke 114](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-114-300x300.jpg)Multimeter, Digital, 600V, Autovolt Selection, Fluke-114, Fluke ₵5,194.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/)
+[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1997)
+  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
+[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1995)
   * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
 [Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1994)
 

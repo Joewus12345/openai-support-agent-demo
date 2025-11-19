@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Lighting, Switches and Sockets](https://store.automationghana.com/product-category/lighting-switches-and-sockets/) / Switch, 2-Gang, 2-Way 16A, 250VAC, NEW6-D00408, Silver, Chint
-[🔍](https://store.automationghana.com/product/switch-new6-d00408-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/switch-new6-d00408-chint/)
 [![Switch, 2-Gang, 2-Way 16A, 250VAC, NEW6-D00408, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SWITCH-10.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SWITCH-10.jpg)
 ####  Switch, 2-Gang, 2-Way 16A, 250VAC, NEW6-D00408, Silver, Chint 
 **SKU :** NEW6-D00408 
@@ -52,14 +52,14 @@ NEW6-D00408, Switch, 2-Gang 2-Way
 
 Related Products 
 ## Related products
-  * [![Switch, 1-Gang 1-Way 16A, 250V, NEW6-D00100, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-white-300x300.jpg)Switch, 1-Gang 1-Way 16A, 250V, NEW6-D00100, White, Chint ₵44.00 ](https://store.automationghana.com/product/switch-new6-d00100-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00408-chint/?add-to-cart=1541)
+  * [![Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42720-300x300.jpg)Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint ₵184.00 ](https://store.automationghana.com/product/single-socket-new6-d42720-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00408-chint/?add-to-cart=1531)
   * [![Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-7-300x300.jpg)Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint ₵47.00 ](https://store.automationghana.com/product/single-socket-new6-d42700-chint/)
 [Add to cart](https://store.automationghana.com/product/switch-new6-d00408-chint/?add-to-cart=1527)
-  * [![Single Switched Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42900, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Switched Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42900, Chint ₵56.00 ](https://store.automationghana.com/product/single-socket-new6-d42900-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00408-chint/?add-to-cart=1532)
-  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
-[Add to cart](https://store.automationghana.com/product/switch-new6-d00408-chint/?add-to-cart=1525)
+  * [![IT socket-NEW6-D21100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/the-two-300x300.jpg)IT socket-NEW6-D21100, Chint ₵124.00 ](https://store.automationghana.com/product/it-socket-new6-d21100-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00408-chint/?add-to-cart=1519)
+  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
+[Add to cart](https://store.automationghana.com/product/switch-new6-d00408-chint/?add-to-cart=1502)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

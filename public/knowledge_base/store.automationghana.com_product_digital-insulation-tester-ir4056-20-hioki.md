@@ -23,7 +23,7 @@ GT-366-3796
 [![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)](https://store.automationghana.com)
 Search
 Search
-[Home](https://store.automationghana.com) / [HIOKI](https://store.automationghana.com/product-category/hioki/) / [HIOKI](https://store.automationghana.com/product-category/hioki/hioki-hioki/) / Digital Insulation Tester, IR4056-20, Hioki
+[Home](https://store.automationghana.com) / [Uncategorised](https://store.automationghana.com/product-category/uncategorised/) / Digital Insulation Tester, IR4056-20, Hioki
 [🔍](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/)
 [![Digital Insulation Tester, IR4056-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Insulation-Tester-IR4056-20-Hioki-600x450.png)](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Insulation-Tester-IR4056-20-Hioki.png)
 ####  Digital Insulation Tester, IR4056-20, Hioki 
@@ -49,10 +49,10 @@ Related Products
 [Add to cart](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/?add-to-cart=24689)
   * [![Infrared Thermometer, FT3700-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Infrared-Thermometer-FT3700-20-Hioki-300x300.png)Infrared Thermometer, FT3700-20, Hioki ₵2,235.20 ](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/)
 [Add to cart](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/?add-to-cart=24685)
+  * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/05/ACDC-Clamp-Meter-300x300.png)Hioki CM4373-50 Clamp Meter ₵8,790.00 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/)
+[Add to cart](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/?add-to-cart=24675)
   * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/03/hioki-300x300.png)Hioki CM4373-50 Clamp Meter ₵12,541.50 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/)
 [Add to cart](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/?add-to-cart=24576)
-  * [![HIOKI DT4281 Digital Multimeter](https://store.automationghana.com/wp-content/uploads/2025/01/Hioki-Digital-4281-1-300x300.jpg)HIOKI DT4281 Digital Multimeter ₵8,654.73 ](https://store.automationghana.com/product/hioki-dt4281-digital-multimeter/)
-[Add to cart](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/?add-to-cart=22653)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Invisible Category](https://store.automationghana.com/product-category/invisible-category/) / MCB, EBG, 2P-C25-6kA, Chint
-[🔍](https://store.automationghana.com/product/mcb-ebg-2p-c25-6ka-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mcb-ebg-2p-c25-6ka-chint/)
 [![MCB, EBG, 2P-C25-6kA, Chint](https://store.automationghana.com/wp-content/uploads/2024/05/ebg-2p-c32-6ka-500x500-1.webp)](https://store.automationghana.com/wp-content/uploads/2024/05/ebg-2p-c32-6ka-500x500-1.webp)
 Sale!
 ####  MCB, EBG, 2P-C25-6kA, Chint 
@@ -46,12 +46,12 @@ Product Description
 MCB, EBG, 2P-C25-6kA High current limiting performance to limit, to the greatest extent, the destructive energy due to short circuit. C-Curve Miniature Circuit Breaker(MCB)is used for the protection of circuits against short-circuit currents, protection of circuits against overload currents.
 Related Products 
 ## Related products
-  * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c25-6ka-chint/?add-to-cart=2963)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c25-6ka-chint/?add-to-cart=2952)
-  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c25-6ka-chint/?add-to-cart=2950)
+  * [![Breaker Connecting Module 140M-C-PNC23](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-PNC23-300x300.jpg)Breaker Connecting Module 140M-C-PNC23 ₵198.00 ](https://store.automationghana.com/product/breaker-connecting-module-140m-c-pnc23/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c25-6ka-chint/?add-to-cart=2973)
+  * [![Base Socket 700-HN139](https://store.automationghana.com/wp-content/uploads/2020/12/700-HN139.jpg)Base Socket 700-HN139 ₵457.00 ](https://store.automationghana.com/product/base-socket-700-hn139/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c25-6ka-chint/?add-to-cart=2971)
+  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c25-6ka-chint/?add-to-cart=2946)
   * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
 [Add to cart](https://store.automationghana.com/product/mcb-ebg-2p-c25-6ka-chint/?add-to-cart=2941)
 

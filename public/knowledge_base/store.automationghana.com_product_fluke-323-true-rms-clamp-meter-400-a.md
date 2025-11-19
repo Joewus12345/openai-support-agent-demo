@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Special Promotions](https://store.automationghana.com/product-category/special-promotions/) / Fluke 323 True RMS Clamp Meter (400 A)
-[🔍](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/)
 [![Fluke 323 True RMS Clamp Meter \(400 A\)](https://store.automationghana.com/wp-content/uploads/2025/03/Fluke-323-True-RMS-Clamp-Meter-400-A-600x400.png)](https://store.automationghana.com/wp-content/uploads/2025/03/Fluke-323-True-RMS-Clamp-Meter-400-A.png)
 ####  Fluke 323 True RMS Clamp Meter (400 A) 
 ₵4,167.00
@@ -43,6 +43,17 @@ Product Description
 Product Description
 Get accurate, reliable electrical measurements with the Fluke 323 True RMS Clamp Meter. Designed for tough environments, this slim and ergonomic meter delivers precise AC current (up to 400 A), voltage (600 V AC/DC), and resistance measurements (up to 4 kΩ). Ideal for electrical panels, HVAC/R, and plant maintenance, it features a large, easy-to-read display, CAT III 600V & CAT IV 300V safety ratings, and a rugged design built to withstand harsh conditions.
 Related Products 
+## Related products
+  * [![Tool set – Tool Wrap 1212505](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-–-Tool-Wrap-5-300x300.jpg)Tool set – Tool Wrap 1212505 ₵5,992.03 ](https://store.automationghana.com/product/tool-set-tool-wrap-1212505/)
+[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24915)
+  * [![Tool set – SF – Socket Set 1200292](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-–-SF-–-Socket-Set-2-300x300.jpg)Tool set – SF – Socket Set 1200292 ₵6,458.77 ](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/)
+[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24913)
+  * [![Tool set - TOOL-BELTPOUCH 1212506](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-TOOL-BELTPOUCH-6-300x300.jpg)Tool set – TOOL-BELTPOUCH 1212506 ₵10,532.88 ](https://store.automationghana.com/product/tool-set-tool-beltpouch-1212506-2/)
+[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24909)
+  * [![Tool set - TOOL-BAG 1212504](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-TOOL-BAG-300x300.jpg)Tool set – TOOL-BAG 1212504 ₵15,954.33 ](https://store.automationghana.com/product/tool-set-tool-bag-1212504-2/)
+[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24907)
+
+
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)

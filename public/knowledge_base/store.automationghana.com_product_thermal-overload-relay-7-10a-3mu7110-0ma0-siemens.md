@@ -44,12 +44,12 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Auxiliary Switch Front, 3MH7911-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7911-0CT10, Siemens ₵56.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7911-0ct10-siemens/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/?add-to-cart=24505)
-  * [![Contactor, 3P-65A-230VAC, 3MT7065-3AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-65A-230VAC, 3MT7065-3AA11-0AP0, Siemens ₵1,932.00 ](https://store.automationghana.com/product/contactor-3p-65a-230vac-3mt7065-3aa11-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/?add-to-cart=24491)
-  * [![Contactor, 3P-50A-230VAC, 3MT7050-3AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-50A-230VAC, 3MT7050-3AA11-0AP0, Siemens ₵1,438.00 ](https://store.automationghana.com/product/contactor-3p-50a-230vac-3mt7050-3aa11-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/?add-to-cart=24490)
+  * [![Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/contactor-1.jpg)Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens ₵11,487.00 ](https://store.automationghana.com/product/contactor-3p-300a-3mt7300-7aa00-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/?add-to-cart=24498)
+  * [![Contactor, 3P-120A-230VAC, 3MT7120-5AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-120A-230VAC, 3MT7120-5AA00-0AP0, Siemens ₵3,910.00 ](https://store.automationghana.com/product/contactor-3p-120a-230vac-3mt7120-5aa00-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/?add-to-cart=24495)
+  * [![Contactor, 3P-12A-230VAC, 3MT7012-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-12A-230VAC, 3MT7012-0AA10-0AP0, Siemens ₵342.00 ](https://store.automationghana.com/product/contactor-3p-12a-230vac-3mt7012-0aa10-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/?add-to-cart=24486)
   * [![Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens ₵277.00 ](https://store.automationghana.com/product/contactor-3p-9a-230vac-3mt7010-0aa10-0ap0-siemens-2/)
 [Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/?add-to-cart=24483)
 

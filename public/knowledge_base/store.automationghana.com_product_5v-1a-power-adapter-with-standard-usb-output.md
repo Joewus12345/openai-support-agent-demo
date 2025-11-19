@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Smart Home](https://store.automationghana.com/product-category/smart-home/) / 5V, 1A Power Adapter with Standard USB Output
-[🔍](https://store.automationghana.com/product/5v-1a-power-adapter-with-standard-usb-output/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/5v-1a-power-adapter-with-standard-usb-output/)
 [![5V, 1A Power Adapter with Standard USB Output](https://store.automationghana.com/wp-content/uploads/2021/10/5V-1A-Power-Adapter-with-Standard-USB-Output.jpg)](https://store.automationghana.com/wp-content/uploads/2021/10/5V-1A-Power-Adapter-with-Standard-USB-Output.jpg)
 ####  5V, 1A Power Adapter with Standard USB Output 
 **SKU :** PWR-5V1A-CY-0510 
@@ -53,12 +53,12 @@ Related Products
 ## Related products
   * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
 [Add to cart](https://store.automationghana.com/product/5v-1a-power-adapter-with-standard-usb-output/?add-to-cart=3594)
-  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
-[Add to cart](https://store.automationghana.com/product/5v-1a-power-adapter-with-standard-usb-output/?add-to-cart=3590)
-  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
-[Add to cart](https://store.automationghana.com/product/5v-1a-power-adapter-with-standard-usb-output/?add-to-cart=3313)
-  * [![XYE MASTER \(MINI COMPUTER\)](https://store.automationghana.com/wp-content/uploads/2021/03/Picture1-300x218.png)XYE MASTER (MINI COMPUTER) ₵3,744.00 ](https://store.automationghana.com/product/smarthome-hub-integration-module/)
-[Add to cart](https://store.automationghana.com/product/5v-1a-power-adapter-with-standard-usb-output/?add-to-cart=3276)
+  * [![F-RF Wireless Gateway](https://store.automationghana.com/wp-content/uploads/2021/10/elan-rf-103-preview-1-300x300.png)F-RF Wireless Gateway ₵441.00 ](https://store.automationghana.com/product/f-rf-wireless-gateway/)
+[Add to cart](https://store.automationghana.com/product/5v-1a-power-adapter-with-standard-usb-output/?add-to-cart=3588)
+  * [![WIFI Humidity & Temperature Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Humidity-Temperature-Sensor-300x300.jpg)WIFI Humidity & Temperature Sensor ₵750.00 ](https://store.automationghana.com/product/wifi-humidity-temperature-sensor/)
+[Add to cart](https://store.automationghana.com/product/5v-1a-power-adapter-with-standard-usb-output/?add-to-cart=3580)
+  * [![1 Channel WiFi Relay Switch Used Without Neutral](https://store.automationghana.com/wp-content/uploads/2021/10/shelly-1l-wifi-relay-switch-300x300.jpg)1 Channel WiFi Relay Switch Used Without Neutral ₵840.00 ](https://store.automationghana.com/product/1-channel-wifi-relay-switch-used-without-neutral/)
+[Add to cart](https://store.automationghana.com/product/5v-1a-power-adapter-with-standard-usb-output/?add-to-cart=3567)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

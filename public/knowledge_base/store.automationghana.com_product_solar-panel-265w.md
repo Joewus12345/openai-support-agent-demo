@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Renewables](https://store.automationghana.com/product-category/renewables/) / Solar Panel, CHSM6610P-265W, Chint
-[🔍](https://store.automationghana.com/product/solar-panel-265w/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/solar-panel-265w/)
 [![Solar Panel, CHSM6610P-265W, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Solar-panel_CHSM5612M-195-scaled-600x589.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/Solar-panel_CHSM5612M-195-scaled.jpg)
 ####  Solar Panel, CHSM6610P-265W, Chint 
 **SKU :** CHSM6610P-265W 

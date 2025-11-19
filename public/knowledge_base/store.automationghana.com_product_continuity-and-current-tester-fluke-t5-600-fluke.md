@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Continuity and Current Tester, Fluke-T5-600, Fluke
-[🔍](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
 [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-600x600.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a.jpg)
 ####  Continuity and Current Tester, Fluke-T5-600, Fluke 
 **SKU :** FLUKE-T5-600 
@@ -52,14 +52,14 @@ Voltage Continuity and Current Tester, FLUKE T5-600
 
 Related Products 
 ## Related products
-  * [![FLUKE-TL224](https://store.automationghana.com/wp-content/uploads/2020/04/Test-Leads-FLUKE-TL224-Fluke-300x275.png)Fluke-TL 224, SureGrip Insulated Test Leads ₵551.00 ](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/)
-[Add to cart](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/?add-to-cart=2016)
-  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
-[Add to cart](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/?add-to-cart=2003)
-  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
-[Add to cart](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/?add-to-cart=2005)
-  * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
-[Add to cart](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/?add-to-cart=2000)
+  * [![Non-Contact-Voltage-Detector-MD-116-Metre](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-116-Metrel-300x300.png)Voltage Detector, Non-Contact, 12-1000VAC, MD 116, Metrel ₵365.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-116-metrel/)
+[Add to cart](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/?add-to-cart=2015)
+  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
+[Add to cart](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/?add-to-cart=2006)
+  * [![FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER-300x300.jpg)Multimeter, Digital with Temperature Reading, FLUKE-179, Fluke ₵5,505.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-179-fluke/)
+[Add to cart](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/?add-to-cart=1999)
+  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
+[Add to cart](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/?add-to-cart=1994)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

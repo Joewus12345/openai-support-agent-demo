@@ -24,12 +24,23 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Building Essentials](https://store.automationghana.com/product-category/building-essentials/) / Venting Fans, NEF1-260, Chint
-[🔍](https://store.automationghana.com/product/venting-fans-nef1-260-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/venting-fans-nef1-260-chint/)
 [![Venting Fans, NEF1-260, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7.jpg)](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7.jpg)
 ####  Venting Fans, NEF1-260, Chint 
 **SKU :** NEF1-260 
-₵630.00
-Item is sold per unit.
+₵449.50
+This fan removes stale odors, leaving your environment fresh and healthy. It is made of high-grade engineering plastic which is known for its impact and abrasion resistance.
+  * Square Straight line exhaust fan
+  * Rating: 220V, 50HZ, 35W
+  * Exhaust capacity(m³/min): 11
+  * Noise(dB): 48
+  * Plate Size(mm): 365X365
+  * Mounting Holes Dimensions(mm): 315X315
+  * RPM(R/min): 1200
+  * Rating: 200V, 50HZ
+  * Material: Plastic
+
+
 Venting Fans, NEF1-260, Chint quantity
 Add to cart
   * Pickup: Available today in our stores
@@ -43,23 +54,28 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-NEF1-260 Venting Fans 
+This fan removes stale odors, leaving your environment fresh and healthy. It is made of high-grade engineering plastic which is known for its impact and abrasion resistance. 
+  * Square Straight line exhaust fan
+  * Rating: 220V, 50HZ, 35W
+  * Exhaust capacity(m³/min): 11
+  * Noise(dB): 48
+  * Plate Size(mm): 365X365
+  * Mounting Holes Dimensions(mm): 315X315
+  * RPM(R/min): 1200
   * Rating: 200V, 50HZ
-  * Wattage: 35W
-  * Plate Size(mm): 365 X 365mm
   * Material: Plastic
 
 
 Related Products 
 ## Related products
-  * [![RT UPS, 10kVA, UPS103R2RT0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S-300x300.jpg)RT UPS, 10kVA, UPS103R2RT0B035, Delta ₵41,770.00 ](https://store.automationghana.com/product/rt-ups-10kva-ups103r2rt0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-260-chint/?add-to-cart=24756)
-  * [![RT UPS, 6kVA, UPS602R2RT0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S-300x300.jpg)RT UPS, 6kVA, UPS602R2RT0B035, Delta ₵36,103.50 ](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-260-chint/?add-to-cart=24753)
-  * [![Venting Fans, NEF1-100, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-100, Chint ₵432.00 ](https://store.automationghana.com/product/venting-fans-nef1-100-chint/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-260-chint/?add-to-cart=1919)
-  * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵15.00 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-260-chint/?add-to-cart=1830)
+  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/photo_2025-08-21_10-59-29-300x287.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 60″, DCF-FS52920, Zhongshan Weiyu ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-260-chint/?add-to-cart=24817)
+  * [![UPS \(Amplon RT-3KVA\), UPA302R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)UPS (Amplon RT-3KVA), UPA302R2RX0B035, Delta ₵16,347.50 ](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-260-chint/?add-to-cart=24752)
+  * [![Pattress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box 3 x 3, NEH1-001A Chint ₵7.50 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-260-chint/?add-to-cart=1829)
+  * [![Pattress Box NEH1-201 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x3-patress-surface-300x300.jpg)Pattress Box NEH1-201 Chint ₵12.00 ](https://store.automationghana.com/product/pattress-box-neh1-201-chint/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-260-chint/?add-to-cart=1831)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)
