@@ -22,7 +22,7 @@ command -v python3 >/dev/null 2>&1 || { echo "python3 is required"; exit 1; }
 
 append_posix_hook() {
   local activate_file="$1"
-  [[ -f "$activate_file" ]] || return
+  [[ -f "$activate_file" ]] || return 0
 
   python3 - "$activate_file" "$HOOK_MARKER" <<'PY'
 import pathlib
@@ -55,7 +55,7 @@ EOF_HOOK
 append_batch_hook() {
   local activate_file="$1"
   local loader_path="$2"
-  [[ -f "$activate_file" ]] || return
+  [[ -f "$activate_file" ]] || return 0
   if grep -Fq "$HOOK_MARKER" "$activate_file"; then
     return
   fi
@@ -75,7 +75,7 @@ EOF_HOOK
 append_ps_hook() {
   local activate_file="$1"
   local loader_path="$2"
-  [[ -f "$activate_file" ]] || return
+  [[ -f "$activate_file" ]] || return 0
   if grep -Fq "$HOOK_MARKER" "$activate_file"; then
     return
   fi
@@ -101,17 +101,17 @@ to_windows_path() {
 
 install_scraper_env_hooks() {
   local env_dir="$1"
-  append_posix_hook "$env_dir/bin/activate"
-  append_posix_hook "$env_dir/Scripts/activate"
+  append_posix_hook "$env_dir/bin/activate" || true
+  append_posix_hook "$env_dir/Scripts/activate" || true
 
   local win_activate_dir="$env_dir/Scripts"
   local batch_loader
   batch_loader=$(to_windows_path "$LOADER_BATCH")
-  append_batch_hook "$win_activate_dir/activate.bat" "$batch_loader"
+  append_batch_hook "$win_activate_dir/activate.bat" "$batch_loader" || true
 
   local ps_loader
   ps_loader=$(to_windows_path "$LOADER_POWERSHELL")
-  append_ps_hook "$win_activate_dir/Activate.ps1" "$ps_loader"
+  append_ps_hook "$win_activate_dir/Activate.ps1" "$ps_loader" || true
 }
 
 select_activate_script() {
