@@ -338,14 +338,16 @@ When using the `ollama` provider you need a local server running.
 
   The setup command provisions `.venv-c4ai-v1` for
   `crawl4AI-agent/requirements.txt` and `.venv-c4ai-v2` for
-  `crawl4AI-agent-v2/requirements.txt`, then injects a hook into each
-  activation script (`bin/activate`, `Scripts/activate`, and
-  `Scripts/Activate.ps1`) so `.env.scrapers` is sourced every time you
-  activate either environment. Editing `.env.scrapers` therefore changes
-  values like `AUTOMATION_BASE_URL` or `WOOCOMMERCE_API_BASE` for the next
-  shell session without re-running the helper. During creation the script also
-  runs `playwright install --with-deps chromium` inside each environment to
-  satisfy the `AsyncWebCrawler` headless requirements.
+  `crawl4AI-agent-v2/requirements.txt`, then injects a hook into every
+  activation script (`bin/activate`, `Scripts/activate`,
+  `Scripts/activate.bat`, and `Scripts/Activate.ps1`) so `.env.scrapers` is
+  sourced each time you activate either environment. Editing `.env.scrapers`
+  therefore changes values like `AUTOMATION_BASE_URL` or `WOOCOMMERCE_API_BASE`
+  for the next shell session without re-running the helper. During creation
+  the script also installs Playwright’s Chromium build inside each environment,
+  using `--with-deps` automatically on Linux and the regular `install chromium`
+  command on Windows/macOS so headless `AsyncWebCrawler` launches succeed on
+  every OS.
 
 ## Demo Flow
 

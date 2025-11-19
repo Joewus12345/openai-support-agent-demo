@@ -102,6 +102,7 @@ to_windows_path() {
 install_scraper_env_hooks() {
   local env_dir="$1"
   append_posix_hook "$env_dir/bin/activate"
+  append_posix_hook "$env_dir/Scripts/activate"
 
   local win_activate_dir="$env_dir/Scripts"
   local batch_loader
@@ -111,6 +112,21 @@ install_scraper_env_hooks() {
   local ps_loader
   ps_loader=$(to_windows_path "$LOADER_POWERSHELL")
   append_ps_hook "$win_activate_dir/Activate.ps1" "$ps_loader"
+}
+
+select_activate_script() {
+  local env_dir="$1"
+  local candidate
+  for candidate in \
+    "$env_dir/bin/activate" \
+    "$env_dir/Scripts/activate" \
+    "$env_dir/Scripts/Activate.ps1"; do
+    if [[ -f "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+  return 1
 }
 
 create_env() {
@@ -129,11 +145,35 @@ create_env() {
     echo "Using existing virtual environment $env_dir"
   fi
 
+  local activate_script
+  if ! activate_script=$(select_activate_script "$env_dir"); then
+    cat <<EOF >&2
+Could not find an activation script in $env_dir.
+Checked bin/activate, Scripts/activate, and Scripts/Activate.ps1.
+EOF
+    exit 1
+  fi
+
+  if [[ "$activate_script" == *.ps1 ]]; then
+    cat <<EOF >&2
+Found only a PowerShell activation script ($activate_script).
+Re-run this helper from PowerShell or ensure a POSIX activate script exists.
+EOF
+    exit 1
+  fi
+
   # shellcheck disable=SC1090
-  source "$env_dir/bin/activate"
+  source "$activate_script"
   python -m pip install --upgrade pip
   python -m pip install -r "$requirements_file"
-  python -m playwright install --with-deps chromium
+
+  local playwright_args=(install chromium)
+  local uname_out
+  uname_out="$(uname -s 2>/dev/null || echo '')"
+  if [[ "${uname_out,,}" == linux* ]]; then
+    playwright_args=(install --with-deps chromium)
+  fi
+  python -m playwright "${playwright_args[@]}"
   deactivate
 
   install_scraper_env_hooks "$env_dir"
