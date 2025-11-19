@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/flotation-management/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -120,14 +112,14 @@ Improved control over froth levels, air flow, and chemical dosing enhances the e
 Accurate measurements and controls reduce reagent waste and energy consumption.
 ## Enhanced Safety and Reliability
 Real-time monitoring and control minimize the risk of process disruptions and ensure stable operations.
-[ How Can We Help? ](https://automationghana.com/solutions/flotation-management/#collapse-a0fd1106868a7872c6ce)
+[ How Can We Help? ](https://automationghana.com/solutions/flotation-management/#collapse-a0fd110691dbea17c2f1)
   * With over 20 years of experience in electrical engineering and automation, we optimize your flotation management by providing comprehensive solutions for monitoring and controlling flotation cells. Our advanced instrumentation ensures precise measurements and control parameters, leading to improved mineral recovery and efficient operations in your mining processes.
   * We deploy our solution in conformance to international standards and protocols ensuring interoperability with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/flotation-management/#collapse-3ee49346868a7872c6ce)
+[ What We Offer ](https://automationghana.com/solutions/flotation-management/#collapse-3ee4934691dbea17c2f1)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -137,7 +129,7 @@ We offer after sales support services including:
 
 
 supply of spares.
-[ Hardware and Software ](https://automationghana.com/solutions/flotation-management/#collapse-32d86556868a7872c6ce)
+[ Hardware and Software ](https://automationghana.com/solutions/flotation-management/#collapse-32d8655691dbea17c2f1)
   * Flow and Temperature Sensors
   * 4–20 mA Signal Transmitters
   * Digital Output Devices
@@ -159,7 +151,7 @@ supply of spares.
   * Reagent Dosing Software
 
 
-[ Services ](https://automationghana.com/solutions/flotation-management/#collapse-62ecacd6868a7872c6ce)
+[ Services ](https://automationghana.com/solutions/flotation-management/#collapse-62ecacd691dbea17c2f1)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -177,6 +169,10 @@ supply of spares.
 ![Chemical-Dosing-Unit-Automatic](https://automationghana.com/wp-content/uploads/2024/08/Chemical-Dosing-Unit-Automatic.webp)
 ### Chemical Dosing Unit
 ## Explore Other Solutions
+![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
+##### Motor Control Center (MCC)
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
+[ Learn More ](https://automationghana.com/solutions/motor-control-center/)
 ![pexels-hannu-iso-oja-3301403-4946886](https://automationghana.com/wp-content/uploads/2024/10/pexels-hannu-iso-oja-3301403-4946886-scaled.jpg)
 ##### Crusher and Conveyor Monitoring
 Optimize energy consumption and ensure seamless operation in crushing and conveyor systems for mining and cement plants. Our advanced monitoring solutions prevent crusher overfill, reduce downtime, and help maintain smooth, efficient processes. These systems offer real-time data integration and alarm systems to help you maintain critical operations.
@@ -186,7 +182,7 @@ Optimize energy consumption and ensure seamless operation in crushing and convey
 Our valves solutions are engineered to meet the demanding needs of the mining sector and other industries requiring robust, reliable, and efficient fluid control systems. We offer a diverse range of valve types designed to handle various applications, from abrasive fluids to general fluid management.
 [ Learn More ](https://automationghana.com/solutions/valves/)
 ![Pipeline and Transportation](https://automationghana.com/wp-content/uploads/2024/09/Pipeline-and-Transportation.jpg)
-##### Pipeline & Transportation
+##### Pipeline & Transportation Monitoring
 In the mining sector, efficient pipeline and transportation operations are crucial for optimizing resource management and reducing operational costs. Our solutions offer advanced pipeline automation that incorporates the latest best practices to ensure seamless and reliable operations.
 [ Learn More ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/)
 ![Smelter and leakage detection](https://automationghana.com/wp-content/uploads/2024/08/Smelter-and-leakage-detection.webp)

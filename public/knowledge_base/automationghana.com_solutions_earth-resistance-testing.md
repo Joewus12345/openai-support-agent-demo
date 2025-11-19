@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/earth-resistance-testing/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -120,9 +112,9 @@ Ensure that your electrical systems are properly grounded, protecting both perso
 Prevent electrical system failures by addressing grounding issues before they lead to faults or downtime.
 ## Enhanced Safety
 Avoid costly repairs and replacements due to electrical failures caused by poor grounding.
-[ How Can We Help? ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-a0fd1106868a69da9820)
+[ How Can We Help? ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-a0fd110691d985f9b4e6)
 We provide thorough **earth resistance testing** services to ensure your electrical grounding systems are safe, reliable, and compliant with industry regulations. Our team will work with you to identify any potential risks and implement effective solutions that guarantee the safety and performance of your electrical infrastructure.
-[ What We Offer ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-3ee49346868a69da9820)
+[ What We Offer ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-3ee4934691d985f9b4e6)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -132,7 +124,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-32d86556868a69da9820)
+[ Hardware and Software ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-32d8655691d985f9b4e6)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -145,7 +137,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting partsVisit www.store.automationghana.com to purchase our testing tools
 
 
-[ Services ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-62ecacd6868a69da9820)
+[ Services ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-62ecacd691d985f9b4e6)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solution-categories/telecommnunications/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -84,24 +76,30 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 The demand for uninterrupted access to data and communications, especially for mission critical systems, requires stable and reliable power supply. By providing robust and dependable solutions, we enable mission-critical systems to run smoothly while reducing energy consumption and carbon emissions. 
 [ Discover More ](https://automationghana.com/solution-categories/telecommnunications/#more)
 ## Our Solutions Include:
+## Flood Detection System – Protecting Critical Infrastructure from Water Damage
+Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities. 
+[ Learn More ](https://automationghana.com/solutions/flood-detection-system/)
+## Energy Audits
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/energy-audits/)
+## Panel Retrofitting: 5 Powerful Benefits for Safe & Reliable Power Systems
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/panel-retroffitting/)
+## Distribution Boards: 5 Advanced Distribution Solutions
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
 ## Hybrid Energy Power Solution 1
 In the telecommunication industry, uninterrupted power supply is crucial for maintaining network availability and ensuring seamless communication. Our Hybrid Energy Power Solution is specifically designed to meet the energy demands of telecom operations. 
 [ Learn More ](https://automationghana.com/solutions/hybrid-energy-power-solution/)
 ## Outdoor Telecom Power System
 Ensure the reliability and efficiency of your outdoor telecom environments with our high-performance power solutions. Designed with high-efficiency rectifiers, intelligent controllers, and advanced thermal cooling systems, our IP55-compliant cabinets protect against water and dust ingress. Ideal for telecom base stations, our solutions minimize costs and extend equipment lifespan while ensuring uninterrupted power supply. 
 [ Learn More ](https://automationghana.com/solutions/outdoor-telecom-power-system/)
-## Data Center Infrastructure Management (DCIM)
-Efficient management of data center infrastructure is essential for maintaining optimal performance, security, and cost-effectiveness. Our Data Center Infrastructure Management (DCIM) solutions provide comprehensive monitoring and control by interfacing with various building services, enabling timely responses to critical events and optimizing overall data center operations. 
-[ Learn More ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/)
-## Computational Fluid Dynamics (CFD)
-Maintaining optimal cooling in data centers is critical to ensuring the smooth operation of servers and other equipment. Our Computational Fluid Dynamics (CFD) solutions enable HVAC design engineers to visualize airflow patterns, predict flow distribution, and optimize cooling strategies—ultimately reducing cooling costs and enhancing system performance. 
-[ Learn More ](https://automationghana.com/solutions/computational-fluid-dynamics-cfd/)
 ## Client & Partners
-![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
-![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
-![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
-![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
-![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)

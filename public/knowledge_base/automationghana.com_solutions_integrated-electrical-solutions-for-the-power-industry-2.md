@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -105,10 +97,10 @@ By implementing our SCADA systems and power management solutions, you can achiev
 The modular nature of our integrated solutions allows for easy scalability, ensuring that your systems can grow and adapt to meet future demands without compromising performance or reliability.
 ## Reduced Maintenance Costs
 With reliable and durable equipment, you experience fewer system failures and reduced maintenance requirements, leading to lower overall maintenance costs and increased system uptime.
-[ How Can We Help? ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-a0fd1106868a7d8c8f21)
+[ How Can We Help? ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-a0fd110691cb6e497881)
 With over 2(two) decades of experience in electrical engineering and automation, we tailor and deploy advanced power management solutions to meet the unique demands of power generation and distribution at any scale. Our solutions are implemented in strict compliance with international standards and protocols, ensuring seamless interoperability with systems from the world’s leading brands in power automation and integrated technologies.
 We provide comprehensive upgrades for outdated systems and work closely with you to scale existing infrastructures, optimizing costs while achieving your business goals. Leverage our deep industry expertise and connections with Original Equipment Manufacturers (OEMs) to integrate the latest technologies in electrical, instrumentation, and controls engineering into your power systems.
-[ What We Offer ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-3ee49346868a7d8c8f21)
+[ What We Offer ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-3ee4934691cb6e497881)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -118,7 +110,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-32d86556868a7d8c8f21)
+[ Hardware and Software ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-32d8655691cb6e497881)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -131,7 +123,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-62ecacd6868a7d8c8f21)
+[ Services ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-62ecacd691cb6e497881)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -151,13 +143,13 @@ We offer manual and automatic transfer switches from Up to 6300A with basic to c
 Secure your home and workplace with a reliable, always available CCTV system. Learn more about the various options and configurations including bionic tracking, zoning, notifications and alarms. Find out more about the best solution for offices, homes, commercial buildings and remote facilities.
 [ Learn More ](https://automationghana.com/solutions/cctv-surveillance-solutions/)
 ![Fire Alarm with Strobe](https://automationghana.com/wp-content/uploads/2024/08/fire-alarm-with-strobe.jpg)
-##### Fire Detection and Alarming
+##### Fire Detection Systems: 7 Ways We Keep Your Facility Safe
 Our Fire Detection and Alarming system is a tried and tested, top of the range solution incorporating addressable heat, smoke and flame sensors with anti-electromagnetic interference capabilities to reduce nuisance alarms and improve accuracy. 
 [ Learn More ](https://automationghana.com/solutions/fire-detection-and-alarming/)
 ![PDBs](https://automationghana.com/wp-content/uploads/2024/04/PDBs-1.jpg)
-##### Power Distribution Boards
+##### Power Distribution Panel
 Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants.
-[ Learn More ](https://automationghana.com/solutions/power-distribution-boards/)
+[ Learn More ](https://automationghana.com/solutions/power-distribution-panel/)
 ![Website-Banner-solar-1](https://automationghana.com/wp-content/uploads/2024/04/Website-Banner-solar-1.jpg)
 ##### Solar PV Systems
 Consider investing in a reliable cost effective Solar PV system. Find out how you can start small with a back up solution and scale up to a completely off-grid system and make significant savings on your energy budget. 

@@ -26,15 +26,7 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
-Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
-Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
-[ Learn more ](http://automationghana.com/esl/)
-![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
-Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
-[ Learn more ](http://automationghana.com/ppa/)
+No content found
   * [Our Solutions](https://automationghana.com/solution-categories/oil-gas/)
 ## Building Solutions
     * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
@@ -84,13 +76,25 @@ Process & Plant Automation Limited is an electrical engineering solutions provid
 We offer efficient, flexible, future-proof solutions expertly engineered to meet evolving challenges and meet SIL requirements in the Oil & Gas industry. Accuracy, reliability, safety and profitability are the key objectives of our portfolio.
 [ Discover More ](https://automationghana.com/solution-categories/oil-gas/#more)
 ## Our Solutions Include:
+## Motor Control Center (MCC)
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/motor-control-center/)
+## Energy Audits
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/energy-audits/)
+## Panel Retrofitting: 5 Powerful Benefits for Safe & Reliable Power Systems
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/panel-retroffitting/)
+## Distribution Boards: 5 Advanced Distribution Solutions
+Distribute power efficiently and safely with ESL’s Power Distribution Panels. These customizable panels offer advanced protection and monitoring features, making them ideal for a wide range of applications, from residential buildings to large industrial plants. 
+[ Learn More ](https://automationghana.com/solutions/distribution-boards/)
 ## Terminal Management Solutions Enhanced1
 Our Terminal Management solutions are built to automate and optimize the complex logistics and operational processes that occur at oil and gas terminals. With our cutting-edge technology, you can enhance your terminal’s performance, reduce costs, and achieve compliance with international standards, all while maintaining a high level of safety and accuracy. 
 [ Learn More ](https://automationghana.com/solutions/terminal-management-solutions/)
 ## Integrated Terminal Management and Tank Farm Solutions
 Our Integrated Tank Farm and Terminal Management solutions are designed to optimize the accuracy, safety, and efficiency of managing tank farms and terminals. We offer advanced technologies for measuring product levels, monitoring processes, and integrating with existing systems to ensure smooth and reliable operations. 
 [ Learn More ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/)
-## Pipeline Monitoring and Automation
+## Pipeline Monitoring
 Our Pipeline Monitoring and Automation solution offers a comprehensive approach to managing your pipeline infrastructure with cutting-edge technology and real-time data. 
 [ Learn More ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/)
 ## Tank Inventory Management System
