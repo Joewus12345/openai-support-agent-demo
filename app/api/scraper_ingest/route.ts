@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import fs from "fs";
 import fsp from "fs/promises";
 import path from "path";
@@ -18,8 +19,29 @@ interface MarkdownBlob {
   filename?: string;
 }
 
+type Manifest = Record<string, string>;
+
 function sanitizeFilename(name: string) {
   return name.replace(/[^a-zA-Z0-9._-]/g, "-");
+}
+
+async function readManifest(manifestPath: string): Promise<Manifest> {
+  try {
+    const data = await fsp.readFile(manifestPath, "utf8");
+    const parsed = JSON.parse(data);
+    if (parsed && typeof parsed === "object") {
+      return parsed as Manifest;
+    }
+  } catch {
+    // No manifest yet
+  }
+  return {};
+}
+
+async function writeManifest(manifestPath: string, manifest: Manifest) {
+  const tempPath = `${manifestPath}.tmp`;
+  await fsp.writeFile(tempPath, JSON.stringify(manifest, null, 2));
+  await fsp.rename(tempPath, manifestPath);
 }
 
 async function runIngestionService(
@@ -98,6 +120,7 @@ export async function POST(request: Request) {
     const destinationFolder: string = body.destinationFolder || "knowledge_base";
     const chunkSize: number = body.chunkSize || 1000;
     const vectorStoreId: string = body.vectorStoreId || VECTOR_STORE_ID;
+    const forceLocalRebuild: boolean = body.forceLocalRebuild === true;
 
     if (!Array.isArray(markdownBlobs) || markdownBlobs.length === 0) {
       return NextResponse.json(
@@ -116,56 +139,103 @@ export async function POST(request: Request) {
     const baseDir = path.join(process.cwd(), "public", destinationFolder);
     await fsp.mkdir(baseDir, { recursive: true });
 
+    const manifestPath = path.join(baseDir, ".ingest-manifest.json");
+    const manifest = await readManifest(manifestPath);
+
     const timestamp = Date.now();
-    const savedFiles: string[] = [];
+    const changedFiles: string[] = [];
+    const unchangedFiles: string[] = [];
     const normalizedBlobs: MarkdownBlob[] = [];
 
     for (let i = 0; i < markdownBlobs.length; i++) {
       const blob = markdownBlobs[i];
       const content = (blob.content || "").trim();
       if (!content) continue;
+
       const filename = sanitizeFilename(
         blob.filename || blob.source || `ingest-${timestamp}-${i}.md`
       );
-      const filePath = path.join(baseDir, filename.endsWith(".md") ? filename : `${filename}.md`);
+      const normalizedFilename = filename.endsWith(".md")
+        ? filename
+        : `${filename}.md`;
+
+      const filePath = path.join(baseDir, normalizedFilename);
+      const relativeFilePath = path.relative(process.cwd(), filePath);
+      const contentHash = crypto
+        .createHash("sha256")
+        .update(content, "utf8")
+        .digest("hex");
+
+      const previousHash = manifest[relativeFilePath];
+      if (previousHash === contentHash) {
+        unchangedFiles.push(relativeFilePath);
+        try {
+          await fsp.access(filePath);
+        } catch {
+          await fsp.writeFile(filePath, content, "utf8");
+        }
+        continue;
+      }
+
       await fsp.writeFile(filePath, content, "utf8");
-      savedFiles.push(path.relative(process.cwd(), filePath));
+      changedFiles.push(relativeFilePath);
+      manifest[relativeFilePath] = contentHash;
       normalizedBlobs.push({
         content,
-        source: blob.source || savedFiles[savedFiles.length - 1],
-        filename,
+        source: blob.source || relativeFilePath,
+        filename: normalizedFilename,
       });
     }
 
-    if (normalizedBlobs.length === 0) {
-      return NextResponse.json(
-        { error: "No non-empty markdown blobs found" },
-        { status: 400 }
-      );
-    }
-
-    const ingestion = await runIngestionService(normalizedBlobs, chunkSize);
-
-    const uploadedFiles = [];
-    for (const filePath of savedFiles) {
-      const absolutePath = path.join(process.cwd(), filePath);
-      const uploaded = await uploadToVectorStore(
-        absolutePath,
+    if (normalizedBlobs.length === 0 && !forceLocalRebuild) {
+      return NextResponse.json({
+        message: "No new or changed files detected; ingestion skipped",
+        unchangedFiles,
         vectorStoreId,
-        destinationFolder
-      );
-      uploadedFiles.push({
-        filePath,
-        fileId: uploaded.fileId,
-        vectorStoreFile: uploaded.vectorStoreFile,
+        uploadedFiles: [],
+        ingestion: null,
       });
     }
 
-    await localVectorStore.initialize(true);
-    clearFileSearchCache();
+    let ingestion = null;
+    const uploadedFiles = [] as Array<{
+      filePath: string;
+      fileId: string;
+      vectorStoreFile: any;
+    }>;
+
+    if (normalizedBlobs.length > 0) {
+      ingestion = await runIngestionService(normalizedBlobs, chunkSize);
+
+      for (const filePath of changedFiles) {
+        const absolutePath = path.join(process.cwd(), filePath);
+        const uploaded = await uploadToVectorStore(
+          absolutePath,
+          vectorStoreId,
+          destinationFolder
+        );
+        uploadedFiles.push({
+          filePath,
+          fileId: uploaded.fileId,
+          vectorStoreFile: uploaded.vectorStoreFile,
+        });
+      }
+    }
+
+    await writeManifest(manifestPath, manifest);
+
+    if (forceLocalRebuild || changedFiles.length > 0) {
+      await localVectorStore.initialize(
+        forceLocalRebuild
+          ? { force: true }
+          : { files: changedFiles }
+      );
+      clearFileSearchCache();
+    }
 
     return NextResponse.json({
-      savedFiles,
+      changedFiles,
+      unchangedFiles,
       ingestion,
       vectorStoreId,
       uploadedFiles,
