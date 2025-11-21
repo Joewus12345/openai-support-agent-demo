@@ -60,6 +60,14 @@ async function runIngestionService(
     let stdout = "";
     let stderr = "";
 
+    python.on("error", (error) => {
+      reject(
+        new Error(
+          `Failed to start ingestion service: ${(error as Error).message}`
+        )
+      );
+    });
+
     python.stdout.on("data", (data) => {
       stdout += data.toString();
     });
