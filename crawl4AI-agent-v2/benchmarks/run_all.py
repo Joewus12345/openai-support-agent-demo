@@ -219,6 +219,90 @@ async def run_job(
     )
 
 
+async def check_crawl4ai_dependency(
+    python_cmd: str,
+    env: Dict[str, str],
+    log_timestamp: str,
+    verbose_logs: bool,
+) -> BenchmarkResult | None:
+    """Ensure crawl4ai is importable before launching jobs."""
+
+    start_ts = iso_now()
+    start_time = datetime.now(timezone.utc)
+    try:
+        process = await asyncio.create_subprocess_exec(
+            python_cmd,
+            "-c",
+            "import crawl4ai",  # simple import gate
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            cwd=REPO_ROOT,
+            env=env,
+        )
+    except FileNotFoundError as exc:
+        end_ts = iso_now()
+        return BenchmarkResult(
+            script="dependency-check",
+            script_path="import crawl4ai",
+            output_dir=str(REPO_ROOT / "public" / "knowledge_base"),
+            start_time=start_ts,
+            end_time=end_ts,
+            duration_seconds=0.0,
+            urls_processed=0,
+            total_bytes=0,
+            throughput_pages_per_min=0.0,
+            total_output_files=0,
+            total_output_bytes=0,
+            status="error",
+            return_code=None,
+            error=f"Failed to launch python at {python_cmd}: {exc}",
+        )
+
+    stdout_bytes, stderr_bytes = await process.communicate()
+    end_time = datetime.now(timezone.utc)
+    end_ts = end_time.isoformat()
+    duration = max((end_time - start_time).total_seconds(), 0.0)
+
+    if process.returncode == 0:
+        return None
+
+    stderr_text = stderr_bytes.decode("utf-8", errors="ignore")
+    stdout_text = stdout_bytes.decode("utf-8", errors="ignore")
+    hint = "Install crawl4ai in the selected environment (e.g., pip install crawl4ai)."
+    error_message = (stderr_text or stdout_text or "Import failed")[:2000]
+    error_message = f"{error_message}\n{hint}"
+
+    stdout_log: str | None = None
+    stderr_log: str | None = None
+    if verbose_logs:
+        ensure_benchmark_dir()
+        if stdout_text:
+            stdout_log = str(BENCHMARK_DIR / f"{log_timestamp}_dependency-check_stdout.log")
+            Path(stdout_log).write_text(stdout_text[:8000], encoding="utf-8")
+        if stderr_text:
+            stderr_log = str(BENCHMARK_DIR / f"{log_timestamp}_dependency-check_stderr.log")
+            Path(stderr_log).write_text(stderr_text[:8000], encoding="utf-8")
+
+    return BenchmarkResult(
+        script="dependency-check",
+        script_path="import crawl4ai",
+        output_dir=str(REPO_ROOT / "public" / "knowledge_base"),
+        start_time=start_ts,
+        end_time=end_ts,
+        duration_seconds=duration,
+        urls_processed=0,
+        total_bytes=0,
+        throughput_pages_per_min=0.0,
+        total_output_files=0,
+        total_output_bytes=0,
+        status="error",
+        return_code=process.returncode,
+        error=error_message,
+        stdout_log=stdout_log,
+        stderr_log=stderr_log,
+    )
+
+
 def write_reports(results: Iterable[BenchmarkResult], timestamp: str) -> None:
     ensure_benchmark_dir()
     json_path = BENCHMARK_DIR / f"benchmarks_{timestamp}.json"
@@ -355,6 +439,18 @@ async def main() -> None:
     env = build_env(args.venv)
 
     bench_timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+    dependency_result = await check_crawl4ai_dependency(
+        python_cmd, env, bench_timestamp, args.verbose_logs
+    )
+    if dependency_result:
+        write_reports([dependency_result], bench_timestamp)
+        print(
+            "crawl4ai is not available in the selected environment. "
+            "Install it and rerun the benchmark."
+        )
+        print(f"Reports written to {BENCHMARK_DIR}")
+        return
 
     results: List[BenchmarkResult] = []
     for job in jobs:
