@@ -420,6 +420,8 @@ def parse_args() -> argparse.Namespace:
 
 def build_env(venv: Path | None) -> Dict[str, str]:
     env = os.environ.copy()
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
     if venv:
         bin_path = venv / "bin"
         scripts_path = venv / "Scripts"
