@@ -70,7 +70,10 @@ def resolve_python(venv_path: Path | None) -> str:
         candidates.append(Path(env_python))
     env_venv = os.environ.get("VIRTUAL_ENV")
     if env_venv:
-        candidates.append(Path(env_venv) / "bin" / "python")
+        env_venv_path = Path(env_venv)
+        candidates.append(env_venv_path / "bin" / "python")
+        candidates.append(env_venv_path / "Scripts" / "python.exe")
+        candidates.append(env_venv_path / "Scripts" / "python")
     candidates.append(Path("python"))
     for candidate in candidates:
         if candidate and candidate.exists():
