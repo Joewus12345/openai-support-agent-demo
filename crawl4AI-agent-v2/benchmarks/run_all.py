@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import csv
+import hashlib
 import json
 import os
 from dataclasses import dataclass, asdict
@@ -54,6 +55,8 @@ class BenchmarkResult:
     status: str
     return_code: int | None
     error: str | None
+    stdout_log: str | None = None
+    stderr_log: str | None = None
 
 
 def resolve_python(venv_path: Path | None) -> str:
@@ -75,20 +78,47 @@ def resolve_python(venv_path: Path | None) -> str:
     return "python"
 
 
-def snapshot_markdown(output_dir: Path) -> Dict[Path, int]:
-    """Return a mapping of markdown file path to size for the given directory."""
+@dataclass(frozen=True)
+class FileSnapshot:
+    size: int
+    mtime: float
+    sha256: str
+
+
+def hash_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def snapshot_markdown(output_dir: Path, reuse: Dict[Path, FileSnapshot] | None = None) -> Dict[Path, FileSnapshot]:
+    """Return a mapping of markdown file path to size/mtime/hash, reusing hashes when unchanged."""
     if not output_dir.exists():
         return {}
-    return {p: p.stat().st_size for p in output_dir.glob("*.md") if p.is_file()}
+
+    reuse = reuse or {}
+    snapshot: Dict[Path, FileSnapshot] = {}
+    for p in output_dir.glob("*.md"):
+        if not p.is_file():
+            continue
+        stat = p.stat()
+        previous = reuse.get(p)
+        if previous and previous.size == stat.st_size and previous.mtime == stat.st_mtime:
+            snapshot[p] = previous
+        else:
+            snapshot[p] = FileSnapshot(size=stat.st_size, mtime=stat.st_mtime, sha256=hash_file(p))
+    return snapshot
 
 
-def diff_outputs(before: Dict[Path, int], after: Dict[Path, int]) -> Dict[Path, int]:
-    """Return files that are new or size-changed since the snapshot."""
-    changed: Dict[Path, int] = {}
-    for path, size in after.items():
+def diff_outputs(before: Dict[Path, FileSnapshot], after: Dict[Path, FileSnapshot]) -> Dict[Path, FileSnapshot]:
+    """Return files that are new or content-changed since the snapshot."""
+    changed: Dict[Path, FileSnapshot] = {}
+    for path, meta in after.items():
         previous = before.get(path)
-        if previous is None or previous != size:
-            changed[path] = size
+        if previous is None or previous.sha256 != meta.sha256:
+            changed[path] = meta
     return changed
 
 
@@ -100,7 +130,13 @@ def iso_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-async def run_job(job: ScriptJob, python_cmd: str, env: Dict[str, str]) -> BenchmarkResult:
+async def run_job(
+    job: ScriptJob,
+    python_cmd: str,
+    env: Dict[str, str],
+    log_timestamp: str,
+    verbose_logs: bool,
+) -> BenchmarkResult:
     before_snapshot = snapshot_markdown(job.output_dir)
     start_ts = iso_now()
     start_time = datetime.now(timezone.utc)
@@ -127,28 +163,41 @@ async def run_job(job: ScriptJob, python_cmd: str, env: Dict[str, str]) -> Bench
             total_bytes=0,
             throughput_pages_per_min=0.0,
             total_output_files=len(before_snapshot),
-            total_output_bytes=sum(before_snapshot.values()),
+            total_output_bytes=sum(meta.size for meta in before_snapshot.values()),
             status="error",
             return_code=None,
             error=str(exc),
         )
 
-    stdout, stderr = await process.communicate()
+    stdout_bytes, stderr_bytes = await process.communicate()
     end_time = datetime.now(timezone.utc)
     end_ts = end_time.isoformat()
 
-    after_snapshot = snapshot_markdown(job.output_dir)
+    after_snapshot = snapshot_markdown(job.output_dir, reuse=before_snapshot)
     changed = diff_outputs(before_snapshot, after_snapshot)
     duration = max((end_time - start_time).total_seconds(), 0.0)
     urls_processed = len(changed)
-    total_bytes = sum(changed.values())
+    total_bytes = sum(meta.size for meta in changed.values())
     throughput = (urls_processed / (duration / 60.0)) if duration > 0 else 0.0
-    total_output_bytes = sum(after_snapshot.values())
+    total_output_bytes = sum(meta.size for meta in after_snapshot.values())
 
     status = "success" if process.returncode == 0 else "failed"
     error_message = None
     if process.returncode != 0:
-        error_message = stderr.decode("utf-8", errors="ignore")[:2000] or stdout.decode("utf-8", errors="ignore")[:2000]
+        error_message = stderr_bytes.decode("utf-8", errors="ignore")[:2000] or stdout_bytes.decode("utf-8", errors="ignore")[:2000]
+
+    stdout_log: str | None = None
+    stderr_log: str | None = None
+    if verbose_logs:
+        ensure_benchmark_dir()
+        stdout_text = stdout_bytes.decode("utf-8", errors="ignore")[:8000]
+        stderr_text = stderr_bytes.decode("utf-8", errors="ignore")[:8000]
+        if stdout_text:
+            stdout_log = str(BENCHMARK_DIR / f"{log_timestamp}_{job.key}_stdout.log")
+            Path(stdout_log).write_text(stdout_text, encoding="utf-8")
+        if stderr_text:
+            stderr_log = str(BENCHMARK_DIR / f"{log_timestamp}_{job.key}_stderr.log")
+            Path(stderr_log).write_text(stderr_text, encoding="utf-8")
 
     return BenchmarkResult(
         script=job.key,
@@ -165,6 +214,8 @@ async def run_job(job: ScriptJob, python_cmd: str, env: Dict[str, str]) -> Bench
         status=status,
         return_code=process.returncode,
         error=error_message,
+        stdout_log=stdout_log,
+        stderr_log=stderr_log,
     )
 
 
@@ -272,6 +323,11 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         help="Path to a virtualenv to use for subprocess execution.",
     )
+    parser.add_argument(
+        "--verbose-logs",
+        action="store_true",
+        help="Persist truncated stdout/stderr for each run in the benchmarks output directory.",
+    )
     return parser.parse_args()
 
 
@@ -298,18 +354,19 @@ async def main() -> None:
     python_cmd = resolve_python(args.venv)
     env = build_env(args.venv)
 
+    bench_timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
     results: List[BenchmarkResult] = []
     for job in jobs:
         print(f"Running {job.key} via {python_cmd}...")
-        result = await run_job(job, python_cmd, env)
+        result = await run_job(job, python_cmd, env, bench_timestamp, args.verbose_logs)
         results.append(result)
         print(
             f"Completed {job.key}: status={result.status}, urls={result.urls_processed}, "
             f"bytes={result.total_bytes}, throughput={result.throughput_pages_per_min:.2f} pages/min"
         )
 
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    write_reports(results, timestamp)
+    write_reports(results, bench_timestamp)
     print(f"Reports written to {BENCHMARK_DIR}")
 
 
