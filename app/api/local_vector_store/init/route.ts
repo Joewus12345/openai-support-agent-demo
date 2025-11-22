@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const url = new URL(request.url);
     const force = url.searchParams.get("force") === "true";
-    await localVectorStore.initialize(force);
+    await localVectorStore.initialize({ force });
     clearFileSearchCache();
     return NextResponse.json({ success: true });
   } catch (error) {

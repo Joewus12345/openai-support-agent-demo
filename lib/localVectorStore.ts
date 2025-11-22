@@ -70,40 +70,120 @@ class LocalVectorStore {
     return res.embedding;
   }
 
-  async initialize(force = false, concurrency = 5) {
+  async initialize(
+    options: { force?: boolean; concurrency?: number; files?: string[] } = {},
+  ) {
+    const { force = false, concurrency = 5, files } = options;
+    const concurrencyLimit = concurrency ?? 5;
+
+    const hasTargets = Array.isArray(files) && files.length > 0;
+
     if (force) {
       this.store = [];
       this.loaded = true;
     } else {
       await this.ensureLoaded();
-      if (this.store.length > 0) return;
+      if (!hasTargets && this.store.length > 0) return;
     }
-    // Preprocess files to determine total number of chunks
+
+    const filePaths = hasTargets
+      ? files.map((filePath) =>
+          path.isAbsolute(filePath)
+            ? filePath
+            : path.join(process.cwd(), filePath),
+        )
+      : await this.collectKnowledgeBaseFiles();
+
+    if (filePaths.length === 0) {
+      console.warn("No knowledge base files found for local vector store.");
+      await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
+      await fs.writeFile(STORE_PATH, JSON.stringify(this.store, null, 2));
+      return;
+    }
+
+    if (hasTargets && !force) {
+      const normalizedTargets = new Set(
+        filePaths.map((filePath) => path.normalize(filePath)),
+      );
+      this.store = this.store.filter((entry) => {
+        const storedPath = path.join(
+          process.cwd(),
+          this.stripLeadingSlash(entry.attributes.filepath),
+        );
+        return !normalizedTargets.has(path.normalize(storedPath));
+      });
+    }
+
+    const { entries, filesProcessed, chunksProcessed } = await this.processFiles(
+      filePaths,
+      concurrencyLimit > 0 ? concurrencyLimit : 1,
+    );
+
+    this.store.push(...entries);
+
+    await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
+    console.log(
+      `Processed ${filesProcessed} files and ${chunksProcessed} chunks in parallel. Writing local vector store...`,
+    );
+    await fs.writeFile(STORE_PATH, JSON.stringify(this.store, null, 2));
+    console.log(
+      `Local vector store written to ${STORE_PATH} with ${this.store.length} entries.`,
+    );
+  }
+
+  private stripLeadingSlash(filePath: string) {
+    return filePath.startsWith("/") ? filePath.slice(1) : filePath;
+  }
+
+  private async collectKnowledgeBaseFiles() {
+    const files: string[] = [];
+    for (const folder of KB_FOLDERS) {
+      const dir = path.join(process.cwd(), "public", folder);
+      try {
+        const entries = await fs.readdir(dir);
+        for (const entry of entries) {
+          files.push(path.join(dir, entry));
+        }
+      } catch (err) {
+        console.warn(`Skipping missing knowledge base folder: ${dir}`, err);
+      }
+    }
+    return files;
+  }
+
+  private async processFiles(filePaths: string[], concurrency: number) {
     const filesData: {
       folder: string;
       file: string;
       joinedChunks: string[];
       overlap: number;
     }[] = [];
-    let totalChunks = 0;
-    for (const folder of KB_FOLDERS) {
-      const dir = path.join(process.cwd(), "public", folder);
-      const files = await fs.readdir(dir);
-      for (const file of files) {
-        const filePath = path.join(dir, file);
-        const raw = await fs.readFile(filePath, "utf8");
+
+    for (const absolutePath of filePaths) {
+      const relativeToPublic = path.relative(
+        path.join(process.cwd(), "public"),
+        absolutePath,
+      );
+      const [folder, ...rest] = relativeToPublic.split(path.sep);
+      const file = rest.join(path.sep);
+
+      if (!KB_FOLDERS.includes(folder)) {
+        console.warn(
+          `Skipping file outside configured KB folders: ${absolutePath}`,
+        );
+        continue;
+      }
+
+      try {
+        const raw = await fs.readFile(absolutePath, "utf8");
         let cleaned: string;
         if (file.endsWith(".json")) {
           try {
             const parsed = JSON.parse(raw);
-            if (parsed && typeof parsed === "object") {
-              cleaned = JSON.stringify(parsed);
-            } else {
-              console.warn(
-                `Invalid JSON structure in ${file}; using raw text`
-              );
-              cleaned = raw;
-            }
+            cleaned =
+              parsed && typeof parsed === "object"
+                ? JSON.stringify(parsed)
+                : raw;
           } catch (err) {
             console.error(`Failed to parse ${file}:`, err);
             cleaned = raw;
@@ -111,6 +191,7 @@ class LocalVectorStore {
         } else {
           cleaned = cleanMarkdown(raw);
         }
+
         const chunks = await splitText(cleaned);
         const overlap = TEXT_SPLITTER_CONFIG.chunkOverlap;
         const joinedChunks = chunks.map((chunk, i) => {
@@ -119,32 +200,47 @@ class LocalVectorStore {
           const overlapWords = prevWords.slice(-overlap).join(" ");
           return `${overlapWords} ${chunk}`.trim();
         });
-        totalChunks += joinedChunks.length;
-        filesData.push({ folder, file, joinedChunks, overlap });
+
+        filesData.push({
+          folder,
+          file,
+          joinedChunks,
+          overlap,
+        });
+      } catch (err) {
+        console.error(`Failed to read ${absolutePath}:`, err);
       }
     }
 
     let chunksProcessed = 0;
+    const entries: Entry[] = [];
+    const totalChunks = filesData.reduce(
+      (total, file) => total + file.joinedChunks.length,
+      0,
+    );
     const limit = pLimit(concurrency > 0 ? concurrency : totalChunks || 1);
     const tasks: Promise<void>[] = [];
+
     for (const { folder, file, joinedChunks, overlap } of filesData) {
       joinedChunks.forEach((chunk, idx) => {
         tasks.push(
           limit(async () => {
             const current = ++chunksProcessed;
             console.log(
-              `Embedding chunk ${current}/${totalChunks} from ${file}`
+              `Embedding chunk ${current}/${totalChunks} from ${file}`,
             );
             try {
               const embedding = await this.embedding(chunk);
-              this.store.push({
+              entries.push({
                 id: crypto.randomUUID(),
                 embedding,
                 text: chunk,
                 attributes: {
                   type: folder,
                   filename: file.replace(/\.(md|json)$/, ""),
-                  filepath: `/public/${folder}/${file}`,
+                  filepath: path
+                    .join("public", folder, file)
+                    .replace(/\\/g, "/"),
                   chunk: idx,
                   overlap,
                 },
@@ -152,23 +248,22 @@ class LocalVectorStore {
             } catch (err) {
               console.error(
                 `Failed to embed chunk ${current}/${totalChunks} from ${file}:`,
-                err
+                err,
               );
             }
-          })
+          }),
         );
       });
     }
-    const filesProcessed = filesData.length;
+
     await Promise.allSettled(tasks);
-    await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
-    console.log(
-      `Processed ${filesProcessed} files and ${chunksProcessed} chunks in parallel. Writing local vector store...`
-    );
-    await fs.writeFile(STORE_PATH, JSON.stringify(this.store, null, 2));
-    console.log(
-      `Local vector store written to ${STORE_PATH} with ${this.store.length} entries.`
-    );
+
+    return {
+      entries,
+      filesProcessed: filesData.length,
+      chunksProcessed,
+      totalChunks,
+    };
   }
 
   /**
