@@ -308,6 +308,17 @@ async def check_crawl4ai_dependency(
 
 def write_reports(results: Iterable[BenchmarkResult], timestamp: str) -> None:
     ensure_benchmark_dir()
+    # Clean up older benchmark summary files so each run leaves only the latest reports
+    for old_report in BENCHMARK_DIR.glob("benchmarks_*.json"):
+        try:
+            old_report.unlink()
+        except OSError:
+            pass
+    for old_report in BENCHMARK_DIR.glob("benchmarks_*.csv"):
+        try:
+            old_report.unlink()
+        except OSError:
+            pass
     json_path = BENCHMARK_DIR / f"benchmarks_{timestamp}.json"
     csv_path = BENCHMARK_DIR / f"benchmarks_{timestamp}.csv"
 
@@ -370,14 +381,6 @@ def build_jobs() -> List[ScriptJob]:
             script_path=REPO_ROOT / "crawl4AI-agent-v2" / "crawl4AI-examples" / "4-crawl_llms_txt.py",
             output_dir=kb_dir,
             description="LLMs.txt / Markdown crawler (v2)",
-            default_args=[],
-            domain_hint="automationghana.com",
-        ),
-        ScriptJob(
-            key="recursive-v2",
-            script_path=REPO_ROOT / "crawl4AI-agent-v2" / "crawl4AI-examples" / "5-crawl_site_recursively.py",
-            output_dir=kb_dir,
-            description="Recursive site crawler (v2)",
             default_args=[],
             domain_hint="automationghana.com",
         ),
