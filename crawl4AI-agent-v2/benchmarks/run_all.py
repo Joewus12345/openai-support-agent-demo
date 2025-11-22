@@ -384,6 +384,14 @@ def build_jobs() -> List[ScriptJob]:
             default_args=[],
             domain_hint="automationghana.com",
         ),
+        ScriptJob(
+            key="recursive-v2",
+            script_path=REPO_ROOT / "crawl4AI-agent-v2" / "crawl4AI-examples" / "5-crawl_site_recursively.py",
+            output_dir=kb_dir,
+            description="Recursive site crawler (v2)",
+            default_args=[],
+            domain_hint="automationghana.com",
+        ),
     ]
 
 
