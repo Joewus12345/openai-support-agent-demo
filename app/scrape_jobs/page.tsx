@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import {
   CalendarClock,
@@ -112,13 +112,29 @@ export default function ScrapeJobsPage() {
   const { data, error, isLoading, mutate } = useSWR<SerializedJob[]>(
     "/api/scrape_jobs?detailed=true",
     fetcher,
-    { refreshInterval: 8000 }
+    { refreshInterval: 0, revalidateOnFocus: false }
   );
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
   const [targetUrl, setTargetUrl] = useState(SCRIPT_PRESETS[0].defaultTarget);
   const [creating, setCreating] = useState<string | null>(null);
   const [ingesting, setIngesting] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const source = new EventSource("/api/scrape_jobs/updates");
+
+    source.onmessage = () => {
+      void mutate();
+    };
+
+    source.onerror = () => {
+      setTimeout(() => void mutate(), 1000);
+    };
+
+    return () => {
+      source.close();
+    };
+  }, [mutate]);
 
   const handlePresetChange = (key: string) => {
     setSelectedPreset(key);
