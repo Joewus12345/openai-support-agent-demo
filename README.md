@@ -358,6 +358,19 @@ When using the `ollama` provider you need a local server running.
   command on Windows/macOS so headless `AsyncWebCrawler` launches succeed on
   every OS.
 
+  **Choosing the python interpreter for scrape jobs.** The runner spawns the
+  crawler via `SCRAPE_WORKER_PYTHON` (falls back to `PYTHON` and then the
+  system `python`). Point this variable at the interpreter inside the venv that
+  contains the crawler dependencies—not an activation script. Examples:
+
+  - Windows v1: `SCRAPE_WORKER_PYTHON=C:\\Users\\you\\openai-support-agent-demo\\.venv-c4ai-v1\\Scripts\\python.exe`
+  - Windows v2: `SCRAPE_WORKER_PYTHON=C:\\Users\\you\\openai-support-agent-demo\\.venv-c4ai-v2\\Scripts\\python.exe`
+  - Linux/macOS v1: `SCRAPE_WORKER_PYTHON=/workspace/openai-support-agent-demo/.venv-c4ai-v1/bin/python`
+  - Linux/macOS v2: `SCRAPE_WORKER_PYTHON=/workspace/openai-support-agent-demo/.venv-c4ai-v2/bin/python`
+
+  If the variable points to `activate`/`Activate.ps1` or a missing path, the
+  runner logs a clear warning and will fall back to other candidates.
+
   Every crawler example (both `crawl4AI-agent` and `crawl4AI-agent-v2`) now
   writes Markdown into `public/knowledge_base`, so once you activate a venv and
   run something like `python crawl4AI-agent/crawl4AI-examples/2-crawl_docs_sequential.py`
