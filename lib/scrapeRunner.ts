@@ -74,12 +74,70 @@ const HARNESS_PATH = path.join(
 const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
 const SCRAPE_TIMEOUT_MS = (() => {
   const raw = process.env.SCRAPE_TIMEOUT_MS;
-  const parsed = raw === undefined ? 30 * 60 * 1000 : Number(raw);
-  return Number.isFinite(parsed) ? parsed : 30 * 60 * 1000;
+  const parsed = raw === undefined ? 2 * 60 * 60 * 1000 : Number(raw);
+  return Number.isFinite(parsed) ? parsed : 2 * 60 * 60 * 1000;
 })();
+const SCRAPE_SKIP_DEP_CHECK = process.env.SCRAPE_SKIP_DEP_CHECK === "true";
 const LOG_DIR = path.join(process.cwd(), "logs", "scrape_jobs");
 
 type PrismaClientLike = Prisma.TransactionClient | typeof prisma;
+
+function runDependencyCheck(pythonBin: string, logStream: fs.WriteStream) {
+  if (SCRAPE_SKIP_DEP_CHECK) {
+    logStream.write("Skipping crawl4ai dependency check because SCRAPE_SKIP_DEP_CHECK=true.\n");
+    return { ok: true } as const;
+  }
+
+  const env = {
+    ...process.env,
+    PYTHONUTF8: "1",
+    PYTHONIOENCODING: "utf-8",
+    PYTHONUNBUFFERED: "1",
+  };
+
+  const importProbe = spawn(pythonBin, ["-c", "import crawl4ai"], {
+    env,
+    cwd: process.cwd(),
+    stdio: "pipe",
+  });
+
+  const chunks: Buffer[] = [];
+  return new Promise<{ ok: boolean; message?: string }>((resolve) => {
+    importProbe.stdout?.on("data", (chunk) => chunks.push(chunk));
+    importProbe.stderr?.on("data", (chunk) => chunks.push(chunk));
+
+    importProbe.on("error", (err) => {
+      resolve({ ok: false, message: err.message });
+    });
+
+    importProbe.on("close", (code) => {
+      if (code === 0) {
+        resolve({ ok: true });
+        return;
+      }
+
+      const pipProbe = spawn(pythonBin, ["-m", "pip", "show", "crawl4ai"], {
+        env,
+        cwd: process.cwd(),
+        stdio: "pipe",
+      });
+      const pipChunks: Buffer[] = [];
+
+      pipProbe.stdout?.on("data", (chunk) => pipChunks.push(chunk));
+      pipProbe.stderr?.on("data", (chunk) => pipChunks.push(chunk));
+
+      pipProbe.on("close", (pipCode) => {
+        const baseMessage = chunks.length ? Buffer.concat(chunks).toString() : "import failed";
+        const pipMessage = pipChunks.length ? Buffer.concat(pipChunks).toString() : "pip show returned no output";
+
+        logStream.write(`crawl4ai import probe failed (exit ${code}). Output: ${baseMessage}\n`);
+        logStream.write(`pip show crawl4ai (exit ${pipCode ?? -1}): ${pipMessage}\n`);
+
+        resolve({ ok: false, message: `${baseMessage}\n${pipMessage}` });
+      });
+    });
+  });
+}
 
 function normalizeArgs(args: unknown): string[] {
   if (Array.isArray(args)) {
@@ -171,6 +229,17 @@ export async function runScrapeJob(
   logStream.write(`Knowledge base output directory: ${KNOWLEDGE_BASE_DIR}\n`);
   logStream.write(`Timeout (ms): ${SCRAPE_TIMEOUT_MS}\n`);
 
+  const depCheck = await runDependencyCheck(PYTHON_BIN, logStream);
+  if (!depCheck.ok) {
+    await markFailed(
+      client,
+      job,
+      depCheck.message ?? "crawl4ai dependency check failed. Install crawl4ai in the selected interpreter.",
+      logStream
+    );
+    return { exitCode: 1 };
+  }
+
   let exitCode = -1;
   let missingCrawlDependency = false;
 
@@ -184,6 +253,21 @@ export async function runScrapeJob(
         PYTHONUNBUFFERED: "1",
       },
     });
+
+    let lastOutputAt = Date.now();
+    let timeoutId: NodeJS.Timeout | null = null;
+    const resetTimeout = () => {
+      if (!Number.isFinite(SCRAPE_TIMEOUT_MS)) return;
+      const remaining = SCRAPE_TIMEOUT_MS - (Date.now() - lastOutputAt);
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        logStream.write(
+          `[${new Date().toISOString()}] Timeout exceeded (${SCRAPE_TIMEOUT_MS} ms since last output). Terminating job ${job.id}.\n`
+        );
+        child.kill("SIGKILL");
+      }, Math.max(1, remaining));
+    };
+
     const heartbeat = setInterval(() => {
       logStream.write(`[${new Date().toISOString()}] heartbeat: job ${job.id} still running...\n`);
       emitJobUpdate({
@@ -194,7 +278,16 @@ export async function runScrapeJob(
       });
     }, 60_000);
 
+    const activityProbe = setInterval(() => {
+      logStream.write(
+        `[${new Date().toISOString()}] activity probe: last output ${(Date.now() - lastOutputAt) / 1000}s ago.\n`
+      );
+      resetTimeout();
+    }, 30 * 60 * 1000);
+
     const handleChunk = (chunk: Buffer) => {
+      lastOutputAt = Date.now();
+      resetTimeout();
       logStream.write(chunk);
       const text = chunk.toString();
       if (
@@ -214,26 +307,19 @@ export async function runScrapeJob(
     child.stdout.on("data", handleChunk);
     child.stderr.on("data", handleChunk);
 
-    exitCode = await new Promise((resolve) => {
-      const timeoutId = Number.isFinite(SCRAPE_TIMEOUT_MS)
-        ? setTimeout(() => {
-            logStream.write(
-              `[${new Date().toISOString()}] Timeout exceeded (${SCRAPE_TIMEOUT_MS} ms). Terminating job ${job.id}.\n`
-            );
-            child.kill("SIGKILL");
-            resolve(-1);
-          },
-          SCRAPE_TIMEOUT_MS)
-        : null;
+    resetTimeout();
 
+    exitCode = await new Promise((resolve) => {
       child.on("close", (code) => {
         if (timeoutId) clearTimeout(timeoutId);
         clearInterval(heartbeat);
+        clearInterval(activityProbe);
         resolve(code ?? -1);
       });
       child.on("error", (err) => {
         if (timeoutId) clearTimeout(timeoutId);
         clearInterval(heartbeat);
+        clearInterval(activityProbe);
         logStream.write(`Worker failed to spawn: ${err.message}\n`);
         resolve(-1);
       });

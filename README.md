@@ -371,11 +371,16 @@ When using the `ollama` provider you need a local server running.
   If the variable points to `activate`/`Activate.ps1` or a missing path, the
   runner logs a clear warning and will fall back to other candidates.
 
-  - You can cap long-running crawls with `SCRAPE_TIMEOUT_MS` (default 30 minutes).
+  - You can cap long-running crawls with `SCRAPE_TIMEOUT_MS` (default **2 hours**).
     When exceeded, the child process is killed, the job is marked `failed`, and
-    the timeout is logged.
+    the timeout is logged. The timer resets whenever output is produced, and
+    periodic activity probes keep long-but-active runs alive.
   - The runner forces unbuffered Python output (`-u` + `PYTHONUNBUFFERED=1`)
     so job logs stream live into the UI while the scraper runs.
+  - Set `SCRAPE_SKIP_DEP_CHECK=true` to bypass the preflight `import crawl4ai`
+    probe if you trust the interpreter; otherwise the runner will log probe
+    output (including `pip show crawl4ai`) and fail early when the dependency
+    is missing.
 
   Every crawler example (both `crawl4AI-agent` and `crawl4AI-agent-v2`) now
   writes Markdown into `public/knowledge_base`, so once you activate a venv and
