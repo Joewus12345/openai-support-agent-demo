@@ -134,6 +134,8 @@ export default function ScrapeJobsPage() {
   const [targetUrl, setTargetUrl] = useState(SCRIPT_PRESETS[0].defaultTarget);
   const [creating, setCreating] = useState<string | null>(null);
   const [ingesting, setIngesting] = useState<Record<string, string>>({});
+  const [copiedTarget, setCopiedTarget] = useState(false);
+  const [copiedLog, setCopiedLog] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const source = new EventSource("/api/scrape_jobs/updates");
@@ -190,6 +192,15 @@ export default function ScrapeJobsPage() {
   const scheduleDaily = () => createJob(ScrapeJobCadence.daily);
   const scheduleWeekly = () => createJob(ScrapeJobCadence.weekly);
   const scheduleMonthly = () => createJob(ScrapeJobCadence.monthly);
+
+  const copyText = async (value: string, onCopied: () => void) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      onCopied();
+    } catch {
+      // ignore
+    }
+  };
 
   const sendToVectorStore = async (job: SerializedJob) => {
     setIngesting((state) => ({ ...state, [job.job.id]: "working" }));
@@ -275,12 +286,27 @@ export default function ScrapeJobsPage() {
             </div>
             <label className="flex flex-col gap-1 text-sm text-zinc-600">
               Target URL or domain
-              <input
-                value={targetUrl}
-                onChange={(e) => setTargetUrl(e.target.value)}
-                className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
-                placeholder="https://example.com/sitemap.xml"
-              />
+              <div className="flex gap-2">
+                <input
+                  value={targetUrl}
+                  onChange={(e) => setTargetUrl(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
+                  placeholder="https://example.com/sitemap.xml"
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    copyText(targetUrl, () => {
+                      setCopiedTarget(true);
+                      setTimeout(() => setCopiedTarget(false), 1200);
+                    })
+                  }
+                  className="shrink-0 px-3 py-2 border border-zinc-200 rounded-lg text-xs text-zinc-700 hover:border-[#2B83F6]"
+                  aria-label="Copy target URL"
+                >
+                  {copiedTarget ? "Copied" : "Copy"}
+                </button>
+              </div>
             </label>
             <button
               onClick={enqueueManual}
@@ -403,21 +429,39 @@ export default function ScrapeJobsPage() {
                       <td className="py-3 pr-3 text-xs text-zinc-700">
                         {item.stats.documentsIngested ?? "—"}
                       </td>
-                      <td className="py-3 pr-3 w-64 max-w-xs">
-                        <div
-                          className={`text-xs rounded-md border px-2 py-1 ${
-                            item.job.status === ScrapeJobStatus.failed
-                              ? "border-red-200 bg-red-50 text-red-700"
-                              : "border-emerald-200 bg-emerald-50 text-emerald-700"
-                          }`}
-                          title={item.log || ""}
-                        >
-                          {logSnippet.length > 140
-                            ? `${logSnippet.slice(0, 140)}…`
-                            : logSnippet}
-                        </div>
-                        <div className="text-[11px] text-zinc-500 mt-1">Output: {KNOWLEDGE_BASE_PATH}</div>
-                      </td>
+                  <td className="py-3 pr-3 w-64 max-w-xs">
+                    <div
+                      className={`text-xs rounded-md border px-2 py-1 ${
+                        item.job.status === ScrapeJobStatus.failed
+                          ? "border-red-200 bg-red-50 text-red-700"
+                          : "border-emerald-200 bg-emerald-50 text-emerald-700"
+                      }`}
+                      title={item.log || ""}
+                    >
+                      {logSnippet.length > 140
+                        ? `${logSnippet.slice(0, 140)}…`
+                        : logSnippet}
+                    </div>
+                    <div className="flex items-center gap-1 text-[11px] text-zinc-500 mt-1">
+                      <span>Output: {KNOWLEDGE_BASE_PATH}</span>
+                      <button
+                        type="button"
+                        className="text-[#2B83F6] hover:underline"
+                        onClick={() =>
+                          copyText(KNOWLEDGE_BASE_PATH, () => {
+                            setCopiedLog((state) => ({ ...state, [item.job.id]: true }));
+                            setTimeout(
+                              () => setCopiedLog((state) => ({ ...state, [item.job.id]: false })),
+                              1200
+                            );
+                          })
+                        }
+                        aria-label="Copy output path"
+                      >
+                        {copiedLog[item.job.id] ? "Copied" : "Copy"}
+                      </button>
+                    </div>
+                  </td>
                       <td className="py-3">
                         <div className="flex gap-2">
                           <button

@@ -1,7 +1,8 @@
 import { serializeJob } from "../helpers";
 
-export async function GET(_: Request, { params }: { params: { id: string } }) {
-  const job = await serializeJob(params.id);
+export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const job = await serializeJob(id);
   if (!job) {
     return new Response("Not found", { status: 404 });
   }

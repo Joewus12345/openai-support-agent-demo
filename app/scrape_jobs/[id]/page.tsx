@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Copy } from "lucide-react";
 import useSWR from "swr";
 
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
@@ -51,11 +52,30 @@ function formatArgs(args: Record<string, unknown> | null) {
 
 export default function ScrapeJobDetail({ params }: { params: { id: string } }) {
   const { id } = params;
+  const [copiedTarget, setCopiedTarget] = useState(false);
+  const [copiedLog, setCopiedLog] = useState(false);
   const { data, error, isLoading, mutate } = useSWR<SerializedJob>(
     `/api/scrape_jobs/${id}`,
     fetcher,
     { refreshInterval: 15000 }
   );
+
+  const targetValue = useMemo(() => {
+    const args = data?.job.args as Record<string, unknown> | undefined;
+    if (!args) return "";
+    return String(args.targetUrl ?? "");
+  }, [data?.job.args]);
+
+  const copy = async (value: string, setter: (flag: boolean) => void) => {
+    if (!value) return;
+    try {
+      await navigator.clipboard.writeText(value);
+      setter(true);
+      setTimeout(() => setter(false), 1500);
+    } catch {
+      setter(false);
+    }
+  };
 
   useEffect(() => {
     const source = new EventSource("/api/scrape_jobs/updates");
@@ -111,7 +131,19 @@ export default function ScrapeJobDetail({ params }: { params: { id: string } }) 
             <div className="text-sm text-zinc-500">Status</div>
             <div className="text-lg font-semibold text-zinc-800">{data.job.status}</div>
             <div className="text-xs text-zinc-500">Cadence: {data.job.cadence}</div>
-            <div className="text-xs text-zinc-500">Args: {formatArgs(data.job.args)}</div>
+            <div className="flex items-start justify-between gap-2 text-xs text-zinc-500">
+              <span>Args: {formatArgs(data.job.args)}</span>
+              {targetValue ? (
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-[#2B83F6] hover:underline"
+                  onClick={() => copy(targetValue, setCopiedTarget)}
+                >
+                  <Copy size={14} />
+                  {copiedTarget ? "Copied" : "Copy target"}
+                </button>
+              ) : null}
+            </div>
             <div className="text-xs text-zinc-500">Started: {formatDate(data.job.startedAt)}</div>
             <div className="text-xs text-zinc-500">Finished: {formatDate(data.job.finishedAt)}</div>
             <div className="text-xs text-zinc-500">Next run: {formatDate(data.job.nextRunAt)}</div>
@@ -126,7 +158,19 @@ export default function ScrapeJobDetail({ params }: { params: { id: string } }) 
         </div>
 
         <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm">
-          <div className="text-sm font-semibold text-zinc-800 mb-2">Log output</div>
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-sm font-semibold text-zinc-800">Log output</div>
+            {data.log ? (
+              <button
+                type="button"
+                className="flex items-center gap-1 text-xs text-[#2B83F6] hover:underline"
+                onClick={() => copy(data.log ?? "", setCopiedLog)}
+              >
+                <Copy size={14} />
+                {copiedLog ? "Copied" : "Copy log"}
+              </button>
+            ) : null}
+          </div>
           <pre className="whitespace-pre-wrap text-xs bg-zinc-50 border border-zinc-100 rounded-lg p-3 max-h-[500px] overflow-auto">
             {data.log ?? "No log available yet."}
           </pre>
