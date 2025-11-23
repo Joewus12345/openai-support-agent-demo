@@ -5,27 +5,54 @@ import { onJobUpdate } from "@/lib/scrapeJobEvents";
 export const runtime = "nodejs";
 export const revalidate = 0;
 
-export async function GET() {
+export async function GET(request: Request) {
   const encoder = new TextEncoder();
+  let cleanup: (() => void) | null = null;
 
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
+      let closed = false;
+      let heartbeat: ReturnType<typeof setInterval> | null = null;
+
+      cleanup = () => {
+        if (closed) return;
+        closed = true;
+        if (heartbeat) clearInterval(heartbeat);
+        unsubscribe();
+        request.signal.removeEventListener("abort", cleanup);
+      };
+
       const send = (payload: unknown) => {
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`));
+        if (closed) return;
+        try {
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify(payload)}\n\n`)
+          );
+        } catch {
+          cleanup();
+        }
       };
 
       const unsubscribe = onJobUpdate((update) => {
         send(update);
       });
 
-      const heartbeat = setInterval(() => {
-        controller.enqueue(encoder.encode(`event: ping\ndata: {}\n\n`));
+      heartbeat = setInterval(() => {
+        if (closed) return;
+        try {
+          controller.enqueue(encoder.encode(`event: ping\ndata: {}\n\n`));
+        } catch {
+          cleanup();
+        }
       }, 30000);
 
-      return () => {
-        clearInterval(heartbeat);
-        unsubscribe();
-      };
+      request.signal.addEventListener("abort", cleanup);
+
+      return cleanup;
+    },
+
+    cancel() {
+      cleanup?.();
     },
   });
 

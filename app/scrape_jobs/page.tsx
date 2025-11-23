@@ -112,7 +112,7 @@ export default function ScrapeJobsPage() {
   const { data, error, isLoading, mutate } = useSWR<SerializedJob[]>(
     "/api/scrape_jobs?detailed=true",
     fetcher,
-    { refreshInterval: 0, revalidateOnFocus: false }
+    { refreshInterval: 15000, revalidateOnFocus: false }
   );
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
