@@ -3,10 +3,14 @@ import path from "path";
 import { spawn } from "child_process";
 
 import prisma from "../lib/prisma";
-import { ScrapeJob, ScrapeJobStatus } from "../lib/generated/prisma";
+import { calculateNextRun } from "../lib/scheduler";
+import { Prisma, ScrapeJob, ScrapeJobStatus } from "../lib/generated/prisma";
 
 const POLL_INTERVAL_MS = Number(process.env.SCRAPE_WORKER_INTERVAL_MS ?? 10000);
 const ADVISORY_LOCK_ID = Number(process.env.SCRAPE_WORKER_LOCK_ID ?? "68001");
+const LOCK_TRANSACTION_TIMEOUT_MS = Number(
+  process.env.SCRAPE_WORKER_LOCK_TIMEOUT_MS ?? 15 * 60 * 1000
+);
 const PYTHON_BIN = process.env.SCRAPE_WORKER_PYTHON ?? process.env.PYTHON ?? "python";
 const HARNESS_PATH = path.join(
   process.cwd(),
@@ -36,23 +40,41 @@ function normalizeArgs(args: unknown): string[] {
   return [];
 }
 
-async function withAdvisoryLock<T>(fn: () => Promise<T>): Promise<T | undefined> {
-  const result = await prisma.$queryRaw<{ acquired: boolean }[]>`
-    SELECT pg_try_advisory_lock(${ADVISORY_LOCK_ID}) as acquired
-  `;
-  if (!result[0]?.acquired) {
-    return undefined;
-  }
+async function withAdvisoryLock<T>(
+  fn: (tx: Prisma.TransactionClient) => Promise<T>
+): Promise<T | undefined> {
+  return prisma.$transaction(
+    async (tx) => {
+      const result = await tx.$queryRaw<{ acquired: boolean }[]>`
+        SELECT pg_try_advisory_lock(${ADVISORY_LOCK_ID}) as acquired
+      `;
 
-  try {
-    return await fn();
-  } finally {
-    await prisma.$queryRaw`SELECT pg_advisory_unlock(${ADVISORY_LOCK_ID})`;
-  }
+      if (!result[0]?.acquired) {
+        return undefined;
+      }
+
+      try {
+        return await fn(tx);
+      } finally {
+        const unlockResult = await tx.$queryRaw<{ released: boolean }[]>`
+          SELECT pg_advisory_unlock(${ADVISORY_LOCK_ID}) as released
+        `;
+
+        if (!unlockResult[0]?.released) {
+          console.warn(
+            `Failed to release advisory lock ${ADVISORY_LOCK_ID}; lock may remain held.`
+          );
+        }
+      }
+    },
+    { timeout: LOCK_TRANSACTION_TIMEOUT_MS }
+  );
 }
 
-async function claimNextJob(): Promise<ScrapeJob | null> {
-  return prisma.scrapeJob.findFirst({
+async function claimNextJob(
+  client: Prisma.TransactionClient
+): Promise<ScrapeJob | null> {
+  return client.scrapeJob.findFirst({
     where: {
       status: ScrapeJobStatus.queued,
       OR: [{ nextRunAt: null }, { nextRunAt: { lte: new Date() } }],
@@ -62,11 +84,12 @@ async function claimNextJob(): Promise<ScrapeJob | null> {
 }
 
 async function updateStatus(
+  client: Prisma.TransactionClient,
   id: string,
   status: ScrapeJobStatus,
   data: Partial<Pick<ScrapeJob, "finishedAt" | "startedAt" | "logPath" | "nextRunAt">>
 ) {
-  await prisma.scrapeJob.update({
+  await client.scrapeJob.update({
     where: { id },
     data: {
       status,
@@ -75,13 +98,13 @@ async function updateStatus(
   });
 }
 
-async function runJob(job: ScrapeJob) {
+async function runJob(client: Prisma.TransactionClient, job: ScrapeJob) {
   await fs.promises.mkdir(LOG_DIR, { recursive: true });
   const logFilePath = path.join(LOG_DIR, `${job.id}.log`);
   const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
   const startedAt = new Date();
 
-  await updateStatus(job.id, ScrapeJobStatus.running, {
+  await updateStatus(client, job.id, ScrapeJobStatus.running, {
     startedAt,
     finishedAt: null,
     logPath: logFilePath,
@@ -114,23 +137,23 @@ async function runJob(job: ScrapeJob) {
   );
   logStream.end();
 
-  await updateStatus(job.id, status, {
+  await updateStatus(client, job.id, status, {
     finishedAt,
     logPath: logFilePath,
-    nextRunAt: null,
+    nextRunAt: calculateNextRun(job.cadence, finishedAt),
   });
 }
 
 async function processQueue() {
-  await withAdvisoryLock(async () => {
-    const job = await claimNextJob();
+  await withAdvisoryLock(async (tx) => {
+    const job = await claimNextJob(tx);
     if (!job) return;
 
     try {
-      await runJob(job);
+      await runJob(tx, job);
     } catch (error) {
       console.error(`Job ${job.id} failed:`, error);
-      await updateStatus(job.id, ScrapeJobStatus.failed, {
+      await updateStatus(tx, job.id, ScrapeJobStatus.failed, {
         finishedAt: new Date(),
       });
     }

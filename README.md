@@ -77,6 +77,15 @@ The steps below show how to build and run each container manually.
 - **`P1000: Authentication failed`** – check the database credentials in [`.env.ai`](./.env.ai).
 - **`network support-net not found`** – create the network first: `docker network create support-net`.
 - **`port already allocated`** – choose unused host ports or stop conflicting services.
+- **`P3015: Could not find the migration file at migration.sql` during `ai-agent` startup** – rebuild the image without cache so the Prisma migrations are baked into the container, then verify the SQL files exist and rerun the deploy:
+
+  ```bash
+  docker compose build --no-cache ai-agent
+  docker compose run --rm ai-agent sh -c "ls /app/prisma/migrations/*/migration.sql"
+  docker compose run --rm ai-agent sh -c "npx prisma migrate deploy"
+  ```
+
+  If you are bind-mounting `/app/prisma/migrations`, remove or repopulate that mount so Prisma can read every `migration.sql`.
 
 ## Getting Started
 
@@ -355,6 +364,37 @@ When using the `ollama` provider you need a local server running.
   the resulting `.md` files land next to the rest of the RAG assets without any
   manual copying. The directory is created automatically if it doesn’t already
   exist.
+
+## Scrape job scheduling
+
+Scrape jobs can now be scheduled to run on a cadence. Each job stores its
+`cadence` (`daily`, `weekly`, `monthly`, or `manual`), a `paused` flag, and the
+`nextRunAt` timestamp used to prevent overlap. The scheduler only enqueues jobs
+when `nextRunAt` is due, and rescheduling a job sets the next timestamp based on
+its cadence once a run finishes.
+
+- **Using OS cron**: deploy a cron entry that calls the API directly. Examples:
+
+  ```cron
+  0 0 * * * curl -X POST https://your-host/api/scrape_jobs/run-now?schedule=daily
+  0 0 * * 0 curl -X POST https://your-host/api/scrape_jobs/run-now?schedule=weekly
+  0 0 1 * * curl -X POST https://your-host/api/scrape_jobs/run-now?schedule=monthly
+  ```
+
+- **Using the built-in scheduler worker**: if OS cron is unavailable, run the
+  Node-based worker:
+
+  ```bash
+  npm run scheduler:worker
+  ```
+
+  It uses `node-cron` to trigger the same `run-now` endpoint on the expected
+  cadence. Set `SCHEDULER_TIMEZONE` if the default server timezone is
+  unsuitable.
+
+- **Pause or resume a schedule**: update a job via
+  `PATCH /api/scrape_jobs/{id}` with `{ "paused": true }` (or `false`) to stop
+  or resume automatic enqueueing without deleting the job.
 
 ## Demo Flow
 

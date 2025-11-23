@@ -22,6 +22,13 @@ enum ScrapeJobStatus {
   failed
 }
 
+enum ScrapeJobCadence {
+  manual
+  daily
+  weekly
+  monthly
+}
+
 model User {
   id          String        @id @default(uuid())
   email       String        @unique
@@ -113,14 +120,16 @@ model HandoffRequest {
 }
 
 model ScrapeJob {
-  id         String          @id @default(uuid())
+  id         String           @id @default(uuid())
   script     String
   args       Json?
-  status     ScrapeJobStatus @default(queued)
+  status     ScrapeJobStatus  @default(queued)
+  cadence    ScrapeJobCadence @default(manual)
+  paused     Boolean          @default(false)
   startedAt  DateTime?
   finishedAt DateTime?
   logPath    String?
   nextRunAt  DateTime?
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
 }

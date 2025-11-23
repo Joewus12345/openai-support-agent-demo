@@ -1,5 +1,10 @@
+import { calculateNextRun, parseCadence } from "@/lib/scheduler";
 import prisma from "@/lib/prisma";
-import { Prisma, ScrapeJobStatus } from "@/lib/generated/prisma";
+import {
+  Prisma,
+  ScrapeJobCadence,
+  ScrapeJobStatus,
+} from "@/lib/generated/prisma";
 
 function parseStatus(value: string | null): ScrapeJobStatus | undefined {
   if (!value) return undefined;
@@ -12,6 +17,15 @@ function parseDate(value: unknown): Date | null {
   if (!value) return null;
   const date = new Date(value as string);
   return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function parseBoolean(value: unknown): boolean | undefined {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "string") {
+    if (value.toLowerCase() === "true") return true;
+    if (value.toLowerCase() === "false") return false;
+  }
+  return undefined;
 }
 
 export async function GET(request: Request) {
@@ -41,13 +55,17 @@ export async function POST(request: Request) {
     }
 
     const status = parseStatus(body.status ?? null) ?? ScrapeJobStatus.queued;
-    const nextRunAt = parseDate(body.nextRunAt);
+    const cadence = parseCadence(body.cadence) ?? ScrapeJobCadence.manual;
+    const paused = parseBoolean(body.paused) ?? false;
+    const nextRunAt = parseDate(body.nextRunAt) ?? calculateNextRun(cadence);
 
     const data: Prisma.ScrapeJobCreateInput = {
       script: body.script,
       args: body.args ?? {},
       status,
       logPath: body.logPath ?? null,
+      cadence,
+      paused,
       nextRunAt,
     };
 

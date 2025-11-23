@@ -68,6 +68,16 @@ export namespace $Enums {
 export type ScrapeJobStatus = (typeof ScrapeJobStatus)[keyof typeof ScrapeJobStatus]
 
 
+export const ScrapeJobCadence: {
+  manual: 'manual',
+  daily: 'daily',
+  weekly: 'weekly',
+  monthly: 'monthly'
+};
+
+export type ScrapeJobCadence = (typeof ScrapeJobCadence)[keyof typeof ScrapeJobCadence]
+
+
 export const AgentAvailability: {
   online: 'online',
   busy: 'busy',
@@ -91,6 +101,10 @@ export type HandoffRequestStatus = (typeof HandoffRequestStatus)[keyof typeof Ha
 export type ScrapeJobStatus = $Enums.ScrapeJobStatus
 
 export const ScrapeJobStatus: typeof $Enums.ScrapeJobStatus
+
+export type ScrapeJobCadence = $Enums.ScrapeJobCadence
+
+export const ScrapeJobCadence: typeof $Enums.ScrapeJobCadence
 
 export type AgentAvailability = $Enums.AgentAvailability
 
@@ -9239,6 +9253,8 @@ export namespace Prisma {
     id: string | null
     script: string | null
     status: $Enums.ScrapeJobStatus | null
+    cadence: $Enums.ScrapeJobCadence | null
+    paused: boolean | null
     startedAt: Date | null
     finishedAt: Date | null
     logPath: string | null
@@ -9251,6 +9267,8 @@ export namespace Prisma {
     id: string | null
     script: string | null
     status: $Enums.ScrapeJobStatus | null
+    cadence: $Enums.ScrapeJobCadence | null
+    paused: boolean | null
     startedAt: Date | null
     finishedAt: Date | null
     logPath: string | null
@@ -9264,6 +9282,8 @@ export namespace Prisma {
     script: number
     args: number
     status: number
+    cadence: number
+    paused: number
     startedAt: number
     finishedAt: number
     logPath: number
@@ -9278,6 +9298,8 @@ export namespace Prisma {
     id?: true
     script?: true
     status?: true
+    cadence?: true
+    paused?: true
     startedAt?: true
     finishedAt?: true
     logPath?: true
@@ -9290,6 +9312,8 @@ export namespace Prisma {
     id?: true
     script?: true
     status?: true
+    cadence?: true
+    paused?: true
     startedAt?: true
     finishedAt?: true
     logPath?: true
@@ -9303,6 +9327,8 @@ export namespace Prisma {
     script?: true
     args?: true
     status?: true
+    cadence?: true
+    paused?: true
     startedAt?: true
     finishedAt?: true
     logPath?: true
@@ -9389,6 +9415,8 @@ export namespace Prisma {
     script: string
     args: JsonValue | null
     status: $Enums.ScrapeJobStatus
+    cadence: $Enums.ScrapeJobCadence
+    paused: boolean
     startedAt: Date | null
     finishedAt: Date | null
     logPath: string | null
@@ -9419,6 +9447,8 @@ export namespace Prisma {
     script?: boolean
     args?: boolean
     status?: boolean
+    cadence?: boolean
+    paused?: boolean
     startedAt?: boolean
     finishedAt?: boolean
     logPath?: boolean
@@ -9432,6 +9462,8 @@ export namespace Prisma {
     script?: boolean
     args?: boolean
     status?: boolean
+    cadence?: boolean
+    paused?: boolean
     startedAt?: boolean
     finishedAt?: boolean
     logPath?: boolean
@@ -9445,6 +9477,8 @@ export namespace Prisma {
     script?: boolean
     args?: boolean
     status?: boolean
+    cadence?: boolean
+    paused?: boolean
     startedAt?: boolean
     finishedAt?: boolean
     logPath?: boolean
@@ -9458,6 +9492,8 @@ export namespace Prisma {
     script?: boolean
     args?: boolean
     status?: boolean
+    cadence?: boolean
+    paused?: boolean
     startedAt?: boolean
     finishedAt?: boolean
     logPath?: boolean
@@ -9466,7 +9502,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
+  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "cadence" | "paused" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
 
   export type $ScrapeJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ScrapeJob"
@@ -9476,6 +9512,8 @@ export namespace Prisma {
       script: string
       args: Prisma.JsonValue | null
       status: $Enums.ScrapeJobStatus
+      cadence: $Enums.ScrapeJobCadence
+      paused: boolean
       startedAt: Date | null
       finishedAt: Date | null
       logPath: string | null
@@ -9909,6 +9947,8 @@ export namespace Prisma {
     readonly script: FieldRef<"ScrapeJob", 'String'>
     readonly args: FieldRef<"ScrapeJob", 'Json'>
     readonly status: FieldRef<"ScrapeJob", 'ScrapeJobStatus'>
+    readonly cadence: FieldRef<"ScrapeJob", 'ScrapeJobCadence'>
+    readonly paused: FieldRef<"ScrapeJob", 'Boolean'>
     readonly startedAt: FieldRef<"ScrapeJob", 'DateTime'>
     readonly finishedAt: FieldRef<"ScrapeJob", 'DateTime'>
     readonly logPath: FieldRef<"ScrapeJob", 'String'>
@@ -10388,6 +10428,8 @@ export namespace Prisma {
     script: 'script',
     args: 'args',
     status: 'status',
+    cadence: 'cadence',
+    paused: 'paused',
     startedAt: 'startedAt',
     finishedAt: 'finishedAt',
     logPath: 'logPath',
@@ -10547,6 +10589,27 @@ export namespace Prisma {
    * Reference to a field of type 'ScrapeJobStatus[]'
    */
   export type ListEnumScrapeJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScrapeJobStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScrapeJobCadence'
+   */
+  export type EnumScrapeJobCadenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScrapeJobCadence'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScrapeJobCadence[]'
+   */
+  export type ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScrapeJobCadence[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -11022,6 +11085,8 @@ export namespace Prisma {
     script?: StringFilter<"ScrapeJob"> | string
     args?: JsonNullableFilter<"ScrapeJob">
     status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    paused?: BoolFilter<"ScrapeJob"> | boolean
     startedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     finishedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     logPath?: StringNullableFilter<"ScrapeJob"> | string | null
@@ -11035,6 +11100,8 @@ export namespace Prisma {
     script?: SortOrder
     args?: SortOrderInput | SortOrder
     status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
     startedAt?: SortOrderInput | SortOrder
     finishedAt?: SortOrderInput | SortOrder
     logPath?: SortOrderInput | SortOrder
@@ -11051,6 +11118,8 @@ export namespace Prisma {
     script?: StringFilter<"ScrapeJob"> | string
     args?: JsonNullableFilter<"ScrapeJob">
     status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    paused?: BoolFilter<"ScrapeJob"> | boolean
     startedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     finishedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     logPath?: StringNullableFilter<"ScrapeJob"> | string | null
@@ -11064,6 +11133,8 @@ export namespace Prisma {
     script?: SortOrder
     args?: SortOrderInput | SortOrder
     status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
     startedAt?: SortOrderInput | SortOrder
     finishedAt?: SortOrderInput | SortOrder
     logPath?: SortOrderInput | SortOrder
@@ -11083,6 +11154,8 @@ export namespace Prisma {
     script?: StringWithAggregatesFilter<"ScrapeJob"> | string
     args?: JsonNullableWithAggregatesFilter<"ScrapeJob">
     status?: EnumScrapeJobStatusWithAggregatesFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceWithAggregatesFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    paused?: BoolWithAggregatesFilter<"ScrapeJob"> | boolean
     startedAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
     finishedAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
     logPath?: StringNullableWithAggregatesFilter<"ScrapeJob"> | string | null
@@ -11571,6 +11644,8 @@ export namespace Prisma {
     script: string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    paused?: boolean
     startedAt?: Date | string | null
     finishedAt?: Date | string | null
     logPath?: string | null
@@ -11584,6 +11659,8 @@ export namespace Prisma {
     script: string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    paused?: boolean
     startedAt?: Date | string | null
     finishedAt?: Date | string | null
     logPath?: string | null
@@ -11597,6 +11674,8 @@ export namespace Prisma {
     script?: StringFieldUpdateOperationsInput | string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    paused?: BoolFieldUpdateOperationsInput | boolean
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11610,6 +11689,8 @@ export namespace Prisma {
     script?: StringFieldUpdateOperationsInput | string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    paused?: BoolFieldUpdateOperationsInput | boolean
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11623,6 +11704,8 @@ export namespace Prisma {
     script: string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    paused?: boolean
     startedAt?: Date | string | null
     finishedAt?: Date | string | null
     logPath?: string | null
@@ -11636,6 +11719,8 @@ export namespace Prisma {
     script?: StringFieldUpdateOperationsInput | string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    paused?: BoolFieldUpdateOperationsInput | boolean
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11649,6 +11734,8 @@ export namespace Prisma {
     script?: StringFieldUpdateOperationsInput | string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    paused?: BoolFieldUpdateOperationsInput | boolean
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12246,11 +12333,25 @@ export namespace Prisma {
     not?: NestedEnumScrapeJobStatusFilter<$PrismaModel> | $Enums.ScrapeJobStatus
   }
 
+  export type EnumScrapeJobCadenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobCadence | EnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobCadenceFilter<$PrismaModel> | $Enums.ScrapeJobCadence
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type ScrapeJobCountOrderByAggregateInput = {
     id?: SortOrder
     script?: SortOrder
     args?: SortOrder
     status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
     startedAt?: SortOrder
     finishedAt?: SortOrder
     logPath?: SortOrder
@@ -12263,6 +12364,8 @@ export namespace Prisma {
     id?: SortOrder
     script?: SortOrder
     status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
     startedAt?: SortOrder
     finishedAt?: SortOrder
     logPath?: SortOrder
@@ -12275,6 +12378,8 @@ export namespace Prisma {
     id?: SortOrder
     script?: SortOrder
     status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
     startedAt?: SortOrder
     finishedAt?: SortOrder
     logPath?: SortOrder
@@ -12317,6 +12422,24 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumScrapeJobStatusFilter<$PrismaModel>
     _max?: NestedEnumScrapeJobStatusFilter<$PrismaModel>
+  }
+
+  export type EnumScrapeJobCadenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobCadence | EnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobCadenceWithAggregatesFilter<$PrismaModel> | $Enums.ScrapeJobCadence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScrapeJobCadenceFilter<$PrismaModel>
+    _max?: NestedEnumScrapeJobCadenceFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type OrderCreateNestedManyWithoutUserInput = {
@@ -12533,6 +12656,14 @@ export namespace Prisma {
 
   export type EnumScrapeJobStatusFieldUpdateOperationsInput = {
     set?: $Enums.ScrapeJobStatus
+  }
+
+  export type EnumScrapeJobCadenceFieldUpdateOperationsInput = {
+    set?: $Enums.ScrapeJobCadence
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -12786,6 +12917,18 @@ export namespace Prisma {
     notIn?: $Enums.ScrapeJobStatus[] | ListEnumScrapeJobStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumScrapeJobStatusFilter<$PrismaModel> | $Enums.ScrapeJobStatus
   }
+
+  export type NestedEnumScrapeJobCadenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobCadence | EnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobCadenceFilter<$PrismaModel> | $Enums.ScrapeJobCadence
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -12818,6 +12961,24 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumScrapeJobStatusFilter<$PrismaModel>
     _max?: NestedEnumScrapeJobStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumScrapeJobCadenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobCadence | EnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobCadenceWithAggregatesFilter<$PrismaModel> | $Enums.ScrapeJobCadence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScrapeJobCadenceFilter<$PrismaModel>
+    _max?: NestedEnumScrapeJobCadenceFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type OrderCreateWithoutUserInput = {
