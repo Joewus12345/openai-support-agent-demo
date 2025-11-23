@@ -25,14 +25,12 @@ function normalizeArgs(args: unknown): string[] {
 
   if (args && typeof args === "object") {
     const obj = args as Record<string, unknown>;
-    const hasDomain = Object.prototype.hasOwnProperty.call(obj, "domain");
     const entries = Object.entries(obj);
     return entries.flatMap(([key, value]) => {
-      if (key === "url") {
-        if (hasDomain) return [];
+      if (key === "url" || key === "targetUrl") {
         return value === undefined || value === null
-          ? ["--domain"]
-          : ["--domain", `${value}`];
+          ? ["--target-url"]
+          : ["--target-url", `${value}`];
       }
 
       if (value === undefined || value === null) return [`--${key}`];

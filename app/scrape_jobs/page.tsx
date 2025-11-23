@@ -167,7 +167,7 @@ export default function ScrapeJobsPage() {
         },
         body: JSON.stringify({
           script: selectedPreset,
-          args: targetUrl ? { domain: targetUrl } : {},
+          args: targetUrl ? { targetUrl } : {},
           cadence,
           status: ScrapeJobStatus.queued,
         }),

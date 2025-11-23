@@ -24,6 +24,7 @@ from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Iterable, List, Sequence
+from urllib.parse import urlparse
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 BENCHMARK_DIR = REPO_ROOT / "crawl4AI-agent" / "crawl4AI-examples" / "output" / "benchmarks"
@@ -395,13 +396,32 @@ def build_jobs() -> List[ScriptJob]:
     ]
 
 
-def filter_jobs(jobs: List[ScriptJob], script_keys: Sequence[str], domain_filter: str | None) -> List[ScriptJob]:
+def normalize_domain_filter(raw_target_url: str | None, domain_filter: str | None) -> str | None:
+    if domain_filter:
+        return domain_filter
+
+    if not raw_target_url:
+        return None
+
+    parsed = urlparse(raw_target_url)
+    if parsed.hostname:
+        return parsed.hostname
+
+    # If the user passed a bare domain without scheme, treat it as the filter directly.
+    return raw_target_url
+
+
+def filter_jobs(
+    jobs: List[ScriptJob], script_keys: Sequence[str], target_url: str | None, domain_filter: str | None
+) -> List[ScriptJob]:
     filtered = jobs
     if script_keys:
         wanted = {k.lower() for k in script_keys}
         filtered = [job for job in filtered if job.key.lower() in wanted]
-    if domain_filter:
-        filtered = [job for job in filtered if job.domain_hint and domain_filter.lower() in job.domain_hint.lower()]
+
+    normalized_filter = normalize_domain_filter(target_url, domain_filter)
+    if normalized_filter:
+        filtered = [job for job in filtered if job.domain_hint and normalized_filter.lower() in job.domain_hint.lower()]
     return filtered
 
 
@@ -415,6 +435,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--domain",
         help="Filter scripts whose domain hint contains this substring (e.g., automationghana.com)",
+    )
+    parser.add_argument(
+        "--target-url",
+        help="Explicit target URL (sitemap or page) passed through to crawler scripts.",
     )
     parser.add_argument(
         "--venv",
@@ -447,12 +471,14 @@ def build_env(venv: Path | None) -> Dict[str, str]:
 
 async def main() -> None:
     args = parse_args()
-    jobs = filter_jobs(build_jobs(), args.script or [], args.domain)
+    jobs = filter_jobs(build_jobs(), args.script or [], args.target_url, args.domain)
     if not jobs:
         raise SystemExit("No scripts matched the provided filters.")
 
     python_cmd = resolve_python(args.venv)
     env = build_env(args.venv)
+    if args.target_url:
+        env["CRAWL_TARGET_URL"] = args.target_url
 
     bench_timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 

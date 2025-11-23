@@ -11,6 +11,7 @@ Usage:
 import argparse
 import sys
 import re
+import os as _os
 import asyncio
 from typing import List, Dict, Any
 from urllib.parse import urlparse, urldefrag
@@ -115,7 +116,14 @@ async def crawl_markdown_file(url: str) -> List[Dict[str,Any]]:
             return []
 
 def parse_sitemap(sitemap_url: str) -> List[str]:
-    """Return all URLs contained in a sitemap or sitemap index."""
+    """Return all URLs contained in a sitemap or sitemap index.
+
+    If CRAWL_TARGET_URL is set, it overrides the provided sitemap_url so
+    callers don't need to modify their scripts to target a different site.
+    """
+    override_url = _os.environ.get("CRAWL_TARGET_URL")
+    if override_url:
+        sitemap_url = override_url
     resp = requests.get(sitemap_url)
     if resp.status_code != 200:
         print(f"Failed to fetch sitemap {sitemap_url}: {resp.status_code}")
