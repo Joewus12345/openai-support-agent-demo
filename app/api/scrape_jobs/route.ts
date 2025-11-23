@@ -5,6 +5,7 @@ import {
   ScrapeJobCadence,
   ScrapeJobStatus,
 } from "@/lib/generated/prisma";
+import { ensureAuthenticated, serializeJob } from "./helpers";
 
 function parseStatus(value: string | null): ScrapeJobStatus | undefined {
   if (!value) return undefined;
@@ -32,11 +33,18 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const status = parseStatus(searchParams.get("status"));
+    const includeDetails = searchParams.get("detailed") === "true";
 
     const jobs = await prisma.scrapeJob.findMany({
       where: status ? { status } : undefined,
       orderBy: { createdAt: "desc" },
     });
+
+    if (includeDetails) {
+      const detailed = await Promise.all(jobs.map((job) => serializeJob(job.id)));
+      const filtered = detailed.filter(Boolean);
+      return new Response(JSON.stringify(filtered), { status: 200 });
+    }
 
     return new Response(JSON.stringify(jobs), { status: 200 });
   } catch (error) {
@@ -46,6 +54,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const unauthorized = ensureAuthenticated(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const body = await request.json().catch(() => null);
     if (!body || !body.script) {
