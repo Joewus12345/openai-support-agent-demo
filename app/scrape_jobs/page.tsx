@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import {
@@ -85,6 +86,8 @@ const SCRIPT_PRESETS = [
     defaultTarget: "https://automationghana.com/llms.txt",
   },
 ];
+
+const KNOWLEDGE_BASE_PATH = "public/knowledge_base";
 
 function formatDate(value: string | null) {
   if (!value) return "—";
@@ -374,7 +377,11 @@ export default function ScrapeJobsPage() {
                   return (
                     <tr key={item.job.id} className="align-top">
                       <td className="py-3 pr-3">
-                        <div className="font-medium text-zinc-800">{item.job.script}</div>
+                        <div className="font-medium text-zinc-800">
+                          <Link href={`/scrape_jobs/${item.job.id}`} className="hover:underline text-[#2B83F6]">
+                            {item.job.script}
+                          </Link>
+                        </div>
                         <div className="text-xs text-zinc-500">{formatDate(item.job.createdAt)}</div>
                       </td>
                       <td className="py-3 pr-3">{renderStatusPill(item.job.status)}</td>
@@ -409,6 +416,7 @@ export default function ScrapeJobsPage() {
                             ? `${logSnippet.slice(0, 140)}…`
                             : logSnippet}
                         </div>
+                        <div className="text-[11px] text-zinc-500 mt-1">Output: {KNOWLEDGE_BASE_PATH}</div>
                       </td>
                       <td className="py-3">
                         <div className="flex gap-2">

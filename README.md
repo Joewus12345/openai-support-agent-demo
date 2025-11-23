@@ -371,6 +371,12 @@ When using the `ollama` provider you need a local server running.
   If the variable points to `activate`/`Activate.ps1` or a missing path, the
   runner logs a clear warning and will fall back to other candidates.
 
+  - You can cap long-running crawls with `SCRAPE_TIMEOUT_MS` (default 30 minutes).
+    When exceeded, the child process is killed, the job is marked `failed`, and
+    the timeout is logged.
+  - The runner forces unbuffered Python output (`-u` + `PYTHONUNBUFFERED=1`)
+    so job logs stream live into the UI while the scraper runs.
+
   Every crawler example (both `crawl4AI-agent` and `crawl4AI-agent-v2`) now
   writes Markdown into `public/knowledge_base`, so once you activate a venv and
   run something like `python crawl4AI-agent/crawl4AI-examples/2-crawl_docs_sequential.py`

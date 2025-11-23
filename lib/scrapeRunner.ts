@@ -71,6 +71,12 @@ const HARNESS_PATH = path.join(
   "benchmarks",
   "run_all.py"
 );
+const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
+const SCRAPE_TIMEOUT_MS = (() => {
+  const raw = process.env.SCRAPE_TIMEOUT_MS;
+  const parsed = raw === undefined ? 30 * 60 * 1000 : Number(raw);
+  return Number.isFinite(parsed) ? parsed : 30 * 60 * 1000;
+})();
 const LOG_DIR = path.join(process.cwd(), "logs", "scrape_jobs");
 
 type PrismaClientLike = Prisma.TransactionClient | typeof prisma;
@@ -144,6 +150,7 @@ export async function runScrapeJob(
   client: PrismaClientLike = prisma
 ): Promise<{ exitCode: number } | undefined> {
   await fs.promises.mkdir(LOG_DIR, { recursive: true });
+  await fs.promises.mkdir(KNOWLEDGE_BASE_DIR, { recursive: true }).catch(() => {});
   const logFilePath = job.logPath ?? path.join(LOG_DIR, `${job.id}.log`);
   const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
   const startedAt = new Date();
@@ -155,12 +162,14 @@ export async function runScrapeJob(
     logPath: logFilePath,
   });
 
-  const args = [HARNESS_PATH, "--script", job.script, ...normalizeArgs(job.args)];
+  const args = ["-u", HARNESS_PATH, "--script", job.script, ...normalizeArgs(job.args)];
   logStream.write(`[${startedAt.toISOString()}] Starting job ${job.id} with script ${job.script}.\n`);
   logStream.write(`Using python: ${PYTHON_BIN}\n`);
   if (PYTHON_RESOLUTION.notes.length) {
     PYTHON_RESOLUTION.notes.forEach((note) => logStream.write(`PYTHON_RESOLUTION: ${note}\n`));
   }
+  logStream.write(`Knowledge base output directory: ${KNOWLEDGE_BASE_DIR}\n`);
+  logStream.write(`Timeout (ms): ${SCRAPE_TIMEOUT_MS}\n`);
 
   let exitCode = -1;
   let missingCrawlDependency = false;
@@ -168,8 +177,22 @@ export async function runScrapeJob(
   try {
     const child = spawn(PYTHON_BIN, args, {
       cwd: process.cwd(),
-      env: { ...process.env, PYTHONUTF8: "1", PYTHONIOENCODING: "utf-8" },
+      env: {
+        ...process.env,
+        PYTHONUTF8: "1",
+        PYTHONIOENCODING: "utf-8",
+        PYTHONUNBUFFERED: "1",
+      },
     });
+    const heartbeat = setInterval(() => {
+      logStream.write(`[${new Date().toISOString()}] heartbeat: job ${job.id} still running...\n`);
+      emitJobUpdate({
+        jobId: job.id,
+        status: ScrapeJobStatus.running,
+        startedAt: startedAt.toISOString(),
+        logPath: logFilePath,
+      });
+    }, 60_000);
 
     const handleChunk = (chunk: Buffer) => {
       logStream.write(chunk);
@@ -192,8 +215,25 @@ export async function runScrapeJob(
     child.stderr.on("data", handleChunk);
 
     exitCode = await new Promise((resolve) => {
-      child.on("close", (code) => resolve(code ?? -1));
+      const timeoutId = Number.isFinite(SCRAPE_TIMEOUT_MS)
+        ? setTimeout(() => {
+            logStream.write(
+              `[${new Date().toISOString()}] Timeout exceeded (${SCRAPE_TIMEOUT_MS} ms). Terminating job ${job.id}.\n`
+            );
+            child.kill("SIGKILL");
+            resolve(-1);
+          },
+          SCRAPE_TIMEOUT_MS)
+        : null;
+
+      child.on("close", (code) => {
+        if (timeoutId) clearTimeout(timeoutId);
+        clearInterval(heartbeat);
+        resolve(code ?? -1);
+      });
       child.on("error", (err) => {
+        if (timeoutId) clearTimeout(timeoutId);
+        clearInterval(heartbeat);
         logStream.write(`Worker failed to spawn: ${err.message}\n`);
         resolve(-1);
       });
