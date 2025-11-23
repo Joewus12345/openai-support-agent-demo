@@ -396,6 +396,21 @@ its cadence once a run finishes.
   `PATCH /api/scrape_jobs/{id}` with `{ "paused": true }` (or `false`) to stop
   or resume automatic enqueueing without deleting the job.
 
+### Clearing scrape job history
+
+If you need a clean slate for testing, you can purge all past scrape jobs with a
+one-off script. The command is gated by an environment flag to avoid accidental
+deletes:
+
+```bash
+# Danger: deletes every ScrapeJob row. Requires ALLOW_SCRAPE_PURGE=true
+ALLOW_SCRAPE_PURGE=true TS_NODE_COMPILER_OPTIONS='{"module":"CommonJS","moduleResolution":"node"}' \
+  node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js scripts/clearScrapeJobs.ts
+```
+
+If `ALLOW_SCRAPE_PURGE` is not set to `true`, the script exits without touching
+the database.
+
 ## Demo Flow
 
 To try out the demo, you can ask questions that will trigger a file search.
