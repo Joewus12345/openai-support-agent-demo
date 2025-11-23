@@ -77,6 +77,15 @@ The steps below show how to build and run each container manually.
 - **`P1000: Authentication failed`** – check the database credentials in [`.env.ai`](./.env.ai).
 - **`network support-net not found`** – create the network first: `docker network create support-net`.
 - **`port already allocated`** – choose unused host ports or stop conflicting services.
+- **`P3015: Could not find the migration file at migration.sql` during `ai-agent` startup** – rebuild the image without cache so the Prisma migrations are baked into the container, then verify the SQL files exist and rerun the deploy:
+
+  ```bash
+  docker compose build --no-cache ai-agent
+  docker compose run --rm ai-agent sh -c "ls /app/prisma/migrations/*/migration.sql"
+  docker compose run --rm ai-agent sh -c "npx prisma migrate deploy"
+  ```
+
+  If you are bind-mounting `/app/prisma/migrations`, remove or repopulate that mount so Prisma can read every `migration.sql`.
 
 ## Getting Started
 

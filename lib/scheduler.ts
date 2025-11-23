@@ -8,22 +8,34 @@ export function parseCadence(value: string | null): ScrapeJobCadence | undefined
     : undefined;
 }
 
+function startOfDay(date: Date): Date {
+  const start = new Date(date);
+  start.setHours(0, 0, 0, 0);
+  return start;
+}
+
 export function calculateNextRun(
   cadence: ScrapeJobCadence,
   from: Date = new Date()
 ): Date | null {
-  const next = new Date(from);
+  const start = startOfDay(from);
 
   switch (cadence) {
-    case ScrapeJobCadence.daily:
-      next.setDate(next.getDate() + 1);
-      return next;
-    case ScrapeJobCadence.weekly:
-      next.setDate(next.getDate() + 7);
-      return next;
-    case ScrapeJobCadence.monthly:
-      next.setMonth(next.getMonth() + 1);
-      return next;
+    case ScrapeJobCadence.daily: {
+      start.setDate(start.getDate() + 1);
+      return start;
+    }
+    case ScrapeJobCadence.weekly: {
+      // Advance to the start of the next week (Sunday-based) at midnight.
+      const daysUntilNextWeek = 7 - start.getDay() || 7;
+      start.setDate(start.getDate() + daysUntilNextWeek);
+      return start;
+    }
+    case ScrapeJobCadence.monthly: {
+      // Advance to the first day of the next month at midnight.
+      start.setMonth(start.getMonth() + 1, 1);
+      return start;
+    }
     default:
       return null;
   }
