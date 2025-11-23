@@ -18,7 +18,6 @@ type CrossProcessMessage = {
 };
 
 declare global {
-  // eslint-disable-next-line no-var
   var __scrapeJobEmitter: EventEmitter | undefined;
 }
 

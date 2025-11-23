@@ -7,19 +7,24 @@ export const revalidate = 0;
 
 export async function GET(request: Request) {
   const encoder = new TextEncoder();
-  let cleanup: (() => void) | null = null;
+  let cleanup: () => void = () => {};
 
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
       let closed = false;
       let heartbeat: ReturnType<typeof setInterval> | null = null;
+      let unsubscribe: () => void = () => {};
+
+      const abortHandler = () => {
+        cleanup?.();
+      };
 
       cleanup = () => {
         if (closed) return;
         closed = true;
         if (heartbeat) clearInterval(heartbeat);
         unsubscribe();
-        request.signal.removeEventListener("abort", cleanup);
+        request.signal.removeEventListener("abort", abortHandler);
       };
 
       const send = (payload: unknown) => {
@@ -29,11 +34,11 @@ export async function GET(request: Request) {
             encoder.encode(`data: ${JSON.stringify(payload)}\n\n`)
           );
         } catch {
-          cleanup();
+          cleanup?.();
         }
       };
 
-      const unsubscribe = onJobUpdate((update) => {
+      unsubscribe = onJobUpdate((update) => {
         send(update);
       });
 
@@ -42,11 +47,11 @@ export async function GET(request: Request) {
         try {
           controller.enqueue(encoder.encode(`event: ping\ndata: {}\n\n`));
         } catch {
-          cleanup();
+          cleanup?.();
         }
       }, 30000);
 
-      request.signal.addEventListener("abort", cleanup);
+      request.signal.addEventListener("abort", abortHandler);
 
       return cleanup;
     },

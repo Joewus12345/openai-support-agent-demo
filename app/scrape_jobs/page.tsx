@@ -49,6 +49,12 @@ const SCRIPT_PRESETS = [
     defaultTarget: "https://automationghana.com/sitemap_index.xml",
   },
   {
+    key: "docs-sequential-v1",
+    label: "Sequential sitemap (v1)",
+    hint: "Legacy sequential crawler tuned for sitemap-driven docs.",
+    defaultTarget: "https://automationghana.com/sitemap_index.xml",
+  },
+  {
     key: "sitemap-parallel",
     label: "Parallel sitemap",
     hint: "Fan-out crawler that accelerates large sitemaps with concurrency controls.",
@@ -59,6 +65,12 @@ const SCRIPT_PRESETS = [
     label: "WooCommerce",
     hint: "Tailored product crawler that keeps variant and pricing metadata intact.",
     defaultTarget: "https://store.automationghana.com",
+  },
+  {
+    key: "docs-fast-v1",
+    label: "FAST docs (v1)",
+    hint: "Legacy concurrent docs crawler optimized for speed.",
+    defaultTarget: "https://automationghana.com/sitemap_index.xml",
   },
   {
     key: "recursive-v2",
