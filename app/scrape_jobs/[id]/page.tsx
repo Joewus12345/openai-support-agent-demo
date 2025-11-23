@@ -50,12 +50,31 @@ function formatArgs(args: Record<string, unknown> | null) {
   return entries.map(([key, value]) => `${key}: ${String(value)}`).join(" | ");
 }
 
-export default function ScrapeJobDetail({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function ScrapeJobDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const [id, setId] = useState<string | null>(null);
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    void params
+      .then((resolved) => {
+        if (active) setId(resolved.id);
+      })
+      .catch(() => {
+        if (active) setId(null);
+      });
+    return () => {
+      active = false;
+    };
+  }, [params]);
+
   const { data, error, isLoading, mutate } = useSWR<SerializedJob>(
-    `/api/scrape_jobs/${id}`,
+    id ? `/api/scrape_jobs/${id}` : null,
     fetcher,
     { refreshInterval: 15000 }
   );
@@ -78,6 +97,7 @@ export default function ScrapeJobDetail({ params }: { params: { id: string } }) 
   };
 
   useEffect(() => {
+    if (!id) return undefined;
     const source = new EventSource("/api/scrape_jobs/updates");
     source.onmessage = (event) => {
       try {
@@ -95,6 +115,14 @@ export default function ScrapeJobDetail({ params }: { params: { id: string } }) 
 
     return () => source.close();
   }, [id, mutate]);
+
+  if (!id) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center text-sm text-zinc-600">
+        Loading job…
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
