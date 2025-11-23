@@ -3,6 +3,7 @@ import path from "path";
 import { spawn } from "child_process";
 
 import prisma from "../lib/prisma";
+import { calculateNextRun } from "../lib/scheduler";
 import { Prisma, ScrapeJob, ScrapeJobStatus } from "../lib/generated/prisma";
 
 const POLL_INTERVAL_MS = Number(process.env.SCRAPE_WORKER_INTERVAL_MS ?? 10000);
@@ -139,7 +140,7 @@ async function runJob(client: Prisma.TransactionClient, job: ScrapeJob) {
   await updateStatus(client, job.id, status, {
     finishedAt,
     logPath: logFilePath,
-    nextRunAt: null,
+    nextRunAt: calculateNextRun(job.cadence, finishedAt),
   });
 }
 

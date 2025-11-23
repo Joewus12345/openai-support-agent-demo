@@ -356,6 +356,37 @@ When using the `ollama` provider you need a local server running.
   manual copying. The directory is created automatically if it doesn’t already
   exist.
 
+## Scrape job scheduling
+
+Scrape jobs can now be scheduled to run on a cadence. Each job stores its
+`cadence` (`daily`, `weekly`, `monthly`, or `manual`), a `paused` flag, and the
+`nextRunAt` timestamp used to prevent overlap. The scheduler only enqueues jobs
+when `nextRunAt` is due, and rescheduling a job sets the next timestamp based on
+its cadence once a run finishes.
+
+- **Using OS cron**: deploy a cron entry that calls the API directly. Examples:
+
+  ```cron
+  0 0 * * * curl -X POST https://your-host/api/scrape_jobs/run-now?schedule=daily
+  0 0 * * 0 curl -X POST https://your-host/api/scrape_jobs/run-now?schedule=weekly
+  0 0 1 * * curl -X POST https://your-host/api/scrape_jobs/run-now?schedule=monthly
+  ```
+
+- **Using the built-in scheduler worker**: if OS cron is unavailable, run the
+  Node-based worker:
+
+  ```bash
+  npm run scheduler:worker
+  ```
+
+  It uses `node-cron` to trigger the same `run-now` endpoint on the expected
+  cadence. Set `SCHEDULER_TIMEZONE` if the default server timezone is
+  unsuitable.
+
+- **Pause or resume a schedule**: update a job via
+  `PATCH /api/scrape_jobs/{id}` with `{ "paused": true }` (or `false`) to stop
+  or resume automatic enqueueing without deleting the job.
+
 ## Demo Flow
 
 To try out the demo, you can ask questions that will trigger a file search.

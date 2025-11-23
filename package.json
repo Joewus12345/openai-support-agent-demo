@@ -10,7 +10,8 @@
     "test": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js --test",
     "cleanup:sessions": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js scripts/cleanupSessions.ts",
     "prune:sessions": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js scripts/pruneSessionMessages.ts",
-    "scraper:worker": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js scripts/scraperWorker.ts"
+    "scraper:worker": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js scripts/scraperWorker.ts",
+    "scheduler:worker": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"CommonJS\\\",\\\"moduleResolution\\\":\\\"node\\\"}\" node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js scripts/schedulerWorker.ts"
   },
   "dependencies": {
     "@npmcli/fs": "^4.0.0",
@@ -37,6 +38,7 @@
     "langchain": "^0.3.30",
     "lucide-react": "^0.441.0",
     "next": "^15.2.3",
+    "node-cron": "^4.2.1",
     "ollama": "^0.5.16",
     "openai": "^5.15.0",
     "p-limit": "^6.2.0",

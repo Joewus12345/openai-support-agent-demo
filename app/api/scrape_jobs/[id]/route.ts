@@ -1,3 +1,4 @@
+import { parseCadence } from "@/lib/scheduler";
 import prisma from "@/lib/prisma";
 import { Prisma, ScrapeJobStatus } from "@/lib/generated/prisma";
 
@@ -12,6 +13,15 @@ function parseStatus(value: unknown): ScrapeJobStatus | undefined {
   return (Object.values(ScrapeJobStatus) as string[]).includes(value)
     ? (value as ScrapeJobStatus)
     : undefined;
+}
+
+function parseBoolean(value: unknown): boolean | undefined {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "string") {
+    if (value.toLowerCase() === "true") return true;
+    if (value.toLowerCase() === "false") return false;
+  }
+  return undefined;
 }
 
 export async function GET(
@@ -49,6 +59,10 @@ export async function PATCH(
     const data: Prisma.ScrapeJobUpdateInput = {};
     if (body.script) data.script = body.script;
     if (body.args !== undefined) data.args = body.args;
+    const cadence = parseCadence(body.cadence);
+    if (cadence) data.cadence = cadence;
+    const paused = parseBoolean(body.paused);
+    if (paused !== undefined) data.paused = paused;
 
     const status = parseStatus(body.status);
     if (status) data.status = status;
