@@ -340,7 +340,7 @@ export default function ScrapeJobsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">
-                {(data || []).map((item) => {
+                {(data || []).map((item: SerializedJob) => {
                   const logSnippet = (item.log || "").split("\n").find(Boolean) || "No log yet.";
                   const progress = progressFromStatus(item.job.status);
                   return (

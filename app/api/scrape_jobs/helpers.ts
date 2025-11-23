@@ -1,9 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
-import { NextResponse } from "next/server";
-
-import prisma from "@/lib/prisma";
-import { ScrapeJobStatus } from "@/lib/generated/prisma";
+import prisma from "../../../lib/prisma";
+import { ScrapeJobStatus } from "../../../lib/generated/prisma";
 
 const BENCHMARK_DIR = path.join(
   process.cwd(),
@@ -84,7 +82,10 @@ export function ensureAuthenticated(request: Request) {
     return null;
   }
 
-  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  return new Response(JSON.stringify({ error: "Unauthorized" }), {
+    status: 401,
+    headers: { "Content-Type": "application/json" },
+  });
 }
 
 export async function serializeJob(jobId: string) {

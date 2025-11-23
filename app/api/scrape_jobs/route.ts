@@ -5,7 +5,7 @@ import {
   ScrapeJobCadence,
   ScrapeJobStatus,
 } from "@/lib/generated/prisma";
-import { serializeJob } from "./helpers";
+import { ensureAuthenticated, serializeJob } from "./helpers";
 
 function parseStatus(value: string | null): ScrapeJobStatus | undefined {
   if (!value) return undefined;
@@ -54,6 +54,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const unauthorized = ensureAuthenticated(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const body = await request.json().catch(() => null);
     if (!body || !body.script) {
