@@ -377,6 +377,10 @@ When using the `ollama` provider you need a local server running.
     periodic activity probes keep long-but-active runs alive.
   - The runner forces unbuffered Python output (`-u` + `PYTHONUNBUFFERED=1`)
     so job logs stream live into the UI while the scraper runs.
+  - If `crawl4ai` is missing, the runner will now attempt a one-time
+    `pip install -r crawl4AI-agent-v2/requirements.txt` with the selected
+    interpreter. Set `SCRAPE_AUTO_INSTALL_DEPS=false` to disable this and keep
+    the previous fail-fast behavior.
   - Set `SCRAPE_SKIP_DEP_CHECK=true` to bypass the preflight `import crawl4ai`
     probe if you trust the interpreter; otherwise the runner will log probe
     output (including `pip show crawl4ai`) and fail early when the dependency

@@ -78,11 +78,62 @@ const SCRAPE_TIMEOUT_MS = (() => {
   return Number.isFinite(parsed) ? parsed : 2 * 60 * 60 * 1000;
 })();
 const SCRAPE_SKIP_DEP_CHECK = process.env.SCRAPE_SKIP_DEP_CHECK === "true";
+const SCRAPE_AUTO_INSTALL_DEPS =
+  process.env.SCRAPE_AUTO_INSTALL_DEPS !== "false";
 const LOG_DIR = path.join(process.cwd(), "logs", "scrape_jobs");
 
 type PrismaClientLike = Prisma.TransactionClient | typeof prisma;
 
-function runDependencyCheck(pythonBin: string, logStream: fs.WriteStream) {
+async function installDependencies(
+  pythonBin: string,
+  env: NodeJS.ProcessEnv,
+  logStream: fs.WriteStream
+) {
+  const requirementsPath = path.join(
+    process.cwd(),
+    "crawl4AI-agent-v2",
+    "requirements.txt"
+  );
+
+  logStream.write(
+    `[${new Date().toISOString()}] crawl4ai missing; attempting pip install from ${requirementsPath}.\n`
+  );
+
+  const installProc = spawn(
+    pythonBin,
+    ["-m", "pip", "install", "--user", "-r", requirementsPath],
+    { env, cwd: process.cwd(), stdio: "pipe" }
+  );
+
+  const chunks: Buffer[] = [];
+  return new Promise<{ ok: boolean; message?: string }>((resolve) => {
+    installProc.stdout?.on("data", (chunk) => chunks.push(chunk));
+    installProc.stderr?.on("data", (chunk) => chunks.push(chunk));
+
+    installProc.on("error", (err) => {
+      resolve({ ok: false, message: err.message });
+    });
+
+    installProc.on("close", (code) => {
+      const output = Buffer.concat(chunks).toString();
+      logStream.write(output);
+
+      if (code === 0) {
+        logStream.write(
+          `[${new Date().toISOString()}] pip install completed successfully.\n`
+        );
+        resolve({ ok: true });
+      } else {
+        resolve({
+          ok: false,
+          message: `pip install exited with code ${code}. See above for output.`,
+        });
+      }
+    });
+  });
+}
+
+async function runDependencyCheck(pythonBin: string, logStream: fs.WriteStream) {
   if (SCRAPE_SKIP_DEP_CHECK) {
     logStream.write("Skipping crawl4ai dependency check because SCRAPE_SKIP_DEP_CHECK=true.\n");
     return { ok: true } as const;
@@ -110,7 +161,7 @@ function runDependencyCheck(pythonBin: string, logStream: fs.WriteStream) {
       resolve({ ok: false, message: err.message });
     });
 
-    importProbe.on("close", (code) => {
+    importProbe.on("close", async (code) => {
       if (code === 0) {
         resolve({ ok: true });
         return;
@@ -126,12 +177,40 @@ function runDependencyCheck(pythonBin: string, logStream: fs.WriteStream) {
       pipProbe.stdout?.on("data", (chunk) => pipChunks.push(chunk));
       pipProbe.stderr?.on("data", (chunk) => pipChunks.push(chunk));
 
-      pipProbe.on("close", (pipCode) => {
+      pipProbe.on("close", async (pipCode) => {
         const baseMessage = chunks.length ? Buffer.concat(chunks).toString() : "import failed";
         const pipMessage = pipChunks.length ? Buffer.concat(pipChunks).toString() : "pip show returned no output";
 
         logStream.write(`crawl4ai import probe failed (exit ${code}). Output: ${baseMessage}\n`);
         logStream.write(`pip show crawl4ai (exit ${pipCode ?? -1}): ${pipMessage}\n`);
+
+        if (pipCode !== 0 && SCRAPE_AUTO_INSTALL_DEPS) {
+          const installResult = await installDependencies(pythonBin, env, logStream);
+          if (!installResult.ok) {
+            resolve({ ok: false, message: installResult.message });
+            return;
+          }
+
+          const retry = spawn(pythonBin, ["-c", "import crawl4ai"], {
+            env,
+            cwd: process.cwd(),
+            stdio: "ignore",
+          });
+
+          retry.on("close", (retryCode) => {
+            if (retryCode === 0) {
+              resolve({ ok: true });
+            } else {
+              resolve({
+                ok: false,
+                message:
+                  "crawl4ai is still unavailable after auto-install. Check interpreter configuration.",
+              });
+            }
+          });
+
+          return;
+        }
 
         resolve({ ok: false, message: `${baseMessage}\n${pipMessage}` });
       });
