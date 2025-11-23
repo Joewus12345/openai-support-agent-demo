@@ -48,12 +48,37 @@ export type AgentAssignment = $Result.DefaultSelection<Prisma.$AgentAssignmentPa
  * 
  */
 export type HandoffRequest = $Result.DefaultSelection<Prisma.$HandoffRequestPayload>
+/**
+ * Model ScrapeJob
+ * 
+ */
+export type ScrapeJob = $Result.DefaultSelection<Prisma.$ScrapeJobPayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const AgentAvailability: {
+  export const ScrapeJobStatus: {
+  queued: 'queued',
+  running: 'running',
+  completed: 'completed',
+  failed: 'failed'
+};
+
+export type ScrapeJobStatus = (typeof ScrapeJobStatus)[keyof typeof ScrapeJobStatus]
+
+
+export const ScrapeJobCadence: {
+  manual: 'manual',
+  daily: 'daily',
+  weekly: 'weekly',
+  monthly: 'monthly'
+};
+
+export type ScrapeJobCadence = (typeof ScrapeJobCadence)[keyof typeof ScrapeJobCadence]
+
+
+export const AgentAvailability: {
   online: 'online',
   busy: 'busy',
   offline: 'offline'
@@ -72,6 +97,14 @@ export const HandoffRequestStatus: {
 export type HandoffRequestStatus = (typeof HandoffRequestStatus)[keyof typeof HandoffRequestStatus]
 
 }
+
+export type ScrapeJobStatus = $Enums.ScrapeJobStatus
+
+export const ScrapeJobStatus: typeof $Enums.ScrapeJobStatus
+
+export type ScrapeJobCadence = $Enums.ScrapeJobCadence
+
+export const ScrapeJobCadence: typeof $Enums.ScrapeJobCadence
 
 export type AgentAvailability = $Enums.AgentAvailability
 
@@ -268,6 +301,16 @@ export class PrismaClient<
     * ```
     */
   get handoffRequest(): Prisma.HandoffRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.scrapeJob`: Exposes CRUD operations for the **ScrapeJob** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScrapeJobs
+    * const scrapeJobs = await prisma.scrapeJob.findMany()
+    * ```
+    */
+  get scrapeJob(): Prisma.ScrapeJobDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -714,7 +757,8 @@ export namespace Prisma {
     Ticket: 'Ticket',
     ConversationMessage: 'ConversationMessage',
     AgentAssignment: 'AgentAssignment',
-    HandoffRequest: 'HandoffRequest'
+    HandoffRequest: 'HandoffRequest',
+    ScrapeJob: 'ScrapeJob'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -733,7 +777,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "order" | "chatSession" | "ticket" | "conversationMessage" | "agentAssignment" | "handoffRequest"
+      modelProps: "user" | "order" | "chatSession" | "ticket" | "conversationMessage" | "agentAssignment" | "handoffRequest" | "scrapeJob"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1255,6 +1299,80 @@ export namespace Prisma {
           }
         }
       }
+      ScrapeJob: {
+        payload: Prisma.$ScrapeJobPayload<ExtArgs>
+        fields: Prisma.ScrapeJobFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScrapeJobFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScrapeJobFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload>
+          }
+          findFirst: {
+            args: Prisma.ScrapeJobFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScrapeJobFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload>
+          }
+          findMany: {
+            args: Prisma.ScrapeJobFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload>[]
+          }
+          create: {
+            args: Prisma.ScrapeJobCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload>
+          }
+          createMany: {
+            args: Prisma.ScrapeJobCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScrapeJobCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload>[]
+          }
+          delete: {
+            args: Prisma.ScrapeJobDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload>
+          }
+          update: {
+            args: Prisma.ScrapeJobUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScrapeJobDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScrapeJobUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScrapeJobUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload>[]
+          }
+          upsert: {
+            args: Prisma.ScrapeJobUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobPayload>
+          }
+          aggregate: {
+            args: Prisma.ScrapeJobAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScrapeJob>
+          }
+          groupBy: {
+            args: Prisma.ScrapeJobGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScrapeJobGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScrapeJobCountArgs<ExtArgs>
+            result: $Utils.Optional<ScrapeJobCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1354,6 +1472,7 @@ export namespace Prisma {
     conversationMessage?: ConversationMessageOmit
     agentAssignment?: AgentAssignmentOmit
     handoffRequest?: HandoffRequestOmit
+    scrapeJob?: ScrapeJobOmit
   }
 
   /* Types for Logging */
@@ -9121,6 +9240,1088 @@ export namespace Prisma {
 
 
   /**
+   * Model ScrapeJob
+   */
+
+  export type AggregateScrapeJob = {
+    _count: ScrapeJobCountAggregateOutputType | null
+    _min: ScrapeJobMinAggregateOutputType | null
+    _max: ScrapeJobMaxAggregateOutputType | null
+  }
+
+  export type ScrapeJobMinAggregateOutputType = {
+    id: string | null
+    script: string | null
+    status: $Enums.ScrapeJobStatus | null
+    cadence: $Enums.ScrapeJobCadence | null
+    paused: boolean | null
+    startedAt: Date | null
+    finishedAt: Date | null
+    logPath: string | null
+    nextRunAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScrapeJobMaxAggregateOutputType = {
+    id: string | null
+    script: string | null
+    status: $Enums.ScrapeJobStatus | null
+    cadence: $Enums.ScrapeJobCadence | null
+    paused: boolean | null
+    startedAt: Date | null
+    finishedAt: Date | null
+    logPath: string | null
+    nextRunAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScrapeJobCountAggregateOutputType = {
+    id: number
+    script: number
+    args: number
+    status: number
+    cadence: number
+    paused: number
+    startedAt: number
+    finishedAt: number
+    logPath: number
+    nextRunAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ScrapeJobMinAggregateInputType = {
+    id?: true
+    script?: true
+    status?: true
+    cadence?: true
+    paused?: true
+    startedAt?: true
+    finishedAt?: true
+    logPath?: true
+    nextRunAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScrapeJobMaxAggregateInputType = {
+    id?: true
+    script?: true
+    status?: true
+    cadence?: true
+    paused?: true
+    startedAt?: true
+    finishedAt?: true
+    logPath?: true
+    nextRunAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScrapeJobCountAggregateInputType = {
+    id?: true
+    script?: true
+    args?: true
+    status?: true
+    cadence?: true
+    paused?: true
+    startedAt?: true
+    finishedAt?: true
+    logPath?: true
+    nextRunAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ScrapeJobAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScrapeJob to aggregate.
+     */
+    where?: ScrapeJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScrapeJobs to fetch.
+     */
+    orderBy?: ScrapeJobOrderByWithRelationInput | ScrapeJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScrapeJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScrapeJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScrapeJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScrapeJobs
+    **/
+    _count?: true | ScrapeJobCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScrapeJobMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScrapeJobMaxAggregateInputType
+  }
+
+  export type GetScrapeJobAggregateType<T extends ScrapeJobAggregateArgs> = {
+        [P in keyof T & keyof AggregateScrapeJob]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScrapeJob[P]>
+      : GetScalarType<T[P], AggregateScrapeJob[P]>
+  }
+
+
+
+
+  export type ScrapeJobGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScrapeJobWhereInput
+    orderBy?: ScrapeJobOrderByWithAggregationInput | ScrapeJobOrderByWithAggregationInput[]
+    by: ScrapeJobScalarFieldEnum[] | ScrapeJobScalarFieldEnum
+    having?: ScrapeJobScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScrapeJobCountAggregateInputType | true
+    _min?: ScrapeJobMinAggregateInputType
+    _max?: ScrapeJobMaxAggregateInputType
+  }
+
+  export type ScrapeJobGroupByOutputType = {
+    id: string
+    script: string
+    args: JsonValue | null
+    status: $Enums.ScrapeJobStatus
+    cadence: $Enums.ScrapeJobCadence
+    paused: boolean
+    startedAt: Date | null
+    finishedAt: Date | null
+    logPath: string | null
+    nextRunAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ScrapeJobCountAggregateOutputType | null
+    _min: ScrapeJobMinAggregateOutputType | null
+    _max: ScrapeJobMaxAggregateOutputType | null
+  }
+
+  type GetScrapeJobGroupByPayload<T extends ScrapeJobGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScrapeJobGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScrapeJobGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScrapeJobGroupByOutputType[P]>
+            : GetScalarType<T[P], ScrapeJobGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScrapeJobSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    script?: boolean
+    args?: boolean
+    status?: boolean
+    cadence?: boolean
+    paused?: boolean
+    startedAt?: boolean
+    finishedAt?: boolean
+    logPath?: boolean
+    nextRunAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["scrapeJob"]>
+
+  export type ScrapeJobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    script?: boolean
+    args?: boolean
+    status?: boolean
+    cadence?: boolean
+    paused?: boolean
+    startedAt?: boolean
+    finishedAt?: boolean
+    logPath?: boolean
+    nextRunAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["scrapeJob"]>
+
+  export type ScrapeJobSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    script?: boolean
+    args?: boolean
+    status?: boolean
+    cadence?: boolean
+    paused?: boolean
+    startedAt?: boolean
+    finishedAt?: boolean
+    logPath?: boolean
+    nextRunAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["scrapeJob"]>
+
+  export type ScrapeJobSelectScalar = {
+    id?: boolean
+    script?: boolean
+    args?: boolean
+    status?: boolean
+    cadence?: boolean
+    paused?: boolean
+    startedAt?: boolean
+    finishedAt?: boolean
+    logPath?: boolean
+    nextRunAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "cadence" | "paused" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
+
+  export type $ScrapeJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScrapeJob"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      script: string
+      args: Prisma.JsonValue | null
+      status: $Enums.ScrapeJobStatus
+      cadence: $Enums.ScrapeJobCadence
+      paused: boolean
+      startedAt: Date | null
+      finishedAt: Date | null
+      logPath: string | null
+      nextRunAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["scrapeJob"]>
+    composites: {}
+  }
+
+  type ScrapeJobGetPayload<S extends boolean | null | undefined | ScrapeJobDefaultArgs> = $Result.GetResult<Prisma.$ScrapeJobPayload, S>
+
+  type ScrapeJobCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScrapeJobFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScrapeJobCountAggregateInputType | true
+    }
+
+  export interface ScrapeJobDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScrapeJob'], meta: { name: 'ScrapeJob' } }
+    /**
+     * Find zero or one ScrapeJob that matches the filter.
+     * @param {ScrapeJobFindUniqueArgs} args - Arguments to find a ScrapeJob
+     * @example
+     * // Get one ScrapeJob
+     * const scrapeJob = await prisma.scrapeJob.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScrapeJobFindUniqueArgs>(args: SelectSubset<T, ScrapeJobFindUniqueArgs<ExtArgs>>): Prisma__ScrapeJobClient<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ScrapeJob that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScrapeJobFindUniqueOrThrowArgs} args - Arguments to find a ScrapeJob
+     * @example
+     * // Get one ScrapeJob
+     * const scrapeJob = await prisma.scrapeJob.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScrapeJobFindUniqueOrThrowArgs>(args: SelectSubset<T, ScrapeJobFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScrapeJobClient<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScrapeJob that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobFindFirstArgs} args - Arguments to find a ScrapeJob
+     * @example
+     * // Get one ScrapeJob
+     * const scrapeJob = await prisma.scrapeJob.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScrapeJobFindFirstArgs>(args?: SelectSubset<T, ScrapeJobFindFirstArgs<ExtArgs>>): Prisma__ScrapeJobClient<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScrapeJob that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobFindFirstOrThrowArgs} args - Arguments to find a ScrapeJob
+     * @example
+     * // Get one ScrapeJob
+     * const scrapeJob = await prisma.scrapeJob.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScrapeJobFindFirstOrThrowArgs>(args?: SelectSubset<T, ScrapeJobFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScrapeJobClient<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ScrapeJobs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScrapeJobs
+     * const scrapeJobs = await prisma.scrapeJob.findMany()
+     * 
+     * // Get first 10 ScrapeJobs
+     * const scrapeJobs = await prisma.scrapeJob.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scrapeJobWithIdOnly = await prisma.scrapeJob.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScrapeJobFindManyArgs>(args?: SelectSubset<T, ScrapeJobFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ScrapeJob.
+     * @param {ScrapeJobCreateArgs} args - Arguments to create a ScrapeJob.
+     * @example
+     * // Create one ScrapeJob
+     * const ScrapeJob = await prisma.scrapeJob.create({
+     *   data: {
+     *     // ... data to create a ScrapeJob
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScrapeJobCreateArgs>(args: SelectSubset<T, ScrapeJobCreateArgs<ExtArgs>>): Prisma__ScrapeJobClient<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ScrapeJobs.
+     * @param {ScrapeJobCreateManyArgs} args - Arguments to create many ScrapeJobs.
+     * @example
+     * // Create many ScrapeJobs
+     * const scrapeJob = await prisma.scrapeJob.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScrapeJobCreateManyArgs>(args?: SelectSubset<T, ScrapeJobCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScrapeJobs and returns the data saved in the database.
+     * @param {ScrapeJobCreateManyAndReturnArgs} args - Arguments to create many ScrapeJobs.
+     * @example
+     * // Create many ScrapeJobs
+     * const scrapeJob = await prisma.scrapeJob.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScrapeJobs and only return the `id`
+     * const scrapeJobWithIdOnly = await prisma.scrapeJob.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScrapeJobCreateManyAndReturnArgs>(args?: SelectSubset<T, ScrapeJobCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ScrapeJob.
+     * @param {ScrapeJobDeleteArgs} args - Arguments to delete one ScrapeJob.
+     * @example
+     * // Delete one ScrapeJob
+     * const ScrapeJob = await prisma.scrapeJob.delete({
+     *   where: {
+     *     // ... filter to delete one ScrapeJob
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScrapeJobDeleteArgs>(args: SelectSubset<T, ScrapeJobDeleteArgs<ExtArgs>>): Prisma__ScrapeJobClient<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ScrapeJob.
+     * @param {ScrapeJobUpdateArgs} args - Arguments to update one ScrapeJob.
+     * @example
+     * // Update one ScrapeJob
+     * const scrapeJob = await prisma.scrapeJob.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScrapeJobUpdateArgs>(args: SelectSubset<T, ScrapeJobUpdateArgs<ExtArgs>>): Prisma__ScrapeJobClient<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ScrapeJobs.
+     * @param {ScrapeJobDeleteManyArgs} args - Arguments to filter ScrapeJobs to delete.
+     * @example
+     * // Delete a few ScrapeJobs
+     * const { count } = await prisma.scrapeJob.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScrapeJobDeleteManyArgs>(args?: SelectSubset<T, ScrapeJobDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScrapeJobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScrapeJobs
+     * const scrapeJob = await prisma.scrapeJob.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScrapeJobUpdateManyArgs>(args: SelectSubset<T, ScrapeJobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScrapeJobs and returns the data updated in the database.
+     * @param {ScrapeJobUpdateManyAndReturnArgs} args - Arguments to update many ScrapeJobs.
+     * @example
+     * // Update many ScrapeJobs
+     * const scrapeJob = await prisma.scrapeJob.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ScrapeJobs and only return the `id`
+     * const scrapeJobWithIdOnly = await prisma.scrapeJob.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScrapeJobUpdateManyAndReturnArgs>(args: SelectSubset<T, ScrapeJobUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ScrapeJob.
+     * @param {ScrapeJobUpsertArgs} args - Arguments to update or create a ScrapeJob.
+     * @example
+     * // Update or create a ScrapeJob
+     * const scrapeJob = await prisma.scrapeJob.upsert({
+     *   create: {
+     *     // ... data to create a ScrapeJob
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScrapeJob we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScrapeJobUpsertArgs>(args: SelectSubset<T, ScrapeJobUpsertArgs<ExtArgs>>): Prisma__ScrapeJobClient<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ScrapeJobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobCountArgs} args - Arguments to filter ScrapeJobs to count.
+     * @example
+     * // Count the number of ScrapeJobs
+     * const count = await prisma.scrapeJob.count({
+     *   where: {
+     *     // ... the filter for the ScrapeJobs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScrapeJobCountArgs>(
+      args?: Subset<T, ScrapeJobCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScrapeJobCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScrapeJob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScrapeJobAggregateArgs>(args: Subset<T, ScrapeJobAggregateArgs>): Prisma.PrismaPromise<GetScrapeJobAggregateType<T>>
+
+    /**
+     * Group by ScrapeJob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScrapeJobGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScrapeJobGroupByArgs['orderBy'] }
+        : { orderBy?: ScrapeJobGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScrapeJobGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScrapeJobGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScrapeJob model
+   */
+  readonly fields: ScrapeJobFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScrapeJob.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScrapeJobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScrapeJob model
+   */
+  interface ScrapeJobFieldRefs {
+    readonly id: FieldRef<"ScrapeJob", 'String'>
+    readonly script: FieldRef<"ScrapeJob", 'String'>
+    readonly args: FieldRef<"ScrapeJob", 'Json'>
+    readonly status: FieldRef<"ScrapeJob", 'ScrapeJobStatus'>
+    readonly cadence: FieldRef<"ScrapeJob", 'ScrapeJobCadence'>
+    readonly paused: FieldRef<"ScrapeJob", 'Boolean'>
+    readonly startedAt: FieldRef<"ScrapeJob", 'DateTime'>
+    readonly finishedAt: FieldRef<"ScrapeJob", 'DateTime'>
+    readonly logPath: FieldRef<"ScrapeJob", 'String'>
+    readonly nextRunAt: FieldRef<"ScrapeJob", 'DateTime'>
+    readonly createdAt: FieldRef<"ScrapeJob", 'DateTime'>
+    readonly updatedAt: FieldRef<"ScrapeJob", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScrapeJob findUnique
+   */
+  export type ScrapeJobFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJob to fetch.
+     */
+    where: ScrapeJobWhereUniqueInput
+  }
+
+  /**
+   * ScrapeJob findUniqueOrThrow
+   */
+  export type ScrapeJobFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJob to fetch.
+     */
+    where: ScrapeJobWhereUniqueInput
+  }
+
+  /**
+   * ScrapeJob findFirst
+   */
+  export type ScrapeJobFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJob to fetch.
+     */
+    where?: ScrapeJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScrapeJobs to fetch.
+     */
+    orderBy?: ScrapeJobOrderByWithRelationInput | ScrapeJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScrapeJobs.
+     */
+    cursor?: ScrapeJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScrapeJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScrapeJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScrapeJobs.
+     */
+    distinct?: ScrapeJobScalarFieldEnum | ScrapeJobScalarFieldEnum[]
+  }
+
+  /**
+   * ScrapeJob findFirstOrThrow
+   */
+  export type ScrapeJobFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJob to fetch.
+     */
+    where?: ScrapeJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScrapeJobs to fetch.
+     */
+    orderBy?: ScrapeJobOrderByWithRelationInput | ScrapeJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScrapeJobs.
+     */
+    cursor?: ScrapeJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScrapeJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScrapeJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScrapeJobs.
+     */
+    distinct?: ScrapeJobScalarFieldEnum | ScrapeJobScalarFieldEnum[]
+  }
+
+  /**
+   * ScrapeJob findMany
+   */
+  export type ScrapeJobFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJobs to fetch.
+     */
+    where?: ScrapeJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScrapeJobs to fetch.
+     */
+    orderBy?: ScrapeJobOrderByWithRelationInput | ScrapeJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScrapeJobs.
+     */
+    cursor?: ScrapeJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScrapeJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScrapeJobs.
+     */
+    skip?: number
+    distinct?: ScrapeJobScalarFieldEnum | ScrapeJobScalarFieldEnum[]
+  }
+
+  /**
+   * ScrapeJob create
+   */
+  export type ScrapeJobCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ScrapeJob.
+     */
+    data: XOR<ScrapeJobCreateInput, ScrapeJobUncheckedCreateInput>
+  }
+
+  /**
+   * ScrapeJob createMany
+   */
+  export type ScrapeJobCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScrapeJobs.
+     */
+    data: ScrapeJobCreateManyInput | ScrapeJobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScrapeJob createManyAndReturn
+   */
+  export type ScrapeJobCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * The data used to create many ScrapeJobs.
+     */
+    data: ScrapeJobCreateManyInput | ScrapeJobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScrapeJob update
+   */
+  export type ScrapeJobUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ScrapeJob.
+     */
+    data: XOR<ScrapeJobUpdateInput, ScrapeJobUncheckedUpdateInput>
+    /**
+     * Choose, which ScrapeJob to update.
+     */
+    where: ScrapeJobWhereUniqueInput
+  }
+
+  /**
+   * ScrapeJob updateMany
+   */
+  export type ScrapeJobUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScrapeJobs.
+     */
+    data: XOR<ScrapeJobUpdateManyMutationInput, ScrapeJobUncheckedUpdateManyInput>
+    /**
+     * Filter which ScrapeJobs to update
+     */
+    where?: ScrapeJobWhereInput
+    /**
+     * Limit how many ScrapeJobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScrapeJob updateManyAndReturn
+   */
+  export type ScrapeJobUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * The data used to update ScrapeJobs.
+     */
+    data: XOR<ScrapeJobUpdateManyMutationInput, ScrapeJobUncheckedUpdateManyInput>
+    /**
+     * Filter which ScrapeJobs to update
+     */
+    where?: ScrapeJobWhereInput
+    /**
+     * Limit how many ScrapeJobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScrapeJob upsert
+   */
+  export type ScrapeJobUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ScrapeJob to update in case it exists.
+     */
+    where: ScrapeJobWhereUniqueInput
+    /**
+     * In case the ScrapeJob found by the `where` argument doesn't exist, create a new ScrapeJob with this data.
+     */
+    create: XOR<ScrapeJobCreateInput, ScrapeJobUncheckedCreateInput>
+    /**
+     * In case the ScrapeJob was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScrapeJobUpdateInput, ScrapeJobUncheckedUpdateInput>
+  }
+
+  /**
+   * ScrapeJob delete
+   */
+  export type ScrapeJobDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Filter which ScrapeJob to delete.
+     */
+    where: ScrapeJobWhereUniqueInput
+  }
+
+  /**
+   * ScrapeJob deleteMany
+   */
+  export type ScrapeJobDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScrapeJobs to delete
+     */
+    where?: ScrapeJobWhereInput
+    /**
+     * Limit how many ScrapeJobs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScrapeJob without action
+   */
+  export type ScrapeJobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9222,6 +10423,24 @@ export namespace Prisma {
   export type HandoffRequestScalarFieldEnum = (typeof HandoffRequestScalarFieldEnum)[keyof typeof HandoffRequestScalarFieldEnum]
 
 
+  export const ScrapeJobScalarFieldEnum: {
+    id: 'id',
+    script: 'script',
+    args: 'args',
+    status: 'status',
+    cadence: 'cadence',
+    paused: 'paused',
+    startedAt: 'startedAt',
+    finishedAt: 'finishedAt',
+    logPath: 'logPath',
+    nextRunAt: 'nextRunAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ScrapeJobScalarFieldEnum = (typeof ScrapeJobScalarFieldEnum)[keyof typeof ScrapeJobScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -9235,6 +10454,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -9348,6 +10575,41 @@ export namespace Prisma {
    * Reference to a field of type 'HandoffRequestStatus[]'
    */
   export type ListEnumHandoffRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HandoffRequestStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScrapeJobStatus'
+   */
+  export type EnumScrapeJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScrapeJobStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScrapeJobStatus[]'
+   */
+  export type ListEnumScrapeJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScrapeJobStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScrapeJobCadence'
+   */
+  export type EnumScrapeJobCadenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScrapeJobCadence'>
+    
+
+
+  /**
+   * Reference to a field of type 'ScrapeJobCadence[]'
+   */
+  export type ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScrapeJobCadence[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -9813,6 +11075,93 @@ export namespace Prisma {
     status?: EnumHandoffRequestStatusWithAggregatesFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
     agentId?: IntNullableWithAggregatesFilter<"HandoffRequest"> | number | null
     lastPositionNotified?: IntNullableWithAggregatesFilter<"HandoffRequest"> | number | null
+  }
+
+  export type ScrapeJobWhereInput = {
+    AND?: ScrapeJobWhereInput | ScrapeJobWhereInput[]
+    OR?: ScrapeJobWhereInput[]
+    NOT?: ScrapeJobWhereInput | ScrapeJobWhereInput[]
+    id?: StringFilter<"ScrapeJob"> | string
+    script?: StringFilter<"ScrapeJob"> | string
+    args?: JsonNullableFilter<"ScrapeJob">
+    status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    paused?: BoolFilter<"ScrapeJob"> | boolean
+    startedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    finishedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    logPath?: StringNullableFilter<"ScrapeJob"> | string | null
+    nextRunAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    createdAt?: DateTimeFilter<"ScrapeJob"> | Date | string
+    updatedAt?: DateTimeFilter<"ScrapeJob"> | Date | string
+  }
+
+  export type ScrapeJobOrderByWithRelationInput = {
+    id?: SortOrder
+    script?: SortOrder
+    args?: SortOrderInput | SortOrder
+    status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    finishedAt?: SortOrderInput | SortOrder
+    logPath?: SortOrderInput | SortOrder
+    nextRunAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScrapeJobWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScrapeJobWhereInput | ScrapeJobWhereInput[]
+    OR?: ScrapeJobWhereInput[]
+    NOT?: ScrapeJobWhereInput | ScrapeJobWhereInput[]
+    script?: StringFilter<"ScrapeJob"> | string
+    args?: JsonNullableFilter<"ScrapeJob">
+    status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    paused?: BoolFilter<"ScrapeJob"> | boolean
+    startedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    finishedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    logPath?: StringNullableFilter<"ScrapeJob"> | string | null
+    nextRunAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    createdAt?: DateTimeFilter<"ScrapeJob"> | Date | string
+    updatedAt?: DateTimeFilter<"ScrapeJob"> | Date | string
+  }, "id">
+
+  export type ScrapeJobOrderByWithAggregationInput = {
+    id?: SortOrder
+    script?: SortOrder
+    args?: SortOrderInput | SortOrder
+    status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    finishedAt?: SortOrderInput | SortOrder
+    logPath?: SortOrderInput | SortOrder
+    nextRunAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ScrapeJobCountOrderByAggregateInput
+    _max?: ScrapeJobMaxOrderByAggregateInput
+    _min?: ScrapeJobMinOrderByAggregateInput
+  }
+
+  export type ScrapeJobScalarWhereWithAggregatesInput = {
+    AND?: ScrapeJobScalarWhereWithAggregatesInput | ScrapeJobScalarWhereWithAggregatesInput[]
+    OR?: ScrapeJobScalarWhereWithAggregatesInput[]
+    NOT?: ScrapeJobScalarWhereWithAggregatesInput | ScrapeJobScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScrapeJob"> | string
+    script?: StringWithAggregatesFilter<"ScrapeJob"> | string
+    args?: JsonNullableWithAggregatesFilter<"ScrapeJob">
+    status?: EnumScrapeJobStatusWithAggregatesFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceWithAggregatesFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    paused?: BoolWithAggregatesFilter<"ScrapeJob"> | boolean
+    startedAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
+    finishedAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
+    logPath?: StringNullableWithAggregatesFilter<"ScrapeJob"> | string | null
+    nextRunAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ScrapeJob"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ScrapeJob"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -10288,6 +11637,111 @@ export namespace Prisma {
     status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
     agentId?: NullableIntFieldUpdateOperationsInput | number | null
     lastPositionNotified?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ScrapeJobCreateInput = {
+    id?: string
+    script: string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    paused?: boolean
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    logPath?: string | null
+    nextRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobUncheckedCreateInput = {
+    id?: string
+    script: string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    paused?: boolean
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    logPath?: string | null
+    nextRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: StringFieldUpdateOperationsInput | string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    paused?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    logPath?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScrapeJobUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: StringFieldUpdateOperationsInput | string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    paused?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    logPath?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScrapeJobCreateManyInput = {
+    id?: string
+    script: string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    paused?: boolean
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    logPath?: string | null
+    nextRunAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: StringFieldUpdateOperationsInput | string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    paused?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    logPath?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScrapeJobUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: StringFieldUpdateOperationsInput | string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    paused?: BoolFieldUpdateOperationsInput | boolean
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    logPath?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -10848,6 +12302,145 @@ export namespace Prisma {
     _min?: NestedEnumHandoffRequestStatusFilter<$PrismaModel>
     _max?: NestedEnumHandoffRequestStatusFilter<$PrismaModel>
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type EnumScrapeJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobStatus | EnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobStatus[] | ListEnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobStatus[] | ListEnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobStatusFilter<$PrismaModel> | $Enums.ScrapeJobStatus
+  }
+
+  export type EnumScrapeJobCadenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobCadence | EnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobCadenceFilter<$PrismaModel> | $Enums.ScrapeJobCadence
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type ScrapeJobCountOrderByAggregateInput = {
+    id?: SortOrder
+    script?: SortOrder
+    args?: SortOrder
+    status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
+    startedAt?: SortOrder
+    finishedAt?: SortOrder
+    logPath?: SortOrder
+    nextRunAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScrapeJobMaxOrderByAggregateInput = {
+    id?: SortOrder
+    script?: SortOrder
+    status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
+    startedAt?: SortOrder
+    finishedAt?: SortOrder
+    logPath?: SortOrder
+    nextRunAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScrapeJobMinOrderByAggregateInput = {
+    id?: SortOrder
+    script?: SortOrder
+    status?: SortOrder
+    cadence?: SortOrder
+    paused?: SortOrder
+    startedAt?: SortOrder
+    finishedAt?: SortOrder
+    logPath?: SortOrder
+    nextRunAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type EnumScrapeJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobStatus | EnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobStatus[] | ListEnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobStatus[] | ListEnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.ScrapeJobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScrapeJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumScrapeJobStatusFilter<$PrismaModel>
+  }
+
+  export type EnumScrapeJobCadenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobCadence | EnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobCadenceWithAggregatesFilter<$PrismaModel> | $Enums.ScrapeJobCadence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScrapeJobCadenceFilter<$PrismaModel>
+    _max?: NestedEnumScrapeJobCadenceFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
 
   export type OrderCreateNestedManyWithoutUserInput = {
     create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
@@ -11059,6 +12652,18 @@ export namespace Prisma {
 
   export type EnumHandoffRequestStatusFieldUpdateOperationsInput = {
     set?: $Enums.HandoffRequestStatus
+  }
+
+  export type EnumScrapeJobStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ScrapeJobStatus
+  }
+
+  export type EnumScrapeJobCadenceFieldUpdateOperationsInput = {
+    set?: $Enums.ScrapeJobCadence
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11304,6 +12909,76 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumHandoffRequestStatusFilter<$PrismaModel>
     _max?: NestedEnumHandoffRequestStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumScrapeJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobStatus | EnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobStatus[] | ListEnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobStatus[] | ListEnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobStatusFilter<$PrismaModel> | $Enums.ScrapeJobStatus
+  }
+
+  export type NestedEnumScrapeJobCadenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobCadence | EnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobCadenceFilter<$PrismaModel> | $Enums.ScrapeJobCadence
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumScrapeJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobStatus | EnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobStatus[] | ListEnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobStatus[] | ListEnumScrapeJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.ScrapeJobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScrapeJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumScrapeJobStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumScrapeJobCadenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScrapeJobCadence | EnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    in?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScrapeJobCadence[] | ListEnumScrapeJobCadenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumScrapeJobCadenceWithAggregatesFilter<$PrismaModel> | $Enums.ScrapeJobCadence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScrapeJobCadenceFilter<$PrismaModel>
+    _max?: NestedEnumScrapeJobCadenceFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type OrderCreateWithoutUserInput = {
