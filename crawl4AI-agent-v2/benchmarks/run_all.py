@@ -418,6 +418,7 @@ def filter_jobs(
     if script_keys:
         wanted = {k.lower() for k in script_keys}
         filtered = [job for job in filtered if job.key.lower() in wanted]
+        return filtered
 
     normalized_filter = normalize_domain_filter(target_url, domain_filter)
     if normalized_filter:
