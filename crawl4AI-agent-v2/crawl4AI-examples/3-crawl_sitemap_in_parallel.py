@@ -7,6 +7,7 @@ Usage: Call main() or run as a script. Adjust max_concurrent for parallelism.
 """
 import os
 import sys
+from pathlib import Path
 import psutil
 import asyncio
 from typing import List
@@ -17,11 +18,9 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(project_root)
 from insert_docs import parse_sitemap
 
-OUTPUT_DIR = os.environ.get(
-    "CRAWL_OUTPUT_DIR",
-    os.path.join(os.path.dirname(os.path.dirname(project_root)), "public", "knowledge_base"),
-)
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+REPO_ROOT = Path(__file__).resolve().parents[2]
+OUTPUT_DIR = Path(os.environ.get("CRAWL_OUTPUT_DIR", REPO_ROOT / "public" / "knowledge_base"))
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def _slugify(url: str) -> str:
@@ -31,7 +30,7 @@ def _slugify(url: str) -> str:
 
 
 def _save_markdown(url: str, markdown: str) -> None:
-    file_path = os.path.join(OUTPUT_DIR, f"{_slugify(url)}.md")
+    file_path = OUTPUT_DIR / f"{_slugify(url)}.md"
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(markdown)
 from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig, CacheMode, MemoryAdaptiveDispatcher

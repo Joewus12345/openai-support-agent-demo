@@ -6,16 +6,15 @@ Prints each chunk for further processing or inspection and persists the raw mark
 """
 import asyncio
 import os
+from pathlib import Path
 import re
 from urllib.parse import urlparse
 
 from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig
 
-OUTPUT_DIR = os.environ.get(
-    "CRAWL_OUTPUT_DIR",
-    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "public", "knowledge_base"),
-)
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+REPO_ROOT = Path(__file__).resolve().parents[2]
+OUTPUT_DIR = Path(os.environ.get("CRAWL_OUTPUT_DIR", REPO_ROOT / "public" / "knowledge_base"))
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def _slugify(url: str) -> str:
@@ -25,7 +24,7 @@ def _slugify(url: str) -> str:
 
 
 def _save_markdown(url: str, markdown: str) -> None:
-    file_path = os.path.join(OUTPUT_DIR, f"{_slugify(url)}.md")
+    file_path = OUTPUT_DIR / f"{_slugify(url)}.md"
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(markdown)
 
