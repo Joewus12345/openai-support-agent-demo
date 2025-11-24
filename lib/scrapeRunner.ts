@@ -334,7 +334,14 @@ export async function runScrapeJob(
     logPath: logFilePath,
   });
 
-  const args = ["-u", HARNESS_PATH, "--script", job.script, ...normalizeArgs(job.args)];
+  const args = [
+    "-u",
+    HARNESS_PATH,
+    "--script",
+    job.script,
+    "--verbose-logs",
+    ...normalizeArgs(job.args),
+  ];
   logStream.write(`[${startedAt.toISOString()}] Starting job ${job.id} with script ${job.script}.\n`);
   logStream.write(`Using python: ${PYTHON_BIN}\n`);
   if (PYTHON_RESOLUTION.notes.length) {

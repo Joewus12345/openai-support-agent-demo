@@ -20,6 +20,7 @@ import csv
 import hashlib
 import json
 import os
+import sys
 from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -173,9 +174,31 @@ async def run_job(
             error=str(exc),
         )
 
-    stdout_bytes, stderr_bytes = await process.communicate()
+    stdout_chunks: list[bytes] = []
+    stderr_chunks: list[bytes] = []
+
+    async def stream_reader(stream: asyncio.StreamReader | None, sink: list[bytes], forward):
+        if stream is None:
+            return
+        while True:
+            chunk = await stream.read(1024)
+            if not chunk:
+                break
+            sink.append(chunk)
+            forward.buffer.write(chunk)
+            forward.flush()
+
+    await asyncio.gather(
+        stream_reader(process.stdout, stdout_chunks, sys.stdout),
+        stream_reader(process.stderr, stderr_chunks, sys.stderr),
+    )
+
+    await process.wait()
     end_time = datetime.now(timezone.utc)
     end_ts = end_time.isoformat()
+
+    stdout_bytes = b"".join(stdout_chunks)
+    stderr_bytes = b"".join(stderr_chunks)
 
     after_snapshot = snapshot_markdown(job.output_dir, reuse=before_snapshot)
     changed = diff_outputs(before_snapshot, after_snapshot)
