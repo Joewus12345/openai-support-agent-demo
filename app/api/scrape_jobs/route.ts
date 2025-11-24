@@ -6,6 +6,7 @@ import {
   ScrapeJobStatus,
 } from "@/lib/generated/prisma";
 import { ensureAuthenticated, serializeJob } from "./helpers";
+import { triggerScrapeJob } from "@/lib/scrapeRunner";
 
 function parseStatus(value: string | null): ScrapeJobStatus | undefined {
   if (!value) return undefined;
@@ -81,7 +82,16 @@ export async function POST(request: Request) {
     };
 
     const job = await prisma.scrapeJob.create({ data });
-    return new Response(JSON.stringify(job), { status: 201 });
+
+    void triggerScrapeJob(job.id);
+
+    return new Response(
+      JSON.stringify({
+        job,
+        ticket: job.id,
+      }),
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Error creating scrape job:", error);
     return new Response("Error creating job", { status: 500 });

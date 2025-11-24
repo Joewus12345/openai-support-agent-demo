@@ -358,6 +358,40 @@ When using the `ollama` provider you need a local server running.
   command on Windows/macOS so headless `AsyncWebCrawler` launches succeed on
   every OS.
 
+  **Choosing the python interpreter for scrape jobs.** The runner spawns the
+  crawler via `SCRAPE_WORKER_PYTHON` (falls back to `PYTHON` and then the
+  system `python`). Point this variable at the interpreter inside the venv that
+  contains the crawler dependencies—not an activation script. Examples:
+
+  - Windows v1: `SCRAPE_WORKER_PYTHON=C:\\Users\\you\\openai-support-agent-demo\\.venv-c4ai-v1\\Scripts\\python.exe`
+  - Windows v2: `SCRAPE_WORKER_PYTHON=C:\\Users\\you\\openai-support-agent-demo\\.venv-c4ai-v2\\Scripts\\python.exe`
+  - Linux/macOS v1: `SCRAPE_WORKER_PYTHON=/workspace/openai-support-agent-demo/.venv-c4ai-v1/bin/python`
+  - Linux/macOS v2: `SCRAPE_WORKER_PYTHON=/workspace/openai-support-agent-demo/.venv-c4ai-v2/bin/python`
+
+  If the variable points to `activate`/`Activate.ps1` or a missing path, the
+  runner logs a clear warning and will fall back to other candidates.
+
+  - You can cap long-running crawls with `SCRAPE_TIMEOUT_MS` (default **2 hours**).
+    When exceeded, the child process is killed, the job is marked `failed`, and
+    the timeout is logged. The timer resets whenever output is produced, and
+    periodic activity probes keep long-but-active runs alive.
+  - The runner forces unbuffered Python output (`-u` + `PYTHONUNBUFFERED=1`)
+    so job logs stream live into the UI while the scraper runs.
+  - If `crawl4ai` is missing, the runner will now attempt a one-time
+    `pip install -r crawl4AI-agent-v2/requirements.txt` with the selected
+    interpreter. Set `SCRAPE_AUTO_INSTALL_DEPS=false` to disable this and keep
+    the previous fail-fast behavior.
+  - The dependency preflight logs the interpreter it is using (including
+    `sys.executable`, Python version, and `sys.path`) before attempting the
+    `crawl4ai` import. This makes it clear whether the runner is invoking a
+    Windows `Scripts/python.exe` path or a POSIX `bin/python` path.
+  - Set `SCRAPE_SKIP_DEP_CHECK=true` to bypass the preflight `import crawl4ai`
+    probe if you trust the interpreter; the runner will still log the
+    interpreter context and then continue without failing early. If the
+    preflight runs, it will log both the import failure output and `pip show`
+    details before attempting (optional) auto-install, so you can see which
+    environment to fix.
+
   Every crawler example (both `crawl4AI-agent` and `crawl4AI-agent-v2`) now
   writes Markdown into `public/knowledge_base`, so once you activate a venv and
   run something like `python crawl4AI-agent/crawl4AI-examples/2-crawl_docs_sequential.py`
@@ -395,6 +429,21 @@ its cadence once a run finishes.
 - **Pause or resume a schedule**: update a job via
   `PATCH /api/scrape_jobs/{id}` with `{ "paused": true }` (or `false`) to stop
   or resume automatic enqueueing without deleting the job.
+
+### Clearing scrape job history
+
+If you need a clean slate for testing, you can purge all past scrape jobs with a
+one-off script. The command is gated by an environment flag to avoid accidental
+deletes:
+
+```bash
+# Danger: deletes every ScrapeJob row. Requires ALLOW_SCRAPE_PURGE=true
+ALLOW_SCRAPE_PURGE=true TS_NODE_COMPILER_OPTIONS='{"module":"CommonJS","moduleResolution":"node"}' \
+  node -r ts-node/register/transpile-only -r ./scripts/register-tsconfig-paths.js scripts/clearScrapeJobs.ts
+```
+
+If `ALLOW_SCRAPE_PURGE` is not set to `true`, the script exits without touching
+the database.
 
 ## Demo Flow
 
