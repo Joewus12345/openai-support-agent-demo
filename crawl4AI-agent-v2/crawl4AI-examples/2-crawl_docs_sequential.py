@@ -1,13 +1,34 @@
 import asyncio
+import os
+import sys
+from pathlib import Path
 from typing import List
+from urllib.parse import urlparse
+
 from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig
 from crawl4ai.markdown_generation_strategy import DefaultMarkdownGenerator
 
 # Import sitemap parser from insert_docs
-import os as _os, sys as _sys
-project_root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
-_sys.path.append(project_root)
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(project_root)
 from insert_docs import parse_sitemap
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+OUTPUT_DIR = Path(os.environ.get("CRAWL_OUTPUT_DIR", REPO_ROOT / "public" / "knowledge_base"))
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _slugify(url: str) -> str:
+    parsed = urlparse(url)
+    path = parsed.path.strip("/") or "index"
+    filename = f"{parsed.netloc}_{path}".replace("/", "_")
+    return filename
+
+
+def _save_markdown(url: str, markdown: str) -> None:
+    file_path = OUTPUT_DIR / f"{_slugify(url)}.md"
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(markdown)
 
 async def crawl_sequential(urls: List[str]):
     print("\n=== Sequential Crawling with Session Reuse ===")
@@ -36,8 +57,13 @@ async def crawl_sequential(urls: List[str]):
             )
             if result.success:
                 print(f"Successfully crawled: {url}")
-                # E.g. check markdown length
-                print(f"Markdown length: {len(result.markdown.raw_markdown)}")
+                markdown = getattr(
+                    getattr(result, "markdown", None),
+                    "raw_markdown",
+                    getattr(result, "markdown", ""),
+                )
+                print(f"Markdown length: {len(markdown)}")
+                _save_markdown(url, markdown)
             else:
                 print(f"Failed: {url} - Error: {result.error_message}")
     finally:
@@ -52,7 +78,7 @@ def get_pydantic_ai_docs_urls():
     Returns:
         List[str]: List of URLs
     """            
-    sitemap_url = "https://automationghana.com/sitemap_index.xml"
+    sitemap_url = os.environ.get("CRAWL_TARGET_URL", "https://automationghana.com/sitemap_index.xml")
     return parse_sitemap(sitemap_url)
 
 async def main():
