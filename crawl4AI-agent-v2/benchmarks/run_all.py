@@ -458,6 +458,11 @@ def build_env(venv: Path | None) -> Dict[str, str]:
     env = os.environ.copy()
     env["PYTHONUTF8"] = "1"
     env["PYTHONIOENCODING"] = "utf-8"
+    # Ensure crawlers know where to persist markdown outputs when invoked via the harness.
+    env.setdefault(
+        "CRAWL_OUTPUT_DIR",
+        str(REPO_ROOT / "public" / "knowledge_base"),
+    )
     if venv:
         bin_path = venv / "bin"
         scripts_path = venv / "Scripts"

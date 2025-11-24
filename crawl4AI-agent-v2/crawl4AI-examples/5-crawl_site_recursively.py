@@ -3,14 +3,34 @@
 ----------------------------------
 Recursively crawls a site starting from a root URL, using Crawl4AI's arun_many and a memory-adaptive dispatcher.
 At each depth, all internal links are discovered and crawled in parallel, up to a specified depth, with deduplication.
-Usage: Set the start URL and max_depth in main(), then run as a script.
+Persists crawled markdown to the knowledge base directory for ingestion.
 """
 import asyncio
-from urllib.parse import urldefrag
+import os
+from urllib.parse import urldefrag, urlparse
+
 from crawl4ai import (
     AsyncWebCrawler, BrowserConfig, CrawlerRunConfig, CacheMode,
     MemoryAdaptiveDispatcher
 )
+
+OUTPUT_DIR = os.environ.get(
+    "CRAWL_OUTPUT_DIR",
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "public", "knowledge_base"),
+)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+
+def _slugify(url: str) -> str:
+    parsed = urlparse(url)
+    path = parsed.path.strip("/") or "index"
+    return f"{parsed.netloc}_{path}".replace("/", "_")
+
+
+def _save_markdown(url: str, markdown: str) -> None:
+    file_path = os.path.join(OUTPUT_DIR, f"{_slugify(url)}.md")
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(markdown)
 
 async def crawl_recursive_batch(start_urls, max_depth=3, max_concurrent=10):
     browser_config = BrowserConfig(headless=True, verbose=False)
@@ -53,7 +73,13 @@ async def crawl_recursive_batch(start_urls, max_depth=3, max_concurrent=10):
                 norm_url = normalize_url(result.url)
                 visited.add(norm_url)  # Mark as visited (no fragment)
                 if result.success:
-                    print(f"[OK] {result.url} | Markdown: {len(result.markdown) if result.markdown else 0} chars")
+                    markdown = getattr(
+                        getattr(result, "markdown", None),
+                        "raw_markdown",
+                        getattr(result, "markdown", ""),
+                    )
+                    print(f"[OK] {result.url} | Markdown: {len(markdown) if markdown else 0} chars")
+                    _save_markdown(result.url, markdown)
                     # Collect all new internal links for the next depth
                     for link in result.links.get("internal", []):
                         next_url = normalize_url(link["href"])
@@ -66,4 +92,5 @@ async def crawl_recursive_batch(start_urls, max_depth=3, max_concurrent=10):
             current_urls = next_level_urls
 
 if __name__ == "__main__":
-    asyncio.run(crawl_recursive_batch(["https://automationghana.com/"], max_depth=3, max_concurrent=10))
+    target = os.environ.get("CRAWL_TARGET_URL", "https://automationghana.com/")
+    asyncio.run(crawl_recursive_batch([target], max_depth=3, max_concurrent=10))
