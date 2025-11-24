@@ -134,17 +134,50 @@ async function installDependencies(
 }
 
 async function runDependencyCheck(pythonBin: string, logStream: fs.WriteStream) {
-  if (SCRAPE_SKIP_DEP_CHECK) {
-    logStream.write("Skipping crawl4ai dependency check because SCRAPE_SKIP_DEP_CHECK=true.\n");
-    return { ok: true } as const;
-  }
-
   const env = {
     ...process.env,
     PYTHONUTF8: "1",
     PYTHONIOENCODING: "utf-8",
     PYTHONUNBUFFERED: "1",
   };
+
+  const interpreterProbe = spawn(
+    pythonBin,
+    [
+      "-c",
+      [
+        "import json, sys",
+        "print(json.dumps({",
+        "  'executable': sys.executable,",
+        "  'version': sys.version,",
+        "  'sys_path': sys.path,",
+        "}, indent=2))",
+      ].join("\n"),
+    ],
+    { env, cwd: process.cwd(), stdio: "pipe" }
+  );
+
+  const interpreterChunks: Buffer[] = [];
+  interpreterProbe.stdout?.on("data", (chunk) => interpreterChunks.push(chunk));
+  interpreterProbe.stderr?.on("data", (chunk) => interpreterChunks.push(chunk));
+
+  const interpreterReady = new Promise<void>((resolve) => {
+    interpreterProbe.on("close", (code) => {
+      const output = interpreterChunks.length
+        ? Buffer.concat(interpreterChunks).toString()
+        : "(no interpreter details)";
+      logStream.write(`Interpreter probe via ${pythonBin} (exit ${code ?? -1}):\n${output}\n`);
+      resolve();
+    });
+  });
+
+  if (SCRAPE_SKIP_DEP_CHECK) {
+    logStream.write(
+      "Skipping crawl4ai dependency check because SCRAPE_SKIP_DEP_CHECK=true (trusted interpreter).\n"
+    );
+    await interpreterReady;
+    return { ok: true } as const;
+  }
 
   const importProbe = spawn(pythonBin, ["-c", "import crawl4ai"], {
     env,
@@ -162,6 +195,8 @@ async function runDependencyCheck(pythonBin: string, logStream: fs.WriteStream) 
     });
 
     importProbe.on("close", async (code) => {
+      await interpreterReady;
+
       if (code === 0) {
         resolve({ ok: true });
         return;

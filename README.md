@@ -381,10 +381,16 @@ When using the `ollama` provider you need a local server running.
     `pip install -r crawl4AI-agent-v2/requirements.txt` with the selected
     interpreter. Set `SCRAPE_AUTO_INSTALL_DEPS=false` to disable this and keep
     the previous fail-fast behavior.
+  - The dependency preflight logs the interpreter it is using (including
+    `sys.executable`, Python version, and `sys.path`) before attempting the
+    `crawl4ai` import. This makes it clear whether the runner is invoking a
+    Windows `Scripts/python.exe` path or a POSIX `bin/python` path.
   - Set `SCRAPE_SKIP_DEP_CHECK=true` to bypass the preflight `import crawl4ai`
-    probe if you trust the interpreter; otherwise the runner will log probe
-    output (including `pip show crawl4ai`) and fail early when the dependency
-    is missing.
+    probe if you trust the interpreter; the runner will still log the
+    interpreter context and then continue without failing early. If the
+    preflight runs, it will log both the import failure output and `pip show`
+    details before attempting (optional) auto-install, so you can see which
+    environment to fix.
 
   Every crawler example (both `crawl4AI-agent` and `crawl4AI-agent-v2`) now
   writes Markdown into `public/knowledge_base`, so once you activate a venv and
