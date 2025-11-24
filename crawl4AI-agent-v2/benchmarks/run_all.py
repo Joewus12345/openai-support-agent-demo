@@ -174,29 +174,31 @@ async def run_job(
             error=str(exc),
         )
 
-    stdout_buffer = bytearray()
-    stderr_buffer = bytearray()
+    stdout_chunks: list[bytes] = []
+    stderr_chunks: list[bytes] = []
 
-    async def _forward_stream(stream: asyncio.StreamReader | None, buffer: bytearray, target) -> None:
+    async def stream_reader(stream: asyncio.StreamReader | None, sink: list[bytes], forward):
         if stream is None:
             return
-        async for chunk in stream:
+        while True:
+            chunk = await stream.read(1024)
             if not chunk:
-                continue
-            buffer.extend(chunk)
-            target.buffer.write(chunk)
-            target.flush()
+                break
+            sink.append(chunk)
+            forward.buffer.write(chunk)
+            forward.flush()
 
     await asyncio.gather(
-        _forward_stream(process.stdout, stdout_buffer, sys.stdout),
-        _forward_stream(process.stderr, stderr_buffer, sys.stderr),
-        process.wait(),
+        stream_reader(process.stdout, stdout_chunks, sys.stdout),
+        stream_reader(process.stderr, stderr_chunks, sys.stderr),
     )
 
-    stdout_bytes = bytes(stdout_buffer)
-    stderr_bytes = bytes(stderr_buffer)
+    await process.wait()
     end_time = datetime.now(timezone.utc)
     end_ts = end_time.isoformat()
+
+    stdout_bytes = b"".join(stdout_chunks)
+    stderr_bytes = b"".join(stderr_chunks)
 
     after_snapshot = snapshot_markdown(job.output_dir, reuse=before_snapshot)
     changed = diff_outputs(before_snapshot, after_snapshot)
