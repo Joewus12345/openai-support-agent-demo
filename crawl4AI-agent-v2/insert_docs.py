@@ -115,34 +115,58 @@ async def crawl_markdown_file(url: str) -> List[Dict[str,Any]]:
             print(f"Failed to crawl {url}: {result.error_message}")
             return []
 
-def parse_sitemap(sitemap_url: str) -> List[str]:
-    """Return all URLs contained in a sitemap or sitemap index.
+def parse_sitemap(
+    sitemap_url: str,
+    *,
+    max_depth: int = 5,
+    request_timeout: float | tuple[float, float] | None = (20, 40),
+) -> List[str]:
+    """Return all URLs contained in a sitemap or sitemap index without unbounded recursion.
 
-    If CRAWL_TARGET_URL is set, it overrides the provided sitemap_url so
-    callers don't need to modify their scripts to target a different site.
+    If CRAWL_TARGET_URL is set, it overrides the provided sitemap_url so callers don't
+    need to modify their scripts to target a different site.
     """
+
     override_url = _os.environ.get("CRAWL_TARGET_URL")
     if override_url:
         sitemap_url = override_url
-    resp = requests.get(sitemap_url)
-    if resp.status_code != 200:
-        print(f"Failed to fetch sitemap {sitemap_url}: {resp.status_code}")
-        return []
 
-    try:
-        tree = ElementTree.fromstring(resp.content)
-        # If this is a sitemap index, recursively parse each child sitemap
+    session = requests.Session()
+    to_visit = [(sitemap_url, 0)]
+    visited = set()
+    collected: list[str] = []
+
+    while to_visit:
+        current_url, depth = to_visit.pop(0)
+        if current_url in visited or depth > max_depth:
+            continue
+        visited.add(current_url)
+
+        try:
+            resp = session.get(current_url, timeout=request_timeout)
+        except Exception as exc:
+            print(f"Failed to fetch sitemap {current_url}: {exc}")
+            continue
+
+        if resp.status_code != 200:
+            print(f"Failed to fetch sitemap {current_url}: {resp.status_code}")
+            continue
+
+        try:
+            tree = ElementTree.fromstring(resp.content)
+        except Exception as exc:  # noqa: BLE001
+            print(f"Error parsing sitemap XML from {current_url}: {exc}")
+            continue
+
         if tree.tag.endswith("sitemapindex"):
-            urls: List[str] = []
-            child_sitemaps = [loc.text for loc in tree.findall('.//{*}loc')]
+            child_sitemaps = [loc.text for loc in tree.findall('.//{*}loc') if loc.text]
             for child in child_sitemaps:
-                urls.extend(parse_sitemap(child))
-            return urls
-        # Otherwise it's a regular urlset
-        return [loc.text for loc in tree.findall('.//{*}loc')]
-    except Exception as e:
-        print(f"Error parsing sitemap XML: {e}")
-        return []
+                if child not in visited:
+                    to_visit.append((child, depth + 1))
+        else:
+            collected.extend(loc.text for loc in tree.findall('.//{*}loc') if loc.text)
+
+    return collected
 
 async def crawl_batch(urls: List[str], max_concurrent: int = 10) -> List[Dict[str,Any]]:
     """Batch crawl using logic from 3-crawl_sitemap_in_parallel.py."""

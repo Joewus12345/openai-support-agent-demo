@@ -20,6 +20,7 @@ import csv
 import hashlib
 import json
 import os
+import sys
 from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -173,7 +174,27 @@ async def run_job(
             error=str(exc),
         )
 
-    stdout_bytes, stderr_bytes = await process.communicate()
+    stdout_buffer = bytearray()
+    stderr_buffer = bytearray()
+
+    async def _forward_stream(stream: asyncio.StreamReader | None, buffer: bytearray, target) -> None:
+        if stream is None:
+            return
+        async for chunk in stream:
+            if not chunk:
+                continue
+            buffer.extend(chunk)
+            target.buffer.write(chunk)
+            target.flush()
+
+    await asyncio.gather(
+        _forward_stream(process.stdout, stdout_buffer, sys.stdout),
+        _forward_stream(process.stderr, stderr_buffer, sys.stderr),
+        process.wait(),
+    )
+
+    stdout_bytes = bytes(stdout_buffer)
+    stderr_bytes = bytes(stderr_buffer)
     end_time = datetime.now(timezone.utc)
     end_ts = end_time.isoformat()
 
@@ -458,6 +479,11 @@ def build_env(venv: Path | None) -> Dict[str, str]:
     env = os.environ.copy()
     env["PYTHONUTF8"] = "1"
     env["PYTHONIOENCODING"] = "utf-8"
+    # Ensure crawlers know where to persist markdown outputs when invoked via the harness.
+    env.setdefault(
+        "CRAWL_OUTPUT_DIR",
+        str(REPO_ROOT / "public" / "knowledge_base"),
+    )
     if venv:
         bin_path = venv / "bin"
         scripts_path = venv / "Scripts"
