@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Copy } from "lucide-react";
 import useSWR from "swr";
 
@@ -62,6 +68,8 @@ export default function ScrapeJobDetail({
   const [copiedLog, setCopiedLog] = useState(false);
   const [autoScroll, setAutoScroll] = useState(true);
   const logContainerRef = useRef<HTMLDivElement | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const userInteractedRef = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -121,10 +129,53 @@ export default function ScrapeJobDetail({
   }, [id, mutate]);
 
   useEffect(() => {
+    const container = logContainerRef.current;
+    if (!container) return undefined;
+
+    const markUserInteracted = () => {
+      userInteractedRef.current = true;
+    };
+
+    container.addEventListener("wheel", markUserInteracted, { passive: true });
+    container.addEventListener("touchstart", markUserInteracted, {
+      passive: true,
+    });
+    container.addEventListener("keydown", markUserInteracted);
+
+    return () => {
+      container.removeEventListener("wheel", markUserInteracted);
+      container.removeEventListener("touchstart", markUserInteracted);
+      container.removeEventListener("keydown", markUserInteracted);
+    };
+  }, []);
+
+  useEffect(() => {
+    const container = logContainerRef.current;
+    const sentinel = sentinelRef.current;
+    if (!container || !sentinel) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          userInteractedRef.current = false;
+          setAutoScroll(true);
+        }
+      },
+      { root: container, threshold: 0.1 }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
+
+  useLayoutEffect(() => {
     if (!autoScroll) return;
     const container = logContainerRef.current;
     if (!container) return;
-    container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+
+    requestAnimationFrame(() => {
+      container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+    });
   }, [data?.log, autoScroll]);
 
   if (!id) {
@@ -152,11 +203,14 @@ export default function ScrapeJobDetail({
   }
 
   const handleScroll = () => {
+    if (!userInteractedRef.current) return;
     const container = logContainerRef.current;
     if (!container) return;
     const distanceFromBottom =
       container.scrollHeight - container.scrollTop - container.clientHeight;
-    setAutoScroll(distanceFromBottom < 8);
+    if (distanceFromBottom > 12) {
+      setAutoScroll(false);
+    }
   };
 
   return (
@@ -221,9 +275,11 @@ export default function ScrapeJobDetail({
           <div
             ref={logContainerRef}
             onScroll={handleScroll}
+            tabIndex={0}
             className="bg-zinc-50 border border-zinc-100 rounded-lg max-h-[500px] overflow-y-auto"
           >
             <pre className="whitespace-pre-wrap text-xs p-3">{data.log ?? "No log available yet."}</pre>
+            <div ref={sentinelRef} />
           </div>
         </div>
       </div>
