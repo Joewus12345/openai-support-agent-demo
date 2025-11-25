@@ -158,6 +158,8 @@ export default function ScrapeJobDetail({
     const container = logContainerRef.current;
     const bottomTolerance = 16;
 
+    if (!container) return;
+
     const handleScroll = () => {
       if (!container) return;
       const atBottom =
