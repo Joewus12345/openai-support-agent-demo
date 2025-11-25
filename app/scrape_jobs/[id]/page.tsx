@@ -157,10 +157,26 @@ export default function ScrapeJobDetail({
     const sentinel = sentinelRef.current;
     if (!container || !sentinel) return undefined;
 
+    const bottomTolerance = 8;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          userInteractedRef.current = false;
+        if (!entry.isIntersecting) return;
+        if (!container) return;
+
+        const atBottom =
+          container.scrollTop + container.clientHeight >=
+          container.scrollHeight - bottomTolerance;
+
+        if (userInteractedRef.current) {
+          if (atBottom) {
+            userInteractedRef.current = false;
+            setAutoScroll(true);
+          }
+          return;
+        }
+
+        if (atBottom) {
           setAutoScroll(true);
         }
       },
