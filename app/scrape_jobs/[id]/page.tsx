@@ -67,8 +67,9 @@ export default function ScrapeJobDetail({
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState(false);
   const [autoScroll, setAutoScroll] = useState(true);
+  const [showResume, setShowResume] = useState(false);
   const logContainerRef = useRef<HTMLDivElement | null>(null);
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
 
   useEffect(() => {
@@ -135,6 +136,7 @@ export default function ScrapeJobDetail({
     const markUserInteracted = () => {
       userInteractedRef.current = true;
       setAutoScroll(false);
+      setShowResume(true);
     };
 
     container.addEventListener("wheel", markUserInteracted, { passive: true });
@@ -154,38 +156,31 @@ export default function ScrapeJobDetail({
 
   useEffect(() => {
     const container = logContainerRef.current;
-    const sentinel = sentinelRef.current;
-    if (!container || !sentinel) return undefined;
+    const bottomTolerance = 16;
 
-    const bottomTolerance = 8;
+    const handleScroll = () => {
+      if (!container) return;
+      const atBottom =
+        container.scrollTop + container.clientHeight >=
+        container.scrollHeight - bottomTolerance;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        if (!container) return;
+      if (!autoScroll && atBottom) {
+        userInteractedRef.current = false;
+        setShowResume(false);
+        setAutoScroll(true);
+        return;
+      }
 
-        const atBottom =
-          container.scrollTop + container.clientHeight >=
-          container.scrollHeight - bottomTolerance;
+      if (userInteractedRef.current) {
+        setAutoScroll(false);
+        setShowResume(true);
+      }
+    };
 
-        if (userInteractedRef.current) {
-          if (atBottom) {
-            userInteractedRef.current = false;
-            setAutoScroll(true);
-          }
-          return;
-        }
+    container.addEventListener("scroll", handleScroll, { passive: true });
 
-        if (atBottom) {
-          setAutoScroll(true);
-        }
-      },
-      { root: container, threshold: 0.1 }
-    );
-
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, []);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [autoScroll]);
 
   useLayoutEffect(() => {
     if (!autoScroll || userInteractedRef.current) return;
@@ -196,6 +191,23 @@ export default function ScrapeJobDetail({
       container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
     });
   }, [data?.log, autoScroll]);
+
+  useEffect(() => {
+    if (!autoScroll) return;
+    const content = logContentRef.current;
+    const container = logContainerRef.current;
+    if (!content || !container) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (!autoScroll || userInteractedRef.current) return;
+      requestAnimationFrame(() => {
+        container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+      });
+    });
+
+    resizeObserver.observe(content);
+    return () => resizeObserver.disconnect();
+  }, [autoScroll]);
 
   if (!id) {
     return (
@@ -220,11 +232,6 @@ export default function ScrapeJobDetail({
       </div>
     );
   }
-
-  const handleScroll = () => {
-    if (!userInteractedRef.current) return;
-    setAutoScroll(false);
-  };
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-24 px-4 pb-16 md:pb-24">
@@ -287,12 +294,36 @@ export default function ScrapeJobDetail({
           </div>
           <div
             ref={logContainerRef}
-            onScroll={handleScroll}
             tabIndex={0}
             className="bg-zinc-50 border border-zinc-100 rounded-lg max-h-[500px] overflow-y-auto"
           >
-            <pre className="whitespace-pre-wrap text-xs p-3">{data.log ?? "No log available yet."}</pre>
-            <div ref={sentinelRef} />
+            <pre ref={logContentRef} className="whitespace-pre-wrap text-xs p-3">
+              {data.log ?? "No log available yet."}
+            </pre>
+            {!autoScroll && showResume ? (
+              <div className="sticky bottom-0 w-full bg-gradient-to-t from-zinc-50 to-transparent px-3 pb-3 flex justify-end">
+                <button
+                  type="button"
+                  className="text-xs text-white bg-[#2B83F6] hover:bg-[#1d6ccd] transition-colors px-3 py-1 rounded"
+                  onClick={() => {
+                    userInteractedRef.current = false;
+                    setAutoScroll(true);
+                    setShowResume(false);
+                    const container = logContainerRef.current;
+                    if (container) {
+                      requestAnimationFrame(() => {
+                        container.scrollTo({
+                          top: container.scrollHeight,
+                          behavior: "smooth",
+                        });
+                      });
+                    }
+                  }}
+                >
+                  Resume live logs
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
