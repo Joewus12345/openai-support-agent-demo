@@ -66,6 +66,7 @@ export default function ScrapeJobDetail({
   const [id, setId] = useState<string | null>(null);
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState(false);
+  const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
   const [autoScroll, setAutoScroll] = useState(true);
   const [showResume, setShowResume] = useState(false);
   const logContainerRef = useRef<HTMLDivElement | null>(null);
@@ -134,6 +135,7 @@ export default function ScrapeJobDetail({
     if (!container) return undefined;
 
     const markUserInteracted = () => {
+      if (!autoScrollEnabled) return;
       userInteractedRef.current = true;
       setAutoScroll(false);
       setShowResume(true);
@@ -152,7 +154,7 @@ export default function ScrapeJobDetail({
       container.removeEventListener("pointerdown", markUserInteracted);
       container.removeEventListener("keydown", markUserInteracted);
     };
-  }, []);
+  }, [autoScrollEnabled]);
 
   useEffect(() => {
     const container = logContainerRef.current;
@@ -161,7 +163,7 @@ export default function ScrapeJobDetail({
     if (!container) return;
 
     const handleScroll = () => {
-      if (!container) return;
+      if (!container || !autoScrollEnabled) return;
       const atBottom =
         container.scrollTop + container.clientHeight >=
         container.scrollHeight - bottomTolerance;
@@ -182,10 +184,10 @@ export default function ScrapeJobDetail({
     container.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => container.removeEventListener("scroll", handleScroll);
-  }, [autoScroll]);
+  }, [autoScroll, autoScrollEnabled]);
 
   useLayoutEffect(() => {
-    if (!autoScroll || userInteractedRef.current) return;
+    if (!autoScrollEnabled || !autoScroll || userInteractedRef.current) return;
     const container = logContainerRef.current;
     if (!container) return;
 
@@ -195,13 +197,13 @@ export default function ScrapeJobDetail({
   }, [data?.log, autoScroll]);
 
   useEffect(() => {
-    if (!autoScroll) return;
+    if (!autoScrollEnabled || !autoScroll) return;
     const content = logContentRef.current;
     const container = logContainerRef.current;
     if (!content || !container) return;
 
     const resizeObserver = new ResizeObserver(() => {
-      if (!autoScroll || userInteractedRef.current) return;
+      if (!autoScrollEnabled || !autoScroll || userInteractedRef.current) return;
       requestAnimationFrame(() => {
         container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
       });
@@ -209,7 +211,26 @@ export default function ScrapeJobDetail({
 
     resizeObserver.observe(content);
     return () => resizeObserver.disconnect();
-  }, [autoScroll]);
+  }, [autoScrollEnabled, autoScroll]);
+
+  useEffect(() => {
+    const container = logContainerRef.current;
+    if (!autoScrollEnabled || !container) return;
+    const bottomTolerance = 16;
+    const atBottom =
+      container.scrollTop + container.clientHeight >=
+      container.scrollHeight - bottomTolerance;
+
+    if (atBottom) {
+      userInteractedRef.current = false;
+      setShowResume(false);
+      setAutoScroll(true);
+    } else {
+      userInteractedRef.current = true;
+      setAutoScroll(false);
+      setShowResume(true);
+    }
+  }, [autoScrollEnabled]);
 
   if (!id) {
     return (
@@ -281,18 +302,38 @@ export default function ScrapeJobDetail({
         </div>
 
         <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
             <div className="text-sm font-semibold text-zinc-800">Log output</div>
-            {data.log ? (
-              <button
-                type="button"
-                className="flex items-center gap-1 text-xs text-[#2B83F6] hover:underline"
-                onClick={() => copy(data.log ?? "", setCopiedLog)}
-              >
-                <Copy size={14} />
-                {copiedLog ? "Copied" : "Copy log"}
-              </button>
-            ) : null}
+            <div className="flex items-center gap-3">
+              <label className="flex items-center gap-2 text-xs text-zinc-600">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-zinc-300 text-[#2B83F6] focus:ring-[#2B83F6]"
+                  checked={autoScrollEnabled}
+                  onChange={(event) => {
+                    const enabled = event.target.checked;
+                    setAutoScrollEnabled(enabled);
+                    if (!enabled) {
+                      userInteractedRef.current = true;
+                      setAutoScroll(false);
+                      setShowResume(false);
+                    }
+                  }}
+                  aria-label="Toggle auto-scroll"
+                />
+                Auto-scroll
+              </label>
+              {data.log ? (
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-xs text-[#2B83F6] hover:underline"
+                  onClick={() => copy(data.log ?? "", setCopiedLog)}
+                >
+                  <Copy size={14} />
+                  {copiedLog ? "Copied" : "Copy log"}
+                </button>
+              ) : null}
+            </div>
           </div>
           <div
             ref={logContainerRef}
@@ -302,7 +343,7 @@ export default function ScrapeJobDetail({
             <pre ref={logContentRef} className="whitespace-pre-wrap text-xs p-3">
               {data.log ?? "No log available yet."}
             </pre>
-            {!autoScroll && showResume ? (
+            {autoScrollEnabled && !autoScroll && showResume ? (
               <div className="sticky bottom-0 w-full bg-gradient-to-t from-zinc-50 to-transparent px-3 pb-3 flex justify-end">
                 <button
                   type="button"
