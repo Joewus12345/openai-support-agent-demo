@@ -25,6 +25,8 @@ type ScrapeJob = {
   finishedAt: string | null;
   logPath: string | null;
   nextRunAt: string | null;
+  durationSeconds: number | null;
+  documentsIngested: number | null;
   createdAt: string;
 };
 
@@ -250,7 +252,7 @@ export default function ScrapeJobsPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-24 px-4">
+    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-24 px-4 pb-16 md:pb-24">
       <div className="w-full max-w-5xl flex flex-col gap-6">
         <div className="flex flex-col gap-2 max-w-3xl">
           <div className="text-2xl font-bold">Scrape job control panel</div>

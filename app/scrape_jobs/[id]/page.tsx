@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Copy } from "lucide-react";
 import useSWR from "swr";
 
@@ -28,6 +28,8 @@ type ScrapeJob = {
   finishedAt: string | null;
   logPath: string | null;
   nextRunAt: string | null;
+  durationSeconds: number | null;
+  documentsIngested: number | null;
   createdAt: string;
 };
 
@@ -58,6 +60,8 @@ export default function ScrapeJobDetail({
   const [id, setId] = useState<string | null>(null);
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState(false);
+  const [autoScroll, setAutoScroll] = useState(true);
+  const logContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -116,6 +120,13 @@ export default function ScrapeJobDetail({
     return () => source.close();
   }, [id, mutate]);
 
+  useEffect(() => {
+    if (!autoScroll) return;
+    const container = logContainerRef.current;
+    if (!container) return;
+    container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+  }, [data?.log, autoScroll]);
+
   if (!id) {
     return (
       <div className="min-h-screen w-full flex items-center justify-center text-sm text-zinc-600">
@@ -140,8 +151,16 @@ export default function ScrapeJobDetail({
     );
   }
 
+  const handleScroll = () => {
+    const container = logContainerRef.current;
+    if (!container) return;
+    const distanceFromBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight;
+    setAutoScroll(distanceFromBottom < 8);
+  };
+
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-24 px-4">
+    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-24 px-4 pb-16 md:pb-24">
       <div className="w-full max-w-4xl flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div>
@@ -199,9 +218,13 @@ export default function ScrapeJobDetail({
               </button>
             ) : null}
           </div>
-          <pre className="whitespace-pre-wrap text-xs bg-zinc-50 border border-zinc-100 rounded-lg p-3 max-h-[500px] overflow-auto">
-            {data.log ?? "No log available yet."}
-          </pre>
+          <div
+            ref={logContainerRef}
+            onScroll={handleScroll}
+            className="bg-zinc-50 border border-zinc-100 rounded-lg max-h-[500px] overflow-y-auto"
+          >
+            <pre className="whitespace-pre-wrap text-xs p-3">{data.log ?? "No log available yet."}</pre>
+          </div>
         </div>
       </div>
     </div>

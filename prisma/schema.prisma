@@ -130,6 +130,8 @@ model ScrapeJob {
   finishedAt DateTime?
   logPath    String?
   nextRunAt  DateTime?
+  durationSeconds   Float?
+  documentsIngested Int?
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
 }

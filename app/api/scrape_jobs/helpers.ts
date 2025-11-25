@@ -1,52 +1,7 @@
 import fs from "fs/promises";
-import path from "path";
 import prisma from "../../../lib/prisma";
-import { ScrapeJobStatus } from "../../../lib/generated/prisma";
-
-const BENCHMARK_DIR = path.join(
-  process.cwd(),
-  "crawl4AI-agent",
-  "crawl4AI-examples",
-  "output",
-  "benchmarks"
-);
-
-export async function readLatestBenchmark(script: string) {
-  try {
-    const entries = await fs.readdir(BENCHMARK_DIR);
-    const candidates = entries
-      .filter((name) => name.startsWith("benchmarks_") && name.endsWith(".json"))
-      .map((name) => path.join(BENCHMARK_DIR, name));
-
-    if (candidates.length === 0) return null;
-
-    const withStats = await Promise.all(
-      candidates.map(async (filePath) => {
-        const stats = await fs.stat(filePath);
-        return { filePath, mtimeMs: stats.mtimeMs };
-      })
-    );
-
-    // Search newest-to-oldest for a benchmark file that actually contains this script.
-    const sorted = withStats.sort((a, b) => b.mtimeMs - a.mtimeMs);
-    for (const candidate of sorted) {
-      const raw = await fs.readFile(candidate.filePath, "utf8");
-      const parsed = JSON.parse(raw);
-      if (!Array.isArray(parsed)) continue;
-      const match = parsed.find(
-        (entry) =>
-          entry &&
-          typeof entry === "object" &&
-          (entry.script === script || entry.script_path?.includes(script))
-      );
-      if (match) return match;
-    }
-    return null;
-  } catch (error) {
-    console.warn("Unable to read benchmark results for scrape job", error);
-    return null;
-  }
-}
+import { ScrapeJob } from "../../../lib/generated/prisma";
+import { BenchmarkEntry } from "@/lib/scrapeMetrics";
 
 export async function readJobLog(logPath: string | null | undefined) {
   if (!logPath) return null;
@@ -59,19 +14,27 @@ export async function readJobLog(logPath: string | null | undefined) {
   }
 }
 
-export function buildJobStats(jobStatus: ScrapeJobStatus, benchmark: any | null) {
+function deriveDurationSeconds(job: ScrapeJob, benchmark: BenchmarkEntry | null) {
+  if (typeof job.durationSeconds === "number") return job.durationSeconds;
+  if (typeof benchmark?.duration_seconds === "number") return benchmark.duration_seconds;
+  if (job.startedAt && job.finishedAt) {
+    return (job.finishedAt.getTime() - job.startedAt.getTime()) / 1000;
+  }
+  return null;
+}
+
+function deriveDocumentsIngested(job: ScrapeJob, benchmark: BenchmarkEntry | null) {
+  if (typeof job.documentsIngested === "number") return job.documentsIngested;
+  if (typeof benchmark?.total_output_files === "number") return benchmark.total_output_files;
+  if (typeof benchmark?.urls_processed === "number") return benchmark.urls_processed;
+  return null;
+}
+
+export function buildJobStats(job: ScrapeJob, benchmark: BenchmarkEntry | null = null) {
   return {
-    status: jobStatus,
-    durationSeconds:
-      typeof benchmark?.duration_seconds === "number"
-        ? benchmark.duration_seconds
-        : null,
-    documentsIngested:
-      typeof benchmark?.total_output_files === "number"
-        ? benchmark.total_output_files
-        : typeof benchmark?.urls_processed === "number"
-          ? benchmark.urls_processed
-          : null,
+    status: job.status,
+    durationSeconds: deriveDurationSeconds(job, benchmark),
+    documentsIngested: deriveDocumentsIngested(job, benchmark),
   };
 }
 
@@ -93,13 +56,12 @@ export async function serializeJob(jobId: string) {
   const job = await prisma.scrapeJob.findUnique({ where: { id: jobId } });
   if (!job) return null;
 
-  const benchmark = await readLatestBenchmark(job.script);
   const log = await readJobLog(job.logPath);
 
   return {
     job,
     log,
-    stats: buildJobStats(job.status, benchmark),
+    stats: buildJobStats(job),
   };
 }
 
