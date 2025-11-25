@@ -27,20 +27,21 @@ export async function readLatestBenchmark(script: string) {
       })
     );
 
-    const latest = withStats.sort((a, b) => b.mtimeMs - a.mtimeMs)[0];
-    const raw = await fs.readFile(latest.filePath, "utf8");
-    const parsed = JSON.parse(raw);
-
-    if (!Array.isArray(parsed)) return null;
-
-    return (
-      parsed.find(
+    // Search newest-to-oldest for a benchmark file that actually contains this script.
+    const sorted = withStats.sort((a, b) => b.mtimeMs - a.mtimeMs);
+    for (const candidate of sorted) {
+      const raw = await fs.readFile(candidate.filePath, "utf8");
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) continue;
+      const match = parsed.find(
         (entry) =>
           entry &&
           typeof entry === "object" &&
           (entry.script === script || entry.script_path?.includes(script))
-      ) ?? null
-    );
+      );
+      if (match) return match;
+    }
+    return null;
   } catch (error) {
     console.warn("Unable to read benchmark results for scrape job", error);
     return null;
