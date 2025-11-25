@@ -134,17 +134,20 @@ export default function ScrapeJobDetail({
 
     const markUserInteracted = () => {
       userInteractedRef.current = true;
+      setAutoScroll(false);
     };
 
     container.addEventListener("wheel", markUserInteracted, { passive: true });
     container.addEventListener("touchstart", markUserInteracted, {
       passive: true,
     });
+    container.addEventListener("pointerdown", markUserInteracted);
     container.addEventListener("keydown", markUserInteracted);
 
     return () => {
       container.removeEventListener("wheel", markUserInteracted);
       container.removeEventListener("touchstart", markUserInteracted);
+      container.removeEventListener("pointerdown", markUserInteracted);
       container.removeEventListener("keydown", markUserInteracted);
     };
   }, []);
@@ -169,7 +172,7 @@ export default function ScrapeJobDetail({
   }, []);
 
   useLayoutEffect(() => {
-    if (!autoScroll) return;
+    if (!autoScroll || userInteractedRef.current) return;
     const container = logContainerRef.current;
     if (!container) return;
 
@@ -204,13 +207,7 @@ export default function ScrapeJobDetail({
 
   const handleScroll = () => {
     if (!userInteractedRef.current) return;
-    const container = logContainerRef.current;
-    if (!container) return;
-    const distanceFromBottom =
-      container.scrollHeight - container.scrollTop - container.clientHeight;
-    if (distanceFromBottom > 12) {
-      setAutoScroll(false);
-    }
+    setAutoScroll(false);
   };
 
   return (
