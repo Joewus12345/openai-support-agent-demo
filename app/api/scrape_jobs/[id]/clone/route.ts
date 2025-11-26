@@ -1,0 +1,56 @@
+import { ScrapeJobStatus } from "@/lib/generated/prisma";
+import prisma from "@/lib/prisma";
+import { triggerScrapeJob } from "@/lib/scrapeRunner";
+import { ensureAuthenticated } from "../../helpers";
+
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const unauthorized = ensureAuthenticated(request);
+  if (unauthorized) return unauthorized;
+
+  try {
+    const { id } = await params;
+    const source = await prisma.scrapeJob.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        script: true,
+        args: true,
+        cadence: true,
+      },
+    });
+
+    if (!source) {
+      return new Response(JSON.stringify({ error: "Job not found" }), {
+        status: 404,
+      });
+    }
+
+    const job = await prisma.scrapeJob.create({
+      data: {
+        script: source.script,
+        args: source.args ?? {},
+        cadence: source.cadence,
+        status: ScrapeJobStatus.queued,
+        paused: false,
+        nextRunAt: null,
+        progress: 0,
+      },
+    });
+
+    void triggerScrapeJob(job.id);
+
+    return new Response(
+      JSON.stringify({
+        sourceJobId: source.id,
+        job,
+      }),
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error cloning scrape job:", error);
+    return new Response("Error cloning job", { status: 500 });
+  }
+}

@@ -287,7 +287,15 @@ async function updateJob(
   data: Partial<
     Pick<
       ScrapeJob,
-      "status" | "finishedAt" | "startedAt" | "logPath" | "nextRunAt" | "durationSeconds" | "documentsIngested"
+      | "status"
+      | "finishedAt"
+      | "startedAt"
+      | "logPath"
+      | "nextRunAt"
+      | "durationSeconds"
+      | "documentsIngested"
+      | "paused"
+      | "progress"
     >
   >
 ) {
@@ -302,9 +310,19 @@ async function updateJob(
     startedAt: job.startedAt?.toISOString() ?? null,
     finishedAt: job.finishedAt?.toISOString() ?? null,
     logPath: job.logPath,
+    progress: job.progress,
   });
 
   return job;
+}
+
+async function isJobCanceled(client: PrismaClientLike, id: string) {
+  const job = await client.scrapeJob.findUnique({
+    where: { id },
+    select: { status: true },
+  });
+
+  return job?.status === ScrapeJobStatus.canceled;
 }
 
 async function markFailed(
@@ -320,6 +338,7 @@ async function markFailed(
   await updateJob(client, job.id, {
     status: ScrapeJobStatus.failed,
     finishedAt,
+    progress: 100,
   });
 }
 
@@ -333,12 +352,65 @@ export async function runScrapeJob(
   const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
   const startedAt = new Date();
 
+  let progress = Math.max(0, Math.min(100, job.progress ?? 0));
+  let lastProgressPersist = 0;
+  let phaseCap = 70;
+
+  const clampForPhase = (next: number, cap?: number) => {
+    const ceiling = typeof cap === "number" ? cap : phaseCap;
+    const bounded = Math.min(ceiling, Math.max(0, Math.min(100, Math.round(next))));
+    return Math.max(progress, bounded);
+  };
+
+  const maybeAdvancePhase = () => {
+    if (phaseCap === 70 && progress >= 68) {
+      phaseCap = 90;
+      return;
+    }
+    if (phaseCap === 90 && progress >= 88) {
+      phaseCap = 95;
+    }
+  };
+
+  const setProgress = async (value: number, options?: { cap?: number; force?: boolean }) => {
+    const target = clampForPhase(value, options?.cap);
+    const elapsed = Date.now() - lastProgressPersist;
+
+    if (!options?.force && target === progress) {
+      return;
+    }
+
+    if (!options?.force && elapsed < 750) {
+      progress = target;
+      maybeAdvancePhase();
+      return;
+    }
+
+    progress = target;
+    lastProgressPersist = Date.now();
+    maybeAdvancePhase();
+    try {
+      await updateJob(client, job.id, { progress });
+    } catch (error) {
+      console.warn(`[scrapeRunner] failed to persist progress for ${job.id}:`, error);
+    }
+  };
+
+  if (await isJobCanceled(client, job.id)) {
+    logStream.write(`[${startedAt.toISOString()}] Job ${job.id} is canceled; skipping run.\n`);
+    logStream.end();
+    return { exitCode: -1 };
+  }
+
   await updateJob(client, job.id, {
     status: ScrapeJobStatus.running,
     startedAt,
     finishedAt: null,
     logPath: logFilePath,
+    progress: 0,
   });
+  progress = 0;
+  lastProgressPersist = Date.now();
 
   const args = [
     "-u",
@@ -367,8 +439,11 @@ export async function runScrapeJob(
     return { exitCode: 1 };
   }
 
+  await setProgress(10, { force: true });
+
   let exitCode = -1;
   let missingCrawlDependency = false;
+  let canceled = false;
 
   try {
     const child = spawn(PYTHON_BIN, args, {
@@ -403,7 +478,19 @@ export async function runScrapeJob(
         startedAt: startedAt.toISOString(),
         logPath: logFilePath,
       });
+      void setProgress(Math.min(90, progress + 1));
     }, 60_000);
+
+    const cancellationProbe = setInterval(async () => {
+      if (canceled) return;
+      const now = new Date();
+      const isCanceled = await isJobCanceled(client, job.id).catch(() => false);
+      if (isCanceled) {
+        canceled = true;
+        logStream.write(`[${now.toISOString()}] Job ${job.id} canceled; terminating worker.\n`);
+        child.kill("SIGTERM");
+      }
+    }, 5_000);
 
     const activityProbe = setInterval(() => {
       logStream.write(
@@ -429,6 +516,7 @@ export async function runScrapeJob(
         startedAt: startedAt.toISOString(),
         logPath: logFilePath,
       });
+      void setProgress(Math.min(95, progress + 2));
     };
 
     child.stdout.on("data", handleChunk);
@@ -440,12 +528,14 @@ export async function runScrapeJob(
       child.on("close", (code) => {
         if (timeoutId) clearTimeout(timeoutId);
         clearInterval(heartbeat);
+        clearInterval(cancellationProbe);
         clearInterval(activityProbe);
         resolve(code ?? -1);
       });
       child.on("error", (err) => {
         if (timeoutId) clearTimeout(timeoutId);
         clearInterval(heartbeat);
+        clearInterval(cancellationProbe);
         clearInterval(activityProbe);
         logStream.write(`Worker failed to spawn: ${err.message}\n`);
         resolve(-1);
@@ -468,27 +558,39 @@ export async function runScrapeJob(
   logStream.write(`[${finishedAt.toISOString()}] Job ${job.id} completed with code ${exitCode}.\n`);
   logStream.end();
 
-  const status = exitCode === 0 ? ScrapeJobStatus.completed : ScrapeJobStatus.failed;
-  const benchmark = await readLatestBenchmark(job.script);
-  const durationSeconds =
-    typeof benchmark?.duration_seconds === "number"
-      ? benchmark.duration_seconds
-      : Math.max(0, (finishedAt.getTime() - startedAt.getTime()) / 1000);
-  const documentsIngested =
-    typeof benchmark?.total_output_files === "number"
-      ? benchmark.total_output_files
-      : typeof benchmark?.urls_processed === "number"
-        ? benchmark.urls_processed
-        : null;
+  if (canceled || (await isJobCanceled(client, job.id))) {
+    await updateJob(client, job.id, {
+      status: ScrapeJobStatus.canceled,
+      finishedAt,
+      logPath: logFilePath,
+      nextRunAt: null,
+      paused: false,
+      progress: 100,
+    });
+  } else {
+    const status = exitCode === 0 ? ScrapeJobStatus.completed : ScrapeJobStatus.failed;
+    const benchmark = await readLatestBenchmark(job.script);
+    const durationSeconds =
+      typeof benchmark?.duration_seconds === "number"
+        ? benchmark.duration_seconds
+        : Math.max(0, (finishedAt.getTime() - startedAt.getTime()) / 1000);
+    const documentsIngested =
+      typeof benchmark?.total_output_files === "number"
+        ? benchmark.total_output_files
+        : typeof benchmark?.urls_processed === "number"
+          ? benchmark.urls_processed
+          : null;
 
-  await updateJob(client, job.id, {
-    status,
-    finishedAt,
-    logPath: logFilePath,
-    nextRunAt: calculateNextRun(job.cadence, finishedAt),
-    durationSeconds,
-    documentsIngested,
-  });
+    await updateJob(client, job.id, {
+      status,
+      finishedAt,
+      logPath: logFilePath,
+      nextRunAt: calculateNextRun(job.cadence, finishedAt),
+      durationSeconds,
+      documentsIngested,
+      progress: 100,
+    });
+  }
 
   return { exitCode };
 }

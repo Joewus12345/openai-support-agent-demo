@@ -79,6 +79,7 @@ export async function POST(request: Request) {
       cadence,
       paused,
       nextRunAt,
+      progress: 0,
     };
 
     const job = await prisma.scrapeJob.create({ data });

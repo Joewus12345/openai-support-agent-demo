@@ -10,6 +10,7 @@ type JobUpdatePayload = {
   startedAt?: string | null;
   finishedAt?: string | null;
   logPath?: string | null;
+  progress?: number;
 };
 
 type CrossProcessMessage = {

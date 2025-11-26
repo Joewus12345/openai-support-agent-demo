@@ -45,6 +45,7 @@ async function claimNextJob(
   return client.scrapeJob.findFirst({
     where: {
       status: ScrapeJobStatus.queued,
+      paused: false,
       OR: [{ nextRunAt: null }, { nextRunAt: { lte: new Date() } }],
     },
     orderBy: { createdAt: "asc" },
@@ -56,12 +57,21 @@ async function reserveNextJob() {
     const job = await claimNextJob(tx);
     if (!job) return null;
 
-    await tx.scrapeJob.update({
-      where: { id: job.id },
+    const updated = await tx.scrapeJob.updateMany({
+      where: {
+        id: job.id,
+        status: ScrapeJobStatus.queued,
+        paused: false,
+      },
       data: { status: ScrapeJobStatus.running },
     });
 
-    return job;
+    if (updated.count === 0) return null;
+
+    const freshJob = await tx.scrapeJob.findUnique({ where: { id: job.id } });
+    if (!freshJob) return null;
+
+    return freshJob;
   });
 }
 

@@ -8,8 +8,14 @@ import {
   CalendarRange,
   Copy,
   Loader2,
+  MoreVertical,
+  PauseCircle,
   PlayCircle,
+  RotateCcw,
   Send,
+  Zap,
+  Trash2,
+  XCircle,
 } from "lucide-react";
 
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
@@ -21,6 +27,7 @@ type ScrapeJob = {
   status: ScrapeJobStatus;
   cadence: ScrapeJobCadence;
   paused: boolean;
+  progress?: number;
   startedAt: string | null;
   finishedAt: string | null;
   logPath: string | null;
@@ -34,6 +41,7 @@ type JobStats = {
   status: ScrapeJobStatus;
   durationSeconds: number | null;
   documentsIngested: number | null;
+  progress: number | null;
 };
 
 type SerializedJob = {
@@ -104,22 +112,21 @@ function formatDuration(seconds: number | null) {
   return `${minutes.toFixed(1)}m`;
 }
 
-function progressFromStatus(status: ScrapeJobStatus) {
-  switch (status) {
-    case ScrapeJobStatus.completed:
-      return 100;
-    case ScrapeJobStatus.running:
-      return 70;
-    case ScrapeJobStatus.queued:
-      return 25;
-    case ScrapeJobStatus.failed:
-      return 100;
-    default:
-      return 40;
+function deriveProgress(job: ScrapeJob) {
+  if (typeof job.progress === "number") {
+    return Math.max(0, Math.min(100, Math.round(job.progress)));
   }
+  if (job.paused) return 0;
+  if (job.status === ScrapeJobStatus.completed || job.status === ScrapeJobStatus.failed) return 100;
+  if (job.status === ScrapeJobStatus.canceled) return 100;
+  if (job.status === ScrapeJobStatus.running) return 70;
+  if (job.status === ScrapeJobStatus.queued) return 25;
+  return 40;
 }
 
-function progressColor(status: ScrapeJobStatus) {
+function progressColor(status: ScrapeJobStatus, paused: boolean) {
+  if (paused) return "bg-zinc-300";
+  if (status === ScrapeJobStatus.canceled) return "bg-zinc-400";
   if (status === ScrapeJobStatus.failed) return "bg-red-500";
   if (status === ScrapeJobStatus.completed) return "bg-emerald-500";
   return "bg-[#2B83F6]";
@@ -138,6 +145,14 @@ export default function ScrapeJobsPage() {
   const [ingesting, setIngesting] = useState<Record<string, string>>({});
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState<Record<string, boolean>>({});
+  const [rowActions, setRowActions] = useState<Record<string, string>>({});
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [runMessages, setRunMessages] = useState<Record<string, string>>({});
+
+  const authHeaders = {
+    "Content-Type": "application/json",
+    "x-session-verified": "true",
+  };
 
   useEffect(() => {
     const source = new EventSource("/api/scrape_jobs/updates");
@@ -154,6 +169,18 @@ export default function ScrapeJobsPage() {
       source.close();
     };
   }, [mutate]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target?.closest(".job-actions-menu")) {
+        setOpenMenu(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const handlePresetChange = (key: string) => {
     setSelectedPreset(key);
@@ -236,17 +263,164 @@ export default function ScrapeJobsPage() {
     }
   };
 
-  const renderStatusPill = (status: ScrapeJobStatus) => {
-    const colors: Record<ScrapeJobStatus, string> = {
+  const markRowAction = (jobId: string, action: string | null) => {
+    setRowActions((state) => {
+      const next = { ...state } as Record<string, string>;
+      if (action) {
+        next[jobId] = action;
+      } else {
+        delete next[jobId];
+      }
+      return next;
+    });
+  };
+
+  const togglePauseJob = async (job: SerializedJob) => {
+    const targetPaused = !job.job.paused;
+    markRowAction(job.job.id, targetPaused ? "pause" : "resume");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
+        method: "PATCH",
+        headers: authHeaders,
+        body: JSON.stringify({ paused: targetPaused }),
+      });
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to toggle pause", await res.text());
+      }
+    } catch (error) {
+      console.error("Error toggling pause", error);
+    } finally {
+      markRowAction(job.job.id, null);
+    }
+  };
+
+  const cancelJob = async (jobId: string) => {
+    markRowAction(jobId, "cancel");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${jobId}`, {
+        method: "DELETE",
+        headers: authHeaders,
+      });
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to cancel job", await res.text());
+      }
+    } catch (error) {
+      console.error("Error canceling job", error);
+    } finally {
+      markRowAction(jobId, null);
+    }
+  };
+
+  const deleteJob = async (jobId: string) => {
+    const confirmDelete = window.confirm(
+      "Delete this job and its artifacts permanently? This cannot be undone."
+    );
+    if (!confirmDelete) return;
+
+    markRowAction(jobId, "delete");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${jobId}/hard`, {
+        method: "DELETE",
+        headers: authHeaders,
+      });
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to delete job", await res.text());
+      }
+    } catch (error) {
+      console.error("Error deleting job", error);
+    } finally {
+      markRowAction(jobId, null);
+      setOpenMenu(null);
+    }
+  };
+
+  const requeueJob = async (jobId: string) => {
+    markRowAction(jobId, "requeue");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${jobId}/trigger`, {
+        method: "POST",
+        headers: authHeaders,
+      });
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to requeue job", await res.text());
+      }
+    } catch (error) {
+      console.error("Error requeuing job", error);
+    } finally {
+      markRowAction(jobId, null);
+    }
+  };
+
+  const runJobNow = async (jobId: string) => {
+    markRowAction(jobId, "run-now");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${jobId}/clone`, {
+        method: "POST",
+        headers: authHeaders,
+      });
+
+      if (res.ok) {
+        const payload = (await res.json().catch(() => null)) as
+          | { job?: { id?: string } }
+          | null;
+        const newJobId = payload?.job?.id;
+        if (newJobId) {
+          setRunMessages((current) => ({
+            ...current,
+            [jobId]: `New run created (${newJobId})`,
+          }));
+        }
+        await mutate();
+      } else {
+        console.error("Failed to run job immediately", await res.text());
+      }
+    } catch (error) {
+      console.error("Error triggering run", error);
+    } finally {
+      markRowAction(jobId, null);
+    }
+  };
+
+  const renderStatusPill = (status: ScrapeJobStatus, paused: boolean) => {
+    const labels: Partial<Record<ScrapeJobStatus, string>> = {
+      [ScrapeJobStatus.queued]: "Queued",
+      [ScrapeJobStatus.running]: "Running",
+      [ScrapeJobStatus.completed]: "Completed",
+      [ScrapeJobStatus.failed]: "Failed",
+      [ScrapeJobStatus.canceled]: "Canceled",
+    };
+
+    const label = paused ? `Paused — ${labels[status] ?? status}` : labels[status] ?? status;
+
+    const colors: Partial<Record<ScrapeJobStatus, string>> = {
       [ScrapeJobStatus.queued]: "bg-amber-50 text-amber-700 border border-amber-200",
       [ScrapeJobStatus.running]: "bg-blue-50 text-blue-700 border border-blue-200",
       [ScrapeJobStatus.completed]: "bg-emerald-50 text-emerald-700 border border-emerald-200",
       [ScrapeJobStatus.failed]: "bg-red-50 text-red-700 border border-red-200",
+      [ScrapeJobStatus.canceled]: "bg-zinc-100 text-zinc-700 border border-zinc-200",
     };
 
+    const baseColor = paused ? "bg-amber-50 text-amber-700 border border-amber-200" : colors[status];
+
     return (
-      <span className={`text-xs px-2 py-1 rounded-full ${colors[status]}`}>
-        {status}
+      <span
+        className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${
+          baseColor ?? "bg-zinc-100 text-zinc-700 border border-zinc-200"
+        }`}
+      >
+        {label}
       </span>
     );
   };
@@ -401,7 +575,8 @@ export default function ScrapeJobsPage() {
               <tbody className="divide-y divide-zinc-100">
                 {(data || []).map((item: SerializedJob) => {
                   const logSnippet = (item.log || "").split("\n").find(Boolean) || "No log yet.";
-                  const progress = progressFromStatus(item.job.status);
+                  const progress = deriveProgress(item.job);
+                  const actionState = rowActions[item.job.id];
                   return (
                     <tr key={item.job.id} className="align-top">
                       <td className="py-3 pr-3">
@@ -412,17 +587,18 @@ export default function ScrapeJobsPage() {
                         </div>
                         <div className="text-xs text-zinc-500">{formatDate(item.job.createdAt)}</div>
                       </td>
-                      <td className="py-3 pr-3">{renderStatusPill(item.job.status)}</td>
+                      <td className="py-3 pr-3">{renderStatusPill(item.job.status, item.job.paused)}</td>
                       <td className="py-3 pr-3 capitalize">{item.job.cadence}</td>
                       <td className="py-3 pr-3">
                         <div className="flex items-center gap-2 text-xs text-zinc-600">
                           <span>{formatDuration(item.stats.durationSeconds)}</span>
                           <div className="flex-1 h-2 bg-zinc-100 rounded-full overflow-hidden">
                             <div
-                              className={`h-2 ${progressColor(item.job.status)}`}
+                              className={`h-2 ${progressColor(item.job.status, item.job.paused)}`}
                               style={{ width: `${progress}%` }}
                             />
                           </div>
+                          <span className="tabular-nums text-[11px] text-zinc-500">{progress}%</span>
                         </div>
                         <div className="text-[11px] text-zinc-400">
                           Started {formatDate(item.job.startedAt)} · Finished {formatDate(item.job.finishedAt)}
@@ -436,7 +612,9 @@ export default function ScrapeJobsPage() {
                       className={`text-xs rounded-md border px-2 py-1 ${
                         item.job.status === ScrapeJobStatus.failed
                           ? "border-red-200 bg-red-50 text-red-700"
-                          : "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          : item.job.status === ScrapeJobStatus.canceled
+                            ? "border-zinc-200 bg-zinc-50 text-zinc-700"
+                            : "border-emerald-200 bg-emerald-50 text-emerald-700"
                       }`}
                       title={item.log || ""}
                     >
@@ -465,20 +643,128 @@ export default function ScrapeJobsPage() {
                     </div>
                   </td>
                       <td className="py-3">
-                        <div className="flex gap-2">
+                        <div className="relative job-actions-menu inline-block text-left">
                           <button
-                            onClick={() => sendToVectorStore(item)}
-                            disabled={ingesting[item.job.id] === "working"}
-                            className="flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                            type="button"
+                            className="flex items-center gap-1 rounded-lg border border-zinc-200 px-2 py-1 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              setOpenMenu((current) =>
+                                current === item.job.id ? null : item.job.id
+                              );
+                            }}
+                            disabled={Boolean(actionState)}
+                            aria-haspopup="menu"
+                            aria-expanded={openMenu === item.job.id}
                           >
-                            {ingesting[item.job.id] === "working" ? (
-                              <Loader2 size={14} className="animate-spin" />
-                            ) : (
-                              <Send size={14} />
-                            )}
-                            Send to vector stores
+                            <MoreVertical size={14} />
+                            Actions
                           </button>
+
+                          {openMenu === item.job.id && (
+                            <div className="absolute right-0 z-10 mt-2 w-56 rounded-lg border border-zinc-200 bg-white shadow-lg">
+                              <div className="py-1 text-xs text-zinc-700">
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void sendToVectorStore(item);
+                                  }}
+                                  disabled={ingesting[item.job.id] === "working"}
+                                >
+                                  {ingesting[item.job.id] === "working" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <Send size={14} />
+                                  )}
+                                  <span>Send to vector stores</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void togglePauseJob(item);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "pause" || actionState === "resume" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : item.job.paused ? (
+                                    <PlayCircle size={14} />
+                                  ) : (
+                                    <PauseCircle size={14} />
+                                  )}
+                                  <span>{item.job.paused ? "Resume" : "Pause"}</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void runJobNow(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "run-now" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <Zap size={14} />
+                                  )}
+                                  <span>Run now</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void requeueJob(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "requeue" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <RotateCcw size={14} />
+                                  )}
+                                  <span>Requeue</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 text-red-700 hover:bg-red-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void cancelJob(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "cancel" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <XCircle size={14} />
+                                  )}
+                                  <span>Cancel</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 text-red-700 hover:bg-red-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void deleteJob(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "delete" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <Trash2 size={14} />
+                                  )}
+                                  <span>Delete</span>
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </div>
+                        {runMessages[item.job.id] && (
+                          <div className="text-[11px] text-blue-600 mt-1">
+                            {runMessages[item.job.id]}
+                          </div>
+                        )}
                         {ingesting[item.job.id] === "done" && (
                           <div className="text-[11px] text-emerald-600 mt-1">Ingestion triggered.</div>
                         )}

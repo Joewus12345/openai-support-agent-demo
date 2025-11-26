@@ -62,7 +62,8 @@ export namespace $Enums {
   queued: 'queued',
   running: 'running',
   completed: 'completed',
-  failed: 'failed'
+  failed: 'failed',
+  canceled: 'canceled'
 };
 
 export type ScrapeJobStatus = (typeof ScrapeJobStatus)[keyof typeof ScrapeJobStatus]
@@ -9252,11 +9253,13 @@ export namespace Prisma {
   }
 
   export type ScrapeJobAvgAggregateOutputType = {
+    progress: number | null
     durationSeconds: number | null
     documentsIngested: number | null
   }
 
   export type ScrapeJobSumAggregateOutputType = {
+    progress: number | null
     durationSeconds: number | null
     documentsIngested: number | null
   }
@@ -9267,6 +9270,7 @@ export namespace Prisma {
     status: $Enums.ScrapeJobStatus | null
     cadence: $Enums.ScrapeJobCadence | null
     paused: boolean | null
+    progress: number | null
     startedAt: Date | null
     finishedAt: Date | null
     logPath: string | null
@@ -9283,6 +9287,7 @@ export namespace Prisma {
     status: $Enums.ScrapeJobStatus | null
     cadence: $Enums.ScrapeJobCadence | null
     paused: boolean | null
+    progress: number | null
     startedAt: Date | null
     finishedAt: Date | null
     logPath: string | null
@@ -9300,6 +9305,7 @@ export namespace Prisma {
     status: number
     cadence: number
     paused: number
+    progress: number
     startedAt: number
     finishedAt: number
     logPath: number
@@ -9313,11 +9319,13 @@ export namespace Prisma {
 
 
   export type ScrapeJobAvgAggregateInputType = {
+    progress?: true
     durationSeconds?: true
     documentsIngested?: true
   }
 
   export type ScrapeJobSumAggregateInputType = {
+    progress?: true
     durationSeconds?: true
     documentsIngested?: true
   }
@@ -9328,6 +9336,7 @@ export namespace Prisma {
     status?: true
     cadence?: true
     paused?: true
+    progress?: true
     startedAt?: true
     finishedAt?: true
     logPath?: true
@@ -9344,6 +9353,7 @@ export namespace Prisma {
     status?: true
     cadence?: true
     paused?: true
+    progress?: true
     startedAt?: true
     finishedAt?: true
     logPath?: true
@@ -9361,6 +9371,7 @@ export namespace Prisma {
     status?: true
     cadence?: true
     paused?: true
+    progress?: true
     startedAt?: true
     finishedAt?: true
     logPath?: true
@@ -9465,6 +9476,7 @@ export namespace Prisma {
     status: $Enums.ScrapeJobStatus
     cadence: $Enums.ScrapeJobCadence
     paused: boolean
+    progress: number
     startedAt: Date | null
     finishedAt: Date | null
     logPath: string | null
@@ -9501,6 +9513,7 @@ export namespace Prisma {
     status?: boolean
     cadence?: boolean
     paused?: boolean
+    progress?: boolean
     startedAt?: boolean
     finishedAt?: boolean
     logPath?: boolean
@@ -9518,6 +9531,7 @@ export namespace Prisma {
     status?: boolean
     cadence?: boolean
     paused?: boolean
+    progress?: boolean
     startedAt?: boolean
     finishedAt?: boolean
     logPath?: boolean
@@ -9535,6 +9549,7 @@ export namespace Prisma {
     status?: boolean
     cadence?: boolean
     paused?: boolean
+    progress?: boolean
     startedAt?: boolean
     finishedAt?: boolean
     logPath?: boolean
@@ -9552,6 +9567,7 @@ export namespace Prisma {
     status?: boolean
     cadence?: boolean
     paused?: boolean
+    progress?: boolean
     startedAt?: boolean
     finishedAt?: boolean
     logPath?: boolean
@@ -9562,7 +9578,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "cadence" | "paused" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "durationSeconds" | "documentsIngested" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
+  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "cadence" | "paused" | "progress" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "durationSeconds" | "documentsIngested" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
 
   export type $ScrapeJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ScrapeJob"
@@ -9574,6 +9590,7 @@ export namespace Prisma {
       status: $Enums.ScrapeJobStatus
       cadence: $Enums.ScrapeJobCadence
       paused: boolean
+      progress: number
       startedAt: Date | null
       finishedAt: Date | null
       logPath: string | null
@@ -10011,6 +10028,7 @@ export namespace Prisma {
     readonly status: FieldRef<"ScrapeJob", 'ScrapeJobStatus'>
     readonly cadence: FieldRef<"ScrapeJob", 'ScrapeJobCadence'>
     readonly paused: FieldRef<"ScrapeJob", 'Boolean'>
+    readonly progress: FieldRef<"ScrapeJob", 'Int'>
     readonly startedAt: FieldRef<"ScrapeJob", 'DateTime'>
     readonly finishedAt: FieldRef<"ScrapeJob", 'DateTime'>
     readonly logPath: FieldRef<"ScrapeJob", 'String'>
@@ -10494,6 +10512,7 @@ export namespace Prisma {
     status: 'status',
     cadence: 'cadence',
     paused: 'paused',
+    progress: 'progress',
     startedAt: 'startedAt',
     finishedAt: 'finishedAt',
     logPath: 'logPath',
@@ -11153,6 +11172,7 @@ export namespace Prisma {
     status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
     paused?: BoolFilter<"ScrapeJob"> | boolean
+    progress?: IntFilter<"ScrapeJob"> | number
     startedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     finishedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     logPath?: StringNullableFilter<"ScrapeJob"> | string | null
@@ -11170,6 +11190,7 @@ export namespace Prisma {
     status?: SortOrder
     cadence?: SortOrder
     paused?: SortOrder
+    progress?: SortOrder
     startedAt?: SortOrderInput | SortOrder
     finishedAt?: SortOrderInput | SortOrder
     logPath?: SortOrderInput | SortOrder
@@ -11190,6 +11211,7 @@ export namespace Prisma {
     status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
     paused?: BoolFilter<"ScrapeJob"> | boolean
+    progress?: IntFilter<"ScrapeJob"> | number
     startedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     finishedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     logPath?: StringNullableFilter<"ScrapeJob"> | string | null
@@ -11207,6 +11229,7 @@ export namespace Prisma {
     status?: SortOrder
     cadence?: SortOrder
     paused?: SortOrder
+    progress?: SortOrder
     startedAt?: SortOrderInput | SortOrder
     finishedAt?: SortOrderInput | SortOrder
     logPath?: SortOrderInput | SortOrder
@@ -11232,6 +11255,7 @@ export namespace Prisma {
     status?: EnumScrapeJobStatusWithAggregatesFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceWithAggregatesFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
     paused?: BoolWithAggregatesFilter<"ScrapeJob"> | boolean
+    progress?: IntWithAggregatesFilter<"ScrapeJob"> | number
     startedAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
     finishedAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
     logPath?: StringNullableWithAggregatesFilter<"ScrapeJob"> | string | null
@@ -11724,6 +11748,7 @@ export namespace Prisma {
     status?: $Enums.ScrapeJobStatus
     cadence?: $Enums.ScrapeJobCadence
     paused?: boolean
+    progress?: number
     startedAt?: Date | string | null
     finishedAt?: Date | string | null
     logPath?: string | null
@@ -11741,6 +11766,7 @@ export namespace Prisma {
     status?: $Enums.ScrapeJobStatus
     cadence?: $Enums.ScrapeJobCadence
     paused?: boolean
+    progress?: number
     startedAt?: Date | string | null
     finishedAt?: Date | string | null
     logPath?: string | null
@@ -11758,6 +11784,7 @@ export namespace Prisma {
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
     paused?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11775,6 +11802,7 @@ export namespace Prisma {
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
     paused?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11792,6 +11820,7 @@ export namespace Prisma {
     status?: $Enums.ScrapeJobStatus
     cadence?: $Enums.ScrapeJobCadence
     paused?: boolean
+    progress?: number
     startedAt?: Date | string | null
     finishedAt?: Date | string | null
     logPath?: string | null
@@ -11809,6 +11838,7 @@ export namespace Prisma {
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
     paused?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11826,6 +11856,7 @@ export namespace Prisma {
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
     paused?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12455,6 +12486,7 @@ export namespace Prisma {
     status?: SortOrder
     cadence?: SortOrder
     paused?: SortOrder
+    progress?: SortOrder
     startedAt?: SortOrder
     finishedAt?: SortOrder
     logPath?: SortOrder
@@ -12466,6 +12498,7 @@ export namespace Prisma {
   }
 
   export type ScrapeJobAvgOrderByAggregateInput = {
+    progress?: SortOrder
     durationSeconds?: SortOrder
     documentsIngested?: SortOrder
   }
@@ -12476,6 +12509,7 @@ export namespace Prisma {
     status?: SortOrder
     cadence?: SortOrder
     paused?: SortOrder
+    progress?: SortOrder
     startedAt?: SortOrder
     finishedAt?: SortOrder
     logPath?: SortOrder
@@ -12492,6 +12526,7 @@ export namespace Prisma {
     status?: SortOrder
     cadence?: SortOrder
     paused?: SortOrder
+    progress?: SortOrder
     startedAt?: SortOrder
     finishedAt?: SortOrder
     logPath?: SortOrder
@@ -12503,6 +12538,7 @@ export namespace Prisma {
   }
 
   export type ScrapeJobSumOrderByAggregateInput = {
+    progress?: SortOrder
     durationSeconds?: SortOrder
     documentsIngested?: SortOrder
   }
