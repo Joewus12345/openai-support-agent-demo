@@ -9245,8 +9245,20 @@ export namespace Prisma {
 
   export type AggregateScrapeJob = {
     _count: ScrapeJobCountAggregateOutputType | null
+    _avg: ScrapeJobAvgAggregateOutputType | null
+    _sum: ScrapeJobSumAggregateOutputType | null
     _min: ScrapeJobMinAggregateOutputType | null
     _max: ScrapeJobMaxAggregateOutputType | null
+  }
+
+  export type ScrapeJobAvgAggregateOutputType = {
+    durationSeconds: number | null
+    documentsIngested: number | null
+  }
+
+  export type ScrapeJobSumAggregateOutputType = {
+    durationSeconds: number | null
+    documentsIngested: number | null
   }
 
   export type ScrapeJobMinAggregateOutputType = {
@@ -9259,6 +9271,8 @@ export namespace Prisma {
     finishedAt: Date | null
     logPath: string | null
     nextRunAt: Date | null
+    durationSeconds: number | null
+    documentsIngested: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9273,6 +9287,8 @@ export namespace Prisma {
     finishedAt: Date | null
     logPath: string | null
     nextRunAt: Date | null
+    durationSeconds: number | null
+    documentsIngested: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9288,11 +9304,23 @@ export namespace Prisma {
     finishedAt: number
     logPath: number
     nextRunAt: number
+    durationSeconds: number
+    documentsIngested: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type ScrapeJobAvgAggregateInputType = {
+    durationSeconds?: true
+    documentsIngested?: true
+  }
+
+  export type ScrapeJobSumAggregateInputType = {
+    durationSeconds?: true
+    documentsIngested?: true
+  }
 
   export type ScrapeJobMinAggregateInputType = {
     id?: true
@@ -9304,6 +9332,8 @@ export namespace Prisma {
     finishedAt?: true
     logPath?: true
     nextRunAt?: true
+    durationSeconds?: true
+    documentsIngested?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9318,6 +9348,8 @@ export namespace Prisma {
     finishedAt?: true
     logPath?: true
     nextRunAt?: true
+    durationSeconds?: true
+    documentsIngested?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9333,6 +9365,8 @@ export namespace Prisma {
     finishedAt?: true
     logPath?: true
     nextRunAt?: true
+    durationSeconds?: true
+    documentsIngested?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -9376,6 +9410,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ScrapeJobAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScrapeJobSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ScrapeJobMinAggregateInputType
@@ -9406,6 +9452,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ScrapeJobCountAggregateInputType | true
+    _avg?: ScrapeJobAvgAggregateInputType
+    _sum?: ScrapeJobSumAggregateInputType
     _min?: ScrapeJobMinAggregateInputType
     _max?: ScrapeJobMaxAggregateInputType
   }
@@ -9421,9 +9469,13 @@ export namespace Prisma {
     finishedAt: Date | null
     logPath: string | null
     nextRunAt: Date | null
+    durationSeconds: number | null
+    documentsIngested: number | null
     createdAt: Date
     updatedAt: Date
     _count: ScrapeJobCountAggregateOutputType | null
+    _avg: ScrapeJobAvgAggregateOutputType | null
+    _sum: ScrapeJobSumAggregateOutputType | null
     _min: ScrapeJobMinAggregateOutputType | null
     _max: ScrapeJobMaxAggregateOutputType | null
   }
@@ -9453,6 +9505,8 @@ export namespace Prisma {
     finishedAt?: boolean
     logPath?: boolean
     nextRunAt?: boolean
+    durationSeconds?: boolean
+    documentsIngested?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["scrapeJob"]>
@@ -9468,6 +9522,8 @@ export namespace Prisma {
     finishedAt?: boolean
     logPath?: boolean
     nextRunAt?: boolean
+    durationSeconds?: boolean
+    documentsIngested?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["scrapeJob"]>
@@ -9483,6 +9539,8 @@ export namespace Prisma {
     finishedAt?: boolean
     logPath?: boolean
     nextRunAt?: boolean
+    durationSeconds?: boolean
+    documentsIngested?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["scrapeJob"]>
@@ -9498,11 +9556,13 @@ export namespace Prisma {
     finishedAt?: boolean
     logPath?: boolean
     nextRunAt?: boolean
+    durationSeconds?: boolean
+    documentsIngested?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "cadence" | "paused" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
+  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "cadence" | "paused" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "durationSeconds" | "documentsIngested" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
 
   export type $ScrapeJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ScrapeJob"
@@ -9518,6 +9578,8 @@ export namespace Prisma {
       finishedAt: Date | null
       logPath: string | null
       nextRunAt: Date | null
+      durationSeconds: number | null
+      documentsIngested: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["scrapeJob"]>
@@ -9953,6 +10015,8 @@ export namespace Prisma {
     readonly finishedAt: FieldRef<"ScrapeJob", 'DateTime'>
     readonly logPath: FieldRef<"ScrapeJob", 'String'>
     readonly nextRunAt: FieldRef<"ScrapeJob", 'DateTime'>
+    readonly durationSeconds: FieldRef<"ScrapeJob", 'Float'>
+    readonly documentsIngested: FieldRef<"ScrapeJob", 'Int'>
     readonly createdAt: FieldRef<"ScrapeJob", 'DateTime'>
     readonly updatedAt: FieldRef<"ScrapeJob", 'DateTime'>
   }
@@ -10434,6 +10498,8 @@ export namespace Prisma {
     finishedAt: 'finishedAt',
     logPath: 'logPath',
     nextRunAt: 'nextRunAt',
+    durationSeconds: 'durationSeconds',
+    documentsIngested: 'documentsIngested',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11091,6 +11157,8 @@ export namespace Prisma {
     finishedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     logPath?: StringNullableFilter<"ScrapeJob"> | string | null
     nextRunAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    durationSeconds?: FloatNullableFilter<"ScrapeJob"> | number | null
+    documentsIngested?: IntNullableFilter<"ScrapeJob"> | number | null
     createdAt?: DateTimeFilter<"ScrapeJob"> | Date | string
     updatedAt?: DateTimeFilter<"ScrapeJob"> | Date | string
   }
@@ -11106,6 +11174,8 @@ export namespace Prisma {
     finishedAt?: SortOrderInput | SortOrder
     logPath?: SortOrderInput | SortOrder
     nextRunAt?: SortOrderInput | SortOrder
+    durationSeconds?: SortOrderInput | SortOrder
+    documentsIngested?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11124,6 +11194,8 @@ export namespace Prisma {
     finishedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
     logPath?: StringNullableFilter<"ScrapeJob"> | string | null
     nextRunAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    durationSeconds?: FloatNullableFilter<"ScrapeJob"> | number | null
+    documentsIngested?: IntNullableFilter<"ScrapeJob"> | number | null
     createdAt?: DateTimeFilter<"ScrapeJob"> | Date | string
     updatedAt?: DateTimeFilter<"ScrapeJob"> | Date | string
   }, "id">
@@ -11139,11 +11211,15 @@ export namespace Prisma {
     finishedAt?: SortOrderInput | SortOrder
     logPath?: SortOrderInput | SortOrder
     nextRunAt?: SortOrderInput | SortOrder
+    durationSeconds?: SortOrderInput | SortOrder
+    documentsIngested?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ScrapeJobCountOrderByAggregateInput
+    _avg?: ScrapeJobAvgOrderByAggregateInput
     _max?: ScrapeJobMaxOrderByAggregateInput
     _min?: ScrapeJobMinOrderByAggregateInput
+    _sum?: ScrapeJobSumOrderByAggregateInput
   }
 
   export type ScrapeJobScalarWhereWithAggregatesInput = {
@@ -11160,6 +11236,8 @@ export namespace Prisma {
     finishedAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
     logPath?: StringNullableWithAggregatesFilter<"ScrapeJob"> | string | null
     nextRunAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
+    durationSeconds?: FloatNullableWithAggregatesFilter<"ScrapeJob"> | number | null
+    documentsIngested?: IntNullableWithAggregatesFilter<"ScrapeJob"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"ScrapeJob"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ScrapeJob"> | Date | string
   }
@@ -11650,6 +11728,8 @@ export namespace Prisma {
     finishedAt?: Date | string | null
     logPath?: string | null
     nextRunAt?: Date | string | null
+    durationSeconds?: number | null
+    documentsIngested?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11665,6 +11745,8 @@ export namespace Prisma {
     finishedAt?: Date | string | null
     logPath?: string | null
     nextRunAt?: Date | string | null
+    durationSeconds?: number | null
+    documentsIngested?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11680,6 +11762,8 @@ export namespace Prisma {
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
     nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationSeconds?: NullableFloatFieldUpdateOperationsInput | number | null
+    documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11695,6 +11779,8 @@ export namespace Prisma {
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
     nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationSeconds?: NullableFloatFieldUpdateOperationsInput | number | null
+    documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11710,6 +11796,8 @@ export namespace Prisma {
     finishedAt?: Date | string | null
     logPath?: string | null
     nextRunAt?: Date | string | null
+    durationSeconds?: number | null
+    documentsIngested?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11725,6 +11813,8 @@ export namespace Prisma {
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
     nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationSeconds?: NullableFloatFieldUpdateOperationsInput | number | null
+    documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11740,6 +11830,8 @@ export namespace Prisma {
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     logPath?: NullableStringFieldUpdateOperationsInput | string | null
     nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationSeconds?: NullableFloatFieldUpdateOperationsInput | number | null
+    documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12345,6 +12437,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ScrapeJobCountOrderByAggregateInput = {
     id?: SortOrder
     script?: SortOrder
@@ -12356,8 +12459,15 @@ export namespace Prisma {
     finishedAt?: SortOrder
     logPath?: SortOrder
     nextRunAt?: SortOrder
+    durationSeconds?: SortOrder
+    documentsIngested?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ScrapeJobAvgOrderByAggregateInput = {
+    durationSeconds?: SortOrder
+    documentsIngested?: SortOrder
   }
 
   export type ScrapeJobMaxOrderByAggregateInput = {
@@ -12370,6 +12480,8 @@ export namespace Prisma {
     finishedAt?: SortOrder
     logPath?: SortOrder
     nextRunAt?: SortOrder
+    durationSeconds?: SortOrder
+    documentsIngested?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12384,8 +12496,15 @@ export namespace Prisma {
     finishedAt?: SortOrder
     logPath?: SortOrder
     nextRunAt?: SortOrder
+    durationSeconds?: SortOrder
+    documentsIngested?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ScrapeJobSumOrderByAggregateInput = {
+    durationSeconds?: SortOrder
+    documentsIngested?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -12440,6 +12559,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type OrderCreateNestedManyWithoutUserInput = {
@@ -12664,6 +12799,14 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -12979,6 +13122,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type OrderCreateWithoutUserInput = {

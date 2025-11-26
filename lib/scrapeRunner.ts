@@ -6,6 +6,7 @@ import prisma from "./prisma";
 import { calculateNextRun } from "./scheduler";
 import { Prisma, ScrapeJob, ScrapeJobStatus } from "./generated/prisma";
 import { emitJobUpdate } from "./scrapeJobEvents";
+import { readLatestBenchmark } from "./scrapeMetrics";
 
 type PythonResolution = {
   bin: string;
@@ -283,7 +284,12 @@ function normalizeArgs(args: unknown): string[] {
 async function updateJob(
   client: PrismaClientLike,
   id: string,
-  data: Partial<Pick<ScrapeJob, "status" | "finishedAt" | "startedAt" | "logPath" | "nextRunAt">>
+  data: Partial<
+    Pick<
+      ScrapeJob,
+      "status" | "finishedAt" | "startedAt" | "logPath" | "nextRunAt" | "durationSeconds" | "documentsIngested"
+    >
+  >
 ) {
   const job = await client.scrapeJob.update({
     where: { id },
@@ -463,11 +469,25 @@ export async function runScrapeJob(
   logStream.end();
 
   const status = exitCode === 0 ? ScrapeJobStatus.completed : ScrapeJobStatus.failed;
+  const benchmark = await readLatestBenchmark(job.script);
+  const durationSeconds =
+    typeof benchmark?.duration_seconds === "number"
+      ? benchmark.duration_seconds
+      : Math.max(0, (finishedAt.getTime() - startedAt.getTime()) / 1000);
+  const documentsIngested =
+    typeof benchmark?.total_output_files === "number"
+      ? benchmark.total_output_files
+      : typeof benchmark?.urls_processed === "number"
+        ? benchmark.urls_processed
+        : null;
+
   await updateJob(client, job.id, {
     status,
     finishedAt,
     logPath: logFilePath,
     nextRunAt: calculateNextRun(job.cadence, finishedAt),
+    durationSeconds,
+    documentsIngested,
   });
 
   return { exitCode };
