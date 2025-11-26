@@ -17,6 +17,7 @@ import {
   Send,
   Trash2,
   XCircle,
+  Zap,
 } from "lucide-react";
 import useSWR from "swr";
 
@@ -69,29 +70,16 @@ function formatDuration(seconds: number | null) {
   return `${minutes.toFixed(1)}m`;
 }
 
-function progressFromStatus(status: ScrapeJobStatus, paused: boolean) {
-  if (paused) return 0;
-  switch (status) {
-    case ScrapeJobStatus.completed:
-      return 100;
-    case ScrapeJobStatus.canceled:
-      return 100;
-    case ScrapeJobStatus.running:
-      return 70;
-    case ScrapeJobStatus.queued:
-      return 25;
-    case ScrapeJobStatus.failed:
-      return 100;
-    default:
-      return 40;
-  }
-}
-
 function deriveProgress(job: ScrapeJob) {
   if (typeof job.progress === "number") {
     return Math.max(0, Math.min(100, Math.round(job.progress)));
   }
-  return progressFromStatus(job.status, job.paused);
+  if (job.paused) return 0;
+  if (job.status === ScrapeJobStatus.completed || job.status === ScrapeJobStatus.failed) return 100;
+  if (job.status === ScrapeJobStatus.canceled) return 100;
+  if (job.status === ScrapeJobStatus.running) return 70;
+  if (job.status === ScrapeJobStatus.queued) return 25;
+  return 40;
 }
 
 function progressColor(status: ScrapeJobStatus, paused: boolean) {
@@ -122,6 +110,7 @@ export default function ScrapeJobDetail({
   const [showResume, setShowResume] = useState(false);
   const [ingesting, setIngesting] = useState<string | null>(null);
   const [actionState, setActionState] = useState<string | null>(null);
+  const [runFeedback, setRunFeedback] = useState<string | null>(null);
   const logContainerRef = useRef<HTMLDivElement | null>(null);
   const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
@@ -331,6 +320,28 @@ export default function ScrapeJobDetail({
     }
   };
 
+  const runJobNow = async () => {
+    if (!data) return;
+    setActionState("run-now");
+    setRunFeedback(null);
+    try {
+      const res = await fetch(`/api/scrape_jobs/${data.job.id}/trigger`, {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify({ nextRunAt: null }),
+      });
+
+      if (res.ok) {
+        setRunFeedback("Job queued to run again now (same ID)");
+        await mutate();
+      } else {
+        setRunFeedback("Failed to queue run now.");
+      }
+    } finally {
+      setActionState(null);
+    }
+  };
+
   const cancelJob = async () => {
     if (!data) return;
     setActionState("cancel");
@@ -405,13 +416,15 @@ export default function ScrapeJobDetail({
   };
 
   const renderStatusPill = (status: ScrapeJobStatus, paused: boolean) => {
-    if (paused) {
-      return (
-        <span className="text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200">
-          Paused · {status}
-        </span>
-      );
-    }
+    const labels: Partial<Record<ScrapeJobStatus, string>> = {
+      [ScrapeJobStatus.queued]: "Queued",
+      [ScrapeJobStatus.running]: "Running",
+      [ScrapeJobStatus.completed]: "Completed",
+      [ScrapeJobStatus.failed]: "Failed",
+      [ScrapeJobStatus.canceled]: "Canceled",
+    };
+
+    const label = paused ? `Paused — ${labels[status] ?? status}` : labels[status] ?? status;
 
     const colors: Partial<Record<ScrapeJobStatus, string>> = {
       [ScrapeJobStatus.queued]: "bg-amber-50 text-amber-700 border border-amber-200",
@@ -421,9 +434,15 @@ export default function ScrapeJobDetail({
       [ScrapeJobStatus.canceled]: "bg-zinc-100 text-zinc-700 border border-zinc-200",
     };
 
+    const baseColor = paused ? "bg-amber-50 text-amber-700 border border-amber-200" : colors[status];
+
     return (
-      <span className={`text-xs px-2 py-1 rounded-full ${colors[status] ?? "bg-zinc-100 text-zinc-700 border border-zinc-200"}`}>
-        {status}
+      <span
+        className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${
+          baseColor ?? "bg-zinc-100 text-zinc-700 border border-zinc-200"
+        }`}
+      >
+        {label}
       </span>
     );
   };
@@ -452,6 +471,8 @@ export default function ScrapeJobDetail({
     );
   }
 
+  const progressValue = deriveProgress(data.job);
+
   return (
     <div className="min-h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-24 px-4 pb-16 md:pb-24">
       <div className="w-full max-w-4xl flex flex-col gap-4">
@@ -472,7 +493,6 @@ export default function ScrapeJobDetail({
           <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm flex flex-col gap-2">
             <div className="text-sm text-zinc-500">Status</div>
             <div className="flex items-center gap-2 text-lg font-semibold text-zinc-800">
-              {data.job.status}
               {renderStatusPill(data.job.status, data.job.paused)}
             </div>
             <div className="flex items-center gap-2 text-xs text-zinc-500">
@@ -483,18 +503,10 @@ export default function ScrapeJobDetail({
               <div className="flex-1 h-2 bg-zinc-100 rounded-full overflow-hidden">
                 <div
                   className={`h-2 ${progressColor(data.job.status, data.job.paused)}`}
-                    style={{ width: `${deriveProgress(data.job)}%` }}
+                    style={{ width: `${progressValue}%` }}
                 />
               </div>
-              <span className="text-[10px] text-zinc-500">
-                {data.job.paused
-                  ? "Paused"
-                  : data.job.status === ScrapeJobStatus.completed
-                    ? "100%"
-                    : data.job.status === ScrapeJobStatus.canceled
-                      ? "Canceled"
-                      : "In progress"}
-              </span>
+              <span className="text-[10px] text-zinc-500 tabular-nums">{progressValue}%</span>
             </div>
             <div className="flex items-start justify-between gap-2 text-xs text-zinc-500">
               <span>Args: {formatArgs(data.job.args)}</span>
@@ -543,6 +555,14 @@ export default function ScrapeJobDetail({
                 {data.job.paused ? "Resume" : "Pause"}
               </button>
               <button
+                onClick={runJobNow}
+                disabled={Boolean(actionState)}
+                className="flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
+              >
+                {actionState === "run-now" ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
+                Run now
+              </button>
+              <button
                 onClick={requeueJob}
                 disabled={Boolean(actionState)}
                 className="flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
@@ -572,6 +592,9 @@ export default function ScrapeJobDetail({
             )}
             {ingesting === "error" && (
               <div className="text-[11px] text-red-600">Failed to send; retry?</div>
+            )}
+            {runFeedback && (
+              <div className="text-[11px] text-zinc-600">{runFeedback}</div>
             )}
           </div>
         </div>

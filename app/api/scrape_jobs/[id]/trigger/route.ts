@@ -17,6 +17,17 @@ export async function POST(
     const nextRunAt = parseDate(body.nextRunAt);
 
     try {
+      const existing = await prisma.scrapeJob.findUnique({
+        where: { id },
+        select: { id: true },
+      });
+
+      if (!existing) {
+        return new Response(JSON.stringify({ error: "Job not found" }), {
+          status: 404,
+        });
+      }
+
       const job = await prisma.scrapeJob.update({
         where: { id },
         data: {
@@ -26,6 +37,9 @@ export async function POST(
           paused: false,
           nextRunAt,
           progress: 0,
+          logPath: null,
+          durationSeconds: null,
+          documentsIngested: null,
         },
       });
 

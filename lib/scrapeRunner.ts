@@ -354,20 +354,41 @@ export async function runScrapeJob(
 
   let progress = Math.max(0, Math.min(100, job.progress ?? 0));
   let lastProgressPersist = 0;
+  let phaseCap = 70;
 
-  const setProgress = async (value: number, force = false) => {
-    const normalized = Math.max(0, Math.min(100, Math.round(value)));
+  const clampForPhase = (next: number, cap?: number) => {
+    const ceiling = typeof cap === "number" ? cap : phaseCap;
+    const bounded = Math.min(ceiling, Math.max(0, Math.min(100, Math.round(next))));
+    return Math.max(progress, bounded);
+  };
+
+  const maybeAdvancePhase = () => {
+    if (phaseCap === 70 && progress >= 68) {
+      phaseCap = 90;
+      return;
+    }
+    if (phaseCap === 90 && progress >= 88) {
+      phaseCap = 95;
+    }
+  };
+
+  const setProgress = async (value: number, options?: { cap?: number; force?: boolean }) => {
+    const target = clampForPhase(value, options?.cap);
     const elapsed = Date.now() - lastProgressPersist;
 
-    if (!force && normalized <= progress && elapsed < 3000) {
-      progress = normalized;
+    if (!options?.force && target === progress) {
       return;
     }
 
-    if (!force && normalized === progress) return;
+    if (!options?.force && elapsed < 750) {
+      progress = target;
+      maybeAdvancePhase();
+      return;
+    }
 
-    progress = normalized;
+    progress = target;
     lastProgressPersist = Date.now();
+    maybeAdvancePhase();
     try {
       await updateJob(client, job.id, { progress });
     } catch (error) {

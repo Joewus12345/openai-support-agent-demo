@@ -112,29 +112,16 @@ function formatDuration(seconds: number | null) {
   return `${minutes.toFixed(1)}m`;
 }
 
-function progressFromStatus(status: ScrapeJobStatus, paused: boolean) {
-  if (paused) return 0;
-  switch (status) {
-    case ScrapeJobStatus.completed:
-      return 100;
-    case ScrapeJobStatus.canceled:
-      return 100;
-    case ScrapeJobStatus.running:
-      return 70;
-    case ScrapeJobStatus.queued:
-      return 25;
-    case ScrapeJobStatus.failed:
-      return 100;
-    default:
-      return 40;
-  }
-}
-
 function deriveProgress(job: ScrapeJob) {
   if (typeof job.progress === "number") {
     return Math.max(0, Math.min(100, Math.round(job.progress)));
   }
-  return progressFromStatus(job.status, job.paused);
+  if (job.paused) return 0;
+  if (job.status === ScrapeJobStatus.completed || job.status === ScrapeJobStatus.failed) return 100;
+  if (job.status === ScrapeJobStatus.canceled) return 100;
+  if (job.status === ScrapeJobStatus.running) return 70;
+  if (job.status === ScrapeJobStatus.queued) return 25;
+  return 40;
 }
 
 function progressColor(status: ScrapeJobStatus, paused: boolean) {
@@ -397,13 +384,15 @@ export default function ScrapeJobsPage() {
   };
 
   const renderStatusPill = (status: ScrapeJobStatus, paused: boolean) => {
-    if (paused) {
-      return (
-        <span className="text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200">
-          Paused · {status}
-        </span>
-      );
-    }
+    const labels: Partial<Record<ScrapeJobStatus, string>> = {
+      [ScrapeJobStatus.queued]: "Queued",
+      [ScrapeJobStatus.running]: "Running",
+      [ScrapeJobStatus.completed]: "Completed",
+      [ScrapeJobStatus.failed]: "Failed",
+      [ScrapeJobStatus.canceled]: "Canceled",
+    };
+
+    const label = paused ? `Paused — ${labels[status] ?? status}` : labels[status] ?? status;
 
     const colors: Partial<Record<ScrapeJobStatus, string>> = {
       [ScrapeJobStatus.queued]: "bg-amber-50 text-amber-700 border border-amber-200",
@@ -413,9 +402,15 @@ export default function ScrapeJobsPage() {
       [ScrapeJobStatus.canceled]: "bg-zinc-100 text-zinc-700 border border-zinc-200",
     };
 
+    const baseColor = paused ? "bg-amber-50 text-amber-700 border border-amber-200" : colors[status];
+
     return (
-      <span className={`text-xs px-2 py-1 rounded-full ${colors[status] ?? "bg-zinc-100 text-zinc-700 border border-zinc-200"}`}>
-        {status}
+      <span
+        className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${
+          baseColor ?? "bg-zinc-100 text-zinc-700 border border-zinc-200"
+        }`}
+      >
+        {label}
       </span>
     );
   };
@@ -593,10 +588,10 @@ export default function ScrapeJobsPage() {
                               style={{ width: `${progress}%` }}
                             />
                           </div>
+                          <span className="tabular-nums text-[11px] text-zinc-500">{progress}%</span>
                         </div>
                         <div className="text-[11px] text-zinc-400">
                           Started {formatDate(item.job.startedAt)} · Finished {formatDate(item.job.finishedAt)}
-                          {item.job.paused ? " · Paused" : ""}
                         </div>
                       </td>
                       <td className="py-3 pr-3 text-xs text-zinc-700">
