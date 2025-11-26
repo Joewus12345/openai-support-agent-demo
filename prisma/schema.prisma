@@ -20,6 +20,7 @@ enum ScrapeJobStatus {
   running
   completed
   failed
+  canceled
 }
 
 enum ScrapeJobCadence {

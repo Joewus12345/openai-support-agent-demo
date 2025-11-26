@@ -1,4 +1,4 @@
-import { Prisma } from "@/lib/generated/prisma";
+import { Prisma, ScrapeJobStatus } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { calculateNextRun } from "@/lib/scheduler";
 import { ensureAuthenticated, serializeJob } from "../helpers";
@@ -84,9 +84,20 @@ export async function DELETE(
   try {
     const { id } = await params;
 
+    const finishedAt = new Date();
+
     try {
-      await prisma.scrapeJob.delete({ where: { id } });
-      return new Response(null, { status: 204 });
+      const job = await prisma.scrapeJob.update({
+        where: { id },
+        data: {
+          status: ScrapeJobStatus.canceled,
+          paused: false,
+          finishedAt,
+          nextRunAt: null,
+        },
+      });
+
+      return new Response(JSON.stringify(job), { status: 200 });
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&

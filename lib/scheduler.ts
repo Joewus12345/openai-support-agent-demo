@@ -50,7 +50,7 @@ export async function enqueueScheduledJobs({
 }) {
   const where: Prisma.ScrapeJobWhereInput = {
     paused: false,
-    status: { not: ScrapeJobStatus.running },
+    status: { notIn: [ScrapeJobStatus.running, ScrapeJobStatus.canceled] },
     OR: [{ nextRunAt: null }, { nextRunAt: { lte: now } }],
   };
 

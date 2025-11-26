@@ -63,6 +63,8 @@ function progressFromStatus(status: ScrapeJobStatus, paused: boolean) {
   switch (status) {
     case ScrapeJobStatus.completed:
       return 100;
+    case ScrapeJobStatus.canceled:
+      return 100;
     case ScrapeJobStatus.running:
       return 70;
     case ScrapeJobStatus.queued:
@@ -76,6 +78,7 @@ function progressFromStatus(status: ScrapeJobStatus, paused: boolean) {
 
 function progressColor(status: ScrapeJobStatus, paused: boolean) {
   if (paused) return "bg-zinc-300";
+  if (status === ScrapeJobStatus.canceled) return "bg-zinc-400";
   if (status === ScrapeJobStatus.failed) return "bg-red-500";
   if (status === ScrapeJobStatus.completed) return "bg-emerald-500";
   return "bg-[#2B83F6]";
@@ -369,15 +372,16 @@ export default function ScrapeJobDetail({
       );
     }
 
-    const colors: Record<ScrapeJobStatus, string> = {
+    const colors: Partial<Record<ScrapeJobStatus, string>> = {
       [ScrapeJobStatus.queued]: "bg-amber-50 text-amber-700 border border-amber-200",
       [ScrapeJobStatus.running]: "bg-blue-50 text-blue-700 border border-blue-200",
       [ScrapeJobStatus.completed]: "bg-emerald-50 text-emerald-700 border border-emerald-200",
       [ScrapeJobStatus.failed]: "bg-red-50 text-red-700 border border-red-200",
+      [ScrapeJobStatus.canceled]: "bg-zinc-100 text-zinc-700 border border-zinc-200",
     };
 
     return (
-      <span className={`text-xs px-2 py-1 rounded-full ${colors[status]}`}>
+      <span className={`text-xs px-2 py-1 rounded-full ${colors[status] ?? "bg-zinc-100 text-zinc-700 border border-zinc-200"}`}>
         {status}
       </span>
     );
@@ -442,7 +446,13 @@ export default function ScrapeJobDetail({
                 />
               </div>
               <span className="text-[10px] text-zinc-500">
-                {data.job.paused ? "Paused" : data.job.status === ScrapeJobStatus.completed ? "100%" : "In progress"}
+                {data.job.paused
+                  ? "Paused"
+                  : data.job.status === ScrapeJobStatus.completed
+                    ? "100%"
+                    : data.job.status === ScrapeJobStatus.canceled
+                      ? "Canceled"
+                      : "In progress"}
               </span>
             </div>
             <div className="flex items-start justify-between gap-2 text-xs text-zinc-500">

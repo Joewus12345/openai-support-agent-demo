@@ -109,6 +109,8 @@ function progressFromStatus(status: ScrapeJobStatus, paused: boolean) {
   switch (status) {
     case ScrapeJobStatus.completed:
       return 100;
+    case ScrapeJobStatus.canceled:
+      return 100;
     case ScrapeJobStatus.running:
       return 70;
     case ScrapeJobStatus.queued:
@@ -122,6 +124,7 @@ function progressFromStatus(status: ScrapeJobStatus, paused: boolean) {
 
 function progressColor(status: ScrapeJobStatus, paused: boolean) {
   if (paused) return "bg-zinc-300";
+  if (status === ScrapeJobStatus.canceled) return "bg-zinc-400";
   if (status === ScrapeJobStatus.failed) return "bg-red-500";
   if (status === ScrapeJobStatus.completed) return "bg-emerald-500";
   return "bg-[#2B83F6]";
@@ -327,15 +330,16 @@ export default function ScrapeJobsPage() {
       );
     }
 
-    const colors: Record<ScrapeJobStatus, string> = {
+    const colors: Partial<Record<ScrapeJobStatus, string>> = {
       [ScrapeJobStatus.queued]: "bg-amber-50 text-amber-700 border border-amber-200",
       [ScrapeJobStatus.running]: "bg-blue-50 text-blue-700 border border-blue-200",
       [ScrapeJobStatus.completed]: "bg-emerald-50 text-emerald-700 border border-emerald-200",
       [ScrapeJobStatus.failed]: "bg-red-50 text-red-700 border border-red-200",
+      [ScrapeJobStatus.canceled]: "bg-zinc-100 text-zinc-700 border border-zinc-200",
     };
 
     return (
-      <span className={`text-xs px-2 py-1 rounded-full ${colors[status]}`}>
+      <span className={`text-xs px-2 py-1 rounded-full ${colors[status] ?? "bg-zinc-100 text-zinc-700 border border-zinc-200"}`}>
         {status}
       </span>
     );
@@ -528,7 +532,9 @@ export default function ScrapeJobsPage() {
                       className={`text-xs rounded-md border px-2 py-1 ${
                         item.job.status === ScrapeJobStatus.failed
                           ? "border-red-200 bg-red-50 text-red-700"
-                          : "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          : item.job.status === ScrapeJobStatus.canceled
+                            ? "border-zinc-200 bg-zinc-50 text-zinc-700"
+                            : "border-emerald-200 bg-emerald-50 text-emerald-700"
                       }`}
                       title={item.log || ""}
                     >

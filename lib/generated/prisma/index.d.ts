@@ -62,7 +62,8 @@ export namespace $Enums {
   queued: 'queued',
   running: 'running',
   completed: 'completed',
-  failed: 'failed'
+  failed: 'failed',
+  canceled: 'canceled'
 };
 
 export type ScrapeJobStatus = (typeof ScrapeJobStatus)[keyof typeof ScrapeJobStatus]
