@@ -4,6 +4,7 @@ import path from "path";
 import prisma from "../../../lib/prisma";
 import { ScrapeJob } from "../../../lib/generated/prisma";
 import { BenchmarkEntry } from "@/lib/scrapeMetrics";
+import { readIngestionResult, StoredIngestionResult } from "@/lib/ingestionResults";
 
 const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
 
@@ -92,13 +93,16 @@ export async function serializeJob(jobId: string) {
 
   const log = await readJobLog(job.logPath);
   const artifacts = await listScrapeArtifacts(job);
+  const ingestionResult = await readIngestionResult(job.id);
 
   return {
     job,
     log,
     stats: buildJobStats(job),
     artifacts,
+    ingestionResult,
   };
 }
 
 export type SerializedScrapeJob = NonNullable<Awaited<ReturnType<typeof serializeJob>>>;
+export type SerializedIngestionResult = StoredIngestionResult & { jobId: string };

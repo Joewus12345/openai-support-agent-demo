@@ -6,6 +6,7 @@ import useSWR from "swr";
 import {
   CalendarClock,
   CalendarRange,
+  ChevronDown,
   Copy,
   Loader2,
   MoreVertical,
@@ -13,12 +14,14 @@ import {
   PlayCircle,
   RotateCcw,
   Send,
+  ExternalLink,
   Zap,
   Trash2,
   XCircle,
 } from "lucide-react";
 
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
+import type { StoredIngestionResult } from "@/lib/ingestionResults";
 
 type ScrapeJob = {
   id: string;
@@ -49,6 +52,7 @@ type SerializedJob = {
   log: string | null;
   stats: JobStats;
   artifacts: string[];
+  ingestionResult?: (StoredIngestionResult & { jobId: string }) | null;
 };
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -113,6 +117,11 @@ function formatDuration(seconds: number | null) {
   return `${minutes.toFixed(1)}m`;
 }
 
+function formatTimestamp(value: number | null | undefined) {
+  if (!value) return "—";
+  return new Date(value).toLocaleString();
+}
+
 function deriveProgress(job: ScrapeJob) {
   if (typeof job.progress === "number") {
     return Math.max(0, Math.min(100, Math.round(job.progress)));
@@ -146,9 +155,11 @@ export default function ScrapeJobsPage() {
   const [ingesting, setIngesting] = useState<Record<string, string>>({});
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState<Record<string, boolean>>({});
+  const [copiedVectorIds, setCopiedVectorIds] = useState<Record<string, boolean>>({});
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [runMessages, setRunMessages] = useState<Record<string, string>>({});
+  const [openActivity, setOpenActivity] = useState<Record<string, boolean>>({});
 
   const authHeaders = {
     "Content-Type": "application/json",
@@ -266,6 +277,7 @@ export default function ScrapeJobsPage() {
             ? result.message
             : `Ingestion triggered for ${docs.length} document(s).`;
         setRunMessages((state) => ({ ...state, [job.job.id]: message }));
+        await mutate();
       } else {
         setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
         const error = typeof result?.error === "string" ? result.error : "Failed to start ingestion.";
@@ -437,6 +449,196 @@ export default function ScrapeJobsPage() {
       >
         {label}
       </span>
+    );
+  };
+
+  const renderIngestionActivity = (job: SerializedJob) => {
+    const result = job.ingestionResult;
+    if (!result) return null;
+
+    const expanded = openActivity[job.job.id];
+    const uploadCount = result.uploadedFiles?.length ?? 0;
+    const statusColorMap: Record<"success" | "error" | "skipped", string> = {
+      success: "text-emerald-700",
+      skipped: "text-amber-700",
+      error: "text-red-600",
+    } as const;
+
+    return (
+      <div className="mt-2 text-[11px] text-zinc-700">
+        <button
+          type="button"
+          onClick={() =>
+            setOpenActivity((state) => ({
+              ...state,
+              [job.job.id]: !expanded,
+            }))
+          }
+          className="flex w-full items-center justify-between gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-2 py-2 hover:border-zinc-300"
+        >
+          <div className="flex items-center gap-2 text-left">
+            <ChevronDown
+              size={12}
+              className={`transition-transform ${expanded ? "rotate-180" : "rotate-0"}`}
+            />
+            <div className="flex flex-col leading-tight">
+              <span className="font-semibold text-zinc-800">Ingestion activity</span>
+              <span className={`text-[10px] ${statusColorMap[result.status]}`}>
+                {result.status.toUpperCase()} — {result.message}
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-col items-end text-[10px] text-zinc-500">
+            <span>{formatTimestamp(result.timestamp)}</span>
+            <span>{uploadCount} uploaded · {result.changedFiles.length} changed · {result.unchangedFiles.length} unchanged</span>
+          </div>
+        </button>
+
+        {expanded && (
+          <div className="mt-2 rounded-md border border-zinc-200 bg-white p-3 shadow-inner">
+            <div className="text-[11px] text-zinc-800">{result.message}</div>
+            <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2 text-[10px] text-zinc-600">
+              <div>
+                <div className="font-semibold text-zinc-700">Changed files</div>
+                {result.changedFiles.length === 0 ? (
+                  <div className="text-zinc-500">None</div>
+                ) : (
+                  <ul className="list-disc pl-4">
+                    {result.changedFiles.map((file) => (
+                      <li key={file}>{file}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div>
+                <div className="font-semibold text-zinc-700">Unchanged files</div>
+                {result.unchangedFiles.length === 0 ? (
+                  <div className="text-zinc-500">None</div>
+                ) : (
+                  <ul className="list-disc pl-4">
+                    {result.unchangedFiles.map((file) => (
+                      <li key={file}>{file}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+
+            {uploadCount > 0 && (
+              <div className="mt-3 text-[10px] text-zinc-700">
+                <div className="font-semibold text-zinc-800">Vector store uploads</div>
+                <div className="mb-1 text-zinc-500">
+                  {result.vectorStoreId ? (
+                    <a
+                      href={`https://platform.openai.com/storage/vector-stores/${result.vectorStoreId}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 text-blue-600 hover:underline"
+                    >
+                      <ExternalLink size={12} />
+                      Open vector store
+                    </a>
+                  ) : (
+                    "Vector store ID not available"
+                  )}
+                </div>
+                <ul className="flex flex-col gap-2">
+                  {result.uploadedFiles.map((file) => (
+                    <li key={`${file.filePath}-${file.vectorStoreFileId}`} className="rounded border border-zinc-200 bg-zinc-50 px-2 py-1">
+                      <div className="text-[11px] font-semibold text-zinc-800">{file.filePath}</div>
+                      <div className="flex items-center gap-2 text-[10px] text-zinc-600">
+                        <span>OpenAI file: {file.fileId ?? "—"}</span>
+                        {file.fileId && (
+                          <button
+                            type="button"
+                            className="text-blue-600 hover:underline"
+                            onClick={() =>
+                              copyText(file.fileId!, () => {
+                                setCopiedVectorIds((state) => ({
+                                  ...state,
+                                  [file.fileId as string]: true,
+                                }));
+                                setTimeout(
+                                  () =>
+                                    setCopiedVectorIds((state) => ({
+                                      ...state,
+                                      [file.fileId as string]: false,
+                                    })),
+                                  1200
+                                );
+                              })
+                            }
+                          >
+                            {copiedVectorIds[file.fileId] ? "Copied" : "Copy"}
+                          </button>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px] text-zinc-600">
+                        <span>Vector store file: {file.vectorStoreFileId ?? "—"}</span>
+                        {file.vectorStoreFileId && (
+                          <button
+                            type="button"
+                            className="text-blue-600 hover:underline"
+                            onClick={() =>
+                              copyText(file.vectorStoreFileId!, () => {
+                                setCopiedVectorIds((state) => ({
+                                  ...state,
+                                  [file.vectorStoreFileId as string]: true,
+                                }));
+                                setTimeout(
+                                  () =>
+                                    setCopiedVectorIds((state) => ({
+                                      ...state,
+                                      [file.vectorStoreFileId as string]: false,
+                                    })),
+                                  1200
+                                );
+                              })
+                            }
+                          >
+                            {copiedVectorIds[file.vectorStoreFileId] ? "Copied" : "Copy"}
+                          </button>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {result.deletedVectorStoreFiles &&
+              Object.keys(result.deletedVectorStoreFiles).length > 0 && (
+                <div className="mt-3 text-[10px] text-zinc-700">
+                  <div className="font-semibold text-zinc-800">Replaced vector store files</div>
+                  <ul className="list-disc pl-4">
+                    {Object.entries(result.deletedVectorStoreFiles).map(([filePath, vectorId]) => (
+                      <li key={filePath} className="flex items-center gap-2">
+                        <span>{filePath}</span>
+                        <span className="text-zinc-500">({vectorId})</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+            {result.ingestionLogs && (result.ingestionLogs.stdout || result.ingestionLogs.stderr) && (
+              <div className="mt-3 text-[10px] text-zinc-700">
+                <div className="font-semibold text-zinc-800">Ingestion logs</div>
+                {result.ingestionLogs.stdout && (
+                  <pre className="mt-1 max-h-32 overflow-auto rounded bg-zinc-900 p-2 text-[10px] text-zinc-100">
+                    {result.ingestionLogs.stdout}
+                  </pre>
+                )}
+                {result.ingestionLogs.stderr && (
+                  <pre className="mt-1 max-h-32 overflow-auto rounded bg-red-900/80 p-2 text-[10px] text-red-50">
+                    {result.ingestionLogs.stderr}
+                  </pre>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     );
   };
 
@@ -780,6 +982,7 @@ export default function ScrapeJobsPage() {
                             {runMessages[item.job.id]}
                           </div>
                         )}
+                        {renderIngestionActivity(item)}
                         {ingesting[item.job.id] === "done" && (
                           <div className="text-[11px] text-emerald-600 mt-1">
                             {runMessages[item.job.id] || "Ingestion triggered."}
