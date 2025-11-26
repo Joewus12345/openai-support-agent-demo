@@ -194,7 +194,7 @@ export default function ScrapeJobDetail({
     requestAnimationFrame(() => {
       container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
     });
-  }, [data?.log, autoScroll]);
+  }, [data?.log, autoScroll, autoScrollEnabled]);
 
   useEffect(() => {
     if (!autoScrollEnabled || !autoScroll) return;
