@@ -127,6 +127,7 @@ model ScrapeJob {
   status            ScrapeJobStatus  @default(queued)
   cadence           ScrapeJobCadence @default(manual)
   paused            Boolean          @default(false)
+  progress          Int              @default(0)
   startedAt         DateTime?
   finishedAt        DateTime?
   logPath           String?

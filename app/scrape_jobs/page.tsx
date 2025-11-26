@@ -13,6 +13,7 @@ import {
   PlayCircle,
   RotateCcw,
   Send,
+  Zap,
   Trash2,
   XCircle,
 } from "lucide-react";
@@ -26,6 +27,7 @@ type ScrapeJob = {
   status: ScrapeJobStatus;
   cadence: ScrapeJobCadence;
   paused: boolean;
+  progress?: number;
   startedAt: string | null;
   finishedAt: string | null;
   logPath: string | null;
@@ -39,6 +41,7 @@ type JobStats = {
   status: ScrapeJobStatus;
   durationSeconds: number | null;
   documentsIngested: number | null;
+  progress: number | null;
 };
 
 type SerializedJob = {
@@ -125,6 +128,13 @@ function progressFromStatus(status: ScrapeJobStatus, paused: boolean) {
     default:
       return 40;
   }
+}
+
+function deriveProgress(job: ScrapeJob) {
+  if (typeof job.progress === "number") {
+    return Math.max(0, Math.min(100, Math.round(job.progress)));
+  }
+  return progressFromStatus(job.status, job.paused);
 }
 
 function progressColor(status: ScrapeJobStatus, paused: boolean) {
@@ -365,6 +375,27 @@ export default function ScrapeJobsPage() {
     }
   };
 
+  const runJobNow = async (jobId: string) => {
+    markRowAction(jobId, "run-now");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${jobId}/trigger`, {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify({ nextRunAt: null }),
+      });
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to run job immediately", await res.text());
+      }
+    } catch (error) {
+      console.error("Error triggering run", error);
+    } finally {
+      markRowAction(jobId, null);
+    }
+  };
+
   const renderStatusPill = (status: ScrapeJobStatus, paused: boolean) => {
     if (paused) {
       return (
@@ -539,7 +570,7 @@ export default function ScrapeJobsPage() {
               <tbody className="divide-y divide-zinc-100">
                 {(data || []).map((item: SerializedJob) => {
                   const logSnippet = (item.log || "").split("\n").find(Boolean) || "No log yet.";
-                  const progress = progressFromStatus(item.job.status, item.job.paused);
+                  const progress = deriveProgress(item.job);
                   const actionState = rowActions[item.job.id];
                   return (
                     <tr key={item.job.id} className="align-top">
@@ -659,6 +690,21 @@ export default function ScrapeJobsPage() {
                                     <PauseCircle size={14} />
                                   )}
                                   <span>{item.job.paused ? "Resume" : "Pause"}</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void runJobNow(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "run-now" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <Zap size={14} />
+                                  )}
+                                  <span>Run now</span>
                                 </button>
                                 <button
                                   className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"

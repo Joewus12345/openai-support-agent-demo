@@ -295,6 +295,7 @@ async function updateJob(
       | "durationSeconds"
       | "documentsIngested"
       | "paused"
+      | "progress"
     >
   >
 ) {
@@ -309,6 +310,7 @@ async function updateJob(
     startedAt: job.startedAt?.toISOString() ?? null,
     finishedAt: job.finishedAt?.toISOString() ?? null,
     logPath: job.logPath,
+    progress: job.progress,
   });
 
   return job;
@@ -336,6 +338,7 @@ async function markFailed(
   await updateJob(client, job.id, {
     status: ScrapeJobStatus.failed,
     finishedAt,
+    progress: 100,
   });
 }
 
@@ -349,6 +352,29 @@ export async function runScrapeJob(
   const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
   const startedAt = new Date();
 
+  let progress = Math.max(0, Math.min(100, job.progress ?? 0));
+  let lastProgressPersist = 0;
+
+  const setProgress = async (value: number, force = false) => {
+    const normalized = Math.max(0, Math.min(100, Math.round(value)));
+    const elapsed = Date.now() - lastProgressPersist;
+
+    if (!force && normalized <= progress && elapsed < 3000) {
+      progress = normalized;
+      return;
+    }
+
+    if (!force && normalized === progress) return;
+
+    progress = normalized;
+    lastProgressPersist = Date.now();
+    try {
+      await updateJob(client, job.id, { progress });
+    } catch (error) {
+      console.warn(`[scrapeRunner] failed to persist progress for ${job.id}:`, error);
+    }
+  };
+
   if (await isJobCanceled(client, job.id)) {
     logStream.write(`[${startedAt.toISOString()}] Job ${job.id} is canceled; skipping run.\n`);
     logStream.end();
@@ -360,7 +386,10 @@ export async function runScrapeJob(
     startedAt,
     finishedAt: null,
     logPath: logFilePath,
+    progress: 0,
   });
+  progress = 0;
+  lastProgressPersist = Date.now();
 
   const args = [
     "-u",
@@ -388,6 +417,8 @@ export async function runScrapeJob(
     );
     return { exitCode: 1 };
   }
+
+  await setProgress(10, true);
 
   let exitCode = -1;
   let missingCrawlDependency = false;
@@ -426,6 +457,7 @@ export async function runScrapeJob(
         startedAt: startedAt.toISOString(),
         logPath: logFilePath,
       });
+      void setProgress(Math.min(90, progress + 1));
     }, 60_000);
 
     const cancellationProbe = setInterval(async () => {
@@ -463,6 +495,7 @@ export async function runScrapeJob(
         startedAt: startedAt.toISOString(),
         logPath: logFilePath,
       });
+      void setProgress(Math.min(95, progress + 2));
     };
 
     child.stdout.on("data", handleChunk);
@@ -511,6 +544,7 @@ export async function runScrapeJob(
       logPath: logFilePath,
       nextRunAt: null,
       paused: false,
+      progress: 100,
     });
   } else {
     const status = exitCode === 0 ? ScrapeJobStatus.completed : ScrapeJobStatus.failed;
@@ -533,6 +567,7 @@ export async function runScrapeJob(
       nextRunAt: calculateNextRun(job.cadence, finishedAt),
       durationSeconds,
       documentsIngested,
+      progress: 100,
     });
   }
 

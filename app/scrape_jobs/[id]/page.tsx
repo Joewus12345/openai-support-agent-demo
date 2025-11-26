@@ -30,6 +30,7 @@ type JobStats = {
   status: ScrapeJobStatus;
   durationSeconds: number | null;
   documentsIngested: number | null;
+  progress: number | null;
 };
 
 type ScrapeJob = {
@@ -39,6 +40,7 @@ type ScrapeJob = {
   status: ScrapeJobStatus;
   cadence: ScrapeJobCadence;
   paused: boolean;
+  progress?: number;
   startedAt: string | null;
   finishedAt: string | null;
   logPath: string | null;
@@ -83,6 +85,13 @@ function progressFromStatus(status: ScrapeJobStatus, paused: boolean) {
     default:
       return 40;
   }
+}
+
+function deriveProgress(job: ScrapeJob) {
+  if (typeof job.progress === "number") {
+    return Math.max(0, Math.min(100, Math.round(job.progress)));
+  }
+  return progressFromStatus(job.status, job.paused);
 }
 
 function progressColor(status: ScrapeJobStatus, paused: boolean) {
@@ -474,7 +483,7 @@ export default function ScrapeJobDetail({
               <div className="flex-1 h-2 bg-zinc-100 rounded-full overflow-hidden">
                 <div
                   className={`h-2 ${progressColor(data.job.status, data.job.paused)}`}
-                  style={{ width: `${progressFromStatus(data.job.status, data.job.paused)}%` }}
+                    style={{ width: `${deriveProgress(data.job)}%` }}
                 />
               </div>
               <span className="text-[10px] text-zinc-500">

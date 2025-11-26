@@ -25,6 +25,7 @@ export async function POST(
           finishedAt: null,
           paused: false,
           nextRunAt,
+          progress: 0,
         },
       });
 

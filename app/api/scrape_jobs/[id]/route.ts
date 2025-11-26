@@ -96,6 +96,7 @@ export async function DELETE(
           paused: false,
           finishedAt,
           nextRunAt: null,
+          progress: 100,
         },
       });
 

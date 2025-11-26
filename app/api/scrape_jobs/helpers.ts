@@ -30,11 +30,20 @@ function deriveDocumentsIngested(job: ScrapeJob, benchmark: BenchmarkEntry | nul
   return null;
 }
 
+function deriveProgress(job: ScrapeJob) {
+  if (typeof (job as { progress?: unknown }).progress === "number") {
+    const { progress } = job as { progress?: number };
+    return Math.max(0, Math.min(100, Math.round(progress ?? 0)));
+  }
+  return null;
+}
+
 export function buildJobStats(job: ScrapeJob, benchmark: BenchmarkEntry | null = null) {
   return {
     status: job.status,
     durationSeconds: deriveDurationSeconds(job, benchmark),
     documentsIngested: deriveDocumentsIngested(job, benchmark),
+    progress: deriveProgress(job),
   };
 }
 
