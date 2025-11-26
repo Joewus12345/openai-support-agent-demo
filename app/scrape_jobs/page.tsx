@@ -104,7 +104,8 @@ function formatDuration(seconds: number | null) {
   return `${minutes.toFixed(1)}m`;
 }
 
-function progressFromStatus(status: ScrapeJobStatus) {
+function progressFromStatus(status: ScrapeJobStatus, paused: boolean) {
+  if (paused) return 0;
   switch (status) {
     case ScrapeJobStatus.completed:
       return 100;
@@ -119,7 +120,8 @@ function progressFromStatus(status: ScrapeJobStatus) {
   }
 }
 
-function progressColor(status: ScrapeJobStatus) {
+function progressColor(status: ScrapeJobStatus, paused: boolean) {
+  if (paused) return "bg-zinc-300";
   if (status === ScrapeJobStatus.failed) return "bg-red-500";
   if (status === ScrapeJobStatus.completed) return "bg-emerald-500";
   return "bg-[#2B83F6]";
@@ -138,6 +140,12 @@ export default function ScrapeJobsPage() {
   const [ingesting, setIngesting] = useState<Record<string, string>>({});
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState<Record<string, boolean>>({});
+  const [rowActions, setRowActions] = useState<Record<string, string>>({});
+
+  const authHeaders = {
+    "Content-Type": "application/json",
+    "x-session-verified": "true",
+  };
 
   useEffect(() => {
     const source = new EventSource("/api/scrape_jobs/updates");
@@ -236,7 +244,89 @@ export default function ScrapeJobsPage() {
     }
   };
 
-  const renderStatusPill = (status: ScrapeJobStatus) => {
+  const markRowAction = (jobId: string, action: string | null) => {
+    setRowActions((state) => {
+      const next = { ...state } as Record<string, string>;
+      if (action) {
+        next[jobId] = action;
+      } else {
+        delete next[jobId];
+      }
+      return next;
+    });
+  };
+
+  const togglePauseJob = async (job: SerializedJob) => {
+    const targetPaused = !job.job.paused;
+    markRowAction(job.job.id, targetPaused ? "pause" : "resume");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
+        method: "PATCH",
+        headers: authHeaders,
+        body: JSON.stringify({ paused: targetPaused }),
+      });
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to toggle pause", await res.text());
+      }
+    } catch (error) {
+      console.error("Error toggling pause", error);
+    } finally {
+      markRowAction(job.job.id, null);
+    }
+  };
+
+  const cancelJob = async (jobId: string) => {
+    markRowAction(jobId, "cancel");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${jobId}`, {
+        method: "DELETE",
+        headers: authHeaders,
+      });
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to cancel job", await res.text());
+      }
+    } catch (error) {
+      console.error("Error canceling job", error);
+    } finally {
+      markRowAction(jobId, null);
+    }
+  };
+
+  const requeueJob = async (jobId: string) => {
+    markRowAction(jobId, "requeue");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${jobId}/trigger`, {
+        method: "POST",
+        headers: authHeaders,
+      });
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to requeue job", await res.text());
+      }
+    } catch (error) {
+      console.error("Error requeuing job", error);
+    } finally {
+      markRowAction(jobId, null);
+    }
+  };
+
+  const renderStatusPill = (status: ScrapeJobStatus, paused: boolean) => {
+    if (paused) {
+      return (
+        <span className="text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200">
+          Paused · {status}
+        </span>
+      );
+    }
+
     const colors: Record<ScrapeJobStatus, string> = {
       [ScrapeJobStatus.queued]: "bg-amber-50 text-amber-700 border border-amber-200",
       [ScrapeJobStatus.running]: "bg-blue-50 text-blue-700 border border-blue-200",
@@ -401,7 +491,8 @@ export default function ScrapeJobsPage() {
               <tbody className="divide-y divide-zinc-100">
                 {(data || []).map((item: SerializedJob) => {
                   const logSnippet = (item.log || "").split("\n").find(Boolean) || "No log yet.";
-                  const progress = progressFromStatus(item.job.status);
+                  const progress = progressFromStatus(item.job.status, item.job.paused);
+                  const actionState = rowActions[item.job.id];
                   return (
                     <tr key={item.job.id} className="align-top">
                       <td className="py-3 pr-3">
@@ -412,20 +503,21 @@ export default function ScrapeJobsPage() {
                         </div>
                         <div className="text-xs text-zinc-500">{formatDate(item.job.createdAt)}</div>
                       </td>
-                      <td className="py-3 pr-3">{renderStatusPill(item.job.status)}</td>
+                      <td className="py-3 pr-3">{renderStatusPill(item.job.status, item.job.paused)}</td>
                       <td className="py-3 pr-3 capitalize">{item.job.cadence}</td>
                       <td className="py-3 pr-3">
                         <div className="flex items-center gap-2 text-xs text-zinc-600">
                           <span>{formatDuration(item.stats.durationSeconds)}</span>
                           <div className="flex-1 h-2 bg-zinc-100 rounded-full overflow-hidden">
                             <div
-                              className={`h-2 ${progressColor(item.job.status)}`}
+                              className={`h-2 ${progressColor(item.job.status, item.job.paused)}`}
                               style={{ width: `${progress}%` }}
                             />
                           </div>
                         </div>
                         <div className="text-[11px] text-zinc-400">
                           Started {formatDate(item.job.startedAt)} · Finished {formatDate(item.job.finishedAt)}
+                          {item.job.paused ? " · Paused" : ""}
                         </div>
                       </td>
                       <td className="py-3 pr-3 text-xs text-zinc-700">
@@ -465,7 +557,7 @@ export default function ScrapeJobsPage() {
                     </div>
                   </td>
                       <td className="py-3">
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                           <button
                             onClick={() => sendToVectorStore(item)}
                             disabled={ingesting[item.job.id] === "working"}
@@ -477,6 +569,41 @@ export default function ScrapeJobsPage() {
                               <Send size={14} />
                             )}
                             Send to vector stores
+                          </button>
+                          <button
+                            onClick={() => togglePauseJob(item)}
+                            disabled={Boolean(actionState)}
+                            className="flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                          >
+                            {actionState === "pause" || actionState === "resume" ? (
+                              <Loader2 size={14} className="animate-spin" />
+                            ) : item.job.paused ? (
+                              "Resume"
+                            ) : (
+                              "Pause"
+                            )}
+                          </button>
+                          <button
+                            onClick={() => requeueJob(item.job.id)}
+                            disabled={Boolean(actionState)}
+                            className="flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                          >
+                            {actionState === "requeue" ? (
+                              <Loader2 size={14} className="animate-spin" />
+                            ) : (
+                              "Requeue"
+                            )}
+                          </button>
+                          <button
+                            onClick={() => cancelJob(item.job.id)}
+                            disabled={Boolean(actionState)}
+                            className="flex items-center gap-2 border border-red-200 rounded-lg px-3 py-1.5 text-xs font-medium text-red-700 hover:border-red-300 disabled:opacity-60"
+                          >
+                            {actionState === "cancel" ? (
+                              <Loader2 size={14} className="animate-spin" />
+                            ) : (
+                              "Cancel"
+                            )}
                           </button>
                         </div>
                         {ingesting[item.job.id] === "done" && (

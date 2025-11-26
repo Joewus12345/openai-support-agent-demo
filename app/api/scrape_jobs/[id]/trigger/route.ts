@@ -23,6 +23,7 @@ export async function POST(
           status: ScrapeJobStatus.queued,
           startedAt: null,
           finishedAt: null,
+          paused: false,
           nextRunAt,
         },
       });
