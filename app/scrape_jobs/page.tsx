@@ -147,6 +147,7 @@ export default function ScrapeJobsPage() {
   const [copiedLog, setCopiedLog] = useState<Record<string, boolean>>({});
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [runMessages, setRunMessages] = useState<Record<string, string>>({});
 
   const authHeaders = {
     "Content-Type": "application/json",
@@ -365,13 +366,22 @@ export default function ScrapeJobsPage() {
   const runJobNow = async (jobId: string) => {
     markRowAction(jobId, "run-now");
     try {
-      const res = await fetch(`/api/scrape_jobs/${jobId}/trigger`, {
+      const res = await fetch(`/api/scrape_jobs/${jobId}/clone`, {
         method: "POST",
         headers: authHeaders,
-        body: JSON.stringify({ nextRunAt: null }),
       });
 
       if (res.ok) {
+        const payload = (await res.json().catch(() => null)) as
+          | { job?: { id?: string } }
+          | null;
+        const newJobId = payload?.job?.id;
+        if (newJobId) {
+          setRunMessages((current) => ({
+            ...current,
+            [jobId]: `New run created (${newJobId})`,
+          }));
+        }
         await mutate();
       } else {
         console.error("Failed to run job immediately", await res.text());
@@ -750,6 +760,11 @@ export default function ScrapeJobsPage() {
                             </div>
                           )}
                         </div>
+                        {runMessages[item.job.id] && (
+                          <div className="text-[11px] text-blue-600 mt-1">
+                            {runMessages[item.job.id]}
+                          </div>
+                        )}
                         {ingesting[item.job.id] === "done" && (
                           <div className="text-[11px] text-emerald-600 mt-1">Ingestion triggered.</div>
                         )}

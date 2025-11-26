@@ -325,14 +325,20 @@ export default function ScrapeJobDetail({
     setActionState("run-now");
     setRunFeedback(null);
     try {
-      const res = await fetch(`/api/scrape_jobs/${data.job.id}/trigger`, {
+      const res = await fetch(`/api/scrape_jobs/${data.job.id}/clone`, {
         method: "POST",
         headers: authHeaders,
-        body: JSON.stringify({ nextRunAt: null }),
       });
 
       if (res.ok) {
-        setRunFeedback("Job queued to run again now (same ID)");
+        const payload = (await res.json().catch(() => null)) as
+          | { job?: { id?: string } }
+          | null;
+        setRunFeedback(
+          payload?.job?.id
+            ? `New run created from this job (ID: ${payload.job.id})`
+            : "New run created from this job"
+        );
         await mutate();
       } else {
         setRunFeedback("Failed to queue run now.");
