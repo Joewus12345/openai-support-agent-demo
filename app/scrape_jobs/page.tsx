@@ -8,8 +8,13 @@ import {
   CalendarRange,
   Copy,
   Loader2,
+  MoreVertical,
+  PauseCircle,
   PlayCircle,
+  RotateCcw,
   Send,
+  Trash2,
+  XCircle,
 } from "lucide-react";
 
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
@@ -144,6 +149,7 @@ export default function ScrapeJobsPage() {
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState<Record<string, boolean>>({});
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   const authHeaders = {
     "Content-Type": "application/json",
@@ -165,6 +171,18 @@ export default function ScrapeJobsPage() {
       source.close();
     };
   }, [mutate]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target?.closest(".job-actions-menu")) {
+        setOpenMenu(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const handlePresetChange = (key: string) => {
     setSelectedPreset(key);
@@ -298,6 +316,32 @@ export default function ScrapeJobsPage() {
       console.error("Error canceling job", error);
     } finally {
       markRowAction(jobId, null);
+    }
+  };
+
+  const deleteJob = async (jobId: string) => {
+    const confirmDelete = window.confirm(
+      "Delete this job and its artifacts permanently? This cannot be undone."
+    );
+    if (!confirmDelete) return;
+
+    markRowAction(jobId, "delete");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${jobId}/hard`, {
+        method: "DELETE",
+        headers: authHeaders,
+      });
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to delete job", await res.text());
+      }
+    } catch (error) {
+      console.error("Error deleting job", error);
+    } finally {
+      markRowAction(jobId, null);
+      setOpenMenu(null);
     }
   };
 
@@ -563,54 +607,107 @@ export default function ScrapeJobsPage() {
                     </div>
                   </td>
                       <td className="py-3">
-                        <div className="flex flex-wrap gap-2">
+                        <div className="relative job-actions-menu inline-block text-left">
                           <button
-                            onClick={() => sendToVectorStore(item)}
-                            disabled={ingesting[item.job.id] === "working"}
-                            className="flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
-                          >
-                            {ingesting[item.job.id] === "working" ? (
-                              <Loader2 size={14} className="animate-spin" />
-                            ) : (
-                              <Send size={14} />
-                            )}
-                            Send to vector stores
-                          </button>
-                          <button
-                            onClick={() => togglePauseJob(item)}
+                            type="button"
+                            className="flex items-center gap-1 rounded-lg border border-zinc-200 px-2 py-1 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              setOpenMenu((current) =>
+                                current === item.job.id ? null : item.job.id
+                              );
+                            }}
                             disabled={Boolean(actionState)}
-                            className="flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                            aria-haspopup="menu"
+                            aria-expanded={openMenu === item.job.id}
                           >
-                            {actionState === "pause" || actionState === "resume" ? (
-                              <Loader2 size={14} className="animate-spin" />
-                            ) : item.job.paused ? (
-                              "Resume"
-                            ) : (
-                              "Pause"
-                            )}
+                            <MoreVertical size={14} />
+                            Actions
                           </button>
-                          <button
-                            onClick={() => requeueJob(item.job.id)}
-                            disabled={Boolean(actionState)}
-                            className="flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
-                          >
-                            {actionState === "requeue" ? (
-                              <Loader2 size={14} className="animate-spin" />
-                            ) : (
-                              "Requeue"
-                            )}
-                          </button>
-                          <button
-                            onClick={() => cancelJob(item.job.id)}
-                            disabled={Boolean(actionState)}
-                            className="flex items-center gap-2 border border-red-200 rounded-lg px-3 py-1.5 text-xs font-medium text-red-700 hover:border-red-300 disabled:opacity-60"
-                          >
-                            {actionState === "cancel" ? (
-                              <Loader2 size={14} className="animate-spin" />
-                            ) : (
-                              "Cancel"
-                            )}
-                          </button>
+
+                          {openMenu === item.job.id && (
+                            <div className="absolute right-0 z-10 mt-2 w-56 rounded-lg border border-zinc-200 bg-white shadow-lg">
+                              <div className="py-1 text-xs text-zinc-700">
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void sendToVectorStore(item);
+                                  }}
+                                  disabled={ingesting[item.job.id] === "working"}
+                                >
+                                  {ingesting[item.job.id] === "working" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <Send size={14} />
+                                  )}
+                                  <span>Send to vector stores</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void togglePauseJob(item);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "pause" || actionState === "resume" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : item.job.paused ? (
+                                    <PlayCircle size={14} />
+                                  ) : (
+                                    <PauseCircle size={14} />
+                                  )}
+                                  <span>{item.job.paused ? "Resume" : "Pause"}</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void requeueJob(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "requeue" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <RotateCcw size={14} />
+                                  )}
+                                  <span>Requeue</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 text-red-700 hover:bg-red-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void cancelJob(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "cancel" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <XCircle size={14} />
+                                  )}
+                                  <span>Cancel</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 text-red-700 hover:bg-red-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void deleteJob(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "delete" ? (
+                                    <Loader2 size={14} className="animate-spin" />
+                                  ) : (
+                                    <Trash2 size={14} />
+                                  )}
+                                  <span>Delete</span>
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </div>
                         {ingesting[item.job.id] === "done" && (
                           <div className="text-[11px] text-emerald-600 mt-1">Ingestion triggered.</div>

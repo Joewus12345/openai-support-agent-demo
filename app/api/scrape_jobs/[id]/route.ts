@@ -55,6 +55,8 @@ export async function PATCH(
         data.nextRunAt = nextRunAt ?? calculateNextRun(existing.cadence);
       } else if (nextRunAt !== undefined) {
         data.nextRunAt = nextRunAt;
+      } else {
+        data.nextRunAt = null;
       }
     } else if (nextRunAt !== undefined) {
       data.nextRunAt = nextRunAt;

@@ -8,7 +8,16 @@ import {
   useRef,
   useState,
 } from "react";
-import { Copy, Loader2, Send } from "lucide-react";
+import {
+  Copy,
+  Loader2,
+  PauseCircle,
+  PlayCircle,
+  RotateCcw,
+  Send,
+  Trash2,
+  XCircle,
+} from "lucide-react";
 import useSWR from "swr";
 
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
@@ -330,6 +339,29 @@ export default function ScrapeJobDetail({
     }
   };
 
+  const deleteJob = async () => {
+    if (!data) return;
+    const confirmDelete = window.confirm(
+      "Delete this job and its artifacts permanently? This cannot be undone."
+    );
+    if (!confirmDelete) return;
+
+    setActionState("delete");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${data.job.id}/hard`, {
+        method: "DELETE",
+        headers: authHeaders,
+      });
+
+      if (res.ok) {
+        await mutate();
+        window.location.href = "/scrape_jobs";
+      }
+    } finally {
+      setActionState(null);
+    }
+  };
+
   const sendToVectorStore = async () => {
     if (!data) return;
     setIngesting("working");
@@ -495,24 +527,35 @@ export default function ScrapeJobDetail({
                 {actionState === "pause" || actionState === "resume" ? (
                   <Loader2 size={14} className="animate-spin" />
                 ) : data.job.paused ? (
-                  "Resume"
+                  <PlayCircle size={14} />
                 ) : (
-                  "Pause"
+                  <PauseCircle size={14} />
                 )}
+                {data.job.paused ? "Resume" : "Pause"}
               </button>
               <button
                 onClick={requeueJob}
                 disabled={Boolean(actionState)}
                 className="flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
               >
-                {actionState === "requeue" ? <Loader2 size={14} className="animate-spin" /> : "Requeue"}
+                {actionState === "requeue" ? <Loader2 size={14} className="animate-spin" /> : <RotateCcw size={14} />}
+                Requeue
               </button>
               <button
                 onClick={cancelJob}
                 disabled={Boolean(actionState)}
                 className="flex items-center gap-2 border border-red-200 rounded-lg px-3 py-1.5 text-xs font-medium text-red-700 hover:border-red-300 disabled:opacity-60"
               >
-                {actionState === "cancel" ? <Loader2 size={14} className="animate-spin" /> : "Cancel"}
+                {actionState === "cancel" ? <Loader2 size={14} className="animate-spin" /> : <XCircle size={14} />}
+                Cancel
+              </button>
+              <button
+                onClick={deleteJob}
+                disabled={Boolean(actionState)}
+                className="flex items-center gap-2 border border-red-200 rounded-lg px-3 py-1.5 text-xs font-medium text-red-700 hover:border-red-300 disabled:opacity-60"
+              >
+                {actionState === "delete" ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+                Delete
               </button>
             </div>
             {ingesting === "done" && (
