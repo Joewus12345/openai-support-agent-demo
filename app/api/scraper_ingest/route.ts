@@ -10,6 +10,8 @@ import { KB_FOLDERS } from "@/config/demoData";
 import { VECTOR_STORE_ID } from "@/config/constants";
 import { clearFileSearchCache } from "@/config/functions";
 import { localVectorStore } from "@/lib/localVectorStore";
+import prisma from "@/lib/prisma";
+import { listScrapeArtifacts } from "../scrape_jobs/helpers";
 
 const openai = new OpenAI();
 
@@ -124,11 +126,49 @@ async function uploadToVectorStore(
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const markdownBlobs: MarkdownBlob[] = body.markdownBlobs || [];
+    let markdownBlobs: MarkdownBlob[] = body.markdownBlobs || [];
     const destinationFolder: string = body.destinationFolder || "knowledge_base";
     const chunkSize: number = body.chunkSize || 1000;
     const vectorStoreId: string = body.vectorStoreId || VECTOR_STORE_ID;
     const forceLocalRebuild: boolean = body.forceLocalRebuild === true;
+    const artifactPaths: string[] = Array.isArray(body.artifactPaths)
+      ? body.artifactPaths.filter((entry: unknown) => typeof entry === "string")
+      : [];
+    const jobId: string | undefined = typeof body.jobId === "string" ? body.jobId : undefined;
+
+    if (artifactPaths.length === 0 && jobId) {
+      const job = await prisma.scrapeJob.findUnique({ where: { id: jobId } });
+      if (!job) {
+        return NextResponse.json({ error: `No scrape job found for id ${jobId}` }, { status: 404 });
+      }
+      const discovered = await listScrapeArtifacts(job);
+      artifactPaths.push(...discovered);
+      if (markdownBlobs.length === 0) {
+        markdownBlobs = markdownBlobs.concat(
+          discovered.map((relativePath) => ({
+            content: "",
+            source: relativePath,
+            filename: path.basename(relativePath),
+          }))
+        );
+      }
+    }
+
+    if (artifactPaths.length > 0) {
+      const artifactBlobs: MarkdownBlob[] = [];
+      for (const artifactPath of artifactPaths) {
+        const absolutePath = path.isAbsolute(artifactPath)
+          ? artifactPath
+          : path.join(process.cwd(), artifactPath);
+        const content = await fsp.readFile(absolutePath, "utf8");
+        artifactBlobs.push({
+          content,
+          source: path.relative(process.cwd(), absolutePath),
+          filename: path.basename(absolutePath),
+        });
+      }
+      markdownBlobs = [...artifactBlobs, ...markdownBlobs];
+    }
 
     if (!Array.isArray(markdownBlobs) || markdownBlobs.length === 0) {
       return NextResponse.json(
@@ -154,6 +194,7 @@ export async function POST(request: Request) {
     const changedFiles: string[] = [];
     const unchangedFiles: string[] = [];
     const normalizedBlobs: MarkdownBlob[] = [];
+    const ingestedDocuments: string[] = [];
 
     for (let i = 0; i < markdownBlobs.length; i++) {
       const blob = markdownBlobs[i];
@@ -193,6 +234,7 @@ export async function POST(request: Request) {
         source: blob.source || relativeFilePath,
         filename: normalizedFilename,
       });
+      ingestedDocuments.push(blob.source || relativeFilePath);
     }
 
     if (normalizedBlobs.length === 0 && !forceLocalRebuild) {
@@ -202,6 +244,7 @@ export async function POST(request: Request) {
         vectorStoreId,
         uploadedFiles: [],
         ingestion: null,
+        ingestedDocuments,
       });
     }
 
@@ -247,6 +290,11 @@ export async function POST(request: Request) {
       ingestion,
       vectorStoreId,
       uploadedFiles,
+      ingestedDocuments,
+      message:
+        ingestedDocuments.length > 0
+          ? `Ingestion completed for ${ingestedDocuments.length} document(s): ${ingestedDocuments.join(", ")}`
+          : "Ingestion completed",
     });
   } catch (error) {
     console.error("Error running scraper ingestion:", error);

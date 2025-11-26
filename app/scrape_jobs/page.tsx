@@ -48,6 +48,7 @@ type SerializedJob = {
   job: ScrapeJob;
   log: string | null;
   stats: JobStats;
+  artifacts: string[];
 };
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -233,33 +234,47 @@ export default function ScrapeJobsPage() {
 
   const sendToVectorStore = async (job: SerializedJob) => {
     setIngesting((state) => ({ ...state, [job.job.id]: "working" }));
-    const snippet = (job.log || "").slice(0, 1200) ||
-      `Scrape job ${job.job.id} completed with status ${job.job.status}.`;
+    const artifactPaths = job.artifacts || [];
+
+    if (artifactPaths.length === 0) {
+      setRunMessages((state) => ({
+        ...state,
+        [job.job.id]: "No scraped artifacts were found for this run.",
+      }));
+      setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
+      return;
+    }
 
     try {
       const res = await fetch("/api/scraper_ingest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          markdownBlobs: [
-            {
-              content: snippet,
-              source: `${job.job.script}.log`,
-              filename: `${job.job.id}.md`,
-            },
-          ],
+          jobId: job.job.id,
+          artifactPaths,
           destinationFolder: "knowledge_base",
         }),
       });
 
+      const result = await res.json().catch(() => ({}));
+
       if (res.ok) {
         setIngesting((state) => ({ ...state, [job.job.id]: "done" }));
+        const docs = (result.ingestedDocuments as string[]) || artifactPaths;
+        const message =
+          typeof result.message === "string"
+            ? result.message
+            : `Ingestion triggered for ${docs.length} document(s).`;
+        setRunMessages((state) => ({ ...state, [job.job.id]: message }));
       } else {
         setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
+        const error = typeof result?.error === "string" ? result.error : "Failed to start ingestion.";
+        setRunMessages((state) => ({ ...state, [job.job.id]: error }));
       }
     } catch (err) {
       console.error("Error sending to vector store", err);
       setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
+      setRunMessages((state) => ({ ...state, [job.job.id]: "Unexpected error while sending to vector store." }));
     }
   };
 
@@ -766,7 +781,9 @@ export default function ScrapeJobsPage() {
                           </div>
                         )}
                         {ingesting[item.job.id] === "done" && (
-                          <div className="text-[11px] text-emerald-600 mt-1">Ingestion triggered.</div>
+                          <div className="text-[11px] text-emerald-600 mt-1">
+                            {runMessages[item.job.id] || "Ingestion triggered."}
+                          </div>
                         )}
                         {ingesting[item.job.id] === "error" && (
                           <div className="text-[11px] text-red-600 mt-1">Failed to send; retry?</div>

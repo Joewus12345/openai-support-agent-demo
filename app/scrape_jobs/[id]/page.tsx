@@ -55,6 +55,7 @@ type SerializedJob = {
   job: ScrapeJob;
   log: string | null;
   stats: JobStats;
+  artifacts: string[];
 };
 
 function formatDate(value: string | null) {
@@ -391,33 +392,44 @@ export default function ScrapeJobDetail({
   const sendToVectorStore = async () => {
     if (!data) return;
     setIngesting("working");
-    const snippet = (data.log || "").slice(0, 1200) ||
-      `Scrape job ${data.job.id} completed with status ${data.job.status}.`;
+    const artifactPaths = data.artifacts || [];
+
+    if (artifactPaths.length === 0) {
+      setRunFeedback("No scraped artifacts were found for this run.");
+      setIngesting("error");
+      return;
+    }
 
     try {
       const res = await fetch("/api/scraper_ingest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          markdownBlobs: [
-            {
-              content: snippet,
-              source: `${data.job.script}.log`,
-              filename: `${data.job.id}.md`,
-            },
-          ],
+          jobId: data.job.id,
+          artifactPaths,
           destinationFolder: "knowledge_base",
         }),
       });
 
+      const result = await res.json().catch(() => ({}));
+
       if (res.ok) {
         setIngesting("done");
+        const docs = (result.ingestedDocuments as string[]) || artifactPaths;
+        setRunFeedback(
+          typeof result.message === "string"
+            ? result.message
+            : `Ingestion triggered for ${docs.length} document(s).`
+        );
       } else {
         setIngesting("error");
+        const error = typeof result?.error === "string" ? result.error : "Failed to start ingestion.";
+        setRunFeedback(error);
       }
     } catch (err) {
       console.error("Error sending to vector store", err);
       setIngesting("error");
+      setRunFeedback("Unexpected error while sending to vector store.");
     }
   };
 
@@ -594,7 +606,9 @@ export default function ScrapeJobDetail({
               </button>
             </div>
             {ingesting === "done" && (
-              <div className="text-[11px] text-emerald-600">Ingestion triggered.</div>
+              <div className="text-[11px] text-emerald-600">
+                {runFeedback || "Ingestion triggered."}
+              </div>
             )}
             {ingesting === "error" && (
               <div className="text-[11px] text-red-600">Failed to send; retry?</div>

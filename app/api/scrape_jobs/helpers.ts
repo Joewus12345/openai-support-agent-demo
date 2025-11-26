@@ -1,7 +1,11 @@
 import fs from "fs/promises";
+import path from "path";
+
 import prisma from "../../../lib/prisma";
 import { ScrapeJob } from "../../../lib/generated/prisma";
 import { BenchmarkEntry } from "@/lib/scrapeMetrics";
+
+const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
 
 export async function readJobLog(logPath: string | null | undefined) {
   if (!logPath) return null;
@@ -47,6 +51,27 @@ export function buildJobStats(job: ScrapeJob, benchmark: BenchmarkEntry | null =
   };
 }
 
+export async function listScrapeArtifacts(job: ScrapeJob) {
+  if (!job.startedAt && !job.finishedAt) return [] as string[];
+
+  try {
+    const entries = await fs.readdir(KNOWLEDGE_BASE_DIR);
+    const artifacts: string[] = [];
+    for (const entry of entries) {
+      if (!entry.toLowerCase().endsWith(".md")) continue;
+      const fullPath = path.join(KNOWLEDGE_BASE_DIR, entry);
+      const stats = await fs.stat(fullPath);
+      if (job.startedAt && stats.mtime < job.startedAt) continue;
+      if (job.finishedAt && stats.mtime > job.finishedAt) continue;
+      artifacts.push(path.relative(process.cwd(), fullPath));
+    }
+    return artifacts.sort();
+  } catch (error) {
+    console.warn("Unable to list scrape artifacts", { error });
+    return [] as string[];
+  }
+}
+
 export function ensureAuthenticated(request: Request) {
   const verifiedHeader = request.headers.get("x-session-verified");
   const telegramUser = request.headers.get("x-telegram-user-id");
@@ -66,11 +91,13 @@ export async function serializeJob(jobId: string) {
   if (!job) return null;
 
   const log = await readJobLog(job.logPath);
+  const artifacts = await listScrapeArtifacts(job);
 
   return {
     job,
     log,
     stats: buildJobStats(job),
+    artifacts,
   };
 }
 
