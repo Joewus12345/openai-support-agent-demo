@@ -439,7 +439,7 @@ export async function runScrapeJob(
     return { exitCode: 1 };
   }
 
-  await setProgress(10, true);
+  await setProgress(10, { force: true });
 
   let exitCode = -1;
   let missingCrawlDependency = false;
