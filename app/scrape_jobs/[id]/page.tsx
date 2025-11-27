@@ -503,14 +503,14 @@ export default function ScrapeJobDetail({
   const progressValue = deriveProgress(data.job);
 
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-24 px-4 pb-16 md:pb-24">
-      <div className="w-full max-w-4xl flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-sm text-zinc-500">Job ID</div>
-            <div className="text-lg font-semibold text-zinc-800">{data.job.id}</div>
-            <div className="text-sm text-zinc-500">Script: {data.job.script}</div>
-            <div className="mt-2 text-xs text-zinc-500">Output: {KNOWLEDGE_BASE_PATH}</div>
+    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-10 md:pt-14 px-4 pb-16 md:pb-20">
+      <div className="w-full max-w-4xl flex flex-col gap-5">
+        <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
+          <div className="flex flex-col gap-1">
+            <div className="text-[11px] uppercase tracking-wide text-zinc-500">Scrape job</div>
+            <div className="text-2xl font-semibold text-zinc-900">{data.job.script}</div>
+            <div className="text-sm text-zinc-500">Job ID: {data.job.id}</div>
+            <div className="text-xs text-zinc-500">Output: {KNOWLEDGE_BASE_PATH}</div>
             <div className="text-[11px] text-zinc-400">{logSnippet}</div>
           </div>
           <Link href="/scrape_jobs" className="text-sm text-[#2B83F6] hover:underline">
