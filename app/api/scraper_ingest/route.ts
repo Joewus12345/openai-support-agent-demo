@@ -169,10 +169,10 @@ async function uploadToVectorStore(
 export async function POST(request: Request) {
   let jobId: string | undefined;
   let vectorStoreId = VECTOR_STORE_ID;
-  let changedFiles: string[] = [];
-  let unchangedFiles: string[] = [];
-  let deletedVectorStoreFiles: Record<string, string> = {};
-  let ingestedDocuments: string[] = [];
+  const changedFiles: string[] = [];
+  const unchangedFiles: string[] = [];
+  const deletedVectorStoreFiles: Record<string, string> = {};
+  const ingestedDocuments: string[] = [];
   const fileHashes: Record<string, string> = {};
 
   try {
@@ -335,7 +335,7 @@ export async function POST(request: Request) {
         const previousEntry = manifest[filePath];
         if (previousEntry?.vectorStoreFileId) {
           try {
-            await openai.vectorStores.files.del(
+            await openai.vectorStores.files.delete(
               vectorStoreId,
               previousEntry.vectorStoreFileId
             );

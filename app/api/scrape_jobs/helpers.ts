@@ -55,16 +55,53 @@ export function buildJobStats(job: ScrapeJob, benchmark: BenchmarkEntry | null =
 export async function listScrapeArtifacts(job: ScrapeJob) {
   if (!job.startedAt && !job.finishedAt) return [] as string[];
 
+  // Set SCRAPE_ARTIFACT_DEBUG=true to log inclusion/skip decisions for artifacts.
+  const debugArtifacts = process.env.SCRAPE_ARTIFACT_DEBUG === "true";
+
   try {
     const entries = await fs.readdir(KNOWLEDGE_BASE_DIR);
     const artifacts: string[] = [];
     for (const entry of entries) {
-      if (!entry.toLowerCase().endsWith(".md")) continue;
+      const reason: string[] = [];
+      if (!entry.toLowerCase().endsWith(".md")) {
+        reason.push("non-markdown file");
+      }
+
       const fullPath = path.join(KNOWLEDGE_BASE_DIR, entry);
       const stats = await fs.stat(fullPath);
-      if (job.startedAt && stats.mtime < job.startedAt) continue;
-      if (job.finishedAt && stats.mtime > job.finishedAt) continue;
-      artifacts.push(path.relative(process.cwd(), fullPath));
+
+      const createdAt = stats.birthtime ?? stats.mtime;
+      if (job.startedAt && createdAt < job.startedAt) {
+        reason.push("created before job start");
+      }
+      if (job.finishedAt && createdAt > job.finishedAt) {
+        reason.push("created after job finish");
+      }
+
+      if (reason.length === 0) {
+        artifacts.push(path.relative(process.cwd(), fullPath));
+        if (debugArtifacts) {
+          console.debug("listScrapeArtifacts: including", {
+            path: fullPath,
+            createdAt,
+            mtime: stats.mtime,
+            startedAt: job.startedAt,
+            finishedAt: job.finishedAt,
+          });
+        }
+        continue;
+      }
+
+      if (debugArtifacts) {
+        console.debug("listScrapeArtifacts: skipping", {
+          path: fullPath,
+          reasons: reason,
+          createdAt,
+          mtime: stats.mtime,
+          startedAt: job.startedAt,
+          finishedAt: job.finishedAt,
+        });
+      }
     }
     return artifacts.sort();
   } catch (error) {
