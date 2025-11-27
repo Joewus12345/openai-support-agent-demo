@@ -674,7 +674,7 @@ export default function ScrapeJobDetail({
                   {data.ingestionResult.changedFiles.length === 0 ? (
                     <div className="text-zinc-500">None</div>
                   ) : (
-                    <ul className="list-disc pl-4">
+                    <ul className="list-disc pl-4 space-y-1 break-words">
                       {data.ingestionResult.changedFiles.map((file) => (
                         <li key={file}>{file}</li>
                       ))}
@@ -686,7 +686,7 @@ export default function ScrapeJobDetail({
                   {data.ingestionResult.unchangedFiles.length === 0 ? (
                     <div className="text-zinc-500">None</div>
                   ) : (
-                    <ul className="list-disc pl-4">
+                    <ul className="list-disc pl-4 space-y-1 break-words">
                       {data.ingestionResult.unchangedFiles.map((file) => (
                         <li key={file}>{file}</li>
                       ))}
@@ -715,10 +715,13 @@ export default function ScrapeJobDetail({
                   </div>
                   <ul className="flex flex-col gap-2">
                     {data.ingestionResult.uploadedFiles.map((file) => (
-                      <li key={`${file.filePath}-${file.vectorStoreFileId}`} className="rounded border border-zinc-200 bg-zinc-50 px-3 py-2">
-                        <div className="text-[11px] font-semibold text-zinc-800">{file.filePath}</div>
-                        <div className="flex items-center gap-2 text-[10px] text-zinc-600">
-                          <span>OpenAI file: {file.fileId ?? "—"}</span>
+                      <li
+                        key={`${file.filePath}-${file.vectorStoreFileId}`}
+                        className="rounded border border-zinc-200 bg-zinc-50 px-3 py-2 space-y-1 break-words"
+                      >
+                        <div className="text-[11px] font-semibold text-zinc-800 break-words">{file.filePath}</div>
+                        <div className="flex flex-wrap items-center gap-2 text-[10px] text-zinc-600">
+                          <span className="break-all">OpenAI file: {file.fileId ?? "—"}</span>
                           {file.fileId && (
                             <button
                               type="button"
@@ -744,8 +747,8 @@ export default function ScrapeJobDetail({
                             </button>
                           )}
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] text-zinc-600">
-                          <span>Vector store file: {file.vectorStoreFileId ?? "—"}</span>
+                        <div className="flex flex-wrap items-center gap-2 text-[10px] text-zinc-600">
+                          <span className="break-all">Vector store file: {file.vectorStoreFileId ?? "—"}</span>
                           {file.vectorStoreFileId && (
                             <button
                               type="button"

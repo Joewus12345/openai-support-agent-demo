@@ -6,7 +6,6 @@ import useSWR from "swr";
 import {
   CalendarClock,
   CalendarRange,
-  ChevronDown,
   Copy,
   Loader2,
   MoreVertical,
@@ -14,7 +13,6 @@ import {
   PlayCircle,
   RotateCcw,
   Send,
-  ExternalLink,
   Zap,
   Trash2,
   XCircle,
@@ -141,7 +139,16 @@ export default function ScrapeJobsPage() {
   const { data, error, isLoading, mutate } = useSWR<SerializedJob[]>(
     "/api/scrape_jobs?detailed=true",
     fetcher,
-    { refreshInterval: 15000, revalidateOnFocus: false }
+    {
+      refreshInterval: (latestData) =>
+        latestData?.some(
+          (job) => job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
+        )
+          ? 12000
+          : 30000,
+      revalidateOnFocus: false,
+      dedupingInterval: 5000,
+    }
   );
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
@@ -150,7 +157,6 @@ export default function ScrapeJobsPage() {
   const [ingesting, setIngesting] = useState<Record<string, string>>({});
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState<Record<string, boolean>>({});
-  const [copiedVectorIds, setCopiedVectorIds] = useState<Record<string, boolean>>({});
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [runMessages, setRunMessages] = useState<Record<string, string>>({});
