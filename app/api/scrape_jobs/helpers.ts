@@ -62,31 +62,61 @@ export async function listScrapeArtifacts(job: ScrapeJob) {
     const entries = await fs.readdir(KNOWLEDGE_BASE_DIR);
     const artifacts: string[] = [];
     for (const entry of entries) {
-      const reason: string[] = [];
-      if (!entry.toLowerCase().endsWith(".md")) {
-        reason.push("non-markdown file");
+      const skipReasons: string[] = [];
+      const includeReasons: string[] = [];
+      const isMarkdown = entry.toLowerCase().endsWith(".md");
+      if (!isMarkdown) {
+        skipReasons.push("non-markdown file");
       }
 
       const fullPath = path.join(KNOWLEDGE_BASE_DIR, entry);
       const stats = await fs.stat(fullPath);
 
       const createdAt = stats.birthtime ?? stats.mtime;
-      if (job.startedAt && createdAt < job.startedAt) {
-        reason.push("created before job start");
-      }
-      if (job.finishedAt && createdAt > job.finishedAt) {
-        reason.push("created after job finish");
+      const modifiedAt = stats.mtime;
+
+      const createdInWindow =
+        (!job.startedAt || createdAt >= job.startedAt) &&
+        (!job.finishedAt || createdAt <= job.finishedAt);
+      const modifiedInWindow =
+        (!job.startedAt || modifiedAt >= job.startedAt) &&
+        (!job.finishedAt || modifiedAt <= job.finishedAt);
+
+      if (!createdInWindow) {
+        if (job.startedAt && createdAt < job.startedAt) {
+          skipReasons.push("created before job start");
+        }
+        if (job.finishedAt && createdAt > job.finishedAt) {
+          skipReasons.push("created after job finish");
+        }
+      } else {
+        includeReasons.push("creation within window");
       }
 
-      if (reason.length === 0) {
+      if (!modifiedInWindow) {
+        if (job.startedAt && modifiedAt < job.startedAt) {
+          skipReasons.push("modified before job start");
+        }
+        if (job.finishedAt && modifiedAt > job.finishedAt) {
+          skipReasons.push("modified after job finish");
+        }
+      } else {
+        includeReasons.push("modified within window");
+      }
+
+      const shouldInclude = isMarkdown && (createdInWindow || modifiedInWindow);
+
+      if (shouldInclude) {
         artifacts.push(path.relative(process.cwd(), fullPath));
         if (debugArtifacts) {
           console.debug("listScrapeArtifacts: including", {
             path: fullPath,
             createdAt,
-            mtime: stats.mtime,
+            mtime: modifiedAt,
             startedAt: job.startedAt,
             finishedAt: job.finishedAt,
+            includeReasons,
+            skipReasons,
           });
         }
         continue;
@@ -95,9 +125,9 @@ export async function listScrapeArtifacts(job: ScrapeJob) {
       if (debugArtifacts) {
         console.debug("listScrapeArtifacts: skipping", {
           path: fullPath,
-          reasons: reason,
+          reasons: skipReasons,
           createdAt,
-          mtime: stats.mtime,
+          mtime: modifiedAt,
           startedAt: job.startedAt,
           finishedAt: job.finishedAt,
         });
