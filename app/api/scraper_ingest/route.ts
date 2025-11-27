@@ -336,8 +336,8 @@ export async function POST(request: Request) {
         if (previousEntry?.vectorStoreFileId) {
           try {
             await openai.vectorStores.files.delete(
-              vectorStoreId,
-              previousEntry.vectorStoreFileId
+              previousEntry.vectorStoreFileId,
+              { vector_store_id: vectorStoreId }
             );
             deletedVectorStoreFiles[filePath] = previousEntry.vectorStoreFileId;
           } catch (err) {
