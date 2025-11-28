@@ -667,7 +667,9 @@ export default function ScrapeJobDetail({
 
           {openActivity && (
             <div className="mt-3 space-y-3 text-[11px] text-zinc-700">
-              <div>{data.ingestionResult.message}</div>
+              <div className="break-words text-[11px] text-zinc-700 sm:text-[11px]">
+                {data.ingestionResult.message}
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <div className="font-semibold text-zinc-800">Changed files</div>
