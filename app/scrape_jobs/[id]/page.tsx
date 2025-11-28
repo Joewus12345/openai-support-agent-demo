@@ -635,17 +635,17 @@ export default function ScrapeJobDetail({
           <button
             type="button"
             onClick={() => setOpenActivity((prev) => !prev)}
-            className="flex w-full items-center justify-between gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left hover:border-zinc-300"
+            className="flex w-full flex-col gap-3 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left hover:border-zinc-300 sm:flex-row sm:items-center sm:justify-between"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex min-w-0 items-start gap-2 sm:items-center">
               <ChevronDown
                 size={14}
                 className={`transition-transform ${openActivity ? "rotate-180" : "rotate-0"}`}
               />
-              <div className="flex flex-col leading-tight">
+              <div className="flex min-w-0 flex-col leading-tight">
                 <span className="text-sm font-semibold text-zinc-800">Ingestion activity</span>
                 <span
-                  className={`text-[11px] ${
+                  className={`text-[11px] break-words ${
                     data.ingestionResult.status === "success"
                       ? "text-emerald-700"
                       : data.ingestionResult.status === "skipped"
@@ -657,9 +657,9 @@ export default function ScrapeJobDetail({
                 </span>
               </div>
             </div>
-            <div className="text-[10px] text-zinc-500 text-right">
-              <div>{formatTimestamp(data.ingestionResult.timestamp)}</div>
-              <div>
+            <div className="min-w-0 text-[10px] text-zinc-500 sm:text-right">
+              <div className="break-words">{formatTimestamp(data.ingestionResult.timestamp)}</div>
+              <div className="break-words">
                 {(data.ingestionResult.uploadedFiles?.length ?? 0)} uploaded · {data.ingestionResult.changedFiles.length} changed · {data.ingestionResult.unchangedFiles.length} unchanged
               </div>
             </div>
@@ -720,12 +720,12 @@ export default function ScrapeJobDetail({
                         className="rounded border border-zinc-200 bg-zinc-50 px-3 py-2 space-y-1 break-words"
                       >
                         <div className="text-[11px] font-semibold text-zinc-800 break-words">{file.filePath}</div>
-                        <div className="flex flex-wrap items-center gap-2 text-[10px] text-zinc-600">
-                          <span className="break-all">OpenAI file: {file.fileId ?? "—"}</span>
+                        <div className="flex flex-col gap-1 text-[10px] text-zinc-600 sm:flex-row sm:flex-wrap sm:items-center">
+                          <span className="min-w-0 break-all sm:break-words">OpenAI file: {file.fileId ?? "—"}</span>
                           {file.fileId && (
                             <button
                               type="button"
-                              className="text-blue-600 hover:underline"
+                              className="text-blue-600 hover:underline shrink-0"
                               onClick={() =>
                                 copy(file.fileId!, () => {
                                   setCopiedVectorIds((state) => ({
@@ -747,12 +747,12 @@ export default function ScrapeJobDetail({
                             </button>
                           )}
                         </div>
-                        <div className="flex flex-wrap items-center gap-2 text-[10px] text-zinc-600">
-                          <span className="break-all">Vector store file: {file.vectorStoreFileId ?? "—"}</span>
+                        <div className="flex flex-col gap-1 text-[10px] text-zinc-600 sm:flex-row sm:flex-wrap sm:items-center">
+                          <span className="min-w-0 break-all sm:break-words">Vector store file: {file.vectorStoreFileId ?? "—"}</span>
                           {file.vectorStoreFileId && (
                             <button
                               type="button"
-                              className="text-blue-600 hover:underline"
+                              className="text-blue-600 hover:underline shrink-0"
                               onClick={() =>
                                 copy(file.vectorStoreFileId!, () => {
                                   setCopiedVectorIds((state) => ({
@@ -784,11 +784,14 @@ export default function ScrapeJobDetail({
                 Object.keys(data.ingestionResult.deletedVectorStoreFiles).length > 0 && (
                   <div className="text-[11px] text-zinc-700">
                     <div className="font-semibold text-zinc-800">Replaced vector store files</div>
-                    <ul className="list-disc pl-4">
+                    <ul className="list-disc pl-4 space-y-1">
                       {Object.entries(data.ingestionResult.deletedVectorStoreFiles).map(([filePath, vectorId]) => (
-                        <li key={filePath} className="flex items-center gap-2">
-                          <span>{filePath}</span>
-                          <span className="text-zinc-500">({vectorId})</span>
+                        <li
+                          key={filePath}
+                          className="flex flex-col gap-1 break-words sm:flex-row sm:items-start sm:gap-2"
+                        >
+                          <span className="min-w-0 break-all sm:break-words">{filePath}</span>
+                          <span className="text-zinc-500 min-w-0 break-all sm:break-words">({vectorId})</span>
                         </li>
                       ))}
                     </ul>
