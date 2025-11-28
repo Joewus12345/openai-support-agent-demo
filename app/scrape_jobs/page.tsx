@@ -140,9 +140,9 @@ export default function ScrapeJobsPage() {
     "/api/scrape_jobs?detailed=true",
     fetcher,
     {
-      refreshInterval: (latestData) =>
+      refreshInterval: (latestData: SerializedJob[] | undefined) =>
         latestData?.some(
-          (job) => job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
+          (job: SerializedJob) => job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
         )
           ? 12000
           : 30000,
