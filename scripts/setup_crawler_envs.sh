@@ -133,9 +133,26 @@ create_env() {
   local env_dir="$1"
   local requirements_file="$2"
 
+  local uname_out
+  uname_out="$(uname -s 2>/dev/null || echo '')"
+
   if [[ ! -f "$requirements_file" ]]; then
     echo "Requirements file not found: $requirements_file" >&2
     exit 1
+  fi
+
+  if [[ -d "$env_dir" ]]; then
+    if [[ ! -f "$env_dir/bin/activate" && -f "$env_dir/Scripts/activate" ]]; then
+      if [[ "${uname_out,,}" == linux* || "${uname_out,,}" == darwin* ]]; then
+        if grep -q $'\r' "$env_dir/Scripts/activate" 2>/dev/null; then
+          echo "Existing virtual environment $env_dir looks Windows-style; recreating for POSIX"
+          rm -rf "$env_dir"
+        else
+          echo "Existing virtual environment $env_dir uses Windows layout; recreating for POSIX"
+          rm -rf "$env_dir"
+        fi
+      fi
+    fi
   fi
 
   if [[ ! -d "$env_dir" ]]; then
@@ -168,8 +185,6 @@ EOF
   python -m pip install -r "$requirements_file"
 
   local playwright_args=(install chromium)
-  local uname_out
-  uname_out="$(uname -s 2>/dev/null || echo '')"
   if [[ "${uname_out,,}" == linux* ]]; then
     playwright_args=(install --with-deps chromium)
   fi
