@@ -53,14 +53,14 @@ MCB NXB-63 1P C32 6KA C-Curved
 
 Related Products 
 ## Related products
-  * [![MCB, C16A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C16-1P-300x300.jpg)MCB, C16A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c16-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/?add-to-cart=1777)
-  * [![Manual Changeover Switch, 32A, 2P](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32-300x300.jpg)Manual Changeover Switch, 32A, 2P ₵95.00 ](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
-[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/?add-to-cart=1759)
   * [![Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint ₵1,722.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-63-4csw-enc-bar-chint/)
 [Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/?add-to-cart=1758)
-  * [![AVR, 100KVA-3 Phase, TNSZ\(SBW\)-100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)AVR, 100KVA-3 Phase, TNSZ(SBW)-100, Chint ₵62,258.00 ](https://store.automationghana.com/product/avr-tnszsbw-100-chint/)
-[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/?add-to-cart=1638)
+  * [![AVR, 50KVA-3 Phase, TNSZ\(SBW\)-50, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 50KVA-3 Phase, TNSZ(SBW)-50, Chint ₵50,216.00 ](https://store.automationghana.com/product/avr-tnszsbw-50-chint/)
+[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/?add-to-cart=1640)
+  * [![AVR 10KVA 1 Phase, TND1\(SVC\)-10AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 10KVA 1 Phase, TND1(SVC)-10AF, Chint ₵7,405.00 ](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/)
+[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/?add-to-cart=1635)
+  * [![Automatic Changeover, 125A, 4P](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover, 125A, 4P ₵5,390.00 ](https://store.automationghana.com/product/automatic-changeover-nz7-125h-4-125a-chint/)
+[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/?add-to-cart=1628)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -53,14 +53,14 @@ MCB, NXB-63 1P C63 6KA, C-Curved
 
 Related Products 
 ## Related products
-  * [![Automatic Voltage Regulator \(AVR\), 5kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-5-300x300.jpg)Automatic Voltage Regulator (AVR), 5kvA, 1Phase ₵3,381.00 ](https://store.automationghana.com/product/avr-tnd1svc-5-chint/)
-[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/?add-to-cart=1637)
-  * [![AVR, 20KVA-1 Phase, TND1\(SVC\)-20/AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-20_AF-300x300.png)AVR, 20KVA-1 Phase, TND1(SVC)-20/AF, Chint ₵10,925.00 ](https://store.automationghana.com/product/avr-tnd1svc-20-af-chint/)
-[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/?add-to-cart=1636)
-  * [![AVR 15KVA 1 Phase, TND1\(SVC\) -15AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 15KVA 1 Phase, TND1(SVC) -15AF, Chint ₵9,918.00 ](https://store.automationghana.com/product/avr-tnd1svc-15af-chint/)
-[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/?add-to-cart=1634)
-  * [![Automatic Changeover, 125A, 4P](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover, 125A, 4P ₵5,390.00 ](https://store.automationghana.com/product/automatic-changeover-nz7-125h-4-125a-chint/)
-[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/?add-to-cart=1628)
+  * [![MCB, C63A-2P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-2P-300x300.jpg)MCB, C63A-2P-6kA, NXB-63, Chint ₵78.50 ](https://store.automationghana.com/product/mcb-nxb-63-2p-c63-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/?add-to-cart=1783)
+  * [![Manual Changeover Switch, 32A, 2P](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32-300x300.jpg)Manual Changeover Switch, 32A, 2P ₵95.00 ](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
+[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/?add-to-cart=1759)
+  * [![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)Automatic Voltage Regulator (AVR), 75kvA, 3 Phase ₵58,063.00 ](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
+[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/?add-to-cart=1641)
+  * [![AVR, 30KVA-3 Phase, TNSZ\(SBW\)-30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 30KVA-3 Phase, TNSZ(SBW)-30, Chint ₵32,548.00 ](https://store.automationghana.com/product/avr-tnszsbw-30-chint/)
+[Add to cart](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/?add-to-cart=1639)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

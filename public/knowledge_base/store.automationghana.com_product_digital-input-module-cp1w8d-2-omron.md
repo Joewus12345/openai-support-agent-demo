@@ -46,14 +46,14 @@ Product Description
 CP1W8D.2, Digital Input Module
 Related Products 
 ## Related products
-  * [![Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-RX3A5M.jpg)Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron ₵775.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/)
-[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1590)
-  * [![Inverter Drive\(MX\), 1.5kW, 4.8/5.4A , 3~Phase, 400 VAC, 3G3MX2-A4015-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 1.5kW, 4.8/5.4A , 3~Phase, 400 VAC, 3G3MX2-A4015-E CHN, Omron ₵4,990.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4015-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1576)
-  * [![Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W-AD041_640px-300x300.jpg)Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron ₵1,767.00 ](https://store.automationghana.com/product/i-o-expansion-unit-4ai-cp1wad041-1-omron/)
-[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1574)
-  * [![Inverter Drive\(A1000\), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CIMR-A-A1000-Variable-Freq-Drive.png)Inverter Drive(A1000), 0.4kW-400V-3 Phase, CIMR-AC4A0002FAA, Omron ₵4,913.00 ](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/)
-[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1571)
+  * [![Inverter Drive \(RX\), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron ₵46,785.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4370-e1f-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1588)
+  * [![Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-Omron-temp-controller-300x300.jpg)Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron ₵953.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/)
+[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1591)
+  * [![MX Inverter Drive 400VAC, 5.5kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 5.5kW, 3Phase ₵9,706.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1580)
+  * [![Inverter Drive\(MX\), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron ₵7,561.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4040-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/?add-to-cart=1579)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

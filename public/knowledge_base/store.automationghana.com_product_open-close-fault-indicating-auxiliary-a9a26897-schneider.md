@@ -43,14 +43,14 @@ Product Description
 This Acti9 iOF+SD24 electrical auxiliary is a double open/close and fault indicating contact. It is dedicated to iC60, iC40, iCV40, iID, iID40, iDPN Vigi, iSW-NA, iC60 & iID double terminals. The 2 contacts 1 NO + 1NC can report the signalling information of the associated device to the Acti9 Smartlink.
 Related Products 
 ## Related products
-  * [![Auxiliary Contact 1492-ASPHS3](https://store.automationghana.com/wp-content/uploads/2020/12/1492-ASPHS3-300x300.jpg)Auxiliary Contact 1492-ASPHS3 ₵728.00 ](https://store.automationghana.com/product/auxiliary-contact-1492-asphs3/)
-[Add to cart](https://store.automationghana.com/product/open-close-fault-indicating-auxiliary-a9a26897-schneider/?add-to-cart=2969)
-  * [![Auxiliary Contact 100-SB10](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-300x300.jpg)Auxiliary Contact 100-SB10 ₵256.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb10/)
-[Add to cart](https://store.automationghana.com/product/open-close-fault-indicating-auxiliary-a9a26897-schneider/?add-to-cart=2952)
-  * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
-[Add to cart](https://store.automationghana.com/product/open-close-fault-indicating-auxiliary-a9a26897-schneider/?add-to-cart=2944)
-  * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
-[Add to cart](https://store.automationghana.com/product/open-close-fault-indicating-auxiliary-a9a26897-schneider/?add-to-cart=2941)
+  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
+[Add to cart](https://store.automationghana.com/product/open-close-fault-indicating-auxiliary-a9a26897-schneider/?add-to-cart=2981)
+  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
+[Add to cart](https://store.automationghana.com/product/open-close-fault-indicating-auxiliary-a9a26897-schneider/?add-to-cart=2956)
+  * [![Auxiliary Contact 100-FA40](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA40.jpg)Auxiliary Contact 100-FA40 ₵311.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa40-rockwell/)
+[Add to cart](https://store.automationghana.com/product/open-close-fault-indicating-auxiliary-a9a26897-schneider/?add-to-cart=2939)
+  * [![Auxiliary Contact 100-FA31 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/Auxilliary-Contact-Block-100-FA31.jpg)Auxiliary Contact 100-FA31 Rockwell ₵398.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa31-rockwell/)
+[Add to cart](https://store.automationghana.com/product/open-close-fault-indicating-auxiliary-a9a26897-schneider/?add-to-cart=2937)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

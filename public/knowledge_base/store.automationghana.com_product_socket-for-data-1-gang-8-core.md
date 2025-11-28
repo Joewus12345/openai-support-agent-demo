@@ -52,14 +52,14 @@ NEW3-F20418, Socket For Data
 
 Related Products 
 ## Related products
-  * [![Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42720-300x300.jpg)Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint ₵184.00 ](https://store.automationghana.com/product/single-socket-new6-d42720-chint/)
-[Add to cart](https://store.automationghana.com/product/socket-for-data-1-gang-8-core/?add-to-cart=1531)
   * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-5-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42712, Gold, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42712-chint/)
 [Add to cart](https://store.automationghana.com/product/socket-for-data-1-gang-8-core/?add-to-cart=1529)
-  * [![Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42718, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket With Neon, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42718, Silver, Chint ₵77.00 ](https://store.automationghana.com/product/single-socket-new6-d42718-chint/)
-[Add to cart](https://store.automationghana.com/product/socket-for-data-1-gang-8-core/?add-to-cart=1530)
-  * [![Single Socket\(Silver\), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket(Silver), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint ₵71.00 ](https://store.automationghana.com/product/single-socket-new6-d42708-chint/)
-[Add to cart](https://store.automationghana.com/product/socket-for-data-1-gang-8-core/?add-to-cart=1528)
+  * [![Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/dimmer-switch.jpg)Light Dimmer Switch 10A 250V 1-gang White, NEW6-D30510, Chint ₵159.00 ](https://store.automationghana.com/product/light-dimmer-new6-d30510-chint/)
+[Add to cart](https://store.automationghana.com/product/socket-for-data-1-gang-8-core/?add-to-cart=1520)
+  * [![IT socket-NEW6-D20400, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20400, Chint ₵148.00 ](https://store.automationghana.com/product/it-socket-new6-d20400-chint/)
+[Add to cart](https://store.automationghana.com/product/socket-for-data-1-gang-8-core/?add-to-cart=1517)
+  * [![Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, with Neon, Silver, NEW6-D41938 Chint ₵127.00 ](https://store.automationghana.com/product/double-socket-with-neon-new6-d41938-chint/)
+[Add to cart](https://store.automationghana.com/product/socket-for-data-1-gang-8-core/?add-to-cart=1507)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

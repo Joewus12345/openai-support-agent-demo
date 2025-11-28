@@ -51,14 +51,14 @@ NZ7-400S/4 400A, Automatic Changeover
 
 Related Products 
 ## Related products
-  * [![AVR, 100KVA-3 Phase, TNSZ\(SBW\)-100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)AVR, 100KVA-3 Phase, TNSZ(SBW)-100, Chint ₵62,258.00 ](https://store.automationghana.com/product/avr-tnszsbw-100-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-400s-4-400a-chint/?add-to-cart=1638)
-  * [![AVR, 30KVA-3 Phase, TNSZ\(SBW\)-30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 30KVA-3 Phase, TNSZ(SBW)-30, Chint ₵32,548.00 ](https://store.automationghana.com/product/avr-tnszsbw-30-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-400s-4-400a-chint/?add-to-cart=1639)
-  * [![Automatic Changeover Switch, 63A, NZ7-125H/4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover Switch, 63A, NZ7-125H/4, Chint ₵2,731.00 ](https://store.automationghana.com/product/automatic-changeover-switch-nz7-125h-4-63a-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-400s-4-400a-chint/?add-to-cart=1627)
-  * [![Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint ₵1,825.00 ](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-400s-4-400a-chint/?add-to-cart=1521)
+  * [![MCB 6A 1P, NXB-63 1P C6 6kA Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)MCB 6A 1P, NXB-63 1P C6 6kA Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c6-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-400s-4-400a-chint/?add-to-cart=1781)
+  * [![MCB 20A 3P, NXB-63 3P C20 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/BREAKER-5-300x300.jpg)MCB 20A 3P, NXB-63 3P C20 6kA, Chint ₵110.00 ](https://store.automationghana.com/product/mcb-nxb-63-3p-c20-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-400s-4-400a-chint/?add-to-cart=1784)
+  * [![Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint ₵2,807.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-200-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-400s-4-400a-chint/?add-to-cart=1757)
+  * [![Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint ₵2,719.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-changeover-nz7-400s-4-400a-chint/?add-to-cart=1756)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

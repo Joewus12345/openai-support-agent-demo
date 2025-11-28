@@ -72,10 +72,10 @@ No content found
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - Demand side management 1](http://18.197.210.112/wp-content/uploads/2024/09/Demand-side-management-1-1024x496.jpg)
+![The Automation Ghana Group - Demand side management 1](https://automationghana.com/wp-content/uploads/2024/09/Demand-side-management-1-1024x496.jpg)
 ## Improve Grid Reliability and Resilience with Advanced Demand Side Management Systems
-  1. [Home](http://18.197.210.112)
-  2. [Solution](http://18.197.210.112/solutions/)
+  1. [Home](https://automationghana.com)
+  2. [Solution](https://automationghana.com/solutions/)
   3. Demand-Side Management: Boost Energy Efficiency & Savings
 
 
@@ -85,7 +85,7 @@ With our demand-side management solutions, you can efficiently manage energy dem
   * Enable dynamic pricing models and demand response strategies to balance supply and demand, reducing stress on the grid and avoiding costly energy spikes.
 
 
-[ ![Demand-side management](http://18.197.210.112/wp-content/uploads/2024/09/Smart-Meter-for-DMS.jpeg) ](https://www.instagram.com/reel/C-2rlHWidhW/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==) Demand-Side generation for grid reliability
+[ ![Demand-side management](https://automationghana.com/wp-content/uploads/2024/09/Smart-Meter-for-DMS.jpeg) ](https://www.instagram.com/reel/C-2rlHWidhW/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==) Demand-Side generation for grid reliability
 ## Benefits
 ## Improved Grid Reliability and Resilience
 Our solutions minimize outages by automatically detecting and isolating faults, ensuring a continuous supply of power. This increases overall grid resilience and reduces downtime.
@@ -95,7 +95,7 @@ Real-time monitoring and automation reduce manual interventions, optimize produc
 Efficiently manage and distribute energy across the grid, reduce energy loss, and optimize the use of renewable sources. Our solutions help decrease greenhouse gas emissions, contributing to a sustainable environment.
 ## Increased Transparency and Compliance
 Continuous monitoring and detailed reporting support regulatory compliance and enhance transparency, building trust with stakeholders and regulatory bodies.
-[ How Can We Help? ](https://automationghana.com/solutions/demand-side-management/#collapse-a0fd110691cc6831f877)
+[ How Can We Help? ](https://automationghana.com/solutions/demand-side-management/#collapse-a0fd1106928237c682f7)
 With over 20 years of experience in energy solutions and a deep understanding of the industry, Automation Ghana Group is your trusted partner in achieving a smarter, more efficient energy future. Our commitment to innovation, quality, and customer satisfaction ensures you receive the highest level of service and support.
   * **Design and Implement Customized Solutions:** From initial assessment to system design, we
 With over 20 years of experience in energy solutions and a deep understanding of the industry, Automation Ghana Group is your trusted partner in achieving a smarter, more efficient energy future. Our commitment to innovation, quality, and customer satisfaction ensures you receive the highest level of service and support.
@@ -104,7 +104,7 @@ ensure our solutions meet your specific operational and regulatory needs.
   * **Support Ongoing Operations:** With our comprehensive maintenance and support services, we ensure your systems continue to perform optimally, providing long-term reliability and efficiency.
 
 
-[ What We Offer ](https://automationghana.com/solutions/demand-side-management/#collapse-3ee4934691cc6831f877)
+[ What We Offer ](https://automationghana.com/solutions/demand-side-management/#collapse-3ee49346928237c682f7)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -114,7 +114,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/demand-side-management/#collapse-32d8655691cc6831f877)
+[ Hardware and Software ](https://automationghana.com/solutions/demand-side-management/#collapse-32d86556928237c682f7)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -127,7 +127,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/demand-side-management/#collapse-62ecacd691cc6831f877)
+[ Services ](https://automationghana.com/solutions/demand-side-management/#collapse-62ecacd6928237c682f7)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

@@ -54,14 +54,14 @@ NEP-TD0300532, LED Down Light
 
 Related Products 
 ## Related products
-  * [![Single Socket\(Silver\), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/1-gang-silver-socket-300x300.jpg)Single Socket(Silver), 1 Gang-3 Pin-250VAC-13A, NEW6-D42708, Chint ₵71.00 ](https://store.automationghana.com/product/single-socket-new6-d42708-chint/)
-[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300532-chint/?add-to-cart=1528)
-  * [![Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-silver-300x300.jpg)Double Socket 2-Gang 3-Pin, Silver, NEW6-D41918, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41918-chint/)
-[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300532-chint/?add-to-cart=1510)
-  * [![Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-3-300x300.jpg)Double Socket, 2-Gang 3-Pin, with Neon, Gold, NEW6-D41932, Chint ₵120.00 ](https://store.automationghana.com/product/double-socket-new6-d41932-chint/)
-[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300532-chint/?add-to-cart=1508)
-  * [![AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ac-water-heater-300x300.jpg)AC / Water Heater Switch, 20A-250VAC, NEW6-D00150, Chint ₵68.50 ](https://store.automationghana.com/product/ac-water-heater-switch-new6-d00150-chint/)
-[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300532-chint/?add-to-cart=1502)
+  * [![Double Socket 2-Gang 3-Pin, NEW7-G41910K, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-2-300x300.jpg)Double Socket 2-Gang 3-Pin, NEW7-G41910K, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new7-g41910k-chint/)
+[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300532-chint/?add-to-cart=1540)
+  * [![Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42720-300x300.jpg)Single Socket With 2.1A USB Port, 1-Gang 3-Pin, 250VAC, 13A, NEW6-D42720, Chint ₵184.00 ](https://store.automationghana.com/product/single-socket-new6-d42720-chint/)
+[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300532-chint/?add-to-cart=1531)
+  * [![IT socket-NEW6-D21100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/the-two-300x300.jpg)IT socket-NEW6-D21100, Chint ₵124.00 ](https://store.automationghana.com/product/it-socket-new6-d21100-chint/)
+[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300532-chint/?add-to-cart=1519)
+  * [![IT socket-NEW6-D20500, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-300x300.jpg)IT socket-NEW6-D20500, Chint ₵256.00 ](https://store.automationghana.com/product/it-socket-new6-d20500-chint/)
+[Add to cart](https://store.automationghana.com/product/led-down-light-nep-td0300532-chint/?add-to-cart=1518)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

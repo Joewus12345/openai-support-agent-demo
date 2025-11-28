@@ -53,12 +53,12 @@ Related Products
 ## Related products
   * [![Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay Electromagnetic, 14 Pin-12VDC, MY4N-D2 12VDC (S), Omron ₵44.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-12vdc-s-omron/)
 [Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-400v-7-10a-chint/?add-to-cart=1600)
-  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
-[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-400v-7-10a-chint/?add-to-cart=1594)
+  * [![Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932133.png)Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera ₵115.00 ](https://store.automationghana.com/product/surface-mounted-socket-932133-solera/)
+[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-400v-7-10a-chint/?add-to-cart=1536)
   * [![Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 16A, 2P+E, 230VAC, 902131A, Solera ₵60.00 ](https://store.automationghana.com/product/plug-902131a-solera/)
 [Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-400v-7-10a-chint/?add-to-cart=1523)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
-[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-400v-7-10a-chint/?add-to-cart=1514)
+  * [![Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903131A.png)Industrial Socket, 16A, 2P+E, 230V, 903131A, Solera ₵66.00 ](https://store.automationghana.com/product/industrial-socket-903131a-solera/)
+[Add to cart](https://store.automationghana.com/product/dol-starter-nq3-5-5p-400v-7-10a-chint/?add-to-cart=1513)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

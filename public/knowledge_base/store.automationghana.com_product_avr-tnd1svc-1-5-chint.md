@@ -53,14 +53,14 @@ AVR-TND1 (SVC)-1.5, Single phase
 
 Related Products 
 ## Related products
-  * [![MCB 6A 1P, NXB-63 1P C6 6kA Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)MCB 6A 1P, NXB-63 1P C6 6kA Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c6-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-1-5-chint/?add-to-cart=1781)
   * [![Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint ₵1,722.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-63-4csw-enc-bar-chint/)
 [Add to cart](https://store.automationghana.com/product/avr-tnd1svc-1-5-chint/?add-to-cart=1758)
-  * [![Automatic Voltage Regulator \(AVR\), 5kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-5-300x300.jpg)Automatic Voltage Regulator (AVR), 5kvA, 1Phase ₵3,381.00 ](https://store.automationghana.com/product/avr-tnd1svc-5-chint/)
-[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-1-5-chint/?add-to-cart=1637)
   * [![AVR 10KVA 1 Phase, TND1\(SVC\)-10AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 10KVA 1 Phase, TND1(SVC)-10AF, Chint ₵7,405.00 ](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/)
 [Add to cart](https://store.automationghana.com/product/avr-tnd1svc-1-5-chint/?add-to-cart=1635)
+  * [![AVR 15KVA 1 Phase, TND1\(SVC\) -15AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 15KVA 1 Phase, TND1(SVC) -15AF, Chint ₵9,918.00 ](https://store.automationghana.com/product/avr-tnd1svc-15af-chint/)
+[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-1-5-chint/?add-to-cart=1634)
+  * [![Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint ₵1,825.00 ](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/)
+[Add to cart](https://store.automationghana.com/product/avr-tnd1svc-1-5-chint/?add-to-cart=1521)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

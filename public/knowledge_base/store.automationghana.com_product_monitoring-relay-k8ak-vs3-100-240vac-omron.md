@@ -56,14 +56,14 @@ K8AK-VS3 100-240VAC, Monitoring Relay
 
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/monitoring-relay-k8ak-vs3-100-240vac-omron/?add-to-cart=1603)
-  * [![14-Pin Relay, 240VAC](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4IN-220_240AC-S-Omron.jpg)14-Pin Relay, 240VAC ₵62.00 ](https://store.automationghana.com/product/14-pin-relay-my4in-220-240ac-s-omron/)
-[Add to cart](https://store.automationghana.com/product/monitoring-relay-k8ak-vs3-100-240vac-omron/?add-to-cart=1599)
+  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
+[Add to cart](https://store.automationghana.com/product/monitoring-relay-k8ak-vs3-100-240vac-omron/?add-to-cart=1593)
+  * [![Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932133.png)Industrial Socket, 32A, 2P+E, 230V, Surface Mounted, 932133, Solera ₵115.00 ](https://store.automationghana.com/product/surface-mounted-socket-932133-solera/)
+[Add to cart](https://store.automationghana.com/product/monitoring-relay-k8ak-vs3-100-240vac-omron/?add-to-cart=1536)
   * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
 [Add to cart](https://store.automationghana.com/product/monitoring-relay-k8ak-vs3-100-240vac-omron/?add-to-cart=1533)
-  * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
-[Add to cart](https://store.automationghana.com/product/monitoring-relay-k8ak-vs3-100-240vac-omron/?add-to-cart=1534)
+  * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
+[Add to cart](https://store.automationghana.com/product/monitoring-relay-k8ak-vs3-100-240vac-omron/?add-to-cart=1514)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

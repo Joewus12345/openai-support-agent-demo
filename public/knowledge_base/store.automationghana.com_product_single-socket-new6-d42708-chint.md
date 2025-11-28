@@ -51,14 +51,14 @@ NEW6-D42708, Single Socket 1-Gang 3-Pin
 
 Related Products 
 ## Related products
-  * [![Double Socket 2-Gang 3-Pin, NEW7-G41910K, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-2-300x300.jpg)Double Socket 2-Gang 3-Pin, NEW7-G41910K, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new7-g41910k-chint/)
-[Add to cart](https://store.automationghana.com/product/single-socket-new6-d42708-chint/?add-to-cart=1540)
+  * [![Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/2-gang-gold-300x300.jpg)Switch 2-Gang 2-Way 16A, 250VAC, NEW6-D00402, Gold, Chint ₵79.00 ](https://store.automationghana.com/product/switch-new6-d00402-chint/)
+[Add to cart](https://store.automationghana.com/product/single-socket-new6-d42708-chint/?add-to-cart=1539)
   * [![Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/ONLINE-STORE-SOCKET-7-300x300.jpg)Single Socket 13A 250V 1-Gang 3-Pin, NEW6-D42700, Chint ₵47.00 ](https://store.automationghana.com/product/single-socket-new6-d42700-chint/)
 [Add to cart](https://store.automationghana.com/product/single-socket-new6-d42708-chint/?add-to-cart=1527)
-  * [![IT socket-NEW6-D20500, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-300x300.jpg)IT socket-NEW6-D20500, Chint ₵256.00 ](https://store.automationghana.com/product/it-socket-new6-d20500-chint/)
-[Add to cart](https://store.automationghana.com/product/single-socket-new6-d42708-chint/?add-to-cart=1518)
-  * [![Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/SOCKET-5-300x300.jpg)Double Socket 2-Gang 3-Pin, Gold, NEW6-D41912, Chint ₵66.00 ](https://store.automationghana.com/product/double-socket-new6-d41912-chint/)
-[Add to cart](https://store.automationghana.com/product/single-socket-new6-d42708-chint/?add-to-cart=1509)
+  * [![Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NEW6-D42900-300x300.jpg)Single Socket, 1-Gang 3-Pin, 250VAC, 15A, NEW6-D42918, Silver, Chint ₵90.00 ](https://store.automationghana.com/product/single-socket-new6-d42918-chint/)
+[Add to cart](https://store.automationghana.com/product/single-socket-new6-d42708-chint/?add-to-cart=1525)
+  * [![IT socket-NEW6-D20100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/DATA-Socket-1-1-300x300.jpg)IT socket-NEW6-D20100, Chint ₵60.00 ](https://store.automationghana.com/product/it-socket-new6-d20100-chint/)
+[Add to cart](https://store.automationghana.com/product/single-socket-new6-d42708-chint/?add-to-cart=1515)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

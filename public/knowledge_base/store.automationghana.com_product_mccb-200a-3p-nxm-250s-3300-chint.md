@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / MCCB, 200A-3P, NXM-250S/3300, Chint
-[🔍](https://store.automationghana.com/product/mccb-200a-3p-nxm-250s-3300-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/mccb-200a-3p-nxm-250s-3300-chint/)
 [![MCCB, 200A-3P, NXM-250S/3300, Chint](https://store.automationghana.com/wp-content/uploads/2024/06/MCCB-200A3P-NXM250S3300-Chint.jpg)](https://store.automationghana.com/wp-content/uploads/2024/06/MCCB-200A3P-NXM250S3300-Chint.jpg)
 [![MCCB, 200A-3P, NXM-250S/3300, Chint - Image 2](https://store.automationghana.com/wp-content/uploads/2024/06/uvha1laq-600x600.png)](https://store.automationghana.com/wp-content/uploads/2024/06/uvha1laq.png)
   1. ![MCCB, 200A-3P, NXM-250S/3300, Chint](https://store.automationghana.com/wp-content/uploads/2024/06/MCCB-200A3P-NXM250S3300-Chint-100x100.jpg)
@@ -47,17 +47,17 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-▪ Rated operational voltage: Ue : 220V/230V/240V, 380V/400V/415V, 500V , 690V ▪ Breaking capacity code: E, S, F, H ▪ Number of poles: 2P, 3P, 4P ▪ Release type: thermal magnetic fixed type; magnetic fixed type; electronic type. ▪ Installation method: Fixed type; plug-in type
+![▪](https://s.w.org/images/core/emoji/16.0.1/svg/25aa.svg) Rated operational voltage: Ue : 220V/230V/240V, 380V/400V/415V, 500V , 690V ![▪](https://s.w.org/images/core/emoji/16.0.1/svg/25aa.svg) Breaking capacity code: E, S, F, H ![▪](https://s.w.org/images/core/emoji/16.0.1/svg/25aa.svg) Number of poles: 2P, 3P, 4P ![▪](https://s.w.org/images/core/emoji/16.0.1/svg/25aa.svg) Release type: thermal magnetic fixed type; magnetic fixed type; electronic type. ![▪](https://s.w.org/images/core/emoji/16.0.1/svg/25aa.svg) Installation method: Fixed type; plug-in type
 Related Products 
 ## Related products
-  * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-200a-3p-nxm-250s-3300-chint/?add-to-cart=1779)
-  * [![MCB, C20A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C20-1P-300x300.jpg)MCB, C20A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-200a-3p-nxm-250s-3300-chint/?add-to-cart=1778)
+  * [![Manual Changeover Switch, 32A, 2P](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32-300x300.jpg)Manual Changeover Switch, 32A, 2P ₵95.00 ](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-200a-3p-nxm-250s-3300-chint/?add-to-cart=1759)
   * [![Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint ₵1,722.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-63-4csw-enc-bar-chint/)
 [Add to cart](https://store.automationghana.com/product/mccb-200a-3p-nxm-250s-3300-chint/?add-to-cart=1758)
-  * [![AVR, 30KVA-3 Phase, TNSZ\(SBW\)-30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 30KVA-3 Phase, TNSZ(SBW)-30, Chint ₵32,548.00 ](https://store.automationghana.com/product/avr-tnszsbw-30-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-200a-3p-nxm-250s-3300-chint/?add-to-cart=1639)
+  * [![AVR, 50KVA-3 Phase, TNSZ\(SBW\)-50, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 50KVA-3 Phase, TNSZ(SBW)-50, Chint ₵50,216.00 ](https://store.automationghana.com/product/avr-tnszsbw-50-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-200a-3p-nxm-250s-3300-chint/?add-to-cart=1640)
+  * [![AVR 10KVA 1 Phase, TND1\(SVC\)-10AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 10KVA 1 Phase, TND1(SVC)-10AF, Chint ₵7,405.00 ](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-200a-3p-nxm-250s-3300-chint/?add-to-cart=1635)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

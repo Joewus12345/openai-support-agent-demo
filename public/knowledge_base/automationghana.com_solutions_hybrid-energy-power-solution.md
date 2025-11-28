@@ -104,9 +104,9 @@ Reduces energy costs by optimizing the use of solar, grid, and diesel power, low
 Lowers maintenance requirements and operational costs through robust construction and efficient design.
 ## Flexible and Scalable Solution
 Easily adapts to varying telecom site requirements and is scalable for future network expansions or upgrades.
-[ How Can We Help? ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-a0fd110691d326cc9cba)
+[ How Can We Help? ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-a0fd1106927725bda3e0)
 We optimize your fluid control systems with our comprehensive range of valves tailored for the mining sector. Our solutions enhance efficiency and reliability in managing abrasive and general fluids, ensuring smooth operations and reduced downtime. Our expert team is ready to assist in selecting and integrating the right valves for your specific needs, providing ongoing support for optimal performance.
-[ What We Offer ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-3ee4934691d326cc9cba)
+[ What We Offer ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-3ee49346927725bda3e0)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -116,7 +116,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-32d8655691d326cc9cba)
+[ Hardware and Software ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-32d86556927725bda3e0)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -129,7 +129,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting partsVisit our **e-store** @ (store.automationghana.com)
 
 
-[ Services ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-62ecacd691d326cc9cba)
+[ Services ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-62ecacd6927725bda3e0)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

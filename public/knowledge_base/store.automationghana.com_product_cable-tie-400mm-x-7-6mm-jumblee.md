@@ -47,14 +47,14 @@ Product Description
 A fastener designed for securing primarily electrical cables and wires together 
 Related Products 
 ## Related products
-  * [![Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-3g15-300x300.png)Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel ₵18.10 ](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/)
-[Add to cart](https://store.automationghana.com/product/cable-tie-400mm-x-7-6mm-jumblee/?add-to-cart=1484)
-  * [![Autoflex Cable \(Black\), H07V-K-1Cx16mm², 29209, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx16mm², 29209, Helukabel ₵33.00 ](https://store.automationghana.com/product/autoflex-cable-29209-h07v-k-1cx16-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/cable-tie-400mm-x-7-6mm-jumblee/?add-to-cart=1478)
-  * [![Autoflex Cable, 29197-H07V-K-1Cx10 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable, 29197-H07V-K-1Cx10 RED, Helukabel ₵25.00 ](https://store.automationghana.com/product/autoflex-cable-29197-h07v-k-1cx10-red-helukabel/)
-[Add to cart](https://store.automationghana.com/product/cable-tie-400mm-x-7-6mm-jumblee/?add-to-cart=1477)
+  * [![Autoflex Cable \(Black\), H07V-K-1Cx25mm², 29225, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx25mm², 29225, Helukabel ₵51.50 ](https://store.automationghana.com/product/autoflex-cable-29225-h07v-k-1cx25-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/cable-tie-400mm-x-7-6mm-jumblee/?add-to-cart=1480)
+  * [![Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29241-H07V-K-1Cx35 BLK, Helukabel ₵68.00 ](https://store.automationghana.com/product/autoflex-cable-29241-h07v-k-1cx35-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/cable-tie-400mm-x-7-6mm-jumblee/?add-to-cart=1482)
   * [![Autoflex Cable, 29194-H07V-K-1Cx10mm² Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29194-H07V-K-1Cx10mm² Y/G, Helukabel ₵25.50 ](https://store.automationghana.com/product/autoflex-cable-29194-h07v-k-1cx10-y-g-helukabel/)
 [Add to cart](https://store.automationghana.com/product/cable-tie-400mm-x-7-6mm-jumblee/?add-to-cart=1476)
+  * [![Autoflex Cable \(Blue\), H07V-K-1Cx4mm², 29163, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), H07V-K-1Cx4mm², 29163, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29163-h07v-k-1cx4-be-helukabel/)
+[Add to cart](https://store.automationghana.com/product/cable-tie-400mm-x-7-6mm-jumblee/?add-to-cart=1469)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

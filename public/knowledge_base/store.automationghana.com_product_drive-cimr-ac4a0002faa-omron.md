@@ -52,14 +52,14 @@ CIMR-AC4A0002FAA A1000 Inverter Drive 400VAC, 0.4KW
 
 Related Products 
 ## Related products
-  * [![MX Inverter Drive, 200VAC, 0.75kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive, 200VAC, 0.75kW, 1Phase ₵4,536.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab007-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1991)
+  * [![Inverter Drive \(RX\), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron ₵46,785.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4370-e1f-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1588)
   * [![CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron](https://store.automationghana.com/wp-content/uploads/2020/04/cp1ll14drd-300x300.jpg)CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron ₵3,001.00 ](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/)
 [Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1586)
-  * [![Inverter Drive \(RX\), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron ₵24,297.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1589)
-  * [![MX Inverter Drive 200VAC, 1.5kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 200VAC, 1.5kW, 1Phase ₵4,721.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1581)
+  * [![Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-RX3A5M.jpg)Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron ₵775.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/)
+[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1590)
+  * [![Input/Output Expansion Unit, Digital,2A, CP1W8D.2 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W.png)Input/Output Expansion Unit, Digital,2A, CP1W8D.2 Omron ₵996.00 ](https://store.automationghana.com/product/digital-input-module-cp1w8d-2-omron/)
+[Add to cart](https://store.automationghana.com/product/drive-cimr-ac4a0002faa-omron/?add-to-cart=1570)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

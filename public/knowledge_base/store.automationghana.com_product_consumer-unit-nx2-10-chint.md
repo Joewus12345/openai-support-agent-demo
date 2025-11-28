@@ -51,14 +51,14 @@ NX2-10, 10-Way Consumer Unit, Surface Mount Type
 
 Related Products 
 ## Related products
-  * [![Distribution Board, 4 Way, Surface, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 4 Way, Surface, NX9-4, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-nx2-10-chint/?add-to-cart=1704)
   * [![Distribution Board, 4 Way, Flush, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 4 Way, Flush, NX9-4, Chint ₵1,237.00 ](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/)
 [Add to cart](https://store.automationghana.com/product/consumer-unit-nx2-10-chint/?add-to-cart=1703)
-  * [![Consumer Unit 8 Way, Metal, Recessed, NX8-8-J \(R\) Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit 8 Way, Metal, Recessed, NX8-8-J (R) Chint ₵280.00 ](https://store.automationghana.com/product/consumer-unit-nx8-8-j-r-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-nx2-10-chint/?add-to-cart=1647)
-  * [![Distribution Board, 6 Way, Flush, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Flush, NX9-6M, Chint ₵488.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-nx2-10-chint/?add-to-cart=1505)
+  * [![Distribution Board, 12 Way, 250A Incomer, Flush, NX9-12M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board, 12 Way, 250A Incomer, Flush, NX9-12M, Chint ₵2,111.00 ](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-250-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-nx2-10-chint/?add-to-cart=1700)
+  * [![Consumer Unit, 5-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 5-Way ₵218.00 ](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-nx2-10-chint/?add-to-cart=1645)
+  * [![Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint ₵595.00 ](https://store.automationghana.com/product/enclosure-nxw5-3030-20-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-nx2-10-chint/?add-to-cart=1563)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

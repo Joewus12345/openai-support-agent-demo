@@ -124,10 +124,10 @@ Continuous monitoring, overfill prevention features, and real-time alerts ensure
 Real-time insights into inventory levels, transfer activities, and tank conditions enable informed decision-making, reducing downtime, optimizing resource allocation, and cutting operational costs.
 ## Increased Flexibility and Scalability
 The modular design of our system allows it to be easily scaled or adapted to accommodate different tank types, capacities, and configurations as your operations grow.
-[ How Can We Help? ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-a0fd110691dbe8e80e87)
+[ How Can We Help? ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-a0fd110692819123175b)
 With over 2(two) decades of experience in electrical engineering and automation, we bring experience in delivering tailored solutions for the oil and gas industry. Our Tank Inventory Management System is designed to enhance the safety, efficiency, and reliability of your storage operations. We provide comprehensive support, from initial consultation and system design to installation, integration, and ongoing maintenance, ensuring that your inventory management is both precise and robust.
 Our solutions are implemented in strict compliance with international standards and protocols, ensuring seamless interoperability with systems from the world’s leading brands in power automation and integrated technologies.
-[ What We Offer ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-3ee4934691dbe8e80e87)
+[ What We Offer ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-3ee4934692819123175b)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -137,7 +137,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-32d8655691dbe8e80e87)
+[ Hardware and Software ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-32d8655692819123175b)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -150,7 +150,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-62ecacd691dbe8e80e87)
+[ Services ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-62ecacd692819123175b)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

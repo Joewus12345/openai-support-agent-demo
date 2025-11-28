@@ -44,14 +44,14 @@ Product Description
 Tool bag, equipped with: cable cutter, diagonal cutter, stripping pliers, NYM stripping tool, stripping tool for removing sheath, crimping pliers, crimping die for ferrules, combination, needle-nose, and water pump pliers, VDE screwdriver, bladed: 0.4 x 2.5/0.5 x 3.0/1.0 x 4.0/1.0 x 6.5, Philips: PHO/PH1/PH2, voltage tester, control cabinet key, knife, tape measure
 Related Products 
 ## Related products
-  * [![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115-300x300.jpg)Multimeter-FLUKE-115, Fluke ₵5,282.00 ](https://store.automationghana.com/product/multimeter-fluke-115-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503-2/?add-to-cart=2013)
-  * [![Non-Contact-Voltage-Detector-MD-116-Metre](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-116-Metrel-300x300.png)Voltage Detector, Non-Contact, 12-1000VAC, MD 116, Metrel ₵365.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-116-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503-2/?add-to-cart=2015)
+  * [![MD-106-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-106-Metrel-300x300.png)Voltage Detector, Non-Contact, 90-1000VAC, MD 106, Metrel ₵202.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
+[Read more](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
   * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
 [Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503-2/?add-to-cart=2006)
   * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
 [Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503-2/?add-to-cart=2005)
+  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-carrier-1212503-2/?add-to-cart=2003)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

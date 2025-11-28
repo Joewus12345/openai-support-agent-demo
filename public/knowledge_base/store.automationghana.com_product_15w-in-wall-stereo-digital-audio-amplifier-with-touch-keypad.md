@@ -49,14 +49,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![F-Sensor Mounting Base](https://store.automationghana.com/wp-content/uploads/2021/10/430x430x90-sonoff_pir_motion_sensor_base_1623831045-removebg-preview-300x300.webp)F-Sensor Mounting Base ₵106.00 ](https://store.automationghana.com/product/f-sensor-mounting-base/)
-[Add to cart](https://store.automationghana.com/product/15w-in-wall-stereo-digital-audio-amplifier-with-touch-keypad/?add-to-cart=3592)
-  * [![WIFI Humidity & Temperature Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Humidity-Temperature-Sensor-300x300.jpg)WIFI Humidity & Temperature Sensor ₵750.00 ](https://store.automationghana.com/product/wifi-humidity-temperature-sensor/)
-[Add to cart](https://store.automationghana.com/product/15w-in-wall-stereo-digital-audio-amplifier-with-touch-keypad/?add-to-cart=3580)
-  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
-[Add to cart](https://store.automationghana.com/product/15w-in-wall-stereo-digital-audio-amplifier-with-touch-keypad/?add-to-cart=3313)
-  * [![1 Channel WIFI Metering Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/03/shelly1pm_x1-1000x1000-1-1-300x300.jpg)1 Channel WIFI Metering Relay Switch ₵560.00 ](https://store.automationghana.com/product/wifi-operated-relay-switch-16-a-with-power-measurement/)
-[Add to cart](https://store.automationghana.com/product/15w-in-wall-stereo-digital-audio-amplifier-with-touch-keypad/?add-to-cart=3302)
+  * [![F-RF Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/F-RF-Door-Window-Sensor.jpg)F-RF Door & Window Sensor ₵282.00 ](https://store.automationghana.com/product/f-rf-door-window-sensor/)
+[Add to cart](https://store.automationghana.com/product/15w-in-wall-stereo-digital-audio-amplifier-with-touch-keypad/?add-to-cart=3586)
+  * [![3 Channel WIFI Input Switch](https://store.automationghana.com/wp-content/uploads/2021/10/3-Channel-WIFI-Input-Switch-300x300.jpg)3 Channel WIFI Input Switch ₵332.00 ](https://store.automationghana.com/product/3-channel-wifi-input-switch/)
+[Add to cart](https://store.automationghana.com/product/15w-in-wall-stereo-digital-audio-amplifier-with-touch-keypad/?add-to-cart=3583)
+  * [![WIFI Relay Dummy Load](https://store.automationghana.com/wp-content/uploads/2021/10/shelly_bypass2_x1-1000x1000-1-600x600-1-300x300.jpg)WIFI Relay Dummy Load ₵100.00 ](https://store.automationghana.com/product/wifi-relay-dummy-load/)
+[Add to cart](https://store.automationghana.com/product/15w-in-wall-stereo-digital-audio-amplifier-with-touch-keypad/?add-to-cart=3569)
+  * [![1 Channel WiFi-Relay,16A](https://store.automationghana.com/wp-content/uploads/2021/03/shelly-1-wifi--300x300.png)WIFI Relay Switch, 1 Channel, Y-R-W1CH, Smarthome ₵344.00 ](https://store.automationghana.com/product/shelly-1/)
+[Add to cart](https://store.automationghana.com/product/15w-in-wall-stereo-digital-audio-amplifier-with-touch-keypad/?add-to-cart=3254)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

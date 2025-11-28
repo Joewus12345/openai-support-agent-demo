@@ -76,7 +76,7 @@ No content found
 **The Automation Ghana Group** is a leader in the field of Industrial Automation and Control Systems. Our team of highly skilled engineers specializes in a wide range of services including PLC, SCADA, MIS/MES, and Batching Systems. We pride ourselves on our ability to engineer and integrate any system brands tailored to our clients’ needs. Our expertise also extends to the sales and service of industrial flow, level, and mass measurement controls, including valves and various field devices.
 **Training Courses**
 Our training academy offers a diverse range of short courses designed to develop a more skilled, competent, and efficient workforce. Each course is meticulously structured into modules to facilitate effective learning.
-  1. [Home](http://18.197.210.112)
+  1. [Home](https://automationghana.com)
   2. Training
 
 

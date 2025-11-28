@@ -157,13 +157,13 @@ Our Smart Home technology brings a new level of audio enjoyment, ensuring that w
 With Smart Home solutions, luxury and convenience seamlessly blend into your daily life. Imagine adjusting your curtains with a simple tap on your smartphone, automating them to welcome the morning sun or close at dusk for privacy. 
 ## Transform your living space into a dynamic environment that caters to every aspect of your life, making it not just a home, but a smart haven 
 Elevate your living and bedroom ambiance with colored lighting that adapts to your mood, occasion, or time of day—effortlessly shifting from a cozy movie night to vibrant party vibes. Our Smart Home system allows you to indulge in various themes like Theater, Sleep/Wake Up, Romantic or Party Moods, while also offering Energy Saver and Security Modes for efficiency and peace of mind. 
-[ How Can We Help? ](https://automationghana.com/solutions/smart-home-solutions/#collapse-a0fd110691c92b4463cd)
+[ How Can We Help? ](https://automationghana.com/solutions/smart-home-solutions/#collapse-a0fd1106927af149aadb)
   * We deploy our solution in conformance to international standards and protocols ensuring interoperability with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/smart-home-solutions/#collapse-3ee4934691c92b4463cd)
+[ What We Offer ](https://automationghana.com/solutions/smart-home-solutions/#collapse-3ee49346927af149aadb)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -173,7 +173,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/smart-home-solutions/#collapse-32d8655691c92b4463cd)
+[ Hardware and Software ](https://automationghana.com/solutions/smart-home-solutions/#collapse-32d86556927af149aadb)
   * Xye Master
   * Internet Router
   * Rack Cabinet
@@ -189,7 +189,7 @@ We offer after sales support services including:
   * Apple Homekit
 
 
-[ Services ](https://automationghana.com/solutions/smart-home-solutions/#collapse-62ecacd691c92b4463cd)
+[ Services ](https://automationghana.com/solutions/smart-home-solutions/#collapse-62ecacd6927af149aadb)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

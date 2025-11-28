@@ -51,12 +51,12 @@ AVR TNSZ (SBW)-250, 3 Phase
 
 Related Products 
 ## Related products
-  * [![MCB 6A 1P, NXB-63 1P C6 6kA Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)MCB 6A 1P, NXB-63 1P C6 6kA Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c6-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-250kva-3phase/?add-to-cart=1781)
-  * [![MCB, C10A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C10-1P-300x300.jpg)MCB, C10A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c10-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-250kva-3phase/?add-to-cart=1776)
-  * [![AVR 10KVA 1 Phase, TND1\(SVC\)-10AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 10KVA 1 Phase, TND1(SVC)-10AF, Chint ₵7,405.00 ](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-250kva-3phase/?add-to-cart=1635)
+  * [![MCB 63A 1P, NXB-63 1P C63 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-1P-300x300.jpg)MCB 63A 1P, NXB-63 1P C63 6kA, Chint ₵37.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c63-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-250kva-3phase/?add-to-cart=1782)
+  * [![MCB, C16A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C16-1P-300x300.jpg)MCB, C16A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c16-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-250kva-3phase/?add-to-cart=1777)
+  * [![Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint ₵2,807.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-200-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-250kva-3phase/?add-to-cart=1757)
   * [![Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint ₵1,825.00 ](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/)
 [Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-250kva-3phase/?add-to-cart=1521)
 

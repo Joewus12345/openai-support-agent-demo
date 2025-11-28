@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Tool Socket Set -1200292
-[🔍](https://store.automationghana.com/product/tool-socket-set-1200292/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/tool-socket-set-1200292/)
 [![Tool Socket Set -1200292](https://store.automationghana.com/wp-content/uploads/2025/02/SOCKET-600x600.png)](https://store.automationghana.com/wp-content/uploads/2025/02/SOCKET.png)
 ####  Tool Socket Set -1200292 
 **SKU :** 1200292 
@@ -45,14 +45,14 @@ Product Description
 1/4″ socket set, 47-piece, 1/4″ reversible ratchet, 48 teeth with fast locking system, 50 mm and 100 mm 1/4″ extensions, 1/4″ screwdriver handle, 150 mm 1/4″ flexible extension, 1/4″ Cardan joint, 1/4″ T-handle 2 x 1/4″ bit adapter, 13 knurled 1/4″ sockets, wrench size: 4 / 4.5 / 5 / 5.5 / 6 / 7 / 8 / 9 / 10 / 11 / 12 / 13 / 14 mm, 21 knurled socket bits: 6 x Torx® T10, T15, T20, T25, T30, T40, 6 x Hex 3, 4, 5, 6, 7, 8 mm, 3 x Phillips recess® PH1, PH2, PH3, 3 x Pozidriv® PZ1, PZ2, PZ3, 3 x slotted 4, 5.5, 7 mm, Allen wrench Hex 1.27, 1.5, 2, 2.5 mm, breakage and impact-resistant plastic case with metal fastening
 Related Products 
 ## Related products
-  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-socket-set-1200292/?add-to-cart=2010)
-  * [![Digital-MultimeterMD-9030-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-MultimeterMD-9030-Metrel-300x300.png)Multimeter,Digital, 1000VDC/VAC, 10A DC/AC, MD 9030, Metrel ₵1,819.00 ](https://store.automationghana.com/product/digital-multimetermd-9030-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-socket-set-1200292/?add-to-cart=2002)
-  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-socket-set-1200292/?add-to-cart=2006)
-  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-socket-set-1200292/?add-to-cart=2001)
+  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-socket-set-1200292/?add-to-cart=2003)
+  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-socket-set-1200292/?add-to-cart=1995)
+  * [ Sale! ![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ~~₵ 3,039.00~~ Original price was: ₵3,039.00.₵2,252.32Current price is: ₵2,252.32. ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-socket-set-1200292/?add-to-cart=1996)
+  * [![Clamp Meter, Fluke-376FC](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-Fluke-376FC-Fluke-300x300.png)Clamp Meter, True RMS AC/DC, 1000A/1000V, Fluke-376FC, Fluke ₵10,430.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376fc-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-socket-set-1200292/?add-to-cart=1993)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

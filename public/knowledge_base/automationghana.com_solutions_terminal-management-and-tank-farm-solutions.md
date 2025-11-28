@@ -118,11 +118,11 @@ Identifies potential equipment issues before they lead to failures, reducing dow
 Enhances the reliability of critical equipment by monitoring and addressing issues promptly.
 ## Enhanced Maintenance
 Enables proactive maintenance strategies, improving operational efficiency and extending equipment lifespan.
-[ How Can We Help? ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/#collapse-a0fd110691d309176a03)
+[ How Can We Help? ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/#collapse-a0fd1106927e78b4583e)
 With over 20 years of experience in electrical engineering and automation, we specialize in customizing and deploying solutions for any industry and scale. Our solutions conform to international standards and protocols, ensuring seamless interoperability with top automation and integrated systems.
 **We Offer Upgrades for Obsolete Systems and Collaborate with You to Scale Existing Systems to Save Costs and Meet Your Business Objectives.** Leverage our expertise and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation, and controls engineering.
 We provide end-to-end integration of our temperature-compensated leakage detection system into your smelter cooling circuits. Our team ensures seamless installation and configuration within your existing control architecture, offering ongoing support to maximize system performance and ensure reliable operations in your mining processes.
-[ What We Offer ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/#collapse-3ee4934691d309176a03)
+[ What We Offer ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/#collapse-3ee49346927e78b4583e)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -132,7 +132,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/#collapse-62ecacd691d309176a03)
+[ Services ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions/#collapse-62ecacd6927e78b4583e)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

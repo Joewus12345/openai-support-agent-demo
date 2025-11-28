@@ -45,14 +45,14 @@ Product Description
 MCB, EBG, 3P-C6A-6kA High current limiting performance to limit, to the greatest extent, the destructive energy due to short circuit C-Curve Miniature Circuit Breaker is used for the protection of circuits against short-circuit currents, protection of circuits against overload currents.
 Related Products 
 ## Related products
-  * [![Auxiliary Contact 140M-C-ASA02](https://store.automationghana.com/wp-content/uploads/2020/11/140M-C-ASA02.jpg)Auxiliary Contact 140M-C-ASA02 ₵236.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-asa02/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c6a-6ka-chint/?add-to-cart=2950)
-  * [![Auxiliary Contact 195-MB22](https://store.automationghana.com/wp-content/uploads/2020/11/A-B-300x300.jpg)Auxiliary Contact 195-MB22 ₵473.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb22/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c6a-6ka-chint/?add-to-cart=2948)
+  * [![Circuit Breaker 140M-C2E-A16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-A16-300x300.jpg)Circuit Breaker 140M-C2E-A16 ₵873.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-a16/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c6a-6ka-chint/?add-to-cart=2979)
+  * [![Busbar End Cover 141A-TR3E](https://store.automationghana.com/wp-content/uploads/2020/12/141A-TR3E-300x300.jpg)Busbar End Cover 141A-TR3E ₵78.50 ](https://store.automationghana.com/product/busbar-end-cover-141a-tr3e/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c6a-6ka-chint/?add-to-cart=2977)
+  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
+[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c6a-6ka-chint/?add-to-cart=2956)
   * [![Auxiliary Contact 195-MA40 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/195-MA40.jpg)Auxiliary Contact 195-MA40 Rockwell ₵472.00 ](https://store.automationghana.com/product/auxiliary-contact-195-ma40/)
 [Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c6a-6ka-chint/?add-to-cart=2944)
-  * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
-[Add to cart](https://store.automationghana.com/product/mcb-ebg-3p-c6a-6ka-chint/?add-to-cart=2941)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

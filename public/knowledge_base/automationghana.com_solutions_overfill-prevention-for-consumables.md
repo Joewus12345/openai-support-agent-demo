@@ -102,14 +102,14 @@ Ensure clear visibility and accountability in operations for improved oversight 
 Enable quicker, higher-quality decisions through advanced data integration and analysis.
 ## Increased Productivity
 Enhance operational efficiency and productivity with streamlined automation and control systems.
-[ How Can We Help? ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-a0fd110691d95662c6d9)
+[ How Can We Help? ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-a0fd11069283fa49cb3b)
   * With over 20 years of experience in electrical engineering and automation, we offer specialized offshore drilling solutions that enhance safety, reliability, and operational efficiency. Our team will work closely with you to implement state-of-the-art technologies, ensuring optimal performance and reduced risks in your offshore drilling operations.
   * We deploy our solution in conformance to international standards and protocols ensuring interoperability with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-3ee4934691d95662c6d9)
+[ What We Offer ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-3ee493469283fa49cb3b)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -119,7 +119,7 @@ We offer after sales support services including:
 
 
 supply of spares.
-[ Hardware and Software ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-32d8655691d95662c6d9)
+[ Hardware and Software ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-32d865569283fa49cb3b)
   * Flow and Temperature Sensors
   * 4–20 mA Signal Transmitters
   * Digital Output Devices
@@ -141,7 +141,7 @@ supply of spares.
   * Reagent Dosing Software
 
 
-[ Services ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-62ecacd691d95662c6d9)
+[ Services ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-62ecacd69283fa49cb3b)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

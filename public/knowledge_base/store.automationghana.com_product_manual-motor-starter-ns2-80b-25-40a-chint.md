@@ -46,10 +46,10 @@ Product Description
 NS2-80B 25-40A, Manual Motor Starter 
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin, 220VAC, JQX-10F/2Z, Chint ₵61.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-80b-25-40a-chint/?add-to-cart=1603)
-  * [![Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC (S), Omron ₵72.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-24dc-s-omron/)
-[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-80b-25-40a-chint/?add-to-cart=1601)
+  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-80b-25-40a-chint/?add-to-cart=1594)
+  * [![Relay-JQX-10F/3Z DC 24V, CHINT](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Relay-JQX-10F/3Z DC 24V, CHINT ₵54.00 ](https://store.automationghana.com/product/relay-jqx-10f-3z-dc-24v-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-80b-25-40a-chint/?add-to-cart=1593)
   * [![Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902154A.png)Industrial Plug, 32A, 3P+N+E 400V, 902154A, Solera ₵108.00 ](https://store.automationghana.com/product/industrial-plug-902154a-solera/)
 [Add to cart](https://store.automationghana.com/product/manual-motor-starter-ns2-80b-25-40a-chint/?add-to-cart=1511)
   * [![Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902454A.png)Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera ₵204.00 ](https://store.automationghana.com/product/industrial-plug-902454a-solera/)

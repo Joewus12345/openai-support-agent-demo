@@ -53,12 +53,12 @@ Related Products
 ## Related products
   * [![UPS, 3kVA, UPA302N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 3kVA, UPA302N2NX0B035, Delta ₵9,432.00 ](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
 [Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=24749)
-  * [![Venting Fans, NEF1-260, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-260, Chint ₵449.50 ](https://store.automationghana.com/product/venting-fans-nef1-260-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1920)
+  * [![Pattress Box-NEH1-004A, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box-NEH1-004A, Chint ₵12.00 ](https://store.automationghana.com/product/recessed-mounting-box/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=3373)
   * [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-300x300.jpg)Pattress Box NEH1-202 Chint ₵17.00 ](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
 [Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1832)
-  * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵9.80 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1830)
+  * [![Pattress Box NEH1-201 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x3-patress-surface-300x300.jpg)Pattress Box NEH1-201 Chint ₵12.00 ](https://store.automationghana.com/product/pattress-box-neh1-201-chint/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-001a-chint/?add-to-cart=1831)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

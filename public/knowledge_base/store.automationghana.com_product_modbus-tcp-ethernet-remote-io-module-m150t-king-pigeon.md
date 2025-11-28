@@ -44,12 +44,12 @@ Product Description
 The M150 is designed for IIOT Application and Industrial Automation, it provides 8DIN+4AIN+4DO, compatible with MQTT, Modbus RTU, Modbus TCP protocols, equips 1 Ethernet ports and 1 RS485 port.
 Related Products 
 ## Related products
-  * [![Coaxial Cable 1786-TPS](https://store.automationghana.com/wp-content/uploads/2020/12/1786-TPS-300x300.jpg)Coaxial Cable 1786-TPS ₵1,630.00 ](https://store.automationghana.com/product/coaxial-cable-1786-tps/)
-[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m150t-king-pigeon/?add-to-cart=2983)
-  * [![Busbar End Cover 141A-TR3E](https://store.automationghana.com/wp-content/uploads/2020/12/141A-TR3E-300x300.jpg)Busbar End Cover 141A-TR3E ₵78.50 ](https://store.automationghana.com/product/busbar-end-cover-141a-tr3e/)
-[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m150t-king-pigeon/?add-to-cart=2977)
-  * [![Auxiliary Contact 100-SD10M](https://store.automationghana.com/wp-content/uploads/2020/12/100-SD10M-300x300.jpg)Auxiliary Contact 100-SD10M ₵258.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sd10m/)
-[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m150t-king-pigeon/?add-to-cart=2959)
+  * [![Circuit Breaker 140M-C2E-B16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-B16.jpg)Circuit Breaker 140M-C2E-B16 ₵369.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-b16/)
+[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m150t-king-pigeon/?add-to-cart=2981)
+  * [![Auxiliary Contact 100-SB20](https://store.automationghana.com/wp-content/uploads/2020/11/Allen-Bradley-100S-300x300.jpg)Auxiliary Contact 100-SB20 ₵296.00 ](https://store.automationghana.com/product/auxiliary-contact-100-sb20/)
+[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m150t-king-pigeon/?add-to-cart=2956)
+  * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
+[Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m150t-king-pigeon/?add-to-cart=2941)
   * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
 [Add to cart](https://store.automationghana.com/product/modbus-tcp-ethernet-remote-io-module-m150t-king-pigeon/?add-to-cart=2935)
 

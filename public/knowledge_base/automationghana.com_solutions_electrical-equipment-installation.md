@@ -127,14 +127,14 @@ Ensuring new equipment seamlessly connects to existing systems, maximizing effic
 Ensuring proper power supply, avoiding overheating, and implementing preventative measures, you can maximize the return on investment for your equipment 
 ## Enhanced safety compliance
 Implement electrical installations according to the latest safety regulations, protecting personnel and assets. This includes proper grounding, arc flash protection, and adherence to all relevant safety codes to create a secure working environment. 
-[ How Can We Help? ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-a0fd110691c92a44c2de)
+[ How Can We Help? ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-a0fd110692837461965d)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-3ee4934691c92a44c2de)
+[ What We Offer ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-3ee4934692837461965d)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -144,7 +144,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-62ecacd691c92a44c2de)
+[ Services ](https://automationghana.com/solutions/electrical-equipment-installation/#collapse-62ecacd692837461965d)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

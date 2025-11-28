@@ -44,14 +44,14 @@ Product Description
 Tool carry case wrap, equipped with: cable cutter, diagonal cutter, combination and needle-nose pliers VDE screwdriver bladed: 0.4×2.5/0.5×3.0/1.0×4.0/1.0×5.5 crosshead: PHO/PH1/PH2 Voltage tester
 Related Products 
 ## Related products
-  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-wrap-1212505/?add-to-cart=2010)
-  * [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ₵7,613.00 ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-wrap-1212505/?add-to-cart=2008)
+  * [![Fluke-424D](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-424D-300x300.jpg)Laser Distance Meter up to 100m, Fluke-424D, Fluke ₵11,623.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-424d-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-wrap-1212505/?add-to-cart=2009)
   * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
 [Add to cart](https://store.automationghana.com/product/tool-set-tool-wrap-1212505/?add-to-cart=2006)
-  * [![Digital-MultimeterMD-9030-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-MultimeterMD-9030-Metrel-300x300.png)Multimeter,Digital, 1000VDC/VAC, 10A DC/AC, MD 9030, Metrel ₵1,819.00 ](https://store.automationghana.com/product/digital-multimetermd-9030-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-set-tool-wrap-1212505/?add-to-cart=2002)
+  * [ Sale! ![Fluke 114](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-114-300x300.jpg)Multimeter, Digital, 600V, Autovolt Selection, Fluke-114, Fluke ~~₵ 2,834.63~~ Original price was: ₵2,834.63.₵2,267.70Current price is: ₵2,267.70. ](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-wrap-1212505/?add-to-cart=1997)
+  * [![Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage-300x300.png)Multimeter, Digital, 600V, Non-contact Voltage Detection, Fluke-117, Fluke ₵4,698.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-117-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-tool-wrap-1212505/?add-to-cart=1998)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -45,14 +45,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Auxiliary Switch Front, 3MH7910-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7910-0CT10, Siemens ₵42.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7910-0ct10-siemens/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-3p-20a-6ka-5tj6320-7-siemens/?add-to-cart=24503)
   * [![Auxiliary Switch Front, 3MH7902-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7902-0CT10, Siemens ₵57.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7902-0ct10-siemens/)
 [Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-3p-20a-6ka-5tj6320-7-siemens/?add-to-cart=24501)
-  * [![Contactor, 3P-65A-230VAC, 3MT7065-3AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-65A-230VAC, 3MT7065-3AA11-0AP0, Siemens ₵1,932.00 ](https://store.automationghana.com/product/contactor-3p-65a-230vac-3mt7065-3aa11-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-3p-20a-6ka-5tj6320-7-siemens/?add-to-cart=24491)
+  * [![Contactor, 3P-95A-230V, 3MT7095-4AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-95A-230V, 3MT7095-4AA11-0AP0, Siemens ₵2,997.00 ](https://store.automationghana.com/product/contactor-3p-95a-230v-3mt7095-4aa11-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-3p-20a-6ka-5tj6320-7-siemens/?add-to-cart=24494)
   * [![Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens ₵920.00 ](https://store.automationghana.com/product/contactor-3p-32a-230vac-3mt7032-2aa10-0ap0-siemens/)
 [Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-3p-20a-6ka-5tj6320-7-siemens/?add-to-cart=24489)
+  * [![Contactor, 3P-18A-230VAC, 3MT7018-1AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-18A-230VAC, 3MT7018-1AA10-0AP0, Siemens ₵452.00 ](https://store.automationghana.com/product/contactor-3p-18a-230vac-3mt7018-1aa10-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-3p-20a-6ka-5tj6320-7-siemens/?add-to-cart=24487)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -54,14 +54,14 @@ WIFI and Bluetooth Pre – Amplifier Mini Complete Pack (Pre-Amp, Power Supply, 
 
 Related Products 
 ## Related products
-  * [![2 Channel WiFi Relay Switch](https://store.automationghana.com/wp-content/uploads/2021/10/2-Channel-WiFi-Relay-Switch-1.jpg)2 Channel WiFi Relay Switch ₵380.00 ](https://store.automationghana.com/product/2-channel-wifi-relay-switch/)
-[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3594)
-  * [![WIFI Humidity & Temperature Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/WIFI-Humidity-Temperature-Sensor-300x300.jpg)WIFI Humidity & Temperature Sensor ₵750.00 ](https://store.automationghana.com/product/wifi-humidity-temperature-sensor/)
-[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3580)
-  * [![1 Channel WiFi Relay Switch Used Without Neutral](https://store.automationghana.com/wp-content/uploads/2021/10/shelly-1l-wifi-relay-switch-300x300.jpg)1 Channel WiFi Relay Switch Used Without Neutral ₵840.00 ](https://store.automationghana.com/product/1-channel-wifi-relay-switch-used-without-neutral/)
-[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3567)
-  * [![Split Core Current Transformer 50A](https://store.automationghana.com/wp-content/uploads/2021/03/Clamp-Up-300x300.jpeg)Split Core Current Transformer 50A ₵172.00 ](https://store.automationghana.com/product/50a-16ma-clamp-on-current-transformer/)
-[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3308)
+  * [![F-RF Motion Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/images.jpg)F-RF Motion Sensor ₵388.00 ](https://store.automationghana.com/product/f-rf-motion-sensor/)
+[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3590)
+  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
+[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3313)
+  * [![WIFI Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/03/door-handle-wifi-neo-sensor-300x300.jpg)WIFI Door & Window Sensor ₵659.00 ](https://store.automationghana.com/product/wifi-operated-door-window-2-sensor/)
+[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3307)
+  * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+[Add to cart](https://store.automationghana.com/product/wifi-and-bluetooth-pre-amplifier-mini-complete-pack/?add-to-cart=3283)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

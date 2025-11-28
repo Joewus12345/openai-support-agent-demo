@@ -96,9 +96,9 @@ Monitor critical infrastructure components, such as power distribution units (PD
 Receive instant alerts for any critical conditions, such as temperature spikes, humidity changes, or equipment malfunctions. Our system’s early warning capabilities ensure rapid response to potential threats, minimizing downtime and damage.
 ## Energy Savings 
 Reduce cooling energy costs by optimizing environmental conditions.
-[ How Can We Help? ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-a0fd110691dbee15594c)
+[ How Can We Help? ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-a0fd11069283f9f09568)
 At **Automation Ghana Group** , we empower your data center operations with robust DCIM solutions that provide full visibility and control over your critical infrastructure. Our experts collaborate closely with your team to integrate advanced monitoring tools, data analytics, and automated response mechanisms. This approach ensures that your data center remains secure, efficient, and cost-effective while minimizing operational disruptions and extending equipment lifespan.
-[ What We Offer ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-3ee4934691dbee15594c)
+[ What We Offer ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-3ee493469283f9f09568)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -108,7 +108,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-62ecacd691dbee15594c)
+[ Services ](https://automationghana.com/solutions/data-center-infrastructure-management-dcim/#collapse-62ecacd69283f9f09568)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

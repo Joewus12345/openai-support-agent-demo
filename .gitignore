@@ -46,3 +46,5 @@ products.json
 
 # local data
 data/
+/logs/scrape_jobs
+/crawl4AI-agent/crawl4AI-examples/output/benchmarks

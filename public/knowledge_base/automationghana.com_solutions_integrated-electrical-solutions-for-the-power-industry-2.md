@@ -97,10 +97,10 @@ By implementing our SCADA systems and power management solutions, you can achiev
 The modular nature of our integrated solutions allows for easy scalability, ensuring that your systems can grow and adapt to meet future demands without compromising performance or reliability.
 ## Reduced Maintenance Costs
 With reliable and durable equipment, you experience fewer system failures and reduced maintenance requirements, leading to lower overall maintenance costs and increased system uptime.
-[ How Can We Help? ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-a0fd110691cb6e497881)
+[ How Can We Help? ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-a0fd110692857204fd74)
 With over 2(two) decades of experience in electrical engineering and automation, we tailor and deploy advanced power management solutions to meet the unique demands of power generation and distribution at any scale. Our solutions are implemented in strict compliance with international standards and protocols, ensuring seamless interoperability with systems from the world’s leading brands in power automation and integrated technologies.
 We provide comprehensive upgrades for outdated systems and work closely with you to scale existing infrastructures, optimizing costs while achieving your business goals. Leverage our deep industry expertise and connections with Original Equipment Manufacturers (OEMs) to integrate the latest technologies in electrical, instrumentation, and controls engineering into your power systems.
-[ What We Offer ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-3ee4934691cb6e497881)
+[ What We Offer ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-3ee4934692857204fd74)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -110,7 +110,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-32d8655691cb6e497881)
+[ Hardware and Software ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-32d8655692857204fd74)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -123,7 +123,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-62ecacd691cb6e497881)
+[ Services ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-2/#collapse-62ecacd692857204fd74)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

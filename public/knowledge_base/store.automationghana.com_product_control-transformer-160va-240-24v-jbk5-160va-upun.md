@@ -43,12 +43,12 @@ Product Description
 Usage: Single-phase Transformer, Rectifier Transformer, Combined Transformer, Power Transformer, Distribution Transformer Primary Voltage: 220V or 380V or Customized Secondary Voltage: 12V, 24V, 110V or Customized Safety Standard: En61558
 Related Products 
 ## Related products
+  * [![Circuit Breaker 140M-C2E-A16](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C2E-A16-300x300.jpg)Circuit Breaker 140M-C2E-A16 ₵873.00 ](https://store.automationghana.com/product/circuit-breaker-140m-c2e-a16/)
+[Add to cart](https://store.automationghana.com/product/control-transformer-160va-240-24v-jbk5-160va-upun/?add-to-cart=2979)
   * [![Auxiliary Contact 140M-C-AFAR10A01](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFAR10A01-300x298.jpg)Auxiliary Contact 140M-C-AFAR10A01 ₵278.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afar10a01/)
 [Add to cart](https://store.automationghana.com/product/control-transformer-160va-240-24v-jbk5-160va-upun/?add-to-cart=2963)
-  * [![Auxiliary Contact 140M-C-AFA20](https://store.automationghana.com/wp-content/uploads/2020/12/140M-C-AFA20-300x300.jpg)Auxiliary Contact 140M-C-AFA20 ₵178.00 ](https://store.automationghana.com/product/auxiliary-contact-140m-c-afa20/)
-[Add to cart](https://store.automationghana.com/product/control-transformer-160va-240-24v-jbk5-160va-upun/?add-to-cart=2961)
-  * [![Auxiliary Contact 100-FB11](https://store.automationghana.com/wp-content/uploads/2020/11/100-FB11.jpg)Auxiliary Contact 100-FB11 ₵222.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fb11-rockwell/)
-[Add to cart](https://store.automationghana.com/product/control-transformer-160va-240-24v-jbk5-160va-upun/?add-to-cart=2941)
+  * [![Auxiliary Contact 195-MB11 Rockwell](https://store.automationghana.com/wp-content/uploads/2020/11/MB11-300x300.jpg)Auxiliary Contact 195-MB11 Rockwell ₵499.00 ](https://store.automationghana.com/product/auxiliary-contact-195-mb11/)
+[Add to cart](https://store.automationghana.com/product/control-transformer-160va-240-24v-jbk5-160va-upun/?add-to-cart=2946)
   * [![Auxiliary Contact 100-FA22](https://store.automationghana.com/wp-content/uploads/2020/11/100-FA22-e1624027345370.jpg)Auxiliary Contact 100-FA22 ₵354.00 ](https://store.automationghana.com/product/auxiliary-contact-100-fa22-rockwell/)
 [Add to cart](https://store.automationghana.com/product/control-transformer-160va-240-24v-jbk5-160va-upun/?add-to-cart=2935)
 

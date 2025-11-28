@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Industrial Controls](https://store.automationghana.com/product-category/industrial-controls/) / Thermal Overload Relay, 7-10A, 1 N.O + 1 N.C, NXR-12 7-10A, Chint
-[🔍](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/)
 [![Thermal Overload Relay, 7-10A, 1 N.O + 1 N.C, NXR-12 7-10A, Chint](https://store.automationghana.com/wp-content/uploads/2024/05/nxc_25.jpg)](https://store.automationghana.com/wp-content/uploads/2024/05/nxc_25.jpg)
 ####  Thermal Overload Relay, 7-10A, 1 N.O + 1 N.C, NXR-12 7-10A, Chint 
 **SKU :** NXR-12 7-10A 
@@ -45,10 +45,10 @@ Product Description
 NXR thermal overload relay are suitable for overload and phase loss protection for uninterrupted or intermittent AC motors with AC frequency of 50 Hz/60 Hz, a voltage up to 690 V, and a current of (0.1-630)A. The thermal relays also provide temperature compensation, action indication, automatic and manual reset, stop, and testing functions. The products are characterized by stable and reliable performance. The thermal relays can be plugged into contactors or installed independently. 
 Related Products 
 ## Related products
-  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1602)
-  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1592)
+  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1594)
+  * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1537)
   * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
 [Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1534)
   * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)

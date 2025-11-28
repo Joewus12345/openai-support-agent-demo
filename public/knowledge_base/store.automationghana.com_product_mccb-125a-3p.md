@@ -53,12 +53,12 @@ MCCB-NXM-125S/3300 125A
 
 Related Products 
 ## Related products
-  * [![MCB 6A 1P, NXB-63 1P C6 6kA Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)MCB 6A 1P, NXB-63 1P C6 6kA Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c6-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-125a-3p/?add-to-cart=1781)
-  * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/mccb-125a-3p/?add-to-cart=1779)
+  * [![Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint ₵2,807.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-200-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-125a-3p/?add-to-cart=1757)
   * [![Automatic Voltage Regulator \(AVR\), 5kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-5-300x300.jpg)Automatic Voltage Regulator (AVR), 5kvA, 1Phase ₵3,381.00 ](https://store.automationghana.com/product/avr-tnd1svc-5-chint/)
 [Add to cart](https://store.automationghana.com/product/mccb-125a-3p/?add-to-cart=1637)
+  * [![Automatic Changeover, 125A, 4P](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover, 125A, 4P ₵5,390.00 ](https://store.automationghana.com/product/automatic-changeover-nz7-125h-4-125a-chint/)
+[Add to cart](https://store.automationghana.com/product/mccb-125a-3p/?add-to-cart=1628)
   * [![Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint ₵1,825.00 ](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/)
 [Add to cart](https://store.automationghana.com/product/mccb-125a-3p/?add-to-cart=1521)
 

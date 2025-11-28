@@ -62,12 +62,12 @@ This is used for flexible applications involving medium mechanical stress with f
 
 Related Products 
 ## Related products
-  * [![Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey](https://store.automationghana.com/wp-content/uploads/2020/04/CAT-6-FTP-300x300.jpg)Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey ₵22.00 ](https://store.automationghana.com/product/cat-6-cable-802174-u-ftp-4cx2xawg-26-7-pvc-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1487)
-  * [![Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-3g15-300x300.png)Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel ₵18.10 ](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1484)
-  * [![Autoflex Cable-29178-H07V-K-1Cx6 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable-29178-H07V-K-1Cx6 Y/G, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29178-h07v-k-1cx6-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1472)
+  * [![Autoflex Cable \(Green-Yellow\), H07V-K-1Cx16mm², 29210, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable (Green-Yellow), H07V-K-1Cx16mm², 29210, Helukabel ₵33.00 ](https://store.automationghana.com/product/autoflexcable-29210-h07v-k-1cx16-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1486)
+  * [![Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29177-h07v-k-1cx6-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1471)
+  * [![Autoflex Cable-29179-H07V-K-1Cx6 BE, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable-29179-H07V-K-1Cx6 BE, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29179-h07v-k-1cx6-be-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1473)
   * [![Autoflex Cable \(Blue\), H07V-K-1Cx4mm², 29163, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), H07V-K-1Cx4mm², 29163, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29163-h07v-k-1cx4-be-helukabel/)
 [Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1469)
 

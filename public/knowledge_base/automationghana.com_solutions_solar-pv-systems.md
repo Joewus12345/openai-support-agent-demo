@@ -119,14 +119,14 @@ Choosing our Solar PV Power System offers the significant benefit of scalability
 Revolutionizing the way, we power our homes and businesses, our systems seamlessly integrate with the existing electrical grid. Say goodbye to soaring electricity bills. With our grid-tied solar systems, you’ll unlock substantial savings on your energy costs by generating your own electricity and offsetting your consumption from the grid. Enjoy immediate financial benefits and quicker returns on your investment. Suitable for commercial and industrial facilities.
 ## Data logging and monitoring 
 Monitor the performance of your PV Solar system on your smart devices With our smart monitoring system, gain instant access to comprehensive data on your PV system’s performance, energy production, and consumption patterns 
-[ How Can We Help? ](https://automationghana.com/solutions/solar-pv-systems/#collapse-a0fd110691c92c46ef5f)
+[ How Can We Help? ](https://automationghana.com/solutions/solar-pv-systems/#collapse-a0fd1106927730213bc0)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/solar-pv-systems/#collapse-3ee4934691c92c46ef5f)
+[ What We Offer ](https://automationghana.com/solutions/solar-pv-systems/#collapse-3ee49346927730213bc0)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -136,7 +136,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/solar-pv-systems/#collapse-32d8655691c92c46ef5f)
+[ Hardware and Software ](https://automationghana.com/solutions/solar-pv-systems/#collapse-32d86556927730213bc0)
   * Solar PV Panels
   * Inverters (Grid-tied, Hybrid)
   * Batteries
@@ -146,7 +146,7 @@ We offer after sales support services including:
   * Protection Equipment
 
 
-[ Services ](https://automationghana.com/solutions/solar-pv-systems/#collapse-62ecacd691c92c46ef5f)
+[ Services ](https://automationghana.com/solutions/solar-pv-systems/#collapse-62ecacd6927730213bc0)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

@@ -95,11 +95,11 @@ In the telecommunication industry, uninterrupted power supply is crucial for mai
 Ensure the reliability and efficiency of your outdoor telecom environments with our high-performance power solutions. Designed with high-efficiency rectifiers, intelligent controllers, and advanced thermal cooling systems, our IP55-compliant cabinets protect against water and dust ingress. Ideal for telecom base stations, our solutions minimize costs and extend equipment lifespan while ensuring uninterrupted power supply. 
 [ Learn More ](https://automationghana.com/solutions/outdoor-telecom-power-system/)
 ## Client & Partners
-![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
-![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
-![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
-![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
-![](http://18.197.210.112/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
+![](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)

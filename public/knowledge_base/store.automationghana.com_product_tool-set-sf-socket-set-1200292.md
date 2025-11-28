@@ -44,14 +44,14 @@ Product Description
 1/4″ socket set, 47-piece, 1/4″ reversible ratchet, 48 teeth with fast locking system, 50 mm and 100 mm 1/4″ extensions, 1/4″ screwdriver handle, 150 mm 1/4″ flexible extension, 1/4″ Cardan joint, 1/4″ T-handle 2 x 1/4″ bit adapter, 13 knurled 1/4″ sockets, wrench size: 4 / 4.5 / 5 / 5.5 / 6 / 7 / 8 / 9 / 10 / 11 / 12 / 13 / 14 mm, 21 knurled socket bits: 6 x Torx® T10, T15, T20, T25, T30, T40, 6 x Hex 3, 4, 5, 6, 7, 8 mm, 3 x Phillips recess® PH1, PH2, PH3, 3 x Pozidriv® PZ1, PZ2, PZ3, 3 x slotted 4, 5.5, 7 mm, Allen wrench Hex 1.27, 1.5, 2, 2.5 mm, breakage and impact-resistant plastic case with metal fastening
 Related Products 
 ## Related products
-  * [![MD-106-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-106-Metrel-300x300.png)Voltage Detector, Non-Contact, 90-1000VAC, MD 106, Metrel ₵202.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
-[Read more](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
   * [![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115-300x300.jpg)Multimeter-FLUKE-115, Fluke ₵5,282.00 ](https://store.automationghana.com/product/multimeter-fluke-115-fluke/)
 [Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2013)
-  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2007)
-  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2005)
+  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
+[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2001)
+  * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
+[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2000)
+  * [![FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER-300x300.jpg)Multimeter, Digital with Temperature Reading, FLUKE-179, Fluke ₵5,505.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-179-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=1999)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -124,10 +124,10 @@ Real-time monitoring and automation reduce manual interventions, optimize produc
 By preventing leaks and detecting anomalies early, the solution helps reduce product losses, maintenance costs, and potential regulatory fines.
 ## Increased Transparency and Compliance
 Continuous monitoring and detailed reporting support regulatory compliance and enhance transparency, building trust with stakeholders and regulatory bodies.
-[ How Can We Help? ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-a0fd110691d1e24eed1e)
+[ How Can We Help? ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-a0fd110692876ddcb595)
 At Automation Ghana Group, we specialize in providing advanced pipeline monitoring and automation solutions tailored to the unique challenges of the oil and gas sector. With over a decade of experience, we bring in-depth industry knowledge and cutting-edge technology to optimize your pipeline operations, enhance safety, and drive operational efficiency.
 Our team of experts works closely with you to design, implement, and maintain a customized solution that meets your specific needs, ensuring seamless integration with your existing systems. We provide end-to-end support, from initial consultation and design to installation, training, and ongoing maintenance, ensuring that your pipeline operations are always secure and efficient.
-[ What We Offer ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-3ee4934691d1e24eed1e)
+[ What We Offer ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-3ee4934692876ddcb595)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -137,7 +137,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-32d8655691d1e24eed1e)
+[ Hardware and Software ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-32d8655692876ddcb595)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -150,7 +150,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-62ecacd691d1e24eed1e)
+[ Services ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-62ecacd692876ddcb595)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

@@ -26,9 +26,10 @@ Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke
 [![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
 [![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN.jpg)
+Sale!
 ####  Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke 
 **SKU :** FLUKE-CV300 
-₵7,613.00
+~~₵ 7,320.64~~ Original price was: ₵7,320.64.₵5,856.15Current price is: ₵5,856.15.
 Item is sold per unit.
 Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke quantity
 Add to cart
@@ -43,24 +44,18 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-Infrared Window FLUKE-CV300 saves time with quick and easy installation in less than 5 minutes. 
-  * Size: 75 mm (3 in)
-  * Maintains panel arc test ratings up to 63kA when properly installed
-  * IP rating: IP67 at TUV
-  * Voltage range: Any
-  * Operating temperature: -40°C to +232°C (-40°F to +450°F) and +260°C (500°F) intermittent
-
-
+Infrared inspection window for safe, fast thermal checks.  
+---  
 Related Products 
 ## Related products
-  * [![MD-1160-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/LCD-Voltage_Continuity-Tester-MD-1160-Metrel-300x300.png)Voltage/Continuity Tester, 12 – 1000V, MD 1160, Metrel ₵830.00 ](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/)
-[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2012)
-  * [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ₵6,245.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
-[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2010)
-  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
-[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=1995)
-  * [![Clamp Meter, Fluke-376FC](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-Fluke-376FC-Fluke-300x300.png)Clamp Meter, True RMS AC/DC, 1000A/1000V, Fluke-376FC, Fluke ₵10,430.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376fc-fluke/)
-[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=1993)
+  * [![Non-Contact-Voltage-Detector-MD-116-Metre](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-116-Metrel-300x300.png)Voltage Detector, Non-Contact, 12-1000VAC, MD 116, Metrel ₵365.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-116-metrel/)
+[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2015)
+  * [![Digital-MultimeterMD-9030-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-MultimeterMD-9030-Metrel-300x300.png)Multimeter,Digital, 1000VDC/VAC, 10A DC/AC, MD 9030, Metrel ₵1,819.00 ](https://store.automationghana.com/product/digital-multimetermd-9030-metrel/)
+[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2002)
+  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
+[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2001)
+  * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
+[Add to cart](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/?add-to-cart=2000)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

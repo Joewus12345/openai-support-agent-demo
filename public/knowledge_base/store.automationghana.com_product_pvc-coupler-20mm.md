@@ -53,10 +53,10 @@ Related Products
 [Add to cart](https://store.automationghana.com/product/pvc-coupler-20mm/?add-to-cart=1485)
   * [![Autoflex Cable \(Black\), H07V-K-1Cx25mm², 29225, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx25mm², 29225, Helukabel ₵51.50 ](https://store.automationghana.com/product/autoflex-cable-29225-h07v-k-1cx25-blk-helukabel/)
 [Add to cart](https://store.automationghana.com/product/pvc-coupler-20mm/?add-to-cart=1480)
-  * [![Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel ₵12.00 ](https://store.automationghana.com/product/autoflex-cable-29162-h07v-k-1cx4-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/pvc-coupler-20mm/?add-to-cart=1468)
-  * [![Autoflex Cable \(Blue\), H07V-K-1Cx4mm², 29163, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), H07V-K-1Cx4mm², 29163, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29163-h07v-k-1cx4-be-helukabel/)
-[Add to cart](https://store.automationghana.com/product/pvc-coupler-20mm/?add-to-cart=1469)
+  * [![Autoflex Cable \(Green-Yellow\), H07V-K-1Cx25mm², 29226, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable (Green-Yellow), H07V-K-1Cx25mm², 29226, Helukabel ₵51.50 ](https://store.automationghana.com/product/autoflex-cable-29226-h07v-k-1cx25-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/pvc-coupler-20mm/?add-to-cart=1481)
+  * [![Autoflex Cable \(Black\), H07V-K-1Cx1.5mm², 29129, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx1.5mm², 29129, Helukabel ₵4.80 ](https://store.automationghana.com/product/autoflex-cable-29129-h07v-k-1cx1-5-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/pvc-coupler-20mm/?add-to-cart=1460)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

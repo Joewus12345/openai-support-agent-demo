@@ -53,14 +53,14 @@ CP1LL14DRD, PLC 5K steps program + 10K words data memory
 
 Related Products 
 ## Related products
-  * [![Inverter Drive \(RX\), 22kW, 48A, 3-Phase, 400 VAC, 3G3RX-A4220-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 22kW, 48A, 3-Phase, 400 VAC, 3G3RX-A4220-E1F CHN, Omron ₵16,727.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4220-e1f-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1587)
-  * [![Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-RX3A5M.jpg)Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron ₵775.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/)
-[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1590)
-  * [![MX Inverter Drive 200VAC, 1.5kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 200VAC, 1.5kW, 1Phase ₵4,721.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1581)
-  * [![MX Inverter Drive 400VAC, 5.5kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 5.5kW, 3Phase ₵9,706.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4055-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1580)
+  * [![MX Inverter Drive, 200VAC, 0.75kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive, 200VAC, 0.75kW, 1Phase ₵4,536.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab007-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1991)
+  * [![Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-Omron-temp-controller-300x300.jpg)Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron ₵953.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/)
+[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1591)
+  * [![MX Inverter Drive 400VAC, 3.0kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 3.0kW, 3Phase ₵6,553.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4030-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1578)
+  * [![Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/NB3Q_640px-300x300.jpg)Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron ₵3,126.00 ](https://store.automationghana.com/product/human-machine-interface-nb3q-tw01b-omron/)
+[Add to cart](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/?add-to-cart=1572)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

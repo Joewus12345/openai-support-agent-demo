@@ -54,12 +54,12 @@ Related Products
 ## Related products
   * [![Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-RX3A5M.jpg)Temperature Controller, 3 Alarm Output,100-240V, E5CC-RX3A5M-000 Omron ₵775.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/)
 [Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/?add-to-cart=1590)
-  * [![MX Inverter Drive 200VAC, 1.5kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 200VAC, 1.5kW, 1Phase ₵4,721.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/?add-to-cart=1581)
+  * [![Inverter Drive \(RX\), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 37kW, 75A, 3-Phase, 400 VAC, 3G3RX-A4370-E1F CHN, Omron ₵46,785.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4370-e1f-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/?add-to-cart=1588)
+  * [![Inverter Drive\(MX\), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 4kW, 9.2/11.1A , 3~Phase, 400 VAC, 3G3MX2-A4040-E CHN, Omron ₵7,561.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4040-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/?add-to-cart=1579)
   * [![MX Inverter Drive 400VAC, 2.2kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 2.2kW, 3Phase ₵5,443.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4022-e-chn-omron/)
 [Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/?add-to-cart=1577)
-  * [![Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W-AD041_640px-300x300.jpg)Input/Output Expansion Unit, Analog, 20mA, 4AI CP1WAD041.1 Omron ₵1,767.00 ](https://store.automationghana.com/product/i-o-expansion-unit-4ai-cp1wad041-1-omron/)
-[Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/?add-to-cart=1574)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

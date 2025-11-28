@@ -51,14 +51,14 @@ AVR TNS1 (SVC)-15, 3 Phase
 
 Related Products 
 ## Related products
-  * [![MCB 6A 1P, NXB-63 1P C6 6kA Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)MCB 6A 1P, NXB-63 1P C6 6kA Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c6-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-3phase/?add-to-cart=1781)
-  * [![MCB, C63A-2P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-2P-300x300.jpg)MCB, C63A-2P-6kA, NXB-63, Chint ₵78.50 ](https://store.automationghana.com/product/mcb-nxb-63-2p-c63-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-3phase/?add-to-cart=1783)
-  * [![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)Automatic Voltage Regulator (AVR), 75kvA, 3 Phase ₵58,063.00 ](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
-[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-3phase/?add-to-cart=1641)
+  * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-3phase/?add-to-cart=1779)
   * [![AVR, 100KVA-3 Phase, TNSZ\(SBW\)-100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)AVR, 100KVA-3 Phase, TNSZ(SBW)-100, Chint ₵62,258.00 ](https://store.automationghana.com/product/avr-tnszsbw-100-chint/)
 [Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-3phase/?add-to-cart=1638)
+  * [![Automatic Voltage Regulator \(AVR\), 5kvA, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-5-300x300.jpg)Automatic Voltage Regulator (AVR), 5kvA, 1Phase ₵3,381.00 ](https://store.automationghana.com/product/avr-tnd1svc-5-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-3phase/?add-to-cart=1637)
+  * [![Automatic Changeover, 125A, 4P](https://store.automationghana.com/wp-content/uploads/2020/04/automatic-changeover.jpg)Automatic Changeover, 125A, 4P ₵5,390.00 ](https://store.automationghana.com/product/automatic-changeover-nz7-125h-4-125a-chint/)
+[Add to cart](https://store.automationghana.com/product/automatic-voltage-regulator-avr-15kva-3phase/?add-to-cart=1628)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

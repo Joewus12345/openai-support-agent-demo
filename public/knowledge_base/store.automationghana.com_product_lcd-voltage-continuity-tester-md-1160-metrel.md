@@ -56,14 +56,14 @@ Metrel LCD Voltage/Continuity Tester, MD 1160
 
 Related Products 
 ## Related products
-  * [![MD-106-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-106-Metrel-300x300.png)Voltage Detector, Non-Contact, 90-1000VAC, MD 106, Metrel ₵202.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
-[Read more](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
-  * [![Digital-Multimeter-FLUKE-107-Palm-sized-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-FLUKE-107-Palm-sized-Fluke-300x300.png)Multimeter Digital, 6-600VAC/VDC, 4-10A AC/DC, FLUKE-107, Fluke ₵2,435.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-107-fluke/)
-[Add to cart](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/?add-to-cart=2003)
-  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
-[Add to cart](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/?add-to-cart=2001)
-  * [![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ₵3,161.00 ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
-[Add to cart](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/?add-to-cart=1996)
+  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+[Add to cart](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/?add-to-cart=2007)
+  * [ Sale! ![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)Laser Distance Meter up to 100m, FLUKE-419D, Fluke ~~₵ 7,131.66~~ Original price was: ₵7,131.66.₵6,775.08Current price is: ₵6,775.08. ](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+[Add to cart](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/?add-to-cart=2010)
+  * [![Fluke-424D](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-424D-300x300.jpg)Laser Distance Meter up to 100m, Fluke-424D, Fluke ₵11,623.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-424d-fluke/)
+[Add to cart](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/?add-to-cart=2009)
+  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
+[Add to cart](https://store.automationghana.com/product/lcd-voltage-continuity-tester-md-1160-metrel/?add-to-cart=2006)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

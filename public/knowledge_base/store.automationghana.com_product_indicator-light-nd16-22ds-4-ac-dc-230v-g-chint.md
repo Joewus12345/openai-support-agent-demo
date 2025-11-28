@@ -45,14 +45,14 @@ Product Description
 Indicator Light ND16-22DS/4 AC/DC 230V G Chint | Indicator Light Green 230VAC/DC
 Related Products 
 ## Related products
-  * [![Relay Socket, 14-Pin, PYF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14-Pin, PYF14A-E, Omron ₵25.00 ](https://store.automationghana.com/product/14-pin-relay-socket-pyf14a-e-omron/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-230v-g-chint/?add-to-cart=1598)
-  * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-230v-g-chint/?add-to-cart=1534)
-  * [![Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-10-300x300.jpg)Industrial Socket, 32A, 2P+E, 230V, 903133A, Solera ₵149.00 ](https://store.automationghana.com/product/socket-903133a-solera/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-230v-g-chint/?add-to-cart=1533)
-  * [![Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/industrial-plug-3-pin-300x300.jpg)Industrial Plug, 32A, 2P+E, 230VAC, 902133A, Solera ₵100.00 ](https://store.automationghana.com/product/industrial-plug-902133a-solera/)
-[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-230v-g-chint/?add-to-cart=1522)
+  * [![Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 8-Pin Relay, 12VDC, JQX-10F/2Z, Chint ₵47.00 ](https://store.automationghana.com/product/8-pin-relay-jqx-10f-2z-12vdc-chint/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-230v-g-chint/?add-to-cart=1602)
+  * [![Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC (S), Omron ₵72.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-24dc-s-omron/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-230v-g-chint/?add-to-cart=1601)
+  * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-230v-g-chint/?add-to-cart=1594)
+  * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
+[Add to cart](https://store.automationghana.com/product/indicator-light-nd16-22ds-4-ac-dc-230v-g-chint/?add-to-cart=1514)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

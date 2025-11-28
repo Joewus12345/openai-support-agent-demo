@@ -52,14 +52,14 @@ NL1-63 2P 63A 300mA 6kA, RCCB
 
 Related Products 
 ## Related products
-  * [![MCB, C20A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C20-1P-300x300.jpg)MCB, C20A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/rccb-nl1-63-2p-63a-300ma-chint/?add-to-cart=1778)
-  * [![AVR, 50KVA-3 Phase, TNSZ\(SBW\)-50, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 50KVA-3 Phase, TNSZ(SBW)-50, Chint ₵50,216.00 ](https://store.automationghana.com/product/avr-tnszsbw-50-chint/)
-[Add to cart](https://store.automationghana.com/product/rccb-nl1-63-2p-63a-300ma-chint/?add-to-cart=1640)
-  * [![AVR 15KVA 1 Phase, TND1\(SVC\) -15AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 15KVA 1 Phase, TND1(SVC) -15AF, Chint ₵9,918.00 ](https://store.automationghana.com/product/avr-tnd1svc-15af-chint/)
-[Add to cart](https://store.automationghana.com/product/rccb-nl1-63-2p-63a-300ma-chint/?add-to-cart=1634)
-  * [![Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 100A-4P, NH40-100/4CSW, Chint ₵1,825.00 ](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/)
-[Add to cart](https://store.automationghana.com/product/rccb-nl1-63-2p-63a-300ma-chint/?add-to-cart=1521)
+  * [![MCB, C63A-2P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C63-2P-300x300.jpg)MCB, C63A-2P-6kA, NXB-63, Chint ₵78.50 ](https://store.automationghana.com/product/mcb-nxb-63-2p-c63-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/rccb-nl1-63-2p-63a-300ma-chint/?add-to-cart=1783)
+  * [![MCB, C16A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C16-1P-300x300.jpg)MCB, C16A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c16-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/rccb-nl1-63-2p-63a-300ma-chint/?add-to-cart=1777)
+  * [![AVR, 100KVA-3 Phase, TNSZ\(SBW\)-100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)AVR, 100KVA-3 Phase, TNSZ(SBW)-100, Chint ₵62,258.00 ](https://store.automationghana.com/product/avr-tnszsbw-100-chint/)
+[Add to cart](https://store.automationghana.com/product/rccb-nl1-63-2p-63a-300ma-chint/?add-to-cart=1638)
+  * [![AVR, 20KVA-1 Phase, TND1\(SVC\)-20/AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-20_AF-300x300.png)AVR, 20KVA-1 Phase, TND1(SVC)-20/AF, Chint ₵10,925.00 ](https://store.automationghana.com/product/avr-tnd1svc-20-af-chint/)
+[Add to cart](https://store.automationghana.com/product/rccb-nl1-63-2p-63a-300ma-chint/?add-to-cart=1636)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

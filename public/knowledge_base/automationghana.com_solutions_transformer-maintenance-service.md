@@ -109,9 +109,9 @@ Proper maintenance and oil treatment significantly increase the lifespan of your
 Well-maintained transformers operate safely, minimizing the risk of electrical hazards or fires.
 ## Reduced Downtime
 Preventive maintenance reduces the risk of unexpected failures and costly downtime, keeping your operations running smoothly.
-[ How Can We Help? ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-a0fd110691c92884956a)
+[ How Can We Help? ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-a0fd110692876fe8ae3b)
 TAGG’s **transformer maintenance and oil treatment** services ensure that your transformers remain in top working condition. Our expert team will perform all necessary maintenance, testing, and oil treatment to keep your transformers running efficiently and safely. We also offer tailored preventive maintenance plans to extend transformer life and avoid unexpected outages.
-[ What We Offer ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-3ee4934691c92884956a)
+[ What We Offer ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-3ee4934692876fe8ae3b)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -121,7 +121,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-32d8655691c92884956a)
+[ Hardware and Software ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-32d8655692876fe8ae3b)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -134,7 +134,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-62ecacd691c92884956a)
+[ Services ](https://automationghana.com/solutions/transformer-maintenance-service/#collapse-62ecacd692876fe8ae3b)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

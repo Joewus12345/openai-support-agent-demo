@@ -51,14 +51,14 @@ NL1-63 4P 100A 300mA 6kA, RCCB
 
 Related Products 
 ## Related products
-  * [![MCB 6A 1P, NXB-63 1P C6 6kA Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)MCB 6A 1P, NXB-63 1P C6 6kA Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c6-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/rccb-nl1-100-4p-100a-300ma-6ka-chint/?add-to-cart=1781)
   * [![MCB 20A 3P, NXB-63 3P C20 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/BREAKER-5-300x300.jpg)MCB 20A 3P, NXB-63 3P C20 6kA, Chint ₵110.00 ](https://store.automationghana.com/product/mcb-nxb-63-3p-c20-6ka-chint/)
 [Add to cart](https://store.automationghana.com/product/rccb-nl1-100-4p-100a-300ma-6ka-chint/?add-to-cart=1784)
-  * [![MCB, C20A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C20-1P-300x300.jpg)MCB, C20A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/rccb-nl1-100-4p-100a-300ma-6ka-chint/?add-to-cart=1778)
-  * [![Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel with Iron Shield, 63A-4P, NH40-63/4CSW, Chint ₵1,722.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-63-4csw-enc-bar-chint/)
-[Add to cart](https://store.automationghana.com/product/rccb-nl1-100-4p-100a-300ma-6ka-chint/?add-to-cart=1758)
+  * [![MCB, C16A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C16-1P-300x300.jpg)MCB, C16A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c16-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/rccb-nl1-100-4p-100a-300ma-6ka-chint/?add-to-cart=1777)
+  * [![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)Automatic Voltage Regulator (AVR), 75kvA, 3 Phase ₵58,063.00 ](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
+[Add to cart](https://store.automationghana.com/product/rccb-nl1-100-4p-100a-300ma-6ka-chint/?add-to-cart=1641)
+  * [![AVR, 50KVA-3 Phase, TNSZ\(SBW\)-50, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 50KVA-3 Phase, TNSZ(SBW)-50, Chint ₵50,216.00 ](https://store.automationghana.com/product/avr-tnszsbw-50-chint/)
+[Add to cart](https://store.automationghana.com/product/rccb-nl1-100-4p-100a-300ma-6ka-chint/?add-to-cart=1640)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

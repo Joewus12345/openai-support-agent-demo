@@ -161,5 +161,3 @@ We provide unique electrical and automation services and products through innova
 enquiries@automationghana.com 
 © Copyright 2024. The Automation Ghana Group.
   * [ Policy Statements ](https://automationghana.com/policies/)
-
-

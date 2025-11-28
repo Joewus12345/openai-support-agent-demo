@@ -24,11 +24,12 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Laser Distance Meter up to 100m, FLUKE-419D, Fluke
-[🔍](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
 [![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D.jpg)
+Sale!
 ####  Laser Distance Meter up to 100m, FLUKE-419D, Fluke 
 **SKU :** FLUKE-419D 
-₵6,245.00
+~~₵ 7,131.66~~ Original price was: ₵7,131.66.₵6,775.08Current price is: ₵6,775.08.
 Item is sold per unit.
 Laser Distance Meter up to 100m, FLUKE-419D, Fluke quantity
 Add to cart
@@ -54,14 +55,14 @@ Laser Distance Meter, FLUKE-419D provides accurate long distance measurements to
 
 Related Products 
 ## Related products
-  * [![MD-106-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Non-Contact-Voltage-Detector-MD-106-Metrel-300x300.png)Voltage Detector, Non-Contact, 90-1000VAC, MD 106, Metrel ₵202.00 ](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
-[Read more](https://store.automationghana.com/product/non-contact-voltage-detector-md-106-metrel/)
-  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
-[Add to cart](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/?add-to-cart=2005)
+  * [![FLUKE-TL224](https://store.automationghana.com/wp-content/uploads/2020/04/Test-Leads-FLUKE-TL224-Fluke-300x275.png)Fluke-TL 224, SureGrip Insulated Test Leads ₵551.00 ](https://store.automationghana.com/product/test-leads-fluke-tl224-fluke/)
+[Add to cart](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/?add-to-cart=2016)
+  * [ Sale! ![FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-CV300-CLIRVU-INFRARED-WINDOW-WITH-HAND-TURN-270x300.jpg)Infrared Red Window, 63kA for 30 Cycles @ 60 Hz, FLUKE-CV300, Fluke ~~₵ 7,320.64~~ Original price was: ₵7,320.64.₵5,856.15Current price is: ₵5,856.15. ](https://store.automationghana.com/product/ir-window-fluke-cv300-fluke/)
+[Add to cart](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/?add-to-cart=2008)
   * [![FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER-300x300.jpg)Multimeter, Digital with Temperature Reading, FLUKE-179, Fluke ₵5,505.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-179-fluke/)
 [Add to cart](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/?add-to-cart=1999)
-  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
-[Add to cart](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/?add-to-cart=2001)
+  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
+[Add to cart](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/?add-to-cart=1992)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

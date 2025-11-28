@@ -72,7 +72,7 @@ No content found
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - 14499](http://18.197.210.112/wp-content/uploads/2024/08/14499-1024x681.jpg)
+![The Automation Ghana Group - 14499](https://automationghana.com/wp-content/uploads/2024/08/14499-1024x681.jpg)
 ## Inventory Monitoring and Tank Gauging
 Optimize inventory levels and enhance storage utilization with advanced monitoring solutions. We provide comprehensive turnkey systems that include smart radar level sensors, gateways, and cloud-based software for real-time data visualization and ERP integration. These solutions enable precise monitoring of liquids in tanks and silos, ensuring efficient inventory management and reducing costs.
 ## Hardware/Software
@@ -83,7 +83,7 @@ Optimize inventory levels and enhance storage utilization with advanced monitori
   * NXA822 Hostlink for collecting data from the tankscanner for integration into ERP or local system
 
 
-![An image of Reinach-Beautyshot-Prosonic_Flow-P500-W400](http://18.197.210.112/wp-content/uploads/2024/08/GOV-EHFL-Reinach-Beautyshot-Prosonic_Flow-P500-W400-Focus-Offering-MEKR.SAN-067_v03.2.jpg)
+![An image of Reinach-Beautyshot-Prosonic_Flow-P500-W400](https://automationghana.com/wp-content/uploads/2024/08/GOV-EHFL-Reinach-Beautyshot-Prosonic_Flow-P500-W400-Focus-Offering-MEKR.SAN-067_v03.2.jpg)
 ## Benefits
 ## Real-Time Visibility
 Continuous monitoring of inventory levels with remote access to data, optimizing logistics and reducing manual checks.
@@ -91,14 +91,14 @@ Continuous monitoring of inventory levels with remote access to data, optimizing
 Enhances storage utilization and optimizes inventory levels, reducing operational costs and ensuring better availability of raw materials.
 ## Scalability
 Supports multi-site operations with cloud-based data integration, suitable for large-scale inventory management.
-[ How Can We Help? ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-a0fd110691cfa70682be)
+[ How Can We Help? ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-a0fd110692856b64356d)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-3ee4934691cfa70682be)
+[ What We Offer ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-3ee4934692856b64356d)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -108,7 +108,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-62ecacd691cfa70682be)
+[ Services ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-62ecacd692856b64356d)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

@@ -112,14 +112,14 @@ Improved control over froth levels, air flow, and chemical dosing enhances the e
 Accurate measurements and controls reduce reagent waste and energy consumption.
 ## Enhanced Safety and Reliability
 Real-time monitoring and control minimize the risk of process disruptions and ensure stable operations.
-[ How Can We Help? ](https://automationghana.com/solutions/flotation-management/#collapse-a0fd110691dbea17c2f1)
+[ How Can We Help? ](https://automationghana.com/solutions/flotation-management/#collapse-a0fd1106927e78c4cf83)
   * With over 20 years of experience in electrical engineering and automation, we optimize your flotation management by providing comprehensive solutions for monitoring and controlling flotation cells. Our advanced instrumentation ensures precise measurements and control parameters, leading to improved mineral recovery and efficient operations in your mining processes.
   * We deploy our solution in conformance to international standards and protocols ensuring interoperability with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/flotation-management/#collapse-3ee4934691dbea17c2f1)
+[ What We Offer ](https://automationghana.com/solutions/flotation-management/#collapse-3ee49346927e78c4cf83)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -129,7 +129,7 @@ We offer after sales support services including:
 
 
 supply of spares.
-[ Hardware and Software ](https://automationghana.com/solutions/flotation-management/#collapse-32d8655691dbea17c2f1)
+[ Hardware and Software ](https://automationghana.com/solutions/flotation-management/#collapse-32d86556927e78c4cf83)
   * Flow and Temperature Sensors
   * 4–20 mA Signal Transmitters
   * Digital Output Devices
@@ -151,7 +151,7 @@ supply of spares.
   * Reagent Dosing Software
 
 
-[ Services ](https://automationghana.com/solutions/flotation-management/#collapse-62ecacd691dbea17c2f1)
+[ Services ](https://automationghana.com/solutions/flotation-management/#collapse-62ecacd6927e78c4cf83)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

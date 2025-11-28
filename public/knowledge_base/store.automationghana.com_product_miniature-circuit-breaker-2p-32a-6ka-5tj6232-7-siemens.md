@@ -45,12 +45,12 @@ Product Description
 Product Description
 Related Products 
 ## Related products
+  * [![Thermal Overload Relay, 12-18A, 3MU7110-0PA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 12-18A, 3MU7110-0PA0, Siemens ₵310.00 ](https://store.automationghana.com/product/thermal-overload-relay-12-18a-3mu7110-0pa0-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-32a-6ka-5tj6232-7-siemens/?add-to-cart=24510)
+  * [![Auxiliary Switch Front, 3MH7911-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7911-0CT10, Siemens ₵56.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7911-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-32a-6ka-5tj6232-7-siemens/?add-to-cart=24505)
   * [![Auxiliary Switch Front, 3MH7901-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7901-0CT10, Siemens ₵42.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/)
 [Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-32a-6ka-5tj6232-7-siemens/?add-to-cart=24504)
-  * [![Auxiliary Switch Front, 3MH7910-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7910-0CT10, Siemens ₵42.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7910-0ct10-siemens/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-32a-6ka-5tj6232-7-siemens/?add-to-cart=24503)
-  * [![Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens ₵920.00 ](https://store.automationghana.com/product/contactor-3p-32a-230vac-3mt7032-2aa10-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-32a-6ka-5tj6232-7-siemens/?add-to-cart=24489)
   * [![Contactor, 3P-18A-230VAC, 3MT7018-1AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-18A-230VAC, 3MT7018-1AA10-0AP0, Siemens ₵452.00 ](https://store.automationghana.com/product/contactor-3p-18a-230vac-3mt7018-1aa10-0ap0-siemens/)
 [Add to cart](https://store.automationghana.com/product/miniature-circuit-breaker-2p-32a-6ka-5tj6232-7-siemens/?add-to-cart=24487)
 

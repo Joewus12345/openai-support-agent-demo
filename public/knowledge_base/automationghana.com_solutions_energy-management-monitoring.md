@@ -117,14 +117,14 @@ Showcase your commitment to environmental responsibility with detailed energy us
 Tailor your processes for peak efficiency based on collected energy consumption data. Adjusting production schedules or implementing energy-saving practices 
 ## Lower utility bills
 Our energy management system can pinpoint areas with the highest energy consumption, allowing you to prioritize upgrades and replacements for maximum impact. 
-[ How Can We Help? ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-a0fd110691c92a2462e3)
+[ How Can We Help? ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-a0fd11069276bd1b01c2)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-3ee4934691c92a2462e3)
+[ What We Offer ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-3ee493469276bd1b01c2)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -134,7 +134,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-62ecacd691c92a2462e3)
+[ Services ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-62ecacd69276bd1b01c2)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

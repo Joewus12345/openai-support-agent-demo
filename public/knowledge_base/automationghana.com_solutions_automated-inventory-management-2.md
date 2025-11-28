@@ -94,14 +94,14 @@ Reduces losses and discrepancies, optimizing fuel management.
 Enhances the accuracy and integrity of fuel transactions.
 ## Higher Trust
 We enhance your operational confidence by ensuring precise measurement and clear communication between all stakeholders in your fuel bunkering processes.
-[ How Can We Help? ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-a0fd110691dbdab89a19)
+[ How Can We Help? ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-a0fd1106927ee7df09cd)
   * With over 20 years of experience in electrical engineering and automation, we offer a comprehensive bunker fuel metering solution tailored to the needs of the oil and gas industry. Our team provides seamless integration, precise installation, and ongoing support, ensuring your fuel management processes are reliable, accurate, and efficient.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-3ee4934691dbdab89a19)
+[ What We Offer ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-3ee49346927ee7df09cd)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -111,7 +111,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-62ecacd691dbdab89a19)
+[ Services ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-62ecacd6927ee7df09cd)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

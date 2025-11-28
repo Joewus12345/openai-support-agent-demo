@@ -56,14 +56,14 @@ G3MX2-AB015-E CHN, MX Inverter Drive developed to harmonize advanced motor and m
 
 Related Products 
 ## Related products
-  * [![Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-Omron-temp-controller-300x300.jpg)Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron ₵953.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/)
-[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/?add-to-cart=1591)
   * [![CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron](https://store.automationghana.com/wp-content/uploads/2020/04/cp1ll14drd-300x300.jpg)CPU, 8in, 6out, 24VDC, CP1LL14DRD Omron ₵3,001.00 ](https://store.automationghana.com/product/plc-8in-6out-cp1ll14drd-omron/)
 [Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/?add-to-cart=1586)
+  * [![Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-Omron-temp-controller-300x300.jpg)Temperature Controller, 2 Alarm Output-100-240V, E5CC-RW2AUM-000, Omron ₵953.00 ](https://store.automationghana.com/product/temperature-controller-e5cc-rw2aum-000-omron/)
+[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/?add-to-cart=1591)
   * [![MX Inverter Drive 400VAC, 3.0kW, 3Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 400VAC, 3.0kW, 3Phase ₵6,553.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4030-e-chn-omron/)
 [Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/?add-to-cart=1578)
-  * [![Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/NB3Q_640px-300x300.jpg)Human Machine Interface, 3.5 Inch, NB3Q-TW01B, Omron ₵3,126.00 ](https://store.automationghana.com/product/human-machine-interface-nb3q-tw01b-omron/)
-[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/?add-to-cart=1572)
+  * [![Input/Output Expansion Unit, Digital, 5-24VDC, CP1W40EDR.1, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/CP1W4EDR-IO-EXPANSION-UNIT-300x300.jpg)Input/Output Expansion Unit, Digital, 5-24VDC, CP1W40EDR.1, Omron ₵2,424.00 ](https://store.automationghana.com/product/i-o-expansion-unit-cp1w40edr-1-omron/)
+[Add to cart](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/?add-to-cart=1573)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

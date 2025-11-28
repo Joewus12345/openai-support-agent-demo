@@ -51,14 +51,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Distribution Board, 6 Way, Flush, NX9-6, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 6 Way, Flush, NX9-6, Chint ₵1,375.00 ](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/sealed-junction-box-without-connectors-615c-solera/?add-to-cart=1706)
-  * [![Distribution Board, 20 Way, Flush, NX9-20M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board, 20 Way, Flush, NX9-20M, Chint ₵2,860.00 ](https://store.automationghana.com/product/dist-board-nx9-20m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/sealed-junction-box-without-connectors-615c-solera/?add-to-cart=1702)
-  * [![Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint ₵1,055.50 ](https://store.automationghana.com/product/enclosure-nxw5-7050-30-chint/)
-[Add to cart](https://store.automationghana.com/product/sealed-junction-box-without-connectors-615c-solera/?add-to-cart=1567)
-  * [![Distribution Board, 6 Way, Flush, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Flush, NX9-6M, Chint ₵488.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/sealed-junction-box-without-connectors-615c-solera/?add-to-cart=1505)
+  * [![Distribution Board, 4 Way, Flush, NX9-4M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)Distribution Board, 4 Way, Flush, NX9-4M, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4m-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/sealed-junction-box-without-connectors-615c-solera/?add-to-cart=1705)
+  * [![Consumer Unit, 8-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 8-Way ₵254.00 ](https://store.automationghana.com/product/consumer-unit-nx8-8-r-chint/)
+[Add to cart](https://store.automationghana.com/product/sealed-junction-box-without-connectors-615c-solera/?add-to-cart=1646)
+  * [![Consumer Unit 18 Way, NX2-18, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX2-18-300x300.jpg)Consumer Unit 18 Way, NX2-18, Chint ₵763.00 ](https://store.automationghana.com/product/consumer-unit-nx2-18-chint/)
+[Add to cart](https://store.automationghana.com/product/sealed-junction-box-without-connectors-615c-solera/?add-to-cart=1644)
+  * [![Distribution Board, 6 Way, Surface, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Surface, NX9-6M, Chint ₵1,514.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-surface-chint/)
+[Add to cart](https://store.automationghana.com/product/sealed-junction-box-without-connectors-615c-solera/?add-to-cart=1506)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

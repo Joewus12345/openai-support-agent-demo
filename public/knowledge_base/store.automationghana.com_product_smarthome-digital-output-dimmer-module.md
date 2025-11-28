@@ -46,14 +46,14 @@ Product Description
 SB-ZMix23-DN, Zone-Beast 23 port mix Control Module
 Related Products 
 ## Related products
-  * [![F-DIN Rail Tray](https://store.automationghana.com/wp-content/uploads/2021/10/F-DIN-Rail-Tray.jpg)F-DIN Rail Tray ₵71.00 ](https://store.automationghana.com/product/f-din-rail-tray/)
-[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3597)
   * [![F-RF Door & Window Sensor](https://store.automationghana.com/wp-content/uploads/2021/10/F-RF-Door-Window-Sensor.jpg)F-RF Door & Window Sensor ₵282.00 ](https://store.automationghana.com/product/f-rf-door-window-sensor/)
 [Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3586)
-  * [![Automation Logic Module-SB-Logic2-DN, Smarthome](https://store.automationghana.com/wp-content/uploads/2021/03/ContNew-300x300.jpeg)Automation Logic Module-SB-Logic2-DN, Smarthome ₵1,422.00 ](https://store.automationghana.com/product/smart-home-controller/)
-[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3313)
-  * [![WIFI LED CONTROLLER RGBW](https://store.automationghana.com/wp-content/uploads/2021/03/SHELLY-RGBW-2-300x300.jpg)WIFI LED CONTROLLER RGBW ₵644.00 ](https://store.automationghana.com/product/shelly-rgbw-2/)
-[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3252)
+  * [![2 Channel WiFi Dimmer Switch](https://store.automationghana.com/wp-content/uploads/2021/10/image.thumb_.png.53d2d5bf0ada5ff3649de0faf116a756-300x300.png)2 Channel WiFi Dimmer Switch ₵1,051.00 ](https://store.automationghana.com/product/2-channel-wifi-dimmer-switch/)
+[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3571)
+  * [![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone) ₵3,840.00 ](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3283)
+  * [![XYE MASTER \(MINI COMPUTER\)](https://store.automationghana.com/wp-content/uploads/2021/03/Picture1-300x218.png)XYE MASTER (MINI COMPUTER) ₵3,744.00 ](https://store.automationghana.com/product/smarthome-hub-integration-module/)
+[Add to cart](https://store.automationghana.com/product/smarthome-digital-output-dimmer-module/?add-to-cart=3276)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

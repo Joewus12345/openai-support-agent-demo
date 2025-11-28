@@ -51,14 +51,14 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Distribution Board, 6 Way, Flush, NX9-6, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 6 Way, Flush, NX9-6, Chint ₵1,375.00 ](https://store.automationghana.com/product/dist-board-nx9-6-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/sealed-junction-box-100887-solera/?add-to-cart=1706)
+  * [![Distribution Board, 8 Way, Flush, NX9-8, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 8 Way, Flush, NX9-8, Chint ₵1,458.00 ](https://store.automationghana.com/product/dist-board-nx9-8-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/sealed-junction-box-100887-solera/?add-to-cart=1708)
   * [![Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint ₵1,055.50 ](https://store.automationghana.com/product/enclosure-nxw5-7050-30-chint/)
 [Add to cart](https://store.automationghana.com/product/sealed-junction-box-100887-solera/?add-to-cart=1567)
-  * [![Enclosure, 500 X 400 X 230mm](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure, 500 X 400 X 230mm ₵532.00 ](https://store.automationghana.com/product/enclosure-nxw5-5040-23-chint/)
-[Read more](https://store.automationghana.com/product/enclosure-nxw5-5040-23-chint/)
-  * [![din-rail-th35-7.5-chint](https://store.automationghana.com/wp-content/uploads/2020/04/din-rail-th35-7.5-chint-300x300.jpg)Din Rail-TH35-7.5, Chint ₵25.00 ](https://store.automationghana.com/product/din-rail-th35-7-5-chint/)
-[Add to cart](https://store.automationghana.com/product/sealed-junction-box-100887-solera/?add-to-cart=1562)
+  * [![Enclosure Wall Mount, 1200x800x380mm, NXW5-12080/38, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount, 1200x800x380mm, NXW5-12080/38, Chint ₵2,764.00 ](https://store.automationghana.com/product/enclosure-nxw5-12080-38-chint/)
+[Add to cart](https://store.automationghana.com/product/sealed-junction-box-100887-solera/?add-to-cart=1565)
+  * [![Distribution Board, 6 Way, Flush, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Flush, NX9-6M, Chint ₵488.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-flush-chint/)
+[Add to cart](https://store.automationghana.com/product/sealed-junction-box-100887-solera/?add-to-cart=1505)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

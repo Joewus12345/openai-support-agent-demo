@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Uncategorised](https://store.automationghana.com/product-category/uncategorised/) / Hioki CM4373-50 Clamp Meter
-[🔍](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/)
 [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/03/hioki-600x400.png)](https://store.automationghana.com/wp-content/uploads/2025/03/hioki.png)
 ####  Hioki CM4373-50 Clamp Meter 
 **SKU :** AC/DC Clamp Meter, CM4373-50 
@@ -42,17 +42,17 @@ Secure Payment
 Your payments are secure with our private security network. 
 Product Description
 Product Description
-Features: ✔️ True RMS up to 2000 A AC/DC for accurate readings ✔️ Measures up to 2000 V DC – ideal for solar PV inspections ✔️ Stronger jaws & IP54 rating – dustproof, waterproof, and durable ✔️ Smart Data Transfer – use the GENNECT Cross app for reports & analysis ✔️ Safety First – CAT IV 600V | CAT III 1000V ✔️ Efficiency Boost – Auto AC/DC switching & easy data management Order Now: 0501644341
+Features: ![✔️](https://s.w.org/images/core/emoji/16.0.1/svg/2714.svg) True RMS up to 2000 A AC/DC for accurate readings ![✔️](https://s.w.org/images/core/emoji/16.0.1/svg/2714.svg) Measures up to 2000 V DC – ideal for solar PV inspections ![✔️](https://s.w.org/images/core/emoji/16.0.1/svg/2714.svg) Stronger jaws & IP54 rating – dustproof, waterproof, and durable ![✔️](https://s.w.org/images/core/emoji/16.0.1/svg/2714.svg) Smart Data Transfer – use the GENNECT Cross app for reports & analysis ![✔️](https://s.w.org/images/core/emoji/16.0.1/svg/2714.svg) Safety First – CAT IV 600V | CAT III 1000V ![✔️](https://s.w.org/images/core/emoji/16.0.1/svg/2714.svg) Efficiency Boost – Auto AC/DC switching & easy data management Order Now: 0501644341
 Related Products 
 ## Related products
-  * [![Clamp On Earth Tester, FT6380-50, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Clamp-On-Earth-Tester-FT6380-50-Hioki-300x300.png)Clamp On Earth Tester, FT6380-50, Hioki ₵22,774.40 ](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/)
-[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24687)
+  * [![Power Supply-2866802-QUINT-PS/3AC/24DC/40, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/2866802-300x300.jpg)Power Supply-2866802-QUINT-PS/3AC/24DC/40, Phoenix Contact ₵4,466.00 ](https://store.automationghana.com/product/power-supply-2866802-quint-ps-3ac-24dc-40-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24975)
   * [![Infrared Thermometer, FT3700-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Infrared-Thermometer-FT3700-20-Hioki-300x300.png)Infrared Thermometer, FT3700-20, Hioki ₵2,235.20 ](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/)
 [Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24685)
-  * [![Digital Insulation Tester, IR4056-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Insulation-Tester-IR4056-20-Hioki-300x300.png)Digital Insulation Tester, IR4056-20, Hioki ₵5,738.90 ](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/)
-[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24681)
   * [![Digital Multimeter, DT4282, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Multimeter-DT4282-300x300.png)Digital Multimeter, DT4282, Hioki ₵9,304.00 ](https://store.automationghana.com/product/digital-multimeter-dt4282-hioki/)
 [Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=24673)
+  * [![HIOKI DT4281 Digital Multimeter](https://store.automationghana.com/wp-content/uploads/2025/01/Hioki-Digital-4281-1-300x300.jpg)HIOKI DT4281 Digital Multimeter ₵8,654.73 ](https://store.automationghana.com/product/hioki-dt4281-digital-multimeter/)
+[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/?add-to-cart=22653)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

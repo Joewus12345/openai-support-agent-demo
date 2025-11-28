@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Uncategorised](https://store.automationghana.com/product-category/uncategorised/) / AC Clamp Meter, CM3289, Hioki
-[🔍](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/)
 [![AC Clamp Meter, CM3289, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/AC-Clamp-Meter-CM3289-Hioki-600x600.png)](https://store.automationghana.com/wp-content/uploads/2025/05/AC-Clamp-Meter-CM3289-Hioki.png)
 ####  AC Clamp Meter, CM3289, Hioki 
 **SKU :** CM3289, Hioki 
@@ -45,14 +45,14 @@ Product Description
 The Hioki CM3289 is a reliable AC Clamp Meter optimized for quick current measurements. Its slim jaw design allows access to tight spaces, while the clear LCD display simplifies data reading. With True RMS measurement and peak hold functions, it accurately captures fluctuating currents in motors, transformers, and circuits. Lightweight and portable, it is a favorite for electricians conducting daily inspections and maintenance tasks.
 Related Products 
 ## Related products
-  * [![Digital Multimeter, DT4255, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Multimeter-DT4255-Hioki-300x300.png)Digital Multimeter, DT4255, Hioki ₵3,292.40 ](https://store.automationghana.com/product/digital-multimeter-dt4255-hioki/)
-[Add to cart](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/?add-to-cart=24689)
+  * [![Power Supply-2866802-QUINT-PS/3AC/24DC/40, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/2866802-300x300.jpg)Power Supply-2866802-QUINT-PS/3AC/24DC/40, Phoenix Contact ₵4,466.00 ](https://store.automationghana.com/product/power-supply-2866802-quint-ps-3ac-24dc-40-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/?add-to-cart=24975)
   * [![Clamp On Earth Tester, FT6380-50, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Clamp-On-Earth-Tester-FT6380-50-Hioki-300x300.png)Clamp On Earth Tester, FT6380-50, Hioki ₵22,774.40 ](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/)
 [Add to cart](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/?add-to-cart=24687)
-  * [![Infrared Thermometer, FT3700-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Infrared-Thermometer-FT3700-20-Hioki-300x300.png)Infrared Thermometer, FT3700-20, Hioki ₵2,235.20 ](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/)
-[Add to cart](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/?add-to-cart=24685)
-  * [![HIOKI DT4281 Digital Multimeter](https://store.automationghana.com/wp-content/uploads/2025/01/Hioki-Digital-4281-1-300x300.jpg)HIOKI DT4281 Digital Multimeter ₵8,654.73 ](https://store.automationghana.com/product/hioki-dt4281-digital-multimeter/)
-[Add to cart](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/?add-to-cart=22653)
+  * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/05/ACDC-Clamp-Meter-300x300.png)Hioki CM4373-50 Clamp Meter ₵8,790.00 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/)
+[Add to cart](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/?add-to-cart=24675)
+  * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/03/hioki-300x300.png)Hioki CM4373-50 Clamp Meter ₵12,541.50 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/)
+[Add to cart](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/?add-to-cart=24576)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -46,14 +46,14 @@ Product Description
 Circuit Breaker 3VJ1 IEC framesize 3VJ11 125A line protection FTFM 3-Pole Icu=36kA@415V Ics=75% Icu In=100A Overload Protection Ir=100A Short-Circuit Protection Ii=10 x In Screw Connection
 Related Products 
 ## Related products
-  * [![Thermal Overload Relay, 12-18A, 3MU7110-0PA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 12-18A, 3MU7110-0PA0, Siemens ₵310.00 ](https://store.automationghana.com/product/thermal-overload-relay-12-18a-3mu7110-0pa0-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-125a-3vj1112-3db32-0aa0-siemens/?add-to-cart=24510)
+  * [![Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens ₵310.00 ](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-125a-3vj1112-3db32-0aa0-siemens/?add-to-cart=24512)
+  * [![Auxiliary Switch Front, 3MH7901-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7901-0CT10, Siemens ₵42.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7901-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-125a-3vj1112-3db32-0aa0-siemens/?add-to-cart=24504)
+  * [![Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/contactor-1.jpg)Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens ₵11,487.00 ](https://store.automationghana.com/product/contactor-3p-300a-3mt7300-7aa00-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-125a-3vj1112-3db32-0aa0-siemens/?add-to-cart=24498)
   * [![Contactor, 3P-50A-230VAC, 3MT7050-3AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-50A-230VAC, 3MT7050-3AA11-0AP0, Siemens ₵1,438.00 ](https://store.automationghana.com/product/contactor-3p-50a-230vac-3mt7050-3aa11-0ap0-siemens/)
 [Add to cart](https://store.automationghana.com/product/mccb-3p-125a-3vj1112-3db32-0aa0-siemens/?add-to-cart=24490)
-  * [![Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-32A-230VAC, 3MT7032-2AA10-0AP0, Siemens ₵920.00 ](https://store.automationghana.com/product/contactor-3p-32a-230vac-3mt7032-2aa10-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-125a-3vj1112-3db32-0aa0-siemens/?add-to-cart=24489)
-  * [![Contactor, 3P-18A-230VAC, 3MT7018-1AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-18A-230VAC, 3MT7018-1AA10-0AP0, Siemens ₵452.00 ](https://store.automationghana.com/product/contactor-3p-18a-230vac-3mt7018-1aa10-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-125a-3vj1112-3db32-0aa0-siemens/?add-to-cart=24487)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

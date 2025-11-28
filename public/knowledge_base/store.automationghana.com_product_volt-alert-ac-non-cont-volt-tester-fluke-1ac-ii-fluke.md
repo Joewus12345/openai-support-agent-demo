@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Fluke-1AC-II, VoltAlert Non-Contact Voltage Tester
-[🔍](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/)
+[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/)
 [![Volt-Alert-AC-Non-Cont.-Volt-Tester-Fluke-1AC-II-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Volt-Alert-AC-Non-Cont.-Volt-Tester-Fluke-1AC-II-Fluke.png)](https://store.automationghana.com/wp-content/uploads/2020/04/Volt-Alert-AC-Non-Cont.-Volt-Tester-Fluke-1AC-II-Fluke.png)
 ####  Fluke-1AC-II, VoltAlert Non-Contact Voltage Tester 
 **SKU :** Fluke-1AC-A1-II 
@@ -52,14 +52,14 @@ VoltAlert Non-Contact Voltage Tester Fluke-1AC-II, Easy to carry in your shirt p
 
 Related Products 
 ## Related products
-  * [![Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage-300x300.png)Multimeter, Digital, 600V, Non-contact Voltage Detection, Fluke-117, Fluke ₵4,698.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-117-fluke/)
-[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1998)
-  * [![Fluke 114](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-114-300x300.jpg)Multimeter, Digital, 600V, Autovolt Selection, Fluke-114, Fluke ₵5,194.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-114-fluke/)
-[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1997)
-  * [![Clamp-Meter-FLUKE-376E](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-376E-Fluke-300x300.png)Fluke-376, True RMS AC/DC Clamp Meter With iFlex ₵13,707.00 ](https://store.automationghana.com/product/clamp-meter-fluke-376-e-fluke/)
-[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1995)
-  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
-[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1994)
+  * [![Fluke-424D](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-424D-300x300.jpg)Laser Distance Meter up to 100m, Fluke-424D, Fluke ₵11,623.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-424d-fluke/)
+[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=2009)
+  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
+[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=2005)
+  * [![Electrical-Tester-Fluke-T6-600-Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/Electrical-Tester-Fluke-T6-600-Fluke-300x300.png)Fluke T6-600, Electrical Tester with FieldSense Technology ₵4,525.00 ](https://store.automationghana.com/product/electrical-tester-fluke-t6-600-fluke/)
+[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=2004)
+  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
+[Add to cart](https://store.automationghana.com/product/volt-alert-ac-non-cont-volt-tester-fluke-1ac-ii-fluke/?add-to-cart=1992)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

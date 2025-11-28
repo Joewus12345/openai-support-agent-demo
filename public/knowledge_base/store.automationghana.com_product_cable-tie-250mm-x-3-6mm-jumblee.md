@@ -24,7 +24,7 @@ GT-366-3796
 Search
 Search
 [Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Cable Tie, 250mm X 3.6mm, Jumblee
-[![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/)
+[🔍](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/)
 [![Cable Tie, 250mm X 3.6mm, Jumblee](https://store.automationghana.com/wp-content/uploads/2023/11/cable-ties-g-default-application-01_3nd-600x486.jpg)](https://store.automationghana.com/wp-content/uploads/2023/11/cable-ties-g-default-application-01_3nd.jpg)
 ####  Cable Tie, 250mm X 3.6mm, Jumblee 
 **SKU :** Cable Tie, 250mmX3.6mm, Jumblee 
@@ -47,14 +47,14 @@ Product Description
 A fastener designed for securing primarily electrical cables and wires together 
 Related Products 
 ## Related products
+  * [![Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey](https://store.automationghana.com/wp-content/uploads/2020/04/CAT-6-FTP-300x300.jpg)Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey ₵22.00 ](https://store.automationghana.com/product/cat-6-cable-802174-u-ftp-4cx2xawg-26-7-pvc-helukabel/)
+[Add to cart](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/?add-to-cart=1487)
+  * [![Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-3g15-300x300.png)Autoflex Cable, JZ-500-3Cx2.5mm², 10121, Helukabel ₵18.10 ](https://store.automationghana.com/product/autoflex-cable-10121-jz-500-3cx2-5-helukabel/)
+[Add to cart](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/?add-to-cart=1484)
   * [![Autoflex Cable, 29242-H07V-K-1Cx35 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29242-H07V-K-1Cx35 Y/G, Helukabel ₵77.20 ](https://store.automationghana.com/product/autoflex-cable-29242-h07v-k-1cx35-y-g-helukabel/)
 [Add to cart](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/?add-to-cart=1483)
-  * [![Autoflex Cable \(Green-Yellow\), H07V-K-1Cx25mm², 29226, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable (Green-Yellow), H07V-K-1Cx25mm², 29226, Helukabel ₵51.50 ](https://store.automationghana.com/product/autoflex-cable-29226-h07v-k-1cx25-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/?add-to-cart=1481)
-  * [![Autoflex Cable \(Black\), H07V-K-1Cx16mm², 29209, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx16mm², 29209, Helukabel ₵33.00 ](https://store.automationghana.com/product/autoflex-cable-29209-h07v-k-1cx16-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/?add-to-cart=1478)
-  * [![Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel ₵12.00 ](https://store.automationghana.com/product/autoflex-cable-29162-h07v-k-1cx4-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/?add-to-cart=1468)
+  * [![Autoflex Cable, 29130-H07V-K-1Cx1.5 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29130-H07V-K-1Cx1.5 Y/G, Helukabel ₵4.20 ](https://store.automationghana.com/product/autoflex-cable-29130-h07v-k-1cx1-5-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/?add-to-cart=1461)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)
@@ -87,8 +87,30 @@ enquiries@automationghana.com
   * [ Privacy Policy ](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/)
 
 
-0
-0
+7
+7
 Your Cart
-Your cart is empty[Return to Shop](https://store.automationghana.com/shop/)
-[Continue Shopping](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/)
+[![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+[Insulation Multimeter-FLUKE-1587, Fluke](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+1 X ₵13,360.00 = ₵13,360.00
+[![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+[Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+1 X ~~₵ 7,131.66~~ Original price was: ₵7,131.66.₵6,775.08Current price is: ₵6,775.08. = ~~₵ 7,131.66~~ Original price was: ₵7,131.66.₵6,775.08Current price is: ₵6,775.08.
+[![Sheath Control Cable, 2Cx0.5mmsq, Grey, Helukabel](https://store.automationghana.com/wp-content/uploads/2025/02/E-store-300x300.jpg)](https://store.automationghana.com/product/sheath-control-cable-2cx0-5mmsq-grey-helukabel/)
+[Sheath Control Cable, 2Cx0.5mmsq, Grey, Helukabel](https://store.automationghana.com/product/sheath-control-cable-2cx0-5mmsq-grey-helukabel/)
+1 X ₵10.50 = ₵10.50
+[![Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/photo_2025-08-21_10-59-29-300x287.jpg)](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+[Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+1 X ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50. = ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50.
+[![Toolbox - TOOL-CASE , 1212629, Phoenix](https://store.automationghana.com/wp-content/uploads/2021/03/1212629-300x300.jpg)](https://store.automationghana.com/product/tool-case/)
+[Toolbox - TOOL-CASE , 1212629, Phoenix](https://store.automationghana.com/product/tool-case/)
+1 X ₵26,820.00 = ₵26,820.00
+[![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+[WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone)](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+1 X ₵3,840.00 = ₵3,840.00
+[![Cable Tie, 150mm X 2.5mm, Jumblee](https://store.automationghana.com/wp-content/uploads/2023/11/cable-ties-g-default-application-01_3nd-300x300.jpg)](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/)
+[Cable Tie, 150mm X 2.5mm, Jumblee](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/)
+1 X ₵10.00 = ₵10.00
+Subtotal ₵53,021.08
+Shipping, taxes, and discounts calculated at checkout.
+[View Cart](https://store.automationghana.com/cart/)[Continue Shopping](https://store.automationghana.com/product/cable-tie-250mm-x-3-6mm-jumblee/)[Checkout₵53,041.08](https://store.automationghana.com/checkout/)

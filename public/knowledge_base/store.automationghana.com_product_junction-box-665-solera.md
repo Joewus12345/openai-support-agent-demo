@@ -52,10 +52,10 @@ Product Description
 
 Related Products 
 ## Related products
-  * [![Distribution Board \(Flush\), 16 Way, NX9-16M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board (Flush), 16 Way, NX9-16M, Chint ₵2,485.00 ](https://store.automationghana.com/product/dist-board-nx9-16m-flush-chint/)
-[Add to cart](https://store.automationghana.com/product/junction-box-665-solera/?add-to-cart=1701)
-  * [![Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint ₵1,055.50 ](https://store.automationghana.com/product/enclosure-nxw5-7050-30-chint/)
-[Add to cart](https://store.automationghana.com/product/junction-box-665-solera/?add-to-cart=1567)
+  * [![Enclosure Wall Mount 800x600x300mm, NXW5-8060/30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 800x600x300mm, NXW5-8060/30, Chint ₵1,450.00 ](https://store.automationghana.com/product/enclosure-nxw5-8060-30-chint/)
+[Add to cart](https://store.automationghana.com/product/junction-box-665-solera/?add-to-cart=1568)
+  * [![Enclosure Wall Mount, 1200x800x380mm, NXW5-12080/38, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount, 1200x800x380mm, NXW5-12080/38, Chint ₵2,764.00 ](https://store.automationghana.com/product/enclosure-nxw5-12080-38-chint/)
+[Add to cart](https://store.automationghana.com/product/junction-box-665-solera/?add-to-cart=1565)
   * [![Distribution Board, 6 Way, Surface, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Surface, NX9-6M, Chint ₵1,514.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-surface-chint/)
 [Add to cart](https://store.automationghana.com/product/junction-box-665-solera/?add-to-cart=1506)
   * [![Distribution Board\(Flush\), 8 Way, NX9-8M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board(Flush), 8 Way, NX9-8M, Chint ₵1,800.00 ](https://store.automationghana.com/product/dist-board-nx9-8m-flush-chint/)

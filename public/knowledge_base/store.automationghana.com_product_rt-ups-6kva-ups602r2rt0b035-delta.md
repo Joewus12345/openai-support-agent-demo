@@ -45,12 +45,12 @@ Product Description
 RT 6kVA S w/ 16x7Ah batt. & PDB
 Related Products 
 ## Related products
-  * [![Venting Fans, NEF1-260, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-260, Chint ₵449.50 ](https://store.automationghana.com/product/venting-fans-nef1-260-chint/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=1920)
-  * [![Venting Fans, NEF1-100, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-100, Chint ₵432.00 ](https://store.automationghana.com/product/venting-fans-nef1-100-chint/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=1919)
-  * [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-300x300.jpg)Pattress Box NEH1-202 Chint ₵17.00 ](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
-[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=1832)
+  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 42", IBCF-C03, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/31GqGkJyvuL._AC_US750_-300x300.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 42″, IBCF-C03, Zhongshan Weiyu ~~₵ 2,099.50~~ Original price was: ₵2,099.50.₵1,747.00Current price is: ₵1,747.00. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-42-ibcf-c03-zhongshan-weiyu/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=24814)
+  * [![UPS \(Amplon RT-3KVA\), UPA302R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)UPS (Amplon RT-3KVA), UPA302R2RX0B035, Delta ₵16,347.50 ](https://store.automationghana.com/product/ups-amplon-rt-3kva-upa302r2rx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=24752)
+  * [![UPS, 1kVA, UPA102N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 1kVA, UPA102N2NX0B035, Delta ₵6,980.00 ](https://store.automationghana.com/product/ups-1kva-upa102n2nx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=24746)
   * [![Patress Box 3 x 6, NEH1-002, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-3-300x300.jpg)Patress Box 3 x 6, NEH1-002, Chint ₵9.80 ](https://store.automationghana.com/product/patress-box-neh1-002-chint/)
 [Add to cart](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/?add-to-cart=1830)
 
@@ -85,8 +85,30 @@ enquiries@automationghana.com
   * [ Privacy Policy ](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
 
 
-0
-0
+7
+7
 Your Cart
-Your cart is empty[Return to Shop](https://store.automationghana.com/shop/)
-[Continue Shopping](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
+[![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+[Insulation Multimeter-FLUKE-1587, Fluke](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+1 X ₵13,360.00 = ₵13,360.00
+[![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+[Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+1 X ~~₵ 7,131.66~~ Original price was: ₵7,131.66.₵6,775.08Current price is: ₵6,775.08. = ~~₵ 7,131.66~~ Original price was: ₵7,131.66.₵6,775.08Current price is: ₵6,775.08.
+[![Sheath Control Cable, 2Cx0.5mmsq, Grey, Helukabel](https://store.automationghana.com/wp-content/uploads/2025/02/E-store-300x300.jpg)](https://store.automationghana.com/product/sheath-control-cable-2cx0-5mmsq-grey-helukabel/)
+[Sheath Control Cable, 2Cx0.5mmsq, Grey, Helukabel](https://store.automationghana.com/product/sheath-control-cable-2cx0-5mmsq-grey-helukabel/)
+1 X ₵10.50 = ₵10.50
+[![Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/photo_2025-08-21_10-59-29-300x287.jpg)](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+[Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+1 X ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50. = ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50.
+[![Toolbox - TOOL-CASE , 1212629, Phoenix](https://store.automationghana.com/wp-content/uploads/2021/03/1212629-300x300.jpg)](https://store.automationghana.com/product/tool-case/)
+[Toolbox - TOOL-CASE , 1212629, Phoenix](https://store.automationghana.com/product/tool-case/)
+1 X ₵26,820.00 = ₵26,820.00
+[![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+[WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone)](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+1 X ₵3,840.00 = ₵3,840.00
+[![Cable Tie, 150mm X 2.5mm, Jumblee](https://store.automationghana.com/wp-content/uploads/2023/11/cable-ties-g-default-application-01_3nd-300x300.jpg)](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/)
+[Cable Tie, 150mm X 2.5mm, Jumblee](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/)
+1 X ₵10.00 = ₵10.00
+Subtotal ₵53,021.08
+Shipping, taxes, and discounts calculated at checkout.
+[View Cart](https://store.automationghana.com/cart/)[Continue Shopping](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)[Checkout₵53,041.08](https://store.automationghana.com/checkout/)

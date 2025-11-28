@@ -26,10 +26,11 @@ Search
 [Home](https://store.automationghana.com) / [Tools And Measuring Equipment](https://store.automationghana.com/product-category/tools-and-measuring-equipment/) / Socket Tester with LEDS, RCD Test Button, Beeper, FLUKE ST240+/ UK, Fluke
 [![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/)
 [![Socket Tester with LEDS, RCD Test Button, Beeper, FLUKE ST240+/ UK, Fluke](https://store.automationghana.com/wp-content/uploads/2024/07/photo_2024-07-29_12-50-13-600x400.jpg)](https://store.automationghana.com/wp-content/uploads/2024/07/photo_2024-07-29_12-50-13.jpg)
+Sale!
 ####  Socket Tester with LEDS, RCD Test Button, Beeper, FLUKE ST240+/ UK, Fluke 
 **SKU :** FLUKE ST240+/ UK 
-₵1,555.86
-The Fluke ST240+ is a compact and reliable tool designed to quickly and accurately test the wiring of standard and RCD outlets. 
+~~₵ 646.99~~ Original price was: ₵646.99.₵604.28Current price is: ₵604.28.
+The Fluke ST240+ is a compact and reliable tool designed to quickly and accurately test the wiring of standard and RCD outlets.
 Socket Tester with LEDS, RCD Test Button, Beeper, FLUKE ST240+/ UK, Fluke quantity
 Add to cart
   * Pickup: Available today in our stores
@@ -45,14 +46,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)Insulation Multimeter-FLUKE-1587, Fluke ₵13,360.00 ](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=2007)
-  * [![Fluke 1621](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1621-EARTHGROUND-300x300.png)Fluke-1621, Geo Earth Ground Tester ₵15,737.00 ](https://store.automationghana.com/product/geo-earth-ground-tester-fluke-1621-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=2005)
-  * [![Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-117-Electricians-Multimeter-with-Non-Contact-Voltage-300x300.png)Multimeter, Digital, 600V, Non-contact Voltage Detection, Fluke-117, Fluke ₵4,698.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-117-fluke/)
-[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=1998)
-  * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
-[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=2000)
+  * [![Fluke-424D](https://store.automationghana.com/wp-content/uploads/2020/04/Fluke-424D-300x300.jpg)Laser Distance Meter up to 100m, Fluke-424D, Fluke ₵11,623.00 ](https://store.automationghana.com/product/laser-distance-meter-fluke-424d-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=2009)
+  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
+[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=2001)
+  * [![Fluke 323](https://store.automationghana.com/wp-content/uploads/2020/04/Clamp-Meter-FLUKE-323-Fluke-300x300.png)Clamp Meter, True RMS With Iflex,Fluke-323, Fluke ₵6,205.00 ](https://store.automationghana.com/product/clamp-meter-fluke-323-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=1994)
+  * [![Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit](https://store.automationghana.com/wp-content/uploads/2020/04/Basic-Geo-Earth-Ground-Tester-Fluke-1623-2-Kit-Fluke-300x300.png)Fluke 1623-2, Basic Geo Earth Ground Tester ₵32,945.00 ](https://store.automationghana.com/product/basic-geo-earth-ground-tester-fluke-1623-2-kit-fluke/)
+[Add to cart](https://store.automationghana.com/product/fluke-st240-rcd-socket-tester-with-beeper/?add-to-cart=1992)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

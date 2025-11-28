@@ -115,10 +115,10 @@ Ensure compliance with safety standards and reduce the risk of system failures o
 Identify and address potential issues before they lead to costly repairs or replacements
 ## Increased Reliability
 Maintain high levels of operational reliability and minimize unplanned downtime.
-[ How Can We Help? ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/#collapse-a0fd110691d9d4ce3471)
+[ How Can We Help? ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/#collapse-a0fd1106928b85e4c666)
 We support and enhance your infrastructure with our comprehensive maintenance and servicing solutions. From upgrading existing systems to detailed inspections and audits, our expert team will work with you to ensure your equipment remains efficient, reliable, and in excellent condition, ultimately helping you achieve your operational goals.
 We provide comprehensive upgrades for outdated systems and work closely with you to scale existing infrastructures, optimizing costs while achieving your business goals. Leverage our deep industry expertise and connections with Original Equipment Manufacturers (OEMs) to integrate the latest technologies in electrical, instrumentation, and controls engineering into your power systems.
-[ What We Offer ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/#collapse-3ee4934691d9d4ce3471)
+[ What We Offer ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/#collapse-3ee49346928b85e4c666)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -128,7 +128,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/#collapse-32d8655691d9d4ce3471)
+[ Hardware and Software ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/#collapse-32d86556928b85e4c666)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -141,7 +141,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/#collapse-62ecacd691d9d4ce3471)
+[ Services ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/#collapse-62ecacd6928b85e4c666)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -204,5 +204,3 @@ We provide unique electrical and automation services and products through innova
 enquiries@automationghana.com 
 © Copyright 2024. The Automation Ghana Group.
   * [ Policy Statements ](https://automationghana.com/policies/)
-
-

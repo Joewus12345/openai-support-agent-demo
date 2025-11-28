@@ -67,10 +67,10 @@ Related Products
 ## Related products
   * [![RT UPS, 1kVA, UPA102R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)RT UPS, 1kVA, UPA102R2RX0B035, Delta ₵7,779.00 ](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/)
 [Add to cart](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/?add-to-cart=24750)
-  * [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)2-Way Surface Mount Consumer Unit ₵52.00 ](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
-[Add to cart](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/?add-to-cart=1971)
-  * [![Pattress Box NEH1-201 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x3-patress-surface-300x300.jpg)Pattress Box NEH1-201 Chint ₵12.00 ](https://store.automationghana.com/product/pattress-box-neh1-201-chint/)
-[Add to cart](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/?add-to-cart=1831)
+  * [![UPS, 3kVA, UPA302N2NX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/N-1kVA-Gen-3-300x300.jpg)UPS, 3kVA, UPA302N2NX0B035, Delta ₵9,432.00 ](https://store.automationghana.com/product/ups-3kva-upa302n2nx0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/?add-to-cart=24749)
+  * [![Blank Plate For 3 x 3 Patress, NEW7-G951, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate For 3 x 3 Patress, NEW7-G951, Chint ₵8.50 ](https://store.automationghana.com/product/blank-plate-new7-g951-chint/)
+[Add to cart](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/?add-to-cart=1642)
   * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
 [Add to cart](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/?add-to-cart=1503)
 
@@ -105,8 +105,30 @@ enquiries@automationghana.com
   * [ Privacy Policy ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
 
 
-0
-0
+7
+7
 Your Cart
-Your cart is empty[Return to Shop](https://store.automationghana.com/shop/)
-[Continue Shopping](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+[![FLUKE-1587-INSULATION-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-1587-INSULATION-MULTIMETER-300x300.jpg)](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+[Insulation Multimeter-FLUKE-1587, Fluke](https://store.automationghana.com/product/insulation-multimeter-fluke-1587-fluke/)
+1 X ₵13,360.00 = ₵13,360.00
+[![Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-419D-300x300.jpg)](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+[Laser Distance Meter up to 100m, FLUKE-419D, Fluke](https://store.automationghana.com/product/laser-distance-meter-fluke-419d-fluke/)
+1 X ~~₵ 7,131.66~~ Original price was: ₵7,131.66.₵6,775.08Current price is: ₵6,775.08. = ~~₵ 7,131.66~~ Original price was: ₵7,131.66.₵6,775.08Current price is: ₵6,775.08.
+[![Sheath Control Cable, 2Cx0.5mmsq, Grey, Helukabel](https://store.automationghana.com/wp-content/uploads/2025/02/E-store-300x300.jpg)](https://store.automationghana.com/product/sheath-control-cable-2cx0-5mmsq-grey-helukabel/)
+[Sheath Control Cable, 2Cx0.5mmsq, Grey, Helukabel](https://store.automationghana.com/product/sheath-control-cable-2cx0-5mmsq-grey-helukabel/)
+1 X ₵10.50 = ₵10.50
+[![Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/photo_2025-08-21_10-59-29-300x287.jpg)](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+[Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+1 X ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50. = ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50.
+[![Toolbox - TOOL-CASE , 1212629, Phoenix](https://store.automationghana.com/wp-content/uploads/2021/03/1212629-300x300.jpg)](https://store.automationghana.com/product/tool-case/)
+[Toolbox - TOOL-CASE , 1212629, Phoenix](https://store.automationghana.com/product/tool-case/)
+1 X ₵26,820.00 = ₵26,820.00
+[![WiFi & Bluetooth HiFi Amplifier 2.0 \(2 Zone\)](https://store.automationghana.com/wp-content/uploads/2021/03/Streaming-1.png)](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+[WiFi & Bluetooth HiFi Amplifier 2.0 (2 Zone)](https://store.automationghana.com/product/wireless-streaming-multiroom-multizone-audio-system-2-zones/)
+1 X ₵3,840.00 = ₵3,840.00
+[![Cable Tie, 150mm X 2.5mm, Jumblee](https://store.automationghana.com/wp-content/uploads/2023/11/cable-ties-g-default-application-01_3nd-300x300.jpg)](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/)
+[Cable Tie, 150mm X 2.5mm, Jumblee](https://store.automationghana.com/product/cable-tie-150mm-x-2-5mm-jumblee/)
+1 X ₵10.00 = ₵10.00
+Subtotal ₵53,021.08
+Shipping, taxes, and discounts calculated at checkout.
+[View Cart](https://store.automationghana.com/cart/)[Continue Shopping](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)[Checkout₵53,041.08](https://store.automationghana.com/checkout/)

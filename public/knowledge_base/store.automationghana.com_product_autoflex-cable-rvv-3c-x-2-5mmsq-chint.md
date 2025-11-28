@@ -58,14 +58,14 @@ This is a flexible control cable renowned for its durability and reliability in 
 
 Related Products 
 ## Related products
+  * [![Autoflex Cable 2-Core x 1mmsq, 10616-OZ-600 2Cx1, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/SCREENED-CABLE-300x300.jpg)Autoflex Cable 2-Core x 1mmsq, 10616-OZ-600 2Cx1, Helukabel ₵7.00 ](https://store.automationghana.com/product/autoflex-cable-10616-oz-600-2cx1-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1485)
   * [![Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey](https://store.automationghana.com/wp-content/uploads/2020/04/CAT-6-FTP-300x300.jpg)Cat 6 Cable, U/FTP 4X2XAWG 26/7 PVC UL, Grey ₵22.00 ](https://store.automationghana.com/product/cat-6-cable-802174-u-ftp-4cx2xawg-26-7-pvc-helukabel/)
 [Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1487)
-  * [![Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel](https://store.automationghana.com/wp-content/uploads/2017/12/Cables-4-300x300.png)Autoflex Cable-29213, H07V-K-1Cx16 RED, Helukabel ₵38.00 ](https://store.automationghana.com/product/autoflex-cable-29213-h07v-k-1cx16-red-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1479)
-  * [![Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29177-h07v-k-1cx6-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1471)
-  * [![Autoflex Cable \(Blue\), H07V-K-1Cx4mm², 29163, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), H07V-K-1Cx4mm², 29163, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29163-h07v-k-1cx4-be-helukabel/)
-[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1469)
+  * [![Autoflex Cable \(Green-Yellow\), H07V-K-1Cx25mm², 29226, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable (Green-Yellow), H07V-K-1Cx25mm², 29226, Helukabel ₵51.50 ](https://store.automationghana.com/product/autoflex-cable-29226-h07v-k-1cx25-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1481)
+  * [![Autoflex Cable, 29130-H07V-K-1Cx1.5 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29130-H07V-K-1Cx1.5 Y/G, Helukabel ₵4.20 ](https://store.automationghana.com/product/autoflex-cable-29130-h07v-k-1cx1-5-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/autoflex-cable-rvv-3c-x-2-5mmsq-chint/?add-to-cart=1461)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

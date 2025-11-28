@@ -99,14 +99,14 @@ Optimize supply air temperature and flow rate to significantly reduce overall co
 Maintain optimal environmental conditions to ensure the longevity and performance of critical data center equipment.
 ## Real-Time Monitoring 
 Monitor key cooling parameters in real-time to respond quickly to any issues, preventing downtime.
-[ How Can We Help? ](https://automationghana.com/solutions/computational-fluid-dynamics-cfd/#collapse-a0fd110691c92783f15e)
+[ How Can We Help? ](https://automationghana.com/solutions/computational-fluid-dynamics-cfd/#collapse-a0fd11069285c653f360)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/computational-fluid-dynamics-cfd/#collapse-3ee4934691c92783f15e)
+[ What We Offer ](https://automationghana.com/solutions/computational-fluid-dynamics-cfd/#collapse-3ee493469285c653f360)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -116,7 +116,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/computational-fluid-dynamics-cfd/#collapse-62ecacd691c92783f15e)
+[ Services ](https://automationghana.com/solutions/computational-fluid-dynamics-cfd/#collapse-62ecacd69285c653f360)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

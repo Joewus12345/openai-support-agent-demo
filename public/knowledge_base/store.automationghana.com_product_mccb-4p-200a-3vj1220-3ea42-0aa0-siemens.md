@@ -48,12 +48,12 @@ Related Products
 ## Related products
   * [![Auxiliary Switch Front, 3MH7910-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7910-0CT10, Siemens ₵42.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7910-0ct10-siemens/)
 [Add to cart](https://store.automationghana.com/product/mccb-4p-200a-3vj1220-3ea42-0aa0-siemens/?add-to-cart=24503)
+  * [![Auxiliary Switch Front, 3MH7902-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7902-0CT10, Siemens ₵57.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7902-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-4p-200a-3vj1220-3ea42-0aa0-siemens/?add-to-cart=24501)
+  * [![Contactor, 3P-250A-230VAC, 3MT7250-7AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/contactor-1.jpg)Contactor, 3P-250A-230VAC, 3MT7250-7AA00-0AP0, Siemens ₵9,433.00 ](https://store.automationghana.com/product/contactor-3p-250a-230vac-3mt7250-7aa00-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-4p-200a-3vj1220-3ea42-0aa0-siemens/?add-to-cart=24496)
   * [![Contactor, 3P-95A-230V, 3MT7095-4AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-95A-230V, 3MT7095-4AA11-0AP0, Siemens ₵2,997.00 ](https://store.automationghana.com/product/contactor-3p-95a-230v-3mt7095-4aa11-0ap0-siemens/)
 [Add to cart](https://store.automationghana.com/product/mccb-4p-200a-3vj1220-3ea42-0aa0-siemens/?add-to-cart=24494)
-  * [![Contactor, 3P-50A-230VAC, 3MT7050-3AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-50A-230VAC, 3MT7050-3AA11-0AP0, Siemens ₵1,438.00 ](https://store.automationghana.com/product/contactor-3p-50a-230vac-3mt7050-3aa11-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-4p-200a-3vj1220-3ea42-0aa0-siemens/?add-to-cart=24490)
-  * [![Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens ₵277.00 ](https://store.automationghana.com/product/contactor-3p-9a-230vac-3mt7010-0aa10-0ap0-siemens-2/)
-[Add to cart](https://store.automationghana.com/product/mccb-4p-200a-3vj1220-3ea42-0aa0-siemens/?add-to-cart=24483)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

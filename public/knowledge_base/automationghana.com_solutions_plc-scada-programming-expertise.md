@@ -72,16 +72,16 @@ No content found
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![PLC & SCADA Programming](http://18.197.210.112/wp-content/uploads/2024/05/PLC-SCADA.png)
-  1. [Home](http://18.197.210.112)
-  2. [Solution](http://18.197.210.112/solutions/)
+![PLC & SCADA Programming](https://automationghana.com/wp-content/uploads/2024/05/PLC-SCADA.png)
+  1. [Home](https://automationghana.com)
+  2. [Solution](https://automationghana.com/solutions/)
   3. PLC & SCADA Programming
 
 
 ## **Control Your Production with Precision:** PLC & SCADA Programming Expertise 
 Our engineers at TAGG are highly skilled in PLC programming and SCADA system integration. We create custom control systems that perfectly orchestrate your food & beverage production processes, ensuring consistent quality, efficient workflows, and real-time data monitoring.
 These solutions also optimize production line flow and efficiency ensuring all production KPIs are met.
-![PLC & SCADA Programming](http://18.197.210.112/wp-content/uploads/2024/05/PLC.png)
+![PLC & SCADA Programming](https://automationghana.com/wp-content/uploads/2024/05/PLC.png)
 ### [ Tailored precision  Installation of food processing machinery like mixers, slicers, and cookers ensuring optimal production workflows and adherence to quality standards.  ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
 ### [ Real-time monitoring  Bottling lines, labeling machines, and packaging equipment maximizes production efficiency and product presentation for distribution.  ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
 ### [ Seamless Integration  Tailored installation of refrigeration units and cooling systems guarantees precise temperature control, preserving food freshness and extending shelf life.  ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
@@ -92,14 +92,14 @@ SCADA systems provide real-time data visualization and control capabilities, emp
 Automating repetitive tasks such as filling, labeling, and palletizing can reduce manual labor cost, allowing the workforce to focus on higher-value activities like quality control or innovation 
 ## Improved product quality 
 PLC programs ensure consistent control over process parameters, leading to minimized waste and consistent product quality. This can reduce product rejects by 5%, resulting in significant cost savings and improved customer satisfaction. 
-[ How Can We Help? ](https://automationghana.com/solutions/plc-scada-programming-expertise/#collapse-a0fd110691cf3a26e08c)
+[ How Can We Help? ](https://automationghana.com/solutions/plc-scada-programming-expertise/#collapse-a0fd1106928773a3efdb)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/plc-scada-programming-expertise/#collapse-3ee4934691cf3a26e08c)
+[ What We Offer ](https://automationghana.com/solutions/plc-scada-programming-expertise/#collapse-3ee49346928773a3efdb)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -109,7 +109,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/plc-scada-programming-expertise/#collapse-62ecacd691cf3a26e08c)
+[ Services ](https://automationghana.com/solutions/plc-scada-programming-expertise/#collapse-62ecacd6928773a3efdb)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

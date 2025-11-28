@@ -48,12 +48,12 @@ Related Products
 ## Related products
   * [![RT UPS, 1kVA, UPA102R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)RT UPS, 1kVA, UPA102R2RX0B035, Delta ₵7,779.00 ](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/)
 [Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=24750)
-  * [![Venting Fans, NEF1-100, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/ITEM-7-300x300.jpg)Venting Fans, NEF1-100, Chint ₵432.00 ](https://store.automationghana.com/product/venting-fans-nef1-100-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1919)
-  * [![Pattress Box NEH1-201 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x3-patress-surface-300x300.jpg)Pattress Box NEH1-201 Chint ₵12.00 ](https://store.automationghana.com/product/pattress-box-neh1-201-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1831)
-  * [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-300x300.jpeg)Infrared Sensor, NEW7-G31100A, Chint ₵168.00 ](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1753)
+  * [![Pattress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box 3 x 3, NEH1-001A Chint ₵7.50 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1829)
+  * [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-300x300.jpg)Pattress Box NEH1-202 Chint ₵17.00 ](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1832)
+  * [![Blank Plate For 3 x 3 Patress, NEW7-G951, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate For 3 x 3 Patress, NEW7-G951, Chint ₵8.50 ](https://store.automationghana.com/product/blank-plate-new7-g951-chint/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1642)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)
