@@ -1,6 +1,32 @@
 #!/bin/sh
 set -e
 
+ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+
+if [ -x "$ROOT_DIR/scripts/setup_crawler_envs.sh" ]; then
+  echo "Ensuring crawler environments are provisioned..."
+  bash "$ROOT_DIR/scripts/setup_crawler_envs.sh"
+fi
+
+activate_venv() {
+  for venv_dir in \
+    "$ROOT_DIR/.venv-c4ai-v2" \
+    "$ROOT_DIR/.venv-c4ai-v1"; do
+    if [ -f "$venv_dir/bin/activate" ]; then
+      echo "Activating crawler virtualenv at $venv_dir"
+      # shellcheck disable=SC1090
+      . "$venv_dir/bin/activate"
+      export SCRAPE_WORKER_PYTHON="$venv_dir/bin/python"
+      return 0
+    fi
+  done
+
+  echo "No crawler virtualenv found to activate; proceeding without one."
+  return 0
+}
+
+activate_venv
+
 # Defensive check: bail out early if any migration directories are missing their SQL file.
 MISSING_MIGRATIONS=$(find prisma/migrations -mindepth 1 -maxdepth 1 -type d \
   ! -name "migration_lock.toml" \
@@ -18,4 +44,4 @@ if [ -n "$MISSING_MIGRATIONS" ]; then
 fi
 
 npx prisma migrate deploy
-npm run start
+npm run start:all

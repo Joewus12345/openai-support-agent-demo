@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.agent
+    restart: unless-stopped
     env_file:
       - .env.ai
     ports:
@@ -43,6 +44,7 @@ services:
 
   ollama:
     image: ollama/ollama:latest
+    restart: unless-stopped
     ports:
       - '11434:11434'
     volumes:
