@@ -1,7 +1,24 @@
 import fs from "fs/promises";
+import path from "path";
+
 import prisma from "../../../lib/prisma";
 import { ScrapeJob } from "../../../lib/generated/prisma";
 import { BenchmarkEntry } from "@/lib/scrapeMetrics";
+import { readIngestionResult, StoredIngestionResult } from "@/lib/ingestionResults";
+
+const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
+const DEBUG_LOG_INTERVAL_MS = 5000;
+let lastArtifactDebugLog = 0;
+
+function shouldLogArtifactsVerbose() {
+  if (process.env.SCRAPE_ARTIFACT_DEBUG !== "true") return false;
+  const now = Date.now();
+  if (now - lastArtifactDebugLog < DEBUG_LOG_INTERVAL_MS) {
+    return false;
+  }
+  lastArtifactDebugLog = now;
+  return true;
+}
 
 export async function readJobLog(logPath: string | null | undefined) {
   if (!logPath) return null;
@@ -47,6 +64,129 @@ export function buildJobStats(job: ScrapeJob, benchmark: BenchmarkEntry | null =
   };
 }
 
+export async function listScrapeArtifacts(job: ScrapeJob) {
+  if (!job.startedAt && !job.finishedAt) return [] as string[];
+
+  // Set SCRAPE_ARTIFACT_DEBUG=true to log inclusion/skip decisions for artifacts.
+  const debugArtifacts = process.env.SCRAPE_ARTIFACT_DEBUG === "true";
+  const logVerbose = shouldLogArtifactsVerbose();
+
+  try {
+    const entries = await fs.readdir(KNOWLEDGE_BASE_DIR);
+    const evaluations = await Promise.allSettled(
+      entries.map(async (entry) => {
+        const skipReasons: string[] = [];
+        const includeReasons: string[] = [];
+        const isMarkdown = entry.toLowerCase().endsWith(".md");
+        if (!isMarkdown) {
+          skipReasons.push("non-markdown file");
+        }
+
+        const fullPath = path.join(KNOWLEDGE_BASE_DIR, entry);
+        const debugPayload: Record<string, unknown> = { path: fullPath };
+
+        try {
+          const stats = await fs.stat(fullPath);
+
+          const createdAt = stats.birthtime ?? stats.mtime;
+          const modifiedAt = stats.mtime;
+
+          const createdInWindow =
+            (!job.startedAt || createdAt >= job.startedAt) &&
+            (!job.finishedAt || createdAt <= job.finishedAt);
+          const modifiedInWindow =
+            (!job.startedAt || modifiedAt >= job.startedAt) &&
+            (!job.finishedAt || modifiedAt <= job.finishedAt);
+
+          if (!createdInWindow) {
+            if (job.startedAt && createdAt < job.startedAt) {
+              skipReasons.push("created before job start");
+            }
+            if (job.finishedAt && createdAt > job.finishedAt) {
+              skipReasons.push("created after job finish");
+            }
+          } else {
+            includeReasons.push("creation within window");
+          }
+
+          if (!modifiedInWindow) {
+            if (job.startedAt && modifiedAt < job.startedAt) {
+              skipReasons.push("modified before job start");
+            }
+            if (job.finishedAt && modifiedAt > job.finishedAt) {
+              skipReasons.push("modified after job finish");
+            }
+          } else {
+            includeReasons.push("modified within window");
+          }
+
+          const shouldInclude = isMarkdown && (createdInWindow || modifiedInWindow);
+
+          return {
+            action: shouldInclude ? "include" : "skip", 
+            artifactPath: shouldInclude ? path.relative(process.cwd(), fullPath) : null,
+            debug: {
+              ...debugPayload,
+              createdAt,
+              mtime: modifiedAt,
+              startedAt: job.startedAt,
+              finishedAt: job.finishedAt,
+              includeReasons,
+              skipReasons,
+            },
+          } as const;
+        } catch (error) {
+          return {
+            action: "error" as const,
+            artifactPath: null,
+            debug: { ...debugPayload, error },
+          };
+        }
+      })
+    );
+
+    const artifacts: string[] = [];
+    const debugRecords: { action: string; payload: Record<string, unknown> }[] = [];
+
+    for (const evaluation of evaluations) {
+      if (evaluation.status === "fulfilled") {
+        const value = evaluation.value;
+        if (value.artifactPath) {
+          artifacts.push(value.artifactPath);
+        }
+        if (debugArtifacts && logVerbose) {
+          debugRecords.push({ action: value.action, payload: value.debug });
+        }
+      } else if (debugArtifacts && logVerbose) {
+        debugRecords.push({ action: "error", payload: { reason: evaluation.reason } });
+      }
+    }
+
+    if (debugArtifacts) {
+      if (logVerbose) {
+        for (const record of debugRecords) {
+          const label =
+            record.action === "include"
+              ? "including"
+              : record.action === "skip"
+                ? "skipping"
+                : "error";
+          console.debug(`listScrapeArtifacts: ${label}` as const, record.payload);
+        }
+      } else {
+        console.debug("listScrapeArtifacts: debug output suppressed to reduce log volume", {
+          entries: entries.length,
+        });
+      }
+    }
+
+    return artifacts.sort();
+  } catch (error) {
+    console.warn("Unable to list scrape artifacts", { error });
+    return [] as string[];
+  }
+}
+
 export function ensureAuthenticated(request: Request) {
   const verifiedHeader = request.headers.get("x-session-verified");
   const telegramUser = request.headers.get("x-telegram-user-id");
@@ -66,12 +206,17 @@ export async function serializeJob(jobId: string) {
   if (!job) return null;
 
   const log = await readJobLog(job.logPath);
+  const artifacts = await listScrapeArtifacts(job);
+  const ingestionResult = await readIngestionResult(job.id);
 
   return {
     job,
     log,
     stats: buildJobStats(job),
+    artifacts,
+    ingestionResult,
   };
 }
 
 export type SerializedScrapeJob = NonNullable<Awaited<ReturnType<typeof serializeJob>>>;
+export type SerializedIngestionResult = StoredIngestionResult & { jobId: string };

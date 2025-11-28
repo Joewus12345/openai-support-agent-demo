@@ -15,6 +15,8 @@ import {
   PlayCircle,
   RotateCcw,
   Send,
+  ChevronDown,
+  ExternalLink,
   Trash2,
   XCircle,
   Zap,
@@ -22,6 +24,7 @@ import {
 import useSWR from "swr";
 
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
+import type { StoredIngestionResult } from "@/lib/ingestionResults";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -55,6 +58,8 @@ type SerializedJob = {
   job: ScrapeJob;
   log: string | null;
   stats: JobStats;
+  artifacts: string[];
+  ingestionResult?: (StoredIngestionResult & { jobId: string }) | null;
 };
 
 function formatDate(value: string | null) {
@@ -68,6 +73,11 @@ function formatDuration(seconds: number | null) {
   if (seconds < 90) return `${seconds.toFixed(0)}s`;
   const minutes = seconds / 60;
   return `${minutes.toFixed(1)}m`;
+}
+
+function formatTimestamp(value: number | null | undefined) {
+  if (!value) return "—";
+  return new Date(value).toLocaleString();
 }
 
 function deriveProgress(job: ScrapeJob) {
@@ -111,6 +121,8 @@ export default function ScrapeJobDetail({
   const [ingesting, setIngesting] = useState<string | null>(null);
   const [actionState, setActionState] = useState<string | null>(null);
   const [runFeedback, setRunFeedback] = useState<string | null>(null);
+  const [openActivity, setOpenActivity] = useState(false);
+  const [copiedVectorIds, setCopiedVectorIds] = useState<Record<string, boolean>>({});
   const logContainerRef = useRef<HTMLDivElement | null>(null);
   const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
@@ -118,6 +130,16 @@ export default function ScrapeJobDetail({
   const authHeaders = {
     "Content-Type": "application/json",
     "x-session-verified": "true",
+  };
+
+  const copy = async (value: string, onCopied?: (flag: boolean) => void) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      onCopied?.(true);
+      setTimeout(() => onCopied?.(false), 1200);
+    } catch {
+      onCopied?.(false);
+    }
   };
 
   useEffect(() => {
@@ -150,17 +172,6 @@ export default function ScrapeJobDetail({
     const firstLine = (data?.log || "").split("\n").find(Boolean) || "No log yet.";
     return firstLine.length > 160 ? `${firstLine.slice(0, 160)}…` : firstLine;
   }, [data?.log]);
-
-  const copy = async (value: string, setter: (flag: boolean) => void) => {
-    if (!value) return;
-    try {
-      await navigator.clipboard.writeText(value);
-      setter(true);
-      setTimeout(() => setter(false), 1500);
-    } catch {
-      setter(false);
-    }
-  };
 
   useEffect(() => {
     if (!id) return undefined;
@@ -391,33 +402,45 @@ export default function ScrapeJobDetail({
   const sendToVectorStore = async () => {
     if (!data) return;
     setIngesting("working");
-    const snippet = (data.log || "").slice(0, 1200) ||
-      `Scrape job ${data.job.id} completed with status ${data.job.status}.`;
+    const artifactPaths = data.artifacts || [];
+
+    if (artifactPaths.length === 0) {
+      setRunFeedback("No scraped artifacts were found for this run.");
+      setIngesting("error");
+      return;
+    }
 
     try {
       const res = await fetch("/api/scraper_ingest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          markdownBlobs: [
-            {
-              content: snippet,
-              source: `${data.job.script}.log`,
-              filename: `${data.job.id}.md`,
-            },
-          ],
+          jobId: data.job.id,
+          artifactPaths,
           destinationFolder: "knowledge_base",
         }),
       });
 
+      const result = await res.json().catch(() => ({}));
+
       if (res.ok) {
         setIngesting("done");
+        const docs = (result.ingestedDocuments as string[]) || artifactPaths;
+        setRunFeedback(
+          typeof result.message === "string"
+            ? result.message
+            : `Ingestion triggered for ${docs.length} document(s).`
+        );
+        await mutate();
       } else {
         setIngesting("error");
+        const error = typeof result?.error === "string" ? result.error : "Failed to start ingestion.";
+        setRunFeedback(error);
       }
     } catch (err) {
       console.error("Error sending to vector store", err);
       setIngesting("error");
+      setRunFeedback("Unexpected error while sending to vector store.");
     }
   };
 
@@ -480,14 +503,14 @@ export default function ScrapeJobDetail({
   const progressValue = deriveProgress(data.job);
 
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-24 px-4 pb-16 md:pb-24">
-      <div className="w-full max-w-4xl flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-sm text-zinc-500">Job ID</div>
-            <div className="text-lg font-semibold text-zinc-800">{data.job.id}</div>
-            <div className="text-sm text-zinc-500">Script: {data.job.script}</div>
-            <div className="mt-2 text-xs text-zinc-500">Output: {KNOWLEDGE_BASE_PATH}</div>
+    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-10 md:pt-14 px-4 pb-16 md:pb-20">
+      <div className="w-full max-w-4xl flex flex-col gap-5">
+        <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
+          <div className="flex flex-col gap-1">
+            <div className="text-[11px] uppercase tracking-wide text-zinc-500">Scrape job</div>
+            <div className="text-2xl font-semibold text-zinc-900">{data.job.script}</div>
+            <div className="text-sm text-zinc-500">Job ID: {data.job.id}</div>
+            <div className="text-xs text-zinc-500">Output: {KNOWLEDGE_BASE_PATH}</div>
             <div className="text-[11px] text-zinc-400">{logSnippet}</div>
           </div>
           <Link href="/scrape_jobs" className="text-sm text-[#2B83F6] hover:underline">
@@ -594,20 +617,213 @@ export default function ScrapeJobDetail({
               </button>
             </div>
             {ingesting === "done" && (
-              <div className="text-[11px] text-emerald-600">Ingestion triggered.</div>
+              <div className="text-[11px] text-emerald-600">
+                {runFeedback || "Ingestion triggered."}
+              </div>
             )}
             {ingesting === "error" && (
               <div className="text-[11px] text-red-600">Failed to send; retry?</div>
             )}
-            {runFeedback && (
-              <div className="text-[11px] text-zinc-600">{runFeedback}</div>
-            )}
-          </div>
+          {runFeedback && (
+            <div className="text-[11px] text-zinc-600">{runFeedback}</div>
+          )}
         </div>
+      </div>
 
+      {data.ingestionResult && (
         <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
-            <div className="text-sm font-semibold text-zinc-800">Log output</div>
+          <button
+            type="button"
+            onClick={() => setOpenActivity((prev) => !prev)}
+            className="flex w-full flex-col gap-3 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left hover:border-zinc-300 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex min-w-0 items-start gap-2 sm:items-center">
+              <ChevronDown
+                size={14}
+                className={`transition-transform ${openActivity ? "rotate-180" : "rotate-0"}`}
+              />
+              <div className="flex min-w-0 flex-col leading-tight">
+                <span className="text-sm font-semibold text-zinc-800">Ingestion activity</span>
+                <span
+                  className={`text-[11px] break-words ${
+                    data.ingestionResult.status === "success"
+                      ? "text-emerald-700"
+                      : data.ingestionResult.status === "skipped"
+                        ? "text-amber-700"
+                        : "text-red-600"
+                  }`}
+                >
+                  {data.ingestionResult.status.toUpperCase()} — {data.ingestionResult.message}
+                </span>
+              </div>
+            </div>
+            <div className="min-w-0 text-[10px] text-zinc-500 sm:text-right">
+              <div className="break-words">{formatTimestamp(data.ingestionResult.timestamp)}</div>
+              <div className="break-words">
+                {(data.ingestionResult.uploadedFiles?.length ?? 0)} uploaded · {data.ingestionResult.changedFiles.length} changed · {data.ingestionResult.unchangedFiles.length} unchanged
+              </div>
+            </div>
+          </button>
+
+          {openActivity && (
+            <div className="mt-3 space-y-3 text-[11px] text-zinc-700">
+              <div className="break-words text-[11px] text-zinc-700 sm:text-[11px]">
+                {data.ingestionResult.message}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <div className="font-semibold text-zinc-800">Changed files</div>
+                  {data.ingestionResult.changedFiles.length === 0 ? (
+                    <div className="text-zinc-500">None</div>
+                  ) : (
+                    <ul className="list-disc pl-4 space-y-1 break-words">
+                      {data.ingestionResult.changedFiles.map((file) => (
+                        <li key={file}>{file}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div>
+                  <div className="font-semibold text-zinc-800">Unchanged files</div>
+                  {data.ingestionResult.unchangedFiles.length === 0 ? (
+                    <div className="text-zinc-500">None</div>
+                  ) : (
+                    <ul className="list-disc pl-4 space-y-1 break-words">
+                      {data.ingestionResult.unchangedFiles.map((file) => (
+                        <li key={file}>{file}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+
+              {data.ingestionResult.uploadedFiles?.length ? (
+                <div className="text-[11px] text-zinc-700">
+                  <div className="font-semibold text-zinc-800">Vector store uploads</div>
+                  <div className="text-[10px] text-zinc-500 mb-1">
+                    {data.ingestionResult.vectorStoreId ? (
+                      <a
+                        href={`https://platform.openai.com/storage/vector-stores/${data.ingestionResult.vectorStoreId}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 text-blue-600 hover:underline"
+                      >
+                        <ExternalLink size={12} />
+                        Open vector store
+                      </a>
+                    ) : (
+                      "Vector store ID not available"
+                    )}
+                  </div>
+                  <ul className="flex flex-col gap-2">
+                    {data.ingestionResult.uploadedFiles.map((file) => (
+                      <li
+                        key={`${file.filePath}-${file.vectorStoreFileId}`}
+                        className="rounded border border-zinc-200 bg-zinc-50 px-3 py-2 space-y-1 break-words"
+                      >
+                        <div className="text-[11px] font-semibold text-zinc-800 break-words">{file.filePath}</div>
+                        <div className="flex flex-col gap-1 text-[10px] text-zinc-600 sm:flex-row sm:flex-wrap sm:items-center">
+                          <span className="min-w-0 break-all sm:break-words">OpenAI file: {file.fileId ?? "—"}</span>
+                          {file.fileId && (
+                            <button
+                              type="button"
+                              className="text-blue-600 hover:underline shrink-0"
+                              onClick={() =>
+                                copy(file.fileId!, () => {
+                                  setCopiedVectorIds((state) => ({
+                                    ...state,
+                                    [file.fileId as string]: true,
+                                  }));
+                                  setTimeout(
+                                    () =>
+                                      setCopiedVectorIds((state) => ({
+                                        ...state,
+                                        [file.fileId as string]: false,
+                                      })),
+                                    1200
+                                  );
+                                })
+                              }
+                            >
+                              {copiedVectorIds[file.fileId] ? "Copied" : "Copy"}
+                            </button>
+                          )}
+                        </div>
+                        <div className="flex flex-col gap-1 text-[10px] text-zinc-600 sm:flex-row sm:flex-wrap sm:items-center">
+                          <span className="min-w-0 break-all sm:break-words">Vector store file: {file.vectorStoreFileId ?? "—"}</span>
+                          {file.vectorStoreFileId && (
+                            <button
+                              type="button"
+                              className="text-blue-600 hover:underline shrink-0"
+                              onClick={() =>
+                                copy(file.vectorStoreFileId!, () => {
+                                  setCopiedVectorIds((state) => ({
+                                    ...state,
+                                    [file.vectorStoreFileId as string]: true,
+                                  }));
+                                  setTimeout(
+                                    () =>
+                                      setCopiedVectorIds((state) => ({
+                                        ...state,
+                                        [file.vectorStoreFileId as string]: false,
+                                      })),
+                                    1200
+                                  );
+                                })
+                              }
+                            >
+                              {copiedVectorIds[file.vectorStoreFileId] ? "Copied" : "Copy"}
+                            </button>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              {data.ingestionResult.deletedVectorStoreFiles &&
+                Object.keys(data.ingestionResult.deletedVectorStoreFiles).length > 0 && (
+                  <div className="text-[11px] text-zinc-700">
+                    <div className="font-semibold text-zinc-800">Replaced vector store files</div>
+                    <ul className="list-disc pl-4 space-y-1">
+                      {Object.entries(data.ingestionResult.deletedVectorStoreFiles).map(([filePath, vectorId]) => (
+                        <li
+                          key={filePath}
+                          className="flex flex-col gap-1 break-words sm:flex-row sm:items-start sm:gap-2"
+                        >
+                          <span className="min-w-0 break-all sm:break-words">{filePath}</span>
+                          <span className="text-zinc-500 min-w-0 break-all sm:break-words">({vectorId})</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+              {data.ingestionResult.ingestionLogs &&
+                (data.ingestionResult.ingestionLogs.stdout || data.ingestionResult.ingestionLogs.stderr) && (
+                  <div className="text-[11px] text-zinc-700">
+                    <div className="font-semibold text-zinc-800">Ingestion logs</div>
+                    {data.ingestionResult.ingestionLogs.stdout && (
+                      <pre className="mt-1 max-h-40 overflow-auto rounded bg-zinc-900 p-2 text-[10px] text-zinc-100">
+                        {data.ingestionResult.ingestionLogs.stdout}
+                      </pre>
+                    )}
+                    {data.ingestionResult.ingestionLogs.stderr && (
+                      <pre className="mt-1 max-h-40 overflow-auto rounded bg-red-900/80 p-2 text-[10px] text-red-50">
+                        {data.ingestionResult.ingestionLogs.stderr}
+                      </pre>
+                    )}
+                  </div>
+                )}
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm">
+        <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
+          <div className="text-sm font-semibold text-zinc-800">Log output</div>
             <div className="flex items-center gap-3">
               <label className="flex items-center gap-2 text-xs text-zinc-600">
                 <input

@@ -424,7 +424,18 @@ its cadence once a run finishes.
 
   It uses `node-cron` to trigger the same `run-now` endpoint on the expected
   cadence. Set `SCHEDULER_TIMEZONE` if the default server timezone is
-  unsuitable.
+  unsuitable. When the variable is missing, the worker defaults to
+  `Africa/Accra` and logs the effective timezone at startup so you can verify
+  scheduling behaviour.
+
+  Common `SCHEDULER_TIMEZONE` examples (IANA names):
+
+  - `Africa/Accra` (default)
+  - `UTC`
+  - `America/New_York`
+  - `Europe/London`
+  - `Asia/Tokyo`
+  - `America/Los_Angeles`
 
 - **Pause or resume a schedule**: update a job via
   `PATCH /api/scrape_jobs/{id}` with `{ "paused": true }` (or `false`) to stop
@@ -444,6 +455,14 @@ ALLOW_SCRAPE_PURGE=true TS_NODE_COMPILER_OPTIONS='{"module":"CommonJS","moduleRe
 
 If `ALLOW_SCRAPE_PURGE` is not set to `true`, the script exits without touching
 the database.
+
+### Ingestion and scheduling environment flags
+
+- `SCHEDULER_TIMEZONE`: IANA timezone for cron-based scrape scheduling. Defaults
+  to `Africa/Accra` when unset; adjust if your host runs in a different locale.
+- `SCRAPE_ARTIFACT_DEBUG`: set to `true` to emit verbose logs from scrape
+  artifact discovery (which files were included or skipped, with timestamps) to
+  help debug ingestion reruns.
 
 ## Demo Flow
 

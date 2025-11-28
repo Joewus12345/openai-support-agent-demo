@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
+import type { StoredIngestionResult } from "@/lib/ingestionResults";
 
 type ScrapeJob = {
   id: string;
@@ -48,6 +49,8 @@ type SerializedJob = {
   job: ScrapeJob;
   log: string | null;
   stats: JobStats;
+  artifacts: string[];
+  ingestionResult?: (StoredIngestionResult & { jobId: string }) | null;
 };
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -136,7 +139,16 @@ export default function ScrapeJobsPage() {
   const { data, error, isLoading, mutate } = useSWR<SerializedJob[]>(
     "/api/scrape_jobs?detailed=true",
     fetcher,
-    { refreshInterval: 15000, revalidateOnFocus: false }
+    {
+      refreshInterval: (latestData: SerializedJob[] | undefined) =>
+        latestData?.some(
+          (job: SerializedJob) => job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
+        )
+          ? 12000
+          : 30000,
+      revalidateOnFocus: false,
+      dedupingInterval: 5000,
+    }
   );
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
@@ -233,33 +245,48 @@ export default function ScrapeJobsPage() {
 
   const sendToVectorStore = async (job: SerializedJob) => {
     setIngesting((state) => ({ ...state, [job.job.id]: "working" }));
-    const snippet = (job.log || "").slice(0, 1200) ||
-      `Scrape job ${job.job.id} completed with status ${job.job.status}.`;
+    const artifactPaths = job.artifacts || [];
+
+    if (artifactPaths.length === 0) {
+      setRunMessages((state) => ({
+        ...state,
+        [job.job.id]: "No scraped artifacts were found for this run.",
+      }));
+      setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
+      return;
+    }
 
     try {
       const res = await fetch("/api/scraper_ingest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          markdownBlobs: [
-            {
-              content: snippet,
-              source: `${job.job.script}.log`,
-              filename: `${job.job.id}.md`,
-            },
-          ],
+          jobId: job.job.id,
+          artifactPaths,
           destinationFolder: "knowledge_base",
         }),
       });
 
+      const result = await res.json().catch(() => ({}));
+
       if (res.ok) {
         setIngesting((state) => ({ ...state, [job.job.id]: "done" }));
+        const docs = (result.ingestedDocuments as string[]) || artifactPaths;
+        const message =
+          typeof result.message === "string"
+            ? result.message
+            : `Ingestion triggered for ${docs.length} document(s).`;
+        setRunMessages((state) => ({ ...state, [job.job.id]: message }));
+        await mutate();
       } else {
         setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
+        const error = typeof result?.error === "string" ? result.error : "Failed to start ingestion.";
+        setRunMessages((state) => ({ ...state, [job.job.id]: error }));
       }
     } catch (err) {
       console.error("Error sending to vector store", err);
       setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
+      setRunMessages((state) => ({ ...state, [job.job.id]: "Unexpected error while sending to vector store." }));
     }
   };
 
@@ -426,10 +453,11 @@ export default function ScrapeJobsPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-24 px-4 pb-16 md:pb-24">
-      <div className="w-full max-w-5xl flex flex-col gap-6">
-        <div className="flex flex-col gap-2 max-w-3xl">
-          <div className="text-2xl font-bold">Scrape job control panel</div>
+    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-10 md:pt-14 px-4 pb-16 md:pb-20">
+      <div className="w-full max-w-5xl flex flex-col gap-5">
+        <div className="flex flex-col gap-1 max-w-3xl border-b border-zinc-200 pb-3">
+          <div className="text-[11px] uppercase tracking-wide text-zinc-500">Scrape jobs</div>
+          <div className="text-2xl font-bold text-zinc-900">Scrape job control panel</div>
           <p className="text-sm text-zinc-500">
             Mirror the vector store setup flow: pick a crawler preset, send it now or schedule it, then ship logs to
             vector stores for embeddings in one click.
@@ -765,8 +793,10 @@ export default function ScrapeJobsPage() {
                             {runMessages[item.job.id]}
                           </div>
                         )}
-                        {ingesting[item.job.id] === "done" && (
-                          <div className="text-[11px] text-emerald-600 mt-1">Ingestion triggered.</div>
+                                        {ingesting[item.job.id] === "done" && (
+                          <div className="text-[11px] text-emerald-600 mt-1">
+                            {runMessages[item.job.id] || "Ingestion triggered."}
+                          </div>
                         )}
                         {ingesting[item.job.id] === "error" && (
                           <div className="text-[11px] text-red-600 mt-1">Failed to send; retry?</div>

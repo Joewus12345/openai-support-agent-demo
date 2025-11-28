@@ -3,7 +3,7 @@ import cron from "node-cron";
 import { enqueueScheduledJobs } from "@/lib/scheduler";
 import { ScrapeJobCadence } from "@/lib/generated/prisma";
 
-const TIMEZONE = process.env.SCHEDULER_TIMEZONE;
+const TIMEZONE = process.env.SCHEDULER_TIMEZONE ?? "Africa/Accra";
 
 async function runCadence(cadence: ScrapeJobCadence) {
   try {
@@ -27,6 +27,7 @@ function scheduleCadence(cronExpression: string, cadence: ScrapeJobCadence) {
 }
 
 async function main() {
+  console.log(`Scheduler worker starting with timezone: ${TIMEZONE}`);
   // Catch up once on startup.
   await runCadence(ScrapeJobCadence.daily);
   await runCadence(ScrapeJobCadence.weekly);
