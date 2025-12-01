@@ -4,8 +4,22 @@ set -e
 ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 
 if [ -x "$ROOT_DIR/scripts/setup_crawler_envs.sh" ]; then
-  echo "Ensuring crawler environments are provisioned..."
-  bash "$ROOT_DIR/scripts/setup_crawler_envs.sh"
+  POSIX_VENV_FOUND=0
+  for venv_dir in \
+    "$ROOT_DIR/.venv-c4ai-v2" \
+    "$ROOT_DIR/.venv-c4ai-v1"; do
+    if [ -f "$venv_dir/bin/activate" ]; then
+      POSIX_VENV_FOUND=1
+      break
+    fi
+  done
+
+  if [ "$POSIX_VENV_FOUND" -eq 0 ] || [ "${FORCE_CRAWLER_SETUP:-0}" -eq 1 ]; then
+    echo "Ensuring crawler environments are provisioned..."
+    bash "$ROOT_DIR/scripts/setup_crawler_envs.sh"
+  else
+    echo "Skipping crawler provisioning; existing POSIX virtualenv detected (set FORCE_CRAWLER_SETUP=1 to rebuild)."
+  fi
 fi
 
 activate_venv() {
