@@ -47,6 +47,10 @@ The easiest way to run the entire stack with the baked-in port mappings is:
 docker compose -f docker-compose.agent.yml up --build
 ```
 
+The `ai-agent` image provisions the crawler Python environments during the
+build and activates them at container startup so scrape jobs can run without
+extra shell setup.
+
 The steps below show how to build and run each container manually.
 
 1. **Build the image**
@@ -307,9 +311,16 @@ When using the `ollama` provider you need a local server running.
 
 6. **Run the app:**
 
+   Use a single terminal to run the Next.js dev server plus both workers (scheduler
+   and scraper):
+
    ```bash
-   npm run dev
+   npm run dev:all
    ```
+
+   You can still run the web server alone with `npm run dev`. After building,
+   start the production server and both workers together via `npm run
+   start:all`.
 
    The app will be available at [`http://localhost:3000`](http://localhost:3000).
 
@@ -340,10 +351,10 @@ When using the `ollama` provider you need a local server running.
    Before running the crawling scripts, bootstrap their Python environments and
    shared configuration:
 
-   ```bash
-   # Optional: edit .env.scrapers to point at your sitemap roots/categories
-   ./scripts/setup_crawler_envs.sh
-   ```
+  ```bash
+  # Optional: edit .env.scrapers to point at your sitemap roots/categories
+  ./scripts/setup_crawler_envs.sh
+  ```
 
   The setup command provisions `.venv-c4ai-v1` for
   `crawl4AI-agent/requirements.txt` and `.venv-c4ai-v2` for
@@ -357,6 +368,15 @@ When using the `ollama` provider you need a local server running.
   using `--with-deps` automatically on Linux and the regular `install chromium`
   command on Windows/macOS so headless `AsyncWebCrawler` launches succeed on
   every OS.
+
+  - **Windows PowerShell activation:** after running the setup helper from WSL
+    or Git Bash, you can activate either crawler environment in PowerShell
+    using `./.venv-c4ai-v1/Scripts/Activate.ps1` or
+    `./.venv-c4ai-v2/Scripts/Activate.ps1`. The hook injected by the helper
+    ensures `.env.scrapers` loads automatically. On WSL/Docker, use
+    `source .venv-c4ai-v2/bin/activate` (or the v1 path) and the Docker
+    entrypoint activates the venv before launching the app so `python` already
+    points at the crawler toolchain inside containers.
 
   **Choosing the python interpreter for scrape jobs.** The runner spawns the
   crawler via `SCRAPE_WORKER_PYTHON` (falls back to `PYTHON` and then the

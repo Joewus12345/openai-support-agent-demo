@@ -1,4 +1,12 @@
-FROM node:20-alpine
+FROM node:20-slim
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    bash \
+    python3 \
+    python3-venv \
+    python3-pip \
+  && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
@@ -7,6 +15,7 @@ COPY prisma ./prisma
 RUN npx prisma generate
 COPY docker/entrypoints/ai-agent.sh docker/entrypoints/ai-agent.sh
 RUN chmod +x docker/entrypoints/ai-agent.sh
+RUN bash scripts/setup_crawler_envs.sh
 RUN npm run build
 ENV PORT=3001
 EXPOSE 3001
