@@ -1,6 +1,7 @@
 import { Prisma, ScrapeJobStatus } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { calculateNextRun } from "@/lib/scheduler";
+import { cancelRunningScrape } from "@/lib/scrapeRunner";
 import { ensureAuthenticated, serializeJob } from "../helpers";
 
 function parseBoolean(value: unknown): boolean | undefined {
@@ -100,7 +101,13 @@ export async function DELETE(
         },
       });
 
-      return new Response(JSON.stringify(job), { status: 200 });
+      const cancellation = cancelRunningScrape(id);
+      const message = cancellation.message;
+
+      return new Response(
+        JSON.stringify({ job, cancellation, message }),
+        { status: cancellation.found && !cancellation.signaled ? 500 : 200 }
+      );
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&

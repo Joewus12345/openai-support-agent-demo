@@ -368,6 +368,16 @@ export default function ScrapeJobDetail({
         headers: authHeaders,
       });
 
+      const payload = (await res.json().catch(() => null)) as
+        | { message?: string; error?: string; cancellation?: { message?: string } }
+        | null;
+      const feedback =
+        payload?.message || payload?.cancellation?.message || payload?.error;
+
+      if (feedback) {
+        setRunFeedback(feedback);
+      }
+
       if (res.ok) {
         await mutate();
       }

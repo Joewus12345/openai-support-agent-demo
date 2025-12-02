@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { spawn } from "child_process";
+import { spawn, type ChildProcess } from "child_process";
 
 import prisma from "./prisma";
 import { calculateNextRun } from "./scheduler";
@@ -12,6 +12,40 @@ type PythonResolution = {
   bin: string;
   notes: string[];
 };
+
+function deriveVirtualEnvRoot(pythonBin: string) {
+  const normalized = path.resolve(pythonBin);
+  const binDir = path.dirname(normalized);
+  const binBasename = path.basename(binDir).toLowerCase();
+
+  if (binBasename === "bin" || binBasename === "scripts") {
+    const root = path.dirname(binDir);
+    const expectedBinDir = binBasename === "bin" ? path.join(root, "bin") : path.join(root, "Scripts");
+    if (fs.existsSync(expectedBinDir)) {
+      return { root, binDir: expectedBinDir } as const;
+    }
+  }
+
+  return { root: null, binDir: null } as const;
+}
+
+function buildPythonEnv(pythonBin: string) {
+  const env = {
+    ...process.env,
+    PYTHONUTF8: "1",
+    PYTHONIOENCODING: "utf-8",
+    PYTHONUNBUFFERED: "1",
+  } as NodeJS.ProcessEnv;
+
+  const { root, binDir } = deriveVirtualEnvRoot(pythonBin);
+
+  if (root && binDir) {
+    env.VIRTUAL_ENV = env.VIRTUAL_ENV ?? root;
+    env.PATH = [binDir, env.PATH ?? ""].filter(Boolean).join(path.delimiter);
+  }
+
+  return { env, virtualEnvRoot: root, virtualEnvBinDir: binDir } as const;
+}
 
 function looksLikeActivationScript(candidate: string) {
   const lower = path.basename(candidate).toLowerCase();
@@ -83,6 +117,14 @@ const SCRAPE_AUTO_INSTALL_DEPS =
   process.env.SCRAPE_AUTO_INSTALL_DEPS !== "false";
 const LOG_DIR = path.join(process.cwd(), "logs", "scrape_jobs");
 
+type RunningProcess = {
+  child: ChildProcess;
+  logStream?: fs.WriteStream | null;
+  markCanceled: () => void;
+};
+
+const RUNNING_PROCESSES = new Map<string, RunningProcess>();
+
 type PrismaClientLike = Prisma.TransactionClient | typeof prisma;
 
 async function installDependencies(
@@ -134,14 +176,11 @@ async function installDependencies(
   });
 }
 
-async function runDependencyCheck(pythonBin: string, logStream: fs.WriteStream) {
-  const env = {
-    ...process.env,
-    PYTHONUTF8: "1",
-    PYTHONIOENCODING: "utf-8",
-    PYTHONUNBUFFERED: "1",
-  };
-
+async function runDependencyCheck(
+  pythonBin: string,
+  logStream: fs.WriteStream,
+  env: NodeJS.ProcessEnv
+) {
   const interpreterProbe = spawn(
     pythonBin,
     [
@@ -342,15 +381,66 @@ async function markFailed(
   });
 }
 
+export function cancelRunningScrape(jobId: string) {
+  const running = RUNNING_PROCESSES.get(jobId);
+
+  if (!running) {
+    return {
+      found: false,
+      signaled: false,
+      forceKillPlanned: false,
+      message: "Job marked canceled; no active worker to terminate.",
+    } as const;
+  }
+
+  running.markCanceled();
+  const signaled = running.child.kill("SIGTERM");
+  const killTimeoutMs = Number(process.env.SCRAPE_CANCEL_KILL_TIMEOUT_MS ?? 8000);
+  let forceKillPlanned = false;
+  let forceTimer: NodeJS.Timeout | null = null;
+
+  if (signaled && Number.isFinite(killTimeoutMs) && killTimeoutMs > 0) {
+    forceKillPlanned = true;
+    forceTimer = setTimeout(() => {
+      if (!running.child.killed) {
+        running.child.kill("SIGKILL");
+      }
+    }, killTimeoutMs);
+
+    running.child.once("close", () => {
+      if (forceTimer) clearTimeout(forceTimer);
+    });
+  }
+
+  const message = signaled
+    ? "Cancellation requested; worker is being terminated."
+    : "Failed to signal running worker; it may continue until completion.";
+
+  running.logStream?.write(
+    `[${new Date().toISOString()}] ${message} (job ${jobId}).\n`
+  );
+
+  return { found: true, signaled, forceKillPlanned, message } as const;
+}
+
 export async function runScrapeJob(
   job: ScrapeJob,
   client: PrismaClientLike = prisma
 ): Promise<{ exitCode: number } | undefined> {
   await fs.promises.mkdir(LOG_DIR, { recursive: true });
   await fs.promises.mkdir(KNOWLEDGE_BASE_DIR, { recursive: true }).catch(() => {});
-  const logFilePath = job.logPath ?? path.join(LOG_DIR, `${job.id}.log`);
+  const defaultRelativeLogPath = path.join("logs", "scrape_jobs", `${job.id}.log`);
+  const defaultLogPath = path.join(process.cwd(), defaultRelativeLogPath);
+  const candidateLogPath = job.logPath ? path.resolve(job.logPath) : defaultLogPath;
+  const normalizedLogPath = candidateLogPath.startsWith(LOG_DIR)
+    ? candidateLogPath
+    : defaultLogPath;
+  const storedLogPath = path.relative(process.cwd(), normalizedLogPath);
+  const logFilePath = path.resolve(storedLogPath);
   const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
   const startedAt = new Date();
+
+  const { env: pythonEnv, virtualEnvRoot } = buildPythonEnv(PYTHON_BIN);
 
   let progress = Math.max(0, Math.min(100, job.progress ?? 0));
   let lastProgressPersist = 0;
@@ -406,7 +496,7 @@ export async function runScrapeJob(
     status: ScrapeJobStatus.running,
     startedAt,
     finishedAt: null,
-    logPath: logFilePath,
+    logPath: storedLogPath,
     progress: 0,
   });
   progress = 0;
@@ -420,15 +510,19 @@ export async function runScrapeJob(
     "--verbose-logs",
     ...normalizeArgs(job.args),
   ];
+  if (virtualEnvRoot) {
+    args.push("--venv", virtualEnvRoot);
+  }
   logStream.write(`[${startedAt.toISOString()}] Starting job ${job.id} with script ${job.script}.\n`);
   logStream.write(`Using python: ${PYTHON_BIN}\n`);
   if (PYTHON_RESOLUTION.notes.length) {
     PYTHON_RESOLUTION.notes.forEach((note) => logStream.write(`PYTHON_RESOLUTION: ${note}\n`));
   }
+  logStream.write(`Virtual env root: ${virtualEnvRoot ?? "(not detected)"}\n`);
   logStream.write(`Knowledge base output directory: ${KNOWLEDGE_BASE_DIR}\n`);
   logStream.write(`Timeout (ms): ${SCRAPE_TIMEOUT_MS}\n`);
 
-  const depCheck = await runDependencyCheck(PYTHON_BIN, logStream);
+  const depCheck = await runDependencyCheck(PYTHON_BIN, logStream, pythonEnv);
   if (!depCheck.ok) {
     await markFailed(
       client,
@@ -448,13 +542,17 @@ export async function runScrapeJob(
   try {
     const child = spawn(PYTHON_BIN, args, {
       cwd: process.cwd(),
-      env: {
-        ...process.env,
-        PYTHONUTF8: "1",
-        PYTHONIOENCODING: "utf-8",
-        PYTHONUNBUFFERED: "1",
-      },
+      env: pythonEnv,
     });
+
+    const markCanceled = () => {
+      canceled = true;
+      logStream.write(
+        `[${new Date().toISOString()}] Cancellation requested; signaling worker.\n`
+      );
+    };
+
+    RUNNING_PROCESSES.set(job.id, { child, logStream, markCanceled });
 
     let lastOutputAt = Date.now();
     let timeoutId: NodeJS.Timeout | null = null;
@@ -472,13 +570,13 @@ export async function runScrapeJob(
 
     const heartbeat = setInterval(() => {
       logStream.write(`[${new Date().toISOString()}] heartbeat: job ${job.id} still running...\n`);
-      emitJobUpdate({
-        jobId: job.id,
-        status: ScrapeJobStatus.running,
-        startedAt: startedAt.toISOString(),
-        logPath: logFilePath,
-      });
-      void setProgress(Math.min(90, progress + 1));
+        emitJobUpdate({
+          jobId: job.id,
+          status: ScrapeJobStatus.running,
+          startedAt: startedAt.toISOString(),
+          logPath: storedLogPath,
+        });
+        void setProgress(Math.min(90, progress + 1));
     }, 60_000);
 
     const cancellationProbe = setInterval(async () => {
@@ -514,7 +612,7 @@ export async function runScrapeJob(
         jobId: job.id,
         status: ScrapeJobStatus.running,
         startedAt: startedAt.toISOString(),
-        logPath: logFilePath,
+        logPath: storedLogPath,
       });
       void setProgress(Math.min(95, progress + 2));
     };
@@ -530,6 +628,7 @@ export async function runScrapeJob(
         clearInterval(heartbeat);
         clearInterval(cancellationProbe);
         clearInterval(activityProbe);
+        RUNNING_PROCESSES.delete(job.id);
         resolve(code ?? -1);
       });
       child.on("error", (err) => {
@@ -537,15 +636,19 @@ export async function runScrapeJob(
         clearInterval(heartbeat);
         clearInterval(cancellationProbe);
         clearInterval(activityProbe);
+        RUNNING_PROCESSES.delete(job.id);
         logStream.write(`Worker failed to spawn: ${err.message}\n`);
         resolve(-1);
       });
     });
   } catch (error) {
+    RUNNING_PROCESSES.delete(job.id);
     const message = error instanceof Error ? error.message : "Unknown error";
     await markFailed(client, job, message, logStream);
     return undefined;
   }
+
+  RUNNING_PROCESSES.delete(job.id);
 
   if (missingCrawlDependency && exitCode === 0) {
     exitCode = 1;
@@ -562,7 +665,7 @@ export async function runScrapeJob(
     await updateJob(client, job.id, {
       status: ScrapeJobStatus.canceled,
       finishedAt,
-      logPath: logFilePath,
+      logPath: storedLogPath,
       nextRunAt: null,
       paused: false,
       progress: 100,
@@ -584,7 +687,7 @@ export async function runScrapeJob(
     await updateJob(client, job.id, {
       status,
       finishedAt,
-      logPath: logFilePath,
+      logPath: storedLogPath,
       nextRunAt: calculateNextRun(job.cadence, finishedAt),
       durationSeconds,
       documentsIngested,
@@ -603,5 +706,5 @@ export async function triggerScrapeJob(jobId: string) {
     console.error(`Failed to run job ${jobId}:`, error);
   });
 
-  return { jobId, logPath: job.logPath ?? path.join(LOG_DIR, `${job.id}.log`) };
+  return { jobId, logPath: job.logPath ?? path.join("logs", "scrape_jobs", `${job.id}.log`) };
 }
