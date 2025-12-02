@@ -116,10 +116,11 @@ function toLocalDateTimeInput(value: string | null) {
   return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16);
 }
 
-function fromLocalDateTimeInput(value: string | null) {
-  if (!value) return null;
+function parseLocalDateTimeInput(value: string | null) {
+  if (!value) return { iso: null, date: null, error: undefined } as const;
   const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
+  if (Number.isNaN(parsed.getTime())) return { iso: null, date: null, error: "Enter a valid date/time" } as const;
+  return { iso: parsed.toISOString(), date: parsed, error: undefined } as const;
 }
 
 function formatDuration(seconds: number | null) {
@@ -174,14 +175,16 @@ export default function ScrapeJobsPage() {
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [runMessages, setRunMessages] = useState<Record<string, string>>({});
+  const [scheduleErrors, setScheduleErrors] = useState<Record<string, string>>({});
   const [scheduleDrafts, setScheduleDrafts] = useState<
     Record<string, { cadence: ScrapeJobCadence; nextRunAt: string }>
   >({});
 
+  const authToken = process.env.NEXT_PUBLIC_SCRAPE_JOB_ADMIN_TOKEN;
   const authHeaders = {
     "Content-Type": "application/json",
-    "x-session-verified": "true",
-  };
+    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+  } as const;
 
   useEffect(() => {
     const source = new EventSource("/api/scrape_jobs/updates");
@@ -224,10 +227,7 @@ export default function ScrapeJobsPage() {
       setCreating(cadence);
       const response = await fetch("/api/scrape_jobs", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-session-verified": "true",
-        },
+        headers: authHeaders,
         body: JSON.stringify({
           script: selectedPreset,
           args: targetUrl ? { targetUrl } : {},
@@ -277,6 +277,13 @@ export default function ScrapeJobsPage() {
         ...updates,
       },
     }));
+    if (scheduleErrors[job.id]) {
+      setScheduleErrors((current) => {
+        const next = { ...current };
+        delete next[job.id];
+        return next;
+      });
+    }
   };
 
   const sendToVectorStore = async (job: SerializedJob) => {
@@ -324,6 +331,30 @@ export default function ScrapeJobsPage() {
       setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
       setRunMessages((state) => ({ ...state, [job.job.id]: "Unexpected error while sending to vector store." }));
     }
+  };
+
+  const validateScheduleDraft = (
+    job: ScrapeJob
+  ): { isoNextRunAt: string | null; error: string | null } => {
+    const draft = getScheduleDraft(job);
+    const parsed = parseLocalDateTimeInput(draft.nextRunAt);
+
+    if (parsed.error) {
+      return { isoNextRunAt: null, error: parsed.error };
+    }
+
+    if (
+      parsed.date &&
+      draft.cadence !== ScrapeJobCadence.manual &&
+      parsed.date.getTime() <= Date.now()
+    ) {
+      return {
+        isoNextRunAt: parsed.iso,
+        error: "Next run time must be in the future for scheduled cadences.",
+      };
+    }
+
+    return { isoNextRunAt: parsed.iso, error: null };
   };
 
   const markRowAction = (jobId: string, action: string | null) => {
@@ -473,6 +504,13 @@ export default function ScrapeJobsPage() {
   const saveSchedule = async (job: SerializedJob) => {
     markRowAction(job.job.id, "schedule");
     const draft = getScheduleDraft(job.job);
+    const { isoNextRunAt, error } = validateScheduleDraft(job.job);
+
+    if (error) {
+      setScheduleErrors((current) => ({ ...current, [job.job.id]: error }));
+      markRowAction(job.job.id, null);
+      return;
+    }
 
     try {
       const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
@@ -480,7 +518,7 @@ export default function ScrapeJobsPage() {
         headers: authHeaders,
         body: JSON.stringify({
           cadence: draft.cadence,
-          nextRunAt: fromLocalDateTimeInput(draft.nextRunAt),
+          nextRunAt: isoNextRunAt,
         }),
       });
 
@@ -489,9 +527,17 @@ export default function ScrapeJobsPage() {
           ...current,
           [job.job.id]: "Schedule updated.",
         }));
+        setScheduleErrors((current) => {
+          const next = { ...current };
+          delete next[job.job.id];
+          return next;
+        });
         await mutate();
       } else {
-        console.error("Failed to update schedule", await res.text());
+        const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+        const message = payload?.error || "Failed to update schedule";
+        setScheduleErrors((current) => ({ ...current, [job.job.id]: message }));
+        console.error("Failed to update schedule", message);
       }
     } catch (error) {
       console.error("Error updating schedule", error);
@@ -740,6 +786,9 @@ export default function ScrapeJobsPage() {
                               disabled={Boolean(actionState)}
                             />
                           </label>
+                          {scheduleErrors[item.job.id] && (
+                            <div className="text-[11px] text-red-600">{scheduleErrors[item.job.id]}</div>
+                          )}
                           <div className="text-[11px] text-zinc-500">
                             Upcoming: {formatDate(item.job.nextRunAt)}
                           </div>

@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 
@@ -188,11 +189,30 @@ export async function listScrapeArtifacts(job: ScrapeJob) {
 }
 
 export function ensureAuthenticated(request: Request) {
-  const verifiedHeader = request.headers.get("x-session-verified");
-  const telegramUser = request.headers.get("x-telegram-user-id");
+  const token = process.env.SCRAPE_JOB_ADMIN_TOKEN;
+  const authHeader = request.headers.get("authorization") ?? "";
+  const expected = token ? `Bearer ${token}` : null;
 
-  if (verifiedHeader === "true" || (telegramUser && telegramUser.trim().length > 0)) {
-    return null;
+  if (!expected) {
+    console.warn("SCRAPE_JOB_ADMIN_TOKEN is not configured; rejecting request");
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  try {
+    const expectedBuffer = Buffer.from(expected);
+    const providedBuffer = Buffer.from(authHeader);
+
+    if (
+      expectedBuffer.length === providedBuffer.length &&
+      crypto.timingSafeEqual(expectedBuffer, providedBuffer)
+    ) {
+      return null;
+    }
+  } catch (error) {
+    console.warn("Failed to compare auth headers", { error });
   }
 
   return new Response(JSON.stringify({ error: "Unauthorized" }), {

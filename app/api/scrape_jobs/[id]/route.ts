@@ -20,11 +20,14 @@ function parseBoolean(value: unknown): boolean | undefined {
   return undefined;
 }
 
-function parseDate(value: unknown): Date | null | undefined {
-  if (value === undefined) return undefined;
-  if (value === null) return null;
+function parseDate(value: unknown): { value: Date | null | undefined; error?: string } {
+  if (value === undefined) return { value: undefined };
+  if (value === null) return { value: null };
   const date = new Date(value as string);
-  return Number.isNaN(date.getTime()) ? null : date;
+  if (Number.isNaN(date.getTime())) {
+    return { value: null, error: "Invalid date format" };
+  }
+  return { value: date };
 }
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -49,11 +52,28 @@ export async function PATCH(
     const body = await request.json().catch(() => ({}));
     const cadence = parseCadence(body.cadence);
     const paused = parseBoolean(body.paused);
-    const nextRunAt = parseDate(body.nextRunAt);
+    const { value: nextRunAt, error: nextRunError } = parseDate(body.nextRunAt);
 
     const existing = await prisma.scrapeJob.findUnique({ where: { id } });
     if (!existing) {
       return new Response(JSON.stringify({ error: "Job not found" }), { status: 404 });
+    }
+
+    const effectiveCadence = cadence ?? existing.cadence;
+
+    if (nextRunError) {
+      return new Response(JSON.stringify({ error: nextRunError }), { status: 400 });
+    }
+
+    if (
+      nextRunAt &&
+      effectiveCadence !== ScrapeJobCadence.manual &&
+      nextRunAt.getTime() <= Date.now()
+    ) {
+      return new Response(
+        JSON.stringify({ error: "nextRunAt must be in the future for scheduled cadences" }),
+        { status: 400 }
+      );
     }
 
     const data: Prisma.ScrapeJobUpdateInput = {};

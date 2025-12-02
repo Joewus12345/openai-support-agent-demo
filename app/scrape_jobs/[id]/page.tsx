@@ -127,10 +127,11 @@ export default function ScrapeJobDetail({
   const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
 
+  const authToken = process.env.NEXT_PUBLIC_SCRAPE_JOB_ADMIN_TOKEN;
   const authHeaders = {
     "Content-Type": "application/json",
-    "x-session-verified": "true",
-  };
+    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+  } as const;
 
   const copy = async (value: string, onCopied?: (flag: boolean) => void) => {
     try {
