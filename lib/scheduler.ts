@@ -44,23 +44,46 @@ export function calculateNextRun(
 export async function enqueueScheduledJobs({
   cadence,
   now = new Date(),
+  autoRunManualWithNext = process.env.AUTO_RUN_MANUAL_WITH_NEXT === "true",
 }: {
   cadence?: ScrapeJobCadence;
   now?: Date;
+  autoRunManualWithNext?: boolean;
 }) {
-  const where: Prisma.ScrapeJobWhereInput = {
+  const baseFilters: Prisma.ScrapeJobWhereInput = {
     paused: false,
     status: { notIn: [ScrapeJobStatus.running, ScrapeJobStatus.canceled] },
-    OR: [{ nextRunAt: null }, { nextRunAt: { lte: now } }],
   };
 
-  if (cadence) {
-    where.cadence = cadence;
-  } else {
-    where.cadence = { not: ScrapeJobCadence.manual };
+  if (cadence === ScrapeJobCadence.manual && !autoRunManualWithNext) {
+    return [] as const;
   }
 
-  const jobs = await prisma.scrapeJob.findMany({ where });
+  const branches: Prisma.ScrapeJobWhereInput[] = [];
+
+  if (cadence) {
+    branches.push({
+      ...baseFilters,
+      cadence,
+      OR: [{ nextRunAt: null }, { nextRunAt: { lte: now } }],
+    });
+  } else {
+    branches.push({
+      ...baseFilters,
+      cadence: { not: ScrapeJobCadence.manual },
+      OR: [{ nextRunAt: null }, { nextRunAt: { lte: now } }],
+    });
+
+    if (autoRunManualWithNext) {
+      branches.push({
+        ...baseFilters,
+        cadence: ScrapeJobCadence.manual,
+        nextRunAt: { not: null, lte: now },
+      });
+    }
+  }
+
+  const jobs = await prisma.scrapeJob.findMany({ where: { OR: branches } });
 
   if (jobs.length === 0) return [] as const;
 

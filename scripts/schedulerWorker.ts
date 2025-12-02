@@ -5,10 +5,11 @@ import { ScrapeJobCadence } from "@/lib/generated/prisma";
 import { processNextQueuedJob } from "@/lib/scrapeQueue";
 
 const TIMEZONE = process.env.SCHEDULER_TIMEZONE ?? "Africa/Accra";
+const AUTO_RUN_MANUAL_WITH_NEXT = process.env.AUTO_RUN_MANUAL_WITH_NEXT === "true";
 
-async function runCadence(cadence: ScrapeJobCadence) {
+async function runCadence(cadence: ScrapeJobCadence, autoRunManualWithNext: boolean) {
   try {
-    const queued = await enqueueScheduledJobs({ cadence });
+    const queued = await enqueueScheduledJobs({ cadence, autoRunManualWithNext });
     if (queued.length > 0) {
       console.log(`Queued ${queued.length} ${cadence} scrape job(s).`);
     }
@@ -25,11 +26,15 @@ async function runCadence(cadence: ScrapeJobCadence) {
   }
 }
 
-function scheduleCadence(cronExpression: string, cadence: ScrapeJobCadence) {
+function scheduleCadence(
+  cronExpression: string,
+  cadence: ScrapeJobCadence,
+  autoRunManualWithNext: boolean
+) {
   cron.schedule(
     cronExpression,
     () => {
-      void runCadence(cadence);
+      void runCadence(cadence, autoRunManualWithNext);
     },
     { timezone: TIMEZONE ?? undefined }
   );
@@ -38,13 +43,21 @@ function scheduleCadence(cronExpression: string, cadence: ScrapeJobCadence) {
 async function main() {
   console.log(`Scheduler worker starting with timezone: ${TIMEZONE}`);
   // Catch up once on startup.
-  await runCadence(ScrapeJobCadence.daily);
-  await runCadence(ScrapeJobCadence.weekly);
-  await runCadence(ScrapeJobCadence.monthly);
+  await runCadence(ScrapeJobCadence.daily, AUTO_RUN_MANUAL_WITH_NEXT);
+  await runCadence(ScrapeJobCadence.weekly, AUTO_RUN_MANUAL_WITH_NEXT);
+  await runCadence(ScrapeJobCadence.monthly, AUTO_RUN_MANUAL_WITH_NEXT);
 
-  scheduleCadence("0 0 * * *", ScrapeJobCadence.daily); // Midnight daily
-  scheduleCadence("0 0 * * 0", ScrapeJobCadence.weekly); // Midnight Sunday
-  scheduleCadence("0 0 1 * *", ScrapeJobCadence.monthly); // Midnight on the 1st
+  if (AUTO_RUN_MANUAL_WITH_NEXT) {
+    await runCadence(ScrapeJobCadence.manual, AUTO_RUN_MANUAL_WITH_NEXT);
+  }
+
+  scheduleCadence("0 0 * * *", ScrapeJobCadence.daily, AUTO_RUN_MANUAL_WITH_NEXT); // Midnight daily
+  scheduleCadence("0 0 * * 0", ScrapeJobCadence.weekly, AUTO_RUN_MANUAL_WITH_NEXT); // Midnight Sunday
+  scheduleCadence("0 0 1 * *", ScrapeJobCadence.monthly, AUTO_RUN_MANUAL_WITH_NEXT); // Midnight on the 1st
+
+  if (AUTO_RUN_MANUAL_WITH_NEXT) {
+    scheduleCadence("*/15 * * * *", ScrapeJobCadence.manual, AUTO_RUN_MANUAL_WITH_NEXT);
+  }
 }
 
 main().catch((error) => {

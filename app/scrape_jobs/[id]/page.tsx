@@ -49,6 +49,8 @@ const fetcher = async (url: string) => {
 };
 
 const KNOWLEDGE_BASE_PATH = "public/knowledge_base";
+const AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT =
+  process.env.NEXT_PUBLIC_AUTO_RUN_MANUAL_WITH_NEXT === "true";
 
 type JobStats = {
   status: ScrapeJobStatus;
@@ -160,7 +162,11 @@ export default function ScrapeJobDetail({
   const [openActivity, setOpenActivity] = useState(false);
   const [copiedVectorIds, setCopiedVectorIds] = useState<Record<string, boolean>>({});
   const [scheduleDraft, setScheduleDraft] = useState<
-    { cadence: ScrapeJobCadence; nextRunAt: string } | null
+    {
+      cadence: ScrapeJobCadence;
+      nextRunAt: string;
+      autoRunManualWithNext: boolean;
+    } | null
   >(null);
   const [scheduleError, setScheduleError] = useState<string | null>(null);
   const [savingSchedule, setSavingSchedule] = useState(false);
@@ -245,6 +251,7 @@ export default function ScrapeJobDetail({
     setScheduleDraft({
       cadence: data.job.cadence,
       nextRunAt: toLocalDateTimeInput(data.job.nextRunAt),
+      autoRunManualWithNext: AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT,
     });
     setScheduleError(null);
   }, [data?.job]);
@@ -385,6 +392,7 @@ export default function ScrapeJobDetail({
   const activeSchedule = scheduleDraft ?? {
     cadence: data?.job.cadence ?? ScrapeJobCadence.manual,
     nextRunAt: toLocalDateTimeInput(data?.job?.nextRunAt ?? null),
+    autoRunManualWithNext: AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT,
   };
 
   const validateScheduleDraft = () => {
@@ -396,7 +404,7 @@ export default function ScrapeJobDetail({
 
     if (
       parsed.date &&
-      activeSchedule.cadence !== ScrapeJobCadence.manual &&
+      (activeSchedule.cadence !== ScrapeJobCadence.manual || activeSchedule.autoRunManualWithNext) &&
       parsed.date.getTime() <= Date.now()
     ) {
       return {
@@ -413,6 +421,7 @@ export default function ScrapeJobDetail({
     setScheduleDraft({
       cadence: data.job.cadence,
       nextRunAt: toLocalDateTimeInput(data.job.nextRunAt),
+      autoRunManualWithNext: AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT,
     });
     setScheduleError(null);
   };
@@ -451,6 +460,7 @@ export default function ScrapeJobDetail({
       setScheduleDraft({
         cadence: activeSchedule.cadence,
         nextRunAt: activeSchedule.nextRunAt,
+        autoRunManualWithNext: activeSchedule.autoRunManualWithNext,
       });
       await mutate();
     } finally {
@@ -732,6 +742,7 @@ export default function ScrapeJobDetail({
                     setScheduleDraft({
                       cadence: event.target.value as ScrapeJobCadence,
                       nextRunAt: activeSchedule.nextRunAt,
+                      autoRunManualWithNext: activeSchedule.autoRunManualWithNext,
                     });
                   }}
                   disabled={Boolean(actionState) || savingSchedule}
@@ -751,11 +762,36 @@ export default function ScrapeJobDetail({
                     setScheduleDraft({
                       cadence: activeSchedule.cadence,
                       nextRunAt: event.target.value,
+                      autoRunManualWithNext: activeSchedule.autoRunManualWithNext,
                     });
                   }}
                   disabled={Boolean(actionState) || savingSchedule}
                 />
               </div>
+              <label className="flex items-center gap-2 text-[12px] text-zinc-700">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-zinc-300"
+                  checked={activeSchedule.autoRunManualWithNext}
+                  onChange={(event) => {
+                    setScheduleError(null);
+                    setScheduleDraft({
+                      cadence: activeSchedule.cadence,
+                      nextRunAt: activeSchedule.nextRunAt,
+                      autoRunManualWithNext: event.target.checked,
+                    });
+                  }}
+                  disabled={Boolean(actionState) || savingSchedule}
+                />
+                <span>
+                  Auto-run manual jobs at next run time
+                  <span className="text-zinc-500"> (scheduler default: </span>
+                  <span className="font-semibold text-zinc-700">
+                    {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? "enabled" : "disabled"}
+                  </span>
+                  <span className="text-zinc-500">)</span>
+                </span>
+              </label>
               <div className="flex flex-wrap items-center gap-2 text-[11px] text-zinc-600">
                 <button
                   type="button"

@@ -121,6 +121,8 @@ const SCRIPT_PRESETS = [
 ];
 
 const KNOWLEDGE_BASE_PATH = "public/knowledge_base";
+const AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT =
+  process.env.NEXT_PUBLIC_AUTO_RUN_MANUAL_WITH_NEXT === "true";
 
 function formatDate(value: string | null) {
   if (!value) return "—";
@@ -197,7 +199,14 @@ export default function ScrapeJobsPage() {
   const [runMessages, setRunMessages] = useState<Record<string, string>>({});
   const [scheduleErrors, setScheduleErrors] = useState<Record<string, string>>({});
   const [scheduleDrafts, setScheduleDrafts] = useState<
-    Record<string, { cadence: ScrapeJobCadence; nextRunAt: string }>
+    Record<
+      string,
+      {
+        cadence: ScrapeJobCadence;
+        nextRunAt: string;
+        autoRunManualWithNext: boolean;
+      }
+    >
   >({});
   const [authTokenInput, setAuthTokenInput] = useState("");
   const [authenticating, setAuthenticating] = useState(false);
@@ -322,11 +331,16 @@ export default function ScrapeJobsPage() {
     scheduleDrafts[job.id] ?? {
       cadence: job.cadence,
       nextRunAt: toLocalDateTimeInput(job.nextRunAt),
+      autoRunManualWithNext: AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT,
     };
 
   const updateScheduleDraft = (
     job: ScrapeJob,
-    updates: Partial<{ cadence: ScrapeJobCadence; nextRunAt: string }>
+    updates: Partial<{
+      cadence: ScrapeJobCadence;
+      nextRunAt: string;
+      autoRunManualWithNext: boolean;
+    }>
   ) => {
     setScheduleDrafts((state) => ({
       ...state,
@@ -403,7 +417,7 @@ export default function ScrapeJobsPage() {
 
     if (
       parsed.date &&
-      draft.cadence !== ScrapeJobCadence.manual &&
+      (draft.cadence !== ScrapeJobCadence.manual || draft.autoRunManualWithNext) &&
       parsed.date.getTime() <= Date.now()
     ) {
       return {
@@ -870,6 +884,27 @@ export default function ScrapeJobsPage() {
                               }
                               disabled={Boolean(actionState)}
                             />
+                          </label>
+                          <label className="flex items-center gap-2 text-[11px] text-zinc-700">
+                            <input
+                              type="checkbox"
+                              className="h-4 w-4 rounded border-zinc-300"
+                              checked={getScheduleDraft(item.job).autoRunManualWithNext}
+                              onChange={(event) =>
+                                updateScheduleDraft(item.job, {
+                                  autoRunManualWithNext: event.target.checked,
+                                })
+                              }
+                              disabled={Boolean(actionState)}
+                            />
+                            <span>
+                              Auto-run manual jobs at next run time
+                              <span className="text-zinc-500"> (scheduler default: </span>
+                              <span className="font-semibold text-zinc-700">
+                                {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? "enabled" : "disabled"}
+                              </span>
+                              <span className="text-zinc-500">)</span>
+                            </span>
                           </label>
                           {scheduleErrors[item.job.id] && (
                             <div className="text-[11px] text-red-600">{scheduleErrors[item.job.id]}</div>
