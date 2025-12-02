@@ -13,6 +13,40 @@ type PythonResolution = {
   notes: string[];
 };
 
+function deriveVirtualEnvRoot(pythonBin: string) {
+  const normalized = path.resolve(pythonBin);
+  const binDir = path.dirname(normalized);
+  const binBasename = path.basename(binDir).toLowerCase();
+
+  if (binBasename === "bin" || binBasename === "scripts") {
+    const root = path.dirname(binDir);
+    const expectedBinDir = binBasename === "bin" ? path.join(root, "bin") : path.join(root, "Scripts");
+    if (fs.existsSync(expectedBinDir)) {
+      return { root, binDir: expectedBinDir } as const;
+    }
+  }
+
+  return { root: null, binDir: null } as const;
+}
+
+function buildPythonEnv(pythonBin: string) {
+  const env = {
+    ...process.env,
+    PYTHONUTF8: "1",
+    PYTHONIOENCODING: "utf-8",
+    PYTHONUNBUFFERED: "1",
+  } as NodeJS.ProcessEnv;
+
+  const { root, binDir } = deriveVirtualEnvRoot(pythonBin);
+
+  if (root && binDir) {
+    env.VIRTUAL_ENV = env.VIRTUAL_ENV ?? root;
+    env.PATH = [binDir, env.PATH ?? ""].filter(Boolean).join(path.delimiter);
+  }
+
+  return { env, virtualEnvRoot: root, virtualEnvBinDir: binDir } as const;
+}
+
 function looksLikeActivationScript(candidate: string) {
   const lower = path.basename(candidate).toLowerCase();
   return lower.startsWith("activate") || lower === "activate.ps1" || lower === "activate.bat";
@@ -134,14 +168,11 @@ async function installDependencies(
   });
 }
 
-async function runDependencyCheck(pythonBin: string, logStream: fs.WriteStream) {
-  const env = {
-    ...process.env,
-    PYTHONUTF8: "1",
-    PYTHONIOENCODING: "utf-8",
-    PYTHONUNBUFFERED: "1",
-  };
-
+async function runDependencyCheck(
+  pythonBin: string,
+  logStream: fs.WriteStream,
+  env: NodeJS.ProcessEnv
+) {
   const interpreterProbe = spawn(
     pythonBin,
     [
@@ -348,9 +379,18 @@ export async function runScrapeJob(
 ): Promise<{ exitCode: number } | undefined> {
   await fs.promises.mkdir(LOG_DIR, { recursive: true });
   await fs.promises.mkdir(KNOWLEDGE_BASE_DIR, { recursive: true }).catch(() => {});
-  const logFilePath = job.logPath ?? path.join(LOG_DIR, `${job.id}.log`);
+  const defaultRelativeLogPath = path.join("logs", "scrape_jobs", `${job.id}.log`);
+  const defaultLogPath = path.join(process.cwd(), defaultRelativeLogPath);
+  const candidateLogPath = job.logPath ? path.resolve(job.logPath) : defaultLogPath;
+  const normalizedLogPath = candidateLogPath.startsWith(LOG_DIR)
+    ? candidateLogPath
+    : defaultLogPath;
+  const storedLogPath = path.relative(process.cwd(), normalizedLogPath);
+  const logFilePath = path.resolve(storedLogPath);
   const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
   const startedAt = new Date();
+
+  const { env: pythonEnv, virtualEnvRoot } = buildPythonEnv(PYTHON_BIN);
 
   let progress = Math.max(0, Math.min(100, job.progress ?? 0));
   let lastProgressPersist = 0;
@@ -406,7 +446,7 @@ export async function runScrapeJob(
     status: ScrapeJobStatus.running,
     startedAt,
     finishedAt: null,
-    logPath: logFilePath,
+    logPath: storedLogPath,
     progress: 0,
   });
   progress = 0;
@@ -420,15 +460,19 @@ export async function runScrapeJob(
     "--verbose-logs",
     ...normalizeArgs(job.args),
   ];
+  if (virtualEnvRoot) {
+    args.push("--venv", virtualEnvRoot);
+  }
   logStream.write(`[${startedAt.toISOString()}] Starting job ${job.id} with script ${job.script}.\n`);
   logStream.write(`Using python: ${PYTHON_BIN}\n`);
   if (PYTHON_RESOLUTION.notes.length) {
     PYTHON_RESOLUTION.notes.forEach((note) => logStream.write(`PYTHON_RESOLUTION: ${note}\n`));
   }
+  logStream.write(`Virtual env root: ${virtualEnvRoot ?? "(not detected)"}\n`);
   logStream.write(`Knowledge base output directory: ${KNOWLEDGE_BASE_DIR}\n`);
   logStream.write(`Timeout (ms): ${SCRAPE_TIMEOUT_MS}\n`);
 
-  const depCheck = await runDependencyCheck(PYTHON_BIN, logStream);
+  const depCheck = await runDependencyCheck(PYTHON_BIN, logStream, pythonEnv);
   if (!depCheck.ok) {
     await markFailed(
       client,
@@ -448,12 +492,7 @@ export async function runScrapeJob(
   try {
     const child = spawn(PYTHON_BIN, args, {
       cwd: process.cwd(),
-      env: {
-        ...process.env,
-        PYTHONUTF8: "1",
-        PYTHONIOENCODING: "utf-8",
-        PYTHONUNBUFFERED: "1",
-      },
+      env: pythonEnv,
     });
 
     let lastOutputAt = Date.now();
@@ -472,13 +511,13 @@ export async function runScrapeJob(
 
     const heartbeat = setInterval(() => {
       logStream.write(`[${new Date().toISOString()}] heartbeat: job ${job.id} still running...\n`);
-      emitJobUpdate({
-        jobId: job.id,
-        status: ScrapeJobStatus.running,
-        startedAt: startedAt.toISOString(),
-        logPath: logFilePath,
-      });
-      void setProgress(Math.min(90, progress + 1));
+        emitJobUpdate({
+          jobId: job.id,
+          status: ScrapeJobStatus.running,
+          startedAt: startedAt.toISOString(),
+          logPath: storedLogPath,
+        });
+        void setProgress(Math.min(90, progress + 1));
     }, 60_000);
 
     const cancellationProbe = setInterval(async () => {
@@ -514,7 +553,7 @@ export async function runScrapeJob(
         jobId: job.id,
         status: ScrapeJobStatus.running,
         startedAt: startedAt.toISOString(),
-        logPath: logFilePath,
+        logPath: storedLogPath,
       });
       void setProgress(Math.min(95, progress + 2));
     };
@@ -562,7 +601,7 @@ export async function runScrapeJob(
     await updateJob(client, job.id, {
       status: ScrapeJobStatus.canceled,
       finishedAt,
-      logPath: logFilePath,
+      logPath: storedLogPath,
       nextRunAt: null,
       paused: false,
       progress: 100,
@@ -584,7 +623,7 @@ export async function runScrapeJob(
     await updateJob(client, job.id, {
       status,
       finishedAt,
-      logPath: logFilePath,
+      logPath: storedLogPath,
       nextRunAt: calculateNextRun(job.cadence, finishedAt),
       durationSeconds,
       documentsIngested,
@@ -603,5 +642,5 @@ export async function triggerScrapeJob(jobId: string) {
     console.error(`Failed to run job ${jobId}:`, error);
   });
 
-  return { jobId, logPath: job.logPath ?? path.join(LOG_DIR, `${job.id}.log`) };
+  return { jobId, logPath: job.logPath ?? path.join("logs", "scrape_jobs", `${job.id}.log`) };
 }

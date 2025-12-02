@@ -15,6 +15,9 @@ services:
     entrypoint: docker/entrypoints/ai-agent.sh
     networks:
       - support-net
+    volumes:
+      - ./logs/scrape_jobs:/app/logs/scrape_jobs
+      - ./public/knowledge_base:/app/public/knowledge_base
 
   postgres:
     image: pgvector/pgvector:pg16

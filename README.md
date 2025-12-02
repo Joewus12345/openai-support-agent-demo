@@ -177,6 +177,8 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
    ```
 
    This starts the AI agent on `http://localhost:3001` along with PostgreSQL, Redis, and Ollama.
+   The `ai-agent` container mounts the host directories `./logs/scrape_jobs` (job logs) and
+   `./public/knowledge_base` (scraped artifacts) so logs and outputs persist across rebuilds.
 
 3. **Run database migrations:**
 
