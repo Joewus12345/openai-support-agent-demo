@@ -392,7 +392,10 @@ export default function ScrapeJobDetail({
   const activeSchedule = scheduleDraft ?? {
     cadence: data?.job.cadence ?? ScrapeJobCadence.manual,
     nextRunAt: toLocalDateTimeInput(data?.job?.nextRunAt ?? null),
-    autoRunManualWithNext: AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT,
+    autoRunManualWithNext:
+      (data?.job.cadence ?? ScrapeJobCadence.manual) === ScrapeJobCadence.manual
+        ? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
+        : false,
   };
 
   const validateScheduleDraft = () => {
@@ -421,7 +424,8 @@ export default function ScrapeJobDetail({
     setScheduleDraft({
       cadence: data.job.cadence,
       nextRunAt: toLocalDateTimeInput(data.job.nextRunAt),
-      autoRunManualWithNext: AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT,
+      autoRunManualWithNext:
+        data.job.cadence === ScrapeJobCadence.manual ? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT : false,
     });
     setScheduleError(null);
   };
@@ -739,10 +743,16 @@ export default function ScrapeJobDetail({
                   value={activeSchedule.cadence}
                   onChange={(event) => {
                     setScheduleError(null);
+                    const nextCadence = event.target.value as ScrapeJobCadence;
                     setScheduleDraft({
-                      cadence: event.target.value as ScrapeJobCadence,
+                      cadence: nextCadence,
                       nextRunAt: activeSchedule.nextRunAt,
-                      autoRunManualWithNext: activeSchedule.autoRunManualWithNext,
+                      autoRunManualWithNext:
+                        nextCadence === ScrapeJobCadence.manual
+                          ? activeSchedule.cadence === ScrapeJobCadence.manual
+                            ? activeSchedule.autoRunManualWithNext
+                            : AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
+                          : false,
                     });
                   }}
                   disabled={Boolean(actionState) || savingSchedule}
@@ -768,30 +778,32 @@ export default function ScrapeJobDetail({
                   disabled={Boolean(actionState) || savingSchedule}
                 />
               </div>
-              <label className="flex items-center gap-2 text-[12px] text-zinc-700">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-zinc-300"
-                  checked={activeSchedule.autoRunManualWithNext}
-                  onChange={(event) => {
-                    setScheduleError(null);
-                    setScheduleDraft({
-                      cadence: activeSchedule.cadence,
-                      nextRunAt: activeSchedule.nextRunAt,
-                      autoRunManualWithNext: event.target.checked,
-                    });
-                  }}
-                  disabled={Boolean(actionState) || savingSchedule}
-                />
-                <span>
-                  Auto-run manual jobs at next run time
-                  <span className="text-zinc-500"> (scheduler default: </span>
-                  <span className="font-semibold text-zinc-700">
-                    {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? "enabled" : "disabled"}
+              {activeSchedule.cadence === ScrapeJobCadence.manual ? (
+                <label className="flex items-center gap-2 text-[12px] text-zinc-700">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-zinc-300"
+                    checked={activeSchedule.autoRunManualWithNext}
+                    onChange={(event) => {
+                      setScheduleError(null);
+                      setScheduleDraft({
+                        cadence: activeSchedule.cadence,
+                        nextRunAt: activeSchedule.nextRunAt,
+                        autoRunManualWithNext: event.target.checked,
+                      });
+                    }}
+                    disabled={Boolean(actionState) || savingSchedule}
+                  />
+                  <span>
+                    Auto-run manual jobs at next run time
+                    <span className="text-zinc-500"> (scheduler default: </span>
+                    <span className="font-semibold text-zinc-700">
+                      {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? "enabled" : "disabled"}
+                    </span>
+                    <span className="text-zinc-500">)</span>
                   </span>
-                  <span className="text-zinc-500">)</span>
-                </span>
-              </label>
+                </label>
+              ) : null}
               <div className="flex flex-wrap items-center gap-2 text-[11px] text-zinc-600">
                 <button
                   type="button"

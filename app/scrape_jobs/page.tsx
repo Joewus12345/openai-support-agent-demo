@@ -331,7 +331,8 @@ export default function ScrapeJobsPage() {
     scheduleDrafts[job.id] ?? {
       cadence: job.cadence,
       nextRunAt: toLocalDateTimeInput(job.nextRunAt),
-      autoRunManualWithNext: AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT,
+      autoRunManualWithNext:
+        job.cadence === ScrapeJobCadence.manual ? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT : false,
     };
 
   const updateScheduleDraft = (
@@ -344,10 +345,23 @@ export default function ScrapeJobsPage() {
   ) => {
     setScheduleDrafts((state) => ({
       ...state,
-      [job.id]: {
-        ...getScheduleDraft(job),
-        ...updates,
-      },
+      [job.id]: (() => {
+        const current = getScheduleDraft(job);
+        const nextCadence = updates.cadence ?? current.cadence;
+        const nextAutoRunManualWithNext = (() => {
+          if (nextCadence !== ScrapeJobCadence.manual) return false;
+          if (current.cadence !== ScrapeJobCadence.manual && updates.cadence === ScrapeJobCadence.manual)
+            return AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT;
+          return updates.autoRunManualWithNext ?? current.autoRunManualWithNext;
+        })();
+
+        return {
+          ...current,
+          ...updates,
+          cadence: nextCadence,
+          autoRunManualWithNext: nextAutoRunManualWithNext,
+        };
+      })(),
     }));
     if (scheduleErrors[job.id]) {
       setScheduleErrors((current) => {
@@ -885,27 +899,29 @@ export default function ScrapeJobsPage() {
                               disabled={Boolean(actionState)}
                             />
                           </label>
-                          <label className="flex items-center gap-2 text-[11px] text-zinc-700">
-                            <input
-                              type="checkbox"
-                              className="h-4 w-4 rounded border-zinc-300"
-                              checked={getScheduleDraft(item.job).autoRunManualWithNext}
-                              onChange={(event) =>
-                                updateScheduleDraft(item.job, {
-                                  autoRunManualWithNext: event.target.checked,
-                                })
-                              }
-                              disabled={Boolean(actionState)}
-                            />
-                            <span>
-                              Auto-run manual jobs at next run time
-                              <span className="text-zinc-500"> (scheduler default: </span>
-                              <span className="font-semibold text-zinc-700">
-                                {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? "enabled" : "disabled"}
+                          {getScheduleDraft(item.job).cadence === ScrapeJobCadence.manual ? (
+                            <label className="flex items-center gap-2 text-[11px] text-zinc-700">
+                              <input
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-zinc-300"
+                                checked={getScheduleDraft(item.job).autoRunManualWithNext}
+                                onChange={(event) =>
+                                  updateScheduleDraft(item.job, {
+                                    autoRunManualWithNext: event.target.checked,
+                                  })
+                                }
+                                disabled={Boolean(actionState)}
+                              />
+                              <span>
+                                Auto-run manual jobs at next run time
+                                <span className="text-zinc-500"> (scheduler default: </span>
+                                <span className="font-semibold text-zinc-700">
+                                  {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? "enabled" : "disabled"}
+                                </span>
+                                <span className="text-zinc-500">)</span>
                               </span>
-                              <span className="text-zinc-500">)</span>
-                            </span>
-                          </label>
+                            </label>
+                          ) : null}
                           {scheduleErrors[item.job.id] && (
                             <div className="text-[11px] text-red-600">{scheduleErrors[item.job.id]}</div>
                           )}
