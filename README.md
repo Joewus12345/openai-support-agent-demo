@@ -311,15 +311,15 @@ When using the `ollama` provider you need a local server running.
 
 6. **Run the app:**
 
-   Use a single terminal to run both the Next.js dev server and the scheduler
-   worker:
+   Use a single terminal to run the Next.js dev server plus both workers (scheduler
+   and scraper):
 
    ```bash
    npm run dev:all
    ```
 
    You can still run the web server alone with `npm run dev`. After building,
-   start the production server and the scheduler together via `npm run
+   start the production server and both workers together via `npm run
    start:all`.
 
    The app will be available at [`http://localhost:3000`](http://localhost:3000).
