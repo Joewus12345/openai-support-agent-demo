@@ -1,5 +1,7 @@
 import prisma from "@/lib/prisma";
 import { Prisma, ScrapeJobStatus } from "@/lib/generated/prisma";
+import { parseCadence } from "@/lib/scheduler";
+import { ensureAuthenticated } from "../../helpers";
 
 function parseDate(value: unknown): Date | null {
   if (!value) return null;
@@ -11,10 +13,14 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const unauthorized = ensureAuthenticated(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const { id } = await params;
     const body = await request.json().catch(() => ({}));
     const nextRunAt = parseDate(body.nextRunAt);
+    const cadence = parseCadence(body.cadence ?? null);
 
     try {
       const existing = await prisma.scrapeJob.findUnique({
@@ -35,6 +41,7 @@ export async function POST(
           startedAt: null,
           finishedAt: null,
           paused: false,
+          cadence: cadence ?? undefined,
           nextRunAt,
           progress: 0,
           logPath: null,

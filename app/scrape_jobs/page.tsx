@@ -108,6 +108,20 @@ function formatDate(value: string | null) {
   return date.toLocaleString();
 }
 
+function toLocalDateTimeInput(value: string | null) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const offsetMs = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16);
+}
+
+function fromLocalDateTimeInput(value: string | null) {
+  if (!value) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
+}
+
 function formatDuration(seconds: number | null) {
   if (seconds === null) return "—";
   if (seconds < 90) return `${seconds.toFixed(0)}s`;
@@ -160,6 +174,9 @@ export default function ScrapeJobsPage() {
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [runMessages, setRunMessages] = useState<Record<string, string>>({});
+  const [scheduleDrafts, setScheduleDrafts] = useState<
+    Record<string, { cadence: ScrapeJobCadence; nextRunAt: string }>
+  >({});
 
   const authHeaders = {
     "Content-Type": "application/json",
@@ -241,6 +258,25 @@ export default function ScrapeJobsPage() {
     } catch {
       // ignore
     }
+  };
+
+  const getScheduleDraft = (job: ScrapeJob) =>
+    scheduleDrafts[job.id] ?? {
+      cadence: job.cadence,
+      nextRunAt: toLocalDateTimeInput(job.nextRunAt),
+    };
+
+  const updateScheduleDraft = (
+    job: ScrapeJob,
+    updates: Partial<{ cadence: ScrapeJobCadence; nextRunAt: string }>
+  ) => {
+    setScheduleDrafts((state) => ({
+      ...state,
+      [job.id]: {
+        ...getScheduleDraft(job),
+        ...updates,
+      },
+    }));
   };
 
   const sendToVectorStore = async (job: SerializedJob) => {
@@ -434,6 +470,36 @@ export default function ScrapeJobsPage() {
     }
   };
 
+  const saveSchedule = async (job: SerializedJob) => {
+    markRowAction(job.job.id, "schedule");
+    const draft = getScheduleDraft(job.job);
+
+    try {
+      const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
+        method: "PATCH",
+        headers: authHeaders,
+        body: JSON.stringify({
+          cadence: draft.cadence,
+          nextRunAt: fromLocalDateTimeInput(draft.nextRunAt),
+        }),
+      });
+
+      if (res.ok) {
+        setRunMessages((current) => ({
+          ...current,
+          [job.job.id]: "Schedule updated.",
+        }));
+        await mutate();
+      } else {
+        console.error("Failed to update schedule", await res.text());
+      }
+    } catch (error) {
+      console.error("Error updating schedule", error);
+    } finally {
+      markRowAction(job.job.id, null);
+    }
+  };
+
   const renderStatusPill = (status: ScrapeJobStatus, paused: boolean) => {
     const labels: Partial<Record<ScrapeJobStatus, string>> = {
       [ScrapeJobStatus.queued]: "Queued",
@@ -607,7 +673,7 @@ export default function ScrapeJobsPage() {
                 <tr className="text-left text-zinc-500">
                   <th className="py-2 pr-3">Script</th>
                   <th className="py-2 pr-3">Status</th>
-                  <th className="py-2 pr-3">Cadence</th>
+                  <th className="py-2 pr-3">Cadence &amp; schedule</th>
                   <th className="py-2 pr-3">Timing</th>
                   <th className="py-2 pr-3">Docs</th>
                   <th className="py-2 pr-3">Log snippet</th>
@@ -630,7 +696,55 @@ export default function ScrapeJobsPage() {
                         <div className="text-xs text-zinc-500">{formatDate(item.job.createdAt)}</div>
                       </td>
                       <td className="py-3 pr-3">{renderStatusPill(item.job.status, item.job.paused)}</td>
-                      <td className="py-3 pr-3 capitalize">{item.job.cadence}</td>
+                      <td className="py-3 pr-3 w-64 align-top">
+                        <div className="flex flex-col gap-2 text-xs text-zinc-700">
+                          <div className="flex items-center gap-2">
+                            <select
+                              className="w-28 rounded-lg border border-zinc-200 px-2 py-1 capitalize"
+                              value={getScheduleDraft(item.job).cadence}
+                              onChange={(event) =>
+                                updateScheduleDraft(item.job, {
+                                  cadence: event.target.value as ScrapeJobCadence,
+                                })
+                              }
+                              disabled={Boolean(actionState)}
+                            >
+                              {Object.values(ScrapeJobCadence).map((cadence) => (
+                                <option key={cadence} value={cadence} className="capitalize">
+                                  {cadence}
+                                </option>
+                              ))}
+                            </select>
+                            <button
+                              type="button"
+                              className="rounded-lg border border-zinc-200 px-2 py-1 text-[11px] font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                              onClick={() => void saveSchedule(item)}
+                              disabled={Boolean(actionState)}
+                            >
+                              {actionState === "schedule" ? (
+                                <Loader2 size={12} className="animate-spin" />
+                              ) : (
+                                "Save"
+                              )}
+                            </button>
+                          </div>
+                          <label className="flex flex-col gap-1 text-[11px] text-zinc-600">
+                            Next run at
+                            <input
+                              type="datetime-local"
+                              className="rounded-lg border border-zinc-200 px-2 py-1"
+                              value={getScheduleDraft(item.job).nextRunAt}
+                              onChange={(event) =>
+                                updateScheduleDraft(item.job, { nextRunAt: event.target.value })
+                              }
+                              disabled={Boolean(actionState)}
+                            />
+                          </label>
+                          <div className="text-[11px] text-zinc-500">
+                            Upcoming: {formatDate(item.job.nextRunAt)}
+                          </div>
+                        </div>
+                      </td>
                       <td className="py-3 pr-3">
                         <div className="flex items-center gap-2 text-xs text-zinc-600">
                           <span>{formatDuration(item.stats.durationSeconds)}</span>
@@ -645,6 +759,7 @@ export default function ScrapeJobsPage() {
                         <div className="text-[11px] text-zinc-400">
                           Started {formatDate(item.job.startedAt)} · Finished {formatDate(item.job.finishedAt)}
                         </div>
+                        <div className="text-[11px] text-zinc-500">Next run: {formatDate(item.job.nextRunAt)}</div>
                       </td>
                       <td className="py-3 pr-3 text-xs text-zinc-700">
                         {item.stats.documentsIngested ?? "—"}

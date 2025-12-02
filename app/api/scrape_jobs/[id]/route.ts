@@ -1,8 +1,15 @@
-import { Prisma, ScrapeJobStatus } from "@/lib/generated/prisma";
+import { Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { calculateNextRun } from "@/lib/scheduler";
 import { cancelRunningScrape } from "@/lib/scrapeRunner";
 import { ensureAuthenticated, serializeJob } from "../helpers";
+
+function parseCadence(value: unknown): ScrapeJobCadence | undefined {
+  if (typeof value !== "string") return undefined;
+  return (Object.values(ScrapeJobCadence) as string[]).includes(value)
+    ? (value as ScrapeJobCadence)
+    : undefined;
+}
 
 function parseBoolean(value: unknown): boolean | undefined {
   if (typeof value === "boolean") return value;
@@ -40,6 +47,7 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json().catch(() => ({}));
+    const cadence = parseCadence(body.cadence);
     const paused = parseBoolean(body.paused);
     const nextRunAt = parseDate(body.nextRunAt);
 
@@ -50,10 +58,16 @@ export async function PATCH(
 
     const data: Prisma.ScrapeJobUpdateInput = {};
 
+    if (cadence) {
+      data.cadence = cadence;
+      data.nextRunAt = nextRunAt ?? calculateNextRun(cadence);
+    }
+
     if (paused !== undefined) {
       data.paused = paused;
       if (!paused) {
-        data.nextRunAt = nextRunAt ?? calculateNextRun(existing.cadence);
+        data.nextRunAt =
+          nextRunAt ?? calculateNextRun(cadence ?? existing.cadence);
       } else if (nextRunAt !== undefined) {
         data.nextRunAt = nextRunAt;
       } else {

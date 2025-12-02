@@ -2,6 +2,7 @@ import cron from "node-cron";
 
 import { enqueueScheduledJobs } from "@/lib/scheduler";
 import { ScrapeJobCadence } from "@/lib/generated/prisma";
+import { processNextQueuedJob } from "@/lib/scrapeQueue";
 
 const TIMEZONE = process.env.SCHEDULER_TIMEZONE ?? "Africa/Accra";
 
@@ -10,6 +11,14 @@ async function runCadence(cadence: ScrapeJobCadence) {
     const queued = await enqueueScheduledJobs({ cadence });
     if (queued.length > 0) {
       console.log(`Queued ${queued.length} ${cadence} scrape job(s).`);
+    }
+    let processed = 0;
+    while (await processNextQueuedJob()) {
+      processed += 1;
+    }
+
+    if (processed > 0) {
+      console.log(`Started ${processed} queued ${cadence} job(s).`);
     }
   } catch (error) {
     console.error(`Failed to enqueue ${cadence} scrape jobs:`, error);
