@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { spawn } from "child_process";
+import { spawn, type ChildProcess } from "child_process";
 
 import prisma from "./prisma";
 import { calculateNextRun } from "./scheduler";
@@ -116,6 +116,14 @@ const SCRAPE_SKIP_DEP_CHECK = process.env.SCRAPE_SKIP_DEP_CHECK === "true";
 const SCRAPE_AUTO_INSTALL_DEPS =
   process.env.SCRAPE_AUTO_INSTALL_DEPS !== "false";
 const LOG_DIR = path.join(process.cwd(), "logs", "scrape_jobs");
+
+type RunningProcess = {
+  child: ChildProcess;
+  logStream?: fs.WriteStream | null;
+  markCanceled: () => void;
+};
+
+const RUNNING_PROCESSES = new Map<string, RunningProcess>();
 
 type PrismaClientLike = Prisma.TransactionClient | typeof prisma;
 
@@ -373,6 +381,48 @@ async function markFailed(
   });
 }
 
+export function cancelRunningScrape(jobId: string) {
+  const running = RUNNING_PROCESSES.get(jobId);
+
+  if (!running) {
+    return {
+      found: false,
+      signaled: false,
+      forceKillPlanned: false,
+      message: "Job marked canceled; no active worker to terminate.",
+    } as const;
+  }
+
+  running.markCanceled();
+  const signaled = running.child.kill("SIGTERM");
+  const killTimeoutMs = Number(process.env.SCRAPE_CANCEL_KILL_TIMEOUT_MS ?? 8000);
+  let forceKillPlanned = false;
+  let forceTimer: NodeJS.Timeout | null = null;
+
+  if (signaled && Number.isFinite(killTimeoutMs) && killTimeoutMs > 0) {
+    forceKillPlanned = true;
+    forceTimer = setTimeout(() => {
+      if (!running.child.killed) {
+        running.child.kill("SIGKILL");
+      }
+    }, killTimeoutMs);
+
+    running.child.once("close", () => {
+      if (forceTimer) clearTimeout(forceTimer);
+    });
+  }
+
+  const message = signaled
+    ? "Cancellation requested; worker is being terminated."
+    : "Failed to signal running worker; it may continue until completion.";
+
+  running.logStream?.write(
+    `[${new Date().toISOString()}] ${message} (job ${jobId}).\n`
+  );
+
+  return { found: true, signaled, forceKillPlanned, message } as const;
+}
+
 export async function runScrapeJob(
   job: ScrapeJob,
   client: PrismaClientLike = prisma
@@ -495,6 +545,15 @@ export async function runScrapeJob(
       env: pythonEnv,
     });
 
+    const markCanceled = () => {
+      canceled = true;
+      logStream.write(
+        `[${new Date().toISOString()}] Cancellation requested; signaling worker.\n`
+      );
+    };
+
+    RUNNING_PROCESSES.set(job.id, { child, logStream, markCanceled });
+
     let lastOutputAt = Date.now();
     let timeoutId: NodeJS.Timeout | null = null;
     const resetTimeout = () => {
@@ -569,6 +628,7 @@ export async function runScrapeJob(
         clearInterval(heartbeat);
         clearInterval(cancellationProbe);
         clearInterval(activityProbe);
+        RUNNING_PROCESSES.delete(job.id);
         resolve(code ?? -1);
       });
       child.on("error", (err) => {
@@ -576,15 +636,19 @@ export async function runScrapeJob(
         clearInterval(heartbeat);
         clearInterval(cancellationProbe);
         clearInterval(activityProbe);
+        RUNNING_PROCESSES.delete(job.id);
         logStream.write(`Worker failed to spawn: ${err.message}\n`);
         resolve(-1);
       });
     });
   } catch (error) {
+    RUNNING_PROCESSES.delete(job.id);
     const message = error instanceof Error ? error.message : "Unknown error";
     await markFailed(client, job, message, logStream);
     return undefined;
   }
+
+  RUNNING_PROCESSES.delete(job.id);
 
   if (missingCrawlDependency && exitCode === 0) {
     exitCode = 1;

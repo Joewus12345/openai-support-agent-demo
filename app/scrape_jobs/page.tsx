@@ -332,10 +332,24 @@ export default function ScrapeJobsPage() {
         headers: authHeaders,
       });
 
+      const payload = (await res.json().catch(() => null)) as
+        | { message?: string; error?: string; cancellation?: { message?: string } }
+        | null;
+
+      if (payload?.message || payload?.cancellation?.message) {
+        setRunMessages((state) => ({
+          ...state,
+          [jobId]: payload.message || payload.cancellation?.message || "",
+        }));
+      }
+
       if (res.ok) {
         await mutate();
       } else {
-        console.error("Failed to cancel job", await res.text());
+        console.error(
+          "Failed to cancel job",
+          payload?.error || payload?.message || (await res.text())
+        );
       }
     } catch (error) {
       console.error("Error canceling job", error);
