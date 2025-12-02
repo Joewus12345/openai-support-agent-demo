@@ -15,10 +15,11 @@ function parseStatus(value: string | null): ScrapeJobStatus | undefined {
     : undefined;
 }
 
-function parseDate(value: unknown): Date | null {
-  if (!value) return null;
+function parseDate(value: unknown): { value: Date | null; error?: string } {
+  if (!value) return { value: null };
   const date = new Date(value as string);
-  return Number.isNaN(date.getTime()) ? null : date;
+  if (Number.isNaN(date.getTime())) return { value: null, error: "Invalid date format" };
+  return { value: date };
 }
 
 function parseBoolean(value: unknown): boolean | undefined {
@@ -69,7 +70,22 @@ export async function POST(request: Request) {
     const status = parseStatus(body.status ?? null) ?? ScrapeJobStatus.queued;
     const cadence = parseCadence(body.cadence) ?? ScrapeJobCadence.manual;
     const paused = parseBoolean(body.paused) ?? false;
-    const nextRunAt = parseDate(body.nextRunAt) ?? calculateNextRun(cadence);
+    const { value: nextRunAt, error: nextRunError } = parseDate(body.nextRunAt);
+
+    if (nextRunError) {
+      return new Response(JSON.stringify({ error: nextRunError }), { status: 400 });
+    }
+
+    if (
+      nextRunAt &&
+      cadence !== ScrapeJobCadence.manual &&
+      nextRunAt.getTime() <= Date.now()
+    ) {
+      return new Response(
+        JSON.stringify({ error: "nextRunAt must be in the future for scheduled cadences" }),
+        { status: 400 }
+      );
+    }
 
     const data: Prisma.ScrapeJobCreateInput = {
       script: body.script,
@@ -78,7 +94,7 @@ export async function POST(request: Request) {
       logPath: body.logPath ?? null,
       cadence,
       paused,
-      nextRunAt,
+      nextRunAt: nextRunAt ?? calculateNextRun(cadence),
       progress: 0,
     };
 

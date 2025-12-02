@@ -1,8 +1,15 @@
-import { Prisma, ScrapeJobStatus } from "@/lib/generated/prisma";
+import { Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { calculateNextRun } from "@/lib/scheduler";
 import { cancelRunningScrape } from "@/lib/scrapeRunner";
 import { ensureAuthenticated, serializeJob } from "../helpers";
+
+function parseCadence(value: unknown): ScrapeJobCadence | undefined {
+  if (typeof value !== "string") return undefined;
+  return (Object.values(ScrapeJobCadence) as string[]).includes(value)
+    ? (value as ScrapeJobCadence)
+    : undefined;
+}
 
 function parseBoolean(value: unknown): boolean | undefined {
   if (typeof value === "boolean") return value;
@@ -13,11 +20,14 @@ function parseBoolean(value: unknown): boolean | undefined {
   return undefined;
 }
 
-function parseDate(value: unknown): Date | null | undefined {
-  if (value === undefined) return undefined;
-  if (value === null) return null;
+function parseDate(value: unknown): { value: Date | null | undefined; error?: string } {
+  if (value === undefined) return { value: undefined };
+  if (value === null) return { value: null };
   const date = new Date(value as string);
-  return Number.isNaN(date.getTime()) ? null : date;
+  if (Number.isNaN(date.getTime())) {
+    return { value: null, error: "Invalid date format" };
+  }
+  return { value: date };
 }
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -40,20 +50,44 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json().catch(() => ({}));
+    const cadence = parseCadence(body.cadence);
     const paused = parseBoolean(body.paused);
-    const nextRunAt = parseDate(body.nextRunAt);
+    const { value: nextRunAt, error: nextRunError } = parseDate(body.nextRunAt);
 
     const existing = await prisma.scrapeJob.findUnique({ where: { id } });
     if (!existing) {
       return new Response(JSON.stringify({ error: "Job not found" }), { status: 404 });
     }
 
+    const effectiveCadence = cadence ?? existing.cadence;
+
+    if (nextRunError) {
+      return new Response(JSON.stringify({ error: nextRunError }), { status: 400 });
+    }
+
+    if (
+      nextRunAt &&
+      effectiveCadence !== ScrapeJobCadence.manual &&
+      nextRunAt.getTime() <= Date.now()
+    ) {
+      return new Response(
+        JSON.stringify({ error: "nextRunAt must be in the future for scheduled cadences" }),
+        { status: 400 }
+      );
+    }
+
     const data: Prisma.ScrapeJobUpdateInput = {};
+
+    if (cadence) {
+      data.cadence = cadence;
+      data.nextRunAt = nextRunAt ?? calculateNextRun(cadence);
+    }
 
     if (paused !== undefined) {
       data.paused = paused;
       if (!paused) {
-        data.nextRunAt = nextRunAt ?? calculateNextRun(existing.cadence);
+        data.nextRunAt =
+          nextRunAt ?? calculateNextRun(cadence ?? existing.cadence);
       } else if (nextRunAt !== undefined) {
         data.nextRunAt = nextRunAt;
       } else {

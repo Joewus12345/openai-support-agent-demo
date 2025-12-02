@@ -1,16 +1,32 @@
 import { enqueueScheduledJobs, parseCadence } from "@/lib/scheduler";
 
+function parseBoolean(value: string | null): boolean | undefined {
+  if (value === null) return undefined;
+  return ["true", "1", "yes", "on"].includes(value.toLowerCase());
+}
+
 export async function POST(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const cadenceParam = parseCadence(searchParams.get("schedule"));
+    const autoRunManualWithNextOverride = parseBoolean(
+      searchParams.get("autoRunManualWithNext")
+    );
 
-    const queued = await enqueueScheduledJobs({ cadence: cadenceParam });
+    const autoRunManualWithNext =
+      autoRunManualWithNextOverride ??
+      process.env.AUTO_RUN_MANUAL_WITH_NEXT === "true";
+
+    const queued = await enqueueScheduledJobs({
+      cadence: cadenceParam,
+      autoRunManualWithNext,
+    });
 
     return new Response(
       JSON.stringify({
         queued: queued.length,
         cadence: cadenceParam ?? "all",
+        autoRunManualWithNext,
       }),
       { status: 200 }
     );

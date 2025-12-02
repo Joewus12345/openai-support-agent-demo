@@ -1,31 +1,55 @@
 import prisma from "@/lib/prisma";
-import { Prisma, ScrapeJobStatus } from "@/lib/generated/prisma";
+import { Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
+import { parseCadence } from "@/lib/scheduler";
+import { ensureAuthenticated } from "../../helpers";
 
-function parseDate(value: unknown): Date | null {
-  if (!value) return null;
+function parseDate(value: unknown): { value: Date | null; error?: string } {
+  if (!value) return { value: null };
   const date = new Date(value as string);
-  return Number.isNaN(date.getTime()) ? null : date;
+  if (Number.isNaN(date.getTime())) return { value: null, error: "Invalid date format" };
+  return { value: date };
 }
 
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const unauthorized = ensureAuthenticated(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const { id } = await params;
     const body = await request.json().catch(() => ({}));
-    const nextRunAt = parseDate(body.nextRunAt);
+    const { value: nextRunAt, error: nextRunError } = parseDate(body.nextRunAt);
+    const cadence = parseCadence(body.cadence ?? null);
 
     try {
       const existing = await prisma.scrapeJob.findUnique({
         where: { id },
-        select: { id: true },
+        select: { id: true, cadence: true },
       });
 
       if (!existing) {
         return new Response(JSON.stringify({ error: "Job not found" }), {
           status: 404,
         });
+      }
+
+      const effectiveCadence = cadence ?? existing.cadence ?? ScrapeJobCadence.manual;
+
+      if (nextRunError) {
+        return new Response(JSON.stringify({ error: nextRunError }), { status: 400 });
+      }
+
+      if (
+        nextRunAt &&
+        effectiveCadence !== ScrapeJobCadence.manual &&
+        nextRunAt.getTime() <= Date.now()
+      ) {
+        return new Response(
+          JSON.stringify({ error: "nextRunAt must be in the future for scheduled cadences" }),
+          { status: 400 }
+        );
       }
 
       const job = await prisma.scrapeJob.update({
@@ -35,6 +59,7 @@ export async function POST(
           startedAt: null,
           finishedAt: null,
           paused: false,
+          cadence: cadence ?? undefined,
           nextRunAt,
           progress: 0,
           logPath: null,

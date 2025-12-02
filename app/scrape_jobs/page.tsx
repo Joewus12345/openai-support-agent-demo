@@ -18,6 +18,7 @@ import {
   XCircle,
 } from "lucide-react";
 
+import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
 
@@ -53,7 +54,26 @@ type SerializedJob = {
   ingestionResult?: (StoredIngestionResult & { jobId: string }) | null;
 };
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const res = await fetch(url, { credentials: "same-origin" });
+
+  if (res.status === 401) {
+    const error = new Error("Unauthorized");
+    (error as Error & { status?: number }).status = 401;
+    throw error;
+  }
+
+  if (!res.ok) {
+    const error = new Error("Failed to load scrape jobs");
+    (error as Error & { status?: number; info?: unknown }).status = res.status;
+    (error as Error & { status?: number; info?: unknown }).info = await res
+      .text()
+      .catch(() => null);
+    throw error;
+  }
+
+  return res.json();
+};
 
 const SCRIPT_PRESETS = [
   {
@@ -101,11 +121,28 @@ const SCRIPT_PRESETS = [
 ];
 
 const KNOWLEDGE_BASE_PATH = "public/knowledge_base";
+const AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT =
+  process.env.NEXT_PUBLIC_AUTO_RUN_MANUAL_WITH_NEXT === "true";
 
 function formatDate(value: string | null) {
   if (!value) return "—";
   const date = new Date(value);
   return date.toLocaleString();
+}
+
+function toLocalDateTimeInput(value: string | null) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const offsetMs = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16);
+}
+
+function parseLocalDateTimeInput(value: string | null) {
+  if (!value) return { iso: null, date: null, error: undefined } as const;
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return { iso: null, date: null, error: "Enter a valid date/time" } as const;
+  return { iso: parsed.toISOString(), date: parsed, error: undefined } as const;
 }
 
 function formatDuration(seconds: number | null) {
@@ -160,11 +197,21 @@ export default function ScrapeJobsPage() {
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [runMessages, setRunMessages] = useState<Record<string, string>>({});
-
-  const authHeaders = {
-    "Content-Type": "application/json",
-    "x-session-verified": "true",
-  };
+  const [scheduleErrors, setScheduleErrors] = useState<Record<string, string>>({});
+  const [scheduleDrafts, setScheduleDrafts] = useState<
+    Record<
+      string,
+      {
+        cadence: ScrapeJobCadence;
+        nextRunAt: string;
+        autoRunManualWithNext: boolean;
+      }
+    >
+  >({});
+  const [authTokenInput, setAuthTokenInput] = useState("");
+  const [authenticating, setAuthenticating] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
     const source = new EventSource("/api/scrape_jobs/updates");
@@ -194,6 +241,44 @@ export default function ScrapeJobsPage() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  const markAuthRequired = () => {
+    setAuthRequired(true);
+    setAuthError("Authentication required");
+  };
+
+  const handleAuthFailure = (response: Response) => {
+    if (response.status === 401) {
+      markAuthRequired();
+      return true;
+    }
+    return false;
+  };
+
+  const authenticate = async (event?: React.FormEvent) => {
+    event?.preventDefault();
+    setAuthenticating(true);
+    setAuthError(null);
+
+    const res = await fetch("/api/scrape_jobs/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: authTokenInput }),
+    });
+
+    const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+
+    if (res.ok) {
+      setAuthRequired(false);
+      setAuthTokenInput("");
+      setAuthError(null);
+      await mutate();
+    } else {
+      setAuthError(payload?.error || "Authentication failed");
+    }
+
+    setAuthenticating(false);
+  };
+
   const handlePresetChange = (key: string) => {
     setSelectedPreset(key);
     const preset = SCRIPT_PRESETS.find((p) => p.key === key);
@@ -207,10 +292,7 @@ export default function ScrapeJobsPage() {
       setCreating(cadence);
       const response = await fetch("/api/scrape_jobs", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-session-verified": "true",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           script: selectedPreset,
           args: targetUrl ? { targetUrl } : {},
@@ -218,6 +300,8 @@ export default function ScrapeJobsPage() {
           status: ScrapeJobStatus.queued,
         }),
       });
+
+      if (handleAuthFailure(response)) return;
 
       if (!response.ok) {
         console.error("Failed to create job", await response.text());
@@ -240,6 +324,51 @@ export default function ScrapeJobsPage() {
       onCopied();
     } catch {
       // ignore
+    }
+  };
+
+  const getScheduleDraft = (job: ScrapeJob) =>
+    scheduleDrafts[job.id] ?? {
+      cadence: job.cadence,
+      nextRunAt: toLocalDateTimeInput(job.nextRunAt),
+      autoRunManualWithNext:
+        job.cadence === ScrapeJobCadence.manual ? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT : false,
+    };
+
+  const updateScheduleDraft = (
+    job: ScrapeJob,
+    updates: Partial<{
+      cadence: ScrapeJobCadence;
+      nextRunAt: string;
+      autoRunManualWithNext: boolean;
+    }>
+  ) => {
+    setScheduleDrafts((state) => ({
+      ...state,
+      [job.id]: (() => {
+        const current = getScheduleDraft(job);
+        const nextCadence = updates.cadence ?? current.cadence;
+        const nextAutoRunManualWithNext = (() => {
+          if (nextCadence !== ScrapeJobCadence.manual) return false;
+          if (current.cadence !== ScrapeJobCadence.manual && updates.cadence === ScrapeJobCadence.manual)
+            return AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT;
+          return updates.autoRunManualWithNext ?? current.autoRunManualWithNext;
+        })();
+
+        return {
+          ...current,
+          ...updates,
+          cadence: nextCadence,
+          autoRunManualWithNext: nextAutoRunManualWithNext,
+        };
+      })(),
+    }));
+    if (scheduleErrors[job.id]) {
+      setScheduleErrors((current) => {
+        const next = { ...current };
+        delete next[job.id];
+        return next;
+      });
     }
   };
 
@@ -290,6 +419,30 @@ export default function ScrapeJobsPage() {
     }
   };
 
+  const validateScheduleDraft = (
+    job: ScrapeJob
+  ): { isoNextRunAt: string | null; error: string | null } => {
+    const draft = getScheduleDraft(job);
+    const parsed = parseLocalDateTimeInput(draft.nextRunAt);
+
+    if (parsed.error) {
+      return { isoNextRunAt: null, error: parsed.error };
+    }
+
+    if (
+      parsed.date &&
+      (draft.cadence !== ScrapeJobCadence.manual || draft.autoRunManualWithNext) &&
+      parsed.date.getTime() <= Date.now()
+    ) {
+      return {
+        isoNextRunAt: parsed.iso,
+        error: "Next run time must be in the future for scheduled cadences.",
+      };
+    }
+
+    return { isoNextRunAt: parsed.iso, error: null };
+  };
+
   const markRowAction = (jobId: string, action: string | null) => {
     setRowActions((state) => {
       const next = { ...state } as Record<string, string>;
@@ -308,9 +461,11 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
         method: "PATCH",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ paused: targetPaused }),
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         await mutate();
@@ -329,8 +484,10 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}`, {
         method: "DELETE",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       const payload = (await res.json().catch(() => null)) as
         | { message?: string; error?: string; cancellation?: { message?: string } }
@@ -368,8 +525,10 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/hard`, {
         method: "DELETE",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         await mutate();
@@ -389,8 +548,10 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/trigger`, {
         method: "POST",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         await mutate();
@@ -409,8 +570,10 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/clone`, {
         method: "POST",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         const payload = (await res.json().catch(() => null)) as
@@ -431,6 +594,53 @@ export default function ScrapeJobsPage() {
       console.error("Error triggering run", error);
     } finally {
       markRowAction(jobId, null);
+    }
+  };
+
+  const saveSchedule = async (job: SerializedJob) => {
+    markRowAction(job.job.id, "schedule");
+    const draft = getScheduleDraft(job.job);
+    const { isoNextRunAt, error } = validateScheduleDraft(job.job);
+
+    if (error) {
+      setScheduleErrors((current) => ({ ...current, [job.job.id]: error }));
+      markRowAction(job.job.id, null);
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cadence: draft.cadence,
+          nextRunAt: isoNextRunAt,
+        }),
+      });
+
+      if (handleAuthFailure(res)) return;
+
+      if (res.ok) {
+        setRunMessages((current) => ({
+          ...current,
+          [job.job.id]: "Schedule updated.",
+        }));
+        setScheduleErrors((current) => {
+          const next = { ...current };
+          delete next[job.job.id];
+          return next;
+        });
+        await mutate();
+      } else {
+        const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+        const message = payload?.error || "Failed to update schedule";
+        setScheduleErrors((current) => ({ ...current, [job.job.id]: message }));
+        console.error("Failed to update schedule", message);
+      }
+    } catch (error) {
+      console.error("Error updating schedule", error);
+    } finally {
+      markRowAction(job.job.id, null);
     }
   };
 
@@ -465,6 +675,21 @@ export default function ScrapeJobsPage() {
       </span>
     );
   };
+
+  const unauthorized = authRequired || (error as { status?: number } | null)?.status === 401;
+
+  if (unauthorized) {
+    return (
+      <ScrapeJobAuthPrompt
+        token={authTokenInput}
+        busy={authenticating}
+        error={authError || "Authentication required"}
+        onTokenChange={setAuthTokenInput}
+        onSubmit={authenticate}
+        description="Authenticate to view and manage scrape jobs."
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col items-center pt-10 md:pt-14 px-4 pb-16 md:pb-20">
@@ -607,7 +832,7 @@ export default function ScrapeJobsPage() {
                 <tr className="text-left text-zinc-500">
                   <th className="py-2 pr-3">Script</th>
                   <th className="py-2 pr-3">Status</th>
-                  <th className="py-2 pr-3">Cadence</th>
+                  <th className="py-2 pr-3">Cadence &amp; schedule</th>
                   <th className="py-2 pr-3">Timing</th>
                   <th className="py-2 pr-3">Docs</th>
                   <th className="py-2 pr-3">Log snippet</th>
@@ -630,7 +855,81 @@ export default function ScrapeJobsPage() {
                         <div className="text-xs text-zinc-500">{formatDate(item.job.createdAt)}</div>
                       </td>
                       <td className="py-3 pr-3">{renderStatusPill(item.job.status, item.job.paused)}</td>
-                      <td className="py-3 pr-3 capitalize">{item.job.cadence}</td>
+                      <td className="py-3 pr-3 w-64 align-top">
+                        <div className="flex flex-col gap-2 text-xs text-zinc-700">
+                          <div className="flex items-center gap-2">
+                            <select
+                              className="w-28 rounded-lg border border-zinc-200 px-2 py-1 capitalize"
+                              value={getScheduleDraft(item.job).cadence}
+                              onChange={(event) =>
+                                updateScheduleDraft(item.job, {
+                                  cadence: event.target.value as ScrapeJobCadence,
+                                })
+                              }
+                              disabled={Boolean(actionState)}
+                            >
+                              {Object.values(ScrapeJobCadence).map((cadence) => (
+                                <option key={cadence} value={cadence} className="capitalize">
+                                  {cadence}
+                                </option>
+                              ))}
+                            </select>
+                            <button
+                              type="button"
+                              className="rounded-lg border border-zinc-200 px-2 py-1 text-[11px] font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                              onClick={() => void saveSchedule(item)}
+                              disabled={Boolean(actionState)}
+                            >
+                              {actionState === "schedule" ? (
+                                <Loader2 size={12} className="animate-spin" />
+                              ) : (
+                                "Save"
+                              )}
+                            </button>
+                          </div>
+                          <label className="flex flex-col gap-1 text-[11px] text-zinc-600">
+                            Next run at
+                            <input
+                              type="datetime-local"
+                              className="rounded-lg border border-zinc-200 px-2 py-1"
+                              value={getScheduleDraft(item.job).nextRunAt}
+                              onChange={(event) =>
+                                updateScheduleDraft(item.job, { nextRunAt: event.target.value })
+                              }
+                              disabled={Boolean(actionState)}
+                            />
+                          </label>
+                          {getScheduleDraft(item.job).cadence === ScrapeJobCadence.manual ? (
+                            <label className="flex items-center gap-2 text-[11px] text-zinc-700">
+                              <input
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-zinc-300"
+                                checked={getScheduleDraft(item.job).autoRunManualWithNext}
+                                onChange={(event) =>
+                                  updateScheduleDraft(item.job, {
+                                    autoRunManualWithNext: event.target.checked,
+                                  })
+                                }
+                                disabled={Boolean(actionState)}
+                              />
+                              <span>
+                                Auto-run manual jobs at next run time
+                                <span className="text-zinc-500"> (scheduler default: </span>
+                                <span className="font-semibold text-zinc-700">
+                                  {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? "enabled" : "disabled"}
+                                </span>
+                                <span className="text-zinc-500">)</span>
+                              </span>
+                            </label>
+                          ) : null}
+                          {scheduleErrors[item.job.id] && (
+                            <div className="text-[11px] text-red-600">{scheduleErrors[item.job.id]}</div>
+                          )}
+                          <div className="text-[11px] text-zinc-500">
+                            Upcoming: {formatDate(item.job.nextRunAt)}
+                          </div>
+                        </div>
+                      </td>
                       <td className="py-3 pr-3">
                         <div className="flex items-center gap-2 text-xs text-zinc-600">
                           <span>{formatDuration(item.stats.durationSeconds)}</span>
@@ -645,6 +944,7 @@ export default function ScrapeJobsPage() {
                         <div className="text-[11px] text-zinc-400">
                           Started {formatDate(item.job.startedAt)} · Finished {formatDate(item.job.finishedAt)}
                         </div>
+                        <div className="text-[11px] text-zinc-500">Next run: {formatDate(item.job.nextRunAt)}</div>
                       </td>
                       <td className="py-3 pr-3 text-xs text-zinc-700">
                         {item.stats.documentsIngested ?? "—"}
