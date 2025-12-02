@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.agent
+    restart: unless-stopped
     env_file:
       - .env.ai
     ports:
@@ -12,6 +13,9 @@ services:
       - redis
       - ollama
     entrypoint: docker/entrypoints/ai-agent.sh
+    volumes:
+      - ./logs/scrape_jobs:/app/logs/scrape_jobs
+      - ./public/knowledge_base:/app/public/knowledge_base
     networks:
       - support-net
 
@@ -43,6 +47,7 @@ services:
 
   ollama:
     image: ollama/ollama:latest
+    restart: unless-stopped
     ports:
       - '11434:11434'
     volumes:

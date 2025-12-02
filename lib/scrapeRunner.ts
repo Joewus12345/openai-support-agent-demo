@@ -59,6 +59,14 @@ function resolvePythonBin(): PythonResolution {
 const PYTHON_RESOLUTION = resolvePythonBin();
 const PYTHON_BIN = PYTHON_RESOLUTION.bin;
 
+function deriveVenvFromInterpreter(pythonBin: string) {
+  const normalized = path.normalize(pythonBin);
+  const binDir = path.dirname(normalized);
+  const binBase = path.basename(binDir).toLowerCase();
+  if (binBase !== "bin" && binBase !== "scripts") return null;
+  return path.dirname(binDir);
+}
+
 if (PYTHON_RESOLUTION.notes.length) {
   console.info(
     `[scrapeRunner] Using python candidate "${PYTHON_BIN}". Notes: ${PYTHON_RESOLUTION.notes.join(" | ")}`
@@ -420,10 +428,17 @@ export async function runScrapeJob(
     "--verbose-logs",
     ...normalizeArgs(job.args),
   ];
+  const venvRoot = deriveVenvFromInterpreter(PYTHON_BIN);
+  if (venvRoot) {
+    args.push("--venv", venvRoot);
+  }
   logStream.write(`[${startedAt.toISOString()}] Starting job ${job.id} with script ${job.script}.\n`);
   logStream.write(`Using python: ${PYTHON_BIN}\n`);
   if (PYTHON_RESOLUTION.notes.length) {
     PYTHON_RESOLUTION.notes.forEach((note) => logStream.write(`PYTHON_RESOLUTION: ${note}\n`));
+  }
+  if (venvRoot) {
+    logStream.write(`Selected virtualenv root derived from interpreter: ${venvRoot}\n`);
   }
   logStream.write(`Knowledge base output directory: ${KNOWLEDGE_BASE_DIR}\n`);
   logStream.write(`Timeout (ms): ${SCRAPE_TIMEOUT_MS}\n`);
@@ -446,13 +461,25 @@ export async function runScrapeJob(
   let canceled = false;
 
   try {
+    const venvBin = venvRoot && path.join(venvRoot, "bin");
+    const venvScripts = venvRoot && path.join(venvRoot, "Scripts");
+    const venvPathPrefix =
+      (venvBin && fs.existsSync(venvBin) && venvBin) ||
+      (venvScripts && fs.existsSync(venvScripts) && venvScripts) ||
+      undefined;
+    const envPath = venvPathPrefix
+      ? `${venvPathPrefix}${path.delimiter}${process.env.PATH ?? ""}`
+      : process.env.PATH;
+
     const child = spawn(PYTHON_BIN, args, {
       cwd: process.cwd(),
       env: {
         ...process.env,
+        ...(venvRoot ? { VIRTUAL_ENV: venvRoot } : {}),
         PYTHONUTF8: "1",
         PYTHONIOENCODING: "utf-8",
         PYTHONUNBUFFERED: "1",
+        ...(envPath ? { PATH: envPath } : {}),
       },
     });
 
