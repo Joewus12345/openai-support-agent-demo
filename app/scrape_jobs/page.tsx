@@ -18,6 +18,7 @@ import {
   XCircle,
 } from "lucide-react";
 
+import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
 
@@ -53,7 +54,26 @@ type SerializedJob = {
   ingestionResult?: (StoredIngestionResult & { jobId: string }) | null;
 };
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const res = await fetch(url, { credentials: "same-origin" });
+
+  if (res.status === 401) {
+    const error = new Error("Unauthorized");
+    (error as Error & { status?: number }).status = 401;
+    throw error;
+  }
+
+  if (!res.ok) {
+    const error = new Error("Failed to load scrape jobs");
+    (error as Error & { status?: number; info?: unknown }).status = res.status;
+    (error as Error & { status?: number; info?: unknown }).info = await res
+      .text()
+      .catch(() => null);
+    throw error;
+  }
+
+  return res.json();
+};
 
 const SCRIPT_PRESETS = [
   {
@@ -179,12 +199,10 @@ export default function ScrapeJobsPage() {
   const [scheduleDrafts, setScheduleDrafts] = useState<
     Record<string, { cadence: ScrapeJobCadence; nextRunAt: string }>
   >({});
-
-  const authToken = process.env.NEXT_PUBLIC_SCRAPE_JOB_ADMIN_TOKEN;
-  const authHeaders = {
-    "Content-Type": "application/json",
-    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
-  } as const;
+  const [authTokenInput, setAuthTokenInput] = useState("");
+  const [authenticating, setAuthenticating] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
     const source = new EventSource("/api/scrape_jobs/updates");
@@ -214,6 +232,44 @@ export default function ScrapeJobsPage() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  const markAuthRequired = () => {
+    setAuthRequired(true);
+    setAuthError("Authentication required");
+  };
+
+  const handleAuthFailure = (response: Response) => {
+    if (response.status === 401) {
+      markAuthRequired();
+      return true;
+    }
+    return false;
+  };
+
+  const authenticate = async (event?: React.FormEvent) => {
+    event?.preventDefault();
+    setAuthenticating(true);
+    setAuthError(null);
+
+    const res = await fetch("/api/scrape_jobs/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: authTokenInput }),
+    });
+
+    const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+
+    if (res.ok) {
+      setAuthRequired(false);
+      setAuthTokenInput("");
+      setAuthError(null);
+      await mutate();
+    } else {
+      setAuthError(payload?.error || "Authentication failed");
+    }
+
+    setAuthenticating(false);
+  };
+
   const handlePresetChange = (key: string) => {
     setSelectedPreset(key);
     const preset = SCRIPT_PRESETS.find((p) => p.key === key);
@@ -227,7 +283,7 @@ export default function ScrapeJobsPage() {
       setCreating(cadence);
       const response = await fetch("/api/scrape_jobs", {
         method: "POST",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           script: selectedPreset,
           args: targetUrl ? { targetUrl } : {},
@@ -235,6 +291,8 @@ export default function ScrapeJobsPage() {
           status: ScrapeJobStatus.queued,
         }),
       });
+
+      if (handleAuthFailure(response)) return;
 
       if (!response.ok) {
         console.error("Failed to create job", await response.text());
@@ -375,9 +433,11 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
         method: "PATCH",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ paused: targetPaused }),
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         await mutate();
@@ -396,8 +456,10 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}`, {
         method: "DELETE",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       const payload = (await res.json().catch(() => null)) as
         | { message?: string; error?: string; cancellation?: { message?: string } }
@@ -435,8 +497,10 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/hard`, {
         method: "DELETE",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         await mutate();
@@ -456,8 +520,10 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/trigger`, {
         method: "POST",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         await mutate();
@@ -476,8 +542,10 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/clone`, {
         method: "POST",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         const payload = (await res.json().catch(() => null)) as
@@ -515,12 +583,14 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
         method: "PATCH",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           cadence: draft.cadence,
           nextRunAt: isoNextRunAt,
         }),
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         setRunMessages((current) => ({
@@ -577,6 +647,21 @@ export default function ScrapeJobsPage() {
       </span>
     );
   };
+
+  const unauthorized = authRequired || (error as { status?: number } | null)?.status === 401;
+
+  if (unauthorized) {
+    return (
+      <ScrapeJobAuthPrompt
+        token={authTokenInput}
+        busy={authenticating}
+        error={authError || "Authentication required"}
+        onTokenChange={setAuthTokenInput}
+        onSubmit={authenticate}
+        description="Authenticate to view and manage scrape jobs."
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col items-center pt-10 md:pt-14 px-4 pb-16 md:pb-20">

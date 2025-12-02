@@ -23,10 +23,30 @@ import {
 } from "lucide-react";
 import useSWR from "swr";
 
+import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const res = await fetch(url, { credentials: "same-origin" });
+
+  if (res.status === 401) {
+    const error = new Error("Unauthorized");
+    (error as Error & { status?: number }).status = 401;
+    throw error;
+  }
+
+  if (!res.ok) {
+    const error = new Error("Failed to load scrape job");
+    (error as Error & { status?: number; info?: unknown }).status = res.status;
+    (error as Error & { status?: number; info?: unknown }).info = await res
+      .text()
+      .catch(() => null);
+    throw error;
+  }
+
+  return res.json();
+};
 
 const KNOWLEDGE_BASE_PATH = "public/knowledge_base";
 
@@ -66,6 +86,22 @@ function formatDate(value: string | null) {
   if (!value) return "—";
   const date = new Date(value);
   return date.toLocaleString();
+}
+
+function toLocalDateTimeInput(value: string | null) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const offsetMs = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16);
+}
+
+function parseLocalDateTimeInput(value: string | null) {
+  if (!value) return { iso: null, date: null, error: undefined } as const;
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime()))
+    return { iso: null, date: null, error: "Enter a valid date/time" } as const;
+  return { iso: parsed.toISOString(), date: parsed, error: undefined } as const;
 }
 
 function formatDuration(seconds: number | null) {
@@ -123,15 +159,18 @@ export default function ScrapeJobDetail({
   const [runFeedback, setRunFeedback] = useState<string | null>(null);
   const [openActivity, setOpenActivity] = useState(false);
   const [copiedVectorIds, setCopiedVectorIds] = useState<Record<string, boolean>>({});
+  const [scheduleDraft, setScheduleDraft] = useState<
+    { cadence: ScrapeJobCadence; nextRunAt: string } | null
+  >(null);
+  const [scheduleError, setScheduleError] = useState<string | null>(null);
+  const [savingSchedule, setSavingSchedule] = useState(false);
+  const [authTokenInput, setAuthTokenInput] = useState("");
+  const [authenticating, setAuthenticating] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [authRequired, setAuthRequired] = useState(false);
   const logContainerRef = useRef<HTMLDivElement | null>(null);
   const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
-
-  const authToken = process.env.NEXT_PUBLIC_SCRAPE_JOB_ADMIN_TOKEN;
-  const authHeaders = {
-    "Content-Type": "application/json",
-    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
-  } as const;
 
   const copy = async (value: string, onCopied?: (flag: boolean) => void) => {
     try {
@@ -141,6 +180,44 @@ export default function ScrapeJobDetail({
     } catch {
       onCopied?.(false);
     }
+  };
+
+  const markAuthRequired = () => {
+    setAuthRequired(true);
+    setAuthError("Authentication required");
+  };
+
+  const handleAuthFailure = (response: Response) => {
+    if (response.status === 401) {
+      markAuthRequired();
+      return true;
+    }
+    return false;
+  };
+
+  const authenticate = async (event?: React.FormEvent) => {
+    event?.preventDefault();
+    setAuthenticating(true);
+    setAuthError(null);
+
+    const res = await fetch("/api/scrape_jobs/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: authTokenInput }),
+    });
+
+    const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+
+    if (res.ok) {
+      setAuthRequired(false);
+      setAuthTokenInput("");
+      setAuthError(null);
+      await mutate();
+    } else {
+      setAuthError(payload?.error || "Authentication failed");
+    }
+
+    setAuthenticating(false);
   };
 
   useEffect(() => {
@@ -162,6 +239,15 @@ export default function ScrapeJobDetail({
     fetcher,
     { refreshInterval: 15000 }
   );
+
+  useEffect(() => {
+    if (!data?.job) return;
+    setScheduleDraft({
+      cadence: data.job.cadence,
+      nextRunAt: toLocalDateTimeInput(data.job.nextRunAt),
+    });
+    setScheduleError(null);
+  }, [data?.job]);
 
   const targetValue = useMemo(() => {
     const args = data?.job.args as Record<string, unknown> | undefined;
@@ -296,6 +382,82 @@ export default function ScrapeJobDetail({
     }
   }, [autoScrollEnabled]);
 
+  const activeSchedule = scheduleDraft ?? {
+    cadence: data?.job.cadence ?? ScrapeJobCadence.manual,
+    nextRunAt: toLocalDateTimeInput(data?.job?.nextRunAt ?? null),
+  };
+
+  const validateScheduleDraft = () => {
+    const parsed = parseLocalDateTimeInput(activeSchedule.nextRunAt);
+
+    if (parsed.error) {
+      return { iso: null as string | null, error: parsed.error };
+    }
+
+    if (
+      parsed.date &&
+      activeSchedule.cadence !== ScrapeJobCadence.manual &&
+      parsed.date.getTime() <= Date.now()
+    ) {
+      return {
+        iso: parsed.iso,
+        error: "Next run time must be in the future for scheduled cadences.",
+      } as const;
+    }
+
+    return { iso: parsed.iso, error: null } as const;
+  };
+
+  const resetScheduleDraft = () => {
+    if (!data?.job) return;
+    setScheduleDraft({
+      cadence: data.job.cadence,
+      nextRunAt: toLocalDateTimeInput(data.job.nextRunAt),
+    });
+    setScheduleError(null);
+  };
+
+  const saveSchedule = async () => {
+    if (!data?.job) return;
+    setSavingSchedule(true);
+    const validation = validateScheduleDraft();
+
+    if (validation.error) {
+      setScheduleError(validation.error);
+      setSavingSchedule(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/scrape_jobs/${data.job.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cadence: activeSchedule.cadence,
+          nextRunAt: validation.iso,
+        }),
+      });
+
+      if (handleAuthFailure(res)) return;
+
+      const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+
+      if (!res.ok) {
+        setScheduleError(payload?.error || "Failed to update schedule.");
+        return;
+      }
+
+      setScheduleError(null);
+      setScheduleDraft({
+        cadence: activeSchedule.cadence,
+        nextRunAt: activeSchedule.nextRunAt,
+      });
+      await mutate();
+    } finally {
+      setSavingSchedule(false);
+    }
+  };
+
   const togglePauseJob = async () => {
     if (!data) return;
     const targetPaused = !data.job.paused;
@@ -303,9 +465,11 @@ export default function ScrapeJobDetail({
     try {
       const res = await fetch(`/api/scrape_jobs/${data.job.id}`, {
         method: "PATCH",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ paused: targetPaused }),
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         await mutate();
@@ -321,8 +485,10 @@ export default function ScrapeJobDetail({
     try {
       const res = await fetch(`/api/scrape_jobs/${data.job.id}/trigger`, {
         method: "POST",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         await mutate();
@@ -339,8 +505,10 @@ export default function ScrapeJobDetail({
     try {
       const res = await fetch(`/api/scrape_jobs/${data.job.id}/clone`, {
         method: "POST",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         const payload = (await res.json().catch(() => null)) as
@@ -366,8 +534,10 @@ export default function ScrapeJobDetail({
     try {
       const res = await fetch(`/api/scrape_jobs/${data.job.id}`, {
         method: "DELETE",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       const payload = (await res.json().catch(() => null)) as
         | { message?: string; error?: string; cancellation?: { message?: string } }
@@ -398,8 +568,10 @@ export default function ScrapeJobDetail({
     try {
       const res = await fetch(`/api/scrape_jobs/${data.job.id}/hard`, {
         method: "DELETE",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (handleAuthFailure(res)) return;
 
       if (res.ok) {
         await mutate();
@@ -495,6 +667,21 @@ export default function ScrapeJobDetail({
     );
   }
 
+  const unauthorized = authRequired || (error as { status?: number } | null)?.status === 401;
+
+  if (unauthorized) {
+    return (
+      <ScrapeJobAuthPrompt
+        token={authTokenInput}
+        busy={authenticating}
+        error={authError || "Authentication required"}
+        onTokenChange={setAuthTokenInput}
+        onSubmit={authenticate}
+        description="Authenticate to view and manage this scrape job."
+      />
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="min-h-screen w-full flex items-center justify-center text-sm text-zinc-600">
@@ -535,8 +722,66 @@ export default function ScrapeJobDetail({
             <div className="flex items-center gap-2 text-lg font-semibold text-zinc-800">
               {renderStatusPill(data.job.status, data.job.paused)}
             </div>
-            <div className="flex items-center gap-2 text-xs text-zinc-500">
-              Cadence: {data.job.cadence}
+            <div className="flex flex-col gap-2 text-xs text-zinc-700">
+              <div className="flex flex-wrap items-center gap-2">
+                <select
+                  className="w-32 rounded-lg border border-zinc-200 px-2 py-1 capitalize"
+                  value={activeSchedule.cadence}
+                  onChange={(event) => {
+                    setScheduleError(null);
+                    setScheduleDraft({
+                      cadence: event.target.value as ScrapeJobCadence,
+                      nextRunAt: activeSchedule.nextRunAt,
+                    });
+                  }}
+                  disabled={Boolean(actionState) || savingSchedule}
+                >
+                  {Object.values(ScrapeJobCadence).map((cadence) => (
+                    <option key={cadence} value={cadence} className="capitalize">
+                      {cadence}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="datetime-local"
+                  className="rounded-lg border border-zinc-200 px-2 py-1"
+                  value={activeSchedule.nextRunAt}
+                  onChange={(event) => {
+                    setScheduleError(null);
+                    setScheduleDraft({
+                      cadence: activeSchedule.cadence,
+                      nextRunAt: event.target.value,
+                    });
+                  }}
+                  disabled={Boolean(actionState) || savingSchedule}
+                />
+              </div>
+              <div className="flex flex-wrap items-center gap-2 text-[11px] text-zinc-600">
+                <button
+                  type="button"
+                  onClick={saveSchedule}
+                  disabled={Boolean(actionState) || savingSchedule}
+                  className="inline-flex items-center gap-1 rounded-md border border-zinc-200 px-2 py-1 text-[11px] font-medium text-zinc-800 hover:border-[#2B83F6] disabled:opacity-60"
+                >
+                  {savingSchedule ? <Loader2 size={12} className="animate-spin" /> : null}
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={resetScheduleDraft}
+                  disabled={Boolean(actionState) || savingSchedule}
+                  className="inline-flex items-center gap-1 rounded-md border border-zinc-200 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:border-zinc-300 disabled:opacity-60"
+                >
+                  Cancel
+                </button>
+                <span className="text-[11px] text-zinc-500">Upcoming: {formatDate(data.job.nextRunAt)}</span>
+              </div>
+              {scheduleError ? (
+                <div className="flex items-center gap-1 text-[11px] text-red-600">
+                  <XCircle size={12} />
+                  {scheduleError}
+                </div>
+              ) : null}
               <span className="text-[10px] text-zinc-400">Duration: {formatDuration(data.stats.durationSeconds)}</span>
             </div>
             <div className="flex items-center gap-2 text-xs text-zinc-600">
@@ -563,7 +808,6 @@ export default function ScrapeJobDetail({
             </div>
             <div className="text-xs text-zinc-500">Started: {formatDate(data.job.startedAt)}</div>
             <div className="text-xs text-zinc-500">Finished: {formatDate(data.job.finishedAt)}</div>
-            <div className="text-xs text-zinc-500">Next run: {formatDate(data.job.nextRunAt)}</div>
             <div className="text-xs text-zinc-500">Log path: {data.job.logPath ?? "—"}</div>
           </div>
           <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm flex flex-col gap-2">
