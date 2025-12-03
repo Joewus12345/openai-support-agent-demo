@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import {
   CalendarClock,
@@ -175,20 +175,71 @@ function progressColor(status: ScrapeJobStatus, paused: boolean) {
 }
 
 export default function ScrapeJobsPage() {
-  const { data, error, isLoading, mutate } = useSWR<SerializedJob[]>(
-    "/api/scrape_jobs?detailed=true",
-    fetcher,
-    {
-      refreshInterval: (latestData: SerializedJob[] | undefined) =>
-        latestData?.some(
-          (job: SerializedJob) => job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
-        )
-          ? 12000
-          : 30000,
-      revalidateOnFocus: false,
-      dedupingInterval: 5000,
-    }
+  const [isDocumentVisible, setIsDocumentVisible] = useState(
+    typeof document === "undefined" ? true : document.visibilityState === "visible"
   );
+  const [consecutiveErrors, setConsecutiveErrors] = useState(0);
+  const [detailedPolling, setDetailedPolling] = useState(true);
+
+  const swrKey = useMemo(
+    () => `/api/scrape_jobs?detailed=${detailedPolling ? "true" : "false"}`,
+    [detailedPolling]
+  );
+
+  const { data, error, isLoading, mutate } = useSWR<SerializedJob[]>(swrKey, fetcher, {
+    refreshInterval: (latestData: SerializedJob[] | undefined) => {
+      if (!isDocumentVisible) return 0;
+
+      const hasActiveJobs = latestData?.some(
+        (job: SerializedJob) => job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
+      );
+      const jobCount = latestData?.length ?? 0;
+
+      const baseInterval = hasActiveJobs
+        ? detailedPolling
+          ? 20000
+          : 35000
+        : jobCount > 75
+          ? 60000
+          : 45000;
+
+      const backoffFactor = Math.min(consecutiveErrors + 1, 5);
+      return baseInterval * backoffFactor;
+    },
+    revalidateOnFocus: true,
+    dedupingInterval: 5000,
+    refreshWhenHidden: false,
+    isPaused: () => !isDocumentVisible,
+    onSuccess: () => setConsecutiveErrors(0),
+    onError: () => setConsecutiveErrors((count) => count + 1),
+  });
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsDocumentVisible(document.visibilityState === "visible");
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  useEffect(() => {
+    if (isDocumentVisible) {
+      void mutate();
+    }
+  }, [isDocumentVisible, mutate]);
+
+  useEffect(() => {
+    if (!data) return;
+
+    const jobCount = data.length;
+
+    if (detailedPolling && jobCount > 60) {
+      setDetailedPolling(false);
+    } else if (!detailedPolling && jobCount < 50) {
+      setDetailedPolling(true);
+    }
+  }, [data, detailedPolling]);
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
   const [targetUrl, setTargetUrl] = useState(SCRIPT_PRESETS[0].defaultTarget);
@@ -216,6 +267,8 @@ export default function ScrapeJobsPage() {
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
+    if (!isDocumentVisible) return;
+
     const source = new EventSource("/api/scrape_jobs/updates");
 
     source.onmessage = () => {
@@ -223,13 +276,16 @@ export default function ScrapeJobsPage() {
     };
 
     source.onerror = () => {
-      setTimeout(() => void mutate(), 1000);
+      source.close();
+      setTimeout(() => {
+        if (isDocumentVisible) void mutate();
+      }, 1000);
     };
 
     return () => {
       source.close();
     };
-  }, [mutate]);
+  }, [isDocumentVisible, mutate]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
