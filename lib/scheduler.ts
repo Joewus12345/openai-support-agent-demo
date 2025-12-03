@@ -57,19 +57,21 @@ export async function enqueueScheduledJobs({
     status: { notIn: [ScrapeJobStatus.running, ScrapeJobStatus.canceled] },
   };
 
-  const manualFilters =
-    autoRunManualWithNext || includeManualCadence
-      ? ({} as Prisma.ScrapeJobWhereInput)
-      : ({ autoRunManualWithNext: true } satisfies Prisma.ScrapeJobWhereInput);
-  const manualGuardActive = Object.keys(manualFilters).length > 0;
+  const manualFilters = includeManualCadence
+    ? ({} as Prisma.ScrapeJobWhereInput)
+    : ({ autoRunManualWithNext: true } satisfies Prisma.ScrapeJobWhereInput);
+  const manualGuardActive = !includeManualCadence;
+  const manualGuardMessage = includeManualCadence
+    ? null
+    : autoRunManualWithNext
+      ? "[scheduler] Manual jobs with autoRunManualWithNext=false are skipped because AUTO_RUN_MANUAL_WITH_NEXT is enabled."
+      : "[scheduler] AUTO_RUN_MANUAL_WITH_NEXT disabled; only manual jobs opting in with autoRunManualWithNext=true will be enqueued.";
 
   const branches: Prisma.ScrapeJobWhereInput[] = [];
 
   if (cadence) {
-    if (cadence === ScrapeJobCadence.manual && manualGuardActive) {
-      console.log(
-        "[scheduler] AUTO_RUN_MANUAL_WITH_NEXT disabled; only manual jobs opting in with autoRunManualWithNext=true will be enqueued."
-      );
+    if (cadence === ScrapeJobCadence.manual && manualGuardActive && manualGuardMessage) {
+      console.log(manualGuardMessage);
     }
 
     branches.push({
@@ -92,10 +94,8 @@ export async function enqueueScheduledJobs({
       nextRunAt: { not: null, lte: now },
     });
 
-    if (manualGuardActive) {
-      console.log(
-        "[scheduler] Manual jobs without autoRunManualWithNext are skipped because AUTO_RUN_MANUAL_WITH_NEXT is disabled."
-      );
+    if (manualGuardActive && manualGuardMessage) {
+      console.log(manualGuardMessage);
     }
   }
 
