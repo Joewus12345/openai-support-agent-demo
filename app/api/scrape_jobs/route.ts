@@ -90,6 +90,13 @@ export async function POST(request: Request) {
       );
     }
 
+    if (cadence === ScrapeJobCadence.manual && autoRunManualWithNext && !nextRunAt) {
+      return new Response(
+        JSON.stringify({ error: "nextRunAt is required to auto-run manual jobs" }),
+        { status: 400 }
+      );
+    }
+
     const data: Prisma.ScrapeJobCreateInput = {
       script: body.script,
       args: body.args ?? {},

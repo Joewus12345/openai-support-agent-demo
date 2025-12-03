@@ -78,7 +78,9 @@ export async function enqueueScheduledJobs({
       ...baseFilters,
       cadence,
       ...(cadence === ScrapeJobCadence.manual ? manualFilters : {}),
-      OR: [{ nextRunAt: null }, { nextRunAt: { lte: now } }],
+      ...(cadence === ScrapeJobCadence.manual
+        ? { nextRunAt: { not: null, lte: now } }
+        : { OR: [{ nextRunAt: null }, { nextRunAt: { lte: now } }] }),
     });
   } else {
     branches.push({

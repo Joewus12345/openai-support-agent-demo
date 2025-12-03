@@ -61,6 +61,9 @@ export async function PATCH(
     }
 
     const effectiveCadence = cadence ?? existing.cadence;
+    const effectiveAutoRunManualWithNext =
+      autoRunManualWithNext ?? existing.autoRunManualWithNext;
+    const effectiveNextRunAt = nextRunAt ?? existing.nextRunAt;
 
     if (nextRunError) {
       return new Response(JSON.stringify({ error: nextRunError }), { status: 400 });
@@ -73,6 +76,17 @@ export async function PATCH(
     ) {
       return new Response(
         JSON.stringify({ error: "nextRunAt must be in the future for scheduled cadences" }),
+        { status: 400 }
+      );
+    }
+
+    if (
+      effectiveCadence === ScrapeJobCadence.manual &&
+      effectiveAutoRunManualWithNext &&
+      !effectiveNextRunAt
+    ) {
+      return new Response(
+        JSON.stringify({ error: "nextRunAt is required to auto-run manual jobs" }),
         { status: 400 }
       );
     }

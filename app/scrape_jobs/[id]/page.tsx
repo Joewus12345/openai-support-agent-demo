@@ -410,11 +410,17 @@ export default function ScrapeJobDetail({
       return { iso: null as string | null, error: parsed.error };
     }
 
-    if (
-      parsed.date &&
-      (activeSchedule.cadence !== ScrapeJobCadence.manual || activeSchedule.autoRunManualWithNext) &&
-      parsed.date.getTime() <= Date.now()
-    ) {
+    if (activeSchedule.cadence === ScrapeJobCadence.manual && activeSchedule.autoRunManualWithNext) {
+      if (!parsed.date) {
+        return { iso: null as string | null, error: "Set a next run time to auto-run manual jobs." };
+      }
+      if (parsed.date.getTime() <= Date.now()) {
+        return {
+          iso: parsed.iso,
+          error: "Next run time must be in the future for scheduled cadences.",
+        } as const;
+      }
+    } else if (parsed.date && activeSchedule.cadence !== ScrapeJobCadence.manual && parsed.date.getTime() <= Date.now()) {
       return {
         iso: parsed.iso,
         error: "Next run time must be in the future for scheduled cadences.",
@@ -815,7 +821,7 @@ export default function ScrapeJobDetail({
                   </span>
                 </label>
               ) : null}
-              {!AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? (
+              {activeSchedule.cadence === ScrapeJobCadence.manual && !AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? (
                 <div
                   className="flex items-center gap-1 text-[11px] text-amber-600"
                   title="Deployment setting AUTO_RUN_MANUAL_WITH_NEXT is off; enable the toggle to opt this job into scheduled manual runs."
