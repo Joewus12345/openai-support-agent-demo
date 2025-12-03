@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 import {
   CalendarClock,
@@ -210,6 +210,11 @@ export default function ScrapeJobsPage() {
   );
   const [consecutiveErrors, setConsecutiveErrors] = useState(0);
   const [detailedPolling, setDetailedPolling] = useState(true);
+  const eventSourceRef = useRef<EventSource | null>(null);
+  const eventSourceRetryRef = useRef<{ attempt: number; timer: NodeJS.Timeout | null }>({
+    attempt: 0,
+    timer: null,
+  });
 
   const swrKey = useMemo(
     () => `/api/scrape_jobs?detailed=${detailedPolling ? "true" : "false"}`,
@@ -297,24 +302,62 @@ export default function ScrapeJobsPage() {
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
-    if (!isDocumentVisible) return;
-
-    const source = new EventSource("/api/scrape_jobs/updates");
-
-    source.onmessage = () => {
-      void mutate();
+    const cleanupTimers = () => {
+      if (eventSourceRetryRef.current.timer) {
+        clearTimeout(eventSourceRetryRef.current.timer);
+        eventSourceRetryRef.current.timer = null;
+      }
     };
 
-    source.onerror = () => {
-      source.close();
-      setTimeout(() => {
-        if (isDocumentVisible) void mutate();
-      }, 1000);
+    const resetRetry = () => {
+      cleanupTimers();
+      eventSourceRetryRef.current.attempt = 0;
     };
+
+    const closeStream = () => {
+      eventSourceRef.current?.close();
+      eventSourceRef.current = null;
+    };
+
+    const scheduleReconnect = () => {
+      eventSourceRetryRef.current.attempt += 1;
+      const delay = Math.min(30000, 1000 * 2 ** (eventSourceRetryRef.current.attempt - 1));
+
+      cleanupTimers();
+      eventSourceRetryRef.current.timer = setTimeout(() => {
+        eventSourceRetryRef.current.timer = null;
+        if (isDocumentVisible) {
+          connect();
+        }
+      }, delay);
+    };
+
+    const connect = () => {
+      closeStream();
+      if (!isDocumentVisible) return;
+
+      const source = new EventSource("/api/scrape_jobs/updates");
+      eventSourceRef.current = source;
+
+      source.onmessage = () => {
+        resetRetry();
+        void mutate();
+      };
+
+      source.onerror = () => {
+        closeStream();
+        scheduleReconnect();
+      };
+    };
+
+    connect();
 
     return () => {
-      source.close();
+      cleanupTimers();
+      closeStream();
+      eventSourceRetryRef.current.attempt = 0;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDocumentVisible, mutate]);
 
   useEffect(() => {

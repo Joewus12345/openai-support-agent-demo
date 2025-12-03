@@ -326,6 +326,27 @@ When using the `ollama` provider you need a local server running.
 
    The app will be available at [`http://localhost:3000`](http://localhost:3000).
 
+### Developing through a Cloudflare Tunnel
+
+When exposing the dev server via a Cloudflare Tunnel, configure HMR to point at the
+tunnel hostname so Webpack dev chunks load reliably:
+
+```bash
+# .env.local
+NEXT_WEBPACK_HMR_SOCKET_HOSTNAME=<your-tunnel-hostname>
+# Optionally align protocol/port if you terminate TLS elsewhere:
+# NEXT_WEBPACK_HMR_SOCKET_PORT=443
+# NEXT_WEBPACK_HMR_SOCKET_PROTOCOL=https
+```
+
+If the tunnel still drops HMR/chunk requests, fall back to running a production
+build served through the tunnel instead of `npm run dev`:
+
+```bash
+npm run build
+npm run start
+```
+
 7. **Initialize the vector store:**
 
    Visit [`/init_vs`](http://localhost:3000/init_vs) where you can create both
