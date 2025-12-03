@@ -52,6 +52,7 @@ export async function PATCH(
     const body = await request.json().catch(() => ({}));
     const cadence = parseCadence(body.cadence);
     const paused = parseBoolean(body.paused);
+    const autoRunManualWithNext = parseBoolean(body.autoRunManualWithNext);
     const { value: nextRunAt, error: nextRunError } = parseDate(body.nextRunAt);
 
     const existing = await prisma.scrapeJob.findUnique({ where: { id } });
@@ -60,6 +61,9 @@ export async function PATCH(
     }
 
     const effectiveCadence = cadence ?? existing.cadence;
+    const effectiveAutoRunManualWithNext =
+      autoRunManualWithNext ?? existing.autoRunManualWithNext;
+    const effectiveNextRunAt = nextRunAt ?? existing.nextRunAt;
 
     if (nextRunError) {
       return new Response(JSON.stringify({ error: nextRunError }), { status: 400 });
@@ -72,6 +76,17 @@ export async function PATCH(
     ) {
       return new Response(
         JSON.stringify({ error: "nextRunAt must be in the future for scheduled cadences" }),
+        { status: 400 }
+      );
+    }
+
+    if (
+      effectiveCadence === ScrapeJobCadence.manual &&
+      effectiveAutoRunManualWithNext &&
+      !effectiveNextRunAt
+    ) {
+      return new Response(
+        JSON.stringify({ error: "nextRunAt is required to auto-run manual jobs" }),
         { status: 400 }
       );
     }
@@ -95,6 +110,10 @@ export async function PATCH(
       }
     } else if (nextRunAt !== undefined) {
       data.nextRunAt = nextRunAt;
+    }
+
+    if (autoRunManualWithNext !== undefined) {
+      data.autoRunManualWithNext = autoRunManualWithNext;
     }
 
     if (Object.keys(data).length === 0) {

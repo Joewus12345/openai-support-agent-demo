@@ -46,18 +46,12 @@ async function main() {
   await runCadence(ScrapeJobCadence.daily, AUTO_RUN_MANUAL_WITH_NEXT);
   await runCadence(ScrapeJobCadence.weekly, AUTO_RUN_MANUAL_WITH_NEXT);
   await runCadence(ScrapeJobCadence.monthly, AUTO_RUN_MANUAL_WITH_NEXT);
-
-  if (AUTO_RUN_MANUAL_WITH_NEXT) {
-    await runCadence(ScrapeJobCadence.manual, AUTO_RUN_MANUAL_WITH_NEXT);
-  }
+  await runCadence(ScrapeJobCadence.manual, AUTO_RUN_MANUAL_WITH_NEXT);
 
   scheduleCadence("0 0 * * *", ScrapeJobCadence.daily, AUTO_RUN_MANUAL_WITH_NEXT); // Midnight daily
   scheduleCadence("0 0 * * 0", ScrapeJobCadence.weekly, AUTO_RUN_MANUAL_WITH_NEXT); // Midnight Sunday
   scheduleCadence("0 0 1 * *", ScrapeJobCadence.monthly, AUTO_RUN_MANUAL_WITH_NEXT); // Midnight on the 1st
-
-  if (AUTO_RUN_MANUAL_WITH_NEXT) {
-    scheduleCadence("*/15 * * * *", ScrapeJobCadence.manual, AUTO_RUN_MANUAL_WITH_NEXT);
-  }
+  scheduleCadence("*/15 * * * *", ScrapeJobCadence.manual, AUTO_RUN_MANUAL_WITH_NEXT);
 }
 
 main().catch((error) => {

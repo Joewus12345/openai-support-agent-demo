@@ -131,7 +131,7 @@ export const HandoffRequestStatus: typeof $Enums.HandoffRequestStatus
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -163,13 +163,6 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
-
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -377,8 +370,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.10.1
-   * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
+   * Prisma Client JS version: 6.19.0
+   * Query Engine version: 2ba551f319ab1df4bc874a89965d8b3641056773
    */
   export type PrismaVersion = {
     client: string
@@ -391,6 +384,7 @@ export namespace Prisma {
    */
 
 
+  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -1424,16 +1418,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -1448,6 +1450,10 @@ export namespace Prisma {
       timeout?: number
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
+    /**
+     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     */
+    adapter?: runtime.SqlDriverAdapterFactory | null
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -1482,10 +1488,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -1525,25 +1536,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -9282,6 +9274,7 @@ export namespace Prisma {
     script: string | null
     status: $Enums.ScrapeJobStatus | null
     cadence: $Enums.ScrapeJobCadence | null
+    autoRunManualWithNext: boolean | null
     paused: boolean | null
     progress: number | null
     startedAt: Date | null
@@ -9299,6 +9292,7 @@ export namespace Prisma {
     script: string | null
     status: $Enums.ScrapeJobStatus | null
     cadence: $Enums.ScrapeJobCadence | null
+    autoRunManualWithNext: boolean | null
     paused: boolean | null
     progress: number | null
     startedAt: Date | null
@@ -9317,6 +9311,7 @@ export namespace Prisma {
     args: number
     status: number
     cadence: number
+    autoRunManualWithNext: number
     paused: number
     progress: number
     startedAt: number
@@ -9348,6 +9343,7 @@ export namespace Prisma {
     script?: true
     status?: true
     cadence?: true
+    autoRunManualWithNext?: true
     paused?: true
     progress?: true
     startedAt?: true
@@ -9365,6 +9361,7 @@ export namespace Prisma {
     script?: true
     status?: true
     cadence?: true
+    autoRunManualWithNext?: true
     paused?: true
     progress?: true
     startedAt?: true
@@ -9383,6 +9380,7 @@ export namespace Prisma {
     args?: true
     status?: true
     cadence?: true
+    autoRunManualWithNext?: true
     paused?: true
     progress?: true
     startedAt?: true
@@ -9488,6 +9486,7 @@ export namespace Prisma {
     args: JsonValue | null
     status: $Enums.ScrapeJobStatus
     cadence: $Enums.ScrapeJobCadence
+    autoRunManualWithNext: boolean
     paused: boolean
     progress: number
     startedAt: Date | null
@@ -9525,6 +9524,7 @@ export namespace Prisma {
     args?: boolean
     status?: boolean
     cadence?: boolean
+    autoRunManualWithNext?: boolean
     paused?: boolean
     progress?: boolean
     startedAt?: boolean
@@ -9543,6 +9543,7 @@ export namespace Prisma {
     args?: boolean
     status?: boolean
     cadence?: boolean
+    autoRunManualWithNext?: boolean
     paused?: boolean
     progress?: boolean
     startedAt?: boolean
@@ -9561,6 +9562,7 @@ export namespace Prisma {
     args?: boolean
     status?: boolean
     cadence?: boolean
+    autoRunManualWithNext?: boolean
     paused?: boolean
     progress?: boolean
     startedAt?: boolean
@@ -9579,6 +9581,7 @@ export namespace Prisma {
     args?: boolean
     status?: boolean
     cadence?: boolean
+    autoRunManualWithNext?: boolean
     paused?: boolean
     progress?: boolean
     startedAt?: boolean
@@ -9591,7 +9594,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "cadence" | "paused" | "progress" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "durationSeconds" | "documentsIngested" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
+  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "cadence" | "autoRunManualWithNext" | "paused" | "progress" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "durationSeconds" | "documentsIngested" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
 
   export type $ScrapeJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ScrapeJob"
@@ -9602,6 +9605,7 @@ export namespace Prisma {
       args: Prisma.JsonValue | null
       status: $Enums.ScrapeJobStatus
       cadence: $Enums.ScrapeJobCadence
+      autoRunManualWithNext: boolean
       paused: boolean
       progress: number
       startedAt: Date | null
@@ -10040,6 +10044,7 @@ export namespace Prisma {
     readonly args: FieldRef<"ScrapeJob", 'Json'>
     readonly status: FieldRef<"ScrapeJob", 'ScrapeJobStatus'>
     readonly cadence: FieldRef<"ScrapeJob", 'ScrapeJobCadence'>
+    readonly autoRunManualWithNext: FieldRef<"ScrapeJob", 'Boolean'>
     readonly paused: FieldRef<"ScrapeJob", 'Boolean'>
     readonly progress: FieldRef<"ScrapeJob", 'Int'>
     readonly startedAt: FieldRef<"ScrapeJob", 'DateTime'>
@@ -10524,6 +10529,7 @@ export namespace Prisma {
     args: 'args',
     status: 'status',
     cadence: 'cadence',
+    autoRunManualWithNext: 'autoRunManualWithNext',
     paused: 'paused',
     progress: 'progress',
     startedAt: 'startedAt',
@@ -11184,6 +11190,7 @@ export namespace Prisma {
     args?: JsonNullableFilter<"ScrapeJob">
     status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFilter<"ScrapeJob"> | boolean
     paused?: BoolFilter<"ScrapeJob"> | boolean
     progress?: IntFilter<"ScrapeJob"> | number
     startedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
@@ -11202,6 +11209,7 @@ export namespace Prisma {
     args?: SortOrderInput | SortOrder
     status?: SortOrder
     cadence?: SortOrder
+    autoRunManualWithNext?: SortOrder
     paused?: SortOrder
     progress?: SortOrder
     startedAt?: SortOrderInput | SortOrder
@@ -11223,6 +11231,7 @@ export namespace Prisma {
     args?: JsonNullableFilter<"ScrapeJob">
     status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFilter<"ScrapeJob"> | boolean
     paused?: BoolFilter<"ScrapeJob"> | boolean
     progress?: IntFilter<"ScrapeJob"> | number
     startedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
@@ -11241,6 +11250,7 @@ export namespace Prisma {
     args?: SortOrderInput | SortOrder
     status?: SortOrder
     cadence?: SortOrder
+    autoRunManualWithNext?: SortOrder
     paused?: SortOrder
     progress?: SortOrder
     startedAt?: SortOrderInput | SortOrder
@@ -11267,6 +11277,7 @@ export namespace Prisma {
     args?: JsonNullableWithAggregatesFilter<"ScrapeJob">
     status?: EnumScrapeJobStatusWithAggregatesFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceWithAggregatesFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolWithAggregatesFilter<"ScrapeJob"> | boolean
     paused?: BoolWithAggregatesFilter<"ScrapeJob"> | boolean
     progress?: IntWithAggregatesFilter<"ScrapeJob"> | number
     startedAt?: DateTimeNullableWithAggregatesFilter<"ScrapeJob"> | Date | string | null
@@ -11760,6 +11771,7 @@ export namespace Prisma {
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ScrapeJobStatus
     cadence?: $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: boolean
     paused?: boolean
     progress?: number
     startedAt?: Date | string | null
@@ -11778,6 +11790,7 @@ export namespace Prisma {
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ScrapeJobStatus
     cadence?: $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: boolean
     paused?: boolean
     progress?: number
     startedAt?: Date | string | null
@@ -11796,6 +11809,7 @@ export namespace Prisma {
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFieldUpdateOperationsInput | boolean
     paused?: BoolFieldUpdateOperationsInput | boolean
     progress?: IntFieldUpdateOperationsInput | number
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11814,6 +11828,7 @@ export namespace Prisma {
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFieldUpdateOperationsInput | boolean
     paused?: BoolFieldUpdateOperationsInput | boolean
     progress?: IntFieldUpdateOperationsInput | number
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11832,6 +11847,7 @@ export namespace Prisma {
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ScrapeJobStatus
     cadence?: $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: boolean
     paused?: boolean
     progress?: number
     startedAt?: Date | string | null
@@ -11850,6 +11866,7 @@ export namespace Prisma {
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFieldUpdateOperationsInput | boolean
     paused?: BoolFieldUpdateOperationsInput | boolean
     progress?: IntFieldUpdateOperationsInput | number
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11868,6 +11885,7 @@ export namespace Prisma {
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
     cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFieldUpdateOperationsInput | boolean
     paused?: BoolFieldUpdateOperationsInput | boolean
     progress?: IntFieldUpdateOperationsInput | number
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12498,6 +12516,7 @@ export namespace Prisma {
     args?: SortOrder
     status?: SortOrder
     cadence?: SortOrder
+    autoRunManualWithNext?: SortOrder
     paused?: SortOrder
     progress?: SortOrder
     startedAt?: SortOrder
@@ -12521,6 +12540,7 @@ export namespace Prisma {
     script?: SortOrder
     status?: SortOrder
     cadence?: SortOrder
+    autoRunManualWithNext?: SortOrder
     paused?: SortOrder
     progress?: SortOrder
     startedAt?: SortOrder
@@ -12538,6 +12558,7 @@ export namespace Prisma {
     script?: SortOrder
     status?: SortOrder
     cadence?: SortOrder
+    autoRunManualWithNext?: SortOrder
     paused?: SortOrder
     progress?: SortOrder
     startedAt?: SortOrder
