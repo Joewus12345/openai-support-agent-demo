@@ -12,14 +12,19 @@ export async function POST(request: Request) {
     const autoRunManualWithNextOverride = parseBoolean(
       searchParams.get("autoRunManualWithNext")
     );
+    const includeManualCadenceOverride = parseBoolean(
+      searchParams.get("includeManualCadence")
+    );
 
     const autoRunManualWithNext =
       autoRunManualWithNextOverride ??
       process.env.AUTO_RUN_MANUAL_WITH_NEXT === "true";
+    const includeManualCadence = includeManualCadenceOverride ?? false;
 
     const queued = await enqueueScheduledJobs({
       cadence: cadenceParam,
       autoRunManualWithNext,
+      includeManualCadence,
     });
 
     return new Response(
@@ -27,6 +32,7 @@ export async function POST(request: Request) {
         queued: queued.length,
         cadence: cadenceParam ?? "all",
         autoRunManualWithNext,
+        includeManualCadence,
       }),
       { status: 200 }
     );

@@ -45,26 +45,37 @@ export async function enqueueScheduledJobs({
   cadence,
   now = new Date(),
   autoRunManualWithNext = process.env.AUTO_RUN_MANUAL_WITH_NEXT === "true",
+  includeManualCadence = false,
 }: {
   cadence?: ScrapeJobCadence;
   now?: Date;
   autoRunManualWithNext?: boolean;
+  includeManualCadence?: boolean;
 }) {
   const baseFilters: Prisma.ScrapeJobWhereInput = {
     paused: false,
     status: { notIn: [ScrapeJobStatus.running, ScrapeJobStatus.canceled] },
   };
 
-  if (cadence === ScrapeJobCadence.manual && !autoRunManualWithNext) {
-    return [] as const;
-  }
+  const manualFilters =
+    autoRunManualWithNext || includeManualCadence
+      ? ({} as Prisma.ScrapeJobWhereInput)
+      : ({ autoRunManualWithNext: true } satisfies Prisma.ScrapeJobWhereInput);
+  const manualGuardActive = Object.keys(manualFilters).length > 0;
 
   const branches: Prisma.ScrapeJobWhereInput[] = [];
 
   if (cadence) {
+    if (cadence === ScrapeJobCadence.manual && manualGuardActive) {
+      console.log(
+        "[scheduler] AUTO_RUN_MANUAL_WITH_NEXT disabled; only manual jobs opting in with autoRunManualWithNext=true will be enqueued."
+      );
+    }
+
     branches.push({
       ...baseFilters,
       cadence,
+      ...(cadence === ScrapeJobCadence.manual ? manualFilters : {}),
       OR: [{ nextRunAt: null }, { nextRunAt: { lte: now } }],
     });
   } else {
@@ -74,12 +85,17 @@ export async function enqueueScheduledJobs({
       OR: [{ nextRunAt: null }, { nextRunAt: { lte: now } }],
     });
 
-    if (autoRunManualWithNext) {
-      branches.push({
-        ...baseFilters,
-        cadence: ScrapeJobCadence.manual,
-        nextRunAt: { not: null, lte: now },
-      });
+    branches.push({
+      ...baseFilters,
+      cadence: ScrapeJobCadence.manual,
+      ...manualFilters,
+      nextRunAt: { not: null, lte: now },
+    });
+
+    if (manualGuardActive) {
+      console.log(
+        "[scheduler] Manual jobs without autoRunManualWithNext are skipped because AUTO_RUN_MANUAL_WITH_NEXT is disabled."
+      );
     }
   }
 

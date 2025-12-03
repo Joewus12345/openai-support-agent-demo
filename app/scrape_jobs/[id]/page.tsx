@@ -15,6 +15,7 @@ import {
   PlayCircle,
   RotateCcw,
   Send,
+  Info,
   ChevronDown,
   ExternalLink,
   Trash2,
@@ -65,6 +66,7 @@ type ScrapeJob = {
   args: Record<string, unknown> | null;
   status: ScrapeJobStatus;
   cadence: ScrapeJobCadence;
+  autoRunManualWithNext: boolean;
   paused: boolean;
   progress?: number;
   startedAt: string | null;
@@ -251,7 +253,10 @@ export default function ScrapeJobDetail({
     setScheduleDraft({
       cadence: data.job.cadence,
       nextRunAt: toLocalDateTimeInput(data.job.nextRunAt),
-      autoRunManualWithNext: AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT,
+      autoRunManualWithNext:
+        data.job.cadence === ScrapeJobCadence.manual
+          ? data.job.autoRunManualWithNext
+          : false,
     });
     setScheduleError(null);
   }, [data?.job]);
@@ -394,7 +399,7 @@ export default function ScrapeJobDetail({
     nextRunAt: toLocalDateTimeInput(data?.job?.nextRunAt ?? null),
     autoRunManualWithNext:
       (data?.job.cadence ?? ScrapeJobCadence.manual) === ScrapeJobCadence.manual
-        ? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
+        ? data?.job.autoRunManualWithNext ?? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
         : false,
   };
 
@@ -425,7 +430,9 @@ export default function ScrapeJobDetail({
       cadence: data.job.cadence,
       nextRunAt: toLocalDateTimeInput(data.job.nextRunAt),
       autoRunManualWithNext:
-        data.job.cadence === ScrapeJobCadence.manual ? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT : false,
+        data.job.cadence === ScrapeJobCadence.manual
+          ? data.job.autoRunManualWithNext
+          : false,
     });
     setScheduleError(null);
   };
@@ -448,6 +455,10 @@ export default function ScrapeJobDetail({
         body: JSON.stringify({
           cadence: activeSchedule.cadence,
           nextRunAt: validation.iso,
+          autoRunManualWithNext:
+            activeSchedule.cadence === ScrapeJobCadence.manual
+              ? activeSchedule.autoRunManualWithNext
+              : false,
         }),
       });
 
@@ -751,7 +762,7 @@ export default function ScrapeJobDetail({
                         nextCadence === ScrapeJobCadence.manual
                           ? activeSchedule.cadence === ScrapeJobCadence.manual
                             ? activeSchedule.autoRunManualWithNext
-                            : AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
+                            : data.job.autoRunManualWithNext ?? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
                           : false,
                     });
                   }}
@@ -803,6 +814,15 @@ export default function ScrapeJobDetail({
                     <span className="text-zinc-500">)</span>
                   </span>
                 </label>
+              ) : null}
+              {!AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? (
+                <div
+                  className="flex items-center gap-1 text-[11px] text-amber-600"
+                  title="Deployment setting AUTO_RUN_MANUAL_WITH_NEXT is off; enable the toggle to opt this job into scheduled manual runs."
+                >
+                  <Info size={12} />
+                  Manual cadences stay paused unless explicitly enabled for this job.
+                </div>
               ) : null}
               <div className="flex flex-wrap items-center gap-2 text-[11px] text-zinc-600">
                 <button

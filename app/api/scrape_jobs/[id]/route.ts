@@ -52,6 +52,7 @@ export async function PATCH(
     const body = await request.json().catch(() => ({}));
     const cadence = parseCadence(body.cadence);
     const paused = parseBoolean(body.paused);
+    const autoRunManualWithNext = parseBoolean(body.autoRunManualWithNext);
     const { value: nextRunAt, error: nextRunError } = parseDate(body.nextRunAt);
 
     const existing = await prisma.scrapeJob.findUnique({ where: { id } });
@@ -95,6 +96,10 @@ export async function PATCH(
       }
     } else if (nextRunAt !== undefined) {
       data.nextRunAt = nextRunAt;
+    }
+
+    if (autoRunManualWithNext !== undefined) {
+      data.autoRunManualWithNext = autoRunManualWithNext;
     }
 
     if (Object.keys(data).length === 0) {

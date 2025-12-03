@@ -13,6 +13,7 @@ import {
   PlayCircle,
   RotateCcw,
   Send,
+  Info,
   Zap,
   Trash2,
   XCircle,
@@ -28,6 +29,7 @@ type ScrapeJob = {
   args: Record<string, unknown> | null;
   status: ScrapeJobStatus;
   cadence: ScrapeJobCadence;
+  autoRunManualWithNext: boolean;
   paused: boolean;
   progress?: number;
   startedAt: string | null;
@@ -332,7 +334,9 @@ export default function ScrapeJobsPage() {
       cadence: job.cadence,
       nextRunAt: toLocalDateTimeInput(job.nextRunAt),
       autoRunManualWithNext:
-        job.cadence === ScrapeJobCadence.manual ? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT : false,
+        job.cadence === ScrapeJobCadence.manual
+          ? job.autoRunManualWithNext ?? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
+          : false,
     };
 
   const updateScheduleDraft = (
@@ -351,7 +355,7 @@ export default function ScrapeJobsPage() {
         const nextAutoRunManualWithNext = (() => {
           if (nextCadence !== ScrapeJobCadence.manual) return false;
           if (current.cadence !== ScrapeJobCadence.manual && updates.cadence === ScrapeJobCadence.manual)
-            return AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT;
+            return job.autoRunManualWithNext ?? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT;
           return updates.autoRunManualWithNext ?? current.autoRunManualWithNext;
         })();
 
@@ -615,6 +619,8 @@ export default function ScrapeJobsPage() {
         body: JSON.stringify({
           cadence: draft.cadence,
           nextRunAt: isoNextRunAt,
+          autoRunManualWithNext:
+            draft.cadence === ScrapeJobCadence.manual ? draft.autoRunManualWithNext : false,
         }),
       });
 
@@ -921,6 +927,15 @@ export default function ScrapeJobsPage() {
                                 <span className="text-zinc-500">)</span>
                               </span>
                             </label>
+                          ) : null}
+                          {!AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? (
+                            <div
+                              className="flex items-center gap-1 text-[11px] text-amber-600"
+                              title="Deployment setting AUTO_RUN_MANUAL_WITH_NEXT is off; enable the toggle to opt this job into scheduled manual runs."
+                            >
+                              <Info size={12} />
+                              Manual cadences stay paused unless explicitly enabled for this job.
+                            </div>
                           ) : null}
                           {scheduleErrors[item.job.id] && (
                             <div className="text-[11px] text-red-600">{scheduleErrors[item.job.id]}</div>

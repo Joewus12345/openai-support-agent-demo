@@ -126,6 +126,7 @@ model ScrapeJob {
   args       Json?
   status     ScrapeJobStatus @default(queued)
   cadence    ScrapeJobCadence @default(manual)
+  autoRunManualWithNext Boolean @default(false)
   paused     Boolean         @default(false)
   progress   Int             @default(0)
   startedAt  DateTime?

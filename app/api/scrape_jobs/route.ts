@@ -70,6 +70,9 @@ export async function POST(request: Request) {
     const status = parseStatus(body.status ?? null) ?? ScrapeJobStatus.queued;
     const cadence = parseCadence(body.cadence) ?? ScrapeJobCadence.manual;
     const paused = parseBoolean(body.paused) ?? false;
+    const autoRunManualWithNext =
+      parseBoolean(body.autoRunManualWithNext) ??
+      process.env.AUTO_RUN_MANUAL_WITH_NEXT === "true";
     const { value: nextRunAt, error: nextRunError } = parseDate(body.nextRunAt);
 
     if (nextRunError) {
@@ -93,6 +96,7 @@ export async function POST(request: Request) {
       status,
       logPath: body.logPath ?? null,
       cadence,
+      autoRunManualWithNext,
       paused,
       nextRunAt: nextRunAt ?? calculateNextRun(cadence),
       progress: 0,
