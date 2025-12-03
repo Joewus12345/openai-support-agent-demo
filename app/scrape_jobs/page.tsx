@@ -57,24 +57,54 @@ type SerializedJob = {
 };
 
 const fetcher = async (url: string) => {
-  const res = await fetch(url, { credentials: "same-origin" });
+  const maxAttempts = 2;
+  const timeoutMs = 12000;
 
-  if (res.status === 401) {
-    const error = new Error("Unauthorized");
-    (error as Error & { status?: number }).status = 401;
-    throw error;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const res = await fetch(url, { credentials: "same-origin", signal: controller.signal });
+
+      if (res.status === 401) {
+        const error = new Error("Unauthorized");
+        (error as Error & { status?: number }).status = 401;
+        throw error;
+      }
+
+      if (!res.ok) {
+        const error = new Error("Failed to load scrape jobs");
+        (error as Error & { status?: number; info?: unknown }).status = res.status;
+        (error as Error & { status?: number; info?: unknown }).info = await res
+          .text()
+          .catch(() => null);
+        throw error;
+      }
+
+      return res.json();
+    } catch (error) {
+      const isLastAttempt = attempt === maxAttempts;
+      const isAbortError = (error as Error)?.name === "AbortError";
+      const message = isAbortError
+        ? `Scrape jobs request timed out after ${timeoutMs / 1000}s`
+        : "Error fetching scrape jobs";
+
+      console.error(message, error);
+
+      if (isLastAttempt) {
+        const finalError = new Error(message);
+        (finalError as Error & { cause?: unknown }).cause = error;
+        throw finalError;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, attempt * 500));
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
-  if (!res.ok) {
-    const error = new Error("Failed to load scrape jobs");
-    (error as Error & { status?: number; info?: unknown }).status = res.status;
-    (error as Error & { status?: number; info?: unknown }).info = await res
-      .text()
-      .catch(() => null);
-    throw error;
-  }
-
-  return res.json();
+  throw new Error("Unexpected fetcher exhaustion");
 };
 
 const SCRIPT_PRESETS = [
@@ -889,7 +919,18 @@ export default function ScrapeJobsPage() {
             {isLoading && <Loader2 size={18} className="animate-spin text-zinc-400" />}
           </div>
           {error && (
-            <div className="text-sm text-red-600">Failed to load jobs. Please refresh.</div>
+            <div className="flex items-center justify-between gap-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              <span>
+                Failed to load jobs. {error.message}
+              </span>
+              <button
+                type="button"
+                className="rounded-md border border-red-200 bg-white px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100"
+                onClick={() => void mutate()}
+              >
+                Retry
+              </button>
+            </div>
           )}
           {!data && !isLoading && !error && (
             <div className="text-sm text-zinc-500">No jobs available yet.</div>
