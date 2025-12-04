@@ -208,7 +208,8 @@ export default function ScrapeJobDetail({
   });
   const [logViewMode, setLogViewMode] = useState<"single" | "all">("single");
   const [logsExhaustive, setLogsExhaustive] = useState(true);
-  const [logCursor, setLogCursor] = useState<string | null>(null);
+  const [latestLogCursor, setLatestLogCursor] = useState<string | null>(null);
+  const [manualLogCursor, setManualLogCursor] = useState<string | null>(null);
   const [logCache, setLogCache] = useState<LogRun[]>([]);
   const [loadingOlderLogs, setLoadingOlderLogs] = useState(false);
   const [logChunkRanges, setLogChunkRanges] = useState<Record<string, { offset: number | null; direction?: "before" | "after" | null }>>(
@@ -267,7 +268,7 @@ export default function ScrapeJobDetail({
   };
 
   const loadOlderLogs = async () => {
-    if (!id || !logCursor) return;
+    if (!id || !effectiveLogCursor) return;
     setLoadingOlderLogs(true);
     try {
       const contentRangesParam =
@@ -275,10 +276,10 @@ export default function ScrapeJobDetail({
           ? `&contentRanges=${encodeURIComponent(JSON.stringify(logChunkRanges))}`
           : "";
       const payload = (await fetcher(
-        `/api/scrape_jobs/${id}/logs?all=true&cursor=${logCursor}&contentLimit=${LOG_CONTENT_CHUNK}${contentRangesParam}`
+        `/api/scrape_jobs/${id}/logs?all=true&cursor=${effectiveLogCursor}&contentLimit=${LOG_CONTENT_CHUNK}${contentRangesParam}`
       )) as LogResponse;
 
-      setLogCursor(payload.nextCursor ?? null);
+      setManualLogCursor(payload.nextCursor ?? null);
       setLogsExhaustive(Boolean(payload.exhaustive));
       setLogCache((previous) => {
         const merged = new Map(previous.map((log) => [log.id, log] as const));
@@ -387,7 +388,8 @@ export default function ScrapeJobDetail({
 
   useEffect(() => {
     setLogCache([]);
-    setLogCursor(null);
+    setLatestLogCursor(null);
+    setManualLogCursor(null);
     setLogsExhaustive(true);
     setSelectedLogId(null);
     setLogChunkRanges({});
@@ -420,7 +422,7 @@ export default function ScrapeJobDetail({
 
   useEffect(() => {
     if (!logResponse) return;
-    setLogCursor(logResponse.nextCursor ?? null);
+    setLatestLogCursor(logResponse.nextCursor ?? null);
     setLogsExhaustive(Boolean(logResponse.exhaustive));
 
     setLogCache((previous) => {
@@ -433,6 +435,11 @@ export default function ScrapeJobDetail({
       );
     });
   }, [logResponse]);
+
+  const effectiveLogCursor = useMemo(
+    () => manualLogCursor ?? latestLogCursor,
+    [latestLogCursor, manualLogCursor]
+  );
 
   useEffect(() => {
     if (!data?.job) return;
@@ -1474,7 +1481,7 @@ export default function ScrapeJobDetail({
                 ))}
                 {!filteredLogs.length ? <option value="">No logs yet</option> : null}
               </select>
-              {!logsExhaustive && logCursor ? (
+              {!logsExhaustive && effectiveLogCursor ? (
                 <button
                   type="button"
                   className="text-[#2B83F6] hover:underline"
