@@ -27,7 +27,7 @@ import useSWR from "swr";
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
-import { SCRIPT_SCHEMA_MAP } from "@/config/scrapeScripts";
+import { SCRIPT_SCHEMA_MAP, validateTargetForSchema } from "@/config/scrapeScripts";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url, { credentials: "same-origin" });
@@ -157,15 +157,6 @@ function progressColor(status: ScrapeJobStatus, paused: boolean) {
   return "bg-[#2B83F6]";
 }
 
-function formatArgs(args: Record<string, unknown> | null) {
-  if (!args) return "—";
-  const entries = Object.entries(args).filter(
-    ([key, value]) => !(key === "targetUrl" && typeof args.url === "string" && value === args.url)
-  );
-  if (entries.length === 0) return "—";
-  return entries.map(([key, value]) => `${key}: ${String(value)}`).join(" | ");
-}
-
 export default function ScrapeJobDetail({
   params,
 }: {
@@ -194,6 +185,12 @@ export default function ScrapeJobDetail({
   >(null);
   const [scheduleError, setScheduleError] = useState<string | null>(null);
   const [savingSchedule, setSavingSchedule] = useState(false);
+  const [targetDraft, setTargetDraft] = useState("");
+  const [requiredArgDrafts, setRequiredArgDrafts] = useState<Record<string, string>>({});
+  const [targetError, setTargetError] = useState<string | null>(null);
+  const [argErrors, setArgErrors] = useState<Record<string, string>>({});
+  const [savingTarget, setSavingTarget] = useState(false);
+  const [targetMessage, setTargetMessage] = useState<string | null>(null);
   const [authTokenInput, setAuthTokenInput] = useState("");
   const [authenticating, setAuthenticating] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -482,6 +479,36 @@ export default function ScrapeJobDetail({
       .filter(Boolean) as { key: string; label: string; value: string }[];
   }, [data?.job.args, scriptSchema]);
 
+  const canEditTarget = useMemo(() => {
+    if (!data?.job) return false;
+    return (
+      data.job.status !== ScrapeJobStatus.running &&
+      (data.job.status === ScrapeJobStatus.queued || data.job.cadence !== ScrapeJobCadence.manual)
+    );
+  }, [data?.job]);
+
+  useEffect(() => {
+    if (!data?.job) return;
+
+    setTargetDraft(targetValue);
+    const nextRequiredDrafts: Record<string, string> = {};
+    (scriptSchema?.requiredArgs ?? []).forEach((req) => {
+      const value = (data.job.args as Record<string, unknown> | null | undefined)?.[req.key];
+      if (Array.isArray(value)) {
+        nextRequiredDrafts[req.key] = value.join(", ");
+      } else if (value !== undefined && value !== null) {
+        nextRequiredDrafts[req.key] = String(value);
+      } else {
+        nextRequiredDrafts[req.key] = "";
+      }
+    });
+
+    setRequiredArgDrafts(nextRequiredDrafts);
+    setTargetError(null);
+    setArgErrors({});
+    setTargetMessage(null);
+  }, [data?.job, scriptSchema, targetValue]);
+
   const filteredLogs = useMemo(() => {
     const startDate = appliedLogFilter.start ? new Date(appliedLogFilter.start) : null;
     const endDate = appliedLogFilter.end ? new Date(appliedLogFilter.end) : null;
@@ -719,6 +746,107 @@ export default function ScrapeJobDetail({
           : false,
     });
     setScheduleError(null);
+  };
+
+  const resetTargetForm = () => {
+    if (!data?.job) return;
+
+    setTargetDraft(targetValue);
+    const nextArgs: Record<string, string> = {};
+    (scriptSchema?.requiredArgs ?? []).forEach((req) => {
+      const value = (data.job.args as Record<string, unknown> | null | undefined)?.[req.key];
+      if (Array.isArray(value)) {
+        nextArgs[req.key] = value.join(", ");
+      } else if (value !== undefined && value !== null) {
+        nextArgs[req.key] = String(value);
+      } else {
+        nextArgs[req.key] = "";
+      }
+    });
+    setRequiredArgDrafts(nextArgs);
+    setTargetError(null);
+    setArgErrors({});
+    setTargetMessage(null);
+  };
+
+  const saveTargetUpdates = async () => {
+    if (!data?.job) return;
+    const schema = scriptSchema;
+    const trimmedTarget = targetDraft.trim();
+    setTargetMessage(null);
+    setTargetError(null);
+
+    if (!trimmedTarget) {
+      setTargetError("Enter a target URL");
+      return;
+    }
+
+    if (schema) {
+      const targetValidation = validateTargetForSchema(schema, trimmedTarget);
+      if (targetValidation) {
+        setTargetError(targetValidation);
+        return;
+      }
+    }
+
+    const nextArgErrors: Record<string, string> = {};
+    const nextArgs: Record<string, unknown> = {};
+
+    (schema?.requiredArgs ?? []).forEach((req) => {
+      const rawValue = (requiredArgDrafts[req.key] ?? "").trim();
+      let parsedValue: unknown = rawValue;
+
+      if (req.key === "categories") {
+        parsedValue = rawValue
+          .split(",")
+          .map((entry) => entry.trim())
+          .filter(Boolean);
+      }
+
+      const error = req.validate(parsedValue);
+      if (error) {
+        nextArgErrors[req.key] = error;
+      } else if (rawValue || Array.isArray(parsedValue)) {
+        nextArgs[req.key] = parsedValue;
+      }
+    });
+
+    setArgErrors(nextArgErrors);
+    if (Object.keys(nextArgErrors).length) return;
+
+    const payloadArgs: Record<string, unknown> = {
+      ...(data.job.args ?? {}),
+      ...nextArgs,
+      url: trimmedTarget,
+      targetUrl: trimmedTarget,
+    };
+
+    setSavingTarget(true);
+    try {
+      const res = await fetch(`/api/scrape_jobs/${data.job.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ args: payloadArgs }),
+      });
+
+      if (handleAuthFailure(res)) return;
+
+      const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) {
+        setTargetError(payload?.error ?? "Failed to update target");
+        return;
+      }
+
+      setTargetError(null);
+      setArgErrors({});
+      setTargetMessage("Saved target and parameters for the next run.");
+      await mutate();
+    } catch (error) {
+      console.error("Error updating target", error);
+      setTargetError("Unable to update target or parameters");
+    } finally {
+      setSavingTarget(false);
+    }
   };
 
   const saveSchedule = async () => {
@@ -1145,13 +1273,16 @@ export default function ScrapeJobDetail({
               </div>
               <span className="text-[10px] text-zinc-500 tabular-nums">{progressValue}%</span>
             </div>
-            <div className="flex flex-col gap-1 text-xs text-zinc-500">
+            <div className="flex flex-col gap-3 rounded-lg border border-zinc-200 bg-white p-3">
               <div className="flex items-start justify-between gap-2">
-                <span>Args: {formatArgs(data.job.args)}</span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium text-zinc-800">Target &amp; required parameters</span>
+                  <span className="text-[11px] text-zinc-500">Updates apply to upcoming runs.</span>
+                </div>
                 {targetValue ? (
                   <button
                     type="button"
-                    className="flex items-center gap-1 text-[#2B83F6] hover:underline"
+                    className="flex items-center gap-1 text-[#2B83F6] hover:underline text-xs"
                     onClick={() => copy(targetValue, setCopiedTarget)}
                   >
                     <Copy size={14} />
@@ -1159,14 +1290,96 @@ export default function ScrapeJobDetail({
                   </button>
                 ) : null}
               </div>
+
+              <label className="flex flex-col gap-1 text-xs text-zinc-700">
+                Target URL
+                <input
+                  value={targetDraft}
+                  onChange={(event) => {
+                    setTargetDraft(event.target.value);
+                    setTargetError(null);
+                  }}
+                  className="rounded-lg border border-zinc-200 px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
+                  placeholder={scriptSchema?.target.example ?? "https://example.com"}
+                  disabled={!canEditTarget || savingTarget || Boolean(actionState)}
+                />
+              </label>
+              {targetError ? (
+                <div className="flex items-center gap-1 text-[11px] text-red-600">
+                  <XCircle size={12} />
+                  {targetError}
+                </div>
+              ) : null}
+
+              {(scriptSchema?.requiredArgs ?? []).map((req) => (
+                <label key={req.key} className="flex flex-col gap-1 text-xs text-zinc-700">
+                  {req.description}
+                  <input
+                    value={requiredArgDrafts[req.key] ?? ""}
+                    onChange={(event) => {
+                      setRequiredArgDrafts((current) => ({ ...current, [req.key]: event.target.value }));
+                      setArgErrors((current) => {
+                        const next = { ...current };
+                        delete next[req.key];
+                        return next;
+                      });
+                    }}
+                    className="rounded-lg border border-zinc-200 px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
+                    placeholder={req.key === "categories" ? "slug-one,slug-two" : undefined}
+                    disabled={!canEditTarget || savingTarget || Boolean(actionState)}
+                  />
+                  {argErrors[req.key] ? (
+                    <span className="text-[11px] text-red-600 flex items-center gap-1">
+                      <XCircle size={12} />
+                      {argErrors[req.key]}
+                    </span>
+                  ) : null}
+                </label>
+              ))}
+
+              <div className="flex flex-wrap items-center gap-2 text-[11px] text-zinc-600">
+                <button
+                  type="button"
+                  onClick={() => void saveTargetUpdates()}
+                  disabled={!canEditTarget || savingTarget || Boolean(actionState)}
+                  className="inline-flex items-center gap-1 rounded-md border border-zinc-200 px-2 py-1 font-medium text-zinc-800 hover:border-[#2B83F6] disabled:opacity-60"
+                >
+                  {savingTarget ? <Loader2 size={12} className="animate-spin" /> : null}
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={resetTargetForm}
+                  disabled={savingTarget || Boolean(actionState)}
+                  className="inline-flex items-center gap-1 rounded-md border border-zinc-200 px-2 py-1 font-medium text-zinc-700 hover:border-zinc-300 disabled:opacity-60"
+                >
+                  Reset
+                </button>
+                {!canEditTarget ? (
+                  <span className="flex items-center gap-1 text-amber-700">
+                    <Info size={12} />
+                    Targets can be edited for queued or scheduled jobs.
+                  </span>
+                ) : null}
+                {targetMessage ? (
+                  <span className="text-emerald-700">{targetMessage}</span>
+                ) : null}
+              </div>
+
               {scriptSchema ? (
                 <div className="text-[11px] text-zinc-600 flex flex-col gap-0.5">
                   <span>{scriptSchema.target.description}</span>
                   {scriptSchema.target.example ? (
                     <span className="text-[11px] text-zinc-500">Example: {scriptSchema.target.example}</span>
                   ) : null}
+                  {scriptSchema.requiredArgs?.length ? (
+                    <span className="text-[11px] text-amber-700">
+                      Requires: {scriptSchema.requiredArgs.map((req) => req.description).join("; ")}
+                    </span>
+                  ) : null}
                 </div>
               ) : null}
+
               {scriptSpecificArgs.length ? (
                 <div className="flex flex-col gap-0.5 text-[11px] text-zinc-700">
                   {scriptSpecificArgs.map((arg) => (

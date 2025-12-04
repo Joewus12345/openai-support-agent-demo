@@ -4,6 +4,7 @@ import { parseCadence } from "@/lib/scheduler";
 import { ensureAuthenticated } from "../../helpers";
 import {
   mergeArgsWithTarget,
+  normalizeArgsForScript,
   parseTargetUrlFromArgs,
   validateScriptArgs,
 } from "../../validation";
@@ -65,7 +66,8 @@ export async function POST(
         return new Response(JSON.stringify({ error: targetError }), { status: 400 });
       }
 
-      const normalizedArgs = mergeArgsWithTarget(existing.args ?? {}, targetUrl);
+      const mergedArgs = mergeArgsWithTarget(existing.args ?? {}, targetUrl);
+      const normalizedArgs = normalizeArgsForScript(existing.script, mergedArgs);
       const schemaError = validateScriptArgs(existing.script, targetUrl, normalizedArgs);
       if (schemaError) {
         return new Response(JSON.stringify({ error: schemaError }), { status: 400 });

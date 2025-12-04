@@ -59,11 +59,17 @@ function wooCategoriesValidator(value: unknown) {
     return "WooCommerce crawler requires at least one category";
   }
   if (Array.isArray(value)) {
+    const cleaned = value.filter((entry) => typeof entry === "string" && entry.trim());
+    if (!cleaned.length) return "WooCommerce crawler requires at least one category";
     const hasInvalid = value.some((entry) => typeof entry !== "string" || !entry.trim());
     return hasInvalid ? "Categories must be non-empty strings" : null;
   }
   if (typeof value === "string") {
-    return value.trim() ? null : "Categories must be non-empty strings";
+    const parts = value
+      .split(",")
+      .map((part) => part.trim())
+      .filter(Boolean);
+    return parts.length ? null : "Categories must be non-empty strings";
   }
   return "Categories must be strings";
 }
@@ -114,7 +120,8 @@ export const SCRIPT_SCHEMAS: ScriptSchema[] = [
     requiredArgs: [
       {
         key: "categories",
-        description: "List of category slugs to crawl (e.g., [\"electronics\"]).",
+        description:
+          "Comma-separated category slugs to crawl (e.g., electronics,tools-and-measuring-equipment).",
         validate: wooCategoriesValidator,
       },
     ],

@@ -63,6 +63,38 @@ export function mergeArgObjects(existing: unknown, incoming: unknown): Prisma.In
   return { ...toInputJsonObject(existing), ...toInputJsonObject(incoming) };
 }
 
+export function normalizeArgsForScript(
+  script: string,
+  args: Prisma.InputJsonObject,
+): Prisma.InputJsonObject {
+  const schema = getScriptSchema(script);
+  if (!schema) return args;
+
+  const next: Record<string, Prisma.InputJsonValue | null> = {};
+  Object.entries(args).forEach(([key, value]) => {
+    if (value !== undefined) {
+      next[key] = value as Prisma.InputJsonValue;
+    }
+  });
+
+  if (schema.key === "woocommerce") {
+    const categories = args.categories;
+    if (typeof categories === "string") {
+      const parts = categories
+        .split(",")
+        .map((part) => part.trim())
+        .filter(Boolean);
+      next.categories = parts as Prisma.InputJsonValue;
+    }
+    if (Array.isArray(categories)) {
+      const filtered = categories.filter((entry) => typeof entry === "string" && entry.trim());
+      next.categories = filtered as Prisma.InputJsonValue;
+    }
+  }
+
+  return next as Prisma.InputJsonObject;
+}
+
 export function deriveTargetFromArgs(args: Record<string, unknown> | null | undefined) {
   if (!args) return "";
   const candidate = (args as Record<string, unknown>).url ?? (args as Record<string, unknown>).targetUrl;
@@ -74,6 +106,7 @@ export function validateScriptArgs(
   targetUrl: string | null,
   args: Prisma.InputJsonObject,
 ): string | null {
+  const normalizedArgs = normalizeArgsForScript(script, args);
   if (!targetUrl) return null;
   const schema = getScriptSchema(script);
   if (!schema) return null;
@@ -81,7 +114,7 @@ export function validateScriptArgs(
   const targetError = validateTargetForSchema(schema, targetUrl);
   if (targetError) return targetError;
 
-  return validateArgsForSchema(schema, args);
+  return validateArgsForSchema(schema, normalizedArgs);
 }
 
 export { toInputJsonObject };

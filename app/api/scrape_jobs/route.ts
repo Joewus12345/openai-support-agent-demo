@@ -9,6 +9,7 @@ import { ensureAuthenticated, serializeJob } from "./helpers";
 import { triggerScrapeJob } from "@/lib/scrapeRunner";
 import {
   mergeArgsWithTarget,
+  normalizeArgsForScript,
   parseTargetUrlFromArgs,
   validateScriptArgs,
 } from "./validation";
@@ -152,7 +153,8 @@ export async function POST(request: Request) {
       return new Response(JSON.stringify({ error: targetError }), { status: 400 });
     }
 
-    const normalizedArgs = mergeArgsWithTarget(rawArgs ?? {}, targetUrl);
+    const mergedArgs = mergeArgsWithTarget(rawArgs ?? {}, targetUrl);
+    const normalizedArgs = normalizeArgsForScript(body.script, mergedArgs);
     const schemaError = validateScriptArgs(body.script, targetUrl, normalizedArgs);
     if (schemaError) {
       return new Response(JSON.stringify({ error: schemaError }), { status: 400 });

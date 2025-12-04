@@ -4,6 +4,7 @@ import { triggerScrapeJob } from "@/lib/scrapeRunner";
 import { ensureAuthenticated } from "../../helpers";
 import {
   mergeArgsWithTarget,
+  normalizeArgsForScript,
   parseTargetUrlFromArgs,
   validateScriptArgs,
 } from "../../validation";
@@ -41,7 +42,8 @@ export async function POST(
       return new Response(JSON.stringify({ error: targetError }), { status: 400 });
     }
 
-    const args = mergeArgsWithTarget(source.args ?? {}, targetUrl);
+    const mergedArgs = mergeArgsWithTarget(source.args ?? {}, targetUrl);
+    const args = normalizeArgsForScript(source.script, mergedArgs);
 
     const schemaError = validateScriptArgs(source.script, targetUrl, args);
     if (schemaError) {

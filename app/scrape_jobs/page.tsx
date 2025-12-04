@@ -192,13 +192,6 @@ function getJobTarget(job: ScrapeJob) {
   return typeof value === "string" ? value : "";
 }
 
-function canEditTarget(job: ScrapeJob) {
-  return (
-    job.status !== ScrapeJobStatus.running &&
-    (job.status === ScrapeJobStatus.queued || job.cadence !== ScrapeJobCadence.manual)
-  );
-}
-
 export default function ScrapeJobsPage() {
   const [isDocumentVisible, setIsDocumentVisible] = useState(
     typeof document === "undefined" ? true : document.visibilityState === "visible"
@@ -316,23 +309,6 @@ export default function ScrapeJobsPage() {
     }
   }, [jobs, detailedPolling]);
 
-  useEffect(() => {
-    if (!jobs.length) {
-      setTargetDrafts({});
-      return;
-    }
-
-    setTargetDrafts((current) => {
-      const next: Record<string, { value: string; error?: string }> = {};
-      jobs.forEach((job) => {
-        const existing = current[job.job.id];
-        const target = getJobTarget(job.job);
-        next[job.job.id] = { value: existing?.value ?? target, error: undefined };
-      });
-      return next;
-    });
-  }, [jobs]);
-
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
   const [targetUrl, setTargetUrl] = useState(SCRIPT_PRESETS[0].defaultTarget);
   const [createTargetError, setCreateTargetError] = useState<string | null>(null);
@@ -356,8 +332,6 @@ export default function ScrapeJobsPage() {
       }
     >
   >({});
-  const [targetDrafts, setTargetDrafts] = useState<Record<string, { value: string; error?: string }>>({});
-  const [savingTargets, setSavingTargets] = useState<Record<string, boolean>>({});
   const [authTokenInput, setAuthTokenInput] = useState("");
   const [authenticating, setAuthenticating] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -619,77 +593,6 @@ export default function ScrapeJobsPage() {
       setScheduleErrors((current) => {
         const next = { ...current };
         delete next[job.id];
-        return next;
-      });
-    }
-  };
-
-  const updateTargetDraft = (jobId: string, value: string) => {
-    setTargetDrafts((current) => ({ ...current, [jobId]: { value, error: undefined } }));
-  };
-
-  const resetTargetDraft = (job: ScrapeJob) => {
-    setTargetDrafts((current) => ({
-      ...current,
-      [job.id]: { value: getJobTarget(job), error: undefined },
-    }));
-  };
-
-  const saveTarget = async (job: SerializedJob) => {
-    const draft = (targetDrafts[job.job.id]?.value ?? "").trim();
-    if (!draft) {
-      setTargetDrafts((current) => ({
-        ...current,
-        [job.job.id]: { value: draft, error: "Enter a target URL" },
-      }));
-      return;
-    }
-
-    const schema = SCRIPT_SCHEMA_MAP.get(job.job.script);
-    if (schema) {
-      const schemaError = validateTargetForSchema(schema, draft);
-      if (schemaError) {
-        setTargetDrafts((current) => ({
-          ...current,
-          [job.job.id]: { value: draft, error: schemaError },
-        }));
-        return;
-      }
-    }
-
-    setSavingTargets((state) => ({ ...state, [job.job.id]: true }));
-    try {
-      const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ args: { url: draft } }),
-      });
-
-      if (handleAuthFailure(res)) return;
-
-      if (res.ok) {
-        setTargetDrafts((current) => ({
-          ...current,
-          [job.job.id]: { value: draft, error: undefined },
-        }));
-        await mutate();
-      } else {
-        const payload = (await res.json().catch(() => null)) as { error?: string } | null;
-        setTargetDrafts((current) => ({
-          ...current,
-          [job.job.id]: { value: draft, error: payload?.error ?? "Failed to update target" },
-        }));
-      }
-    } catch (error) {
-      console.error("Error updating target", error);
-      setTargetDrafts((current) => ({
-        ...current,
-        [job.job.id]: { value: draft, error: "Unable to update target URL" },
-      }));
-    } finally {
-      setSavingTargets((state) => {
-        const next = { ...state };
-        delete next[job.job.id];
         return next;
       });
     }
@@ -1286,10 +1189,6 @@ export default function ScrapeJobsPage() {
                   const logSnippet = (item.log || "").split("\n").find(Boolean) || "No log yet.";
                   const progress = deriveProgress(item.job);
                   const actionState = rowActions[item.job.id];
-                  const targetDraft = targetDrafts[item.job.id]?.value ?? getJobTarget(item.job);
-                  const targetError = targetDrafts[item.job.id]?.error;
-                  const savingTarget = savingTargets[item.job.id];
-                  const editableTarget = canEditTarget(item.job);
                   const schema = SCRIPT_SCHEMA_MAP.get(item.job.script);
                   return (
                     <tr key={item.job.id} className="align-top">
@@ -1302,54 +1201,24 @@ export default function ScrapeJobsPage() {
                         <div className="text-xs text-zinc-500">{formatDate(item.job.createdAt)}</div>
                       </td>
                       <td className="py-3 pr-3 w-60 align-top">
-                        {editableTarget ? (
-                          <div className="flex flex-col gap-1">
-                            <input
-                              value={targetDraft}
-                              onChange={(event) => updateTargetDraft(item.job.id, event.target.value)}
-                              className="w-full rounded-lg border border-zinc-200 px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
-                              placeholder="https://example.com"
-                              disabled={Boolean(actionState) || savingTarget}
-                            />
-                            <div className="flex items-center gap-2 text-[11px] text-zinc-600">
-                              <button
-                                type="button"
-                                className="rounded-md border border-zinc-200 px-2 py-1 font-medium hover:border-[#2B83F6] disabled:opacity-60"
-                                onClick={() => void saveTarget(item)}
-                                disabled={Boolean(actionState) || savingTarget}
-                              >
-                                {savingTarget ? <Loader2 size={12} className="animate-spin" /> : "Save"}
-                              </button>
-                              <button
-                                type="button"
-                                className="rounded-md border border-zinc-200 px-2 py-1 font-medium hover:border-zinc-300 disabled:opacity-60"
-                                onClick={() => resetTargetDraft(item.job)}
-                                disabled={Boolean(actionState) || savingTarget}
-                              >
-                                Reset
-                              </button>
-                            </div>
-                            {targetError ? (
-                              <div className="text-[11px] text-red-600">{targetError}</div>
-                            ) : (
-                              <div className="text-[11px] text-zinc-500 flex flex-col gap-1">
-                                <span>{schema?.target.description ?? "Applies to the next run"}</span>
-                                {schema?.target.example ? (
-                                  <span className="text-[11px] text-zinc-500">Example: {schema.target.example}</span>
-                                ) : null}
-                                {schema?.requiredArgs?.length ? (
-                                  <span className="text-[11px] text-amber-700">
-                                    Requires: {schema.requiredArgs.map((req) => req.description).join("; ")}
-                                  </span>
-                                ) : (
-                                  <span>Applies to the next run</span>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="text-xs text-zinc-700 break-all max-w-xs">{targetDraft || "—"}</div>
-                        )}
+                        <div className="text-xs text-zinc-700 break-all max-w-xs">{getJobTarget(item.job) || "—"}</div>
+                        <div className="text-[11px] text-zinc-500 flex flex-col gap-0.5 pt-1">
+                          <span>{schema?.target.description ?? "Applies to the next run"}</span>
+                          {schema?.target.example ? (
+                            <span className="text-[11px] text-zinc-500">Example: {schema.target.example}</span>
+                          ) : null}
+                          {schema?.requiredArgs?.length ? (
+                            <span className="text-[11px] text-amber-700">
+                              Requires: {schema.requiredArgs.map((req) => req.description).join("; ")}
+                            </span>
+                          ) : null}
+                          <Link
+                            href={`/scrape_jobs/${item.job.id}`}
+                            className="text-[11px] text-[#2B83F6] hover:underline"
+                          >
+                            Edit target in job details
+                          </Link>
+                        </div>
                       </td>
                       <td className="py-3 pr-3">{renderStatusPill(item.job.status, item.job.paused)}</td>
                       <td className="py-3 pr-3 w-64 align-top">

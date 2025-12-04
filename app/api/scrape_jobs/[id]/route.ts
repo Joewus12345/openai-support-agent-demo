@@ -6,6 +6,7 @@ import { ensureAuthenticated, serializeJob } from "../helpers";
 import {
   mergeArgObjects,
   mergeArgsWithTarget,
+  normalizeArgsForScript,
   parseTargetUrlFromArgs,
   validateScriptArgs,
 } from "../validation";
@@ -133,7 +134,10 @@ export async function PATCH(
 
     if (argsProvided) {
       const mergedArgs = mergeArgObjects(existing.args, body.args);
-      const normalizedArgs = mergeArgsWithTarget(mergedArgs, argsResult.url);
+      const normalizedArgs = normalizeArgsForScript(
+        body.script ?? existing.script,
+        mergeArgsWithTarget(mergedArgs, argsResult.url),
+      );
       const schemaError = validateScriptArgs(body.script ?? existing.script, argsResult.url, normalizedArgs);
       if (schemaError) {
         return new Response(JSON.stringify({ error: schemaError }), { status: 400 });
