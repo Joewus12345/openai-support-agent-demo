@@ -125,72 +125,103 @@ export default function InitVS() {
   };
 
   return (
-    <div className="h-screen w-full bg-white flex flex-col items-center pt-16 md:pt-32">
-      <div className="flex flex-col gap-4 max-w-lg">
-        <div className="text-2xl font-bold">Initialize the Vector Store</div>
-        <div className="text-sm text-zinc-500 space-y-2">
-          <p>
-            For this demo to work, you need to load knowledge base content into a vector store. The content in the
-            <span className="font-mono bg-zinc-100 rounded-md p-1">/public/knowledge_base</span> and
-            <span className="font-mono bg-zinc-100 rounded-md p-1">/public/faq</span> folders will be embedded using
-            Ollama and stored locally.
-          </p>
-          <p>
-            Feel free to update these articles with your own content. After making changes you can re-run this step to
-            regenerate the embeddings.
-          </p>
-        </div>
-        <div className="flex gap-4">
-          {!loadingOpenAI ? (
-            <div
-              className="bg-[#2B83F6] text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-[#2B83F6]/90 cursor-pointer"
-              onClick={handleInitializeOpenAI}
-            >
-              Initialize with OpenAI
+    <div className="min-h-screen bg-zinc-50 py-10">
+      <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 sm:px-6 lg:px-8">
+        <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <div className="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between md:gap-6">
+            <div className="max-w-2xl space-y-2">
+              <div className="text-2xl font-bold text-zinc-900">Initialize the Vector Store</div>
+              <p className="text-sm text-zinc-600">
+                Load knowledge base content into a vector store so your agents can search and retrieve it. Content in
+                <span className="font-mono bg-zinc-100 rounded-md px-1 py-0.5">/public/knowledge_base</span> and
+                <span className="font-mono bg-zinc-100 rounded-md px-1 py-0.5">/public/faq</span> will be embedded using
+                Ollama and stored locally.
+              </p>
+              <p className="text-sm text-zinc-600">
+                Update these articles anytime and re-run initialization to rebuild embeddings. All controls below work in
+                dev and production without changing backend logic.
+              </p>
             </div>
-          ) : (
-            <div className="text-sm text-zinc-500 animate-pulse">{statusOpenAI}</div>
-          )}
-        {!loadingOllama ? (
-            <div
-              className="bg-[#2B83F6] text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-[#2B83F6]/90 cursor-pointer"
-              onClick={handleInitializeOllama}
-            >
-              Initialize with Ollama
-            </div>
-          ) : (
-            <div className="text-sm text-zinc-500 animate-pulse">{statusOllama}</div>
-          )}
-          {!loadingOllama ? (
-            <div
-              className="bg-[#2B83F6] text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-[#2B83F6]/90 cursor-pointer"
-              onClick={handleRebuildOllama}
-            >
-              Rebuild Ollama
-            </div>
-          ) : null}
-        </div>
-      </div>
-      <div className="mt-6 text-left w-full max-w-lg space-y-4">
-        {errorOpenAI && <div className="text-red-500 text-sm">{errorOpenAI}</div>}
-        {successOpenAI && !errorOpenAI && (
-          <div className="text-zinc-600 text-sm">
-            Knowledge base updated successfully.
-            <div className="flex items-center gap-2 mt-4">
-              <div className="text-zinc-900">Vector Store ID:</div>
-              <div className="font-mono text-sm p-1 bg-zinc-100 rounded-md">{vectorStoreId ?? ""}</div>
-              <Copy
-                onClick={() => copyToClipboard(vectorStoreId ?? "")}
-                size={16}
-                className="cursor-pointer text-zinc-400 hover:text-zinc-600 transition-all duration-100"
-              />
+            <div className="flex flex-wrap gap-2 text-xs text-zinc-600">
+              {statusOpenAI ? <div className="rounded-lg bg-zinc-100 px-3 py-2">{statusOpenAI}</div> : null}
+              {statusOllama ? <div className="rounded-lg bg-zinc-100 px-3 py-2">{statusOllama}</div> : null}
             </div>
           </div>
-        )}
-        {errorOllama && <div className="text-red-500 text-sm">{errorOllama}</div>}
-        {successOllama && !errorOllama && (
-          <div className="text-zinc-600 text-sm">Knowledge base updated successfully.</div>
-        )}
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm flex flex-col gap-3">
+            <div className="text-sm font-semibold text-zinc-900">OpenAI-managed vector store</div>
+            <p className="text-xs text-zinc-600">
+              Creates a hosted vector store and uploads all demo files. Use this path when you want OpenAI to manage
+              storage.
+            </p>
+            {!loadingOpenAI ? (
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-lg bg-[#2B83F6] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#1d6ccd]"
+                onClick={handleInitializeOpenAI}
+              >
+                Initialize with OpenAI
+              </button>
+            ) : (
+              <div className="text-sm text-zinc-500">{statusOpenAI || "Preparing OpenAI vector store..."}</div>
+            )}
+            {errorOpenAI && <div className="text-sm text-red-600">{errorOpenAI}</div>}
+            {successOpenAI && !errorOpenAI && (
+              <div className="rounded-lg bg-zinc-50 p-3 text-sm text-zinc-700">
+                <div className="font-medium text-zinc-900">Knowledge base updated.</div>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <span className="text-zinc-600">Vector Store ID:</span>
+                  <span className="font-mono rounded-md bg-zinc-100 px-2 py-1 text-xs text-zinc-900">
+                    {vectorStoreId ?? ""}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(vectorStoreId ?? "")}
+                    className="inline-flex items-center gap-1 rounded border border-zinc-200 px-2 py-1 text-xs text-zinc-700 hover:border-[#2B83F6]"
+                  >
+                    <Copy size={14} /> Copy
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm flex flex-col gap-3">
+            <div className="text-sm font-semibold text-zinc-900">Local Ollama vector store</div>
+            <p className="text-xs text-zinc-600">
+              Generates embeddings locally. Use “Rebuild” after changing files to refresh the embeddings without altering
+              backend APIs.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {!loadingOllama ? (
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-lg bg-[#2B83F6] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#1d6ccd]"
+                  onClick={handleInitializeOllama}
+                >
+                  Initialize with Ollama
+                </button>
+              ) : (
+                <div className="text-sm text-zinc-500">{statusOllama || "Generating embeddings..."}</div>
+              )}
+              {!loadingOllama ? (
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-800 transition hover:border-[#2B83F6]"
+                  onClick={handleRebuildOllama}
+                >
+                  Rebuild Ollama
+                </button>
+              ) : null}
+            </div>
+            {errorOllama && <div className="text-sm text-red-600">{errorOllama}</div>}
+            {successOllama && !errorOllama && (
+              <div className="rounded-lg bg-zinc-50 p-3 text-sm text-zinc-700">Knowledge base updated successfully.</div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

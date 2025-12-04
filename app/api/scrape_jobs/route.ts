@@ -15,6 +15,12 @@ function parseStatus(value: string | null): ScrapeJobStatus | undefined {
     : undefined;
 }
 
+function parseLimit(value: string | null) {
+  const parsed = Number(value ?? "");
+  if (!Number.isFinite(parsed) || parsed <= 0) return null;
+  return Math.min(parsed, 100);
+}
+
 function parseDate(value: unknown): { value: Date | null; error?: string } {
   if (!value) return { value: null };
   const date = new Date(value as string);
@@ -36,19 +42,55 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const status = parseStatus(searchParams.get("status"));
     const includeDetails = searchParams.get("detailed") === "true";
+    const includeLogPreview = searchParams.get("logPreview") === "true";
+    const limit = parseLimit(searchParams.get("limit"));
+    const cursor = searchParams.get("cursor");
+    const { value: createdAfter, error: createdAfterError } = parseDate(searchParams.get("from"));
+    const { value: createdBefore, error: createdBeforeError } = parseDate(searchParams.get("to"));
 
-    const jobs = await prisma.scrapeJob.findMany({
-      where: status ? { status } : undefined,
-      orderBy: { createdAt: "desc" },
-    });
-
-    if (includeDetails) {
-      const detailed = await Promise.all(jobs.map((job) => serializeJob(job.id)));
-      const filtered = detailed.filter(Boolean);
-      return new Response(JSON.stringify(filtered), { status: 200 });
+    if (createdAfterError || createdBeforeError) {
+      return new Response(
+        JSON.stringify({ error: createdAfterError || createdBeforeError }),
+        { status: 400 }
+      );
     }
 
-    return new Response(JSON.stringify(jobs), { status: 200 });
+    const take = limit ?? undefined;
+    const findManyArgs: Prisma.ScrapeJobFindManyArgs = {
+      where: {
+        ...(status ? { status } : {}),
+        ...(createdAfter || createdBefore
+          ? {
+              createdAt: {
+                ...(createdAfter ? { gte: createdAfter } : {}),
+                ...(createdBefore ? { lte: createdBefore } : {}),
+              },
+            }
+          : {}),
+      },
+      orderBy: { createdAt: "desc" },
+      take,
+    };
+
+    if (cursor) {
+      findManyArgs.cursor = { id: cursor };
+      findManyArgs.skip = 1;
+    }
+
+    const jobs = await prisma.scrapeJob.findMany(findManyArgs);
+
+    if (includeDetails) {
+      const detailed = await Promise.all(
+        jobs.map((job) => serializeJob(job.id, { includeLog: includeLogPreview }))
+      );
+      const filtered = detailed.filter(Boolean);
+      const nextCursor =
+        take && filtered.length === take ? filtered[filtered.length - 1]?.job.id ?? null : null;
+      return new Response(JSON.stringify({ jobs: filtered, nextCursor }), { status: 200 });
+    }
+
+    const nextCursor = take && jobs.length === take ? jobs[jobs.length - 1]?.id ?? null : null;
+    return new Response(JSON.stringify({ jobs, nextCursor }), { status: 200 });
   } catch (error) {
     console.error("Error listing scrape jobs:", error);
     return new Response("Error listing jobs", { status: 500 });

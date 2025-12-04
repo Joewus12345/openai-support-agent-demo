@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
+import { useEffect, useMemo, useRef, useState } from "react";
+import useSWRInfinite from "swr/infinite";
 import {
   CalendarClock,
   CalendarRange,
@@ -56,25 +56,66 @@ type SerializedJob = {
   ingestionResult?: (StoredIngestionResult & { jobId: string }) | null;
 };
 
+type JobsPage = { jobs: SerializedJob[]; nextCursor: string | null };
+const JOB_PAGE_SIZE = 40;
+
 const fetcher = async (url: string) => {
-  const res = await fetch(url, { credentials: "same-origin" });
+  const maxAttempts = 2;
+  const timeoutMs = 12000;
 
-  if (res.status === 401) {
-    const error = new Error("Unauthorized");
-    (error as Error & { status?: number }).status = 401;
-    throw error;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const res = await fetch(url, { credentials: "same-origin", signal: controller.signal });
+
+      if (res.status === 401) {
+        const error = new Error("Unauthorized");
+        (error as Error & { status?: number }).status = 401;
+        throw error;
+      }
+
+      if (!res.ok) {
+        const error = new Error("Failed to load scrape jobs");
+        (error as Error & { status?: number; info?: unknown }).status = res.status;
+        (error as Error & { status?: number; info?: unknown }).info = await res
+          .text()
+          .catch(() => null);
+        throw error;
+      }
+
+      return res.json();
+    } catch (error) {
+      const isLastAttempt = attempt === maxAttempts;
+      const isAbortError = (error as Error)?.name === "AbortError";
+      const message = isAbortError
+        ? `Scrape jobs request timed out after ${timeoutMs / 1000}s`
+        : "Error fetching scrape jobs";
+
+      console.error(message, error);
+
+      if (isLastAttempt) {
+        const finalError = new Error(message);
+        (finalError as Error & { cause?: unknown }).cause = error;
+        throw finalError;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, attempt * 500));
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
-  if (!res.ok) {
-    const error = new Error("Failed to load scrape jobs");
-    (error as Error & { status?: number; info?: unknown }).status = res.status;
-    (error as Error & { status?: number; info?: unknown }).info = await res
-      .text()
-      .catch(() => null);
-    throw error;
-  }
+  throw new Error("Unexpected fetcher exhaustion");
+};
 
-  return res.json();
+const paginatedFetcher = async (url: string): Promise<JobsPage> => {
+  const payload = await fetcher(url);
+  if (Array.isArray(payload)) {
+    return { jobs: payload as SerializedJob[], nextCursor: null };
+  }
+  return payload as JobsPage;
 };
 
 const SCRIPT_PRESETS = [
@@ -175,20 +216,121 @@ function progressColor(status: ScrapeJobStatus, paused: boolean) {
 }
 
 export default function ScrapeJobsPage() {
-  const { data, error, isLoading, mutate } = useSWR<SerializedJob[]>(
-    "/api/scrape_jobs?detailed=true",
-    fetcher,
+  const [isDocumentVisible, setIsDocumentVisible] = useState(
+    typeof document === "undefined" ? true : document.visibilityState === "visible"
+  );
+  const [consecutiveErrors, setConsecutiveErrors] = useState(0);
+  const [detailedPolling, setDetailedPolling] = useState(true);
+  const [historyFilters, setHistoryFilters] = useState<{
+    status: ScrapeJobStatus | "";
+    from: string;
+    to: string;
+  }>({ status: "", from: "", to: "" });
+  const [appliedHistoryFilters, setAppliedHistoryFilters] = useState<{
+    status: ScrapeJobStatus | "";
+    from: string;
+    to: string;
+  }>({ status: "", from: "", to: "" });
+  const eventSourceRef = useRef<EventSource | null>(null);
+  const eventSourceRetryRef = useRef<{ attempt: number; timer: NodeJS.Timeout | null }>({
+    attempt: 0,
+    timer: null,
+  });
+
+  const { data, error, isLoading, mutate, setSize: setPageCount } = useSWRInfinite<JobsPage>(
+    (index: number, previousPage: JobsPage | null) => {
+      if (previousPage && !previousPage.nextCursor) return null;
+      const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
+      const statusParam = appliedHistoryFilters.status
+        ? `&status=${appliedHistoryFilters.status}`
+        : "";
+      const fromParam = appliedHistoryFilters.from
+        ? `&from=${encodeURIComponent(appliedHistoryFilters.from)}`
+        : "";
+      const toParam = appliedHistoryFilters.to
+        ? `&to=${encodeURIComponent(appliedHistoryFilters.to)}`
+        : "";
+      return `/api/scrape_jobs?detailed=${detailedPolling ? "true" : "false"}&logPreview=true&limit=${JOB_PAGE_SIZE}${cursorParam}${statusParam}${fromParam}${toParam}`;
+    },
+    paginatedFetcher,
     {
-      refreshInterval: (latestData: SerializedJob[] | undefined) =>
-        latestData?.some(
-          (job: SerializedJob) => job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
-        )
-          ? 12000
-          : 30000,
-      revalidateOnFocus: false,
+      refreshInterval: (latestPages: JobsPage[] | undefined) => {
+        if (!isDocumentVisible) return 0;
+
+        const merged = latestPages?.flatMap((page: JobsPage) => page.jobs ?? []) ?? [];
+        const hasActiveJobs = merged.some(
+          (job: SerializedJob) =>
+            job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
+        );
+        const jobCount = merged.length;
+
+        const baseInterval = hasActiveJobs
+          ? detailedPolling
+            ? 20000
+            : 35000
+          : jobCount > 75
+            ? 60000
+            : 45000;
+
+        const backoffFactor = Math.min(consecutiveErrors + 1, 5);
+        return baseInterval * backoffFactor;
+      },
+      revalidateOnFocus: true,
       dedupingInterval: 5000,
+      refreshWhenHidden: false,
+      isPaused: () => !isDocumentVisible,
+      onSuccess: () => setConsecutiveErrors(0),
+      onError: () => setConsecutiveErrors((count: number) => count + 1),
     }
   );
+
+  const applyHistoryFilters = () => {
+    setAppliedHistoryFilters(historyFilters);
+    setPageCount(1);
+  };
+
+  const clearHistoryFilters = () => {
+    const cleared = { status: "" as ScrapeJobStatus | "", from: "", to: "" };
+    setHistoryFilters(cleared);
+    setAppliedHistoryFilters(cleared);
+    setPageCount(1);
+  };
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsDocumentVisible(document.visibilityState === "visible");
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  useEffect(() => {
+    if (isDocumentVisible) {
+      void mutate();
+    }
+  }, [isDocumentVisible, mutate]);
+
+  const jobs = useMemo(
+    () => (data ?? []).flatMap((page: JobsPage) => page.jobs ?? []),
+    [data]
+  );
+  const nextCursor = useMemo(
+    () => data?.[data.length - 1]?.nextCursor ?? null,
+    [data]
+  );
+
+  useEffect(() => {
+    if (!jobs.length) return;
+
+    const jobCount = jobs.length;
+
+    if (detailedPolling && jobCount > 60) {
+      setDetailedPolling(false);
+    } else if (!detailedPolling && jobCount < 50) {
+      setDetailedPolling(true);
+    }
+  }, [jobs, detailedPolling]);
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
   const [targetUrl, setTargetUrl] = useState(SCRIPT_PRESETS[0].defaultTarget);
@@ -216,20 +358,64 @@ export default function ScrapeJobsPage() {
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
-    const source = new EventSource("/api/scrape_jobs/updates");
+    const retryState = eventSourceRetryRef.current;
 
-    source.onmessage = () => {
-      void mutate();
+    const cleanupTimers = () => {
+      if (retryState.timer) {
+        clearTimeout(retryState.timer);
+        retryState.timer = null;
+      }
     };
 
-    source.onerror = () => {
-      setTimeout(() => void mutate(), 1000);
+    const resetRetry = () => {
+      cleanupTimers();
+      retryState.attempt = 0;
     };
+
+    const closeStream = () => {
+      eventSourceRef.current?.close();
+      eventSourceRef.current = null;
+    };
+
+    const scheduleReconnect = () => {
+      retryState.attempt += 1;
+      const delay = Math.min(30000, 1000 * 2 ** (retryState.attempt - 1));
+
+      cleanupTimers();
+      retryState.timer = setTimeout(() => {
+        retryState.timer = null;
+        if (isDocumentVisible) {
+          connect();
+        }
+      }, delay);
+    };
+
+    const connect = () => {
+      closeStream();
+      if (!isDocumentVisible) return;
+
+      const source = new EventSource("/api/scrape_jobs/updates");
+      eventSourceRef.current = source;
+
+      source.onmessage = () => {
+        resetRetry();
+        void mutate();
+      };
+
+      source.onerror = () => {
+        closeStream();
+        scheduleReconnect();
+      };
+    };
+
+    connect();
 
     return () => {
-      source.close();
+      cleanupTimers();
+      closeStream();
+      retryState.attempt = 0;
     };
-  }, [mutate]);
+  }, [isDocumentVisible, mutate]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -828,14 +1014,84 @@ export default function ScrapeJobsPage() {
         </div>
 
         <div className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm">
-          <div className="flex justify-between items-center mb-3">
-            <div className="text-lg font-semibold">Past jobs</div>
-            {isLoading && <Loader2 size={18} className="animate-spin text-zinc-400" />}
+          <div className="flex flex-col gap-2 mb-4">
+            <div className="flex items-center justify-between gap-3 flex-wrap pb-3 border-b border-zinc-200">
+              <div className="flex flex-col gap-1">
+                <div className="text-lg font-semibold">Past jobs</div>
+              </div>
+              {isLoading && <Loader2 size={18} className="animate-spin text-zinc-400" />}
+            </div>
+            <div className="grid w-full gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-xs text-zinc-700 sm:grid-cols-2 md:grid-cols-4">
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">Status</span>
+                <select
+                  className="rounded-lg border border-zinc-200 px-2 py-1 min-w-[150px] bg-white"
+                  value={historyFilters.status}
+                  onChange={(event) =>
+                    setHistoryFilters((prev) => ({ ...prev, status: event.target.value as ScrapeJobStatus | "" }))
+                  }
+                >
+                  <option value="">All statuses</option>
+                  {Object.values(ScrapeJobStatus).map((value) => (
+                    <option key={value} value={value} className="capitalize">
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">Created after</span>
+                <input
+                  type="datetime-local"
+                  className="rounded-lg border border-zinc-200 px-2 py-1 bg-white"
+                  value={historyFilters.from}
+                  onChange={(event) => setHistoryFilters((prev) => ({ ...prev, from: event.target.value }))}
+                />
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">Created before</span>
+                <input
+                  type="datetime-local"
+                  className="rounded-lg border border-zinc-200 px-2 py-1 bg-white"
+                  value={historyFilters.to}
+                  onChange={(event) => setHistoryFilters((prev) => ({ ...prev, to: event.target.value }))}
+                />
+              </label>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="w-full rounded-lg border border-[#2B83F6] bg-white px-3 py-1.5 font-medium text-[#2B83F6] hover:bg-[#f1f5ff]"
+                  onClick={applyHistoryFilters}
+                  disabled={isLoading}
+                >
+                  Apply filters
+                </button>
+                <button
+                  type="button"
+                  className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-1.5 font-medium text-zinc-600 hover:border-zinc-300"
+                  onClick={clearHistoryFilters}
+                  disabled={isLoading}
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
           </div>
           {error && (
-            <div className="text-sm text-red-600">Failed to load jobs. Please refresh.</div>
+            <div className="flex items-center justify-between gap-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              <span>
+                Failed to load jobs. {error.message}
+              </span>
+              <button
+                type="button"
+                className="rounded-md border border-red-200 bg-white px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100"
+                onClick={() => void mutate()}
+              >
+                Retry
+              </button>
+            </div>
           )}
-          {!data && !isLoading && !error && (
+          {jobs.length === 0 && !isLoading && !error && (
             <div className="text-sm text-zinc-500">No jobs available yet.</div>
           )}
           <div className="overflow-x-auto">
@@ -852,7 +1108,7 @@ export default function ScrapeJobsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">
-                {(data || []).map((item: SerializedJob) => {
+                {jobs.map((item: SerializedJob) => {
                   const logSnippet = (item.log || "").split("\n").find(Boolean) || "No log yet.";
                   const progress = deriveProgress(item.job);
                   const actionState = rowActions[item.job.id];
@@ -1143,6 +1399,17 @@ export default function ScrapeJobsPage() {
                 })}
               </tbody>
             </table>
+          </div>
+          <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
+            <button
+              type="button"
+              className="rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-[#2B83F6] hover:bg-zinc-50 disabled:opacity-60"
+              disabled={!nextCursor || isLoading}
+              onClick={() => setPageCount((count: number) => count + 1)}
+            >
+              {nextCursor ? "Load more" : "All history loaded"}
+            </button>
+            <div className="text-[11px] text-zinc-500">{jobs.length} job(s) loaded</div>
           </div>
         </div>
       </div>

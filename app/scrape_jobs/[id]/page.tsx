@@ -23,6 +23,7 @@ import {
   Zap,
 } from "lucide-react";
 import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
@@ -85,6 +86,23 @@ type SerializedJob = {
   artifacts: string[];
   ingestionResult?: (StoredIngestionResult & { jobId: string }) | null;
 };
+
+type LogRun = {
+  id: string;
+  path: string;
+  startedAt: string;
+  size: number;
+  content: string | null;
+  contentStart?: number;
+  contentEnd?: number;
+  hasMoreBefore?: boolean;
+  hasMoreAfter?: boolean;
+};
+
+type LogPage = { logs: LogRun[]; nextCursor: string | null };
+
+const LOG_PAGE_SIZE = 10;
+const LOG_CONTENT_CHUNK = 40000;
 
 function formatDate(value: string | null) {
   if (!value) return "—";
@@ -157,6 +175,9 @@ export default function ScrapeJobDetail({
   const [copiedLog, setCopiedLog] = useState(false);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
   const [autoScroll, setAutoScroll] = useState(true);
+  const [isDocumentVisible, setIsDocumentVisible] = useState(
+    typeof document === "undefined" ? true : document.visibilityState === "visible"
+  );
   const [showResume, setShowResume] = useState(false);
   const [ingesting, setIngesting] = useState<string | null>(null);
   const [actionState, setActionState] = useState<string | null>(null);
@@ -176,6 +197,22 @@ export default function ScrapeJobDetail({
   const [authenticating, setAuthenticating] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authRequired, setAuthRequired] = useState(false);
+  const [selectedLogId, setSelectedLogId] = useState<string | null>(null);
+  const [logFilterDraft, setLogFilterDraft] = useState<{ start: string; end: string; anchor: string }>({
+    start: "",
+    end: "",
+    anchor: "",
+  });
+  const [appliedLogFilter, setAppliedLogFilter] = useState<{ start: string; end: string; anchor: string }>({
+    start: "",
+    end: "",
+    anchor: "",
+  });
+  const [logViewMode, setLogViewMode] = useState<"single" | "all">("single");
+  const [globalLogContentStart, setGlobalLogContentStart] = useState<number | null>(null);
+  const [logChunkRanges, setLogChunkRanges] = useState<Record<string, { offset: number | null; direction?: "before" | "after" | null }>>(
+    {}
+  );
   const logContainerRef = useRef<HTMLDivElement | null>(null);
   const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
@@ -228,6 +265,78 @@ export default function ScrapeJobDetail({
     setAuthenticating(false);
   };
 
+  const loadOlderLogs = () => {
+    if (nextLogCursor) {
+      setLogPageCount((count: number) => count + 1);
+    }
+  };
+
+  const clearSelectedLog = async () => {
+    if (!id || !selectedLog) return;
+    const res = await fetch(`/api/scrape_jobs/${id}/logs`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ logId: selectedLog.id }),
+    });
+
+    if (handleAuthFailure(res)) return;
+    if (res.ok) {
+      await mutateLogs();
+    }
+  };
+
+  const applyLogFilters = () => {
+    setAppliedLogFilter(logFilterDraft);
+    setLogPageCount(1);
+    setSelectedLogId(null);
+    setGlobalLogContentStart(logFilterDraft.anchor ? 0 : null);
+    setLogChunkRanges({});
+  };
+
+  const clearLogFilters = () => {
+    const cleared = { start: "", end: "", anchor: "" };
+    setLogFilterDraft(cleared);
+    setAppliedLogFilter(cleared);
+    setLogPageCount(1);
+    setSelectedLogId(null);
+    setGlobalLogContentStart(null);
+    setLogChunkRanges({});
+  };
+
+  const shiftLogContent = (direction: "earlier" | "later") => {
+    const target = selectedLog ?? logs[0];
+    if (!target) return;
+
+    const currentStart = typeof target.contentStart === "number" ? target.contentStart : 0;
+    if (direction === "earlier" && target.hasMoreBefore) {
+      const nextStart = Math.max(0, currentStart - LOG_CONTENT_CHUNK);
+      setLogChunkRanges((prev) => ({ ...prev, [target.id]: { offset: nextStart, direction: "before" } }));
+      setGlobalLogContentStart(null);
+      return;
+    }
+
+    if (direction === "later" && target.hasMoreAfter) {
+      const nextStart = Math.max(
+        0,
+        Math.min(target.size - LOG_CONTENT_CHUNK, target.contentEnd ?? currentStart + LOG_CONTENT_CHUNK)
+      );
+      setLogChunkRanges((prev) => ({ ...prev, [target.id]: { offset: nextStart, direction: "after" } }));
+      setGlobalLogContentStart(null);
+    }
+  };
+
+  const resetSelectedLogRange = () => {
+    const target = selectedLog ?? logs[0];
+    if (!target) return;
+    setGlobalLogContentStart(null);
+    setLogChunkRanges((prev) => {
+      if (!(target.id in prev)) return prev;
+      const next = { ...prev };
+      delete next[target.id];
+      return next;
+    });
+  };
+
   useEffect(() => {
     let active = true;
     void params
@@ -242,10 +351,54 @@ export default function ScrapeJobDetail({
     };
   }, [params]);
 
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsDocumentVisible(document.visibilityState === "visible");
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
   const { data, error, isLoading, mutate } = useSWR<SerializedJob>(
     id ? `/api/scrape_jobs/${id}` : null,
     fetcher,
     { refreshInterval: 15000 }
+  );
+
+  const {
+    data: logPages,
+    isLoading: logsLoading,
+    error: logError,
+    setSize: setLogPageCount,
+    mutate: mutateLogs,
+  } = useSWRInfinite<LogPage>(
+    (index: number, previousPage: LogPage | null) => {
+      if (!id) return null;
+      if (previousPage && !previousPage.nextCursor) return null;
+      const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
+      const startParam = appliedLogFilter.start
+        ? `&start=${encodeURIComponent(appliedLogFilter.start)}`
+        : "";
+      const endParam = appliedLogFilter.end ? `&end=${encodeURIComponent(appliedLogFilter.end)}` : "";
+      const beforeParam = appliedLogFilter.anchor
+        ? `&before=${encodeURIComponent(appliedLogFilter.anchor)}`
+        : "";
+      const chunkStartParam =
+        globalLogContentStart !== null ? `&contentStart=${Math.max(0, globalLogContentStart)}` : "";
+      const chunkLimitParam = `&contentLimit=${LOG_CONTENT_CHUNK}`;
+      const contentRangesParam =
+        Object.keys(logChunkRanges).length > 0
+          ? `&contentRanges=${encodeURIComponent(JSON.stringify(logChunkRanges))}`
+          : "";
+      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}${beforeParam}${chunkStartParam}${chunkLimitParam}${contentRangesParam}`;
+    },
+    fetcher,
+    {
+      refreshWhenHidden: false,
+      isPaused: () => !isDocumentVisible,
+      revalidateOnFocus: true,
+    }
   );
 
   useEffect(() => {
@@ -267,10 +420,59 @@ export default function ScrapeJobDetail({
     return String(args.targetUrl ?? "");
   }, [data?.job.args]);
 
+  const logs = useMemo(
+    () => (logPages ?? []).flatMap((page: LogPage) => page?.logs ?? []),
+    [logPages]
+  );
+  const nextLogCursor = useMemo(
+    () => logPages?.[logPages.length - 1]?.nextCursor ?? null,
+    [logPages]
+  );
+
+  useEffect(() => {
+    if (!logs.length) {
+      setSelectedLogId(null);
+      return;
+    }
+
+    if (!selectedLogId || !logs.some((log: LogRun) => log.id === selectedLogId)) {
+      setSelectedLogId(logs[0].id);
+    }
+  }, [logs, selectedLogId]);
+
+  useEffect(() => {
+    if (!selectedLogId) return;
+    setGlobalLogContentStart(null);
+    setLogChunkRanges((prev) => {
+      if (!(selectedLogId in prev)) return prev;
+      const next = { ...prev };
+      delete next[selectedLogId];
+      return next;
+    });
+  }, [selectedLogId]);
+
+  const selectedLog = useMemo(
+    () => logs.find((log: LogRun) => log.id === selectedLogId) ?? logs[0] ?? null,
+    [logs, selectedLogId]
+  );
+  const logContent = useMemo(() => {
+    if (logViewMode === "all") {
+      if (!logs.length) return null;
+      return logs
+        .map((log: LogRun) => {
+          const timestamp = new Date(log.startedAt).toLocaleString();
+          return `[${timestamp}]\n${log.content ?? ""}`;
+        })
+        .join("\n\n———\n\n");
+    }
+
+    return selectedLog?.content ?? null;
+  }, [logViewMode, logs, selectedLog]);
+
   const logSnippet = useMemo(() => {
-    const firstLine = (data?.log || "").split("\n").find(Boolean) || "No log yet.";
+    const firstLine = (logContent || "").split("\n").find(Boolean) || "No log yet.";
     return firstLine.length > 160 ? `${firstLine.slice(0, 160)}…` : firstLine;
-  }, [data?.log]);
+  }, [logContent]);
 
   useEffect(() => {
     if (!id) return undefined;
@@ -279,18 +481,18 @@ export default function ScrapeJobDetail({
       try {
         const payload = JSON.parse(event.data);
         if (payload?.jobId === id) {
-          void mutate();
+          void Promise.all([mutate(), mutateLogs()]);
         }
       } catch {
         // ignore parse errors
       }
     };
     source.onerror = () => {
-      setTimeout(() => void mutate(), 1000);
+      setTimeout(() => void Promise.all([mutate(), mutateLogs()]), 1000);
     };
 
     return () => source.close();
-  }, [id, mutate]);
+  }, [id, mutate, mutateLogs]);
 
   useEffect(() => {
     const container = logContainerRef.current;
@@ -356,7 +558,7 @@ export default function ScrapeJobDetail({
     requestAnimationFrame(() => {
       container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
     });
-  }, [data?.log, autoScroll, autoScrollEnabled]);
+  }, [logContent, autoScroll, autoScrollEnabled]);
 
   useEffect(() => {
     if (!autoScrollEnabled || !autoScroll) return;
@@ -1151,10 +1353,143 @@ export default function ScrapeJobDetail({
       )}
 
       <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm">
-        <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
-          <div className="text-sm font-semibold text-zinc-800">Log output</div>
-            <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 text-xs text-zinc-600">
+        <div className="flex flex-col gap-2 mb-2">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="text-sm font-semibold text-zinc-800">Log output</div>
+            {logError && <div className="text-[11px] text-red-600">Failed to load logs.</div>}
+          </div>
+          <div className="flex flex-wrap gap-3 text-xs text-zinc-600">
+            <div className="flex flex-wrap items-end gap-2">
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">From</span>
+                <input
+                  type="datetime-local"
+                  className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                  value={logFilterDraft.start}
+                  onChange={(event) =>
+                    setLogFilterDraft((prev) => ({ ...prev, start: event.target.value }))
+                  }
+                />
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">To</span>
+                <input
+                  type="datetime-local"
+                  className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                  value={logFilterDraft.end}
+                  onChange={(event) => setLogFilterDraft((prev) => ({ ...prev, end: event.target.value }))}
+                />
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">Jump to before</span>
+                <input
+                  type="datetime-local"
+                  className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                  value={logFilterDraft.anchor}
+                  onChange={(event) => setLogFilterDraft((prev) => ({ ...prev, anchor: event.target.value }))}
+                  placeholder="Load runs before…"
+                />
+              </label>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="rounded border border-zinc-200 px-3 py-1.5 font-medium text-[#2B83F6] hover:border-[#2B83F6]"
+                  onClick={applyLogFilters}
+                  disabled={logsLoading}
+                >
+                  Apply
+                </button>
+                <button
+                  type="button"
+                  className="rounded border border-zinc-200 px-3 py-1.5 font-medium text-zinc-600 hover:border-zinc-300"
+                  onClick={clearLogFilters}
+                  disabled={logsLoading}
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <label className="sr-only" htmlFor="log-run-picker">
+                Select log run
+              </label>
+              <select
+                id="log-run-picker"
+                className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                value={selectedLogId ?? logs[0]?.id ?? ""}
+                onChange={(event) => setSelectedLogId(event.target.value)}
+                disabled={logs.length === 0 || logViewMode === "all"}
+              >
+                {logs.map((log: LogRun) => (
+                  <option key={log.id} value={log.id}>
+                    {new Date(log.startedAt).toLocaleString()} ({Math.max(0, Math.round(log.size / 1024))} KB)
+                  </option>
+                ))}
+                {!logs.length ? <option value="">No logs yet</option> : null}
+              </select>
+              {nextLogCursor ? (
+                <button
+                  type="button"
+                  className="text-[#2B83F6] hover:underline"
+                  onClick={loadOlderLogs}
+                  disabled={logsLoading}
+                >
+                  Load older logs
+                </button>
+              ) : null}
+              <label className="flex items-center gap-2">
+                <span className="text-[11px] text-zinc-500">View</span>
+                <select
+                  className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                  value={logViewMode}
+                  onChange={(event) => setLogViewMode(event.target.value as "single" | "all")}
+                >
+                  <option value="single">Selected run</option>
+                  <option value="all">All loaded runs</option>
+                </select>
+              </label>
+              {selectedLog ? (
+                <span className="text-[11px] text-zinc-500">
+                  Showing bytes {selectedLog.contentStart ?? 0}
+                  {typeof selectedLog.contentEnd === "number"
+                    ? `–${selectedLog.contentEnd}`
+                    : selectedLog.size > 0
+                      ? `–${selectedLog.size}`
+                      : ""}
+                  {selectedLog.size ? ` of ${selectedLog.size}` : ""}
+                </span>
+              ) : null}
+              {selectedLog?.hasMoreBefore ? (
+                <button
+                  type="button"
+                  className="text-[#2B83F6] hover:underline"
+                  onClick={() => shiftLogContent("earlier")}
+                  disabled={logsLoading}
+                >
+                  Load earlier content
+                </button>
+              ) : null}
+              {selectedLog?.hasMoreAfter ? (
+                <button
+                  type="button"
+                  className="text-[#2B83F6] hover:underline"
+                  onClick={() => shiftLogContent("later")}
+                  disabled={logsLoading}
+                >
+                  Load later content
+                </button>
+              ) : null}
+              {selectedLog && (globalLogContentStart !== null || logChunkRanges[selectedLog.id]) ? (
+                <button
+                  type="button"
+                  className="text-zinc-600 hover:underline"
+                  onClick={resetSelectedLogRange}
+                  disabled={logsLoading}
+                >
+                  Jump to newest chunk
+                </button>
+              ) : null}
+              <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   className="h-4 w-4 rounded border-zinc-300 text-[#2B83F6] focus:ring-[#2B83F6]"
@@ -1172,25 +1507,35 @@ export default function ScrapeJobDetail({
                 />
                 Auto-scroll
               </label>
-              {data.log ? (
+              {logContent ? (
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-xs text-[#2B83F6] hover:underline"
-                  onClick={() => copy(data.log ?? "", setCopiedLog)}
+                  className="flex items-center gap-1 text-[#2B83F6] hover:underline"
+                  onClick={() => copy(logContent ?? "", setCopiedLog)}
                 >
                   <Copy size={14} />
                   {copiedLog ? "Copied" : "Copy log"}
                 </button>
               ) : null}
+              <button
+                type="button"
+                className="flex items-center gap-1 text-red-600 hover:underline disabled:opacity-50"
+                onClick={clearSelectedLog}
+                disabled={!selectedLog}
+              >
+                <Trash2 size={14} />
+                Clear log
+              </button>
             </div>
           </div>
+        </div>
           <div
             ref={logContainerRef}
             tabIndex={0}
             className="bg-zinc-50 border border-zinc-100 rounded-lg max-h-[500px] overflow-y-auto"
           >
             <pre ref={logContentRef} className="whitespace-pre-wrap text-xs p-3">
-              {data.log ?? "No log available yet."}
+              {logContent ?? (logsLoading ? "Loading logs..." : "No log available yet.")}
             </pre>
             {autoScrollEnabled && !autoScroll && showResume ? (
               <div className="sticky bottom-0 w-full bg-gradient-to-t from-zinc-50 to-transparent px-3 pb-3 flex justify-end">

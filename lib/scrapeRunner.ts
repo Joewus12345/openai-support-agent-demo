@@ -117,6 +117,13 @@ const SCRAPE_AUTO_INSTALL_DEPS =
   process.env.SCRAPE_AUTO_INSTALL_DEPS !== "false";
 const LOG_DIR = path.join(process.cwd(), "logs", "scrape_jobs");
 
+function buildRunLogPath(jobId: string, startedAt: Date) {
+  const stamp = startedAt.toISOString().replace(/[:.]/g, "-");
+  const relative = path.join("logs", "scrape_jobs", jobId, `${stamp}.log`);
+  const absolute = path.join(process.cwd(), relative);
+  return { relative, absolute };
+}
+
 type RunningProcess = {
   child: ChildProcess;
   logStream?: fs.WriteStream | null;
@@ -429,16 +436,16 @@ export async function runScrapeJob(
 ): Promise<{ exitCode: number } | undefined> {
   await fs.promises.mkdir(LOG_DIR, { recursive: true });
   await fs.promises.mkdir(KNOWLEDGE_BASE_DIR, { recursive: true }).catch(() => {});
-  const defaultRelativeLogPath = path.join("logs", "scrape_jobs", `${job.id}.log`);
-  const defaultLogPath = path.join(process.cwd(), defaultRelativeLogPath);
+  const startedAt = new Date();
+  const { absolute: defaultLogPath } = buildRunLogPath(job.id, startedAt);
   const candidateLogPath = job.logPath ? path.resolve(job.logPath) : defaultLogPath;
   const normalizedLogPath = candidateLogPath.startsWith(LOG_DIR)
     ? candidateLogPath
     : defaultLogPath;
   const storedLogPath = path.relative(process.cwd(), normalizedLogPath);
+  await fs.promises.mkdir(path.dirname(normalizedLogPath), { recursive: true });
   const logFilePath = path.resolve(storedLogPath);
   const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
-  const startedAt = new Date();
 
   const { env: pythonEnv, virtualEnvRoot } = buildPythonEnv(PYTHON_BIN);
 
