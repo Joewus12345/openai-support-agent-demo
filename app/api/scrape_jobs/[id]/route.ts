@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { calculateNextRun } from "@/lib/scheduler";
 import { cancelRunningScrape } from "@/lib/scrapeRunner";
 import { ensureAuthenticated, serializeJob } from "../helpers";
+import { mergeArgsWithTarget, parseTargetUrlFromArgs } from "../validation";
 
 function parseCadence(value: unknown): ScrapeJobCadence | undefined {
   if (typeof value !== "string") return undefined;
@@ -54,6 +55,10 @@ export async function PATCH(
     const paused = parseBoolean(body.paused);
     const autoRunManualWithNext = parseBoolean(body.autoRunManualWithNext);
     const { value: nextRunAt, error: nextRunError } = parseDate(body.nextRunAt);
+    const argsProvided = Object.prototype.hasOwnProperty.call(body, "args");
+    const argsResult = argsProvided
+      ? parseTargetUrlFromArgs(body.args, { required: true })
+      : { provided: false, url: null as string | null, error: undefined };
 
     const existing = await prisma.scrapeJob.findUnique({ where: { id } });
     if (!existing) {
@@ -64,6 +69,7 @@ export async function PATCH(
     const effectiveAutoRunManualWithNext =
       autoRunManualWithNext ?? existing.autoRunManualWithNext;
     const effectiveNextRunAt = nextRunAt ?? existing.nextRunAt;
+    const effectivePaused = paused ?? existing.paused;
 
     if (nextRunError) {
       return new Response(JSON.stringify({ error: nextRunError }), { status: 400 });
@@ -91,6 +97,10 @@ export async function PATCH(
       );
     }
 
+    if (argsResult.error) {
+      return new Response(JSON.stringify({ error: argsResult.error }), { status: 400 });
+    }
+
     const data: Prisma.ScrapeJobUpdateInput = {};
 
     if (cadence) {
@@ -114,6 +124,23 @@ export async function PATCH(
 
     if (autoRunManualWithNext !== undefined) {
       data.autoRunManualWithNext = autoRunManualWithNext;
+    }
+
+    if (argsProvided) {
+      const baseArgs =
+        body.args && typeof body.args === "object"
+          ? { ...(existing.args ?? {}), ...(body.args as Record<string, unknown>) }
+          : existing.args ?? {};
+      data.args = mergeArgsWithTarget(baseArgs, argsResult.url);
+    }
+
+    if (
+      argsProvided &&
+      !effectivePaused &&
+      data.nextRunAt === undefined &&
+      effectiveCadence !== ScrapeJobCadence.manual
+    ) {
+      data.nextRunAt = calculateNextRun(effectiveCadence);
     }
 
     if (Object.keys(data).length === 0) {

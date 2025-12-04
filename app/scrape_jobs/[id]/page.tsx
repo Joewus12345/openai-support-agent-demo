@@ -158,7 +158,9 @@ function progressColor(status: ScrapeJobStatus, paused: boolean) {
 
 function formatArgs(args: Record<string, unknown> | null) {
   if (!args) return "—";
-  const entries = Object.entries(args);
+  const entries = Object.entries(args).filter(
+    ([key, value]) => !(key === "targetUrl" && typeof args.url === "string" && value === args.url)
+  );
   if (entries.length === 0) return "—";
   return entries.map(([key, value]) => `${key}: ${String(value)}`).join(" | ");
 }
@@ -457,7 +459,8 @@ export default function ScrapeJobDetail({
   const targetValue = useMemo(() => {
     const args = data?.job.args as Record<string, unknown> | undefined;
     if (!args) return "";
-    return String(args.targetUrl ?? "");
+    const value = (args.url as string | undefined) ?? (args.targetUrl as string | undefined);
+    return typeof value === "string" ? value : "";
   }, [data?.job.args]);
 
   const filteredLogs = useMemo(() => {

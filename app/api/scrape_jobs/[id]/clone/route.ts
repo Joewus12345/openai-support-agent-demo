@@ -2,6 +2,7 @@ import { ScrapeJobStatus } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { triggerScrapeJob } from "@/lib/scrapeRunner";
 import { ensureAuthenticated } from "../../helpers";
+import { mergeArgsWithTarget, parseTargetUrlFromArgs } from "../../validation";
 
 export async function POST(
   request: Request,
@@ -28,10 +29,18 @@ export async function POST(
       });
     }
 
+    const { url: targetUrl, error: targetError } = parseTargetUrlFromArgs(source.args ?? {}, {
+      required: true,
+    });
+
+    if (targetError) {
+      return new Response(JSON.stringify({ error: targetError }), { status: 400 });
+    }
+
     const job = await prisma.scrapeJob.create({
       data: {
         script: source.script,
-        args: source.args ?? {},
+        args: mergeArgsWithTarget(source.args ?? {}, targetUrl),
         cadence: source.cadence,
         status: ScrapeJobStatus.queued,
         paused: false,
