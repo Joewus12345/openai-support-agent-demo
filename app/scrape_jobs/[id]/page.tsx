@@ -22,7 +22,8 @@ import {
   XCircle,
   Zap,
 } from "lucide-react";
-import useSWR, { useSWRInfinite } from "swr";
+import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
@@ -246,7 +247,7 @@ export default function ScrapeJobDetail({
 
   const loadOlderLogs = () => {
     if (nextLogCursor) {
-      setLogPageCount((count) => count + 1);
+      setLogPageCount((count: number) => count + 1);
     }
   };
 
@@ -297,11 +298,10 @@ export default function ScrapeJobDetail({
     data: logPages,
     isLoading: logsLoading,
     error: logError,
-    size: logPageCount,
     setSize: setLogPageCount,
     mutate: mutateLogs,
   } = useSWRInfinite<LogPage>(
-    (index, previousPage) => {
+    (index: number, previousPage: LogPage | null) => {
       if (!id) return null;
       if (previousPage && !previousPage.nextCursor) return null;
       const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
@@ -334,7 +334,10 @@ export default function ScrapeJobDetail({
     return String(args.targetUrl ?? "");
   }, [data?.job.args]);
 
-  const logs = useMemo(() => logPages?.flatMap((page) => page?.logs ?? []) ?? [], [logPages]);
+  const logs = useMemo(
+    () => (logPages ?? []).flatMap((page: LogPage) => page?.logs ?? []),
+    [logPages]
+  );
   const nextLogCursor = useMemo(
     () => logPages?.[logPages.length - 1]?.nextCursor ?? null,
     [logPages]
@@ -346,13 +349,13 @@ export default function ScrapeJobDetail({
       return;
     }
 
-    if (!selectedLogId || !logs.some((log) => log.id === selectedLogId)) {
+    if (!selectedLogId || !logs.some((log: LogRun) => log.id === selectedLogId)) {
       setSelectedLogId(logs[0].id);
     }
   }, [logs, selectedLogId]);
 
   const selectedLog = useMemo(
-    () => logs.find((log) => log.id === selectedLogId) ?? logs[0] ?? null,
+    () => logs.find((log: LogRun) => log.id === selectedLogId) ?? logs[0] ?? null,
     [logs, selectedLogId]
   );
   const logContent = selectedLog?.content ?? null;
@@ -1258,7 +1261,7 @@ export default function ScrapeJobDetail({
                   onChange={(event) => setSelectedLogId(event.target.value)}
                   disabled={logs.length === 0}
                 >
-                  {logs.map((log) => (
+                  {logs.map((log: LogRun) => (
                     <option key={log.id} value={log.id}>
                       {new Date(log.startedAt).toLocaleString()} ({Math.max(0, Math.round(log.size / 1024))} KB)
                     </option>

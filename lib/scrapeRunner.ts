@@ -437,10 +437,7 @@ export async function runScrapeJob(
   await fs.promises.mkdir(LOG_DIR, { recursive: true });
   await fs.promises.mkdir(KNOWLEDGE_BASE_DIR, { recursive: true }).catch(() => {});
   const startedAt = new Date();
-  const { relative: defaultRelativeLogPath, absolute: defaultLogPath } = buildRunLogPath(
-    job.id,
-    startedAt
-  );
+  const { absolute: defaultLogPath } = buildRunLogPath(job.id, startedAt);
   const candidateLogPath = job.logPath ? path.resolve(job.logPath) : defaultLogPath;
   const normalizedLogPath = candidateLogPath.startsWith(LOG_DIR)
     ? candidateLogPath

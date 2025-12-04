@@ -47,13 +47,18 @@ export async function GET(request: Request) {
     const cursor = searchParams.get("cursor");
 
     const take = limit ?? undefined;
-    const cursorClause = cursor ? { cursor: { id: cursor }, skip: 1 } : {};
-    const jobs = await prisma.scrapeJob.findMany({
+    const findManyArgs: Prisma.ScrapeJobFindManyArgs = {
       where: status ? { status } : undefined,
       orderBy: { createdAt: "desc" },
       take,
-      ...cursorClause,
-    });
+    };
+
+    if (cursor) {
+      findManyArgs.cursor = { id: cursor };
+      findManyArgs.skip = 1;
+    }
+
+    const jobs = await prisma.scrapeJob.findMany(findManyArgs);
 
     if (includeDetails) {
       const detailed = await Promise.all(

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import useSWR, { useSWRInfinite } from "swr";
+import useSWRInfinite from "swr/infinite";
 import {
   CalendarClock,
   CalendarRange,
@@ -227,15 +227,8 @@ export default function ScrapeJobsPage() {
     timer: null,
   });
 
-  const {
-    data,
-    error,
-    isLoading,
-    mutate,
-    size: pageCount,
-    setSize: setPageCount,
-  } = useSWRInfinite<JobsPage>(
-    (index, previousPage) => {
+  const { data, error, isLoading, mutate, setSize: setPageCount } = useSWRInfinite<JobsPage>(
+    (index: number, previousPage: JobsPage | null) => {
       if (previousPage && !previousPage.nextCursor) return null;
       const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
       return `/api/scrape_jobs?detailed=${detailedPolling ? "true" : "false"}&logPreview=true&limit=${JOB_PAGE_SIZE}${cursorParam}`;
@@ -245,7 +238,7 @@ export default function ScrapeJobsPage() {
       refreshInterval: (latestPages: JobsPage[] | undefined) => {
         if (!isDocumentVisible) return 0;
 
-        const merged = latestPages?.flatMap((page) => page.jobs ?? []) ?? [];
+        const merged = latestPages?.flatMap((page: JobsPage) => page.jobs ?? []) ?? [];
         const hasActiveJobs = merged.some(
           (job: SerializedJob) =>
             job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
@@ -268,7 +261,7 @@ export default function ScrapeJobsPage() {
       refreshWhenHidden: false,
       isPaused: () => !isDocumentVisible,
       onSuccess: () => setConsecutiveErrors(0),
-      onError: () => setConsecutiveErrors((count) => count + 1),
+      onError: () => setConsecutiveErrors((count: number) => count + 1),
     }
   );
 
@@ -287,7 +280,10 @@ export default function ScrapeJobsPage() {
     }
   }, [isDocumentVisible, mutate]);
 
-  const jobs = useMemo(() => data?.flatMap((page) => page.jobs ?? []) ?? [], [data]);
+  const jobs = useMemo(
+    () => (data ?? []).flatMap((page: JobsPage) => page.jobs ?? []),
+    [data]
+  );
   const nextCursor = useMemo(
     () => data?.[data.length - 1]?.nextCursor ?? null,
     [data]
@@ -331,16 +327,18 @@ export default function ScrapeJobsPage() {
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
+    const retryState = eventSourceRetryRef.current;
+
     const cleanupTimers = () => {
-      if (eventSourceRetryRef.current.timer) {
-        clearTimeout(eventSourceRetryRef.current.timer);
-        eventSourceRetryRef.current.timer = null;
+      if (retryState.timer) {
+        clearTimeout(retryState.timer);
+        retryState.timer = null;
       }
     };
 
     const resetRetry = () => {
       cleanupTimers();
-      eventSourceRetryRef.current.attempt = 0;
+      retryState.attempt = 0;
     };
 
     const closeStream = () => {
@@ -349,12 +347,12 @@ export default function ScrapeJobsPage() {
     };
 
     const scheduleReconnect = () => {
-      eventSourceRetryRef.current.attempt += 1;
-      const delay = Math.min(30000, 1000 * 2 ** (eventSourceRetryRef.current.attempt - 1));
+      retryState.attempt += 1;
+      const delay = Math.min(30000, 1000 * 2 ** (retryState.attempt - 1));
 
       cleanupTimers();
-      eventSourceRetryRef.current.timer = setTimeout(() => {
-        eventSourceRetryRef.current.timer = null;
+      retryState.timer = setTimeout(() => {
+        retryState.timer = null;
         if (isDocumentVisible) {
           connect();
         }
@@ -384,9 +382,8 @@ export default function ScrapeJobsPage() {
     return () => {
       cleanupTimers();
       closeStream();
-      eventSourceRetryRef.current.attempt = 0;
+      retryState.attempt = 0;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDocumentVisible, mutate]);
 
   useEffect(() => {
@@ -1318,7 +1315,7 @@ export default function ScrapeJobsPage() {
               type="button"
               className="rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-[#2B83F6] hover:bg-zinc-50 disabled:opacity-60"
               disabled={!nextCursor || isLoading}
-              onClick={() => setPageCount((count) => count + 1)}
+              onClick={() => setPageCount((count: number) => count + 1)}
             >
               {nextCursor ? "Load more" : "All history loaded"}
             </button>
