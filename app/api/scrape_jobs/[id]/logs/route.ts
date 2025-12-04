@@ -16,12 +16,19 @@ export async function GET(
   const { searchParams } = new URL(request.url);
   const limit = parseLimit(searchParams.get("limit"));
   const cursor = searchParams.get("cursor") ?? undefined;
+  const start = searchParams.get("start");
+  const end = searchParams.get("end");
+
+  const startDate = start ? new Date(start) : null;
+  const endDate = end ? new Date(end) : null;
 
   try {
     const { logs, nextCursor } = await listJobLogRuns(id, {
       limit,
       cursor,
       includeContent: true,
+      start: startDate && !Number.isNaN(startDate.getTime()) ? startDate : null,
+      end: endDate && !Number.isNaN(endDate.getTime()) ? endDate : null,
     });
 
     return new Response(

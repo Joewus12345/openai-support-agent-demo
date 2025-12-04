@@ -45,10 +45,29 @@ export async function GET(request: Request) {
     const includeLogPreview = searchParams.get("logPreview") === "true";
     const limit = parseLimit(searchParams.get("limit"));
     const cursor = searchParams.get("cursor");
+    const { value: createdAfter, error: createdAfterError } = parseDate(searchParams.get("from"));
+    const { value: createdBefore, error: createdBeforeError } = parseDate(searchParams.get("to"));
+
+    if (createdAfterError || createdBeforeError) {
+      return new Response(
+        JSON.stringify({ error: createdAfterError || createdBeforeError }),
+        { status: 400 }
+      );
+    }
 
     const take = limit ?? undefined;
     const findManyArgs: Prisma.ScrapeJobFindManyArgs = {
-      where: status ? { status } : undefined,
+      where: {
+        ...(status ? { status } : {}),
+        ...(createdAfter || createdBefore
+          ? {
+              createdAt: {
+                ...(createdAfter ? { gte: createdAfter } : {}),
+                ...(createdBefore ? { lte: createdBefore } : {}),
+              },
+            }
+          : {}),
+      },
       orderBy: { createdAt: "desc" },
       take,
     };

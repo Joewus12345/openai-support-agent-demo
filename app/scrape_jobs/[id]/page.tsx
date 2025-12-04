@@ -193,6 +193,15 @@ export default function ScrapeJobDetail({
   const [authError, setAuthError] = useState<string | null>(null);
   const [authRequired, setAuthRequired] = useState(false);
   const [selectedLogId, setSelectedLogId] = useState<string | null>(null);
+  const [logFilterDraft, setLogFilterDraft] = useState<{ start: string; end: string }>({
+    start: "",
+    end: "",
+  });
+  const [appliedLogFilter, setAppliedLogFilter] = useState<{ start: string; end: string }>({
+    start: "",
+    end: "",
+  });
+  const [logViewMode, setLogViewMode] = useState<"single" | "all">("single");
   const logContainerRef = useRef<HTMLDivElement | null>(null);
   const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
@@ -265,6 +274,20 @@ export default function ScrapeJobDetail({
     }
   };
 
+  const applyLogFilters = () => {
+    setAppliedLogFilter(logFilterDraft);
+    setLogPageCount(1);
+    setSelectedLogId(null);
+  };
+
+  const clearLogFilters = () => {
+    const cleared = { start: "", end: "" };
+    setLogFilterDraft(cleared);
+    setAppliedLogFilter(cleared);
+    setLogPageCount(1);
+    setSelectedLogId(null);
+  };
+
   useEffect(() => {
     let active = true;
     void params
@@ -305,7 +328,11 @@ export default function ScrapeJobDetail({
       if (!id) return null;
       if (previousPage && !previousPage.nextCursor) return null;
       const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
-      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}`;
+      const startParam = appliedLogFilter.start
+        ? `&start=${encodeURIComponent(appliedLogFilter.start)}`
+        : "";
+      const endParam = appliedLogFilter.end ? `&end=${encodeURIComponent(appliedLogFilter.end)}` : "";
+      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}`;
     },
     fetcher,
     {
@@ -358,7 +385,19 @@ export default function ScrapeJobDetail({
     () => logs.find((log: LogRun) => log.id === selectedLogId) ?? logs[0] ?? null,
     [logs, selectedLogId]
   );
-  const logContent = selectedLog?.content ?? null;
+  const logContent = useMemo(() => {
+    if (logViewMode === "all") {
+      if (!logs.length) return null;
+      return logs
+        .map((log: LogRun) => {
+          const timestamp = new Date(log.startedAt).toLocaleString();
+          return `[${timestamp}]\n${log.content ?? ""}`;
+        })
+        .join("\n\n———\n\n");
+    }
+
+    return selectedLog?.content ?? null;
+  }, [logViewMode, logs, selectedLog]);
 
   const logSnippet = useMemo(() => {
     const firstLine = (logContent || "").split("\n").find(Boolean) || "No log yet.";
@@ -1244,41 +1283,91 @@ export default function ScrapeJobDetail({
       )}
 
       <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm">
-        <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
-          <div className="text-sm font-semibold text-zinc-800">Log output</div>
-            {logError && (
-              <div className="text-[11px] text-red-600">Failed to load logs.</div>
-            )}
-            <div className="flex items-center gap-2 flex-wrap text-xs text-zinc-600">
-              <div className="flex items-center gap-2">
-                <label className="sr-only" htmlFor="log-run-picker">
-                  Select log run
-                </label>
-                <select
-                  id="log-run-picker"
+        <div className="flex flex-col gap-2 mb-2">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="text-sm font-semibold text-zinc-800">Log output</div>
+            {logError && <div className="text-[11px] text-red-600">Failed to load logs.</div>}
+          </div>
+          <div className="flex flex-wrap gap-3 text-xs text-zinc-600">
+            <div className="flex flex-wrap items-end gap-2">
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">From</span>
+                <input
+                  type="datetime-local"
                   className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
-                  value={selectedLogId ?? logs[0]?.id ?? ""}
-                  onChange={(event) => setSelectedLogId(event.target.value)}
-                  disabled={logs.length === 0}
+                  value={logFilterDraft.start}
+                  onChange={(event) =>
+                    setLogFilterDraft((prev) => ({ ...prev, start: event.target.value }))
+                  }
+                />
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">To</span>
+                <input
+                  type="datetime-local"
+                  className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                  value={logFilterDraft.end}
+                  onChange={(event) => setLogFilterDraft((prev) => ({ ...prev, end: event.target.value }))}
+                />
+              </label>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="rounded border border-zinc-200 px-3 py-1.5 font-medium text-[#2B83F6] hover:border-[#2B83F6]"
+                  onClick={applyLogFilters}
+                  disabled={logsLoading}
                 >
-                  {logs.map((log: LogRun) => (
-                    <option key={log.id} value={log.id}>
-                      {new Date(log.startedAt).toLocaleString()} ({Math.max(0, Math.round(log.size / 1024))} KB)
-                    </option>
-                  ))}
-                  {!logs.length ? <option value="">No logs yet</option> : null}
-                </select>
-                {nextLogCursor ? (
-                  <button
-                    type="button"
-                    className="text-[#2B83F6] hover:underline"
-                    onClick={loadOlderLogs}
-                    disabled={logsLoading}
-                  >
-                    Load older logs
-                  </button>
-                ) : null}
+                  Apply
+                </button>
+                <button
+                  type="button"
+                  className="rounded border border-zinc-200 px-3 py-1.5 font-medium text-zinc-600 hover:border-zinc-300"
+                  onClick={clearLogFilters}
+                  disabled={logsLoading}
+                >
+                  Clear
+                </button>
               </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <label className="sr-only" htmlFor="log-run-picker">
+                Select log run
+              </label>
+              <select
+                id="log-run-picker"
+                className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                value={selectedLogId ?? logs[0]?.id ?? ""}
+                onChange={(event) => setSelectedLogId(event.target.value)}
+                disabled={logs.length === 0 || logViewMode === "all"}
+              >
+                {logs.map((log: LogRun) => (
+                  <option key={log.id} value={log.id}>
+                    {new Date(log.startedAt).toLocaleString()} ({Math.max(0, Math.round(log.size / 1024))} KB)
+                  </option>
+                ))}
+                {!logs.length ? <option value="">No logs yet</option> : null}
+              </select>
+              {nextLogCursor ? (
+                <button
+                  type="button"
+                  className="text-[#2B83F6] hover:underline"
+                  onClick={loadOlderLogs}
+                  disabled={logsLoading}
+                >
+                  Load older logs
+                </button>
+              ) : null}
+              <label className="flex items-center gap-2">
+                <span className="text-[11px] text-zinc-500">View</span>
+                <select
+                  className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                  value={logViewMode}
+                  onChange={(event) => setLogViewMode(event.target.value as "single" | "all")}
+                >
+                  <option value="single">Selected run</option>
+                  <option value="all">All loaded runs</option>
+                </select>
+              </label>
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -1318,6 +1407,7 @@ export default function ScrapeJobDetail({
               </button>
             </div>
           </div>
+        </div>
           <div
             ref={logContainerRef}
             tabIndex={0}

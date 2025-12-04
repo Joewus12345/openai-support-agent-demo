@@ -221,6 +221,16 @@ export default function ScrapeJobsPage() {
   );
   const [consecutiveErrors, setConsecutiveErrors] = useState(0);
   const [detailedPolling, setDetailedPolling] = useState(true);
+  const [historyFilters, setHistoryFilters] = useState<{
+    status: ScrapeJobStatus | "";
+    from: string;
+    to: string;
+  }>({ status: "", from: "", to: "" });
+  const [appliedHistoryFilters, setAppliedHistoryFilters] = useState<{
+    status: ScrapeJobStatus | "";
+    from: string;
+    to: string;
+  }>({ status: "", from: "", to: "" });
   const eventSourceRef = useRef<EventSource | null>(null);
   const eventSourceRetryRef = useRef<{ attempt: number; timer: NodeJS.Timeout | null }>({
     attempt: 0,
@@ -231,7 +241,16 @@ export default function ScrapeJobsPage() {
     (index: number, previousPage: JobsPage | null) => {
       if (previousPage && !previousPage.nextCursor) return null;
       const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
-      return `/api/scrape_jobs?detailed=${detailedPolling ? "true" : "false"}&logPreview=true&limit=${JOB_PAGE_SIZE}${cursorParam}`;
+      const statusParam = appliedHistoryFilters.status
+        ? `&status=${appliedHistoryFilters.status}`
+        : "";
+      const fromParam = appliedHistoryFilters.from
+        ? `&from=${encodeURIComponent(appliedHistoryFilters.from)}`
+        : "";
+      const toParam = appliedHistoryFilters.to
+        ? `&to=${encodeURIComponent(appliedHistoryFilters.to)}`
+        : "";
+      return `/api/scrape_jobs?detailed=${detailedPolling ? "true" : "false"}&logPreview=true&limit=${JOB_PAGE_SIZE}${cursorParam}${statusParam}${fromParam}${toParam}`;
     },
     paginatedFetcher,
     {
@@ -264,6 +283,18 @@ export default function ScrapeJobsPage() {
       onError: () => setConsecutiveErrors((count: number) => count + 1),
     }
   );
+
+  const applyHistoryFilters = () => {
+    setAppliedHistoryFilters(historyFilters);
+    setPageCount(1);
+  };
+
+  const clearHistoryFilters = () => {
+    const cleared = { status: "" as ScrapeJobStatus | "", from: "", to: "" };
+    setHistoryFilters(cleared);
+    setAppliedHistoryFilters(cleared);
+    setPageCount(1);
+  };
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -983,9 +1014,69 @@ export default function ScrapeJobsPage() {
         </div>
 
         <div className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm">
-          <div className="flex justify-between items-center mb-3">
-            <div className="text-lg font-semibold">Past jobs</div>
-            {isLoading && <Loader2 size={18} className="animate-spin text-zinc-400" />}
+          <div className="flex flex-col gap-3 mb-3">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <div>
+                <div className="text-lg font-semibold">Past jobs</div>
+                <div className="mt-1 h-1 w-24 rounded-full bg-gradient-to-r from-[#2B83F6] to-[#60a5fa]" />
+              </div>
+              {isLoading && <Loader2 size={18} className="animate-spin text-zinc-400" />}
+            </div>
+            <div className="flex flex-wrap items-end gap-3 text-xs text-zinc-700">
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">Status</span>
+                <select
+                  className="rounded-lg border border-zinc-200 px-2 py-1 min-w-[150px]"
+                  value={historyFilters.status}
+                  onChange={(event) =>
+                    setHistoryFilters((prev) => ({ ...prev, status: event.target.value as ScrapeJobStatus | "" }))
+                  }
+                >
+                  <option value="">All statuses</option>
+                  {Object.values(ScrapeJobStatus).map((value) => (
+                    <option key={value} value={value} className="capitalize">
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">Created after</span>
+                <input
+                  type="datetime-local"
+                  className="rounded-lg border border-zinc-200 px-2 py-1"
+                  value={historyFilters.from}
+                  onChange={(event) => setHistoryFilters((prev) => ({ ...prev, from: event.target.value }))}
+                />
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">Created before</span>
+                <input
+                  type="datetime-local"
+                  className="rounded-lg border border-zinc-200 px-2 py-1"
+                  value={historyFilters.to}
+                  onChange={(event) => setHistoryFilters((prev) => ({ ...prev, to: event.target.value }))}
+                />
+              </label>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="rounded-lg border border-zinc-200 px-3 py-1.5 font-medium text-[#2B83F6] hover:border-[#2B83F6]"
+                  onClick={applyHistoryFilters}
+                  disabled={isLoading}
+                >
+                  Apply filters
+                </button>
+                <button
+                  type="button"
+                  className="rounded-lg border border-zinc-200 px-3 py-1.5 font-medium text-zinc-600 hover:border-zinc-300"
+                  onClick={clearHistoryFilters}
+                  disabled={isLoading}
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
           </div>
           {error && (
             <div className="flex items-center justify-between gap-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">

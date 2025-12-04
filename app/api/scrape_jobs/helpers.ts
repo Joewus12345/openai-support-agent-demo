@@ -55,7 +55,13 @@ type LogRun = {
 
 export async function listJobLogRuns(
   jobId: string,
-  options: { limit?: number; cursor?: string; includeContent?: boolean } = {}
+  options: {
+    limit?: number;
+    cursor?: string;
+    includeContent?: boolean;
+    start?: Date | null;
+    end?: Date | null;
+  } = {}
 ) {
   const limit = Math.max(1, Math.min(options.limit ?? 3, 25));
   const logDir = path.join(JOB_LOG_ROOT, jobId);
@@ -91,7 +97,13 @@ export async function listJobLogRuns(
     // ignore if missing
   }
 
-  const sorted = entries.sort((a, b) => b.startedAt.getTime() - a.startedAt.getTime());
+  const filteredEntries = entries.filter((entry) => {
+    const withinStart = options.start ? entry.startedAt >= options.start : true;
+    const withinEnd = options.end ? entry.startedAt <= options.end : true;
+    return withinStart && withinEnd;
+  });
+
+  const sorted = filteredEntries.sort((a, b) => b.startedAt.getTime() - a.startedAt.getTime());
   const cursorIndex = options.cursor
     ? sorted.findIndex((entry) => path.basename(entry.path) === options.cursor)
     : -1;
