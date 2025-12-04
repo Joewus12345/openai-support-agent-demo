@@ -209,7 +209,10 @@ export default function ScrapeJobDetail({
     anchor: "",
   });
   const [logViewMode, setLogViewMode] = useState<"single" | "all">("single");
-  const [logContentStart, setLogContentStart] = useState<number | null>(null);
+  const [globalLogContentStart, setGlobalLogContentStart] = useState<number | null>(null);
+  const [logChunkRanges, setLogChunkRanges] = useState<Record<string, { offset: number | null; direction?: "before" | "after" | null }>>(
+    {}
+  );
   const logContainerRef = useRef<HTMLDivElement | null>(null);
   const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
@@ -286,7 +289,8 @@ export default function ScrapeJobDetail({
     setAppliedLogFilter(logFilterDraft);
     setLogPageCount(1);
     setSelectedLogId(null);
-    setLogContentStart(logFilterDraft.anchor ? 0 : null);
+    setGlobalLogContentStart(logFilterDraft.anchor ? 0 : null);
+    setLogChunkRanges({});
   };
 
   const clearLogFilters = () => {
@@ -295,7 +299,8 @@ export default function ScrapeJobDetail({
     setAppliedLogFilter(cleared);
     setLogPageCount(1);
     setSelectedLogId(null);
-    setLogContentStart(null);
+    setGlobalLogContentStart(null);
+    setLogChunkRanges({});
   };
 
   const shiftLogContent = (direction: "earlier" | "later") => {
@@ -305,14 +310,31 @@ export default function ScrapeJobDetail({
     const currentStart = typeof target.contentStart === "number" ? target.contentStart : 0;
     if (direction === "earlier" && target.hasMoreBefore) {
       const nextStart = Math.max(0, currentStart - LOG_CONTENT_CHUNK);
-      setLogContentStart(nextStart);
+      setLogChunkRanges((prev) => ({ ...prev, [target.id]: { offset: nextStart, direction: "before" } }));
+      setGlobalLogContentStart(null);
       return;
     }
 
     if (direction === "later" && target.hasMoreAfter) {
-      const nextStart = Math.max(0, Math.min(target.size - LOG_CONTENT_CHUNK, target.contentEnd ?? currentStart + LOG_CONTENT_CHUNK));
-      setLogContentStart(nextStart);
+      const nextStart = Math.max(
+        0,
+        Math.min(target.size - LOG_CONTENT_CHUNK, target.contentEnd ?? currentStart + LOG_CONTENT_CHUNK)
+      );
+      setLogChunkRanges((prev) => ({ ...prev, [target.id]: { offset: nextStart, direction: "after" } }));
+      setGlobalLogContentStart(null);
     }
+  };
+
+  const resetSelectedLogRange = () => {
+    const target = selectedLog ?? logs[0];
+    if (!target) return;
+    setGlobalLogContentStart(null);
+    setLogChunkRanges((prev) => {
+      if (!(target.id in prev)) return prev;
+      const next = { ...prev };
+      delete next[target.id];
+      return next;
+    });
   };
 
   useEffect(() => {
@@ -363,9 +385,13 @@ export default function ScrapeJobDetail({
         ? `&before=${encodeURIComponent(appliedLogFilter.anchor)}`
         : "";
       const chunkStartParam =
-        logContentStart !== null ? `&contentStart=${Math.max(0, logContentStart)}` : "";
+        globalLogContentStart !== null ? `&contentStart=${Math.max(0, globalLogContentStart)}` : "";
       const chunkLimitParam = `&contentLimit=${LOG_CONTENT_CHUNK}`;
-      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}${beforeParam}${chunkStartParam}${chunkLimitParam}`;
+      const contentRangesParam =
+        Object.keys(logChunkRanges).length > 0
+          ? `&contentRanges=${encodeURIComponent(JSON.stringify(logChunkRanges))}`
+          : "";
+      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}${beforeParam}${chunkStartParam}${chunkLimitParam}${contentRangesParam}`;
     },
     fetcher,
     {
@@ -415,12 +441,15 @@ export default function ScrapeJobDetail({
   }, [logs, selectedLogId]);
 
   useEffect(() => {
-    setLogContentStart(null);
+    if (!selectedLogId) return;
+    setGlobalLogContentStart(null);
+    setLogChunkRanges((prev) => {
+      if (!(selectedLogId in prev)) return prev;
+      const next = { ...prev };
+      delete next[selectedLogId];
+      return next;
+    });
   }, [selectedLogId]);
-
-  useEffect(() => {
-    setLogPageCount(1);
-  }, [logContentStart, setLogPageCount]);
 
   const selectedLog = useMemo(
     () => logs.find((log: LogRun) => log.id === selectedLogId) ?? logs[0] ?? null,
@@ -1450,11 +1479,11 @@ export default function ScrapeJobDetail({
                   Load later content
                 </button>
               ) : null}
-              {logContentStart !== null ? (
+              {selectedLog && (globalLogContentStart !== null || logChunkRanges[selectedLog.id]) ? (
                 <button
                   type="button"
                   className="text-zinc-600 hover:underline"
-                  onClick={() => setLogContentStart(null)}
+                  onClick={resetSelectedLogRange}
                   disabled={logsLoading}
                 >
                   Jump to newest chunk

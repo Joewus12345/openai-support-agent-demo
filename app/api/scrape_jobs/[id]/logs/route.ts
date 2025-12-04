@@ -22,11 +22,46 @@ export async function GET(
   const after = searchParams.get("after");
   const contentStart = searchParams.get("contentStart");
   const contentLimit = searchParams.get("contentLimit");
+  const contentRanges = searchParams.get("contentRanges");
 
   const startDate = start ? new Date(start) : null;
   const endDate = end ? new Date(end) : null;
   const beforeDate = before ? new Date(before) : null;
   const afterDate = after ? new Date(after) : null;
+
+  const parsedRanges = (() => {
+    if (!contentRanges) return undefined;
+    try {
+      const decoded = JSON.parse(contentRanges) as Record<
+        string,
+        { offset?: number | null; direction?: "before" | "after" | null; limit?: number | null }
+      >;
+
+      return Object.fromEntries(
+        Object.entries(decoded)
+          .filter((entry): entry is [string, { offset?: number | null; direction?: "before" | "after" | null; limit?: number | null }] => {
+            const [, value] = entry;
+            return value && typeof value === "object";
+          })
+          .map(([key, value]) => [
+            key,
+            {
+              offset:
+                typeof value.offset === "number" && Number.isFinite(value.offset)
+                  ? value.offset
+                  : null,
+              direction: value.direction === "before" || value.direction === "after" ? value.direction : null,
+              limit:
+                typeof value.limit === "number" && Number.isFinite(value.limit)
+                  ? Math.max(1000, Math.min(50000, value.limit))
+                  : null,
+            },
+          ]),
+      );
+    } catch {
+      return undefined;
+    }
+  })();
 
   try {
     const { logs, nextCursor } = await listJobLogRuns(id, {
@@ -43,6 +78,7 @@ export async function GET(
         contentLimit && Number.isFinite(Number(contentLimit))
           ? Math.max(1000, Math.min(50000, Number(contentLimit)))
           : null,
+      contentByLogId: parsedRanges,
     });
 
     return new Response(

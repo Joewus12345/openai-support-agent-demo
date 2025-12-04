@@ -1014,11 +1014,10 @@ export default function ScrapeJobsPage() {
         </div>
 
         <div className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm">
-          <div className="flex flex-col gap-2 mb-4 pb-3 border-b border-zinc-200">
-            <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex flex-col gap-2 mb-4">
+            <div className="flex items-center justify-between gap-3 flex-wrap pb-3 border-b border-zinc-200">
               <div className="flex flex-col gap-1">
                 <div className="text-lg font-semibold">Past jobs</div>
-                <div className="h-px w-full bg-zinc-200" />
               </div>
               {isLoading && <Loader2 size={18} className="animate-spin text-zinc-400" />}
             </div>

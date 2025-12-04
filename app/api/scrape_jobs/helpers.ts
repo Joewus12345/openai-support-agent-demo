@@ -47,7 +47,7 @@ export async function readJobLog(logPath: string | null | undefined, opts?: { ma
 
 export async function readJobLogChunk(
   logPath: string | null | undefined,
-  opts: { start?: number | null; maxBytes?: number } = {}
+  opts: { start?: number | null; anchor?: number | null; direction?: "before" | "after" | null; maxBytes?: number } = {}
 ) {
   if (!logPath) return null;
   const limit = opts.maxBytes && opts.maxBytes > 0 ? Math.min(opts.maxBytes, 50000) : 20000;
@@ -55,10 +55,23 @@ export async function readJobLogChunk(
   try {
     const stat = await fs.stat(logPath);
     const size = stat.size;
+    const anchor =
+      typeof opts.anchor === "number" && Number.isFinite(opts.anchor)
+        ? Math.max(0, Math.min(opts.anchor, Math.max(0, size - 1)))
+        : null;
     const start = (() => {
       if (typeof opts.start === "number" && Number.isFinite(opts.start)) {
         return Math.max(0, Math.min(opts.start, Math.max(0, size - 1)));
       }
+
+      if (anchor !== null && opts.direction === "before") {
+        return Math.max(0, anchor - limit);
+      }
+
+      if (anchor !== null && opts.direction === "after") {
+        return Math.max(0, Math.min(Math.max(0, size - limit), anchor + limit));
+      }
+
       return Math.max(0, size - limit);
     })();
 
@@ -108,6 +121,14 @@ export async function listJobLogRuns(
     after?: Date | null;
     contentStart?: number | null;
     contentLimit?: number | null;
+    contentByLogId?: Record<
+      string,
+      {
+        offset?: number | null;
+        direction?: "before" | "after" | null;
+        limit?: number | null;
+      }
+    >;
   } = {}
 ) {
   const limit = Math.max(1, Math.min(options.limit ?? 10, 50));
@@ -187,9 +208,12 @@ export async function listJobLogRuns(
       size: entry.size,
       ...(options.includeContent
         ? await (async () => {
+            const perLogRange = options.contentByLogId?.[path.basename(entry.path)];
             const chunk = await readJobLogChunk(entry.path, {
-              start: options.contentStart ?? null,
-              maxBytes: options.contentLimit ?? undefined,
+              start: typeof perLogRange?.offset === "number" ? null : options.contentStart ?? null,
+              anchor: typeof perLogRange?.offset === "number" ? perLogRange.offset : options.contentStart ?? null,
+              direction: perLogRange?.direction ?? null,
+              maxBytes: perLogRange?.limit ?? options.contentLimit ?? undefined,
             });
             if (!chunk) return { content: null, contentStart: 0, contentEnd: 0, hasMoreBefore: false, hasMoreAfter: false };
             return {
