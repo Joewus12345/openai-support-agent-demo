@@ -22,6 +22,12 @@ import {
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
+import {
+  SCRIPT_SCHEMA_MAP,
+  SCRIPT_SCHEMAS,
+  validateArgsForSchema,
+  validateTargetForSchema,
+} from "@/config/scrapeScripts";
 
 type ScrapeJob = {
   id: string;
@@ -60,8 +66,8 @@ type JobsPage = { jobs: SerializedJob[]; nextCursor: string | null };
 const JOB_PAGE_SIZE = 40;
 
 const fetcher = async (url: string) => {
-  const maxAttempts = 2;
-  const timeoutMs = 12000;
+  const maxAttempts = process.env.NODE_ENV === "production" ? 2 : 3;
+  const timeoutMs = process.env.NODE_ENV === "production" ? 12000 : 25000;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     const controller = new AbortController();
@@ -90,14 +96,21 @@ const fetcher = async (url: string) => {
       const isLastAttempt = attempt === maxAttempts;
       const isAbortError = (error as Error)?.name === "AbortError";
       const message = isAbortError
-        ? `Scrape jobs request timed out after ${timeoutMs / 1000}s`
+        ? `Scrape jobs request timed out after ${timeoutMs / 1000}s; will retry automatically.`
         : "Error fetching scrape jobs";
 
-      console.error(message, error);
+      if (isAbortError) {
+        console.warn(message, error);
+      } else {
+        console.error(message, error);
+      }
 
       if (isLastAttempt) {
         const finalError = new Error(message);
-        (finalError as Error & { cause?: unknown }).cause = error;
+        (finalError as Error & { cause?: unknown; name?: string }).cause = error;
+        if (isAbortError) {
+          finalError.name = "TimeoutError";
+        }
         throw finalError;
       }
 
@@ -118,50 +131,7 @@ const paginatedFetcher = async (url: string): Promise<JobsPage> => {
   return payload as JobsPage;
 };
 
-const SCRIPT_PRESETS = [
-  {
-    key: "docs-sequential-v2",
-    label: "Sequential sitemap",
-    hint: "Best for stable sitemaps; walks URLs in order with predictable pacing.",
-    defaultTarget: "https://automationghana.com/sitemap_index.xml",
-  },
-  {
-    key: "docs-sequential-v1",
-    label: "Sequential sitemap (v1)",
-    hint: "Legacy sequential crawler tuned for sitemap-driven docs.",
-    defaultTarget: "https://automationghana.com/sitemap_index.xml",
-  },
-  {
-    key: "sitemap-parallel",
-    label: "Parallel sitemap",
-    hint: "Fan-out crawler that accelerates large sitemaps with concurrency controls.",
-    defaultTarget: "https://automationghana.com/sitemap_index.xml",
-  },
-  {
-    key: "woocommerce",
-    label: "WooCommerce",
-    hint: "Tailored product crawler that keeps variant and pricing metadata intact.",
-    defaultTarget: "https://store.automationghana.com",
-  },
-  {
-    key: "docs-fast-v1",
-    label: "FAST docs (v1)",
-    hint: "Legacy concurrent docs crawler optimized for speed.",
-    defaultTarget: "https://automationghana.com/sitemap_index.xml",
-  },
-  {
-    key: "recursive-v2",
-    label: "Recursive",
-    hint: "Discovers deep links from a root URL—good for docs without sitemaps.",
-    defaultTarget: "https://automationghana.com",
-  },
-  {
-    key: "llms-txt",
-    label: "LLM text",
-    hint: "Optimized for llms.txt / Markdown feeds with minimal boilerplate noise.",
-    defaultTarget: "https://automationghana.com/llms.txt",
-  },
-];
+const SCRIPT_PRESETS = SCRIPT_SCHEMAS;
 
 const KNOWLEDGE_BASE_PATH = "public/knowledge_base";
 const AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT =
@@ -213,6 +183,13 @@ function progressColor(status: ScrapeJobStatus, paused: boolean) {
   if (status === ScrapeJobStatus.failed) return "bg-red-500";
   if (status === ScrapeJobStatus.completed) return "bg-emerald-500";
   return "bg-[#2B83F6]";
+}
+
+function getJobTarget(job: ScrapeJob) {
+  const args = job.args as Record<string, unknown> | null;
+  if (!args) return "";
+  const value = (args.url as string | undefined) ?? (args.targetUrl as string | undefined);
+  return typeof value === "string" ? value : "";
 }
 
 export default function ScrapeJobsPage() {
@@ -334,6 +311,9 @@ export default function ScrapeJobsPage() {
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
   const [targetUrl, setTargetUrl] = useState(SCRIPT_PRESETS[0].defaultTarget);
+  const [createTargetError, setCreateTargetError] = useState<string | null>(null);
+  const [createArgError, setCreateArgError] = useState<string | null>(null);
+  const [requiredArgDrafts, setRequiredArgDrafts] = useState<Record<string, string>>({});
   const [creating, setCreating] = useState<string | null>(null);
   const [ingesting, setIngesting] = useState<Record<string, string>>({});
   const [copiedTarget, setCopiedTarget] = useState(false);
@@ -473,9 +453,61 @@ export default function ScrapeJobsPage() {
     if (preset?.defaultTarget) {
       setTargetUrl(preset.defaultTarget);
     }
+    setCreateTargetError(null);
+    setCreateArgError(null);
+    const schema = SCRIPT_SCHEMA_MAP.get(key);
+    if (schema?.requiredArgs?.length) {
+      setRequiredArgDrafts((current) => {
+        const next: Record<string, string> = {};
+        schema.requiredArgs?.forEach((req) => {
+          next[req.key] = current[req.key] ?? "";
+        });
+        return next;
+      });
+    } else {
+      setRequiredArgDrafts({});
+    }
   };
 
   const createJob = async (cadence: ScrapeJobCadence) => {
+    const schema = activeSchema;
+    const trimmedTarget = targetUrl.trim();
+    setCreateTargetError(null);
+    setCreateArgError(null);
+
+    if (!trimmedTarget) {
+      setCreateTargetError("Enter a target URL");
+      return;
+    }
+
+    if (schema) {
+      const targetError = validateTargetForSchema(schema, trimmedTarget);
+      if (targetError) {
+        setCreateTargetError(targetError);
+        return;
+      }
+    }
+
+    const argsPayload: Record<string, unknown> = trimmedTarget
+      ? { url: trimmedTarget, targetUrl: trimmedTarget }
+      : {};
+
+    if (schema?.requiredArgs?.length) {
+      schema.requiredArgs.forEach((req) => {
+        const draft = (requiredArgDrafts[req.key] ?? "").trim();
+        if (draft) {
+          const parts = draft.split(",").map((part) => part.trim()).filter(Boolean);
+          argsPayload[req.key] = parts.length > 1 ? parts : parts[0];
+        }
+      });
+
+      const argError = validateArgsForSchema(schema, argsPayload);
+      if (argError) {
+        setCreateArgError(argError);
+        return;
+      }
+    }
+
     try {
       setCreating(cadence);
       const response = await fetch("/api/scrape_jobs", {
@@ -483,7 +515,7 @@ export default function ScrapeJobsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           script: selectedPreset,
-          args: targetUrl ? { targetUrl } : {},
+          args: argsPayload,
           cadence,
           status: ScrapeJobStatus.queued,
         }),
@@ -495,6 +527,8 @@ export default function ScrapeJobsPage() {
         console.error("Failed to create job", await response.text());
       } else {
         await mutate();
+        setCreateArgError(null);
+        setCreateTargetError(null);
       }
     } finally {
       setCreating(null);
@@ -514,6 +548,8 @@ export default function ScrapeJobsPage() {
       // ignore
     }
   };
+
+  const activeSchema = SCRIPT_SCHEMA_MAP.get(selectedPreset);
 
   const getScheduleDraft = (job: ScrapeJob) =>
     scheduleDrafts[job.id] ?? {
@@ -930,7 +966,11 @@ export default function ScrapeJobsPage() {
               <div className="flex gap-2">
                 <input
                   value={targetUrl}
-                  onChange={(e) => setTargetUrl(e.target.value)}
+                  onChange={(e) => {
+                    setTargetUrl(e.target.value);
+                    if (createTargetError) setCreateTargetError(null);
+                    if (createArgError) setCreateArgError(null);
+                  }}
                   className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
                   placeholder="https://example.com/sitemap.xml"
                 />
@@ -949,6 +989,42 @@ export default function ScrapeJobsPage() {
                 </button>
               </div>
             </label>
+            {activeSchema ? (
+              <div className="text-[11px] text-zinc-600 flex flex-col gap-1">
+                <div>{activeSchema.target.description}</div>
+                {activeSchema.target.example ? (
+                  <div className="text-[11px] text-zinc-500">
+                    Example: {activeSchema.target.example}
+                  </div>
+                ) : null}
+                {activeSchema.requiredArgs?.length ? (
+                  <div className="text-[11px] text-amber-700">
+                    Requires: {activeSchema.requiredArgs.map((req) => req.description).join("; ")}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+            {activeSchema?.requiredArgs?.map((req) => (
+              <label key={req.key} className="flex flex-col gap-1 text-sm text-zinc-600">
+                {req.description}
+                <input
+                  value={requiredArgDrafts[req.key] ?? ""}
+                  onChange={(event) => {
+                    setRequiredArgDrafts((current) => ({
+                      ...current,
+                      [req.key]: event.target.value,
+                    }));
+                    setCreateArgError(null);
+                  }}
+                  className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
+                  placeholder={req.description}
+                />
+              </label>
+            ))}
+            {createTargetError ? (
+              <div className="text-[11px] text-red-600">{createTargetError}</div>
+            ) : null}
+            {createArgError ? <div className="text-[11px] text-red-600">{createArgError}</div> : null}
             <button
               onClick={enqueueManual}
               disabled={creating !== null}
@@ -1099,6 +1175,7 @@ export default function ScrapeJobsPage() {
               <thead>
                 <tr className="text-left text-zinc-500">
                   <th className="py-2 pr-3">Script</th>
+                  <th className="py-2 pr-3">Target</th>
                   <th className="py-2 pr-3">Status</th>
                   <th className="py-2 pr-3">Cadence &amp; schedule</th>
                   <th className="py-2 pr-3">Timing</th>
@@ -1112,6 +1189,7 @@ export default function ScrapeJobsPage() {
                   const logSnippet = (item.log || "").split("\n").find(Boolean) || "No log yet.";
                   const progress = deriveProgress(item.job);
                   const actionState = rowActions[item.job.id];
+                  const schema = SCRIPT_SCHEMA_MAP.get(item.job.script);
                   return (
                     <tr key={item.job.id} className="align-top">
                       <td className="py-3 pr-3">
@@ -1121,6 +1199,26 @@ export default function ScrapeJobsPage() {
                           </Link>
                         </div>
                         <div className="text-xs text-zinc-500">{formatDate(item.job.createdAt)}</div>
+                      </td>
+                      <td className="py-3 pr-3 w-60 align-top">
+                        <div className="text-xs text-zinc-700 break-all max-w-xs">{getJobTarget(item.job) || "—"}</div>
+                        <div className="text-[11px] text-zinc-500 flex flex-col gap-0.5 pt-1">
+                          <span>{schema?.target.description ?? "Applies to the next run"}</span>
+                          {schema?.target.example ? (
+                            <span className="text-[11px] text-zinc-500">Example: {schema.target.example}</span>
+                          ) : null}
+                          {schema?.requiredArgs?.length ? (
+                            <span className="text-[11px] text-amber-700">
+                              Requires: {schema.requiredArgs.map((req) => req.description).join("; ")}
+                            </span>
+                          ) : null}
+                          <Link
+                            href={`/scrape_jobs/${item.job.id}`}
+                            className="text-[11px] text-[#2B83F6] hover:underline"
+                          >
+                            Edit target in job details
+                          </Link>
+                        </div>
                       </td>
                       <td className="py-3 pr-3">{renderStatusPill(item.job.status, item.job.paused)}</td>
                       <td className="py-3 pr-3 w-64 align-top">

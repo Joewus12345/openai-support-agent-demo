@@ -7,6 +7,12 @@ import {
 } from "@/lib/generated/prisma";
 import { ensureAuthenticated, serializeJob } from "./helpers";
 import { triggerScrapeJob } from "@/lib/scrapeRunner";
+import {
+  mergeArgsWithTarget,
+  normalizeArgsForScript,
+  parseTargetUrlFromArgs,
+  validateScriptArgs,
+} from "./validation";
 
 function parseStatus(value: string | null): ScrapeJobStatus | undefined {
   if (!value) return undefined;
@@ -116,6 +122,10 @@ export async function POST(request: Request) {
       parseBoolean(body.autoRunManualWithNext) ??
       process.env.AUTO_RUN_MANUAL_WITH_NEXT === "true";
     const { value: nextRunAt, error: nextRunError } = parseDate(body.nextRunAt);
+    const rawArgs = body.args ?? (body.targetUrl ? { url: body.targetUrl } : {});
+    const { url: targetUrl, error: targetError } = parseTargetUrlFromArgs(rawArgs, {
+      required: true,
+    });
 
     if (nextRunError) {
       return new Response(JSON.stringify({ error: nextRunError }), { status: 400 });
@@ -139,9 +149,20 @@ export async function POST(request: Request) {
       );
     }
 
+    if (targetError) {
+      return new Response(JSON.stringify({ error: targetError }), { status: 400 });
+    }
+
+    const mergedArgs = mergeArgsWithTarget(rawArgs ?? {}, targetUrl);
+    const normalizedArgs = normalizeArgsForScript(body.script, mergedArgs);
+    const schemaError = validateScriptArgs(body.script, targetUrl, normalizedArgs);
+    if (schemaError) {
+      return new Response(JSON.stringify({ error: schemaError }), { status: 400 });
+    }
+
     const data: Prisma.ScrapeJobCreateInput = {
       script: body.script,
-      args: body.args ?? {},
+      args: normalizedArgs,
       status,
       logPath: body.logPath ?? null,
       cadence,

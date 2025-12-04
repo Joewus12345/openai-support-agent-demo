@@ -23,11 +23,11 @@ import {
   Zap,
 } from "lucide-react";
 import useSWR from "swr";
-import useSWRInfinite from "swr/infinite";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
+import { SCRIPT_SCHEMA_MAP, validateTargetForSchema } from "@/config/scrapeScripts";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url, { credentials: "same-origin" });
@@ -97,11 +97,10 @@ type LogRun = {
   contentEnd?: number;
   hasMoreBefore?: boolean;
   hasMoreAfter?: boolean;
+  fullyLoaded?: boolean;
 };
 
-type LogPage = { logs: LogRun[]; nextCursor: string | null };
-
-const LOG_PAGE_SIZE = 10;
+type LogResponse = { logs: LogRun[]; nextCursor: string | null; exhaustive: boolean };
 const LOG_CONTENT_CHUNK = 40000;
 
 function formatDate(value: string | null) {
@@ -158,13 +157,6 @@ function progressColor(status: ScrapeJobStatus, paused: boolean) {
   return "bg-[#2B83F6]";
 }
 
-function formatArgs(args: Record<string, unknown> | null) {
-  if (!args) return "—";
-  const entries = Object.entries(args);
-  if (entries.length === 0) return "—";
-  return entries.map(([key, value]) => `${key}: ${String(value)}`).join(" | ");
-}
-
 export default function ScrapeJobDetail({
   params,
 }: {
@@ -193,6 +185,12 @@ export default function ScrapeJobDetail({
   >(null);
   const [scheduleError, setScheduleError] = useState<string | null>(null);
   const [savingSchedule, setSavingSchedule] = useState(false);
+  const [targetDraft, setTargetDraft] = useState("");
+  const [requiredArgDrafts, setRequiredArgDrafts] = useState<Record<string, string>>({});
+  const [targetError, setTargetError] = useState<string | null>(null);
+  const [argErrors, setArgErrors] = useState<Record<string, string>>({});
+  const [savingTarget, setSavingTarget] = useState(false);
+  const [targetMessage, setTargetMessage] = useState<string | null>(null);
   const [authTokenInput, setAuthTokenInput] = useState("");
   const [authenticating, setAuthenticating] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -209,7 +207,11 @@ export default function ScrapeJobDetail({
     anchor: "",
   });
   const [logViewMode, setLogViewMode] = useState<"single" | "all">("single");
-  const [globalLogContentStart, setGlobalLogContentStart] = useState<number | null>(null);
+  const [logsExhaustive, setLogsExhaustive] = useState(true);
+  const [latestLogCursor, setLatestLogCursor] = useState<string | null>(null);
+  const [manualLogCursor, setManualLogCursor] = useState<string | null>(null);
+  const [logCache, setLogCache] = useState<LogRun[]>([]);
+  const [loadingOlderLogs, setLoadingOlderLogs] = useState(false);
   const [logChunkRanges, setLogChunkRanges] = useState<Record<string, { offset: number | null; direction?: "before" | "after" | null }>>(
     {}
   );
@@ -265,9 +267,33 @@ export default function ScrapeJobDetail({
     setAuthenticating(false);
   };
 
-  const loadOlderLogs = () => {
-    if (nextLogCursor) {
-      setLogPageCount((count: number) => count + 1);
+  const loadOlderLogs = async () => {
+    if (!id || !effectiveLogCursor) return;
+    setLoadingOlderLogs(true);
+    try {
+      const contentRangesParam =
+        Object.keys(logChunkRanges).length > 0
+          ? `&contentRanges=${encodeURIComponent(JSON.stringify(logChunkRanges))}`
+          : "";
+      const payload = (await fetcher(
+        `/api/scrape_jobs/${id}/logs?all=true&cursor=${effectiveLogCursor}&contentLimit=${LOG_CONTENT_CHUNK}${contentRangesParam}`
+      )) as LogResponse;
+
+      setManualLogCursor(payload.nextCursor ?? null);
+      setLogsExhaustive(Boolean(payload.exhaustive));
+      setLogCache((previous) => {
+        const merged = new Map(previous.map((log) => [log.id, log] as const));
+        for (const log of payload.logs) {
+          merged.set(log.id, log);
+        }
+        return Array.from(merged.values()).sort(
+          (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
+        );
+      });
+    } catch (error) {
+      console.error("Failed to load older logs", error);
+    } finally {
+      setLoadingOlderLogs(false);
     }
   };
 
@@ -282,14 +308,13 @@ export default function ScrapeJobDetail({
     if (handleAuthFailure(res)) return;
     if (res.ok) {
       await mutateLogs();
+      setLogCache((previous) => previous.filter((log) => log.id !== selectedLog.id));
     }
   };
 
   const applyLogFilters = () => {
     setAppliedLogFilter(logFilterDraft);
-    setLogPageCount(1);
     setSelectedLogId(null);
-    setGlobalLogContentStart(logFilterDraft.anchor ? 0 : null);
     setLogChunkRanges({});
   };
 
@@ -297,21 +322,18 @@ export default function ScrapeJobDetail({
     const cleared = { start: "", end: "", anchor: "" };
     setLogFilterDraft(cleared);
     setAppliedLogFilter(cleared);
-    setLogPageCount(1);
     setSelectedLogId(null);
-    setGlobalLogContentStart(null);
     setLogChunkRanges({});
   };
 
   const shiftLogContent = (direction: "earlier" | "later") => {
-    const target = selectedLog ?? logs[0];
+    const target = selectedLog ?? filteredLogs[0];
     if (!target) return;
 
     const currentStart = typeof target.contentStart === "number" ? target.contentStart : 0;
     if (direction === "earlier" && target.hasMoreBefore) {
       const nextStart = Math.max(0, currentStart - LOG_CONTENT_CHUNK);
       setLogChunkRanges((prev) => ({ ...prev, [target.id]: { offset: nextStart, direction: "before" } }));
-      setGlobalLogContentStart(null);
       return;
     }
 
@@ -321,14 +343,12 @@ export default function ScrapeJobDetail({
         Math.min(target.size - LOG_CONTENT_CHUNK, target.contentEnd ?? currentStart + LOG_CONTENT_CHUNK)
       );
       setLogChunkRanges((prev) => ({ ...prev, [target.id]: { offset: nextStart, direction: "after" } }));
-      setGlobalLogContentStart(null);
     }
   };
 
   const resetSelectedLogRange = () => {
-    const target = selectedLog ?? logs[0];
+    const target = selectedLog ?? filteredLogs[0];
     if (!target) return;
-    setGlobalLogContentStart(null);
     setLogChunkRanges((prev) => {
       if (!(target.id in prev)) return prev;
       const next = { ...prev };
@@ -366,39 +386,59 @@ export default function ScrapeJobDetail({
     { refreshInterval: 15000 }
   );
 
+  useEffect(() => {
+    setLogCache([]);
+    setLatestLogCursor(null);
+    setManualLogCursor(null);
+    setLogsExhaustive(true);
+    setSelectedLogId(null);
+    setLogChunkRanges({});
+  }, [id]);
+
+  const logQueryKey = useMemo(() => {
+    if (!id) return null;
+    const chunkLimitParam = `&contentLimit=${LOG_CONTENT_CHUNK}`;
+    const contentRangesParam =
+      Object.keys(logChunkRanges).length > 0
+        ? `&contentRanges=${encodeURIComponent(JSON.stringify(logChunkRanges))}`
+        : "";
+    return `/api/scrape_jobs/${id}/logs?all=true${chunkLimitParam}${contentRangesParam}`;
+  }, [id, logChunkRanges]);
+
   const {
-    data: logPages,
+    data: logResponse,
     isLoading: logsLoading,
     error: logError,
-    setSize: setLogPageCount,
     mutate: mutateLogs,
-  } = useSWRInfinite<LogPage>(
-    (index: number, previousPage: LogPage | null) => {
-      if (!id) return null;
-      if (previousPage && !previousPage.nextCursor) return null;
-      const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
-      const startParam = appliedLogFilter.start
-        ? `&start=${encodeURIComponent(appliedLogFilter.start)}`
-        : "";
-      const endParam = appliedLogFilter.end ? `&end=${encodeURIComponent(appliedLogFilter.end)}` : "";
-      const beforeParam = appliedLogFilter.anchor
-        ? `&before=${encodeURIComponent(appliedLogFilter.anchor)}`
-        : "";
-      const chunkStartParam =
-        globalLogContentStart !== null ? `&contentStart=${Math.max(0, globalLogContentStart)}` : "";
-      const chunkLimitParam = `&contentLimit=${LOG_CONTENT_CHUNK}`;
-      const contentRangesParam =
-        Object.keys(logChunkRanges).length > 0
-          ? `&contentRanges=${encodeURIComponent(JSON.stringify(logChunkRanges))}`
-          : "";
-      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}${beforeParam}${chunkStartParam}${chunkLimitParam}${contentRangesParam}`;
-    },
+  } = useSWR<LogResponse>(
+    logQueryKey,
     fetcher,
     {
       refreshWhenHidden: false,
       isPaused: () => !isDocumentVisible,
       revalidateOnFocus: true,
     }
+  );
+
+  useEffect(() => {
+    if (!logResponse) return;
+    setLatestLogCursor(logResponse.nextCursor ?? null);
+    setLogsExhaustive(Boolean(logResponse.exhaustive));
+
+    setLogCache((previous) => {
+      const merged = new Map(previous.map((log) => [log.id, log] as const));
+      for (const log of logResponse.logs) {
+        merged.set(log.id, log);
+      }
+      return Array.from(merged.values()).sort(
+        (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
+      );
+    });
+  }, [logResponse]);
+
+  const effectiveLogCursor = useMemo(
+    () => manualLogCursor ?? latestLogCursor,
+    [latestLogCursor, manualLogCursor]
   );
 
   useEffect(() => {
@@ -417,32 +457,93 @@ export default function ScrapeJobDetail({
   const targetValue = useMemo(() => {
     const args = data?.job.args as Record<string, unknown> | undefined;
     if (!args) return "";
-    return String(args.targetUrl ?? "");
+    const value = (args.url as string | undefined) ?? (args.targetUrl as string | undefined);
+    return typeof value === "string" ? value : "";
   }, [data?.job.args]);
 
-  const logs = useMemo(
-    () => (logPages ?? []).flatMap((page: LogPage) => page?.logs ?? []),
-    [logPages]
-  );
-  const nextLogCursor = useMemo(
-    () => logPages?.[logPages.length - 1]?.nextCursor ?? null,
-    [logPages]
+  const scriptSchema = useMemo(
+    () => (data?.job.script ? SCRIPT_SCHEMA_MAP.get(data.job.script) : undefined),
+    [data?.job.script]
   );
 
+  const scriptSpecificArgs = useMemo(() => {
+    if (!scriptSchema || !data?.job.args) return [] as { key: string; label: string; value: string }[];
+    const args = data.job.args as Record<string, unknown>;
+    return (scriptSchema.requiredArgs ?? [])
+      .map((req) => {
+        const value = args[req.key];
+        if (value === undefined || value === null) return null;
+        const stringValue = Array.isArray(value) ? value.join(", ") : String(value);
+        return { key: req.key, label: req.description, value: stringValue };
+      })
+      .filter(Boolean) as { key: string; label: string; value: string }[];
+  }, [data?.job.args, scriptSchema]);
+
+  const canEditTarget = useMemo(() => {
+    if (!data?.job) return false;
+    return (
+      data.job.status !== ScrapeJobStatus.running &&
+      (data.job.status === ScrapeJobStatus.queued || data.job.cadence !== ScrapeJobCadence.manual)
+    );
+  }, [data?.job]);
+
   useEffect(() => {
-    if (!logs.length) {
+    if (!data?.job) return;
+
+    setTargetDraft(targetValue);
+    const nextRequiredDrafts: Record<string, string> = {};
+    (scriptSchema?.requiredArgs ?? []).forEach((req) => {
+      const value = (data.job.args as Record<string, unknown> | null | undefined)?.[req.key];
+      if (Array.isArray(value)) {
+        nextRequiredDrafts[req.key] = value.join(", ");
+      } else if (value !== undefined && value !== null) {
+        nextRequiredDrafts[req.key] = String(value);
+      } else {
+        nextRequiredDrafts[req.key] = "";
+      }
+    });
+
+    setRequiredArgDrafts(nextRequiredDrafts);
+    setTargetError(null);
+    setArgErrors({});
+    setTargetMessage(null);
+  }, [data?.job, scriptSchema, targetValue]);
+
+  const filteredLogs = useMemo(() => {
+    const startDate = appliedLogFilter.start ? new Date(appliedLogFilter.start) : null;
+    const endDate = appliedLogFilter.end ? new Date(appliedLogFilter.end) : null;
+    const anchorDate = appliedLogFilter.anchor ? new Date(appliedLogFilter.anchor) : null;
+
+    const startTime = startDate && !Number.isNaN(startDate.getTime()) ? startDate.getTime() : null;
+    const endTime = endDate && !Number.isNaN(endDate.getTime()) ? endDate.getTime() : null;
+    const anchorTime = anchorDate && !Number.isNaN(anchorDate.getTime()) ? anchorDate.getTime() : null;
+
+    if (!startTime && !endTime && !anchorTime) return logCache;
+
+    return logCache.filter((log: LogRun) => {
+      const startedAt = new Date(log.startedAt).getTime();
+      if (Number.isNaN(startedAt)) return false;
+
+      if (startTime && startedAt < startTime) return false;
+      if (endTime && startedAt > endTime) return false;
+      if (anchorTime && startedAt > anchorTime) return false;
+      return true;
+    });
+  }, [appliedLogFilter.anchor, appliedLogFilter.end, appliedLogFilter.start, logCache]);
+
+  useEffect(() => {
+    if (!filteredLogs.length) {
       setSelectedLogId(null);
       return;
     }
 
-    if (!selectedLogId || !logs.some((log: LogRun) => log.id === selectedLogId)) {
-      setSelectedLogId(logs[0].id);
+    if (!selectedLogId || !filteredLogs.some((log: LogRun) => log.id === selectedLogId)) {
+      setSelectedLogId(filteredLogs[0].id);
     }
-  }, [logs, selectedLogId]);
+  }, [filteredLogs, selectedLogId]);
 
   useEffect(() => {
     if (!selectedLogId) return;
-    setGlobalLogContentStart(null);
     setLogChunkRanges((prev) => {
       if (!(selectedLogId in prev)) return prev;
       const next = { ...prev };
@@ -452,13 +553,13 @@ export default function ScrapeJobDetail({
   }, [selectedLogId]);
 
   const selectedLog = useMemo(
-    () => logs.find((log: LogRun) => log.id === selectedLogId) ?? logs[0] ?? null,
-    [logs, selectedLogId]
+    () => filteredLogs.find((log: LogRun) => log.id === selectedLogId) ?? filteredLogs[0] ?? null,
+    [filteredLogs, selectedLogId]
   );
   const logContent = useMemo(() => {
     if (logViewMode === "all") {
-      if (!logs.length) return null;
-      return logs
+      if (!filteredLogs.length) return null;
+      return filteredLogs
         .map((log: LogRun) => {
           const timestamp = new Date(log.startedAt).toLocaleString();
           return `[${timestamp}]\n${log.content ?? ""}`;
@@ -467,7 +568,9 @@ export default function ScrapeJobDetail({
     }
 
     return selectedLog?.content ?? null;
-  }, [logViewMode, logs, selectedLog]);
+  }, [filteredLogs, logViewMode, selectedLog]);
+
+  const logsLoadingState = logsLoading || loadingOlderLogs;
 
   const logSnippet = useMemo(() => {
     const firstLine = (logContent || "").split("\n").find(Boolean) || "No log yet.";
@@ -643,6 +746,107 @@ export default function ScrapeJobDetail({
           : false,
     });
     setScheduleError(null);
+  };
+
+  const resetTargetForm = () => {
+    if (!data?.job) return;
+
+    setTargetDraft(targetValue);
+    const nextArgs: Record<string, string> = {};
+    (scriptSchema?.requiredArgs ?? []).forEach((req) => {
+      const value = (data.job.args as Record<string, unknown> | null | undefined)?.[req.key];
+      if (Array.isArray(value)) {
+        nextArgs[req.key] = value.join(", ");
+      } else if (value !== undefined && value !== null) {
+        nextArgs[req.key] = String(value);
+      } else {
+        nextArgs[req.key] = "";
+      }
+    });
+    setRequiredArgDrafts(nextArgs);
+    setTargetError(null);
+    setArgErrors({});
+    setTargetMessage(null);
+  };
+
+  const saveTargetUpdates = async () => {
+    if (!data?.job) return;
+    const schema = scriptSchema;
+    const trimmedTarget = targetDraft.trim();
+    setTargetMessage(null);
+    setTargetError(null);
+
+    if (!trimmedTarget) {
+      setTargetError("Enter a target URL");
+      return;
+    }
+
+    if (schema) {
+      const targetValidation = validateTargetForSchema(schema, trimmedTarget);
+      if (targetValidation) {
+        setTargetError(targetValidation);
+        return;
+      }
+    }
+
+    const nextArgErrors: Record<string, string> = {};
+    const nextArgs: Record<string, unknown> = {};
+
+    (schema?.requiredArgs ?? []).forEach((req) => {
+      const rawValue = (requiredArgDrafts[req.key] ?? "").trim();
+      let parsedValue: unknown = rawValue;
+
+      if (req.key === "categories") {
+        parsedValue = rawValue
+          .split(",")
+          .map((entry) => entry.trim())
+          .filter(Boolean);
+      }
+
+      const error = req.validate(parsedValue);
+      if (error) {
+        nextArgErrors[req.key] = error;
+      } else if (rawValue || Array.isArray(parsedValue)) {
+        nextArgs[req.key] = parsedValue;
+      }
+    });
+
+    setArgErrors(nextArgErrors);
+    if (Object.keys(nextArgErrors).length) return;
+
+    const payloadArgs: Record<string, unknown> = {
+      ...(data.job.args ?? {}),
+      ...nextArgs,
+      url: trimmedTarget,
+      targetUrl: trimmedTarget,
+    };
+
+    setSavingTarget(true);
+    try {
+      const res = await fetch(`/api/scrape_jobs/${data.job.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ args: payloadArgs }),
+      });
+
+      if (handleAuthFailure(res)) return;
+
+      const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) {
+        setTargetError(payload?.error ?? "Failed to update target");
+        return;
+      }
+
+      setTargetError(null);
+      setArgErrors({});
+      setTargetMessage("Saved target and parameters for the next run.");
+      await mutate();
+    } catch (error) {
+      console.error("Error updating target", error);
+      setTargetError("Unable to update target or parameters");
+    } finally {
+      setSavingTarget(false);
+    }
   };
 
   const saveSchedule = async () => {
@@ -1069,17 +1273,121 @@ export default function ScrapeJobDetail({
               </div>
               <span className="text-[10px] text-zinc-500 tabular-nums">{progressValue}%</span>
             </div>
-            <div className="flex items-start justify-between gap-2 text-xs text-zinc-500">
-              <span>Args: {formatArgs(data.job.args)}</span>
-              {targetValue ? (
+            <div className="flex flex-col gap-3 rounded-lg border border-zinc-200 bg-white p-3">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium text-zinc-800">Target &amp; required parameters</span>
+                  <span className="text-[11px] text-zinc-500">Updates apply to upcoming runs.</span>
+                </div>
+                {targetValue ? (
+                  <button
+                    type="button"
+                    className="flex items-center gap-1 text-[#2B83F6] hover:underline text-xs"
+                    onClick={() => copy(targetValue, setCopiedTarget)}
+                  >
+                    <Copy size={14} />
+                    {copiedTarget ? "Copied" : "Copy target"}
+                  </button>
+                ) : null}
+              </div>
+
+              <label className="flex flex-col gap-1 text-xs text-zinc-700">
+                Target URL
+                <input
+                  value={targetDraft}
+                  onChange={(event) => {
+                    setTargetDraft(event.target.value);
+                    setTargetError(null);
+                  }}
+                  className="rounded-lg border border-zinc-200 px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
+                  placeholder={scriptSchema?.target.example ?? "https://example.com"}
+                  disabled={!canEditTarget || savingTarget || Boolean(actionState)}
+                />
+              </label>
+              {targetError ? (
+                <div className="flex items-center gap-1 text-[11px] text-red-600">
+                  <XCircle size={12} />
+                  {targetError}
+                </div>
+              ) : null}
+
+              {(scriptSchema?.requiredArgs ?? []).map((req) => (
+                <label key={req.key} className="flex flex-col gap-1 text-xs text-zinc-700">
+                  {req.description}
+                  <input
+                    value={requiredArgDrafts[req.key] ?? ""}
+                    onChange={(event) => {
+                      setRequiredArgDrafts((current) => ({ ...current, [req.key]: event.target.value }));
+                      setArgErrors((current) => {
+                        const next = { ...current };
+                        delete next[req.key];
+                        return next;
+                      });
+                    }}
+                    className="rounded-lg border border-zinc-200 px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
+                    placeholder={req.key === "categories" ? "slug-one,slug-two" : undefined}
+                    disabled={!canEditTarget || savingTarget || Boolean(actionState)}
+                  />
+                  {argErrors[req.key] ? (
+                    <span className="text-[11px] text-red-600 flex items-center gap-1">
+                      <XCircle size={12} />
+                      {argErrors[req.key]}
+                    </span>
+                  ) : null}
+                </label>
+              ))}
+
+              <div className="flex flex-wrap items-center gap-2 text-[11px] text-zinc-600">
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-[#2B83F6] hover:underline"
-                  onClick={() => copy(targetValue, setCopiedTarget)}
+                  onClick={() => void saveTargetUpdates()}
+                  disabled={!canEditTarget || savingTarget || Boolean(actionState)}
+                  className="inline-flex items-center gap-1 rounded-md border border-zinc-200 px-2 py-1 font-medium text-zinc-800 hover:border-[#2B83F6] disabled:opacity-60"
                 >
-                  <Copy size={14} />
-                  {copiedTarget ? "Copied" : "Copy target"}
+                  {savingTarget ? <Loader2 size={12} className="animate-spin" /> : null}
+                  Save
                 </button>
+                <button
+                  type="button"
+                  onClick={resetTargetForm}
+                  disabled={savingTarget || Boolean(actionState)}
+                  className="inline-flex items-center gap-1 rounded-md border border-zinc-200 px-2 py-1 font-medium text-zinc-700 hover:border-zinc-300 disabled:opacity-60"
+                >
+                  Reset
+                </button>
+                {!canEditTarget ? (
+                  <span className="flex items-center gap-1 text-amber-700">
+                    <Info size={12} />
+                    Targets can be edited for queued or scheduled jobs.
+                  </span>
+                ) : null}
+                {targetMessage ? (
+                  <span className="text-emerald-700">{targetMessage}</span>
+                ) : null}
+              </div>
+
+              {scriptSchema ? (
+                <div className="text-[11px] text-zinc-600 flex flex-col gap-0.5">
+                  <span>{scriptSchema.target.description}</span>
+                  {scriptSchema.target.example ? (
+                    <span className="text-[11px] text-zinc-500">Example: {scriptSchema.target.example}</span>
+                  ) : null}
+                  {scriptSchema.requiredArgs?.length ? (
+                    <span className="text-[11px] text-amber-700">
+                      Requires: {scriptSchema.requiredArgs.map((req) => req.description).join("; ")}
+                    </span>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {scriptSpecificArgs.length ? (
+                <div className="flex flex-col gap-0.5 text-[11px] text-zinc-700">
+                  {scriptSpecificArgs.map((arg) => (
+                    <span key={arg.key} className="break-all">
+                      {arg.label}: {arg.value}
+                    </span>
+                  ))}
+                </div>
               ) : null}
             </div>
             <div className="text-xs text-zinc-500">Started: {formatDate(data.job.startedAt)}</div>
@@ -1395,7 +1703,7 @@ export default function ScrapeJobDetail({
                   type="button"
                   className="rounded border border-zinc-200 px-3 py-1.5 font-medium text-[#2B83F6] hover:border-[#2B83F6]"
                   onClick={applyLogFilters}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Apply
                 </button>
@@ -1403,7 +1711,7 @@ export default function ScrapeJobDetail({
                   type="button"
                   className="rounded border border-zinc-200 px-3 py-1.5 font-medium text-zinc-600 hover:border-zinc-300"
                   onClick={clearLogFilters}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Clear
                 </button>
@@ -1416,23 +1724,23 @@ export default function ScrapeJobDetail({
               <select
                 id="log-run-picker"
                 className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
-                value={selectedLogId ?? logs[0]?.id ?? ""}
+                value={selectedLogId ?? filteredLogs[0]?.id ?? ""}
                 onChange={(event) => setSelectedLogId(event.target.value)}
-                disabled={logs.length === 0 || logViewMode === "all"}
+                disabled={filteredLogs.length === 0 || logViewMode === "all"}
               >
-                {logs.map((log: LogRun) => (
+                {filteredLogs.map((log: LogRun) => (
                   <option key={log.id} value={log.id}>
                     {new Date(log.startedAt).toLocaleString()} ({Math.max(0, Math.round(log.size / 1024))} KB)
                   </option>
                 ))}
-                {!logs.length ? <option value="">No logs yet</option> : null}
+                {!filteredLogs.length ? <option value="">No logs yet</option> : null}
               </select>
-              {nextLogCursor ? (
+              {!logsExhaustive && effectiveLogCursor ? (
                 <button
                   type="button"
                   className="text-[#2B83F6] hover:underline"
                   onClick={loadOlderLogs}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Load older logs
                 </button>
@@ -1459,12 +1767,17 @@ export default function ScrapeJobDetail({
                   {selectedLog.size ? ` of ${selectedLog.size}` : ""}
                 </span>
               ) : null}
+              {selectedLog && selectedLog.fullyLoaded === false ? (
+                <span className="text-[11px] text-amber-600">
+                  Showing a recent chunk. Use the load controls to fetch the rest of this log.
+                </span>
+              ) : null}
               {selectedLog?.hasMoreBefore ? (
                 <button
                   type="button"
                   className="text-[#2B83F6] hover:underline"
                   onClick={() => shiftLogContent("earlier")}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Load earlier content
                 </button>
@@ -1474,17 +1787,17 @@ export default function ScrapeJobDetail({
                   type="button"
                   className="text-[#2B83F6] hover:underline"
                   onClick={() => shiftLogContent("later")}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Load later content
                 </button>
               ) : null}
-              {selectedLog && (globalLogContentStart !== null || logChunkRanges[selectedLog.id]) ? (
+              {selectedLog && logChunkRanges[selectedLog.id] ? (
                 <button
                   type="button"
                   className="text-zinc-600 hover:underline"
                   onClick={resetSelectedLogRange}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Jump to newest chunk
                 </button>
@@ -1535,7 +1848,7 @@ export default function ScrapeJobDetail({
             className="bg-zinc-50 border border-zinc-100 rounded-lg max-h-[500px] overflow-y-auto"
           >
             <pre ref={logContentRef} className="whitespace-pre-wrap text-xs p-3">
-              {logContent ?? (logsLoading ? "Loading logs..." : "No log available yet.")}
+              {logContent ?? (logsLoadingState ? "Loading logs..." : "No log available yet.")}
             </pre>
             {autoScrollEnabled && !autoScroll && showResume ? (
               <div className="sticky bottom-0 w-full bg-gradient-to-t from-zinc-50 to-transparent px-3 pb-3 flex justify-end">
