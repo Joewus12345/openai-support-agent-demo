@@ -22,7 +22,7 @@ import {
   XCircle,
   Zap,
 } from "lucide-react";
-import useSWR from "swr";
+import useSWR, { useSWRInfinite } from "swr";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
@@ -85,6 +85,18 @@ type SerializedJob = {
   artifacts: string[];
   ingestionResult?: (StoredIngestionResult & { jobId: string }) | null;
 };
+
+type LogRun = {
+  id: string;
+  path: string;
+  startedAt: string;
+  size: number;
+  content: string | null;
+};
+
+type LogPage = { logs: LogRun[]; nextCursor: string | null };
+
+const LOG_PAGE_SIZE = 3;
 
 function formatDate(value: string | null) {
   if (!value) return "—";
@@ -157,6 +169,9 @@ export default function ScrapeJobDetail({
   const [copiedLog, setCopiedLog] = useState(false);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
   const [autoScroll, setAutoScroll] = useState(true);
+  const [isDocumentVisible, setIsDocumentVisible] = useState(
+    typeof document === "undefined" ? true : document.visibilityState === "visible"
+  );
   const [showResume, setShowResume] = useState(false);
   const [ingesting, setIngesting] = useState<string | null>(null);
   const [actionState, setActionState] = useState<string | null>(null);
@@ -176,6 +191,7 @@ export default function ScrapeJobDetail({
   const [authenticating, setAuthenticating] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authRequired, setAuthRequired] = useState(false);
+  const [selectedLogId, setSelectedLogId] = useState<string | null>(null);
   const logContainerRef = useRef<HTMLDivElement | null>(null);
   const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
@@ -228,6 +244,26 @@ export default function ScrapeJobDetail({
     setAuthenticating(false);
   };
 
+  const loadOlderLogs = () => {
+    if (nextLogCursor) {
+      setLogPageCount((count) => count + 1);
+    }
+  };
+
+  const clearSelectedLog = async () => {
+    if (!id || !selectedLog) return;
+    const res = await fetch(`/api/scrape_jobs/${id}/logs`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ logId: selectedLog.id }),
+    });
+
+    if (handleAuthFailure(res)) return;
+    if (res.ok) {
+      await mutateLogs();
+    }
+  };
+
   useEffect(() => {
     let active = true;
     void params
@@ -242,10 +278,41 @@ export default function ScrapeJobDetail({
     };
   }, [params]);
 
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsDocumentVisible(document.visibilityState === "visible");
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
   const { data, error, isLoading, mutate } = useSWR<SerializedJob>(
     id ? `/api/scrape_jobs/${id}` : null,
     fetcher,
     { refreshInterval: 15000 }
+  );
+
+  const {
+    data: logPages,
+    isLoading: logsLoading,
+    error: logError,
+    size: logPageCount,
+    setSize: setLogPageCount,
+    mutate: mutateLogs,
+  } = useSWRInfinite<LogPage>(
+    (index, previousPage) => {
+      if (!id) return null;
+      if (previousPage && !previousPage.nextCursor) return null;
+      const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
+      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}`;
+    },
+    fetcher,
+    {
+      refreshWhenHidden: false,
+      isPaused: () => !isDocumentVisible,
+      revalidateOnFocus: true,
+    }
   );
 
   useEffect(() => {
@@ -267,10 +334,33 @@ export default function ScrapeJobDetail({
     return String(args.targetUrl ?? "");
   }, [data?.job.args]);
 
+  const logs = useMemo(() => logPages?.flatMap((page) => page?.logs ?? []) ?? [], [logPages]);
+  const nextLogCursor = useMemo(
+    () => logPages?.[logPages.length - 1]?.nextCursor ?? null,
+    [logPages]
+  );
+
+  useEffect(() => {
+    if (!logs.length) {
+      setSelectedLogId(null);
+      return;
+    }
+
+    if (!selectedLogId || !logs.some((log) => log.id === selectedLogId)) {
+      setSelectedLogId(logs[0].id);
+    }
+  }, [logs, selectedLogId]);
+
+  const selectedLog = useMemo(
+    () => logs.find((log) => log.id === selectedLogId) ?? logs[0] ?? null,
+    [logs, selectedLogId]
+  );
+  const logContent = selectedLog?.content ?? null;
+
   const logSnippet = useMemo(() => {
-    const firstLine = (data?.log || "").split("\n").find(Boolean) || "No log yet.";
+    const firstLine = (logContent || "").split("\n").find(Boolean) || "No log yet.";
     return firstLine.length > 160 ? `${firstLine.slice(0, 160)}…` : firstLine;
-  }, [data?.log]);
+  }, [logContent]);
 
   useEffect(() => {
     if (!id) return undefined;
@@ -279,18 +369,18 @@ export default function ScrapeJobDetail({
       try {
         const payload = JSON.parse(event.data);
         if (payload?.jobId === id) {
-          void mutate();
+          void Promise.all([mutate(), mutateLogs()]);
         }
       } catch {
         // ignore parse errors
       }
     };
     source.onerror = () => {
-      setTimeout(() => void mutate(), 1000);
+      setTimeout(() => void Promise.all([mutate(), mutateLogs()]), 1000);
     };
 
     return () => source.close();
-  }, [id, mutate]);
+  }, [id, mutate, mutateLogs]);
 
   useEffect(() => {
     const container = logContainerRef.current;
@@ -356,7 +446,7 @@ export default function ScrapeJobDetail({
     requestAnimationFrame(() => {
       container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
     });
-  }, [data?.log, autoScroll, autoScrollEnabled]);
+  }, [logContent, autoScroll, autoScrollEnabled]);
 
   useEffect(() => {
     if (!autoScrollEnabled || !autoScroll) return;
@@ -1153,8 +1243,40 @@ export default function ScrapeJobDetail({
       <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm">
         <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
           <div className="text-sm font-semibold text-zinc-800">Log output</div>
-            <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 text-xs text-zinc-600">
+            {logError && (
+              <div className="text-[11px] text-red-600">Failed to load logs.</div>
+            )}
+            <div className="flex items-center gap-2 flex-wrap text-xs text-zinc-600">
+              <div className="flex items-center gap-2">
+                <label className="sr-only" htmlFor="log-run-picker">
+                  Select log run
+                </label>
+                <select
+                  id="log-run-picker"
+                  className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                  value={selectedLogId ?? logs[0]?.id ?? ""}
+                  onChange={(event) => setSelectedLogId(event.target.value)}
+                  disabled={logs.length === 0}
+                >
+                  {logs.map((log) => (
+                    <option key={log.id} value={log.id}>
+                      {new Date(log.startedAt).toLocaleString()} ({Math.max(0, Math.round(log.size / 1024))} KB)
+                    </option>
+                  ))}
+                  {!logs.length ? <option value="">No logs yet</option> : null}
+                </select>
+                {nextLogCursor ? (
+                  <button
+                    type="button"
+                    className="text-[#2B83F6] hover:underline"
+                    onClick={loadOlderLogs}
+                    disabled={logsLoading}
+                  >
+                    Load older logs
+                  </button>
+                ) : null}
+              </div>
+              <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   className="h-4 w-4 rounded border-zinc-300 text-[#2B83F6] focus:ring-[#2B83F6]"
@@ -1172,16 +1294,25 @@ export default function ScrapeJobDetail({
                 />
                 Auto-scroll
               </label>
-              {data.log ? (
+              {logContent ? (
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-xs text-[#2B83F6] hover:underline"
-                  onClick={() => copy(data.log ?? "", setCopiedLog)}
+                  className="flex items-center gap-1 text-[#2B83F6] hover:underline"
+                  onClick={() => copy(logContent ?? "", setCopiedLog)}
                 >
                   <Copy size={14} />
                   {copiedLog ? "Copied" : "Copy log"}
                 </button>
               ) : null}
+              <button
+                type="button"
+                className="flex items-center gap-1 text-red-600 hover:underline disabled:opacity-50"
+                onClick={clearSelectedLog}
+                disabled={!selectedLog}
+              >
+                <Trash2 size={14} />
+                Clear log
+              </button>
             </div>
           </div>
           <div
@@ -1190,7 +1321,7 @@ export default function ScrapeJobDetail({
             className="bg-zinc-50 border border-zinc-100 rounded-lg max-h-[500px] overflow-y-auto"
           >
             <pre ref={logContentRef} className="whitespace-pre-wrap text-xs p-3">
-              {data.log ?? "No log available yet."}
+              {logContent ?? (logsLoading ? "Loading logs..." : "No log available yet.")}
             </pre>
             {autoScrollEnabled && !autoScroll && showResume ? (
               <div className="sticky bottom-0 w-full bg-gradient-to-t from-zinc-50 to-transparent px-3 pb-3 flex justify-end">

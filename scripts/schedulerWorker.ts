@@ -6,6 +6,14 @@ import { processNextQueuedJob } from "@/lib/scrapeQueue";
 
 const TIMEZONE = process.env.SCHEDULER_TIMEZONE ?? "Africa/Accra";
 const AUTO_RUN_MANUAL_WITH_NEXT = process.env.AUTO_RUN_MANUAL_WITH_NEXT === "true";
+const MANUAL_CRON_EXPRESSION =
+  process.env.MANUAL_CADENCE_CRON ?? process.env.MANUAL_CRON_EXPRESSION ?? "* * * * *";
+const MIN_MANUAL_INTERVAL_MS = Number(process.env.MANUAL_MIN_INTERVAL_MS ?? 45_000);
+
+const manualCadenceGuard = {
+  inFlight: false,
+  lastRun: 0,
+};
 
 async function runCadence(cadence: ScrapeJobCadence, autoRunManualWithNext: boolean) {
   try {
@@ -31,13 +39,31 @@ function scheduleCadence(
   cadence: ScrapeJobCadence,
   autoRunManualWithNext: boolean
 ) {
-  cron.schedule(
-    cronExpression,
-    () => {
-      void runCadence(cadence, autoRunManualWithNext);
-    },
-    { timezone: TIMEZONE ?? undefined }
-  );
+  const guardedRun = async () => {
+    if (cadence !== ScrapeJobCadence.manual) {
+      await runCadence(cadence, autoRunManualWithNext);
+      return;
+    }
+
+    const now = Date.now();
+    if (manualCadenceGuard.inFlight) return;
+    if (Number.isFinite(MIN_MANUAL_INTERVAL_MS) && MIN_MANUAL_INTERVAL_MS > 0) {
+      const delta = now - manualCadenceGuard.lastRun;
+      if (delta < MIN_MANUAL_INTERVAL_MS) return;
+    }
+
+    manualCadenceGuard.inFlight = true;
+    manualCadenceGuard.lastRun = now;
+    try {
+      await runCadence(cadence, autoRunManualWithNext);
+    } finally {
+      manualCadenceGuard.inFlight = false;
+    }
+  };
+
+  cron.schedule(cronExpression, () => void guardedRun(), {
+    timezone: TIMEZONE ?? undefined,
+  });
 }
 
 async function main() {
@@ -51,7 +77,7 @@ async function main() {
   scheduleCadence("0 0 * * *", ScrapeJobCadence.daily, AUTO_RUN_MANUAL_WITH_NEXT); // Midnight daily
   scheduleCadence("0 0 * * 0", ScrapeJobCadence.weekly, AUTO_RUN_MANUAL_WITH_NEXT); // Midnight Sunday
   scheduleCadence("0 0 1 * *", ScrapeJobCadence.monthly, AUTO_RUN_MANUAL_WITH_NEXT); // Midnight on the 1st
-  scheduleCadence("*/15 * * * *", ScrapeJobCadence.manual, AUTO_RUN_MANUAL_WITH_NEXT);
+  scheduleCadence(MANUAL_CRON_EXPRESSION, ScrapeJobCadence.manual, AUTO_RUN_MANUAL_WITH_NEXT);
 }
 
 main().catch((error) => {

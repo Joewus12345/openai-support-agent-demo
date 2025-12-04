@@ -8,6 +8,7 @@ import { BenchmarkEntry } from "@/lib/scrapeMetrics";
 import { readIngestionResult, StoredIngestionResult } from "@/lib/ingestionResults";
 
 const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
+const JOB_LOG_ROOT = path.join(process.cwd(), "logs", "scrape_jobs");
 const DEBUG_LOG_INTERVAL_MS = 5000;
 let lastArtifactDebugLog = 0;
 
@@ -21,15 +22,97 @@ function shouldLogArtifactsVerbose() {
   return true;
 }
 
-export async function readJobLog(logPath: string | null | undefined) {
+export async function readJobLog(logPath: string | null | undefined, opts?: { maxBytes?: number }) {
   if (!logPath) return null;
   try {
+    const stat = await fs.stat(logPath);
+    if (opts?.maxBytes && stat.size > opts.maxBytes) {
+      const start = Math.max(0, stat.size - opts.maxBytes);
+      const handle = await fs.open(logPath, "r");
+      try {
+        const buffer = Buffer.alloc(Math.min(opts.maxBytes, stat.size));
+        const { bytesRead } = await handle.read(buffer, 0, buffer.length, start);
+        return buffer.subarray(0, bytesRead).toString("utf8");
+      } finally {
+        await handle.close();
+      }
+    }
     const content = await fs.readFile(logPath, "utf8");
     return content;
   } catch (error) {
     console.warn("Unable to read scrape job log", { logPath, error });
     return null;
   }
+}
+
+type LogRun = {
+  id: string;
+  path: string;
+  startedAt: Date;
+  size: number;
+  content?: string | null;
+};
+
+export async function listJobLogRuns(
+  jobId: string,
+  options: { limit?: number; cursor?: string; includeContent?: boolean } = {}
+) {
+  const limit = Math.max(1, Math.min(options.limit ?? 3, 25));
+  const logDir = path.join(JOB_LOG_ROOT, jobId);
+  const legacyLogPath = path.join(JOB_LOG_ROOT, `${jobId}.log`);
+
+  let entries: { path: string; startedAt: Date; size: number }[] = [];
+
+  try {
+    const files = await fs.readdir(logDir);
+    const stats = await Promise.allSettled(
+      files
+        .filter((file) => file.endsWith(".log"))
+        .map(async (file) => {
+          const fullPath = path.join(logDir, file);
+          const stat = await fs.stat(fullPath);
+          return { path: fullPath, startedAt: stat.mtime, size: stat.size };
+        })
+    );
+
+    entries = stats
+      .filter((entry): entry is PromiseFulfilledResult<{ path: string; startedAt: Date; size: number }> =>
+        entry.status === "fulfilled"
+      )
+      .map((entry) => entry.value);
+  } catch {
+    // directory might not exist yet
+  }
+
+  try {
+    const stat = await fs.stat(legacyLogPath);
+    entries.push({ path: legacyLogPath, startedAt: stat.mtime, size: stat.size });
+  } catch {
+    // ignore if missing
+  }
+
+  const sorted = entries.sort((a, b) => b.startedAt.getTime() - a.startedAt.getTime());
+  const cursorIndex = options.cursor
+    ? sorted.findIndex((entry) => path.basename(entry.path) === options.cursor)
+    : -1;
+  const startIndex = cursorIndex > -1 ? cursorIndex + 1 : 0;
+  const sliced = sorted.slice(startIndex, startIndex + limit);
+  const nextCursor =
+    sorted.length > startIndex + limit && sliced.length > 0
+      ? path.basename(sliced[sliced.length - 1].path)
+      : null;
+
+  const logs: LogRun[] = await Promise.all(
+    sliced.map(async (entry) => ({
+      id: path.basename(entry.path),
+      path: entry.path,
+      startedAt: entry.startedAt,
+      size: entry.size,
+      content: options.includeContent ? await readJobLog(entry.path, { maxBytes: 20000 }) : undefined,
+    }))
+  );
+
+  return { logs, nextCursor } as const;
 }
 
 function deriveDurationSeconds(job: ScrapeJob, benchmark: BenchmarkEntry | null) {
@@ -264,11 +347,11 @@ export function ensureAuthenticated(request: Request) {
   });
 }
 
-export async function serializeJob(jobId: string) {
+export async function serializeJob(jobId: string, options: { includeLog?: boolean } = {}) {
   const job = await prisma.scrapeJob.findUnique({ where: { id: jobId } });
   if (!job) return null;
 
-  const log = await readJobLog(job.logPath);
+  const log = options.includeLog !== false ? await readJobLog(job.logPath, { maxBytes: 4000 }) : null;
   const artifacts = await listScrapeArtifacts(job);
   const ingestionResult = await readIngestionResult(job.id);
 

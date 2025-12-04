@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import useSWR from "swr";
+import useSWR, { useSWRInfinite } from "swr";
 import {
   CalendarClock,
   CalendarRange,
@@ -56,6 +56,9 @@ type SerializedJob = {
   ingestionResult?: (StoredIngestionResult & { jobId: string }) | null;
 };
 
+type JobsPage = { jobs: SerializedJob[]; nextCursor: string | null };
+const JOB_PAGE_SIZE = 40;
+
 const fetcher = async (url: string) => {
   const maxAttempts = 2;
   const timeoutMs = 12000;
@@ -105,6 +108,14 @@ const fetcher = async (url: string) => {
   }
 
   throw new Error("Unexpected fetcher exhaustion");
+};
+
+const paginatedFetcher = async (url: string): Promise<JobsPage> => {
+  const payload = await fetcher(url);
+  if (Array.isArray(payload)) {
+    return { jobs: payload as SerializedJob[], nextCursor: null };
+  }
+  return payload as JobsPage;
 };
 
 const SCRIPT_PRESETS = [
@@ -216,38 +227,50 @@ export default function ScrapeJobsPage() {
     timer: null,
   });
 
-  const swrKey = useMemo(
-    () => `/api/scrape_jobs?detailed=${detailedPolling ? "true" : "false"}`,
-    [detailedPolling]
-  );
-
-  const { data, error, isLoading, mutate } = useSWR<SerializedJob[]>(swrKey, fetcher, {
-    refreshInterval: (latestData: SerializedJob[] | undefined) => {
-      if (!isDocumentVisible) return 0;
-
-      const hasActiveJobs = latestData?.some(
-        (job: SerializedJob) => job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
-      );
-      const jobCount = latestData?.length ?? 0;
-
-      const baseInterval = hasActiveJobs
-        ? detailedPolling
-          ? 20000
-          : 35000
-        : jobCount > 75
-          ? 60000
-          : 45000;
-
-      const backoffFactor = Math.min(consecutiveErrors + 1, 5);
-      return baseInterval * backoffFactor;
+  const {
+    data,
+    error,
+    isLoading,
+    mutate,
+    size: pageCount,
+    setSize: setPageCount,
+  } = useSWRInfinite<JobsPage>(
+    (index, previousPage) => {
+      if (previousPage && !previousPage.nextCursor) return null;
+      const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
+      return `/api/scrape_jobs?detailed=${detailedPolling ? "true" : "false"}&logPreview=true&limit=${JOB_PAGE_SIZE}${cursorParam}`;
     },
-    revalidateOnFocus: true,
-    dedupingInterval: 5000,
-    refreshWhenHidden: false,
-    isPaused: () => !isDocumentVisible,
-    onSuccess: () => setConsecutiveErrors(0),
-    onError: () => setConsecutiveErrors((count) => count + 1),
-  });
+    paginatedFetcher,
+    {
+      refreshInterval: (latestPages: JobsPage[] | undefined) => {
+        if (!isDocumentVisible) return 0;
+
+        const merged = latestPages?.flatMap((page) => page.jobs ?? []) ?? [];
+        const hasActiveJobs = merged.some(
+          (job: SerializedJob) =>
+            job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
+        );
+        const jobCount = merged.length;
+
+        const baseInterval = hasActiveJobs
+          ? detailedPolling
+            ? 20000
+            : 35000
+          : jobCount > 75
+            ? 60000
+            : 45000;
+
+        const backoffFactor = Math.min(consecutiveErrors + 1, 5);
+        return baseInterval * backoffFactor;
+      },
+      revalidateOnFocus: true,
+      dedupingInterval: 5000,
+      refreshWhenHidden: false,
+      isPaused: () => !isDocumentVisible,
+      onSuccess: () => setConsecutiveErrors(0),
+      onError: () => setConsecutiveErrors((count) => count + 1),
+    }
+  );
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -264,17 +287,23 @@ export default function ScrapeJobsPage() {
     }
   }, [isDocumentVisible, mutate]);
 
-  useEffect(() => {
-    if (!data) return;
+  const jobs = useMemo(() => data?.flatMap((page) => page.jobs ?? []) ?? [], [data]);
+  const nextCursor = useMemo(
+    () => data?.[data.length - 1]?.nextCursor ?? null,
+    [data]
+  );
 
-    const jobCount = data.length;
+  useEffect(() => {
+    if (!jobs.length) return;
+
+    const jobCount = jobs.length;
 
     if (detailedPolling && jobCount > 60) {
       setDetailedPolling(false);
     } else if (!detailedPolling && jobCount < 50) {
       setDetailedPolling(true);
     }
-  }, [data, detailedPolling]);
+  }, [jobs, detailedPolling]);
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
   const [targetUrl, setTargetUrl] = useState(SCRIPT_PRESETS[0].defaultTarget);
@@ -975,7 +1004,7 @@ export default function ScrapeJobsPage() {
               </button>
             </div>
           )}
-          {!data && !isLoading && !error && (
+          {jobs.length === 0 && !isLoading && !error && (
             <div className="text-sm text-zinc-500">No jobs available yet.</div>
           )}
           <div className="overflow-x-auto">
@@ -992,7 +1021,7 @@ export default function ScrapeJobsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">
-                {(data || []).map((item: SerializedJob) => {
+                {jobs.map((item: SerializedJob) => {
                   const logSnippet = (item.log || "").split("\n").find(Boolean) || "No log yet.";
                   const progress = deriveProgress(item.job);
                   const actionState = rowActions[item.job.id];
@@ -1283,6 +1312,17 @@ export default function ScrapeJobsPage() {
                 })}
               </tbody>
             </table>
+          </div>
+          <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
+            <button
+              type="button"
+              className="rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-[#2B83F6] hover:bg-zinc-50 disabled:opacity-60"
+              disabled={!nextCursor || isLoading}
+              onClick={() => setPageCount((count) => count + 1)}
+            >
+              {nextCursor ? "Load more" : "All history loaded"}
+            </button>
+            <div className="text-[11px] text-zinc-500">{jobs.length} job(s) loaded</div>
           </div>
         </div>
       </div>
