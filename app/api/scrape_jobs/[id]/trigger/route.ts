@@ -2,7 +2,11 @@ import prisma from "@/lib/prisma";
 import { Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import { parseCadence } from "@/lib/scheduler";
 import { ensureAuthenticated } from "../../helpers";
-import { mergeArgsWithTarget, parseTargetUrlFromArgs } from "../../validation";
+import {
+  mergeArgsWithTarget,
+  parseTargetUrlFromArgs,
+  validateScriptArgs,
+} from "../../validation";
 
 function parseDate(value: unknown): { value: Date | null; error?: string } {
   if (!value) return { value: null };
@@ -27,7 +31,7 @@ export async function POST(
     try {
       const existing = await prisma.scrapeJob.findUnique({
         where: { id },
-        select: { id: true, cadence: true, args: true },
+        select: { id: true, cadence: true, args: true, script: true },
       });
 
       if (!existing) {
@@ -61,6 +65,12 @@ export async function POST(
         return new Response(JSON.stringify({ error: targetError }), { status: 400 });
       }
 
+      const normalizedArgs = mergeArgsWithTarget(existing.args ?? {}, targetUrl);
+      const schemaError = validateScriptArgs(existing.script, targetUrl, normalizedArgs);
+      if (schemaError) {
+        return new Response(JSON.stringify({ error: schemaError }), { status: 400 });
+      }
+
       const job = await prisma.scrapeJob.update({
         where: { id },
         data: {
@@ -68,7 +78,7 @@ export async function POST(
           startedAt: null,
           finishedAt: null,
           paused: false,
-          args: mergeArgsWithTarget(existing.args ?? {}, targetUrl),
+          args: normalizedArgs,
           cadence: cadence ?? undefined,
           nextRunAt,
           progress: 0,

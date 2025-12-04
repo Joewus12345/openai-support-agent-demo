@@ -1,8 +1,25 @@
+import { Prisma } from "@/lib/generated/prisma";
+import { getScriptSchema, validateArgsForSchema, validateTargetForSchema } from "@/config/scrapeScripts";
+
+function toInputJsonObject(value: unknown): Prisma.InputJsonObject {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+
+  const entries: [string, Prisma.InputJsonValue | null][] = [];
+
+  for (const [key, val] of Object.entries(value as Record<string, unknown>)) {
+    if (val !== undefined) {
+      entries.push([key, val as Prisma.InputJsonValue]);
+    }
+  }
+
+  return Object.fromEntries(entries);
+}
+
 export function parseTargetUrlFromArgs(
   args: unknown,
-  options: { required?: boolean } = {}
+  options: { required?: boolean } = {},
 ): { url: string | null; provided: boolean; error?: string } {
-  const record = args && typeof args === "object" ? (args as Record<string, unknown>) : {};
+  const record = toInputJsonObject(args);
   const provided = "url" in record || "targetUrl" in record;
   const raw = (record as Record<string, unknown>).url ?? (record as Record<string, unknown>).targetUrl;
 
@@ -33,16 +50,17 @@ export function parseTargetUrlFromArgs(
   }
 }
 
-export function mergeArgsWithTarget(
-  args: Record<string, unknown> | null | undefined,
-  targetUrl: string | null
-) {
-  const merged = { ...(args ?? {}) } as Record<string, unknown>;
+export function mergeArgsWithTarget(args: unknown, targetUrl: string | null): Prisma.InputJsonObject {
+  const base = { ...toInputJsonObject(args) } as Record<string, Prisma.InputJsonValue | null>;
   if (targetUrl !== null) {
-    merged.url = targetUrl;
-    merged.targetUrl = targetUrl;
+    base.url = targetUrl;
+    base.targetUrl = targetUrl;
   }
-  return merged;
+  return base as Prisma.InputJsonObject;
+}
+
+export function mergeArgObjects(existing: unknown, incoming: unknown): Prisma.InputJsonObject {
+  return { ...toInputJsonObject(existing), ...toInputJsonObject(incoming) };
 }
 
 export function deriveTargetFromArgs(args: Record<string, unknown> | null | undefined) {
@@ -50,3 +68,20 @@ export function deriveTargetFromArgs(args: Record<string, unknown> | null | unde
   const candidate = (args as Record<string, unknown>).url ?? (args as Record<string, unknown>).targetUrl;
   return typeof candidate === "string" ? candidate : "";
 }
+
+export function validateScriptArgs(
+  script: string,
+  targetUrl: string | null,
+  args: Prisma.InputJsonObject,
+): string | null {
+  if (!targetUrl) return null;
+  const schema = getScriptSchema(script);
+  if (!schema) return null;
+
+  const targetError = validateTargetForSchema(schema, targetUrl);
+  if (targetError) return targetError;
+
+  return validateArgsForSchema(schema, args);
+}
+
+export { toInputJsonObject };

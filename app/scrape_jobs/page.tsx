@@ -22,6 +22,12 @@ import {
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
+import {
+  SCRIPT_SCHEMA_MAP,
+  SCRIPT_SCHEMAS,
+  validateArgsForSchema,
+  validateTargetForSchema,
+} from "@/config/scrapeScripts";
 
 type ScrapeJob = {
   id: string;
@@ -125,50 +131,7 @@ const paginatedFetcher = async (url: string): Promise<JobsPage> => {
   return payload as JobsPage;
 };
 
-const SCRIPT_PRESETS = [
-  {
-    key: "docs-sequential-v2",
-    label: "Sequential sitemap",
-    hint: "Best for stable sitemaps; walks URLs in order with predictable pacing.",
-    defaultTarget: "https://automationghana.com/sitemap_index.xml",
-  },
-  {
-    key: "docs-sequential-v1",
-    label: "Sequential sitemap (v1)",
-    hint: "Legacy sequential crawler tuned for sitemap-driven docs.",
-    defaultTarget: "https://automationghana.com/sitemap_index.xml",
-  },
-  {
-    key: "sitemap-parallel",
-    label: "Parallel sitemap",
-    hint: "Fan-out crawler that accelerates large sitemaps with concurrency controls.",
-    defaultTarget: "https://automationghana.com/sitemap_index.xml",
-  },
-  {
-    key: "woocommerce",
-    label: "WooCommerce",
-    hint: "Tailored product crawler that keeps variant and pricing metadata intact.",
-    defaultTarget: "https://store.automationghana.com",
-  },
-  {
-    key: "docs-fast-v1",
-    label: "FAST docs (v1)",
-    hint: "Legacy concurrent docs crawler optimized for speed.",
-    defaultTarget: "https://automationghana.com/sitemap_index.xml",
-  },
-  {
-    key: "recursive-v2",
-    label: "Recursive",
-    hint: "Discovers deep links from a root URL—good for docs without sitemaps.",
-    defaultTarget: "https://automationghana.com",
-  },
-  {
-    key: "llms-txt",
-    label: "LLM text",
-    hint: "Optimized for llms.txt / Markdown feeds with minimal boilerplate noise.",
-    defaultTarget: "https://automationghana.com/llms.txt",
-  },
-];
+const SCRIPT_PRESETS = SCRIPT_SCHEMAS;
 
 const KNOWLEDGE_BASE_PATH = "public/knowledge_base";
 const AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT =
@@ -372,6 +335,9 @@ export default function ScrapeJobsPage() {
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
   const [targetUrl, setTargetUrl] = useState(SCRIPT_PRESETS[0].defaultTarget);
+  const [createTargetError, setCreateTargetError] = useState<string | null>(null);
+  const [createArgError, setCreateArgError] = useState<string | null>(null);
+  const [requiredArgDrafts, setRequiredArgDrafts] = useState<Record<string, string>>({});
   const [creating, setCreating] = useState<string | null>(null);
   const [ingesting, setIngesting] = useState<Record<string, string>>({});
   const [copiedTarget, setCopiedTarget] = useState(false);
@@ -513,9 +479,61 @@ export default function ScrapeJobsPage() {
     if (preset?.defaultTarget) {
       setTargetUrl(preset.defaultTarget);
     }
+    setCreateTargetError(null);
+    setCreateArgError(null);
+    const schema = SCRIPT_SCHEMA_MAP.get(key);
+    if (schema?.requiredArgs?.length) {
+      setRequiredArgDrafts((current) => {
+        const next: Record<string, string> = {};
+        schema.requiredArgs?.forEach((req) => {
+          next[req.key] = current[req.key] ?? "";
+        });
+        return next;
+      });
+    } else {
+      setRequiredArgDrafts({});
+    }
   };
 
   const createJob = async (cadence: ScrapeJobCadence) => {
+    const schema = activeSchema;
+    const trimmedTarget = targetUrl.trim();
+    setCreateTargetError(null);
+    setCreateArgError(null);
+
+    if (!trimmedTarget) {
+      setCreateTargetError("Enter a target URL");
+      return;
+    }
+
+    if (schema) {
+      const targetError = validateTargetForSchema(schema, trimmedTarget);
+      if (targetError) {
+        setCreateTargetError(targetError);
+        return;
+      }
+    }
+
+    const argsPayload: Record<string, unknown> = trimmedTarget
+      ? { url: trimmedTarget, targetUrl: trimmedTarget }
+      : {};
+
+    if (schema?.requiredArgs?.length) {
+      schema.requiredArgs.forEach((req) => {
+        const draft = (requiredArgDrafts[req.key] ?? "").trim();
+        if (draft) {
+          const parts = draft.split(",").map((part) => part.trim()).filter(Boolean);
+          argsPayload[req.key] = parts.length > 1 ? parts : parts[0];
+        }
+      });
+
+      const argError = validateArgsForSchema(schema, argsPayload);
+      if (argError) {
+        setCreateArgError(argError);
+        return;
+      }
+    }
+
     try {
       setCreating(cadence);
       const response = await fetch("/api/scrape_jobs", {
@@ -523,7 +541,7 @@ export default function ScrapeJobsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           script: selectedPreset,
-          args: targetUrl ? { url: targetUrl, targetUrl } : {},
+          args: argsPayload,
           cadence,
           status: ScrapeJobStatus.queued,
         }),
@@ -535,6 +553,8 @@ export default function ScrapeJobsPage() {
         console.error("Failed to create job", await response.text());
       } else {
         await mutate();
+        setCreateArgError(null);
+        setCreateTargetError(null);
       }
     } finally {
       setCreating(null);
@@ -554,6 +574,8 @@ export default function ScrapeJobsPage() {
       // ignore
     }
   };
+
+  const activeSchema = SCRIPT_SCHEMA_MAP.get(selectedPreset);
 
   const getScheduleDraft = (job: ScrapeJob) =>
     scheduleDrafts[job.id] ?? {
@@ -621,6 +643,18 @@ export default function ScrapeJobsPage() {
         [job.job.id]: { value: draft, error: "Enter a target URL" },
       }));
       return;
+    }
+
+    const schema = SCRIPT_SCHEMA_MAP.get(job.job.script);
+    if (schema) {
+      const schemaError = validateTargetForSchema(schema, draft);
+      if (schemaError) {
+        setTargetDrafts((current) => ({
+          ...current,
+          [job.job.id]: { value: draft, error: schemaError },
+        }));
+        return;
+      }
     }
 
     setSavingTargets((state) => ({ ...state, [job.job.id]: true }));
@@ -1029,7 +1063,11 @@ export default function ScrapeJobsPage() {
               <div className="flex gap-2">
                 <input
                   value={targetUrl}
-                  onChange={(e) => setTargetUrl(e.target.value)}
+                  onChange={(e) => {
+                    setTargetUrl(e.target.value);
+                    if (createTargetError) setCreateTargetError(null);
+                    if (createArgError) setCreateArgError(null);
+                  }}
                   className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
                   placeholder="https://example.com/sitemap.xml"
                 />
@@ -1048,6 +1086,42 @@ export default function ScrapeJobsPage() {
                 </button>
               </div>
             </label>
+            {activeSchema ? (
+              <div className="text-[11px] text-zinc-600 flex flex-col gap-1">
+                <div>{activeSchema.target.description}</div>
+                {activeSchema.target.example ? (
+                  <div className="text-[11px] text-zinc-500">
+                    Example: {activeSchema.target.example}
+                  </div>
+                ) : null}
+                {activeSchema.requiredArgs?.length ? (
+                  <div className="text-[11px] text-amber-700">
+                    Requires: {activeSchema.requiredArgs.map((req) => req.description).join("; ")}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+            {activeSchema?.requiredArgs?.map((req) => (
+              <label key={req.key} className="flex flex-col gap-1 text-sm text-zinc-600">
+                {req.description}
+                <input
+                  value={requiredArgDrafts[req.key] ?? ""}
+                  onChange={(event) => {
+                    setRequiredArgDrafts((current) => ({
+                      ...current,
+                      [req.key]: event.target.value,
+                    }));
+                    setCreateArgError(null);
+                  }}
+                  className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-zinc-800 focus:outline-none focus:ring-2 focus:ring-[#2B83F6]"
+                  placeholder={req.description}
+                />
+              </label>
+            ))}
+            {createTargetError ? (
+              <div className="text-[11px] text-red-600">{createTargetError}</div>
+            ) : null}
+            {createArgError ? <div className="text-[11px] text-red-600">{createArgError}</div> : null}
             <button
               onClick={enqueueManual}
               disabled={creating !== null}
@@ -1216,6 +1290,7 @@ export default function ScrapeJobsPage() {
                   const targetError = targetDrafts[item.job.id]?.error;
                   const savingTarget = savingTargets[item.job.id];
                   const editableTarget = canEditTarget(item.job);
+                  const schema = SCRIPT_SCHEMA_MAP.get(item.job.script);
                   return (
                     <tr key={item.job.id} className="align-top">
                       <td className="py-3 pr-3">
@@ -1257,7 +1332,19 @@ export default function ScrapeJobsPage() {
                             {targetError ? (
                               <div className="text-[11px] text-red-600">{targetError}</div>
                             ) : (
-                              <div className="text-[11px] text-zinc-500">Applies to the next run</div>
+                              <div className="text-[11px] text-zinc-500 flex flex-col gap-1">
+                                <span>{schema?.target.description ?? "Applies to the next run"}</span>
+                                {schema?.target.example ? (
+                                  <span className="text-[11px] text-zinc-500">Example: {schema.target.example}</span>
+                                ) : null}
+                                {schema?.requiredArgs?.length ? (
+                                  <span className="text-[11px] text-amber-700">
+                                    Requires: {schema.requiredArgs.map((req) => req.description).join("; ")}
+                                  </span>
+                                ) : (
+                                  <span>Applies to the next run</span>
+                                )}
+                              </div>
                             )}
                           </div>
                         ) : (

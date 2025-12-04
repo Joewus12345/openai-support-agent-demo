@@ -3,7 +3,12 @@ import prisma from "@/lib/prisma";
 import { calculateNextRun } from "@/lib/scheduler";
 import { cancelRunningScrape } from "@/lib/scrapeRunner";
 import { ensureAuthenticated, serializeJob } from "../helpers";
-import { mergeArgsWithTarget, parseTargetUrlFromArgs } from "../validation";
+import {
+  mergeArgObjects,
+  mergeArgsWithTarget,
+  parseTargetUrlFromArgs,
+  validateScriptArgs,
+} from "../validation";
 
 function parseCadence(value: unknown): ScrapeJobCadence | undefined {
   if (typeof value !== "string") return undefined;
@@ -127,11 +132,13 @@ export async function PATCH(
     }
 
     if (argsProvided) {
-      const baseArgs =
-        body.args && typeof body.args === "object"
-          ? { ...(existing.args ?? {}), ...(body.args as Record<string, unknown>) }
-          : existing.args ?? {};
-      data.args = mergeArgsWithTarget(baseArgs, argsResult.url);
+      const mergedArgs = mergeArgObjects(existing.args, body.args);
+      const normalizedArgs = mergeArgsWithTarget(mergedArgs, argsResult.url);
+      const schemaError = validateScriptArgs(body.script ?? existing.script, argsResult.url, normalizedArgs);
+      if (schemaError) {
+        return new Response(JSON.stringify({ error: schemaError }), { status: 400 });
+      }
+      data.args = normalizedArgs;
     }
 
     if (

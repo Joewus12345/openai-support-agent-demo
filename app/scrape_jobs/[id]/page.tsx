@@ -27,6 +27,7 @@ import useSWR from "swr";
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
+import { SCRIPT_SCHEMA_MAP } from "@/config/scrapeScripts";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url, { credentials: "same-origin" });
@@ -462,6 +463,24 @@ export default function ScrapeJobDetail({
     const value = (args.url as string | undefined) ?? (args.targetUrl as string | undefined);
     return typeof value === "string" ? value : "";
   }, [data?.job.args]);
+
+  const scriptSchema = useMemo(
+    () => (data?.job.script ? SCRIPT_SCHEMA_MAP.get(data.job.script) : undefined),
+    [data?.job.script]
+  );
+
+  const scriptSpecificArgs = useMemo(() => {
+    if (!scriptSchema || !data?.job.args) return [] as { key: string; label: string; value: string }[];
+    const args = data.job.args as Record<string, unknown>;
+    return (scriptSchema.requiredArgs ?? [])
+      .map((req) => {
+        const value = args[req.key];
+        if (value === undefined || value === null) return null;
+        const stringValue = Array.isArray(value) ? value.join(", ") : String(value);
+        return { key: req.key, label: req.description, value: stringValue };
+      })
+      .filter(Boolean) as { key: string; label: string; value: string }[];
+  }, [data?.job.args, scriptSchema]);
 
   const filteredLogs = useMemo(() => {
     const startDate = appliedLogFilter.start ? new Date(appliedLogFilter.start) : null;
@@ -1126,17 +1145,36 @@ export default function ScrapeJobDetail({
               </div>
               <span className="text-[10px] text-zinc-500 tabular-nums">{progressValue}%</span>
             </div>
-            <div className="flex items-start justify-between gap-2 text-xs text-zinc-500">
-              <span>Args: {formatArgs(data.job.args)}</span>
-              {targetValue ? (
-                <button
-                  type="button"
-                  className="flex items-center gap-1 text-[#2B83F6] hover:underline"
-                  onClick={() => copy(targetValue, setCopiedTarget)}
-                >
-                  <Copy size={14} />
-                  {copiedTarget ? "Copied" : "Copy target"}
-                </button>
+            <div className="flex flex-col gap-1 text-xs text-zinc-500">
+              <div className="flex items-start justify-between gap-2">
+                <span>Args: {formatArgs(data.job.args)}</span>
+                {targetValue ? (
+                  <button
+                    type="button"
+                    className="flex items-center gap-1 text-[#2B83F6] hover:underline"
+                    onClick={() => copy(targetValue, setCopiedTarget)}
+                  >
+                    <Copy size={14} />
+                    {copiedTarget ? "Copied" : "Copy target"}
+                  </button>
+                ) : null}
+              </div>
+              {scriptSchema ? (
+                <div className="text-[11px] text-zinc-600 flex flex-col gap-0.5">
+                  <span>{scriptSchema.target.description}</span>
+                  {scriptSchema.target.example ? (
+                    <span className="text-[11px] text-zinc-500">Example: {scriptSchema.target.example}</span>
+                  ) : null}
+                </div>
+              ) : null}
+              {scriptSpecificArgs.length ? (
+                <div className="flex flex-col gap-0.5 text-[11px] text-zinc-700">
+                  {scriptSpecificArgs.map((arg) => (
+                    <span key={arg.key} className="break-all">
+                      {arg.label}: {arg.value}
+                    </span>
+                  ))}
+                </div>
               ) : null}
             </div>
             <div className="text-xs text-zinc-500">Started: {formatDate(data.job.startedAt)}</div>

@@ -7,7 +7,11 @@ import {
 } from "@/lib/generated/prisma";
 import { ensureAuthenticated, serializeJob } from "./helpers";
 import { triggerScrapeJob } from "@/lib/scrapeRunner";
-import { mergeArgsWithTarget, parseTargetUrlFromArgs } from "./validation";
+import {
+  mergeArgsWithTarget,
+  parseTargetUrlFromArgs,
+  validateScriptArgs,
+} from "./validation";
 
 function parseStatus(value: string | null): ScrapeJobStatus | undefined {
   if (!value) return undefined;
@@ -149,6 +153,10 @@ export async function POST(request: Request) {
     }
 
     const normalizedArgs = mergeArgsWithTarget(rawArgs ?? {}, targetUrl);
+    const schemaError = validateScriptArgs(body.script, targetUrl, normalizedArgs);
+    if (schemaError) {
+      return new Response(JSON.stringify({ error: schemaError }), { status: 400 });
+    }
 
     const data: Prisma.ScrapeJobCreateInput = {
       script: body.script,
