@@ -45,12 +45,55 @@ export async function readJobLog(logPath: string | null | undefined, opts?: { ma
   }
 }
 
+export async function readJobLogChunk(
+  logPath: string | null | undefined,
+  opts: { start?: number | null; maxBytes?: number } = {}
+) {
+  if (!logPath) return null;
+  const limit = opts.maxBytes && opts.maxBytes > 0 ? Math.min(opts.maxBytes, 50000) : 20000;
+
+  try {
+    const stat = await fs.stat(logPath);
+    const size = stat.size;
+    const start = (() => {
+      if (typeof opts.start === "number" && Number.isFinite(opts.start)) {
+        return Math.max(0, Math.min(opts.start, Math.max(0, size - 1)));
+      }
+      return Math.max(0, size - limit);
+    })();
+
+    const handle = await fs.open(logPath, "r");
+    try {
+      const buffer = Buffer.alloc(Math.min(limit, size));
+      const { bytesRead } = await handle.read(buffer, 0, buffer.length, start);
+      const end = start + bytesRead;
+      return {
+        content: buffer.subarray(0, bytesRead).toString("utf8"),
+        start,
+        end,
+        size,
+        hasMoreBefore: start > 0,
+        hasMoreAfter: end < size,
+      } as const;
+    } finally {
+      await handle.close();
+    }
+  } catch (error) {
+    console.warn("Unable to read scrape job log chunk", { logPath, error });
+    return null;
+  }
+}
+
 type LogRun = {
   id: string;
   path: string;
   startedAt: Date;
   size: number;
   content?: string | null;
+  contentStart?: number;
+  contentEnd?: number;
+  hasMoreBefore?: boolean;
+  hasMoreAfter?: boolean;
 };
 
 export async function listJobLogRuns(
@@ -63,6 +106,8 @@ export async function listJobLogRuns(
     end?: Date | null;
     before?: Date | null;
     after?: Date | null;
+    contentStart?: number | null;
+    contentLimit?: number | null;
   } = {}
 ) {
   const limit = Math.max(1, Math.min(options.limit ?? 10, 50));
@@ -79,7 +124,8 @@ export async function listJobLogRuns(
         .map(async (file) => {
           const fullPath = path.join(logDir, file);
           const stat = await fs.stat(fullPath);
-          return { path: fullPath, startedAt: stat.mtime, size: stat.size };
+          const startedAt = stat.birthtimeMs && stat.birthtimeMs > 0 ? stat.birthtime : stat.mtime;
+          return { path: fullPath, startedAt, size: stat.size };
         })
     );
 
@@ -94,7 +140,8 @@ export async function listJobLogRuns(
 
   try {
     const stat = await fs.stat(legacyLogPath);
-    entries.push({ path: legacyLogPath, startedAt: stat.mtime, size: stat.size });
+    const startedAt = stat.birthtimeMs && stat.birthtimeMs > 0 ? stat.birthtime : stat.mtime;
+    entries.push({ path: legacyLogPath, startedAt, size: stat.size });
   } catch {
     // ignore if missing
   }
@@ -138,7 +185,22 @@ export async function listJobLogRuns(
       path: entry.path,
       startedAt: entry.startedAt,
       size: entry.size,
-      content: options.includeContent ? await readJobLog(entry.path, { maxBytes: 20000 }) : undefined,
+      ...(options.includeContent
+        ? await (async () => {
+            const chunk = await readJobLogChunk(entry.path, {
+              start: options.contentStart ?? null,
+              maxBytes: options.contentLimit ?? undefined,
+            });
+            if (!chunk) return { content: null, contentStart: 0, contentEnd: 0, hasMoreBefore: false, hasMoreAfter: false };
+            return {
+              content: chunk.content,
+              contentStart: chunk.start,
+              contentEnd: chunk.end,
+              hasMoreBefore: chunk.hasMoreBefore,
+              hasMoreAfter: chunk.hasMoreAfter,
+            };
+          })()
+        : {}),
     }))
   );
 

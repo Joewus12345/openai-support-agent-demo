@@ -93,11 +93,16 @@ type LogRun = {
   startedAt: string;
   size: number;
   content: string | null;
+  contentStart?: number;
+  contentEnd?: number;
+  hasMoreBefore?: boolean;
+  hasMoreAfter?: boolean;
 };
 
 type LogPage = { logs: LogRun[]; nextCursor: string | null };
 
 const LOG_PAGE_SIZE = 10;
+const LOG_CONTENT_CHUNK = 40000;
 
 function formatDate(value: string | null) {
   if (!value) return "—";
@@ -204,6 +209,7 @@ export default function ScrapeJobDetail({
     anchor: "",
   });
   const [logViewMode, setLogViewMode] = useState<"single" | "all">("single");
+  const [logContentStart, setLogContentStart] = useState<number | null>(null);
   const logContainerRef = useRef<HTMLDivElement | null>(null);
   const logContentRef = useRef<HTMLPreElement | null>(null);
   const userInteractedRef = useRef(false);
@@ -280,6 +286,7 @@ export default function ScrapeJobDetail({
     setAppliedLogFilter(logFilterDraft);
     setLogPageCount(1);
     setSelectedLogId(null);
+    setLogContentStart(logFilterDraft.anchor ? 0 : null);
   };
 
   const clearLogFilters = () => {
@@ -288,6 +295,24 @@ export default function ScrapeJobDetail({
     setAppliedLogFilter(cleared);
     setLogPageCount(1);
     setSelectedLogId(null);
+    setLogContentStart(null);
+  };
+
+  const shiftLogContent = (direction: "earlier" | "later") => {
+    const target = selectedLog ?? logs[0];
+    if (!target) return;
+
+    const currentStart = typeof target.contentStart === "number" ? target.contentStart : 0;
+    if (direction === "earlier" && target.hasMoreBefore) {
+      const nextStart = Math.max(0, currentStart - LOG_CONTENT_CHUNK);
+      setLogContentStart(nextStart);
+      return;
+    }
+
+    if (direction === "later" && target.hasMoreAfter) {
+      const nextStart = Math.max(0, Math.min(target.size - LOG_CONTENT_CHUNK, target.contentEnd ?? currentStart + LOG_CONTENT_CHUNK));
+      setLogContentStart(nextStart);
+    }
   };
 
   useEffect(() => {
@@ -337,7 +362,10 @@ export default function ScrapeJobDetail({
       const beforeParam = appliedLogFilter.anchor
         ? `&before=${encodeURIComponent(appliedLogFilter.anchor)}`
         : "";
-      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}${beforeParam}`;
+      const chunkStartParam =
+        logContentStart !== null ? `&contentStart=${Math.max(0, logContentStart)}` : "";
+      const chunkLimitParam = `&contentLimit=${LOG_CONTENT_CHUNK}`;
+      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}${beforeParam}${chunkStartParam}${chunkLimitParam}`;
     },
     fetcher,
     {
@@ -385,6 +413,14 @@ export default function ScrapeJobDetail({
       setSelectedLogId(logs[0].id);
     }
   }, [logs, selectedLogId]);
+
+  useEffect(() => {
+    setLogContentStart(null);
+  }, [selectedLogId]);
+
+  useEffect(() => {
+    setLogPageCount(1);
+  }, [logContentStart, setLogPageCount]);
 
   const selectedLog = useMemo(
     () => logs.find((log: LogRun) => log.id === selectedLogId) ?? logs[0] ?? null,
@@ -1383,6 +1419,47 @@ export default function ScrapeJobDetail({
                   <option value="all">All loaded runs</option>
                 </select>
               </label>
+              {selectedLog ? (
+                <span className="text-[11px] text-zinc-500">
+                  Showing bytes {selectedLog.contentStart ?? 0}
+                  {typeof selectedLog.contentEnd === "number"
+                    ? `–${selectedLog.contentEnd}`
+                    : selectedLog.size > 0
+                      ? `–${selectedLog.size}`
+                      : ""}
+                  {selectedLog.size ? ` of ${selectedLog.size}` : ""}
+                </span>
+              ) : null}
+              {selectedLog?.hasMoreBefore ? (
+                <button
+                  type="button"
+                  className="text-[#2B83F6] hover:underline"
+                  onClick={() => shiftLogContent("earlier")}
+                  disabled={logsLoading}
+                >
+                  Load earlier content
+                </button>
+              ) : null}
+              {selectedLog?.hasMoreAfter ? (
+                <button
+                  type="button"
+                  className="text-[#2B83F6] hover:underline"
+                  onClick={() => shiftLogContent("later")}
+                  disabled={logsLoading}
+                >
+                  Load later content
+                </button>
+              ) : null}
+              {logContentStart !== null ? (
+                <button
+                  type="button"
+                  className="text-zinc-600 hover:underline"
+                  onClick={() => setLogContentStart(null)}
+                  disabled={logsLoading}
+                >
+                  Jump to newest chunk
+                </button>
+              ) : null}
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"

@@ -20,6 +20,8 @@ export async function GET(
   const end = searchParams.get("end");
   const before = searchParams.get("before");
   const after = searchParams.get("after");
+  const contentStart = searchParams.get("contentStart");
+  const contentLimit = searchParams.get("contentLimit");
 
   const startDate = start ? new Date(start) : null;
   const endDate = end ? new Date(end) : null;
@@ -35,6 +37,12 @@ export async function GET(
       end: endDate && !Number.isNaN(endDate.getTime()) ? endDate : null,
       before: beforeDate && !Number.isNaN(beforeDate.getTime()) ? beforeDate : null,
       after: afterDate && !Number.isNaN(afterDate.getTime()) ? afterDate : null,
+      contentStart:
+        contentStart && Number.isFinite(Number(contentStart)) ? Math.max(0, Number(contentStart)) : null,
+      contentLimit:
+        contentLimit && Number.isFinite(Number(contentLimit))
+          ? Math.max(1000, Math.min(50000, Number(contentLimit)))
+          : null,
     });
 
     return new Response(
@@ -45,6 +53,10 @@ export async function GET(
           startedAt: log.startedAt.toISOString(),
           size: log.size,
           content: log.content ?? null,
+          contentStart: log.contentStart ?? 0,
+          contentEnd: log.contentEnd ?? 0,
+          hasMoreBefore: Boolean(log.hasMoreBefore),
+          hasMoreAfter: Boolean(log.hasMoreAfter),
         })),
         nextCursor,
       }),

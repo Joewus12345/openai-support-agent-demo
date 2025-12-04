@@ -128,10 +128,10 @@ export default function InitVS() {
     <div className="min-h-screen bg-zinc-50 py-10">
       <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 sm:px-6 lg:px-8">
         <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-          <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-6">
+          <div className="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between md:gap-6">
             <div className="max-w-2xl space-y-2">
               <div className="text-2xl font-bold text-zinc-900">Initialize the Vector Store</div>
-              <div className="h-1.5 w-28 rounded-full bg-gradient-to-r from-[#2B83F6] via-[#2B83F6] to-[#7cc6ff]" />
+              <div className="h-px w-full bg-zinc-200" />
               <p className="text-sm text-zinc-600">
                 Load knowledge base content into a vector store so your agents can search and retrieve it. Content in
                 <span className="font-mono bg-zinc-100 rounded-md px-1 py-0.5">/public/knowledge_base</span> and
