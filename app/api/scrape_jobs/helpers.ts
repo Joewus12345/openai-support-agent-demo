@@ -61,9 +61,11 @@ export async function listJobLogRuns(
     includeContent?: boolean;
     start?: Date | null;
     end?: Date | null;
+    before?: Date | null;
+    after?: Date | null;
   } = {}
 ) {
-  const limit = Math.max(1, Math.min(options.limit ?? 3, 25));
+  const limit = Math.max(1, Math.min(options.limit ?? 10, 50));
   const logDir = path.join(JOB_LOG_ROOT, jobId);
   const legacyLogPath = path.join(JOB_LOG_ROOT, `${jobId}.log`);
 
@@ -100,14 +102,30 @@ export async function listJobLogRuns(
   const filteredEntries = entries.filter((entry) => {
     const withinStart = options.start ? entry.startedAt >= options.start : true;
     const withinEnd = options.end ? entry.startedAt <= options.end : true;
-    return withinStart && withinEnd;
+    const withinBefore = options.before ? entry.startedAt <= options.before : true;
+    const withinAfter = options.after ? entry.startedAt >= options.after : true;
+    return withinStart && withinEnd && withinBefore && withinAfter;
   });
 
   const sorted = filteredEntries.sort((a, b) => b.startedAt.getTime() - a.startedAt.getTime());
   const cursorIndex = options.cursor
     ? sorted.findIndex((entry) => path.basename(entry.path) === options.cursor)
     : -1;
-  const startIndex = cursorIndex > -1 ? cursorIndex + 1 : 0;
+
+  const anchorIndex = (() => {
+    if (cursorIndex > -1) return cursorIndex + 1;
+    if (options.before) {
+      const idx = sorted.findIndex((entry) => entry.startedAt <= options.before!);
+      return idx === -1 ? sorted.length : idx;
+    }
+    if (options.after) {
+      const idx = sorted.findIndex((entry) => entry.startedAt < options.after!);
+      return Math.max(0, idx - 1);
+    }
+    return 0;
+  })();
+
+  const startIndex = Math.max(0, anchorIndex);
   const sliced = sorted.slice(startIndex, startIndex + limit);
   const nextCursor =
     sorted.length > startIndex + limit && sliced.length > 0

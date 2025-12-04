@@ -97,7 +97,7 @@ type LogRun = {
 
 type LogPage = { logs: LogRun[]; nextCursor: string | null };
 
-const LOG_PAGE_SIZE = 3;
+const LOG_PAGE_SIZE = 10;
 
 function formatDate(value: string | null) {
   if (!value) return "—";
@@ -193,13 +193,15 @@ export default function ScrapeJobDetail({
   const [authError, setAuthError] = useState<string | null>(null);
   const [authRequired, setAuthRequired] = useState(false);
   const [selectedLogId, setSelectedLogId] = useState<string | null>(null);
-  const [logFilterDraft, setLogFilterDraft] = useState<{ start: string; end: string }>({
+  const [logFilterDraft, setLogFilterDraft] = useState<{ start: string; end: string; anchor: string }>({
     start: "",
     end: "",
+    anchor: "",
   });
-  const [appliedLogFilter, setAppliedLogFilter] = useState<{ start: string; end: string }>({
+  const [appliedLogFilter, setAppliedLogFilter] = useState<{ start: string; end: string; anchor: string }>({
     start: "",
     end: "",
+    anchor: "",
   });
   const [logViewMode, setLogViewMode] = useState<"single" | "all">("single");
   const logContainerRef = useRef<HTMLDivElement | null>(null);
@@ -281,7 +283,7 @@ export default function ScrapeJobDetail({
   };
 
   const clearLogFilters = () => {
-    const cleared = { start: "", end: "" };
+    const cleared = { start: "", end: "", anchor: "" };
     setLogFilterDraft(cleared);
     setAppliedLogFilter(cleared);
     setLogPageCount(1);
@@ -332,7 +334,10 @@ export default function ScrapeJobDetail({
         ? `&start=${encodeURIComponent(appliedLogFilter.start)}`
         : "";
       const endParam = appliedLogFilter.end ? `&end=${encodeURIComponent(appliedLogFilter.end)}` : "";
-      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}`;
+      const beforeParam = appliedLogFilter.anchor
+        ? `&before=${encodeURIComponent(appliedLogFilter.anchor)}`
+        : "";
+      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}${beforeParam}`;
     },
     fetcher,
     {
@@ -1308,6 +1313,16 @@ export default function ScrapeJobDetail({
                   className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
                   value={logFilterDraft.end}
                   onChange={(event) => setLogFilterDraft((prev) => ({ ...prev, end: event.target.value }))}
+                />
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-[11px] text-zinc-500">Jump to before</span>
+                <input
+                  type="datetime-local"
+                  className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
+                  value={logFilterDraft.anchor}
+                  onChange={(event) => setLogFilterDraft((prev) => ({ ...prev, anchor: event.target.value }))}
+                  placeholder="Load runs before…"
                 />
               </label>
               <div className="flex items-center gap-2">

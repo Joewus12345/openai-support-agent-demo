@@ -1014,19 +1014,19 @@ export default function ScrapeJobsPage() {
         </div>
 
         <div className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm">
-          <div className="flex flex-col gap-3 mb-3">
+          <div className="flex flex-col gap-3 mb-4 pb-1 border-b border-zinc-200">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <div>
+              <div className="flex flex-col gap-1">
                 <div className="text-lg font-semibold">Past jobs</div>
-                <div className="mt-1 h-1 w-24 rounded-full bg-gradient-to-r from-[#2B83F6] to-[#60a5fa]" />
+                <div className="h-1.5 w-28 rounded-full bg-gradient-to-r from-[#2B83F6] via-[#2B83F6] to-[#7cc6ff]" />
               </div>
               {isLoading && <Loader2 size={18} className="animate-spin text-zinc-400" />}
             </div>
-            <div className="flex flex-wrap items-end gap-3 text-xs text-zinc-700">
+            <div className="grid w-full gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-xs text-zinc-700 sm:grid-cols-2 md:grid-cols-4">
               <label className="flex flex-col gap-1">
                 <span className="text-[11px] text-zinc-500">Status</span>
                 <select
-                  className="rounded-lg border border-zinc-200 px-2 py-1 min-w-[150px]"
+                  className="rounded-lg border border-zinc-200 px-2 py-1 min-w-[150px] bg-white"
                   value={historyFilters.status}
                   onChange={(event) =>
                     setHistoryFilters((prev) => ({ ...prev, status: event.target.value as ScrapeJobStatus | "" }))
@@ -1044,7 +1044,7 @@ export default function ScrapeJobsPage() {
                 <span className="text-[11px] text-zinc-500">Created after</span>
                 <input
                   type="datetime-local"
-                  className="rounded-lg border border-zinc-200 px-2 py-1"
+                  className="rounded-lg border border-zinc-200 px-2 py-1 bg-white"
                   value={historyFilters.from}
                   onChange={(event) => setHistoryFilters((prev) => ({ ...prev, from: event.target.value }))}
                 />
@@ -1053,7 +1053,7 @@ export default function ScrapeJobsPage() {
                 <span className="text-[11px] text-zinc-500">Created before</span>
                 <input
                   type="datetime-local"
-                  className="rounded-lg border border-zinc-200 px-2 py-1"
+                  className="rounded-lg border border-zinc-200 px-2 py-1 bg-white"
                   value={historyFilters.to}
                   onChange={(event) => setHistoryFilters((prev) => ({ ...prev, to: event.target.value }))}
                 />
@@ -1061,7 +1061,7 @@ export default function ScrapeJobsPage() {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  className="rounded-lg border border-zinc-200 px-3 py-1.5 font-medium text-[#2B83F6] hover:border-[#2B83F6]"
+                  className="w-full rounded-lg border border-[#2B83F6] bg-white px-3 py-1.5 font-medium text-[#2B83F6] hover:bg-[#f1f5ff]"
                   onClick={applyHistoryFilters}
                   disabled={isLoading}
                 >
@@ -1069,7 +1069,7 @@ export default function ScrapeJobsPage() {
                 </button>
                 <button
                   type="button"
-                  className="rounded-lg border border-zinc-200 px-3 py-1.5 font-medium text-zinc-600 hover:border-zinc-300"
+                  className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-1.5 font-medium text-zinc-600 hover:border-zinc-300"
                   onClick={clearHistoryFilters}
                   disabled={isLoading}
                 >

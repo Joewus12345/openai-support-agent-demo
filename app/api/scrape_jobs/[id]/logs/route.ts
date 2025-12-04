@@ -5,7 +5,7 @@ import { ensureAuthenticated, listJobLogRuns } from "../../helpers";
 
 function parseLimit(value: string | null) {
   const parsed = Number(value ?? "");
-  return Number.isFinite(parsed) && parsed > 0 ? Math.min(parsed, 25) : undefined;
+  return Number.isFinite(parsed) && parsed > 0 ? Math.min(parsed, 50) : undefined;
 }
 
 export async function GET(
@@ -18,9 +18,13 @@ export async function GET(
   const cursor = searchParams.get("cursor") ?? undefined;
   const start = searchParams.get("start");
   const end = searchParams.get("end");
+  const before = searchParams.get("before");
+  const after = searchParams.get("after");
 
   const startDate = start ? new Date(start) : null;
   const endDate = end ? new Date(end) : null;
+  const beforeDate = before ? new Date(before) : null;
+  const afterDate = after ? new Date(after) : null;
 
   try {
     const { logs, nextCursor } = await listJobLogRuns(id, {
@@ -29,6 +33,8 @@ export async function GET(
       includeContent: true,
       start: startDate && !Number.isNaN(startDate.getTime()) ? startDate : null,
       end: endDate && !Number.isNaN(endDate.getTime()) ? endDate : null,
+      before: beforeDate && !Number.isNaN(beforeDate.getTime()) ? beforeDate : null,
+      after: afterDate && !Number.isNaN(afterDate.getTime()) ? afterDate : null,
     });
 
     return new Response(
