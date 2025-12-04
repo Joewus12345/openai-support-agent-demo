@@ -107,6 +107,7 @@ type LogRun = {
   contentEnd?: number;
   hasMoreBefore?: boolean;
   hasMoreAfter?: boolean;
+  fullyLoaded?: boolean;
 };
 
 export async function listJobLogRuns(
@@ -114,6 +115,8 @@ export async function listJobLogRuns(
   options: {
     limit?: number;
     cursor?: string;
+    fetchAll?: boolean;
+    maxRuns?: number | null;
     includeContent?: boolean;
     start?: Date | null;
     end?: Date | null;
@@ -194,11 +197,21 @@ export async function listJobLogRuns(
   })();
 
   const startIndex = Math.max(0, anchorIndex);
-  const sliced = sorted.slice(startIndex, startIndex + limit);
+  const effectiveLimit = (() => {
+    if (options.fetchAll) {
+      const cap = typeof options.maxRuns === "number" && options.maxRuns > 0 ? options.maxRuns : Infinity;
+      return Math.min(cap, sorted.length - startIndex);
+    }
+    return limit;
+  })();
+
+  const sliced = sorted.slice(startIndex, startIndex + effectiveLimit);
   const nextCursor =
-    sorted.length > startIndex + limit && sliced.length > 0
+    sorted.length > startIndex + effectiveLimit && sliced.length > 0
       ? path.basename(sliced[sliced.length - 1].path)
       : null;
+
+  const MAX_FULL_LOG_BYTES = 500_000;
 
   const logs: LogRun[] = await Promise.all(
     sliced.map(async (entry) => ({
@@ -208,27 +221,48 @@ export async function listJobLogRuns(
       size: entry.size,
       ...(options.includeContent
         ? await (async () => {
+            if (options.fetchAll && entry.size <= MAX_FULL_LOG_BYTES) {
+              const fullContent = await readJobLog(entry.path);
+              return {
+                content: fullContent,
+                contentStart: 0,
+                contentEnd: fullContent?.length ?? 0,
+                hasMoreBefore: false,
+                hasMoreAfter: false,
+                fullyLoaded: true,
+              };
+            }
+
             const perLogRange = options.contentByLogId?.[path.basename(entry.path)];
             const chunk = await readJobLogChunk(entry.path, {
               start: typeof perLogRange?.offset === "number" ? null : options.contentStart ?? null,
               anchor: typeof perLogRange?.offset === "number" ? perLogRange.offset : options.contentStart ?? null,
               direction: perLogRange?.direction ?? null,
-              maxBytes: perLogRange?.limit ?? options.contentLimit ?? undefined,
+              maxBytes: perLogRange?.limit ?? options.contentLimit ?? (options.fetchAll ? MAX_FULL_LOG_BYTES : undefined),
             });
-            if (!chunk) return { content: null, contentStart: 0, contentEnd: 0, hasMoreBefore: false, hasMoreAfter: false };
+            if (!chunk)
+              return {
+                content: null,
+                contentStart: 0,
+                contentEnd: 0,
+                hasMoreBefore: false,
+                hasMoreAfter: false,
+                fullyLoaded: false,
+              };
             return {
               content: chunk.content,
               contentStart: chunk.start,
               contentEnd: chunk.end,
               hasMoreBefore: chunk.hasMoreBefore,
               hasMoreAfter: chunk.hasMoreAfter,
+              fullyLoaded: options.fetchAll ? chunk.end >= entry.size && !chunk.hasMoreBefore : false,
             };
           })()
         : {}),
     }))
   );
 
-  return { logs, nextCursor } as const;
+  return { logs, nextCursor, exhaustive: options.fetchAll ? !nextCursor : !nextCursor } as const;
 }
 
 function deriveDurationSeconds(job: ScrapeJob, benchmark: BenchmarkEntry | null) {

@@ -14,6 +14,7 @@ export async function GET(
 ) {
   const { id } = await params;
   const { searchParams } = new URL(request.url);
+  const loadAll = searchParams.get("all") === "true";
   const limit = parseLimit(searchParams.get("limit"));
   const cursor = searchParams.get("cursor") ?? undefined;
   const start = searchParams.get("start");
@@ -64,9 +65,11 @@ export async function GET(
   })();
 
   try {
-    const { logs, nextCursor } = await listJobLogRuns(id, {
+    const { logs, nextCursor, exhaustive } = await listJobLogRuns(id, {
       limit,
       cursor,
+      fetchAll: loadAll,
+      maxRuns: loadAll ? 120 : null,
       includeContent: true,
       start: startDate && !Number.isNaN(startDate.getTime()) ? startDate : null,
       end: endDate && !Number.isNaN(endDate.getTime()) ? endDate : null,
@@ -93,8 +96,10 @@ export async function GET(
           contentEnd: log.contentEnd ?? 0,
           hasMoreBefore: Boolean(log.hasMoreBefore),
           hasMoreAfter: Boolean(log.hasMoreAfter),
+          fullyLoaded: Boolean(log.fullyLoaded),
         })),
         nextCursor,
+        exhaustive,
       }),
       { status: 200 }
     );

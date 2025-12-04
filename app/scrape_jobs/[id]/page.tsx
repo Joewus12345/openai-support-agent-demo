@@ -23,7 +23,6 @@ import {
   Zap,
 } from "lucide-react";
 import useSWR from "swr";
-import useSWRInfinite from "swr/infinite";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
@@ -97,11 +96,10 @@ type LogRun = {
   contentEnd?: number;
   hasMoreBefore?: boolean;
   hasMoreAfter?: boolean;
+  fullyLoaded?: boolean;
 };
 
-type LogPage = { logs: LogRun[]; nextCursor: string | null };
-
-const LOG_PAGE_SIZE = 10;
+type LogResponse = { logs: LogRun[]; nextCursor: string | null; exhaustive: boolean };
 const LOG_CONTENT_CHUNK = 40000;
 
 function formatDate(value: string | null) {
@@ -209,7 +207,10 @@ export default function ScrapeJobDetail({
     anchor: "",
   });
   const [logViewMode, setLogViewMode] = useState<"single" | "all">("single");
-  const [globalLogContentStart, setGlobalLogContentStart] = useState<number | null>(null);
+  const [logsExhaustive, setLogsExhaustive] = useState(true);
+  const [logCursor, setLogCursor] = useState<string | null>(null);
+  const [logCache, setLogCache] = useState<LogRun[]>([]);
+  const [loadingOlderLogs, setLoadingOlderLogs] = useState(false);
   const [logChunkRanges, setLogChunkRanges] = useState<Record<string, { offset: number | null; direction?: "before" | "after" | null }>>(
     {}
   );
@@ -265,9 +266,33 @@ export default function ScrapeJobDetail({
     setAuthenticating(false);
   };
 
-  const loadOlderLogs = () => {
-    if (nextLogCursor) {
-      setLogPageCount((count: number) => count + 1);
+  const loadOlderLogs = async () => {
+    if (!id || !logCursor) return;
+    setLoadingOlderLogs(true);
+    try {
+      const contentRangesParam =
+        Object.keys(logChunkRanges).length > 0
+          ? `&contentRanges=${encodeURIComponent(JSON.stringify(logChunkRanges))}`
+          : "";
+      const payload = (await fetcher(
+        `/api/scrape_jobs/${id}/logs?all=true&cursor=${logCursor}&contentLimit=${LOG_CONTENT_CHUNK}${contentRangesParam}`
+      )) as LogResponse;
+
+      setLogCursor(payload.nextCursor ?? null);
+      setLogsExhaustive(Boolean(payload.exhaustive));
+      setLogCache((previous) => {
+        const merged = new Map(previous.map((log) => [log.id, log] as const));
+        for (const log of payload.logs) {
+          merged.set(log.id, log);
+        }
+        return Array.from(merged.values()).sort(
+          (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
+        );
+      });
+    } catch (error) {
+      console.error("Failed to load older logs", error);
+    } finally {
+      setLoadingOlderLogs(false);
     }
   };
 
@@ -282,14 +307,13 @@ export default function ScrapeJobDetail({
     if (handleAuthFailure(res)) return;
     if (res.ok) {
       await mutateLogs();
+      setLogCache((previous) => previous.filter((log) => log.id !== selectedLog.id));
     }
   };
 
   const applyLogFilters = () => {
     setAppliedLogFilter(logFilterDraft);
-    setLogPageCount(1);
     setSelectedLogId(null);
-    setGlobalLogContentStart(logFilterDraft.anchor ? 0 : null);
     setLogChunkRanges({});
   };
 
@@ -297,21 +321,18 @@ export default function ScrapeJobDetail({
     const cleared = { start: "", end: "", anchor: "" };
     setLogFilterDraft(cleared);
     setAppliedLogFilter(cleared);
-    setLogPageCount(1);
     setSelectedLogId(null);
-    setGlobalLogContentStart(null);
     setLogChunkRanges({});
   };
 
   const shiftLogContent = (direction: "earlier" | "later") => {
-    const target = selectedLog ?? logs[0];
+    const target = selectedLog ?? filteredLogs[0];
     if (!target) return;
 
     const currentStart = typeof target.contentStart === "number" ? target.contentStart : 0;
     if (direction === "earlier" && target.hasMoreBefore) {
       const nextStart = Math.max(0, currentStart - LOG_CONTENT_CHUNK);
       setLogChunkRanges((prev) => ({ ...prev, [target.id]: { offset: nextStart, direction: "before" } }));
-      setGlobalLogContentStart(null);
       return;
     }
 
@@ -321,14 +342,12 @@ export default function ScrapeJobDetail({
         Math.min(target.size - LOG_CONTENT_CHUNK, target.contentEnd ?? currentStart + LOG_CONTENT_CHUNK)
       );
       setLogChunkRanges((prev) => ({ ...prev, [target.id]: { offset: nextStart, direction: "after" } }));
-      setGlobalLogContentStart(null);
     }
   };
 
   const resetSelectedLogRange = () => {
-    const target = selectedLog ?? logs[0];
+    const target = selectedLog ?? filteredLogs[0];
     if (!target) return;
-    setGlobalLogContentStart(null);
     setLogChunkRanges((prev) => {
       if (!(target.id in prev)) return prev;
       const next = { ...prev };
@@ -366,33 +385,31 @@ export default function ScrapeJobDetail({
     { refreshInterval: 15000 }
   );
 
+  useEffect(() => {
+    setLogCache([]);
+    setLogCursor(null);
+    setLogsExhaustive(true);
+    setSelectedLogId(null);
+    setLogChunkRanges({});
+  }, [id]);
+
+  const logQueryKey = useMemo(() => {
+    if (!id) return null;
+    const chunkLimitParam = `&contentLimit=${LOG_CONTENT_CHUNK}`;
+    const contentRangesParam =
+      Object.keys(logChunkRanges).length > 0
+        ? `&contentRanges=${encodeURIComponent(JSON.stringify(logChunkRanges))}`
+        : "";
+    return `/api/scrape_jobs/${id}/logs?all=true${chunkLimitParam}${contentRangesParam}`;
+  }, [id, logChunkRanges]);
+
   const {
-    data: logPages,
+    data: logResponse,
     isLoading: logsLoading,
     error: logError,
-    setSize: setLogPageCount,
     mutate: mutateLogs,
-  } = useSWRInfinite<LogPage>(
-    (index: number, previousPage: LogPage | null) => {
-      if (!id) return null;
-      if (previousPage && !previousPage.nextCursor) return null;
-      const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
-      const startParam = appliedLogFilter.start
-        ? `&start=${encodeURIComponent(appliedLogFilter.start)}`
-        : "";
-      const endParam = appliedLogFilter.end ? `&end=${encodeURIComponent(appliedLogFilter.end)}` : "";
-      const beforeParam = appliedLogFilter.anchor
-        ? `&before=${encodeURIComponent(appliedLogFilter.anchor)}`
-        : "";
-      const chunkStartParam =
-        globalLogContentStart !== null ? `&contentStart=${Math.max(0, globalLogContentStart)}` : "";
-      const chunkLimitParam = `&contentLimit=${LOG_CONTENT_CHUNK}`;
-      const contentRangesParam =
-        Object.keys(logChunkRanges).length > 0
-          ? `&contentRanges=${encodeURIComponent(JSON.stringify(logChunkRanges))}`
-          : "";
-      return `/api/scrape_jobs/${id}/logs?limit=${LOG_PAGE_SIZE}${cursorParam}${startParam}${endParam}${beforeParam}${chunkStartParam}${chunkLimitParam}${contentRangesParam}`;
-    },
+  } = useSWR<LogResponse>(
+    logQueryKey,
     fetcher,
     {
       refreshWhenHidden: false,
@@ -400,6 +417,22 @@ export default function ScrapeJobDetail({
       revalidateOnFocus: true,
     }
   );
+
+  useEffect(() => {
+    if (!logResponse) return;
+    setLogCursor(logResponse.nextCursor ?? null);
+    setLogsExhaustive(Boolean(logResponse.exhaustive));
+
+    setLogCache((previous) => {
+      const merged = new Map(previous.map((log) => [log.id, log] as const));
+      for (const log of logResponse.logs) {
+        merged.set(log.id, log);
+      }
+      return Array.from(merged.values()).sort(
+        (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
+      );
+    });
+  }, [logResponse]);
 
   useEffect(() => {
     if (!data?.job) return;
@@ -420,29 +453,41 @@ export default function ScrapeJobDetail({
     return String(args.targetUrl ?? "");
   }, [data?.job.args]);
 
-  const logs = useMemo(
-    () => (logPages ?? []).flatMap((page: LogPage) => page?.logs ?? []),
-    [logPages]
-  );
-  const nextLogCursor = useMemo(
-    () => logPages?.[logPages.length - 1]?.nextCursor ?? null,
-    [logPages]
-  );
+  const filteredLogs = useMemo(() => {
+    const startDate = appliedLogFilter.start ? new Date(appliedLogFilter.start) : null;
+    const endDate = appliedLogFilter.end ? new Date(appliedLogFilter.end) : null;
+    const anchorDate = appliedLogFilter.anchor ? new Date(appliedLogFilter.anchor) : null;
+
+    const startTime = startDate && !Number.isNaN(startDate.getTime()) ? startDate.getTime() : null;
+    const endTime = endDate && !Number.isNaN(endDate.getTime()) ? endDate.getTime() : null;
+    const anchorTime = anchorDate && !Number.isNaN(anchorDate.getTime()) ? anchorDate.getTime() : null;
+
+    if (!startTime && !endTime && !anchorTime) return logCache;
+
+    return logCache.filter((log: LogRun) => {
+      const startedAt = new Date(log.startedAt).getTime();
+      if (Number.isNaN(startedAt)) return false;
+
+      if (startTime && startedAt < startTime) return false;
+      if (endTime && startedAt > endTime) return false;
+      if (anchorTime && startedAt > anchorTime) return false;
+      return true;
+    });
+  }, [appliedLogFilter.anchor, appliedLogFilter.end, appliedLogFilter.start, logCache]);
 
   useEffect(() => {
-    if (!logs.length) {
+    if (!filteredLogs.length) {
       setSelectedLogId(null);
       return;
     }
 
-    if (!selectedLogId || !logs.some((log: LogRun) => log.id === selectedLogId)) {
-      setSelectedLogId(logs[0].id);
+    if (!selectedLogId || !filteredLogs.some((log: LogRun) => log.id === selectedLogId)) {
+      setSelectedLogId(filteredLogs[0].id);
     }
-  }, [logs, selectedLogId]);
+  }, [filteredLogs, selectedLogId]);
 
   useEffect(() => {
     if (!selectedLogId) return;
-    setGlobalLogContentStart(null);
     setLogChunkRanges((prev) => {
       if (!(selectedLogId in prev)) return prev;
       const next = { ...prev };
@@ -452,13 +497,13 @@ export default function ScrapeJobDetail({
   }, [selectedLogId]);
 
   const selectedLog = useMemo(
-    () => logs.find((log: LogRun) => log.id === selectedLogId) ?? logs[0] ?? null,
-    [logs, selectedLogId]
+    () => filteredLogs.find((log: LogRun) => log.id === selectedLogId) ?? filteredLogs[0] ?? null,
+    [filteredLogs, selectedLogId]
   );
   const logContent = useMemo(() => {
     if (logViewMode === "all") {
-      if (!logs.length) return null;
-      return logs
+      if (!filteredLogs.length) return null;
+      return filteredLogs
         .map((log: LogRun) => {
           const timestamp = new Date(log.startedAt).toLocaleString();
           return `[${timestamp}]\n${log.content ?? ""}`;
@@ -467,7 +512,9 @@ export default function ScrapeJobDetail({
     }
 
     return selectedLog?.content ?? null;
-  }, [logViewMode, logs, selectedLog]);
+  }, [filteredLogs, logViewMode, selectedLog]);
+
+  const logsLoadingState = logsLoading || loadingOlderLogs;
 
   const logSnippet = useMemo(() => {
     const firstLine = (logContent || "").split("\n").find(Boolean) || "No log yet.";
@@ -1395,7 +1442,7 @@ export default function ScrapeJobDetail({
                   type="button"
                   className="rounded border border-zinc-200 px-3 py-1.5 font-medium text-[#2B83F6] hover:border-[#2B83F6]"
                   onClick={applyLogFilters}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Apply
                 </button>
@@ -1403,7 +1450,7 @@ export default function ScrapeJobDetail({
                   type="button"
                   className="rounded border border-zinc-200 px-3 py-1.5 font-medium text-zinc-600 hover:border-zinc-300"
                   onClick={clearLogFilters}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Clear
                 </button>
@@ -1416,23 +1463,23 @@ export default function ScrapeJobDetail({
               <select
                 id="log-run-picker"
                 className="rounded border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-700"
-                value={selectedLogId ?? logs[0]?.id ?? ""}
+                value={selectedLogId ?? filteredLogs[0]?.id ?? ""}
                 onChange={(event) => setSelectedLogId(event.target.value)}
-                disabled={logs.length === 0 || logViewMode === "all"}
+                disabled={filteredLogs.length === 0 || logViewMode === "all"}
               >
-                {logs.map((log: LogRun) => (
+                {filteredLogs.map((log: LogRun) => (
                   <option key={log.id} value={log.id}>
                     {new Date(log.startedAt).toLocaleString()} ({Math.max(0, Math.round(log.size / 1024))} KB)
                   </option>
                 ))}
-                {!logs.length ? <option value="">No logs yet</option> : null}
+                {!filteredLogs.length ? <option value="">No logs yet</option> : null}
               </select>
-              {nextLogCursor ? (
+              {!logsExhaustive && logCursor ? (
                 <button
                   type="button"
                   className="text-[#2B83F6] hover:underline"
                   onClick={loadOlderLogs}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Load older logs
                 </button>
@@ -1459,12 +1506,17 @@ export default function ScrapeJobDetail({
                   {selectedLog.size ? ` of ${selectedLog.size}` : ""}
                 </span>
               ) : null}
+              {selectedLog && selectedLog.fullyLoaded === false ? (
+                <span className="text-[11px] text-amber-600">
+                  Showing a recent chunk. Use the load controls to fetch the rest of this log.
+                </span>
+              ) : null}
               {selectedLog?.hasMoreBefore ? (
                 <button
                   type="button"
                   className="text-[#2B83F6] hover:underline"
                   onClick={() => shiftLogContent("earlier")}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Load earlier content
                 </button>
@@ -1474,17 +1526,17 @@ export default function ScrapeJobDetail({
                   type="button"
                   className="text-[#2B83F6] hover:underline"
                   onClick={() => shiftLogContent("later")}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Load later content
                 </button>
               ) : null}
-              {selectedLog && (globalLogContentStart !== null || logChunkRanges[selectedLog.id]) ? (
+              {selectedLog && logChunkRanges[selectedLog.id] ? (
                 <button
                   type="button"
                   className="text-zinc-600 hover:underline"
                   onClick={resetSelectedLogRange}
-                  disabled={logsLoading}
+                  disabled={logsLoadingState}
                 >
                   Jump to newest chunk
                 </button>
@@ -1535,7 +1587,7 @@ export default function ScrapeJobDetail({
             className="bg-zinc-50 border border-zinc-100 rounded-lg max-h-[500px] overflow-y-auto"
           >
             <pre ref={logContentRef} className="whitespace-pre-wrap text-xs p-3">
-              {logContent ?? (logsLoading ? "Loading logs..." : "No log available yet.")}
+              {logContent ?? (logsLoadingState ? "Loading logs..." : "No log available yet.")}
             </pre>
             {autoScrollEnabled && !autoScroll && showResume ? (
               <div className="sticky bottom-0 w-full bg-gradient-to-t from-zinc-50 to-transparent px-3 pb-3 flex justify-end">

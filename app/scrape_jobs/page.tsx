@@ -60,8 +60,8 @@ type JobsPage = { jobs: SerializedJob[]; nextCursor: string | null };
 const JOB_PAGE_SIZE = 40;
 
 const fetcher = async (url: string) => {
-  const maxAttempts = 2;
-  const timeoutMs = 12000;
+  const maxAttempts = process.env.NODE_ENV === "production" ? 2 : 3;
+  const timeoutMs = process.env.NODE_ENV === "production" ? 12000 : 25000;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     const controller = new AbortController();
@@ -90,14 +90,21 @@ const fetcher = async (url: string) => {
       const isLastAttempt = attempt === maxAttempts;
       const isAbortError = (error as Error)?.name === "AbortError";
       const message = isAbortError
-        ? `Scrape jobs request timed out after ${timeoutMs / 1000}s`
+        ? `Scrape jobs request timed out after ${timeoutMs / 1000}s; will retry automatically.`
         : "Error fetching scrape jobs";
 
-      console.error(message, error);
+      if (isAbortError) {
+        console.warn(message, error);
+      } else {
+        console.error(message, error);
+      }
 
       if (isLastAttempt) {
         const finalError = new Error(message);
-        (finalError as Error & { cause?: unknown }).cause = error;
+        (finalError as Error & { cause?: unknown; name?: string }).cause = error;
+        if (isAbortError) {
+          finalError.name = "TimeoutError";
+        }
         throw finalError;
       }
 
