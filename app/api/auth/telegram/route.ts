@@ -1,7 +1,7 @@
 import crypto from "crypto";
 
 import prisma from "@/lib/prisma";
-import { verifySignedVerificationToken } from "@/lib/server/auth";
+import { SESSION_LIFETIME_MS, verifySignedVerificationToken } from "@/lib/server/auth";
 
 function extractTokenFromText(raw: string | undefined | null) {
   if (!raw) return null;
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
   await prisma.$transaction([
     prisma.loginToken.update({
       where: { id: loginToken.id },
-      data: { consumedAt: new Date() },
+      data: { consumedAt: new Date(), expiresAt: new Date(Date.now() + SESSION_LIFETIME_MS) },
     }),
     prisma.agentAccount.update({
       where: { userId: loginToken.agentId },
