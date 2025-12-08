@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
+import { AgentRole, Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import { parseCadence } from "@/lib/scheduler";
 import { ensureAuthenticated } from "../../helpers";
 import {
@@ -20,7 +20,7 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = ensureAuthenticated(request);
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
   if (unauthorized) return unauthorized;
 
   try {

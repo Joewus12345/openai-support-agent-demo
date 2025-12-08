@@ -53,6 +53,21 @@ export type HandoffRequest = $Result.DefaultSelection<Prisma.$HandoffRequestPayl
  * 
  */
 export type ScrapeJob = $Result.DefaultSelection<Prisma.$ScrapeJobPayload>
+/**
+ * Model AgentAccount
+ * 
+ */
+export type AgentAccount = $Result.DefaultSelection<Prisma.$AgentAccountPayload>
+/**
+ * Model LoginToken
+ * 
+ */
+export type LoginToken = $Result.DefaultSelection<Prisma.$LoginTokenPayload>
+/**
+ * Model LoginAudit
+ * 
+ */
+export type LoginAudit = $Result.DefaultSelection<Prisma.$LoginAuditPayload>
 
 /**
  * Enums
@@ -77,6 +92,24 @@ export const ScrapeJobCadence: {
 };
 
 export type ScrapeJobCadence = (typeof ScrapeJobCadence)[keyof typeof ScrapeJobCadence]
+
+
+export const AgentRole: {
+  admin: 'admin',
+  agent: 'agent'
+};
+
+export type AgentRole = (typeof AgentRole)[keyof typeof AgentRole]
+
+
+export const LoginAuditStatus: {
+  token_sent: 'token_sent',
+  verified: 'verified',
+  failure: 'failure',
+  success: 'success'
+};
+
+export type LoginAuditStatus = (typeof LoginAuditStatus)[keyof typeof LoginAuditStatus]
 
 
 export const AgentAvailability: {
@@ -106,6 +139,14 @@ export const ScrapeJobStatus: typeof $Enums.ScrapeJobStatus
 export type ScrapeJobCadence = $Enums.ScrapeJobCadence
 
 export const ScrapeJobCadence: typeof $Enums.ScrapeJobCadence
+
+export type AgentRole = $Enums.AgentRole
+
+export const AgentRole: typeof $Enums.AgentRole
+
+export type LoginAuditStatus = $Enums.LoginAuditStatus
+
+export const LoginAuditStatus: typeof $Enums.LoginAuditStatus
 
 export type AgentAvailability = $Enums.AgentAvailability
 
@@ -312,6 +353,36 @@ export class PrismaClient<
     * ```
     */
   get scrapeJob(): Prisma.ScrapeJobDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.agentAccount`: Exposes CRUD operations for the **AgentAccount** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AgentAccounts
+    * const agentAccounts = await prisma.agentAccount.findMany()
+    * ```
+    */
+  get agentAccount(): Prisma.AgentAccountDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loginToken`: Exposes CRUD operations for the **LoginToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoginTokens
+    * const loginTokens = await prisma.loginToken.findMany()
+    * ```
+    */
+  get loginToken(): Prisma.LoginTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loginAudit`: Exposes CRUD operations for the **LoginAudit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoginAudits
+    * const loginAudits = await prisma.loginAudit.findMany()
+    * ```
+    */
+  get loginAudit(): Prisma.LoginAuditDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -760,7 +831,10 @@ export namespace Prisma {
     ConversationMessage: 'ConversationMessage',
     AgentAssignment: 'AgentAssignment',
     HandoffRequest: 'HandoffRequest',
-    ScrapeJob: 'ScrapeJob'
+    ScrapeJob: 'ScrapeJob',
+    AgentAccount: 'AgentAccount',
+    LoginToken: 'LoginToken',
+    LoginAudit: 'LoginAudit'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -779,7 +853,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "order" | "chatSession" | "ticket" | "conversationMessage" | "agentAssignment" | "handoffRequest" | "scrapeJob"
+      modelProps: "user" | "order" | "chatSession" | "ticket" | "conversationMessage" | "agentAssignment" | "handoffRequest" | "scrapeJob" | "agentAccount" | "loginToken" | "loginAudit"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1375,6 +1449,228 @@ export namespace Prisma {
           }
         }
       }
+      AgentAccount: {
+        payload: Prisma.$AgentAccountPayload<ExtArgs>
+        fields: Prisma.AgentAccountFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AgentAccountFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AgentAccountFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload>
+          }
+          findFirst: {
+            args: Prisma.AgentAccountFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AgentAccountFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload>
+          }
+          findMany: {
+            args: Prisma.AgentAccountFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload>[]
+          }
+          create: {
+            args: Prisma.AgentAccountCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload>
+          }
+          createMany: {
+            args: Prisma.AgentAccountCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AgentAccountCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload>[]
+          }
+          delete: {
+            args: Prisma.AgentAccountDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload>
+          }
+          update: {
+            args: Prisma.AgentAccountUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload>
+          }
+          deleteMany: {
+            args: Prisma.AgentAccountDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AgentAccountUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AgentAccountUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload>[]
+          }
+          upsert: {
+            args: Prisma.AgentAccountUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentAccountPayload>
+          }
+          aggregate: {
+            args: Prisma.AgentAccountAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAgentAccount>
+          }
+          groupBy: {
+            args: Prisma.AgentAccountGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AgentAccountGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AgentAccountCountArgs<ExtArgs>
+            result: $Utils.Optional<AgentAccountCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoginToken: {
+        payload: Prisma.$LoginTokenPayload<ExtArgs>
+        fields: Prisma.LoginTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoginTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoginTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.LoginTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoginTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload>
+          }
+          findMany: {
+            args: Prisma.LoginTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload>[]
+          }
+          create: {
+            args: Prisma.LoginTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload>
+          }
+          createMany: {
+            args: Prisma.LoginTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoginTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.LoginTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload>
+          }
+          update: {
+            args: Prisma.LoginTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoginTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoginTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoginTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoginTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.LoginTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoginToken>
+          }
+          groupBy: {
+            args: Prisma.LoginTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoginTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoginTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<LoginTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoginAudit: {
+        payload: Prisma.$LoginAuditPayload<ExtArgs>
+        fields: Prisma.LoginAuditFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoginAuditFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoginAuditFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload>
+          }
+          findFirst: {
+            args: Prisma.LoginAuditFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoginAuditFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload>
+          }
+          findMany: {
+            args: Prisma.LoginAuditFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload>[]
+          }
+          create: {
+            args: Prisma.LoginAuditCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload>
+          }
+          createMany: {
+            args: Prisma.LoginAuditCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoginAuditCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload>[]
+          }
+          delete: {
+            args: Prisma.LoginAuditDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload>
+          }
+          update: {
+            args: Prisma.LoginAuditUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoginAuditDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoginAuditUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoginAuditUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoginAuditUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoginAuditPayload>
+          }
+          aggregate: {
+            args: Prisma.LoginAuditAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoginAudit>
+          }
+          groupBy: {
+            args: Prisma.LoginAuditGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoginAuditGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoginAuditCountArgs<ExtArgs>
+            result: $Utils.Optional<LoginAuditCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1479,6 +1775,9 @@ export namespace Prisma {
     agentAssignment?: AgentAssignmentOmit
     handoffRequest?: HandoffRequestOmit
     scrapeJob?: ScrapeJobOmit
+    agentAccount?: AgentAccountOmit
+    loginToken?: LoginTokenOmit
+    loginAudit?: LoginAuditOmit
   }
 
   /* Types for Logging */
@@ -1600,6 +1899,46 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
+  }
+
+
+  /**
+   * Count Type AgentAccountCountOutputType
+   */
+
+  export type AgentAccountCountOutputType = {
+    loginTokens: number
+    audits: number
+  }
+
+  export type AgentAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    loginTokens?: boolean | AgentAccountCountOutputTypeCountLoginTokensArgs
+    audits?: boolean | AgentAccountCountOutputTypeCountAuditsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AgentAccountCountOutputType without action
+   */
+  export type AgentAccountCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccountCountOutputType
+     */
+    select?: AgentAccountCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AgentAccountCountOutputType without action
+   */
+  export type AgentAccountCountOutputTypeCountLoginTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoginTokenWhereInput
+  }
+
+  /**
+   * AgentAccountCountOutputType without action
+   */
+  export type AgentAccountCountOutputTypeCountAuditsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoginAuditWhereInput
   }
 
 
@@ -10422,6 +10761,3268 @@ export namespace Prisma {
 
 
   /**
+   * Model AgentAccount
+   */
+
+  export type AggregateAgentAccount = {
+    _count: AgentAccountCountAggregateOutputType | null
+    _min: AgentAccountMinAggregateOutputType | null
+    _max: AgentAccountMaxAggregateOutputType | null
+  }
+
+  export type AgentAccountMinAggregateOutputType = {
+    userId: string | null
+    hashedPin: string | null
+    telegramChatId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AgentAccountMaxAggregateOutputType = {
+    userId: string | null
+    hashedPin: string | null
+    telegramChatId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AgentAccountCountAggregateOutputType = {
+    userId: number
+    hashedPin: number
+    telegramChatId: number
+    roles: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AgentAccountMinAggregateInputType = {
+    userId?: true
+    hashedPin?: true
+    telegramChatId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AgentAccountMaxAggregateInputType = {
+    userId?: true
+    hashedPin?: true
+    telegramChatId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AgentAccountCountAggregateInputType = {
+    userId?: true
+    hashedPin?: true
+    telegramChatId?: true
+    roles?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AgentAccountAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentAccount to aggregate.
+     */
+    where?: AgentAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentAccounts to fetch.
+     */
+    orderBy?: AgentAccountOrderByWithRelationInput | AgentAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AgentAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AgentAccounts
+    **/
+    _count?: true | AgentAccountCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgentAccountMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgentAccountMaxAggregateInputType
+  }
+
+  export type GetAgentAccountAggregateType<T extends AgentAccountAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgentAccount]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgentAccount[P]>
+      : GetScalarType<T[P], AggregateAgentAccount[P]>
+  }
+
+
+
+
+  export type AgentAccountGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentAccountWhereInput
+    orderBy?: AgentAccountOrderByWithAggregationInput | AgentAccountOrderByWithAggregationInput[]
+    by: AgentAccountScalarFieldEnum[] | AgentAccountScalarFieldEnum
+    having?: AgentAccountScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgentAccountCountAggregateInputType | true
+    _min?: AgentAccountMinAggregateInputType
+    _max?: AgentAccountMaxAggregateInputType
+  }
+
+  export type AgentAccountGroupByOutputType = {
+    userId: string
+    hashedPin: string
+    telegramChatId: string | null
+    roles: $Enums.AgentRole[]
+    createdAt: Date
+    updatedAt: Date
+    _count: AgentAccountCountAggregateOutputType | null
+    _min: AgentAccountMinAggregateOutputType | null
+    _max: AgentAccountMaxAggregateOutputType | null
+  }
+
+  type GetAgentAccountGroupByPayload<T extends AgentAccountGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AgentAccountGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgentAccountGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgentAccountGroupByOutputType[P]>
+            : GetScalarType<T[P], AgentAccountGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AgentAccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    hashedPin?: boolean
+    telegramChatId?: boolean
+    roles?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    loginTokens?: boolean | AgentAccount$loginTokensArgs<ExtArgs>
+    audits?: boolean | AgentAccount$auditsArgs<ExtArgs>
+    _count?: boolean | AgentAccountCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["agentAccount"]>
+
+  export type AgentAccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    hashedPin?: boolean
+    telegramChatId?: boolean
+    roles?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["agentAccount"]>
+
+  export type AgentAccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    hashedPin?: boolean
+    telegramChatId?: boolean
+    roles?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["agentAccount"]>
+
+  export type AgentAccountSelectScalar = {
+    userId?: boolean
+    hashedPin?: boolean
+    telegramChatId?: boolean
+    roles?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AgentAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "hashedPin" | "telegramChatId" | "roles" | "createdAt" | "updatedAt", ExtArgs["result"]["agentAccount"]>
+  export type AgentAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    loginTokens?: boolean | AgentAccount$loginTokensArgs<ExtArgs>
+    audits?: boolean | AgentAccount$auditsArgs<ExtArgs>
+    _count?: boolean | AgentAccountCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AgentAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type AgentAccountIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $AgentAccountPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AgentAccount"
+    objects: {
+      loginTokens: Prisma.$LoginTokenPayload<ExtArgs>[]
+      audits: Prisma.$LoginAuditPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      userId: string
+      hashedPin: string
+      telegramChatId: string | null
+      roles: $Enums.AgentRole[]
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["agentAccount"]>
+    composites: {}
+  }
+
+  type AgentAccountGetPayload<S extends boolean | null | undefined | AgentAccountDefaultArgs> = $Result.GetResult<Prisma.$AgentAccountPayload, S>
+
+  type AgentAccountCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AgentAccountFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AgentAccountCountAggregateInputType | true
+    }
+
+  export interface AgentAccountDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AgentAccount'], meta: { name: 'AgentAccount' } }
+    /**
+     * Find zero or one AgentAccount that matches the filter.
+     * @param {AgentAccountFindUniqueArgs} args - Arguments to find a AgentAccount
+     * @example
+     * // Get one AgentAccount
+     * const agentAccount = await prisma.agentAccount.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AgentAccountFindUniqueArgs>(args: SelectSubset<T, AgentAccountFindUniqueArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AgentAccount that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AgentAccountFindUniqueOrThrowArgs} args - Arguments to find a AgentAccount
+     * @example
+     * // Get one AgentAccount
+     * const agentAccount = await prisma.agentAccount.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AgentAccountFindUniqueOrThrowArgs>(args: SelectSubset<T, AgentAccountFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentAccount that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAccountFindFirstArgs} args - Arguments to find a AgentAccount
+     * @example
+     * // Get one AgentAccount
+     * const agentAccount = await prisma.agentAccount.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AgentAccountFindFirstArgs>(args?: SelectSubset<T, AgentAccountFindFirstArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentAccount that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAccountFindFirstOrThrowArgs} args - Arguments to find a AgentAccount
+     * @example
+     * // Get one AgentAccount
+     * const agentAccount = await prisma.agentAccount.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AgentAccountFindFirstOrThrowArgs>(args?: SelectSubset<T, AgentAccountFindFirstOrThrowArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AgentAccounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAccountFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AgentAccounts
+     * const agentAccounts = await prisma.agentAccount.findMany()
+     * 
+     * // Get first 10 AgentAccounts
+     * const agentAccounts = await prisma.agentAccount.findMany({ take: 10 })
+     * 
+     * // Only select the `userId`
+     * const agentAccountWithUserIdOnly = await prisma.agentAccount.findMany({ select: { userId: true } })
+     * 
+     */
+    findMany<T extends AgentAccountFindManyArgs>(args?: SelectSubset<T, AgentAccountFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AgentAccount.
+     * @param {AgentAccountCreateArgs} args - Arguments to create a AgentAccount.
+     * @example
+     * // Create one AgentAccount
+     * const AgentAccount = await prisma.agentAccount.create({
+     *   data: {
+     *     // ... data to create a AgentAccount
+     *   }
+     * })
+     * 
+     */
+    create<T extends AgentAccountCreateArgs>(args: SelectSubset<T, AgentAccountCreateArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AgentAccounts.
+     * @param {AgentAccountCreateManyArgs} args - Arguments to create many AgentAccounts.
+     * @example
+     * // Create many AgentAccounts
+     * const agentAccount = await prisma.agentAccount.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AgentAccountCreateManyArgs>(args?: SelectSubset<T, AgentAccountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AgentAccounts and returns the data saved in the database.
+     * @param {AgentAccountCreateManyAndReturnArgs} args - Arguments to create many AgentAccounts.
+     * @example
+     * // Create many AgentAccounts
+     * const agentAccount = await prisma.agentAccount.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AgentAccounts and only return the `userId`
+     * const agentAccountWithUserIdOnly = await prisma.agentAccount.createManyAndReturn({
+     *   select: { userId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AgentAccountCreateManyAndReturnArgs>(args?: SelectSubset<T, AgentAccountCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AgentAccount.
+     * @param {AgentAccountDeleteArgs} args - Arguments to delete one AgentAccount.
+     * @example
+     * // Delete one AgentAccount
+     * const AgentAccount = await prisma.agentAccount.delete({
+     *   where: {
+     *     // ... filter to delete one AgentAccount
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AgentAccountDeleteArgs>(args: SelectSubset<T, AgentAccountDeleteArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AgentAccount.
+     * @param {AgentAccountUpdateArgs} args - Arguments to update one AgentAccount.
+     * @example
+     * // Update one AgentAccount
+     * const agentAccount = await prisma.agentAccount.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AgentAccountUpdateArgs>(args: SelectSubset<T, AgentAccountUpdateArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AgentAccounts.
+     * @param {AgentAccountDeleteManyArgs} args - Arguments to filter AgentAccounts to delete.
+     * @example
+     * // Delete a few AgentAccounts
+     * const { count } = await prisma.agentAccount.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AgentAccountDeleteManyArgs>(args?: SelectSubset<T, AgentAccountDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgentAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAccountUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AgentAccounts
+     * const agentAccount = await prisma.agentAccount.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AgentAccountUpdateManyArgs>(args: SelectSubset<T, AgentAccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgentAccounts and returns the data updated in the database.
+     * @param {AgentAccountUpdateManyAndReturnArgs} args - Arguments to update many AgentAccounts.
+     * @example
+     * // Update many AgentAccounts
+     * const agentAccount = await prisma.agentAccount.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AgentAccounts and only return the `userId`
+     * const agentAccountWithUserIdOnly = await prisma.agentAccount.updateManyAndReturn({
+     *   select: { userId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AgentAccountUpdateManyAndReturnArgs>(args: SelectSubset<T, AgentAccountUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AgentAccount.
+     * @param {AgentAccountUpsertArgs} args - Arguments to update or create a AgentAccount.
+     * @example
+     * // Update or create a AgentAccount
+     * const agentAccount = await prisma.agentAccount.upsert({
+     *   create: {
+     *     // ... data to create a AgentAccount
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AgentAccount we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AgentAccountUpsertArgs>(args: SelectSubset<T, AgentAccountUpsertArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AgentAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAccountCountArgs} args - Arguments to filter AgentAccounts to count.
+     * @example
+     * // Count the number of AgentAccounts
+     * const count = await prisma.agentAccount.count({
+     *   where: {
+     *     // ... the filter for the AgentAccounts we want to count
+     *   }
+     * })
+    **/
+    count<T extends AgentAccountCountArgs>(
+      args?: Subset<T, AgentAccountCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgentAccountCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AgentAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAccountAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgentAccountAggregateArgs>(args: Subset<T, AgentAccountAggregateArgs>): Prisma.PrismaPromise<GetAgentAccountAggregateType<T>>
+
+    /**
+     * Group by AgentAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentAccountGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgentAccountGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgentAccountGroupByArgs['orderBy'] }
+        : { orderBy?: AgentAccountGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgentAccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgentAccountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AgentAccount model
+   */
+  readonly fields: AgentAccountFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AgentAccount.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AgentAccountClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    loginTokens<T extends AgentAccount$loginTokensArgs<ExtArgs> = {}>(args?: Subset<T, AgentAccount$loginTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    audits<T extends AgentAccount$auditsArgs<ExtArgs> = {}>(args?: Subset<T, AgentAccount$auditsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AgentAccount model
+   */
+  interface AgentAccountFieldRefs {
+    readonly userId: FieldRef<"AgentAccount", 'String'>
+    readonly hashedPin: FieldRef<"AgentAccount", 'String'>
+    readonly telegramChatId: FieldRef<"AgentAccount", 'String'>
+    readonly roles: FieldRef<"AgentAccount", 'AgentRole[]'>
+    readonly createdAt: FieldRef<"AgentAccount", 'DateTime'>
+    readonly updatedAt: FieldRef<"AgentAccount", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AgentAccount findUnique
+   */
+  export type AgentAccountFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentAccount to fetch.
+     */
+    where: AgentAccountWhereUniqueInput
+  }
+
+  /**
+   * AgentAccount findUniqueOrThrow
+   */
+  export type AgentAccountFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentAccount to fetch.
+     */
+    where: AgentAccountWhereUniqueInput
+  }
+
+  /**
+   * AgentAccount findFirst
+   */
+  export type AgentAccountFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentAccount to fetch.
+     */
+    where?: AgentAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentAccounts to fetch.
+     */
+    orderBy?: AgentAccountOrderByWithRelationInput | AgentAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentAccounts.
+     */
+    cursor?: AgentAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentAccounts.
+     */
+    distinct?: AgentAccountScalarFieldEnum | AgentAccountScalarFieldEnum[]
+  }
+
+  /**
+   * AgentAccount findFirstOrThrow
+   */
+  export type AgentAccountFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentAccount to fetch.
+     */
+    where?: AgentAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentAccounts to fetch.
+     */
+    orderBy?: AgentAccountOrderByWithRelationInput | AgentAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentAccounts.
+     */
+    cursor?: AgentAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentAccounts.
+     */
+    distinct?: AgentAccountScalarFieldEnum | AgentAccountScalarFieldEnum[]
+  }
+
+  /**
+   * AgentAccount findMany
+   */
+  export type AgentAccountFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentAccounts to fetch.
+     */
+    where?: AgentAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentAccounts to fetch.
+     */
+    orderBy?: AgentAccountOrderByWithRelationInput | AgentAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AgentAccounts.
+     */
+    cursor?: AgentAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentAccounts.
+     */
+    skip?: number
+    distinct?: AgentAccountScalarFieldEnum | AgentAccountScalarFieldEnum[]
+  }
+
+  /**
+   * AgentAccount create
+   */
+  export type AgentAccountCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AgentAccount.
+     */
+    data: XOR<AgentAccountCreateInput, AgentAccountUncheckedCreateInput>
+  }
+
+  /**
+   * AgentAccount createMany
+   */
+  export type AgentAccountCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AgentAccounts.
+     */
+    data: AgentAccountCreateManyInput | AgentAccountCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AgentAccount createManyAndReturn
+   */
+  export type AgentAccountCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * The data used to create many AgentAccounts.
+     */
+    data: AgentAccountCreateManyInput | AgentAccountCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AgentAccount update
+   */
+  export type AgentAccountUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AgentAccount.
+     */
+    data: XOR<AgentAccountUpdateInput, AgentAccountUncheckedUpdateInput>
+    /**
+     * Choose, which AgentAccount to update.
+     */
+    where: AgentAccountWhereUniqueInput
+  }
+
+  /**
+   * AgentAccount updateMany
+   */
+  export type AgentAccountUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AgentAccounts.
+     */
+    data: XOR<AgentAccountUpdateManyMutationInput, AgentAccountUncheckedUpdateManyInput>
+    /**
+     * Filter which AgentAccounts to update
+     */
+    where?: AgentAccountWhereInput
+    /**
+     * Limit how many AgentAccounts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentAccount updateManyAndReturn
+   */
+  export type AgentAccountUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * The data used to update AgentAccounts.
+     */
+    data: XOR<AgentAccountUpdateManyMutationInput, AgentAccountUncheckedUpdateManyInput>
+    /**
+     * Filter which AgentAccounts to update
+     */
+    where?: AgentAccountWhereInput
+    /**
+     * Limit how many AgentAccounts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentAccount upsert
+   */
+  export type AgentAccountUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AgentAccount to update in case it exists.
+     */
+    where: AgentAccountWhereUniqueInput
+    /**
+     * In case the AgentAccount found by the `where` argument doesn't exist, create a new AgentAccount with this data.
+     */
+    create: XOR<AgentAccountCreateInput, AgentAccountUncheckedCreateInput>
+    /**
+     * In case the AgentAccount was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AgentAccountUpdateInput, AgentAccountUncheckedUpdateInput>
+  }
+
+  /**
+   * AgentAccount delete
+   */
+  export type AgentAccountDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+    /**
+     * Filter which AgentAccount to delete.
+     */
+    where: AgentAccountWhereUniqueInput
+  }
+
+  /**
+   * AgentAccount deleteMany
+   */
+  export type AgentAccountDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentAccounts to delete
+     */
+    where?: AgentAccountWhereInput
+    /**
+     * Limit how many AgentAccounts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentAccount.loginTokens
+   */
+  export type AgentAccount$loginTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    where?: LoginTokenWhereInput
+    orderBy?: LoginTokenOrderByWithRelationInput | LoginTokenOrderByWithRelationInput[]
+    cursor?: LoginTokenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoginTokenScalarFieldEnum | LoginTokenScalarFieldEnum[]
+  }
+
+  /**
+   * AgentAccount.audits
+   */
+  export type AgentAccount$auditsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    where?: LoginAuditWhereInput
+    orderBy?: LoginAuditOrderByWithRelationInput | LoginAuditOrderByWithRelationInput[]
+    cursor?: LoginAuditWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoginAuditScalarFieldEnum | LoginAuditScalarFieldEnum[]
+  }
+
+  /**
+   * AgentAccount without action
+   */
+  export type AgentAccountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAccount
+     */
+    select?: AgentAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAccount
+     */
+    omit?: AgentAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAccountInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoginToken
+   */
+
+  export type AggregateLoginToken = {
+    _count: LoginTokenCountAggregateOutputType | null
+    _min: LoginTokenMinAggregateOutputType | null
+    _max: LoginTokenMaxAggregateOutputType | null
+  }
+
+  export type LoginTokenMinAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    tokenHash: string | null
+    expiresAt: Date | null
+    consumedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type LoginTokenMaxAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    tokenHash: string | null
+    expiresAt: Date | null
+    consumedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type LoginTokenCountAggregateOutputType = {
+    id: number
+    agentId: number
+    tokenHash: number
+    expiresAt: number
+    consumedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LoginTokenMinAggregateInputType = {
+    id?: true
+    agentId?: true
+    tokenHash?: true
+    expiresAt?: true
+    consumedAt?: true
+    createdAt?: true
+  }
+
+  export type LoginTokenMaxAggregateInputType = {
+    id?: true
+    agentId?: true
+    tokenHash?: true
+    expiresAt?: true
+    consumedAt?: true
+    createdAt?: true
+  }
+
+  export type LoginTokenCountAggregateInputType = {
+    id?: true
+    agentId?: true
+    tokenHash?: true
+    expiresAt?: true
+    consumedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LoginTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoginToken to aggregate.
+     */
+    where?: LoginTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginTokens to fetch.
+     */
+    orderBy?: LoginTokenOrderByWithRelationInput | LoginTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoginTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoginTokens
+    **/
+    _count?: true | LoginTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoginTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoginTokenMaxAggregateInputType
+  }
+
+  export type GetLoginTokenAggregateType<T extends LoginTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoginToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoginToken[P]>
+      : GetScalarType<T[P], AggregateLoginToken[P]>
+  }
+
+
+
+
+  export type LoginTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoginTokenWhereInput
+    orderBy?: LoginTokenOrderByWithAggregationInput | LoginTokenOrderByWithAggregationInput[]
+    by: LoginTokenScalarFieldEnum[] | LoginTokenScalarFieldEnum
+    having?: LoginTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoginTokenCountAggregateInputType | true
+    _min?: LoginTokenMinAggregateInputType
+    _max?: LoginTokenMaxAggregateInputType
+  }
+
+  export type LoginTokenGroupByOutputType = {
+    id: string
+    agentId: string
+    tokenHash: string
+    expiresAt: Date
+    consumedAt: Date | null
+    createdAt: Date
+    _count: LoginTokenCountAggregateOutputType | null
+    _min: LoginTokenMinAggregateOutputType | null
+    _max: LoginTokenMaxAggregateOutputType | null
+  }
+
+  type GetLoginTokenGroupByPayload<T extends LoginTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoginTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoginTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoginTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], LoginTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoginTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentId?: boolean
+    tokenHash?: boolean
+    expiresAt?: boolean
+    consumedAt?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loginToken"]>
+
+  export type LoginTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentId?: boolean
+    tokenHash?: boolean
+    expiresAt?: boolean
+    consumedAt?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loginToken"]>
+
+  export type LoginTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentId?: boolean
+    tokenHash?: boolean
+    expiresAt?: boolean
+    consumedAt?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loginToken"]>
+
+  export type LoginTokenSelectScalar = {
+    id?: boolean
+    agentId?: boolean
+    tokenHash?: boolean
+    expiresAt?: boolean
+    consumedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type LoginTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentId" | "tokenHash" | "expiresAt" | "consumedAt" | "createdAt", ExtArgs["result"]["loginToken"]>
+  export type LoginTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }
+  export type LoginTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }
+  export type LoginTokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }
+
+  export type $LoginTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoginToken"
+    objects: {
+      agent: Prisma.$AgentAccountPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      agentId: string
+      tokenHash: string
+      expiresAt: Date
+      consumedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["loginToken"]>
+    composites: {}
+  }
+
+  type LoginTokenGetPayload<S extends boolean | null | undefined | LoginTokenDefaultArgs> = $Result.GetResult<Prisma.$LoginTokenPayload, S>
+
+  type LoginTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoginTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoginTokenCountAggregateInputType | true
+    }
+
+  export interface LoginTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoginToken'], meta: { name: 'LoginToken' } }
+    /**
+     * Find zero or one LoginToken that matches the filter.
+     * @param {LoginTokenFindUniqueArgs} args - Arguments to find a LoginToken
+     * @example
+     * // Get one LoginToken
+     * const loginToken = await prisma.loginToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoginTokenFindUniqueArgs>(args: SelectSubset<T, LoginTokenFindUniqueArgs<ExtArgs>>): Prisma__LoginTokenClient<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoginToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoginTokenFindUniqueOrThrowArgs} args - Arguments to find a LoginToken
+     * @example
+     * // Get one LoginToken
+     * const loginToken = await prisma.loginToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoginTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, LoginTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoginTokenClient<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoginToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginTokenFindFirstArgs} args - Arguments to find a LoginToken
+     * @example
+     * // Get one LoginToken
+     * const loginToken = await prisma.loginToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoginTokenFindFirstArgs>(args?: SelectSubset<T, LoginTokenFindFirstArgs<ExtArgs>>): Prisma__LoginTokenClient<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoginToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginTokenFindFirstOrThrowArgs} args - Arguments to find a LoginToken
+     * @example
+     * // Get one LoginToken
+     * const loginToken = await prisma.loginToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoginTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, LoginTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoginTokenClient<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoginTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoginTokens
+     * const loginTokens = await prisma.loginToken.findMany()
+     * 
+     * // Get first 10 LoginTokens
+     * const loginTokens = await prisma.loginToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loginTokenWithIdOnly = await prisma.loginToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoginTokenFindManyArgs>(args?: SelectSubset<T, LoginTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoginToken.
+     * @param {LoginTokenCreateArgs} args - Arguments to create a LoginToken.
+     * @example
+     * // Create one LoginToken
+     * const LoginToken = await prisma.loginToken.create({
+     *   data: {
+     *     // ... data to create a LoginToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoginTokenCreateArgs>(args: SelectSubset<T, LoginTokenCreateArgs<ExtArgs>>): Prisma__LoginTokenClient<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoginTokens.
+     * @param {LoginTokenCreateManyArgs} args - Arguments to create many LoginTokens.
+     * @example
+     * // Create many LoginTokens
+     * const loginToken = await prisma.loginToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoginTokenCreateManyArgs>(args?: SelectSubset<T, LoginTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoginTokens and returns the data saved in the database.
+     * @param {LoginTokenCreateManyAndReturnArgs} args - Arguments to create many LoginTokens.
+     * @example
+     * // Create many LoginTokens
+     * const loginToken = await prisma.loginToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoginTokens and only return the `id`
+     * const loginTokenWithIdOnly = await prisma.loginToken.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoginTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, LoginTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoginToken.
+     * @param {LoginTokenDeleteArgs} args - Arguments to delete one LoginToken.
+     * @example
+     * // Delete one LoginToken
+     * const LoginToken = await prisma.loginToken.delete({
+     *   where: {
+     *     // ... filter to delete one LoginToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoginTokenDeleteArgs>(args: SelectSubset<T, LoginTokenDeleteArgs<ExtArgs>>): Prisma__LoginTokenClient<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoginToken.
+     * @param {LoginTokenUpdateArgs} args - Arguments to update one LoginToken.
+     * @example
+     * // Update one LoginToken
+     * const loginToken = await prisma.loginToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoginTokenUpdateArgs>(args: SelectSubset<T, LoginTokenUpdateArgs<ExtArgs>>): Prisma__LoginTokenClient<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoginTokens.
+     * @param {LoginTokenDeleteManyArgs} args - Arguments to filter LoginTokens to delete.
+     * @example
+     * // Delete a few LoginTokens
+     * const { count } = await prisma.loginToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoginTokenDeleteManyArgs>(args?: SelectSubset<T, LoginTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoginTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoginTokens
+     * const loginToken = await prisma.loginToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoginTokenUpdateManyArgs>(args: SelectSubset<T, LoginTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoginTokens and returns the data updated in the database.
+     * @param {LoginTokenUpdateManyAndReturnArgs} args - Arguments to update many LoginTokens.
+     * @example
+     * // Update many LoginTokens
+     * const loginToken = await prisma.loginToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoginTokens and only return the `id`
+     * const loginTokenWithIdOnly = await prisma.loginToken.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoginTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, LoginTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoginToken.
+     * @param {LoginTokenUpsertArgs} args - Arguments to update or create a LoginToken.
+     * @example
+     * // Update or create a LoginToken
+     * const loginToken = await prisma.loginToken.upsert({
+     *   create: {
+     *     // ... data to create a LoginToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoginToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoginTokenUpsertArgs>(args: SelectSubset<T, LoginTokenUpsertArgs<ExtArgs>>): Prisma__LoginTokenClient<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoginTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginTokenCountArgs} args - Arguments to filter LoginTokens to count.
+     * @example
+     * // Count the number of LoginTokens
+     * const count = await prisma.loginToken.count({
+     *   where: {
+     *     // ... the filter for the LoginTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoginTokenCountArgs>(
+      args?: Subset<T, LoginTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoginTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoginToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoginTokenAggregateArgs>(args: Subset<T, LoginTokenAggregateArgs>): Prisma.PrismaPromise<GetLoginTokenAggregateType<T>>
+
+    /**
+     * Group by LoginToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoginTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoginTokenGroupByArgs['orderBy'] }
+        : { orderBy?: LoginTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoginTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoginTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoginToken model
+   */
+  readonly fields: LoginTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoginToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoginTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agent<T extends AgentAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentAccountDefaultArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoginToken model
+   */
+  interface LoginTokenFieldRefs {
+    readonly id: FieldRef<"LoginToken", 'String'>
+    readonly agentId: FieldRef<"LoginToken", 'String'>
+    readonly tokenHash: FieldRef<"LoginToken", 'String'>
+    readonly expiresAt: FieldRef<"LoginToken", 'DateTime'>
+    readonly consumedAt: FieldRef<"LoginToken", 'DateTime'>
+    readonly createdAt: FieldRef<"LoginToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoginToken findUnique
+   */
+  export type LoginTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginToken to fetch.
+     */
+    where: LoginTokenWhereUniqueInput
+  }
+
+  /**
+   * LoginToken findUniqueOrThrow
+   */
+  export type LoginTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginToken to fetch.
+     */
+    where: LoginTokenWhereUniqueInput
+  }
+
+  /**
+   * LoginToken findFirst
+   */
+  export type LoginTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginToken to fetch.
+     */
+    where?: LoginTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginTokens to fetch.
+     */
+    orderBy?: LoginTokenOrderByWithRelationInput | LoginTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoginTokens.
+     */
+    cursor?: LoginTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoginTokens.
+     */
+    distinct?: LoginTokenScalarFieldEnum | LoginTokenScalarFieldEnum[]
+  }
+
+  /**
+   * LoginToken findFirstOrThrow
+   */
+  export type LoginTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginToken to fetch.
+     */
+    where?: LoginTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginTokens to fetch.
+     */
+    orderBy?: LoginTokenOrderByWithRelationInput | LoginTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoginTokens.
+     */
+    cursor?: LoginTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoginTokens.
+     */
+    distinct?: LoginTokenScalarFieldEnum | LoginTokenScalarFieldEnum[]
+  }
+
+  /**
+   * LoginToken findMany
+   */
+  export type LoginTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginTokens to fetch.
+     */
+    where?: LoginTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginTokens to fetch.
+     */
+    orderBy?: LoginTokenOrderByWithRelationInput | LoginTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoginTokens.
+     */
+    cursor?: LoginTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginTokens.
+     */
+    skip?: number
+    distinct?: LoginTokenScalarFieldEnum | LoginTokenScalarFieldEnum[]
+  }
+
+  /**
+   * LoginToken create
+   */
+  export type LoginTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoginToken.
+     */
+    data: XOR<LoginTokenCreateInput, LoginTokenUncheckedCreateInput>
+  }
+
+  /**
+   * LoginToken createMany
+   */
+  export type LoginTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoginTokens.
+     */
+    data: LoginTokenCreateManyInput | LoginTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoginToken createManyAndReturn
+   */
+  export type LoginTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoginTokens.
+     */
+    data: LoginTokenCreateManyInput | LoginTokenCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoginToken update
+   */
+  export type LoginTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoginToken.
+     */
+    data: XOR<LoginTokenUpdateInput, LoginTokenUncheckedUpdateInput>
+    /**
+     * Choose, which LoginToken to update.
+     */
+    where: LoginTokenWhereUniqueInput
+  }
+
+  /**
+   * LoginToken updateMany
+   */
+  export type LoginTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoginTokens.
+     */
+    data: XOR<LoginTokenUpdateManyMutationInput, LoginTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which LoginTokens to update
+     */
+    where?: LoginTokenWhereInput
+    /**
+     * Limit how many LoginTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoginToken updateManyAndReturn
+   */
+  export type LoginTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update LoginTokens.
+     */
+    data: XOR<LoginTokenUpdateManyMutationInput, LoginTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which LoginTokens to update
+     */
+    where?: LoginTokenWhereInput
+    /**
+     * Limit how many LoginTokens to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoginToken upsert
+   */
+  export type LoginTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoginToken to update in case it exists.
+     */
+    where: LoginTokenWhereUniqueInput
+    /**
+     * In case the LoginToken found by the `where` argument doesn't exist, create a new LoginToken with this data.
+     */
+    create: XOR<LoginTokenCreateInput, LoginTokenUncheckedCreateInput>
+    /**
+     * In case the LoginToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoginTokenUpdateInput, LoginTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * LoginToken delete
+   */
+  export type LoginTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    /**
+     * Filter which LoginToken to delete.
+     */
+    where: LoginTokenWhereUniqueInput
+  }
+
+  /**
+   * LoginToken deleteMany
+   */
+  export type LoginTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoginTokens to delete
+     */
+    where?: LoginTokenWhereInput
+    /**
+     * Limit how many LoginTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoginToken without action
+   */
+  export type LoginTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoginAudit
+   */
+
+  export type AggregateLoginAudit = {
+    _count: LoginAuditCountAggregateOutputType | null
+    _min: LoginAuditMinAggregateOutputType | null
+    _max: LoginAuditMaxAggregateOutputType | null
+  }
+
+  export type LoginAuditMinAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    status: $Enums.LoginAuditStatus | null
+    ip: string | null
+    userAgent: string | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type LoginAuditMaxAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    status: $Enums.LoginAuditStatus | null
+    ip: string | null
+    userAgent: string | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type LoginAuditCountAggregateOutputType = {
+    id: number
+    agentId: number
+    status: number
+    ip: number
+    userAgent: number
+    note: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LoginAuditMinAggregateInputType = {
+    id?: true
+    agentId?: true
+    status?: true
+    ip?: true
+    userAgent?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type LoginAuditMaxAggregateInputType = {
+    id?: true
+    agentId?: true
+    status?: true
+    ip?: true
+    userAgent?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type LoginAuditCountAggregateInputType = {
+    id?: true
+    agentId?: true
+    status?: true
+    ip?: true
+    userAgent?: true
+    note?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LoginAuditAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoginAudit to aggregate.
+     */
+    where?: LoginAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginAudits to fetch.
+     */
+    orderBy?: LoginAuditOrderByWithRelationInput | LoginAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoginAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoginAudits
+    **/
+    _count?: true | LoginAuditCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoginAuditMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoginAuditMaxAggregateInputType
+  }
+
+  export type GetLoginAuditAggregateType<T extends LoginAuditAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoginAudit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoginAudit[P]>
+      : GetScalarType<T[P], AggregateLoginAudit[P]>
+  }
+
+
+
+
+  export type LoginAuditGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoginAuditWhereInput
+    orderBy?: LoginAuditOrderByWithAggregationInput | LoginAuditOrderByWithAggregationInput[]
+    by: LoginAuditScalarFieldEnum[] | LoginAuditScalarFieldEnum
+    having?: LoginAuditScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoginAuditCountAggregateInputType | true
+    _min?: LoginAuditMinAggregateInputType
+    _max?: LoginAuditMaxAggregateInputType
+  }
+
+  export type LoginAuditGroupByOutputType = {
+    id: string
+    agentId: string
+    status: $Enums.LoginAuditStatus
+    ip: string | null
+    userAgent: string | null
+    note: string | null
+    createdAt: Date
+    _count: LoginAuditCountAggregateOutputType | null
+    _min: LoginAuditMinAggregateOutputType | null
+    _max: LoginAuditMaxAggregateOutputType | null
+  }
+
+  type GetLoginAuditGroupByPayload<T extends LoginAuditGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoginAuditGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoginAuditGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoginAuditGroupByOutputType[P]>
+            : GetScalarType<T[P], LoginAuditGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoginAuditSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentId?: boolean
+    status?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    note?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loginAudit"]>
+
+  export type LoginAuditSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentId?: boolean
+    status?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    note?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loginAudit"]>
+
+  export type LoginAuditSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentId?: boolean
+    status?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    note?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loginAudit"]>
+
+  export type LoginAuditSelectScalar = {
+    id?: boolean
+    agentId?: boolean
+    status?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    note?: boolean
+    createdAt?: boolean
+  }
+
+  export type LoginAuditOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentId" | "status" | "ip" | "userAgent" | "note" | "createdAt", ExtArgs["result"]["loginAudit"]>
+  export type LoginAuditInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }
+  export type LoginAuditIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }
+  export type LoginAuditIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }
+
+  export type $LoginAuditPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoginAudit"
+    objects: {
+      agent: Prisma.$AgentAccountPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      agentId: string
+      status: $Enums.LoginAuditStatus
+      ip: string | null
+      userAgent: string | null
+      note: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["loginAudit"]>
+    composites: {}
+  }
+
+  type LoginAuditGetPayload<S extends boolean | null | undefined | LoginAuditDefaultArgs> = $Result.GetResult<Prisma.$LoginAuditPayload, S>
+
+  type LoginAuditCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoginAuditFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoginAuditCountAggregateInputType | true
+    }
+
+  export interface LoginAuditDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoginAudit'], meta: { name: 'LoginAudit' } }
+    /**
+     * Find zero or one LoginAudit that matches the filter.
+     * @param {LoginAuditFindUniqueArgs} args - Arguments to find a LoginAudit
+     * @example
+     * // Get one LoginAudit
+     * const loginAudit = await prisma.loginAudit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoginAuditFindUniqueArgs>(args: SelectSubset<T, LoginAuditFindUniqueArgs<ExtArgs>>): Prisma__LoginAuditClient<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoginAudit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoginAuditFindUniqueOrThrowArgs} args - Arguments to find a LoginAudit
+     * @example
+     * // Get one LoginAudit
+     * const loginAudit = await prisma.loginAudit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoginAuditFindUniqueOrThrowArgs>(args: SelectSubset<T, LoginAuditFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoginAuditClient<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoginAudit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginAuditFindFirstArgs} args - Arguments to find a LoginAudit
+     * @example
+     * // Get one LoginAudit
+     * const loginAudit = await prisma.loginAudit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoginAuditFindFirstArgs>(args?: SelectSubset<T, LoginAuditFindFirstArgs<ExtArgs>>): Prisma__LoginAuditClient<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoginAudit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginAuditFindFirstOrThrowArgs} args - Arguments to find a LoginAudit
+     * @example
+     * // Get one LoginAudit
+     * const loginAudit = await prisma.loginAudit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoginAuditFindFirstOrThrowArgs>(args?: SelectSubset<T, LoginAuditFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoginAuditClient<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoginAudits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginAuditFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoginAudits
+     * const loginAudits = await prisma.loginAudit.findMany()
+     * 
+     * // Get first 10 LoginAudits
+     * const loginAudits = await prisma.loginAudit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loginAuditWithIdOnly = await prisma.loginAudit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoginAuditFindManyArgs>(args?: SelectSubset<T, LoginAuditFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoginAudit.
+     * @param {LoginAuditCreateArgs} args - Arguments to create a LoginAudit.
+     * @example
+     * // Create one LoginAudit
+     * const LoginAudit = await prisma.loginAudit.create({
+     *   data: {
+     *     // ... data to create a LoginAudit
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoginAuditCreateArgs>(args: SelectSubset<T, LoginAuditCreateArgs<ExtArgs>>): Prisma__LoginAuditClient<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoginAudits.
+     * @param {LoginAuditCreateManyArgs} args - Arguments to create many LoginAudits.
+     * @example
+     * // Create many LoginAudits
+     * const loginAudit = await prisma.loginAudit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoginAuditCreateManyArgs>(args?: SelectSubset<T, LoginAuditCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoginAudits and returns the data saved in the database.
+     * @param {LoginAuditCreateManyAndReturnArgs} args - Arguments to create many LoginAudits.
+     * @example
+     * // Create many LoginAudits
+     * const loginAudit = await prisma.loginAudit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoginAudits and only return the `id`
+     * const loginAuditWithIdOnly = await prisma.loginAudit.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoginAuditCreateManyAndReturnArgs>(args?: SelectSubset<T, LoginAuditCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoginAudit.
+     * @param {LoginAuditDeleteArgs} args - Arguments to delete one LoginAudit.
+     * @example
+     * // Delete one LoginAudit
+     * const LoginAudit = await prisma.loginAudit.delete({
+     *   where: {
+     *     // ... filter to delete one LoginAudit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoginAuditDeleteArgs>(args: SelectSubset<T, LoginAuditDeleteArgs<ExtArgs>>): Prisma__LoginAuditClient<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoginAudit.
+     * @param {LoginAuditUpdateArgs} args - Arguments to update one LoginAudit.
+     * @example
+     * // Update one LoginAudit
+     * const loginAudit = await prisma.loginAudit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoginAuditUpdateArgs>(args: SelectSubset<T, LoginAuditUpdateArgs<ExtArgs>>): Prisma__LoginAuditClient<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoginAudits.
+     * @param {LoginAuditDeleteManyArgs} args - Arguments to filter LoginAudits to delete.
+     * @example
+     * // Delete a few LoginAudits
+     * const { count } = await prisma.loginAudit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoginAuditDeleteManyArgs>(args?: SelectSubset<T, LoginAuditDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoginAudits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginAuditUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoginAudits
+     * const loginAudit = await prisma.loginAudit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoginAuditUpdateManyArgs>(args: SelectSubset<T, LoginAuditUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoginAudits and returns the data updated in the database.
+     * @param {LoginAuditUpdateManyAndReturnArgs} args - Arguments to update many LoginAudits.
+     * @example
+     * // Update many LoginAudits
+     * const loginAudit = await prisma.loginAudit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoginAudits and only return the `id`
+     * const loginAuditWithIdOnly = await prisma.loginAudit.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoginAuditUpdateManyAndReturnArgs>(args: SelectSubset<T, LoginAuditUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoginAudit.
+     * @param {LoginAuditUpsertArgs} args - Arguments to update or create a LoginAudit.
+     * @example
+     * // Update or create a LoginAudit
+     * const loginAudit = await prisma.loginAudit.upsert({
+     *   create: {
+     *     // ... data to create a LoginAudit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoginAudit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoginAuditUpsertArgs>(args: SelectSubset<T, LoginAuditUpsertArgs<ExtArgs>>): Prisma__LoginAuditClient<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoginAudits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginAuditCountArgs} args - Arguments to filter LoginAudits to count.
+     * @example
+     * // Count the number of LoginAudits
+     * const count = await prisma.loginAudit.count({
+     *   where: {
+     *     // ... the filter for the LoginAudits we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoginAuditCountArgs>(
+      args?: Subset<T, LoginAuditCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoginAuditCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoginAudit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginAuditAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoginAuditAggregateArgs>(args: Subset<T, LoginAuditAggregateArgs>): Prisma.PrismaPromise<GetLoginAuditAggregateType<T>>
+
+    /**
+     * Group by LoginAudit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoginAuditGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoginAuditGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoginAuditGroupByArgs['orderBy'] }
+        : { orderBy?: LoginAuditGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoginAuditGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoginAuditGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoginAudit model
+   */
+  readonly fields: LoginAuditFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoginAudit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoginAuditClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agent<T extends AgentAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentAccountDefaultArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoginAudit model
+   */
+  interface LoginAuditFieldRefs {
+    readonly id: FieldRef<"LoginAudit", 'String'>
+    readonly agentId: FieldRef<"LoginAudit", 'String'>
+    readonly status: FieldRef<"LoginAudit", 'LoginAuditStatus'>
+    readonly ip: FieldRef<"LoginAudit", 'String'>
+    readonly userAgent: FieldRef<"LoginAudit", 'String'>
+    readonly note: FieldRef<"LoginAudit", 'String'>
+    readonly createdAt: FieldRef<"LoginAudit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoginAudit findUnique
+   */
+  export type LoginAuditFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginAudit to fetch.
+     */
+    where: LoginAuditWhereUniqueInput
+  }
+
+  /**
+   * LoginAudit findUniqueOrThrow
+   */
+  export type LoginAuditFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginAudit to fetch.
+     */
+    where: LoginAuditWhereUniqueInput
+  }
+
+  /**
+   * LoginAudit findFirst
+   */
+  export type LoginAuditFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginAudit to fetch.
+     */
+    where?: LoginAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginAudits to fetch.
+     */
+    orderBy?: LoginAuditOrderByWithRelationInput | LoginAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoginAudits.
+     */
+    cursor?: LoginAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoginAudits.
+     */
+    distinct?: LoginAuditScalarFieldEnum | LoginAuditScalarFieldEnum[]
+  }
+
+  /**
+   * LoginAudit findFirstOrThrow
+   */
+  export type LoginAuditFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginAudit to fetch.
+     */
+    where?: LoginAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginAudits to fetch.
+     */
+    orderBy?: LoginAuditOrderByWithRelationInput | LoginAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoginAudits.
+     */
+    cursor?: LoginAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoginAudits.
+     */
+    distinct?: LoginAuditScalarFieldEnum | LoginAuditScalarFieldEnum[]
+  }
+
+  /**
+   * LoginAudit findMany
+   */
+  export type LoginAuditFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which LoginAudits to fetch.
+     */
+    where?: LoginAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoginAudits to fetch.
+     */
+    orderBy?: LoginAuditOrderByWithRelationInput | LoginAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoginAudits.
+     */
+    cursor?: LoginAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoginAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoginAudits.
+     */
+    skip?: number
+    distinct?: LoginAuditScalarFieldEnum | LoginAuditScalarFieldEnum[]
+  }
+
+  /**
+   * LoginAudit create
+   */
+  export type LoginAuditCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoginAudit.
+     */
+    data: XOR<LoginAuditCreateInput, LoginAuditUncheckedCreateInput>
+  }
+
+  /**
+   * LoginAudit createMany
+   */
+  export type LoginAuditCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoginAudits.
+     */
+    data: LoginAuditCreateManyInput | LoginAuditCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoginAudit createManyAndReturn
+   */
+  export type LoginAuditCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoginAudits.
+     */
+    data: LoginAuditCreateManyInput | LoginAuditCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoginAudit update
+   */
+  export type LoginAuditUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoginAudit.
+     */
+    data: XOR<LoginAuditUpdateInput, LoginAuditUncheckedUpdateInput>
+    /**
+     * Choose, which LoginAudit to update.
+     */
+    where: LoginAuditWhereUniqueInput
+  }
+
+  /**
+   * LoginAudit updateMany
+   */
+  export type LoginAuditUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoginAudits.
+     */
+    data: XOR<LoginAuditUpdateManyMutationInput, LoginAuditUncheckedUpdateManyInput>
+    /**
+     * Filter which LoginAudits to update
+     */
+    where?: LoginAuditWhereInput
+    /**
+     * Limit how many LoginAudits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoginAudit updateManyAndReturn
+   */
+  export type LoginAuditUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * The data used to update LoginAudits.
+     */
+    data: XOR<LoginAuditUpdateManyMutationInput, LoginAuditUncheckedUpdateManyInput>
+    /**
+     * Filter which LoginAudits to update
+     */
+    where?: LoginAuditWhereInput
+    /**
+     * Limit how many LoginAudits to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoginAudit upsert
+   */
+  export type LoginAuditUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoginAudit to update in case it exists.
+     */
+    where: LoginAuditWhereUniqueInput
+    /**
+     * In case the LoginAudit found by the `where` argument doesn't exist, create a new LoginAudit with this data.
+     */
+    create: XOR<LoginAuditCreateInput, LoginAuditUncheckedCreateInput>
+    /**
+     * In case the LoginAudit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoginAuditUpdateInput, LoginAuditUncheckedUpdateInput>
+  }
+
+  /**
+   * LoginAudit delete
+   */
+  export type LoginAuditDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+    /**
+     * Filter which LoginAudit to delete.
+     */
+    where: LoginAuditWhereUniqueInput
+  }
+
+  /**
+   * LoginAudit deleteMany
+   */
+  export type LoginAuditDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoginAudits to delete
+     */
+    where?: LoginAuditWhereInput
+    /**
+     * Limit how many LoginAudits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoginAudit without action
+   */
+  export type LoginAuditDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginAudit
+     */
+    select?: LoginAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginAudit
+     */
+    omit?: LoginAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginAuditInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10543,6 +14144,43 @@ export namespace Prisma {
   };
 
   export type ScrapeJobScalarFieldEnum = (typeof ScrapeJobScalarFieldEnum)[keyof typeof ScrapeJobScalarFieldEnum]
+
+
+  export const AgentAccountScalarFieldEnum: {
+    userId: 'userId',
+    hashedPin: 'hashedPin',
+    telegramChatId: 'telegramChatId',
+    roles: 'roles',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AgentAccountScalarFieldEnum = (typeof AgentAccountScalarFieldEnum)[keyof typeof AgentAccountScalarFieldEnum]
+
+
+  export const LoginTokenScalarFieldEnum: {
+    id: 'id',
+    agentId: 'agentId',
+    tokenHash: 'tokenHash',
+    expiresAt: 'expiresAt',
+    consumedAt: 'consumedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type LoginTokenScalarFieldEnum = (typeof LoginTokenScalarFieldEnum)[keyof typeof LoginTokenScalarFieldEnum]
+
+
+  export const LoginAuditScalarFieldEnum: {
+    id: 'id',
+    agentId: 'agentId',
+    status: 'status',
+    ip: 'ip',
+    userAgent: 'userAgent',
+    note: 'note',
+    createdAt: 'createdAt'
+  };
+
+  export type LoginAuditScalarFieldEnum = (typeof LoginAuditScalarFieldEnum)[keyof typeof LoginAuditScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10728,6 +14366,34 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AgentRole[]'
+   */
+  export type ListEnumAgentRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentRole[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AgentRole'
+   */
+  export type EnumAgentRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentRole'>
+    
+
+
+  /**
+   * Reference to a field of type 'LoginAuditStatus'
+   */
+  export type EnumLoginAuditStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LoginAuditStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'LoginAuditStatus[]'
+   */
+  export type ListEnumLoginAuditStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LoginAuditStatus[]'>
     
   /**
    * Deep Input Types
@@ -11288,6 +14954,194 @@ export namespace Prisma {
     documentsIngested?: IntNullableWithAggregatesFilter<"ScrapeJob"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"ScrapeJob"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ScrapeJob"> | Date | string
+  }
+
+  export type AgentAccountWhereInput = {
+    AND?: AgentAccountWhereInput | AgentAccountWhereInput[]
+    OR?: AgentAccountWhereInput[]
+    NOT?: AgentAccountWhereInput | AgentAccountWhereInput[]
+    userId?: StringFilter<"AgentAccount"> | string
+    hashedPin?: StringFilter<"AgentAccount"> | string
+    telegramChatId?: StringNullableFilter<"AgentAccount"> | string | null
+    roles?: EnumAgentRoleNullableListFilter<"AgentAccount">
+    createdAt?: DateTimeFilter<"AgentAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"AgentAccount"> | Date | string
+    loginTokens?: LoginTokenListRelationFilter
+    audits?: LoginAuditListRelationFilter
+  }
+
+  export type AgentAccountOrderByWithRelationInput = {
+    userId?: SortOrder
+    hashedPin?: SortOrder
+    telegramChatId?: SortOrderInput | SortOrder
+    roles?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    loginTokens?: LoginTokenOrderByRelationAggregateInput
+    audits?: LoginAuditOrderByRelationAggregateInput
+  }
+
+  export type AgentAccountWhereUniqueInput = Prisma.AtLeast<{
+    userId?: string
+    AND?: AgentAccountWhereInput | AgentAccountWhereInput[]
+    OR?: AgentAccountWhereInput[]
+    NOT?: AgentAccountWhereInput | AgentAccountWhereInput[]
+    hashedPin?: StringFilter<"AgentAccount"> | string
+    telegramChatId?: StringNullableFilter<"AgentAccount"> | string | null
+    roles?: EnumAgentRoleNullableListFilter<"AgentAccount">
+    createdAt?: DateTimeFilter<"AgentAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"AgentAccount"> | Date | string
+    loginTokens?: LoginTokenListRelationFilter
+    audits?: LoginAuditListRelationFilter
+  }, "userId">
+
+  export type AgentAccountOrderByWithAggregationInput = {
+    userId?: SortOrder
+    hashedPin?: SortOrder
+    telegramChatId?: SortOrderInput | SortOrder
+    roles?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AgentAccountCountOrderByAggregateInput
+    _max?: AgentAccountMaxOrderByAggregateInput
+    _min?: AgentAccountMinOrderByAggregateInput
+  }
+
+  export type AgentAccountScalarWhereWithAggregatesInput = {
+    AND?: AgentAccountScalarWhereWithAggregatesInput | AgentAccountScalarWhereWithAggregatesInput[]
+    OR?: AgentAccountScalarWhereWithAggregatesInput[]
+    NOT?: AgentAccountScalarWhereWithAggregatesInput | AgentAccountScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"AgentAccount"> | string
+    hashedPin?: StringWithAggregatesFilter<"AgentAccount"> | string
+    telegramChatId?: StringNullableWithAggregatesFilter<"AgentAccount"> | string | null
+    roles?: EnumAgentRoleNullableListFilter<"AgentAccount">
+    createdAt?: DateTimeWithAggregatesFilter<"AgentAccount"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AgentAccount"> | Date | string
+  }
+
+  export type LoginTokenWhereInput = {
+    AND?: LoginTokenWhereInput | LoginTokenWhereInput[]
+    OR?: LoginTokenWhereInput[]
+    NOT?: LoginTokenWhereInput | LoginTokenWhereInput[]
+    id?: StringFilter<"LoginToken"> | string
+    agentId?: StringFilter<"LoginToken"> | string
+    tokenHash?: StringFilter<"LoginToken"> | string
+    expiresAt?: DateTimeFilter<"LoginToken"> | Date | string
+    consumedAt?: DateTimeNullableFilter<"LoginToken"> | Date | string | null
+    createdAt?: DateTimeFilter<"LoginToken"> | Date | string
+    agent?: XOR<AgentAccountScalarRelationFilter, AgentAccountWhereInput>
+  }
+
+  export type LoginTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    consumedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    agent?: AgentAccountOrderByWithRelationInput
+  }
+
+  export type LoginTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LoginTokenWhereInput | LoginTokenWhereInput[]
+    OR?: LoginTokenWhereInput[]
+    NOT?: LoginTokenWhereInput | LoginTokenWhereInput[]
+    agentId?: StringFilter<"LoginToken"> | string
+    tokenHash?: StringFilter<"LoginToken"> | string
+    expiresAt?: DateTimeFilter<"LoginToken"> | Date | string
+    consumedAt?: DateTimeNullableFilter<"LoginToken"> | Date | string | null
+    createdAt?: DateTimeFilter<"LoginToken"> | Date | string
+    agent?: XOR<AgentAccountScalarRelationFilter, AgentAccountWhereInput>
+  }, "id">
+
+  export type LoginTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    consumedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: LoginTokenCountOrderByAggregateInput
+    _max?: LoginTokenMaxOrderByAggregateInput
+    _min?: LoginTokenMinOrderByAggregateInput
+  }
+
+  export type LoginTokenScalarWhereWithAggregatesInput = {
+    AND?: LoginTokenScalarWhereWithAggregatesInput | LoginTokenScalarWhereWithAggregatesInput[]
+    OR?: LoginTokenScalarWhereWithAggregatesInput[]
+    NOT?: LoginTokenScalarWhereWithAggregatesInput | LoginTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoginToken"> | string
+    agentId?: StringWithAggregatesFilter<"LoginToken"> | string
+    tokenHash?: StringWithAggregatesFilter<"LoginToken"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"LoginToken"> | Date | string
+    consumedAt?: DateTimeNullableWithAggregatesFilter<"LoginToken"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LoginToken"> | Date | string
+  }
+
+  export type LoginAuditWhereInput = {
+    AND?: LoginAuditWhereInput | LoginAuditWhereInput[]
+    OR?: LoginAuditWhereInput[]
+    NOT?: LoginAuditWhereInput | LoginAuditWhereInput[]
+    id?: StringFilter<"LoginAudit"> | string
+    agentId?: StringFilter<"LoginAudit"> | string
+    status?: EnumLoginAuditStatusFilter<"LoginAudit"> | $Enums.LoginAuditStatus
+    ip?: StringNullableFilter<"LoginAudit"> | string | null
+    userAgent?: StringNullableFilter<"LoginAudit"> | string | null
+    note?: StringNullableFilter<"LoginAudit"> | string | null
+    createdAt?: DateTimeFilter<"LoginAudit"> | Date | string
+    agent?: XOR<AgentAccountScalarRelationFilter, AgentAccountWhereInput>
+  }
+
+  export type LoginAuditOrderByWithRelationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    status?: SortOrder
+    ip?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    agent?: AgentAccountOrderByWithRelationInput
+  }
+
+  export type LoginAuditWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LoginAuditWhereInput | LoginAuditWhereInput[]
+    OR?: LoginAuditWhereInput[]
+    NOT?: LoginAuditWhereInput | LoginAuditWhereInput[]
+    agentId?: StringFilter<"LoginAudit"> | string
+    status?: EnumLoginAuditStatusFilter<"LoginAudit"> | $Enums.LoginAuditStatus
+    ip?: StringNullableFilter<"LoginAudit"> | string | null
+    userAgent?: StringNullableFilter<"LoginAudit"> | string | null
+    note?: StringNullableFilter<"LoginAudit"> | string | null
+    createdAt?: DateTimeFilter<"LoginAudit"> | Date | string
+    agent?: XOR<AgentAccountScalarRelationFilter, AgentAccountWhereInput>
+  }, "id">
+
+  export type LoginAuditOrderByWithAggregationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    status?: SortOrder
+    ip?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: LoginAuditCountOrderByAggregateInput
+    _max?: LoginAuditMaxOrderByAggregateInput
+    _min?: LoginAuditMinOrderByAggregateInput
+  }
+
+  export type LoginAuditScalarWhereWithAggregatesInput = {
+    AND?: LoginAuditScalarWhereWithAggregatesInput | LoginAuditScalarWhereWithAggregatesInput[]
+    OR?: LoginAuditScalarWhereWithAggregatesInput[]
+    NOT?: LoginAuditScalarWhereWithAggregatesInput | LoginAuditScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoginAudit"> | string
+    agentId?: StringWithAggregatesFilter<"LoginAudit"> | string
+    status?: EnumLoginAuditStatusWithAggregatesFilter<"LoginAudit"> | $Enums.LoginAuditStatus
+    ip?: StringNullableWithAggregatesFilter<"LoginAudit"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"LoginAudit"> | string | null
+    note?: StringNullableWithAggregatesFilter<"LoginAudit"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LoginAudit"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -11896,6 +15750,208 @@ export namespace Prisma {
     documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentAccountCreateInput = {
+    userId: string
+    hashedPin: string
+    telegramChatId?: string | null
+    roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loginTokens?: LoginTokenCreateNestedManyWithoutAgentInput
+    audits?: LoginAuditCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentAccountUncheckedCreateInput = {
+    userId: string
+    hashedPin: string
+    telegramChatId?: string | null
+    roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAgentInput
+    audits?: LoginAuditUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentAccountUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginTokens?: LoginTokenUpdateManyWithoutAgentNestedInput
+    audits?: LoginAuditUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentAccountUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAgentNestedInput
+    audits?: LoginAuditUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentAccountCreateManyInput = {
+    userId: string
+    hashedPin: string
+    telegramChatId?: string | null
+    roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AgentAccountUpdateManyMutationInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentAccountUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginTokenCreateInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    consumedAt?: Date | string | null
+    createdAt?: Date | string
+    agent: AgentAccountCreateNestedOneWithoutLoginTokensInput
+  }
+
+  export type LoginTokenUncheckedCreateInput = {
+    id?: string
+    agentId: string
+    tokenHash: string
+    expiresAt: Date | string
+    consumedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentAccountUpdateOneRequiredWithoutLoginTokensNestedInput
+  }
+
+  export type LoginTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginTokenCreateManyInput = {
+    id?: string
+    agentId: string
+    tokenHash: string
+    expiresAt: Date | string
+    consumedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginAuditCreateInput = {
+    id?: string
+    status: $Enums.LoginAuditStatus
+    ip?: string | null
+    userAgent?: string | null
+    note?: string | null
+    createdAt?: Date | string
+    agent: AgentAccountCreateNestedOneWithoutAuditsInput
+  }
+
+  export type LoginAuditUncheckedCreateInput = {
+    id?: string
+    agentId: string
+    status: $Enums.LoginAuditStatus
+    ip?: string | null
+    userAgent?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginAuditUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumLoginAuditStatusFieldUpdateOperationsInput | $Enums.LoginAuditStatus
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentAccountUpdateOneRequiredWithoutAuditsNestedInput
+  }
+
+  export type LoginAuditUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    status?: EnumLoginAuditStatusFieldUpdateOperationsInput | $Enums.LoginAuditStatus
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginAuditCreateManyInput = {
+    id?: string
+    agentId: string
+    status: $Enums.LoginAuditStatus
+    ip?: string | null
+    userAgent?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginAuditUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumLoginAuditStatusFieldUpdateOperationsInput | $Enums.LoginAuditStatus
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginAuditUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    status?: EnumLoginAuditStatusFieldUpdateOperationsInput | $Enums.LoginAuditStatus
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -12647,6 +16703,138 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type EnumAgentRoleNullableListFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel> | null
+    has?: $Enums.AgentRole | EnumAgentRoleFieldRefInput<$PrismaModel> | null
+    hasEvery?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    hasSome?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type LoginTokenListRelationFilter = {
+    every?: LoginTokenWhereInput
+    some?: LoginTokenWhereInput
+    none?: LoginTokenWhereInput
+  }
+
+  export type LoginAuditListRelationFilter = {
+    every?: LoginAuditWhereInput
+    some?: LoginAuditWhereInput
+    none?: LoginAuditWhereInput
+  }
+
+  export type LoginTokenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LoginAuditOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AgentAccountCountOrderByAggregateInput = {
+    userId?: SortOrder
+    hashedPin?: SortOrder
+    telegramChatId?: SortOrder
+    roles?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AgentAccountMaxOrderByAggregateInput = {
+    userId?: SortOrder
+    hashedPin?: SortOrder
+    telegramChatId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AgentAccountMinOrderByAggregateInput = {
+    userId?: SortOrder
+    hashedPin?: SortOrder
+    telegramChatId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AgentAccountScalarRelationFilter = {
+    is?: AgentAccountWhereInput
+    isNot?: AgentAccountWhereInput
+  }
+
+  export type LoginTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    consumedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoginTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    consumedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoginTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    consumedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumLoginAuditStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.LoginAuditStatus | EnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.LoginAuditStatus[] | ListEnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LoginAuditStatus[] | ListEnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumLoginAuditStatusFilter<$PrismaModel> | $Enums.LoginAuditStatus
+  }
+
+  export type LoginAuditCountOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    status?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoginAuditMaxOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    status?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoginAuditMinOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    status?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumLoginAuditStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LoginAuditStatus | EnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.LoginAuditStatus[] | ListEnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LoginAuditStatus[] | ListEnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumLoginAuditStatusWithAggregatesFilter<$PrismaModel> | $Enums.LoginAuditStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLoginAuditStatusFilter<$PrismaModel>
+    _max?: NestedEnumLoginAuditStatusFilter<$PrismaModel>
+  }
+
   export type OrderCreateNestedManyWithoutUserInput = {
     create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
@@ -12877,6 +17065,131 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type AgentAccountCreaterolesInput = {
+    set: $Enums.AgentRole[]
+  }
+
+  export type LoginTokenCreateNestedManyWithoutAgentInput = {
+    create?: XOR<LoginTokenCreateWithoutAgentInput, LoginTokenUncheckedCreateWithoutAgentInput> | LoginTokenCreateWithoutAgentInput[] | LoginTokenUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: LoginTokenCreateOrConnectWithoutAgentInput | LoginTokenCreateOrConnectWithoutAgentInput[]
+    createMany?: LoginTokenCreateManyAgentInputEnvelope
+    connect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+  }
+
+  export type LoginAuditCreateNestedManyWithoutAgentInput = {
+    create?: XOR<LoginAuditCreateWithoutAgentInput, LoginAuditUncheckedCreateWithoutAgentInput> | LoginAuditCreateWithoutAgentInput[] | LoginAuditUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: LoginAuditCreateOrConnectWithoutAgentInput | LoginAuditCreateOrConnectWithoutAgentInput[]
+    createMany?: LoginAuditCreateManyAgentInputEnvelope
+    connect?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+  }
+
+  export type LoginTokenUncheckedCreateNestedManyWithoutAgentInput = {
+    create?: XOR<LoginTokenCreateWithoutAgentInput, LoginTokenUncheckedCreateWithoutAgentInput> | LoginTokenCreateWithoutAgentInput[] | LoginTokenUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: LoginTokenCreateOrConnectWithoutAgentInput | LoginTokenCreateOrConnectWithoutAgentInput[]
+    createMany?: LoginTokenCreateManyAgentInputEnvelope
+    connect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+  }
+
+  export type LoginAuditUncheckedCreateNestedManyWithoutAgentInput = {
+    create?: XOR<LoginAuditCreateWithoutAgentInput, LoginAuditUncheckedCreateWithoutAgentInput> | LoginAuditCreateWithoutAgentInput[] | LoginAuditUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: LoginAuditCreateOrConnectWithoutAgentInput | LoginAuditCreateOrConnectWithoutAgentInput[]
+    createMany?: LoginAuditCreateManyAgentInputEnvelope
+    connect?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+  }
+
+  export type AgentAccountUpdaterolesInput = {
+    set?: $Enums.AgentRole[]
+    push?: $Enums.AgentRole | $Enums.AgentRole[]
+  }
+
+  export type LoginTokenUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<LoginTokenCreateWithoutAgentInput, LoginTokenUncheckedCreateWithoutAgentInput> | LoginTokenCreateWithoutAgentInput[] | LoginTokenUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: LoginTokenCreateOrConnectWithoutAgentInput | LoginTokenCreateOrConnectWithoutAgentInput[]
+    upsert?: LoginTokenUpsertWithWhereUniqueWithoutAgentInput | LoginTokenUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: LoginTokenCreateManyAgentInputEnvelope
+    set?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    disconnect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    delete?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    connect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    update?: LoginTokenUpdateWithWhereUniqueWithoutAgentInput | LoginTokenUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: LoginTokenUpdateManyWithWhereWithoutAgentInput | LoginTokenUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: LoginTokenScalarWhereInput | LoginTokenScalarWhereInput[]
+  }
+
+  export type LoginAuditUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<LoginAuditCreateWithoutAgentInput, LoginAuditUncheckedCreateWithoutAgentInput> | LoginAuditCreateWithoutAgentInput[] | LoginAuditUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: LoginAuditCreateOrConnectWithoutAgentInput | LoginAuditCreateOrConnectWithoutAgentInput[]
+    upsert?: LoginAuditUpsertWithWhereUniqueWithoutAgentInput | LoginAuditUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: LoginAuditCreateManyAgentInputEnvelope
+    set?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+    disconnect?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+    delete?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+    connect?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+    update?: LoginAuditUpdateWithWhereUniqueWithoutAgentInput | LoginAuditUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: LoginAuditUpdateManyWithWhereWithoutAgentInput | LoginAuditUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: LoginAuditScalarWhereInput | LoginAuditScalarWhereInput[]
+  }
+
+  export type LoginTokenUncheckedUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<LoginTokenCreateWithoutAgentInput, LoginTokenUncheckedCreateWithoutAgentInput> | LoginTokenCreateWithoutAgentInput[] | LoginTokenUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: LoginTokenCreateOrConnectWithoutAgentInput | LoginTokenCreateOrConnectWithoutAgentInput[]
+    upsert?: LoginTokenUpsertWithWhereUniqueWithoutAgentInput | LoginTokenUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: LoginTokenCreateManyAgentInputEnvelope
+    set?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    disconnect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    delete?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    connect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    update?: LoginTokenUpdateWithWhereUniqueWithoutAgentInput | LoginTokenUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: LoginTokenUpdateManyWithWhereWithoutAgentInput | LoginTokenUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: LoginTokenScalarWhereInput | LoginTokenScalarWhereInput[]
+  }
+
+  export type LoginAuditUncheckedUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<LoginAuditCreateWithoutAgentInput, LoginAuditUncheckedCreateWithoutAgentInput> | LoginAuditCreateWithoutAgentInput[] | LoginAuditUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: LoginAuditCreateOrConnectWithoutAgentInput | LoginAuditCreateOrConnectWithoutAgentInput[]
+    upsert?: LoginAuditUpsertWithWhereUniqueWithoutAgentInput | LoginAuditUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: LoginAuditCreateManyAgentInputEnvelope
+    set?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+    disconnect?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+    delete?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+    connect?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+    update?: LoginAuditUpdateWithWhereUniqueWithoutAgentInput | LoginAuditUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: LoginAuditUpdateManyWithWhereWithoutAgentInput | LoginAuditUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: LoginAuditScalarWhereInput | LoginAuditScalarWhereInput[]
+  }
+
+  export type AgentAccountCreateNestedOneWithoutLoginTokensInput = {
+    create?: XOR<AgentAccountCreateWithoutLoginTokensInput, AgentAccountUncheckedCreateWithoutLoginTokensInput>
+    connectOrCreate?: AgentAccountCreateOrConnectWithoutLoginTokensInput
+    connect?: AgentAccountWhereUniqueInput
+  }
+
+  export type AgentAccountUpdateOneRequiredWithoutLoginTokensNestedInput = {
+    create?: XOR<AgentAccountCreateWithoutLoginTokensInput, AgentAccountUncheckedCreateWithoutLoginTokensInput>
+    connectOrCreate?: AgentAccountCreateOrConnectWithoutLoginTokensInput
+    upsert?: AgentAccountUpsertWithoutLoginTokensInput
+    connect?: AgentAccountWhereUniqueInput
+    update?: XOR<XOR<AgentAccountUpdateToOneWithWhereWithoutLoginTokensInput, AgentAccountUpdateWithoutLoginTokensInput>, AgentAccountUncheckedUpdateWithoutLoginTokensInput>
+  }
+
+  export type AgentAccountCreateNestedOneWithoutAuditsInput = {
+    create?: XOR<AgentAccountCreateWithoutAuditsInput, AgentAccountUncheckedCreateWithoutAuditsInput>
+    connectOrCreate?: AgentAccountCreateOrConnectWithoutAuditsInput
+    connect?: AgentAccountWhereUniqueInput
+  }
+
+  export type EnumLoginAuditStatusFieldUpdateOperationsInput = {
+    set?: $Enums.LoginAuditStatus
+  }
+
+  export type AgentAccountUpdateOneRequiredWithoutAuditsNestedInput = {
+    create?: XOR<AgentAccountCreateWithoutAuditsInput, AgentAccountUncheckedCreateWithoutAuditsInput>
+    connectOrCreate?: AgentAccountCreateOrConnectWithoutAuditsInput
+    upsert?: AgentAccountUpsertWithoutAuditsInput
+    connect?: AgentAccountWhereUniqueInput
+    update?: XOR<XOR<AgentAccountUpdateToOneWithWhereWithoutAuditsInput, AgentAccountUpdateWithoutAuditsInput>, AgentAccountUncheckedUpdateWithoutAuditsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -13208,6 +17521,23 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumLoginAuditStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.LoginAuditStatus | EnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.LoginAuditStatus[] | ListEnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LoginAuditStatus[] | ListEnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumLoginAuditStatusFilter<$PrismaModel> | $Enums.LoginAuditStatus
+  }
+
+  export type NestedEnumLoginAuditStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LoginAuditStatus | EnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.LoginAuditStatus[] | ListEnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LoginAuditStatus[] | ListEnumLoginAuditStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumLoginAuditStatusWithAggregatesFilter<$PrismaModel> | $Enums.LoginAuditStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLoginAuditStatusFilter<$PrismaModel>
+    _max?: NestedEnumLoginAuditStatusFilter<$PrismaModel>
   }
 
   export type OrderCreateWithoutUserInput = {
@@ -13564,6 +17894,229 @@ export namespace Prisma {
     sessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type LoginTokenCreateWithoutAgentInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    consumedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginTokenUncheckedCreateWithoutAgentInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    consumedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginTokenCreateOrConnectWithoutAgentInput = {
+    where: LoginTokenWhereUniqueInput
+    create: XOR<LoginTokenCreateWithoutAgentInput, LoginTokenUncheckedCreateWithoutAgentInput>
+  }
+
+  export type LoginTokenCreateManyAgentInputEnvelope = {
+    data: LoginTokenCreateManyAgentInput | LoginTokenCreateManyAgentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LoginAuditCreateWithoutAgentInput = {
+    id?: string
+    status: $Enums.LoginAuditStatus
+    ip?: string | null
+    userAgent?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginAuditUncheckedCreateWithoutAgentInput = {
+    id?: string
+    status: $Enums.LoginAuditStatus
+    ip?: string | null
+    userAgent?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginAuditCreateOrConnectWithoutAgentInput = {
+    where: LoginAuditWhereUniqueInput
+    create: XOR<LoginAuditCreateWithoutAgentInput, LoginAuditUncheckedCreateWithoutAgentInput>
+  }
+
+  export type LoginAuditCreateManyAgentInputEnvelope = {
+    data: LoginAuditCreateManyAgentInput | LoginAuditCreateManyAgentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LoginTokenUpsertWithWhereUniqueWithoutAgentInput = {
+    where: LoginTokenWhereUniqueInput
+    update: XOR<LoginTokenUpdateWithoutAgentInput, LoginTokenUncheckedUpdateWithoutAgentInput>
+    create: XOR<LoginTokenCreateWithoutAgentInput, LoginTokenUncheckedCreateWithoutAgentInput>
+  }
+
+  export type LoginTokenUpdateWithWhereUniqueWithoutAgentInput = {
+    where: LoginTokenWhereUniqueInput
+    data: XOR<LoginTokenUpdateWithoutAgentInput, LoginTokenUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type LoginTokenUpdateManyWithWhereWithoutAgentInput = {
+    where: LoginTokenScalarWhereInput
+    data: XOR<LoginTokenUpdateManyMutationInput, LoginTokenUncheckedUpdateManyWithoutAgentInput>
+  }
+
+  export type LoginTokenScalarWhereInput = {
+    AND?: LoginTokenScalarWhereInput | LoginTokenScalarWhereInput[]
+    OR?: LoginTokenScalarWhereInput[]
+    NOT?: LoginTokenScalarWhereInput | LoginTokenScalarWhereInput[]
+    id?: StringFilter<"LoginToken"> | string
+    agentId?: StringFilter<"LoginToken"> | string
+    tokenHash?: StringFilter<"LoginToken"> | string
+    expiresAt?: DateTimeFilter<"LoginToken"> | Date | string
+    consumedAt?: DateTimeNullableFilter<"LoginToken"> | Date | string | null
+    createdAt?: DateTimeFilter<"LoginToken"> | Date | string
+  }
+
+  export type LoginAuditUpsertWithWhereUniqueWithoutAgentInput = {
+    where: LoginAuditWhereUniqueInput
+    update: XOR<LoginAuditUpdateWithoutAgentInput, LoginAuditUncheckedUpdateWithoutAgentInput>
+    create: XOR<LoginAuditCreateWithoutAgentInput, LoginAuditUncheckedCreateWithoutAgentInput>
+  }
+
+  export type LoginAuditUpdateWithWhereUniqueWithoutAgentInput = {
+    where: LoginAuditWhereUniqueInput
+    data: XOR<LoginAuditUpdateWithoutAgentInput, LoginAuditUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type LoginAuditUpdateManyWithWhereWithoutAgentInput = {
+    where: LoginAuditScalarWhereInput
+    data: XOR<LoginAuditUpdateManyMutationInput, LoginAuditUncheckedUpdateManyWithoutAgentInput>
+  }
+
+  export type LoginAuditScalarWhereInput = {
+    AND?: LoginAuditScalarWhereInput | LoginAuditScalarWhereInput[]
+    OR?: LoginAuditScalarWhereInput[]
+    NOT?: LoginAuditScalarWhereInput | LoginAuditScalarWhereInput[]
+    id?: StringFilter<"LoginAudit"> | string
+    agentId?: StringFilter<"LoginAudit"> | string
+    status?: EnumLoginAuditStatusFilter<"LoginAudit"> | $Enums.LoginAuditStatus
+    ip?: StringNullableFilter<"LoginAudit"> | string | null
+    userAgent?: StringNullableFilter<"LoginAudit"> | string | null
+    note?: StringNullableFilter<"LoginAudit"> | string | null
+    createdAt?: DateTimeFilter<"LoginAudit"> | Date | string
+  }
+
+  export type AgentAccountCreateWithoutLoginTokensInput = {
+    userId: string
+    hashedPin: string
+    telegramChatId?: string | null
+    roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    audits?: LoginAuditCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentAccountUncheckedCreateWithoutLoginTokensInput = {
+    userId: string
+    hashedPin: string
+    telegramChatId?: string | null
+    roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    audits?: LoginAuditUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentAccountCreateOrConnectWithoutLoginTokensInput = {
+    where: AgentAccountWhereUniqueInput
+    create: XOR<AgentAccountCreateWithoutLoginTokensInput, AgentAccountUncheckedCreateWithoutLoginTokensInput>
+  }
+
+  export type AgentAccountUpsertWithoutLoginTokensInput = {
+    update: XOR<AgentAccountUpdateWithoutLoginTokensInput, AgentAccountUncheckedUpdateWithoutLoginTokensInput>
+    create: XOR<AgentAccountCreateWithoutLoginTokensInput, AgentAccountUncheckedCreateWithoutLoginTokensInput>
+    where?: AgentAccountWhereInput
+  }
+
+  export type AgentAccountUpdateToOneWithWhereWithoutLoginTokensInput = {
+    where?: AgentAccountWhereInput
+    data: XOR<AgentAccountUpdateWithoutLoginTokensInput, AgentAccountUncheckedUpdateWithoutLoginTokensInput>
+  }
+
+  export type AgentAccountUpdateWithoutLoginTokensInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    audits?: LoginAuditUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentAccountUncheckedUpdateWithoutLoginTokensInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    audits?: LoginAuditUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentAccountCreateWithoutAuditsInput = {
+    userId: string
+    hashedPin: string
+    telegramChatId?: string | null
+    roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loginTokens?: LoginTokenCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentAccountUncheckedCreateWithoutAuditsInput = {
+    userId: string
+    hashedPin: string
+    telegramChatId?: string | null
+    roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentAccountCreateOrConnectWithoutAuditsInput = {
+    where: AgentAccountWhereUniqueInput
+    create: XOR<AgentAccountCreateWithoutAuditsInput, AgentAccountUncheckedCreateWithoutAuditsInput>
+  }
+
+  export type AgentAccountUpsertWithoutAuditsInput = {
+    update: XOR<AgentAccountUpdateWithoutAuditsInput, AgentAccountUncheckedUpdateWithoutAuditsInput>
+    create: XOR<AgentAccountCreateWithoutAuditsInput, AgentAccountUncheckedCreateWithoutAuditsInput>
+    where?: AgentAccountWhereInput
+  }
+
+  export type AgentAccountUpdateToOneWithWhereWithoutAuditsInput = {
+    where?: AgentAccountWhereInput
+    data: XOR<AgentAccountUpdateWithoutAuditsInput, AgentAccountUncheckedUpdateWithoutAuditsInput>
+  }
+
+  export type AgentAccountUpdateWithoutAuditsInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginTokens?: LoginTokenUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentAccountUncheckedUpdateWithoutAuditsInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
   export type OrderCreateManyUserInput = {
     id?: string
     orderId: string
@@ -13657,6 +18210,74 @@ export namespace Prisma {
   export type TicketUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     ticket?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginTokenCreateManyAgentInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    consumedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginAuditCreateManyAgentInput = {
+    id?: string
+    status: $Enums.LoginAuditStatus
+    ip?: string | null
+    userAgent?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginTokenUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginTokenUncheckedUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginTokenUncheckedUpdateManyWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginAuditUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumLoginAuditStatusFieldUpdateOperationsInput | $Enums.LoginAuditStatus
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginAuditUncheckedUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumLoginAuditStatusFieldUpdateOperationsInput | $Enums.LoginAuditStatus
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginAuditUncheckedUpdateManyWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumLoginAuditStatusFieldUpdateOperationsInput | $Enums.LoginAuditStatus
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

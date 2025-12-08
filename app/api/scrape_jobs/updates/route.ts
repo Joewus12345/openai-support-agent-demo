@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 
 import { onJobUpdate } from "@/lib/scrapeJobEvents";
+import { ensureAuthenticated } from "../helpers";
+import { AgentRole } from "@/lib/generated/prisma";
 
 export const runtime = "nodejs";
 export const revalidate = 0;
 
 export async function GET(request: Request) {
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.agent });
+  if (unauthorized) return unauthorized;
   const encoder = new TextEncoder();
   let cleanup: () => void = () => {};
 

@@ -1,4 +1,4 @@
-import { Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
+import { AgentRole, Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { calculateNextRun } from "@/lib/scheduler";
 import { cancelRunningScrape } from "@/lib/scrapeRunner";
@@ -37,7 +37,9 @@ function parseDate(value: unknown): { value: Date | null | undefined; error?: st
   return { value: date };
 }
 
-export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.agent });
+  if (unauthorized) return unauthorized;
   const { id } = await params;
   const job = await serializeJob(id);
   if (!job) {
@@ -51,7 +53,7 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = ensureAuthenticated(request);
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
   if (unauthorized) return unauthorized;
 
   try {
@@ -172,7 +174,7 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = ensureAuthenticated(request);
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
   if (unauthorized) return unauthorized;
 
   try {

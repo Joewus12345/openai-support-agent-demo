@@ -1,11 +1,11 @@
-import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 
 import prisma from "../../../lib/prisma";
-import { ScrapeJob } from "../../../lib/generated/prisma";
+import { AgentRole, ScrapeJob } from "../../../lib/generated/prisma";
 import { BenchmarkEntry } from "@/lib/scrapeMetrics";
 import { readIngestionResult, StoredIngestionResult } from "@/lib/ingestionResults";
+import { requireSession } from "@/lib/server/auth";
 
 const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
 const JOB_LOG_ROOT = path.join(process.cwd(), "logs", "scrape_jobs");
@@ -421,80 +421,17 @@ export async function listScrapeArtifacts(job: ScrapeJob) {
   }
 }
 
-const AUTH_COOKIE_NAME = "scrape_job_admin_session";
-
-function parseCookies(header: string | null) {
-  if (!header) return {} as Record<string, string>;
-  return header.split(";").reduce((acc, part) => {
-    const [rawKey, ...rawValue] = part.trim().split("=");
-    if (!rawKey) return acc;
-    acc[decodeURIComponent(rawKey)] = decodeURIComponent(rawValue.join("="));
-    return acc;
-  }, {} as Record<string, string>);
-}
-
-function expectedSessionSignature() {
-  const token = process.env.SCRAPE_JOB_ADMIN_TOKEN;
-  if (!token) return null;
-  return crypto.createHash("sha256").update(token).digest("hex");
-}
-
-export function buildAuthCookie() {
-  const signature = expectedSessionSignature();
-  if (!signature) return null;
-  const secure = process.env.NODE_ENV === "production";
-  const maxAgeSeconds = 60 * 60 * 12; // 12 hours
-  return [
-    `${AUTH_COOKIE_NAME}=${signature}`,
-    "Path=/",
-    "HttpOnly",
-    "SameSite=Strict",
-    secure ? "Secure" : null,
-    `Max-Age=${maxAgeSeconds}`,
-  ]
-    .filter(Boolean)
-    .join("; ");
-}
-
-export function ensureAuthenticated(request: Request) {
-  const signature = expectedSessionSignature();
-
-  if (!signature) {
-    console.warn("SCRAPE_JOB_ADMIN_TOKEN is not configured; rejecting request");
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  const cookies = parseCookies(request.headers.get("cookie"));
-  const session = cookies[AUTH_COOKIE_NAME];
-
-  if (!session) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  try {
-    const expectedBuffer = Buffer.from(signature);
-    const providedBuffer = Buffer.from(session);
-
-    if (
-      expectedBuffer.length === providedBuffer.length &&
-      crypto.timingSafeEqual(expectedBuffer, providedBuffer)
-    ) {
-      return null;
-    }
-  } catch (error) {
-    console.warn("Failed to compare auth cookies", { error });
-  }
-
-  return new Response(JSON.stringify({ error: "Unauthorized" }), {
-    status: 401,
-    headers: { "Content-Type": "application/json" },
+export async function ensureAuthenticated(
+  request: Request,
+  options: { role?: AgentRole; csrf?: boolean } = {}
+) {
+  const result = await requireSession(request, {
+    role: options.role,
+    csrfProtected: options.csrf,
+    requireVerified: true,
   });
+  if ("response" in result) return result.response;
+  return null;
 }
 
 export async function serializeJob(jobId: string, options: { includeLog?: boolean } = {}) {

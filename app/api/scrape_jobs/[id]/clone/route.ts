@@ -1,4 +1,4 @@
-import { ScrapeJobStatus } from "@/lib/generated/prisma";
+import { AgentRole, ScrapeJobStatus } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { triggerScrapeJob } from "@/lib/scrapeRunner";
 import { ensureAuthenticated } from "../../helpers";
@@ -13,7 +13,7 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = ensureAuthenticated(request);
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
   if (unauthorized) return unauthorized;
 
   try {

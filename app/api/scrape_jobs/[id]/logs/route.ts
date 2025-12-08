@@ -1,7 +1,9 @@
 import fs from "fs/promises";
 import path from "path";
 
-import { ensureAuthenticated, listJobLogRuns } from "../../helpers";
+import { ensureAuthenticated } from "../../helpers";
+import { AgentRole } from "@/lib/generated/prisma";
+import { listJobLogRuns } from "../../helpers";
 
 function parseLimit(value: string | null) {
   const parsed = Number(value ?? "");
@@ -12,6 +14,8 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.agent });
+  if (unauthorized) return unauthorized;
   const { id } = await params;
   const { searchParams } = new URL(request.url);
   const loadAll = searchParams.get("all") === "true";
@@ -113,7 +117,7 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = ensureAuthenticated(request);
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
   if (unauthorized) return unauthorized;
 
   const { id } = await params;

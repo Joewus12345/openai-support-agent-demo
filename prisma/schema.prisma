@@ -30,6 +30,18 @@ enum ScrapeJobCadence {
   monthly
 }
 
+enum AgentRole {
+  admin
+  agent
+}
+
+enum LoginAuditStatus {
+  token_sent
+  verified
+  failure
+  success
+}
+
 model User {
   id        String        @id @default(uuid())
   email     String        @unique
@@ -137,4 +149,38 @@ model ScrapeJob {
   documentsIngested Int?
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
+}
+
+model AgentAccount {
+  userId         String         @id
+  hashedPin      String
+  telegramChatId String?
+  roles          AgentRole[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  loginTokens    LoginToken[]
+  audits         LoginAudit[]
+}
+
+model LoginToken {
+  id         String       @id @default(uuid())
+  agentId    String
+  tokenHash  String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime     @default(now())
+
+  agent AgentAccount @relation(fields: [agentId], references: [userId], onDelete: Cascade)
+}
+
+model LoginAudit {
+  id        String           @id @default(uuid())
+  agentId   String
+  status    LoginAuditStatus
+  ip        String?
+  userAgent String?
+  note      String?
+  createdAt DateTime         @default(now())
+
+  agent AgentAccount @relation(fields: [agentId], references: [userId], onDelete: Cascade)
 }

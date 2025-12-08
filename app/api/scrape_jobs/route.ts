@@ -1,10 +1,6 @@
 import { calculateNextRun, parseCadence } from "@/lib/scheduler";
 import prisma from "@/lib/prisma";
-import {
-  Prisma,
-  ScrapeJobCadence,
-  ScrapeJobStatus,
-} from "@/lib/generated/prisma";
+import { AgentRole, Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import { ensureAuthenticated, serializeJob } from "./helpers";
 import { triggerScrapeJob } from "@/lib/scrapeRunner";
 import {
@@ -44,6 +40,8 @@ function parseBoolean(value: unknown): boolean | undefined {
 }
 
 export async function GET(request: Request) {
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.agent });
+  if (unauthorized) return unauthorized;
   try {
     const { searchParams } = new URL(request.url);
     const status = parseStatus(searchParams.get("status"));
@@ -104,7 +102,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const unauthorized = ensureAuthenticated(request);
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
   if (unauthorized) return unauthorized;
 
   try {

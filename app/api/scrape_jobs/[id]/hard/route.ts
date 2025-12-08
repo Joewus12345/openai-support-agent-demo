@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import prisma from "@/lib/prisma";
-import { ScrapeJobStatus } from "@/lib/generated/prisma";
+import { AgentRole, ScrapeJobStatus } from "@/lib/generated/prisma";
 import { ensureAuthenticated } from "../../helpers";
 
 const LOG_DIR = path.join(process.cwd(), "logs", "scrape_jobs");
@@ -21,7 +21,7 @@ async function removeIfWithinBase(target: string | null | undefined, base: strin
 }
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const unauthorized = ensureAuthenticated(request);
+  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
   if (unauthorized) return unauthorized;
 
   const { id } = await params;
