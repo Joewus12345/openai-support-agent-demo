@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 
+import { AgentRole } from "@/lib/generated/prisma";
 import { useSessionStore } from "@/stores/useSessionStore";
 
 export default function SessionInitializer() {
@@ -20,15 +21,20 @@ export default function SessionInitializer() {
         }
         const data = (await response.json()) as {
           userId: string;
-          roles: string[];
+          roles: AgentRole[] | string[];
           verified: boolean;
           csrf: string;
           expiresAt?: string;
         };
+
+        const roles = Array.isArray(data.roles) ? (data.roles as (AgentRole | string)[]) : [];
+        const normalizedRoles: AgentRole[] = roles.filter((role): role is AgentRole =>
+          Object.values(AgentRole).includes(role as AgentRole)
+        );
         if (!cancelled) {
           setSession({
             userId: data.userId,
-            roles: data.roles,
+            roles: normalizedRoles,
             verified: data.verified,
             csrfToken: data.csrf,
             expiresAt: data.expiresAt,

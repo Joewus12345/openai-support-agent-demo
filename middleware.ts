@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { AgentRole } from "@/lib/generated/prisma";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
 import { sessionCookieName } from "@/lib/server/auth";
 
@@ -34,15 +35,20 @@ export async function middleware(request: NextRequest) {
 
   const data = (await meResponse.json()) as {
     verified: boolean;
-    roles: string[];
+    roles: AgentRole[] | string[];
   };
+
+  const roles = Array.isArray(data.roles) ? (data.roles as (AgentRole | string)[]) : [];
+  const normalizedRoles: AgentRole[] = roles.filter((role): role is AgentRole =>
+    Object.values(AgentRole).includes(role as AgentRole)
+  );
 
   if (!data.verified && !isLoginRoute) {
     return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
   }
 
   if (isLoginRoute && data.verified) {
-    const redirect = defaultRouteForRoles(data.roles);
+    const redirect = defaultRouteForRoles(normalizedRoles);
     return NextResponse.redirect(new URL(redirect, request.url));
   }
 

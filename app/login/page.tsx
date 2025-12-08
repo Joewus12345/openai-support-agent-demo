@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { AgentRole } from "@/lib/generated/prisma";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
 import { useSessionStore } from "@/stores/useSessionStore";
 
@@ -55,15 +56,20 @@ export default function LoginPage() {
 
       const data = (await response.json()) as {
         verified: boolean;
-        roles: string[];
+        roles: AgentRole[] | string[];
         userId: string;
         csrf: string;
         expiresAt?: string;
       };
 
+      const roles = Array.isArray(data.roles) ? (data.roles as (AgentRole | string)[]) : [];
+      const normalizedRoles: AgentRole[] = roles.filter((role): role is AgentRole =>
+        Object.values(AgentRole).includes(role as AgentRole)
+      );
+
       setSession({
         userId: data.userId,
-        roles: data.roles,
+        roles: normalizedRoles,
         verified: data.verified,
         csrfToken: data.csrf,
         expiresAt: data.expiresAt,
@@ -71,7 +77,7 @@ export default function LoginPage() {
 
       if (data.verified) {
         if (pollTimer.current) clearInterval(pollTimer.current);
-        router.push(defaultRouteForRoles(data.roles));
+        router.push(defaultRouteForRoles(normalizedRoles));
       }
     } catch (err) {
       console.error("Failed to poll session", err);

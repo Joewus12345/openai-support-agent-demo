@@ -1,9 +1,12 @@
+import { NextRequest } from "next/server";
+
 import prisma from "@/lib/prisma";
 import { AgentRole } from "@/lib/generated/prisma";
 import { requireSession } from "@/lib/server/auth";
 import { hashPin } from "@/lib/vendor/bcrypt";
 
-export async function PATCH(request: Request, { params }: { params: { userId: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ userId: string }> }) {
+  const { userId } = await params;
   const result = await requireSession(request, { role: AgentRole.admin, csrfProtected: true });
   if ("response" in result) return result.response;
 
@@ -35,7 +38,7 @@ export async function PATCH(request: Request, { params }: { params: { userId: st
 
   try {
     const agent = await prisma.agentAccount.update({
-      where: { userId: params.userId },
+      where: { userId },
       data,
     });
 
