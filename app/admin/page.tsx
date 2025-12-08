@@ -16,10 +16,8 @@ interface AgentAccountRow {
 }
 
 export default function AdminPage() {
-  const { csrfToken, roles } = useSessionStore((state) => ({
-    csrfToken: state.csrfToken,
-    roles: state.roles,
-  }));
+  const csrfToken = useSessionStore((state) => state.csrfToken);
+  const roles = useSessionStore((state) => state.roles);
   const [agents, setAgents] = useState<AgentAccountRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

@@ -21,6 +21,7 @@ export default function LoginPage() {
   const pollTimer = useRef<NodeJS.Timeout | null>(null);
   const setSession = useSessionStore((state) => state.setSession);
   const sessionRoles = useSessionStore((state) => state.roles);
+  const sessionVerified = useSessionStore((state) => state.verified);
 
   useEffect(() => {
     return () => {
@@ -31,10 +32,10 @@ export default function LoginPage() {
   const redirectTarget = useMemo(() => defaultRouteForRoles(sessionRoles), [sessionRoles]);
 
   useEffect(() => {
-    if (sessionRoles && redirectTarget && !pending) {
+    if (sessionVerified && sessionRoles && redirectTarget && !pending) {
       router.replace(redirectTarget);
     }
-  }, [pending, redirectTarget, router, sessionRoles]);
+  }, [pending, redirectTarget, router, sessionRoles, sessionVerified]);
 
   async function checkVerification() {
     try {
