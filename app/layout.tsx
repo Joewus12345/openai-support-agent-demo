@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import SessionInitializer from "@/components/SessionInitializer";
+import dynamic from "next/dynamic";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,6 +23,8 @@ export const metadata: Metadata = {
   },
 };
 
+const AppHeader = dynamic(() => import("@/components/AppHeader"), { ssr: false });
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,6 +37,7 @@ export default function RootLayout({
       >
         <div className="flex h-screen bg-gray-200 w-full flex-col  text-stone-900">
           <SessionInitializer />
+          <AppHeader />
           <main>{children}</main>
         </div>
       </body>
