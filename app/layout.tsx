@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import SessionInitializer from "@/components/SessionInitializer";
-import dynamic from "next/dynamic";
+import AppHeader from "@/components/AppHeader";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,8 +22,6 @@ export const metadata: Metadata = {
     icon: "/openai_logo.svg",
   },
 };
-
-const AppHeader = dynamic(() => import("@/components/AppHeader"), { ssr: false });
 
 export default function RootLayout({
   children,
