@@ -27,6 +27,7 @@ const nextConfig = {
       },
     ],
   },
+  allowedDevOrigins: ['https://jwpai.uk', 'http://jwpai.uk'],
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias ?? {}),
