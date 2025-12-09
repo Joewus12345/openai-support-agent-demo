@@ -1,17 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { useSessionStore } from "@/stores/useSessionStore";
 
 export default function AppHeader() {
   const router = useRouter();
+  const pathname = usePathname();
   const userId = useSessionStore((state) => state.userId);
+  const verified = useSessionStore((state) => state.verified);
   const clearSession = useSessionStore((state) => state.clearSession);
   const [loggingOut, setLoggingOut] = useState(false);
 
-  if (!userId) {
+  if (!userId || !verified || pathname === "/login") {
     return null;
   }
 
