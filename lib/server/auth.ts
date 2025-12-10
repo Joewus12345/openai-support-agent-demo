@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import prisma from "../prisma";
 import { AgentRole } from "../generated/prisma";
+import { getRequestContext, isLocalHostName } from "./requestContext";
 
 const SESSION_COOKIE_NAME = "agent_session";
 const SESSION_SECRET = process.env.AUTH_SESSION_SECRET ?? process.env.SCRAPE_JOB_ADMIN_TOKEN ?? "change-me";
@@ -86,70 +87,34 @@ export type BuildSessionCookieOptions = {
   domain?: string;
 };
 
-function resolveProtocol(request: Request | undefined) {
-  const forwarded = request?.headers.get("x-forwarded-proto");
-  if (forwarded) {
-    return forwarded.split(",")[0]?.trim()?.toLowerCase() || null;
-  }
-
-  if (request) {
-    try {
-      const url = new URL(request.url);
-      return url.protocol.replace(":", "").toLowerCase();
-    } catch (error) {
-      console.warn("Failed to parse request url for protocol", error);
-    }
-  }
-
-  return process.env.NODE_ENV === "production" ? "https" : "http";
-}
-
-function resolveDomain(options: BuildSessionCookieOptions) {
-  if (options.domain) return options.domain;
-
-  const forwardedHost =
-    options.request?.headers.get("x-forwarded-host") ?? options.request?.headers.get("host");
-
-  if (!forwardedHost) return null;
-
-  const host = forwardedHost.split(",")[0]?.trim()?.split(":")[0];
-  if (!host || host === "localhost" || host === "127.0.0.1") return null;
-
-  return host;
-}
-
-function isLocalhost(host: string | null | undefined) {
-  if (!host) return false;
-  const normalized = host.split(",")[0]?.trim()?.split(":")[0]?.toLowerCase();
-  return normalized === "localhost" || normalized === "127.0.0.1" || normalized === "::1";
-}
-
 export function buildSessionCookie(tokenId: string, csrf: string, options: BuildSessionCookieOptions = {}) {
   const signed = signPayload({ tokenId, csrf });
-  const protocol = resolveProtocol(options.request);
-  const forwardedHost = options.request?.headers.get("x-forwarded-host") ?? options.request?.headers.get("host");
+  const context = getRequestContext(options.request);
   const sameSite = options.sameSite ?? "Strict";
-  const domain = resolveDomain(options);
-  const hostForSecurity = domain ?? forwardedHost;
-  const nonLocalHost = hostForSecurity ? !isLocalhost(hostForSecurity) : false;
+  const publicHost = options.domain ?? (!context.isLocalhost ? context.hostname : null);
 
-  // Prefer the forwarded protocol when present, but guarantee Secure when:
+  // Prefer the resolved protocol, but guarantee Secure when:
   // - SameSite=None (required by browsers), or
   // - The resolved host is non-local, to avoid dropping Secure in HTTPS deployments where
   //   proxies omit x-forwarded-proto.
-  let secure = protocol === "https";
+  let secure = context.protocol === "https";
+  const nonLocalHost = publicHost ? !isLocalHostName(publicHost) : false;
   if (!secure && (sameSite === "None" || nonLocalHost)) {
     secure = true;
   }
+
+  // Only allow SameSite=None when secure and tied to a public host to avoid emitting
+  // insecure cross-site cookies when proxies withhold protocol hints.
+  const finalSameSite = sameSite === "None" && (!secure || !publicHost) ? "Lax" : sameSite;
   const maxAgeSeconds = options.maxAgeSeconds ?? SESSION_LIFETIME_MS / 1000;
 
   return [
     `${SESSION_COOKIE_NAME}=${signed}`,
     "Path=/",
     "HttpOnly",
-    `SameSite=${sameSite}`,
+    `SameSite=${finalSameSite}`,
     secure ? "Secure" : null,
-    domain ? `Domain=${domain}` : null,
+    publicHost ? `Domain=${publicHost}` : null,
     `Max-Age=${maxAgeSeconds}`,
   ]
     .filter(Boolean)
