@@ -12,6 +12,7 @@ import { comparePin } from "@/lib/vendor/bcrypt";
 
 const TOKEN_TTL_MS = 10 * 60 * 1000;
 const COOKIE_DEBUG = (process.env.AUTH_COOKIE_DEBUG ?? "").toLowerCase() === "true";
+const DEFAULT_LOGIN_SAMESITE = (process.env.AUTH_COOKIE_SAMESITE ?? "Lax").toLowerCase();
 
 function getIp(request: Request) {
   return (
@@ -122,10 +123,19 @@ export async function POST(request: Request) {
   const telegramResult = agent.telegramChatId
     ? await sendTelegramCode(agent.telegramChatId, `/start ${signedToken}`)
     : { ok: false, reason: "No chat id" as const };
+  const fetchSite = request.headers.get("sec-fetch-site")?.toLowerCase();
+  const normalizedDefaultSameSite: "Lax" | "Strict" | "None" =
+    DEFAULT_LOGIN_SAMESITE === "none"
+      ? "None"
+      : DEFAULT_LOGIN_SAMESITE === "strict"
+        ? "Strict"
+        : "Lax";
+  const sameSite: "Lax" | "Strict" | "None" =
+    fetchSite === "cross-site" ? "None" : normalizedDefaultSameSite;
 
   const cookie = buildSessionCookie(loginToken.id, csrf, {
     request,
-    sameSite: "None",
+    sameSite,
   });
 
   if (COOKIE_DEBUG) {
@@ -139,6 +149,7 @@ export async function POST(request: Request) {
           host,
           forwardedHost,
           forwardedProto,
+          sameSite,
           setCookie: cookie,
         },
         null,

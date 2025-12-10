@@ -118,13 +118,30 @@ function resolveDomain(options: BuildSessionCookieOptions) {
   return host;
 }
 
+function isLocalhost(host: string | null | undefined) {
+  if (!host) return false;
+  const normalized = host.split(",")[0]?.trim()?.split(":")[0]?.toLowerCase();
+  return normalized === "localhost" || normalized === "127.0.0.1" || normalized === "::1";
+}
+
 export function buildSessionCookie(tokenId: string, csrf: string, options: BuildSessionCookieOptions = {}) {
   const signed = signPayload({ tokenId, csrf });
   const protocol = resolveProtocol(options.request);
-  const secure = protocol === "https";
+  const forwardedHost = options.request?.headers.get("x-forwarded-host") ?? options.request?.headers.get("host");
   const sameSite = options.sameSite ?? "Strict";
-  const maxAgeSeconds = options.maxAgeSeconds ?? SESSION_LIFETIME_MS / 1000;
   const domain = resolveDomain(options);
+  const hostForSecurity = domain ?? forwardedHost;
+  const nonLocalHost = hostForSecurity ? !isLocalhost(hostForSecurity) : false;
+
+  // Prefer the forwarded protocol when present, but guarantee Secure when:
+  // - SameSite=None (required by browsers), or
+  // - The resolved host is non-local, to avoid dropping Secure in HTTPS deployments where
+  //   proxies omit x-forwarded-proto.
+  let secure = protocol === "https";
+  if (!secure && (sameSite === "None" || nonLocalHost)) {
+    secure = true;
+  }
+  const maxAgeSeconds = options.maxAgeSeconds ?? SESSION_LIFETIME_MS / 1000;
 
   return [
     `${SESSION_COOKIE_NAME}=${signed}`,
