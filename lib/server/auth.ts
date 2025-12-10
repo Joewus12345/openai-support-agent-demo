@@ -79,15 +79,60 @@ function verifyPayload(raw: string | undefined): SessionCookiePayload | null {
   return null;
 }
 
-export function buildSessionCookie(tokenId: string, csrf: string, maxAgeSeconds = SESSION_LIFETIME_MS / 1000) {
+export type BuildSessionCookieOptions = {
+  request?: Request;
+  maxAgeSeconds?: number;
+  sameSite?: "Strict" | "Lax" | "None";
+  domain?: string;
+};
+
+function resolveProtocol(request: Request | undefined) {
+  const forwarded = request?.headers.get("x-forwarded-proto");
+  if (forwarded) {
+    return forwarded.split(",")[0]?.trim()?.toLowerCase() || null;
+  }
+
+  if (request) {
+    try {
+      const url = new URL(request.url);
+      return url.protocol.replace(":", "").toLowerCase();
+    } catch (error) {
+      console.warn("Failed to parse request url for protocol", error);
+    }
+  }
+
+  return process.env.NODE_ENV === "production" ? "https" : "http";
+}
+
+function resolveDomain(options: BuildSessionCookieOptions) {
+  if (options.domain) return options.domain;
+
+  const forwardedHost =
+    options.request?.headers.get("x-forwarded-host") ?? options.request?.headers.get("host");
+
+  if (!forwardedHost) return null;
+
+  const host = forwardedHost.split(",")[0]?.trim()?.split(":")[0];
+  if (!host || host === "localhost" || host === "127.0.0.1") return null;
+
+  return host;
+}
+
+export function buildSessionCookie(tokenId: string, csrf: string, options: BuildSessionCookieOptions = {}) {
   const signed = signPayload({ tokenId, csrf });
-  const secure = process.env.NODE_ENV === "production";
+  const protocol = resolveProtocol(options.request);
+  const secure = protocol === "https";
+  const sameSite = options.sameSite ?? "Strict";
+  const maxAgeSeconds = options.maxAgeSeconds ?? SESSION_LIFETIME_MS / 1000;
+  const domain = resolveDomain(options);
+
   return [
     `${SESSION_COOKIE_NAME}=${signed}`,
     "Path=/",
     "HttpOnly",
-    "SameSite=Strict",
+    `SameSite=${sameSite}`,
     secure ? "Secure" : null,
+    domain ? `Domain=${domain}` : null,
     `Max-Age=${maxAgeSeconds}`,
   ]
     .filter(Boolean)

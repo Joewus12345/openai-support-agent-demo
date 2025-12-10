@@ -11,6 +11,7 @@ import { rateLimit } from "@/lib/server/rateLimit";
 import { comparePin } from "@/lib/vendor/bcrypt";
 
 const TOKEN_TTL_MS = 10 * 60 * 1000;
+const COOKIE_DEBUG = (process.env.AUTH_COOKIE_DEBUG ?? "").toLowerCase() === "true";
 
 function getIp(request: Request) {
   return (
@@ -122,7 +123,29 @@ export async function POST(request: Request) {
     ? await sendTelegramCode(agent.telegramChatId, `/start ${signedToken}`)
     : { ok: false, reason: "No chat id" as const };
 
-  const cookie = buildSessionCookie(loginToken.id, csrf);
+  const cookie = buildSessionCookie(loginToken.id, csrf, {
+    request,
+    sameSite: "None",
+  });
+
+  if (COOKIE_DEBUG) {
+    const host = request.headers.get("host");
+    const forwardedHost = request.headers.get("x-forwarded-host");
+    const forwardedProto = request.headers.get("x-forwarded-proto");
+    console.log(
+      JSON.stringify(
+        {
+          label: "login.set-cookie",
+          host,
+          forwardedHost,
+          forwardedProto,
+          setCookie: cookie,
+        },
+        null,
+        2
+      )
+    );
+  }
 
   return new Response(
     JSON.stringify({
