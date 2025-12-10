@@ -1,7 +1,10 @@
 "use client";
 import { KB_FOLDERS } from "@/config/demoData";
 import { Copy } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+
+import { defaultRouteForRoles } from "@/lib/auth/routes";
+import { useSessionStore } from "@/stores/useSessionStore";
 
 interface KBFile {
   type: string;
@@ -10,6 +13,8 @@ interface KBFile {
 }
 
 export default function InitVS() {
+  const roles = useSessionStore((state) => state.roles);
+  const defaultRedirect = useMemo(() => defaultRouteForRoles(roles), [roles]);
   const [loadingOpenAI, setLoadingOpenAI] = useState(false);
   const [vectorStoreId, setVectorStoreId] = useState<string | null>(null);
   const [statusOpenAI, setStatusOpenAI] = useState<string>("");
@@ -20,6 +25,22 @@ export default function InitVS() {
   const [statusOllama, setStatusOllama] = useState<string>("");
   const [errorOllama, setErrorOllama] = useState<string | null>(null);
   const [successOllama, setSuccessOllama] = useState(false);
+
+  if (!roles) {
+    return (
+      <div className="p-6 text-sm text-gray-700">Checking your access…</div>
+    );
+  }
+
+  if (!roles.includes("admin")) {
+    return (
+      <div className="p-6">
+        <p className="rounded bg-red-50 p-4 text-red-700">
+          You are not authorized to manage the vector store. Return to {defaultRedirect}.
+        </p>
+      </div>
+    );
+  }
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);

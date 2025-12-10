@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
+import { defaultRouteForRoles } from "@/lib/auth/routes";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
 import {
@@ -210,6 +211,10 @@ export default function ScrapeJobsPage() {
     to: string;
   }>({ status: "", from: "", to: "" });
 
+  const roles = useSessionStore((state) => state.roles);
+  const isAdmin = roles?.includes("admin");
+  const defaultRedirect = useMemo(() => defaultRouteForRoles(roles), [roles]);
+
   const csrfToken = useSessionStore((state) => state.csrfToken);
   const csrfHeaders = useMemo<HeadersInit | undefined>(
     () => (csrfToken ? { "x-csrf-token": csrfToken } : undefined),
@@ -223,6 +228,7 @@ export default function ScrapeJobsPage() {
 
   const { data, error, isLoading, mutate, setSize: setPageCount } = useSWRInfinite<JobsPage>(
     (index: number, previousPage: JobsPage | null) => {
+      if (!isAdmin) return null;
       if (previousPage && !previousPage.nextCursor) return null;
       const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
       const statusParam = appliedHistoryFilters.status
@@ -262,7 +268,7 @@ export default function ScrapeJobsPage() {
       revalidateOnFocus: true,
       dedupingInterval: 5000,
       refreshWhenHidden: false,
-      isPaused: () => !isDocumentVisible,
+      isPaused: () => !isDocumentVisible || !isAdmin,
       onSuccess: () => setConsecutiveErrors(0),
       onError: () => setConsecutiveErrors((count: number) => count + 1),
     }
@@ -290,10 +296,10 @@ export default function ScrapeJobsPage() {
   }, []);
 
   useEffect(() => {
-    if (isDocumentVisible) {
+    if (isDocumentVisible && isAdmin) {
       void mutate();
     }
-  }, [isDocumentVisible, mutate]);
+  }, [isDocumentVisible, mutate, isAdmin]);
 
   const jobs = useMemo(
     () => (data ?? []).flatMap((page: JobsPage) => page.jobs ?? []),
@@ -916,6 +922,20 @@ export default function ScrapeJobsPage() {
       </span>
     );
   };
+
+  if (!roles) {
+    return <div className="p-6 text-sm text-gray-700">Checking your access…</div>;
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="p-6">
+        <p className="rounded bg-red-50 p-4 text-red-700">
+          You are not authorized to manage scrape jobs. Return to {defaultRedirect}.
+        </p>
+      </div>
+    );
+  }
 
   const unauthorized = authRequired || (error as { status?: number } | null)?.status === 401;
 
