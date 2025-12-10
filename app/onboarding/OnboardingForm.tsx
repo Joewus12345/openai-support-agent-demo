@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 export default function OnboardingForm() {
   const [userId, setUserId] = useState("");
@@ -11,7 +11,7 @@ export default function OnboardingForm() {
   const [success, setSuccess] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitting(true);
     setError(null);
@@ -49,8 +49,8 @@ export default function OnboardingForm() {
   };
 
   return (
-    <div className="flex min-h-[60vh] items-center justify-center bg-gray-100 px-4 py-10">
-      <div className="w-full max-w-xl rounded-lg bg-white p-8 shadow-md">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 via-gray-100 to-slate-200 px-4 py-10">
+      <div className="w-full max-w-xl rounded-lg bg-white/95 p-8 shadow-lg backdrop-blur">
         <div className="mb-6 space-y-2 text-center">
           <h1 className="text-2xl font-semibold text-gray-900">Initialize Admin Access</h1>
           <p className="text-sm text-gray-600">

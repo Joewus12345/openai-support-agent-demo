@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { authFetch } from "@/lib/client/authFetch";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
 import type { AgentRole } from "@/lib/generated/prisma";
+import { useToastStore } from "@/stores/useToastStore";
 import { useSessionStore } from "@/stores/useSessionStore";
 
 interface AgentAccountRow {
@@ -19,6 +20,7 @@ interface AgentAccountRow {
 export default function AdminPage() {
   const csrfToken = useSessionStore((state) => state.csrfToken);
   const roles = useSessionStore((state) => state.roles);
+  const addToast = useToastStore((state) => state.addToast);
   const [agents, setAgents] = useState<AgentAccountRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -30,6 +32,7 @@ export default function AdminPage() {
 
   const [savingUserId, setSavingUserId] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
 
   const defaultRedirect = useMemo(() => defaultRouteForRoles(roles), [roles]);
 
@@ -103,9 +106,11 @@ export default function AdminPage() {
       setNewRoles(["agent"]);
       setNewTelegramChatId("");
       setSuccessMessage("Agent created successfully.");
+      addToast({ title: "Agent created", description: `${data.agent.userId} is ready to sign in.`, variant: "success" });
     } catch (err) {
       console.error("Failed to create agent", err);
       setError("Unexpected error while creating the agent.");
+      addToast({ title: "Unable to create agent", variant: "error" });
     } finally {
       setSavingUserId(null);
     }
@@ -131,11 +136,37 @@ export default function AdminPage() {
       const data = (await response.json()) as { agent: AgentAccountRow };
       setAgents((prev) => prev.map((row) => (row.userId === agent.userId ? data.agent : row)));
       setSuccessMessage("Agent updated.");
+      addToast({ title: "Agent updated", description: `${agent.userId} changes saved.`, variant: "success" });
     } catch (err) {
       console.error("Failed to update agent", err);
       setError("Unexpected error while updating the agent.");
+      addToast({ title: "Unable to update agent", variant: "error" });
     } finally {
       setSavingUserId(null);
+    }
+  };
+
+  const deleteAgent = async (userId: string) => {
+    const confirmed = window.confirm(`Delete ${userId}? This cannot be undone.`);
+    if (!confirmed) return;
+    setDeletingUserId(userId);
+    setError(null);
+    setSuccessMessage(null);
+    try {
+      const response = await authFetch(`/api/admin/agents/${userId}`, { method: "DELETE" });
+      if (!response.ok) {
+        setError("Unable to delete agent.");
+        addToast({ title: "Unable to delete agent", variant: "error" });
+        return;
+      }
+      setAgents((prev) => prev.filter((agent) => agent.userId !== userId));
+      addToast({ title: "Agent deleted", description: `${userId} was removed.`, variant: "success" });
+    } catch (err) {
+      console.error("Failed to delete agent", err);
+      setError("Unexpected error while deleting the agent.");
+      addToast({ title: "Delete failed", variant: "error" });
+    } finally {
+      setDeletingUserId(null);
     }
   };
 
@@ -272,7 +303,9 @@ export default function AdminPage() {
               key={agent.userId}
               agent={agent}
               onSave={updateAgent}
+              onDelete={deleteAgent}
               saving={savingUserId === agent.userId}
+              deleting={deletingUserId === agent.userId}
               toggleRole={toggleRole}
             />
           ))}
@@ -288,7 +321,9 @@ export default function AdminPage() {
 function AgentRow({
   agent,
   onSave,
+  onDelete,
   saving,
+  deleting,
   toggleRole,
 }: {
   agent: AgentAccountRow;
@@ -296,7 +331,9 @@ function AgentRow({
     agent: AgentAccountRow,
     updates: { roles?: AgentRole[]; telegramChatId?: string | null; pin?: string }
   ) => Promise<void>;
+  onDelete: (userId: string) => Promise<void>;
   saving: boolean;
+  deleting: boolean;
   toggleRole: (
     selected: AgentRole,
     rolesList: AgentRole[],
@@ -366,6 +403,13 @@ function AgentRow({
             disabled={saving}
           >
             {saving ? "Saving..." : "Save"}
+          </button>
+          <button
+            className="bg-red-600 text-white px-3 py-2 rounded text-sm hover:bg-red-700 disabled:opacity-50"
+            onClick={() => onDelete(agent.userId)}
+            disabled={deleting}
+          >
+            {deleting ? "Deleting..." : "Delete"}
           </button>
         </div>
       </div>

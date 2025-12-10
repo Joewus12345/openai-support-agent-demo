@@ -5,6 +5,28 @@ import { AgentRole } from "@/lib/generated/prisma";
 import { requireSession } from "@/lib/server/auth";
 import { hashPin } from "@/lib/vendor/bcrypt";
 
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ userId: string }> }
+) {
+  const { userId } = await params;
+  const result = await requireSession(request, { role: AgentRole.admin, csrfProtected: true });
+  if ("response" in result) return result.response;
+
+  try {
+    await prisma.agentAccount.delete({ where: { userId } });
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    console.error("Failed to delete agent", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    const status = message.includes("Record to delete does not exist") ? 404 : 500;
+    return new Response(JSON.stringify({ error: "Unable to delete agent" }), {
+      status,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ userId: string }> }) {
   const { userId } = await params;
   const result = await requireSession(request, { role: AgentRole.admin, csrfProtected: true });

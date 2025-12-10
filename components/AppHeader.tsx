@@ -1,34 +1,18 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
+import { useLogout } from "@/lib/client/useLogout";
 import { useSessionStore } from "@/stores/useSessionStore";
 
 export default function AppHeader() {
-  const router = useRouter();
   const pathname = usePathname();
   const userId = useSessionStore((state) => state.userId);
   const verified = useSessionStore((state) => state.verified);
-  const clearSession = useSessionStore((state) => state.clearSession);
-  const [loggingOut, setLoggingOut] = useState(false);
+  const { logout, loggingOut } = useLogout();
 
   if (!userId || !verified || pathname === "/login") {
     return null;
-  }
-
-  async function handleLogout() {
-    if (loggingOut) return;
-    setLoggingOut(true);
-    try {
-      await fetch("/api/auth/logout", { method: "POST" });
-    } catch (error) {
-      console.warn("Logout request failed", error);
-    } finally {
-      clearSession();
-      router.push("/login");
-      router.refresh();
-    }
   }
 
   return (
@@ -37,7 +21,7 @@ export default function AppHeader() {
         <div className="text-sm text-gray-700">Signed in as <span className="font-semibold">{userId}</span></div>
         <button
           type="button"
-          onClick={handleLogout}
+          onClick={logout}
           disabled={loggingOut}
           className="text-sm bg-gray-900 text-white px-3 py-1.5 rounded hover:bg-gray-700 disabled:opacity-60"
         >
