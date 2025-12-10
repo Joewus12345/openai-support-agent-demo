@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import { authFetch } from "@/lib/client/authFetch";
@@ -57,6 +58,14 @@ export default function AdminPage() {
 
     loadAgents();
   }, [csrfToken]);
+
+  if (!roles) {
+    return (
+      <div className="p-6">
+        <p className="text-sm text-gray-600">Checking your access…</p>
+      </div>
+    );
+  }
 
   const toggleRole = (
     selected: AgentRole,
@@ -142,7 +151,11 @@ export default function AdminPage() {
     return (
       <div className="p-6">
         <p className="text-red-700 bg-red-50 p-4 rounded">
-          You do not have permission to view this page. Return to {defaultRedirect}.
+          You do not have permission to view this page. Return to {" "}
+          <Link className="underline" href={defaultRedirect}>
+            {defaultRedirect}
+          </Link>
+          .
         </p>
       </div>
     );
@@ -150,8 +163,32 @@ export default function AdminPage() {
 
   return (
     <div className="p-6 space-y-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
+        <p className="text-sm text-gray-600">
+          Quick links to core tools plus agent management. All actions reuse your current authenticated session.
+        </p>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {[{ label: "Messaging", href: "/", description: "Open the messaging UI" },
+          { label: "Vector Store", href: "/init_vs", description: "Initialize or rebuild embeddings" },
+          { label: "Scrape Jobs", href: "/scrape_jobs", description: "Manage and monitor scrapers" }].map(
+          (entry) => (
+            <Link
+              key={entry.href}
+              className="rounded border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:border-gray-400"
+              href={entry.href}
+            >
+              <div className="text-lg font-semibold text-gray-900">{entry.label}</div>
+              <p className="text-sm text-gray-600">{entry.description}</p>
+            </Link>
+          )
+        )}
+      </div>
+
       <div>
-        <h1 className="text-2xl font-semibold mb-2">Agent Accounts</h1>
+        <h2 className="text-xl font-semibold mb-2">Agent Accounts</h2>
         <p className="text-sm text-gray-600">
           Create new agents or update existing accounts. All actions are protected with CSRF.
         </p>
