@@ -26,11 +26,14 @@ export async function middleware(request: NextRequest) {
   const isOnboardingRoute = pathname.startsWith(ONBOARDING_PATH);
   const isBootstrapEndpoint = pathname.startsWith("/api/auth/bootstrap-admin");
 
-  if (isBootstrapMode && !isOnboardingRoute && !isBootstrapEndpoint) {
+  if (isBootstrapMode) {
+    if (isOnboardingRoute || isBootstrapEndpoint) {
+      return NextResponse.next();
+    }
     return NextResponse.redirect(new URL(ONBOARDING_PATH, request.url));
   }
 
-  if (!isBootstrapMode && (isOnboardingRoute || isBootstrapEndpoint)) {
+  if (isOnboardingRoute || isBootstrapEndpoint) {
     return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
   }
 
