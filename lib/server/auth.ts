@@ -8,6 +8,15 @@ const SESSION_SECRET = process.env.AUTH_SESSION_SECRET ?? process.env.SCRAPE_JOB
 const VERIFICATION_SECRET =
   process.env.LOGIN_TOKEN_SECRET ?? process.env.AUTH_SESSION_SECRET ?? process.env.SCRAPE_JOB_ADMIN_TOKEN ?? "login-secret";
 
+const DEFAULT_SESSION_LIFETIME_MS = 12 * 60 * 60 * 1000;
+
+export const SESSION_LIFETIME_MS = (() => {
+  const raw = process.env.SESSION_LIFETIME_MS;
+  if (!raw) return DEFAULT_SESSION_LIFETIME_MS;
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_SESSION_LIFETIME_MS;
+})();
+
 export type SessionCookiePayload = {
   tokenId: string;
   csrf: string;
@@ -70,7 +79,7 @@ function verifyPayload(raw: string | undefined): SessionCookiePayload | null {
   return null;
 }
 
-export function buildSessionCookie(tokenId: string, csrf: string, maxAgeSeconds = 60 * 60 * 12) {
+export function buildSessionCookie(tokenId: string, csrf: string, maxAgeSeconds = SESSION_LIFETIME_MS / 1000) {
   const signed = signPayload({ tokenId, csrf });
   const secure = process.env.NODE_ENV === "production";
   return [

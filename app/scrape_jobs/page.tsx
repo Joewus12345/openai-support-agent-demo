@@ -28,6 +28,7 @@ import {
   validateArgsForSchema,
   validateTargetForSchema,
 } from "@/config/scrapeScripts";
+import { useSessionStore } from "@/stores/useSessionStore";
 
 type ScrapeJob = {
   id: string;
@@ -208,6 +209,12 @@ export default function ScrapeJobsPage() {
     from: string;
     to: string;
   }>({ status: "", from: "", to: "" });
+
+  const csrfToken = useSessionStore((state) => state.csrfToken);
+  const csrfHeaders = useMemo<HeadersInit | undefined>(
+    () => (csrfToken ? { "x-csrf-token": csrfToken } : undefined),
+    [csrfToken]
+  );
   const eventSourceRef = useRef<EventSource | null>(null);
   const eventSourceRetryRef = useRef<{ attempt: number; timer: NodeJS.Timeout | null }>({
     attempt: 0,
@@ -429,7 +436,7 @@ export default function ScrapeJobsPage() {
 
     const res = await fetch("/api/scrape_jobs/auth", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
       body: JSON.stringify({ token: authTokenInput }),
     });
 
@@ -512,7 +519,7 @@ export default function ScrapeJobsPage() {
       setCreating(cadence);
       const response = await fetch("/api/scrape_jobs", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
         body: JSON.stringify({
           script: selectedPreset,
           args: argsPayload,
@@ -614,7 +621,7 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch("/api/scraper_ingest", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
         body: JSON.stringify({
           jobId: job.job.id,
           artifactPaths,
@@ -693,7 +700,7 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
         body: JSON.stringify({ paused: targetPaused }),
       });
 
@@ -716,7 +723,7 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}`, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
       });
 
       if (handleAuthFailure(res)) return;
@@ -757,7 +764,7 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/hard`, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
       });
 
       if (handleAuthFailure(res)) return;
@@ -780,7 +787,7 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/trigger`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
       });
 
       if (handleAuthFailure(res)) return;
@@ -802,7 +809,7 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/clone`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
       });
 
       if (handleAuthFailure(res)) return;
@@ -843,7 +850,7 @@ export default function ScrapeJobsPage() {
     try {
       const res = await fetch(`/api/scrape_jobs/${job.job.id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
         body: JSON.stringify({
           cadence: draft.cadence,
           nextRunAt: isoNextRunAt,
