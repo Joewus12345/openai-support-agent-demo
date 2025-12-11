@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import prisma from "../prisma";
 import { AgentRole } from "../generated/prisma";
+import { getRequestContext, isLocalHostName } from "./requestContext";
 
 const SESSION_COOKIE_NAME = "agent_session";
 const SESSION_SECRET = process.env.AUTH_SESSION_SECRET ?? process.env.SCRAPE_JOB_ADMIN_TOKEN ?? "change-me";
@@ -79,15 +80,41 @@ function verifyPayload(raw: string | undefined): SessionCookiePayload | null {
   return null;
 }
 
-export function buildSessionCookie(tokenId: string, csrf: string, maxAgeSeconds = SESSION_LIFETIME_MS / 1000) {
+export type BuildSessionCookieOptions = {
+  request?: Request;
+  maxAgeSeconds?: number;
+  sameSite?: "Strict" | "Lax" | "None";
+  domain?: string;
+};
+
+export function buildSessionCookie(tokenId: string, csrf: string, options: BuildSessionCookieOptions = {}) {
   const signed = signPayload({ tokenId, csrf });
-  const secure = process.env.NODE_ENV === "production";
+  const context = getRequestContext(options.request);
+  const sameSite = options.sameSite ?? "Strict";
+  const publicHost = options.domain ?? (!context.isLocalhost ? context.hostname : null);
+
+  // Prefer the resolved protocol, but guarantee Secure when:
+  // - SameSite=None (required by browsers), or
+  // - The resolved host is non-local, to avoid dropping Secure in HTTPS deployments where
+  //   proxies omit x-forwarded-proto.
+  let secure = context.protocol === "https";
+  const nonLocalHost = publicHost ? !isLocalHostName(publicHost) : false;
+  if (!secure && (sameSite === "None" || nonLocalHost)) {
+    secure = true;
+  }
+
+  // Only allow SameSite=None when secure and tied to a public host to avoid emitting
+  // insecure cross-site cookies when proxies withhold protocol hints.
+  const finalSameSite = sameSite === "None" && (!secure || !publicHost) ? "Lax" : sameSite;
+  const maxAgeSeconds = options.maxAgeSeconds ?? SESSION_LIFETIME_MS / 1000;
+
   return [
     `${SESSION_COOKIE_NAME}=${signed}`,
     "Path=/",
     "HttpOnly",
-    "SameSite=Strict",
+    `SameSite=${finalSameSite}`,
     secure ? "Secure" : null,
+    publicHost ? `Domain=${publicHost}` : null,
     `Max-Age=${maxAgeSeconds}`,
   ]
     .filter(Boolean)

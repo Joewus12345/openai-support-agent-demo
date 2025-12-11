@@ -3,10 +3,12 @@ import { NextResponse, type NextRequest } from "next/server";
 import { AgentRole } from "@/lib/generated/prisma";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
 import { sessionCookieName } from "@/lib/server/auth";
+import { getRequestContext } from "@/lib/server/requestContext";
 
 const LOGIN_PATH = "/login";
 const ONBOARDING_PATH = "/onboarding";
 const ADMIN_ONLY_PATHS = ["/admin", "/admin/dashboard", "/init_vs", "/scrape_jobs"];
+const AUTH_MIDDLEWARE_DEBUG = (process.env.AUTH_MIDDLEWARE_DEBUG ?? "").toLowerCase() === "true";
 
 async function fetchBootstrapState(request: NextRequest) {
   const bootstrapUrl = new URL("/api/auth/bootstrap-state", request.url);
@@ -18,6 +20,27 @@ async function fetchBootstrapState(request: NextRequest) {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const context = getRequestContext(request);
+
+  const logRedirect = (reason: string, extra: Record<string, unknown> = {}) => {
+    if (!AUTH_MIDDLEWARE_DEBUG) return;
+    console.log(
+      JSON.stringify(
+        {
+          label: "middleware.redirect",
+          reason,
+          path: pathname,
+          host: context.host,
+          forwardedHost: context.forwardedHost,
+          forwardedProto: context.forwardedProto,
+          cfVisitorScheme: context.cfVisitorScheme,
+          ...extra,
+        },
+        null,
+        2
+      )
+    );
+  };
 
   if (pathname.startsWith("/api")) return NextResponse.next();
 
@@ -41,18 +64,44 @@ export async function middleware(request: NextRequest) {
   const hasSessionCookie = request.cookies.has(sessionCookieName());
 
   if (!hasSessionCookie && !isLoginRoute) {
+    logRedirect("missing_session_cookie");
     return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
   }
 
   if (!hasSessionCookie && isLoginRoute) return NextResponse.next();
 
-  const meUrl = new URL("/api/auth/me", request.url);
-  const meResponse = await fetch(meUrl.toString(), {
-    headers: { cookie: request.headers.get("cookie") ?? "" },
-    cache: "no-store",
-  }).catch(() => null);
+  const internalApiBase = process.env.INTERNAL_API_BASE_URL ?? "http://127.0.0.1:3000";
+  const meUrl = context.isLocalhost
+    ? context.protocol === "http"
+      ? new URL("/api/auth/me", request.url)
+      : new URL("/api/auth/me", internalApiBase)
+    : new URL("/api/auth/me", internalApiBase);
+
+  let meResponse: Response | null = null;
+
+  try {
+    meResponse = await fetch(meUrl.toString(), {
+      headers: { cookie: request.headers.get("cookie") ?? "" },
+      cache: "no-store",
+    });
+  } catch (error) {
+    logRedirect("me_fetch_error", {
+      hasSessionCookie,
+      meUrl: meUrl.toString(),
+      error: error instanceof Error ? error.message : String(error),
+    });
+    if (isLoginRoute) return NextResponse.next();
+    return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
+  }
 
   if (!meResponse || meResponse.status === 401) {
+    const meBody = meResponse ? await meResponse.clone().text().catch(() => null) : null;
+    logRedirect("unauthorized_me_response", {
+      hasSessionCookie,
+      meStatus: meResponse?.status ?? null,
+      meBody,
+      meUrl: meUrl.toString(),
+    });
     if (isLoginRoute) return NextResponse.next();
     return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
   }
@@ -70,6 +119,7 @@ export async function middleware(request: NextRequest) {
   );
 
   if (!data.verified && !isLoginRoute) {
+    logRedirect("unverified_session", { hasSessionCookie, meStatus: meResponse.status });
     return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
   }
 
