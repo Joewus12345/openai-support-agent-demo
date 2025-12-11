@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import SessionInitializer from "@/components/SessionInitializer";
-import AppHeader from "@/components/AppHeader";
-import SidebarNav from "@/components/SidebarNav";
 import Toaster from "@/components/Toaster";
 
 const geistSans = localFont({
@@ -36,13 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionInitializer />
-        <div className="flex min-h-screen w-full bg-gray-200 text-stone-900">
-          <SidebarNav />
-          <div className="flex min-h-screen flex-1 flex-col">
-            <AppHeader />
-            <main className="flex-1 overflow-y-auto pb-6">{children}</main>
-          </div>
-        </div>
+        <main className="min-h-screen bg-background text-foreground">{children}</main>
         <Toaster />
       </body>
     </html>

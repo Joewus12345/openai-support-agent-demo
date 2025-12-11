@@ -3,6 +3,7 @@ import { KB_FOLDERS } from "@/config/demoData";
 import { Copy } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import { AppPageShell } from "@/components/app-page-shell";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
 import { useSessionStore } from "@/stores/useSessionStore";
 
@@ -28,17 +29,21 @@ export default function InitVS() {
 
   if (!roles) {
     return (
-      <div className="p-6 text-sm text-gray-700">Checking your access…</div>
+      <AppPageShell>
+        <div className="p-6 text-sm text-muted-foreground">Checking your access…</div>
+      </AppPageShell>
     );
   }
 
   if (!roles.includes("admin")) {
     return (
-      <div className="p-6">
-        <p className="rounded bg-red-50 p-4 text-red-700">
-          You are not authorized to manage the vector store. Return to {defaultRedirect}.
-        </p>
-      </div>
+      <AppPageShell>
+        <div className="p-6">
+          <p className="rounded bg-destructive/10 p-4 text-destructive">
+            You are not authorized to manage the vector store. Return to {defaultRedirect}.
+          </p>
+        </div>
+      </AppPageShell>
     );
   }
 
@@ -61,10 +66,7 @@ export default function InitVS() {
       setStatusOpenAI("Fetching files...");
       const filesList: KBFile[] = [];
       for (const folder of KB_FOLDERS) {
-        const folderFiles = await fetch(`/api/list_files?folder=${folder}`).then(
-          (res) => res.json()
-        );
-        console.log(`Files found in folder ${folder}:`, folderFiles);
+        const folderFiles = await fetch(`/api/list_files?folder=${folder}`).then((res) => res.json());
         filesList.push(
           ...folderFiles.map((file: string) => ({
             type: folder,
@@ -94,14 +96,10 @@ export default function InitVS() {
           if (addFileResponse.status === 200) {
             setStatusOpenAI(`Uploaded ${file.type}/${file.filename}`);
           } else {
-            setErrorOpenAI(
-              `Failed to add file ${file.filename} to vector store`
-            );
+            setErrorOpenAI(`Failed to add file ${file.filename} to vector store`);
           }
         } else {
-          setErrorOpenAI(
-            `Failed to upload file ${file.filename} to vector store`
-          );
+          setErrorOpenAI(`Failed to upload file ${file.filename} to vector store`);
         }
       }
       setStatusOpenAI("Uploaded all files to vector store.");
@@ -117,13 +115,15 @@ export default function InitVS() {
     setLoadingOllama(true);
     setSuccessOllama(false);
     setErrorOllama(null);
-    setStatusOllama("Generating embeddings...");
-    const res = await fetch("/api/local_vector_store/init", { method: "POST" });
+    setStatusOllama("Initializing local vector store...");
+    const res = await fetch("/api/local_vector_store/init", {
+      method: "POST",
+    });
     if (res.ok) {
-      setStatusOllama("Knowledge base loaded.");
+      setStatusOllama("Local vector store initialized.");
       setSuccessOllama(true);
     } else {
-      setErrorOllama("Failed to initialize vector store");
+      setErrorOllama("Failed to initialize local vector store");
     }
     setLoadingOllama(false);
   };
@@ -146,61 +146,61 @@ export default function InitVS() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 py-10">
-      <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 sm:px-6 lg:px-8">
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-          <div className="flex flex-col gap-4 border-b border-zinc-200 pb-4 md:flex-row md:items-start md:justify-between md:gap-6">
+    <AppPageShell>
+      <div className="flex flex-col gap-6">
+        <div className="rounded-xl border bg-card p-6 shadow-sm">
+          <div className="flex flex-col gap-4 border-b border-border pb-4 md:flex-row md:items-start md:justify-between md:gap-6">
             <div className="max-w-2xl space-y-2">
-              <div className="text-2xl font-bold text-zinc-900">Initialize the Vector Store</div>
-              <p className="text-sm text-zinc-600">
+              <div className="text-2xl font-bold">Initialize the Vector Store</div>
+              <p className="text-sm text-muted-foreground">
                 Load knowledge base content into a vector store so your agents can search and retrieve it. Content in
-                <span className="font-mono bg-zinc-100 rounded-md px-1 py-0.5">/public/knowledge_base</span> and
-                <span className="font-mono bg-zinc-100 rounded-md px-1 py-0.5">/public/faq</span> will be embedded using
+                <span className="font-mono rounded-md bg-accent px-1 py-0.5">/public/knowledge_base</span> and
+                <span className="font-mono rounded-md bg-accent px-1 py-0.5">/public/faq</span> will be embedded using
                 Ollama and stored locally.
               </p>
-              <p className="text-sm text-zinc-600">
+              <p className="text-sm text-muted-foreground">
                 Update these articles anytime and re-run initialization to rebuild embeddings. All controls below work in
                 dev and production without changing backend logic.
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 text-xs text-zinc-600">
-              {statusOpenAI ? <div className="rounded-lg bg-zinc-100 px-3 py-2">{statusOpenAI}</div> : null}
-              {statusOllama ? <div className="rounded-lg bg-zinc-100 px-3 py-2">{statusOllama}</div> : null}
+            <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+              {statusOpenAI ? <div className="rounded-lg bg-accent px-3 py-2">{statusOpenAI}</div> : null}
+              {statusOllama ? <div className="rounded-lg bg-accent px-3 py-2">{statusOllama}</div> : null}
             </div>
           </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm flex flex-col gap-3">
-            <div className="text-sm font-semibold text-zinc-900">OpenAI-managed vector store</div>
-            <p className="text-xs text-zinc-600">
+          <div className="flex flex-col gap-3 rounded-xl border bg-card p-5 shadow-sm">
+            <div className="text-sm font-semibold">OpenAI-managed vector store</div>
+            <p className="text-xs text-muted-foreground">
               Creates a hosted vector store and uploads all demo files. Use this path when you want OpenAI to manage
               storage.
             </p>
             {!loadingOpenAI ? (
               <button
                 type="button"
-                className="inline-flex items-center justify-center rounded-lg bg-[#2B83F6] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#1d6ccd]"
+                className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition hover:brightness-110"
                 onClick={handleInitializeOpenAI}
               >
                 Initialize with OpenAI
               </button>
             ) : (
-              <div className="text-sm text-zinc-500">{statusOpenAI || "Preparing OpenAI vector store..."}</div>
+              <div className="text-sm text-muted-foreground">{statusOpenAI || "Preparing OpenAI vector store..."}</div>
             )}
-            {errorOpenAI && <div className="text-sm text-red-600">{errorOpenAI}</div>}
+            {errorOpenAI && <div className="text-sm text-destructive">{errorOpenAI}</div>}
             {successOpenAI && !errorOpenAI && (
-              <div className="rounded-lg bg-zinc-50 p-3 text-sm text-zinc-700">
-                <div className="font-medium text-zinc-900">Knowledge base updated.</div>
+              <div className="rounded-lg bg-muted/40 p-3 text-sm text-muted-foreground">
+                <div className="font-medium text-foreground">Knowledge base updated.</div>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <span className="text-zinc-600">Vector Store ID:</span>
-                  <span className="font-mono rounded-md bg-zinc-100 px-2 py-1 text-xs text-zinc-900">
+                  <span className="text-muted-foreground">Vector Store ID:</span>
+                  <span className="font-mono rounded-md bg-accent px-2 py-1 text-xs text-foreground">
                     {vectorStoreId ?? ""}
                   </span>
                   <button
                     type="button"
                     onClick={() => copyToClipboard(vectorStoreId ?? "")}
-                    className="inline-flex items-center gap-1 rounded border border-zinc-200 px-2 py-1 text-xs text-zinc-700 hover:border-[#2B83F6]"
+                    className="inline-flex items-center gap-1 rounded border px-2 py-1 text-xs text-foreground transition hover:border-primary"
                   >
                     <Copy size={14} /> Copy
                   </button>
@@ -209,9 +209,9 @@ export default function InitVS() {
             )}
           </div>
 
-          <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm flex flex-col gap-3">
-            <div className="text-sm font-semibold text-zinc-900">Local Ollama vector store</div>
-            <p className="text-xs text-zinc-600">
+          <div className="flex flex-col gap-3 rounded-xl border bg-card p-5 shadow-sm">
+            <div className="text-sm font-semibold">Local Ollama vector store</div>
+            <p className="text-xs text-muted-foreground">
               Generates embeddings locally. Use “Rebuild” after changing files to refresh the embeddings without altering
               backend APIs.
             </p>
@@ -219,31 +219,56 @@ export default function InitVS() {
               {!loadingOllama ? (
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-lg bg-[#2B83F6] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#1d6ccd]"
+                  className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition hover:brightness-110"
                   onClick={handleInitializeOllama}
                 >
                   Initialize with Ollama
                 </button>
               ) : (
-                <div className="text-sm text-zinc-500">{statusOllama || "Generating embeddings..."}</div>
+                <div className="text-sm text-muted-foreground">{statusOllama || "Preparing Ollama vector store..."}</div>
               )}
-              {!loadingOllama ? (
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-800 transition hover:border-[#2B83F6]"
-                  onClick={handleRebuildOllama}
-                >
-                  Rebuild Ollama
-                </button>
-              ) : null}
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-lg border border-primary px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:bg-primary hover:text-primary-foreground"
+                onClick={handleRebuildOllama}
+                disabled={loadingOllama}
+              >
+                Rebuild
+              </button>
             </div>
-            {errorOllama && <div className="text-sm text-red-600">{errorOllama}</div>}
+            {errorOllama && <div className="text-sm text-destructive">{errorOllama}</div>}
             {successOllama && !errorOllama && (
-              <div className="rounded-lg bg-zinc-50 p-3 text-sm text-zinc-700">Knowledge base updated successfully.</div>
+              <div className="rounded-lg bg-muted/40 p-3 text-sm text-muted-foreground">
+                <div className="font-medium text-foreground">Knowledge base refreshed.</div>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <span className="text-muted-foreground">Vector Store ID:</span>
+                  <span className="font-mono rounded-md bg-accent px-2 py-1 text-xs text-foreground">local-ollama</span>
+                </div>
+              </div>
             )}
           </div>
         </div>
+
+        <div className="space-y-4 rounded-xl border bg-card p-6 shadow-sm">
+          <div className="space-y-1">
+            <div className="text-lg font-semibold">Files included</div>
+            <p className="text-sm text-muted-foreground">Each item below is sent to the vector store during initialization.</p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {KB_FOLDERS.map((folder) => (
+              <div key={folder} className="rounded-lg border bg-muted/40 p-4 shadow-sm">
+                <div className="text-sm font-semibold">{folder}</div>
+                <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
+                  <li>
+                    Files will be fetched from <span className="font-mono text-[11px]">/public/{folder}</span>.
+                  </li>
+                  <li>Each file is uploaded with its type and filename metadata.</li>
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </AppPageShell>
   );
 }

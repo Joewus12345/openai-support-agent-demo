@@ -87,8 +87,7 @@ export type BuildSessionCookieOptions = {
   domain?: string;
 };
 
-export function buildSessionCookie(tokenId: string, csrf: string, options: BuildSessionCookieOptions = {}) {
-  const signed = signPayload({ tokenId, csrf });
+function resolveSessionCookieSettings(options: BuildSessionCookieOptions) {
   const context = getRequestContext(options.request);
   const sameSite = options.sameSite ?? "Strict";
   const publicHost = options.domain ?? (!context.isLocalhost ? context.hostname : null);
@@ -106,16 +105,37 @@ export function buildSessionCookie(tokenId: string, csrf: string, options: Build
   // Only allow SameSite=None when secure and tied to a public host to avoid emitting
   // insecure cross-site cookies when proxies withhold protocol hints.
   const finalSameSite = sameSite === "None" && (!secure || !publicHost) ? "Lax" : sameSite;
+  return { sameSite: finalSameSite, secure, publicHost } as const;
+}
+
+export function buildSessionCookie(tokenId: string, csrf: string, options: BuildSessionCookieOptions = {}) {
+  const signed = signPayload({ tokenId, csrf });
+  const { sameSite, secure, publicHost } = resolveSessionCookieSettings(options);
   const maxAgeSeconds = options.maxAgeSeconds ?? SESSION_LIFETIME_MS / 1000;
 
   return [
     `${SESSION_COOKIE_NAME}=${signed}`,
     "Path=/",
     "HttpOnly",
-    `SameSite=${finalSameSite}`,
+    `SameSite=${sameSite}`,
     secure ? "Secure" : null,
     publicHost ? `Domain=${publicHost}` : null,
     `Max-Age=${maxAgeSeconds}`,
+  ]
+    .filter(Boolean)
+    .join("; ");
+}
+
+export function buildExpiredSessionCookie(options: BuildSessionCookieOptions = {}) {
+  const { sameSite, secure, publicHost } = resolveSessionCookieSettings(options);
+  return [
+    `${SESSION_COOKIE_NAME}=`,
+    "Path=/",
+    "HttpOnly",
+    `SameSite=${sameSite}`,
+    secure ? "Secure" : null,
+    publicHost ? `Domain=${publicHost}` : null,
+    "Max-Age=0",
   ]
     .filter(Boolean)
     .join("; ");

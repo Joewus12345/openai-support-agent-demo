@@ -116,10 +116,11 @@ export default function AgentView() {
       <Drawer>
         <DrawerTrigger asChild>
           <button
-            className="absolute top-4 right-4 md:hidden"
-            aria-label="Open Context Panel"
+            className="absolute top-4 right-4 inline-flex items-center gap-1 rounded-md border bg-white px-2 py-1 text-xs font-medium text-muted-foreground shadow-sm transition hover:border-primary hover:text-primary md:hidden"
+            aria-label="Open context panel"
           >
-            <Info className="text-zinc-500" />
+            <Info className="h-4 w-4" />
+            Customer details
           </button>
         </DrawerTrigger>
         <DrawerContent>
