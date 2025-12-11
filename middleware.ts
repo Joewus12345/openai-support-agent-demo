@@ -70,11 +70,27 @@ export async function middleware(request: NextRequest) {
 
   if (!hasSessionCookie && isLoginRoute) return NextResponse.next();
 
-  const meUrl = new URL("/api/auth/me", request.url);
-  const meResponse = await fetch(meUrl.toString(), {
-    headers: { cookie: request.headers.get("cookie") ?? "" },
-    cache: "no-store",
-  }).catch(() => null);
+  const internalApiBase = process.env.INTERNAL_API_BASE_URL ?? "http://127.0.0.1:3000";
+  const meUrl = context.isLocalhost
+    ? new URL("/api/auth/me", request.url)
+    : new URL("/api/auth/me", internalApiBase);
+
+  let meResponse: Response | null = null;
+
+  try {
+    meResponse = await fetch(meUrl.toString(), {
+      headers: { cookie: request.headers.get("cookie") ?? "" },
+      cache: "no-store",
+    });
+  } catch (error) {
+    logRedirect("me_fetch_error", {
+      hasSessionCookie,
+      meUrl: meUrl.toString(),
+      error: error instanceof Error ? error.message : String(error),
+    });
+    if (isLoginRoute) return NextResponse.next();
+    return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
+  }
 
   if (!meResponse || meResponse.status === 401) {
     const meBody = meResponse ? await meResponse.clone().text().catch(() => null) : null;
@@ -82,6 +98,7 @@ export async function middleware(request: NextRequest) {
       hasSessionCookie,
       meStatus: meResponse?.status ?? null,
       meBody,
+      meUrl: meUrl.toString(),
     });
     if (isLoginRoute) return NextResponse.next();
     return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
