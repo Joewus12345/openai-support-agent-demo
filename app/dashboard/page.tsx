@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
 import useConversationStore from "@/stores/useConversationStore";
 import { useSessionStore } from "@/stores/useSessionStore";
 import type { ChatMessage } from "@/lib/assistant";
@@ -93,10 +94,24 @@ function ConversationWorkspace({ activeView, onChange }: { activeView: string; o
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs value={activeView} onValueChange={onChange} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="customer">Customer view</TabsTrigger>
-            <TabsTrigger value="agent">Agent tools</TabsTrigger>
-          </TabsList>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-center gap-3 rounded-md border px-3 py-2 text-xs md:hidden">
+              <span className={`font-semibold ${activeView === "customer" ? "text-foreground" : "text-muted-foreground"}`}>
+                Customer view
+              </span>
+              <Switch
+                checked={activeView === "agent"}
+                onCheckedChange={(checked) => onChange(checked ? "agent" : "customer")}
+              />
+              <span className={`font-semibold ${activeView === "agent" ? "text-foreground" : "text-muted-foreground"}`}>
+                Agent tools
+              </span>
+            </div>
+            <TabsList className="hidden w-full grid-cols-2 md:grid">
+              <TabsTrigger value="customer">Customer view</TabsTrigger>
+              <TabsTrigger value="agent">Agent tools</TabsTrigger>
+            </TabsList>
+          </div>
           <TabsContent value="customer" className="space-y-4">
             <UserView />
           </TabsContent>

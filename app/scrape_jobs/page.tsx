@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
+import { AppPageShell } from "@/components/app-page-shell";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
@@ -924,16 +925,22 @@ export default function ScrapeJobsPage() {
   };
 
   if (!roles) {
-    return <div className="p-6 text-sm text-gray-700">Checking your access…</div>;
+    return (
+      <AppPageShell>
+        <div className="p-6 text-sm text-muted-foreground">Checking your access…</div>
+      </AppPageShell>
+    );
   }
 
   if (!isAdmin) {
     return (
-      <div className="p-6">
-        <p className="rounded bg-red-50 p-4 text-red-700">
-          You are not authorized to manage scrape jobs. Return to {defaultRedirect}.
-        </p>
-      </div>
+      <AppPageShell>
+        <div className="p-6">
+          <p className="rounded bg-destructive/10 p-4 text-destructive">
+            You are not authorized to manage scrape jobs. Return to {defaultRedirect}.
+          </p>
+        </div>
+      </AppPageShell>
     );
   }
 
@@ -941,24 +948,26 @@ export default function ScrapeJobsPage() {
 
   if (unauthorized) {
     return (
-      <ScrapeJobAuthPrompt
-        token={authTokenInput}
-        busy={authenticating}
-        error={authError || "Authentication required"}
-        onTokenChange={setAuthTokenInput}
-        onSubmit={authenticate}
-        description="Authenticate to view and manage scrape jobs."
-      />
+      <AppPageShell>
+        <ScrapeJobAuthPrompt
+          token={authTokenInput}
+          busy={authenticating}
+          error={authError || "Authentication required"}
+          onTokenChange={setAuthTokenInput}
+          onSubmit={authenticate}
+          description="Authenticate to view and manage scrape jobs."
+        />
+      </AppPageShell>
     );
   }
 
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-10 md:pt-14 px-4 pb-16 md:pb-20">
-      <div className="w-full max-w-5xl flex flex-col gap-5">
-        <div className="flex flex-col gap-1 max-w-3xl border-b border-zinc-200 pb-3">
-          <div className="text-[11px] uppercase tracking-wide text-zinc-500">Scrape jobs</div>
-          <div className="text-2xl font-bold text-zinc-900">Scrape job control panel</div>
-          <p className="text-sm text-zinc-500">
+    <AppPageShell>
+      <div className="w-full flex flex-col gap-5">
+        <div className="flex flex-col gap-1 max-w-3xl border-b border-border pb-3">
+          <div className="text-[11px] uppercase tracking-wide text-muted-foreground">Scrape jobs</div>
+          <div className="text-2xl font-bold">Scrape job control panel</div>
+          <p className="text-sm text-muted-foreground">
             Mirror the vector store setup flow: pick a crawler preset, send it now or schedule it, then ship logs to
             vector stores for embeddings in one click.
           </p>
@@ -1538,6 +1547,6 @@ export default function ScrapeJobsPage() {
           </div>
         </div>
       </div>
-    </div>
+    </AppPageShell>
   );
 }

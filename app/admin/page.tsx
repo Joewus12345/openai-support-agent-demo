@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+import { AppPageShell } from "@/components/app-page-shell";
+
 import { authFetch } from "@/lib/client/authFetch";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
 import type { AgentRole } from "@/lib/generated/prisma";
@@ -64,9 +66,11 @@ export default function AdminPage() {
 
   if (!roles) {
     return (
-      <div className="p-6">
-        <p className="text-sm text-gray-600">Checking your access…</p>
-      </div>
+      <AppPageShell>
+        <div className="p-6">
+          <p className="text-sm text-muted-foreground">Checking your access…</p>
+        </div>
+      </AppPageShell>
     );
   }
 
@@ -172,31 +176,36 @@ export default function AdminPage() {
 
   if (!csrfToken) {
     return (
-      <div className="p-6">
-        <p className="text-red-700 bg-red-50 p-4 rounded">Missing CSRF token. Please re-authenticate.</p>
-      </div>
+      <AppPageShell>
+        <div className="p-6">
+          <p className="rounded bg-destructive/10 p-4 text-destructive">Missing CSRF token. Please re-authenticate.</p>
+        </div>
+      </AppPageShell>
     );
   }
 
   if (roles && !roles.includes("admin")) {
     return (
-      <div className="p-6">
-        <p className="text-red-700 bg-red-50 p-4 rounded">
-          You do not have permission to view this page. Return to {" "}
-          <Link className="underline" href={defaultRedirect}>
-            {defaultRedirect}
-          </Link>
-          .
-        </p>
-      </div>
+      <AppPageShell>
+        <div className="p-6">
+          <p className="rounded bg-destructive/10 p-4 text-destructive">
+            You do not have permission to view this page. Return to {" "}
+            <Link className="font-semibold underline" href={defaultRedirect}>
+              {defaultRedirect}
+            </Link>
+            .
+          </p>
+        </div>
+      </AppPageShell>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
-        <p className="text-sm text-gray-600">
+    <AppPageShell>
+      <div className="space-y-6">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
+        <p className="text-sm text-muted-foreground">
           Quick links to core tools plus agent management. All actions reuse your current authenticated session.
         </p>
       </div>
@@ -314,7 +323,8 @@ export default function AdminPage() {
           )}
         </div>
       </section>
-    </div>
+      </div>
+    </AppPageShell>
   );
 }
 
