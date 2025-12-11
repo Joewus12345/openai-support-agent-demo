@@ -35,7 +35,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     () => [
       { title: "Dashboard", url: "/", icon: LayoutDashboardIcon },
       { title: "Scrape jobs", url: "/scrape_jobs", icon: ListIcon },
-      { title: "Knowledge base", url: "/kb", icon: UserRoundSearchIcon },
+      { title: "Knowledge base", url: "http://localhost:3000", icon: UserRoundSearchIcon },
       { title: "Initialization", url: "/init_vs", icon: NetworkIcon },
       { title: "Admin", url: "/admin", icon: UsersIcon },
     ],
@@ -44,17 +44,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const documents = React.useMemo(
     () => [
-      { name: "FAQs", url: "/faq", icon: FileQuestionIcon },
-      { name: "Agent handbook", url: "/onboarding", icon: BotIcon },
-      { name: "Support surface", url: "/agent", icon: LayoutDashboardIcon },
+      { name: "FAQs", url: "http://localhost:3000", icon: FileQuestionIcon },
+      { name: "Agent handbook", url: "http://localhost:3000", icon: BotIcon },
+      { name: "Support surface", url: "/", icon: LayoutDashboardIcon },
     ],
     []
   );
 
   const secondary = React.useMemo(
     () => [
-      { title: "FAQ", url: "/faq", icon: SettingsIcon },
-      { title: "Current session", url: "/login", icon: NetworkIcon },
+      { title: "FAQ", url: "http://localhost:3000", icon: SettingsIcon },
+      { title: "Current session", url: "http://localhost:3000", icon: NetworkIcon },
     ],
     []
   );

@@ -16,22 +16,27 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useConversationStore from "@/stores/useConversationStore";
 import { useSessionStore } from "@/stores/useSessionStore";
+import type { ChatMessage } from "@/lib/assistant";
 
 function RecentMessages() {
   const chatMessages = useConversationStore((state) => state.chatMessages);
   const pendingMessages = useConversationStore((state) => state.pendingMessages);
 
   const rows = useMemo(() => {
-    return [...chatMessages].slice(-6).reverse().map((item, idx) => {
-      const content = Array.isArray(item.content)
-        ? item.content.find((entry: any) => entry.text)?.text ?? ""
-        : "";
-      return {
-        id: idx,
-        role: item.role,
-        summary: content || "(no text content)",
-      };
-    });
+    return [...chatMessages]
+      .filter((item): item is ChatMessage => item.type === "message")
+      .slice(-6)
+      .reverse()
+      .map((item, idx) => {
+        const content = Array.isArray(item.content)
+          ? item.content.find((entry: any) => entry.text)?.text ?? ""
+          : "";
+        return {
+          id: idx,
+          role: item.role,
+          summary: content || "(no text content)",
+        };
+      });
   }, [chatMessages]);
 
   return (

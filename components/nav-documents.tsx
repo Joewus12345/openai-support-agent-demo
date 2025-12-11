@@ -22,6 +22,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import Link from "next/link"
 
 export function NavDocuments({
   items,
@@ -30,6 +31,7 @@ export function NavDocuments({
     name: string
     url: string
     icon: LucideIcon
+    disabled?: boolean
   }[]
 }) {
   const { isMobile } = useSidebar()
@@ -40,11 +42,22 @@ export function NavDocuments({
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
-                <item.icon />
-                <span>{item.name}</span>
-              </a>
+            <SidebarMenuButton
+              asChild={!item.disabled}
+              disabled={item.disabled}
+              className={item.disabled ? "cursor-not-allowed opacity-60" : undefined}
+            >
+              {item.disabled ? (
+                <div className="flex items-center gap-2">
+                  <item.icon />
+                  <span>{item.name}</span>
+                </div>
+              ) : (
+                <Link href={item.url} prefetch={false}>
+                  <item.icon />
+                  <span>{item.name}</span>
+                </Link>
+              )}
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
