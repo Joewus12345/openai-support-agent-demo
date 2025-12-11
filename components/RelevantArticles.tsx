@@ -17,7 +17,7 @@ function Article({
     <div className="space-y-1 text-sm">
       <div className="flex items-baseline gap-2">
         <div className=" text-black font-bold">{title}</div>
-        <Link href={link} target="_blank">
+        <Link href={link} prefetch={false}>
           <div className="flex items-center  text-[#2B83F6] gap-1">
             <div className="text-xs font-medium">
               {type === "knowledge_base" ? "INTERNAL" : "PUBLIC FAQ"}

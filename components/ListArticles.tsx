@@ -44,9 +44,8 @@ export default function ListArticles({
   );
 
   const getLink = (section: string) => {
-    navigator.clipboard.writeText(
-      `${window.location.origin}/${page}?section=${section}`
-    );
+    const url = new URL(`/${page}?section=${section}`, window.location.origin);
+    navigator.clipboard.writeText(url.toString());
   };
 
   useEffect(() => {

@@ -7,6 +7,8 @@ import {
   LayoutDashboardIcon,
   ListIcon,
   NetworkIcon,
+  LogOutIcon,
+  ShieldCheckIcon,
   SettingsIcon,
   UserRoundSearchIcon,
   UsersIcon,
@@ -25,27 +27,30 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useLogout } from "@/lib/client/useLogout";
 import { useSessionStore } from "@/stores/useSessionStore";
 import Link from "next/link";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { userId, roles, verified } = useSessionStore();
+  const { logout, loggingOut } = useLogout();
 
   const navMain = React.useMemo(
     () => [
       { title: "Dashboard", url: "/", icon: LayoutDashboardIcon },
       { title: "Scrape jobs", url: "/scrape_jobs", icon: ListIcon },
-      { title: "Knowledge base", url: "http://localhost:3000", icon: UserRoundSearchIcon },
+      { title: "Knowledge base", url: "/kb", icon: UserRoundSearchIcon },
       { title: "Initialization", url: "/init_vs", icon: NetworkIcon },
-      { title: "Admin", url: "/admin", icon: UsersIcon },
+      { title: "Agent", url: "/agent", icon: UsersIcon },
+      { title: "Admin", url: "/admin", icon: ShieldCheckIcon },
     ],
     []
   );
 
   const documents = React.useMemo(
     () => [
-      { name: "FAQs", url: "http://localhost:3000", icon: FileQuestionIcon },
-      { name: "Agent handbook", url: "http://localhost:3000", icon: BotIcon },
+      { name: "FAQs", url: "/kb", icon: FileQuestionIcon },
+      { name: "Agent handbook", url: "/kb", icon: BotIcon },
       { name: "Support surface", url: "/", icon: LayoutDashboardIcon },
     ],
     []
@@ -53,8 +58,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const secondary = React.useMemo(
     () => [
-      { title: "FAQ", url: "http://localhost:3000", icon: SettingsIcon },
-      { title: "Current session", url: "http://localhost:3000", icon: NetworkIcon },
+      { title: "FAQ", url: "/kb", icon: SettingsIcon },
+      { title: "Current session", url: "/kb", icon: NetworkIcon },
     ],
     []
   );
@@ -76,6 +81,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <LayoutDashboardIcon className="h-5 w-5" />
                 <span className="text-base font-semibold">Support Ops</span>
               </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              className="justify-between text-sm"
+              onClick={logout}
+              disabled={loggingOut}
+            >
+              <span>{loggingOut ? "Signing out" : "Log out"}</span>
+              <LogOutIcon className="h-4 w-4" />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -28,6 +28,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useLogout } from "@/lib/client/useLogout"
 
 export function NavUser({
   user,
@@ -36,9 +37,11 @@ export function NavUser({
     name: string
     email: string
     avatar: string
+    roles?: string[]
   }
 }) {
   const { isMobile } = useSidebar()
+  const { logout, loggingOut } = useLogout()
 
   return (
     <SidebarMenu>
@@ -98,9 +101,15 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={loggingOut}
+              onSelect={(event) => {
+                event.preventDefault()
+                logout()
+              }}
+            >
               <LogOutIcon />
-              Log out
+              <span>{loggingOut ? "Signing out…" : "Log out"}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
