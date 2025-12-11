@@ -1,3 +1,4 @@
+import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -8,7 +9,7 @@ const API_PROXY_TARGET = process.env.API_PROXY_TARGET;
 type ProxyMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS";
 
 type ProxyContext = {
-  params: { path?: string[] };
+  params: Promise<{ path?: string[] }> | { path?: string[] };
 };
 
 /**
@@ -17,7 +18,7 @@ type ProxyContext = {
  * origin to avoid CORS and preserves cookies even when Cloudflare or other proxies
  * rewrite headers.
  */
-async function handleProxy(request: Request, context: ProxyContext) {
+async function handleProxy(request: NextRequest, context: ProxyContext) {
   if (!API_PROXY_TARGET) {
     return new Response(JSON.stringify({ error: "API_PROXY_TARGET is not configured" }), {
       status: 500,
@@ -25,8 +26,9 @@ async function handleProxy(request: Request, context: ProxyContext) {
     });
   }
 
+  const params = await context.params;
   const targetBase = API_PROXY_TARGET.endsWith("/") ? API_PROXY_TARGET : `${API_PROXY_TARGET}/`;
-  const path = Array.isArray(context.params.path) ? context.params.path.join("/") : "";
+  const path = Array.isArray(params?.path) ? params.path.join("/") : "";
   const targetUrl = new URL(path, targetBase);
   const requestUrl = new URL(request.url);
   targetUrl.search = requestUrl.search;
@@ -83,7 +85,7 @@ async function handleProxy(request: Request, context: ProxyContext) {
 }
 
 function createHandler(method: ProxyMethod) {
-  return (request: Request, context: ProxyContext) => {
+  return (request: NextRequest, context: ProxyContext) => {
     if (request.method !== method) {
       return new Response("Method Not Allowed", { status: 405 });
     }
