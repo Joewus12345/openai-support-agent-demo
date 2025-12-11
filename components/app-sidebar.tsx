@@ -73,36 +73,38 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
-              <Link href="/">
-                <LayoutDashboardIcon className="h-5 w-5" />
-                <span className="text-base font-semibold">Support Ops</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              className="justify-between text-sm"
-              onClick={logout}
-              disabled={loggingOut}
-            >
-              <span>{loggingOut ? "Signing out" : "Log out"}</span>
-              <LogOutIcon className="h-4 w-4" />
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={navMain} />
-        <NavDocuments items={documents} />
-        <NavSecondary items={secondary} className="mt-auto" />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={user} />
-      </SidebarFooter>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <SidebarHeader className="border-b border-sidebar-border">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
+                <Link href="/">
+                  <LayoutDashboardIcon className="h-5 w-5" />
+                  <span className="text-base font-semibold">Support Ops</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                className="justify-between text-sm"
+                onClick={logout}
+                disabled={loggingOut}
+              >
+                <span>{loggingOut ? "Signing out" : "Log out"}</span>
+                <LogOutIcon className="h-4 w-4" />
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarHeader>
+        <SidebarContent className="flex-1 overflow-y-auto pb-4">
+          <NavMain items={navMain} />
+          <NavDocuments items={documents} />
+          <NavSecondary items={secondary} className="mt-auto" />
+        </SidebarContent>
+        <SidebarFooter className="sticky bottom-0 border-t border-sidebar-border bg-sidebar pb-[max(env(safe-area-inset-bottom,0px),0.5rem)] pt-2">
+          <NavUser user={user} />
+        </SidebarFooter>
+      </div>
     </Sidebar>
   );
 }

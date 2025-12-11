@@ -19,6 +19,8 @@ import {
   XCircle,
 } from "lucide-react";
 
+import { Separator } from "@/components/ui/separator";
+
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { AppPageShell } from "@/components/app-page-shell";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
@@ -964,13 +966,13 @@ export default function ScrapeJobsPage() {
   return (
     <AppPageShell>
       <div className="w-full flex flex-col gap-5">
-        <div className="flex flex-col gap-1 max-w-3xl border-b border-border pb-3">
-          <div className="text-[11px] uppercase tracking-wide text-muted-foreground">Scrape jobs</div>
-          <div className="text-2xl font-bold">Scrape job control panel</div>
+        <div className="flex flex-col gap-2 max-w-4xl">
+          <div className="text-3xl font-bold">Scrape Job Control Panel</div>
           <p className="text-sm text-muted-foreground">
             Mirror the vector store setup flow: pick a crawler preset, send it now or schedule it, then ship logs to
             vector stores for embeddings in one click.
           </p>
+          <Separator className="mt-1" />
         </div>
 
         <div className="flex flex-wrap gap-2">

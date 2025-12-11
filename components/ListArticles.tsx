@@ -1,19 +1,51 @@
 "use client";
-import { Link } from "lucide-react";
-import { useEffect, useState } from "react";
+
+import { Link as LinkIcon, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import ImageModal from "./ImageModal";
-import ChatImage from "./ChatImage";
-import { ImageProps } from "next/image";
 import type { Components } from "react-markdown";
+
+import ChatImage from "./ChatImage";
+import ImageModal from "./ImageModal";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Separator } from "./ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./ui/table";
+import { cn } from "@/lib/utils";
+import { ImageProps } from "next/image";
+
+type FileMetadata = {
+  name: string;
+  size: number;
+  createdAt: string;
+  modifiedAt: string;
+  type: string;
+};
+
+const PAGE_SIZE = 10;
 
 const markdownComponents: Components = {
   img: (props) => (
-    <ImageModal src={(props.src as string) ?? ''}>
+    <ImageModal src={(props.src as string) ?? ""}>
       <ChatImage
         {...(props as unknown as ImageProps)}
-        alt={props.alt || 'image'}
-        className="object-cover rounded-md cursor-pointer"
+        alt={props.alt || "image"}
+        className="cursor-pointer rounded-md object-cover"
       />
     </ImageModal>
   ),
@@ -36,37 +68,44 @@ export default function ListArticles({
   page: string;
   folder: string;
 }) {
-  const [contents, setContents] = useState<
-    { id: string; title: string; content: string }[]
-  >([]);
-  const [highlightedSection, setHighlightedSection] = useState<string | null>(
-    null
-  );
+  const [files, setFiles] = useState<FileMetadata[]>([]);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [fileContents, setFileContents] = useState<Record<string, string>>({});
+  const [loadingContent, setLoadingContent] = useState(false);
+  const [loadingFiles, setLoadingFiles] = useState(true);
 
-  const getLink = (section: string) => {
-    const url = new URL(`/${page}?section=${section}`, window.location.origin);
-    navigator.clipboard.writeText(url.toString());
-  };
+  const getLink = useCallback(
+    (section: string) => {
+      const url = new URL(`/${page}?section=${section}`, window.location.origin);
+      navigator.clipboard.writeText(url.toString());
+    },
+    [page]
+  );
 
   useEffect(() => {
     const fetchFiles = async () => {
       try {
+        setLoadingFiles(true);
         const response = await fetch(`/api/list_files?folder=${folder}`);
-        const files = await response.json();
+        const payload = await response.json();
+        const metadata = (payload?.files as FileMetadata[]) ?? [];
+        metadata.sort((a, b) => a.name.localeCompare(b.name));
+        setFiles(metadata);
 
-        const fetchContentPromises = files.map(async (file: string) => {
-          const fileName = file.split(".")[0];
-          const fileResponse = await fetch(`/${folder}/${file}`);
-          const text = await fileResponse.text();
-          const [firstLine, ...rest] = text.split("\n");
-          const title = firstLine.replaceAll("#", ""); // Remove markdown header syntax
-          return { id: fileName, title, content: rest.join("\n") };
-        });
-
-        const allContents = await Promise.all(fetchContentPromises);
-        setContents(allContents);
+        const urlParams = new URLSearchParams(window.location.search);
+        const section = urlParams.get("section");
+        if (section) {
+          setSelectedId(section);
+          const index = metadata.findIndex((file) => file.name.split(".")[0] === section);
+          if (index >= 0) {
+            setPageIndex(Math.floor(index / PAGE_SIZE));
+          }
+        }
       } catch (error) {
         console.error("Error fetching files or contents:", error);
+      } finally {
+        setLoadingFiles(false);
       }
     };
 
@@ -74,47 +113,238 @@ export default function ListArticles({
   }, [folder]);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const section = urlParams.get("section");
+    if (!selectedId) return;
+    const selectedFile = files.find((file) => file.name.split(".")[0] === selectedId);
+    if (!selectedFile || fileContents[selectedId]) return;
 
-    if (section) {
-      setHighlightedSection(section);
-      const element = document.getElementById(section);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+    const fetchContent = async () => {
+      try {
+        setLoadingContent(true);
+        const fileResponse = await fetch(`/${folder}/${selectedFile.name}`);
+        const text = await fileResponse.text();
+        setFileContents((prev) => ({ ...prev, [selectedId]: text }));
+      } catch (error) {
+        console.error("Error fetching file content:", error);
+      } finally {
+        setLoadingContent(false);
       }
-    }
-  }, [contents]);
+    };
+
+    void fetchContent();
+  }, [selectedId, files, folder, fileContents]);
+
+  const paginatedFiles = useMemo(() => {
+    const start = pageIndex * PAGE_SIZE;
+    return files.slice(start, start + PAGE_SIZE);
+  }, [files, pageIndex]);
+
+  const totalPages = Math.max(1, Math.ceil(files.length / PAGE_SIZE));
+  const selectedFile = files.find((file) => file.name.split(".")[0] === selectedId);
+  const selectedContent = selectedId ? fileContents[selectedId] : null;
+
+  const totalSize = files.reduce((acc, file) => acc + file.size, 0);
+
+  const humanFileSize = (size: number) => {
+    if (size < 1024) return `${size} B`;
+    const kb = size / 1024;
+    if (kb < 1024) return `${kb.toFixed(1)} KB`;
+    return `${(kb / 1024).toFixed(1)} MB`;
+  };
+
+  const renderedContent = useMemo(() => {
+    if (!selectedContent) return null;
+    const [firstLine, ...rest] = selectedContent.split("\n");
+    const contentBody = rest.join("\n");
+    const cleanedTitle = firstLine.replace(/^#+\s*/, "");
+
+    return (
+      <div className="space-y-3">
+        <div className="flex items-start justify-between gap-2">
+          <div className="space-y-1">
+            <div className="text-lg font-semibold leading-tight">
+              {cleanedTitle || selectedFile?.name || "Untitled"}
+            </div>
+            {selectedFile ? (
+              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <Badge variant="secondary" className="capitalize">
+                  {selectedFile.type || "md"}
+                </Badge>
+                <span>{humanFileSize(selectedFile.size)}</span>
+                <span>Updated {new Date(selectedFile.modifiedAt).toLocaleString()}</span>
+              </div>
+            ) : null}
+          </div>
+          {selectedId ? (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => getLink(selectedId)}
+              aria-label="Copy link to this article"
+            >
+              <LinkIcon className="h-4 w-4" />
+            </Button>
+          ) : null}
+        </div>
+        <Separator />
+        <ReactMarkdown components={markdownComponents} className="prose prose-sm max-w-none text-muted-foreground">
+          {contentBody}
+        </ReactMarkdown>
+      </div>
+    );
+  }, [selectedContent, selectedFile, selectedId, getLink]);
+
+  const layoutHasDetail = Boolean(selectedFile && (selectedContent || loadingContent));
 
   return (
-    <div className="p-4 bg-white w-full">
-      <h1 className="text-2xl font-bold mb-4 p-4">{title}</h1>
-      {contents.map(({ id, title, content }, index) => (
-        <div
-          key={index}
-          id={id}
-          className={`my-8 p-4 md:w-1/2 ${
-            highlightedSection === id ? "bg-orange-50 rounded-lg" : ""
-          }`}
-        >
-          <h2 className="text-lg font-semibold mb-2 text-zinc-800 flex items-center gap-2">
-            {title}
-            <Link
-              size={16}
-              className="text-[#2B83F6] cursor-pointer hover:size-[18px] transition-all duration-100"
-              onClick={() => {
-                getLink(id);
-              }}
-            />
-          </h2>
-          <ReactMarkdown
-            components={markdownComponents}
-            className="text-zinc-600 prose prose-zinc text-justify"
-          >
-            {content}
-          </ReactMarkdown>
+    <div className="w-full space-y-4 p-4">
+      <div className="flex flex-wrap justify-between gap-3">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold leading-tight">{title}</h1>
+          <p className="text-sm text-muted-foreground">
+            Browse knowledge base markdown files. Click a row to preview the content without leaving the table.
+          </p>
         </div>
-      ))}
+        <div className="flex flex-wrap items-center gap-2 text-sm">
+          <Badge variant="secondary">{files.length} files</Badge>
+          <Badge variant="outline">{humanFileSize(totalSize)}</Badge>
+        </div>
+      </div>
+
+      <div
+        className={cn(
+          "grid gap-4",
+          layoutHasDetail ? "lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]" : ""
+        )}
+      >
+        <Card className="shadow-sm">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">Knowledge base files</CardTitle>
+            <CardDescription>Showing {PAGE_SIZE} files per page</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="overflow-hidden rounded-lg border">
+              <Table>
+                <TableCaption className="sr-only">Knowledge base files</TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="min-w-[160px]">Name</TableHead>
+                    <TableHead className="w-24">Type</TableHead>
+                    <TableHead className="w-28">Size</TableHead>
+                    <TableHead className="min-w-[160px]">Created</TableHead>
+                    <TableHead className="min-w-[160px]">Modified</TableHead>
+                    <TableHead className="w-20 text-right">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {loadingFiles ? (
+                    <TableRow>
+                      <TableCell colSpan={6} className="py-6 text-center text-sm text-muted-foreground">
+                        <div className="flex items-center justify-center gap-2">
+                          <Loader2 className="h-4 w-4 animate-spin" /> Loading files…
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ) : paginatedFiles.length ? (
+                    paginatedFiles.map((file) => {
+                      const id = file.name.split(".")[0];
+                      const isSelected = id === selectedId;
+                      return (
+                        <TableRow
+                          key={file.name}
+                          data-state={isSelected ? "selected" : undefined}
+                          className={cn(
+                            "cursor-pointer transition hover:bg-muted/60",
+                            isSelected ? "bg-blue-50/80" : ""
+                          )}
+                          onClick={() => {
+                            setSelectedId(id);
+                          }}
+                        >
+                          <TableCell className="font-medium">{file.name}</TableCell>
+                          <TableCell className="capitalize text-muted-foreground">{file.type || "md"}</TableCell>
+                          <TableCell className="text-muted-foreground">{humanFileSize(file.size)}</TableCell>
+                          <TableCell className="text-muted-foreground">
+                            {new Date(file.createdAt).toLocaleString()}
+                          </TableCell>
+                          <TableCell className="text-muted-foreground">
+                            {new Date(file.modifiedAt).toLocaleString()}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 px-2"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedId(id);
+                              }}
+                            >
+                              View
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={6} className="py-6 text-center text-sm text-muted-foreground">
+                        No files found.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
+              <span>
+                Page {pageIndex + 1} of {totalPages}
+              </span>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPageIndex((prev) => Math.max(0, prev - 1))}
+                  disabled={pageIndex === 0}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPageIndex((prev) => Math.min(totalPages - 1, prev + 1))}
+                  disabled={pageIndex >= totalPages - 1}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {layoutHasDetail ? (
+          <Card className="shadow-sm">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg">Preview</CardTitle>
+              <CardDescription>Selected article</CardDescription>
+            </CardHeader>
+            <CardContent className="min-h-[320px] space-y-3">
+              {loadingContent && !selectedContent ? (
+                <div className="flex h-full min-h-[240px] items-center justify-center text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" /> Loading article…
+                  </div>
+                </div>
+              ) : selectedContent ? (
+                renderedContent
+              ) : (
+                <p className="text-sm text-muted-foreground">Select a file to preview its contents.</p>
+              )}
+            </CardContent>
+          </Card>
+        ) : null}
+      </div>
     </div>
   );
 }

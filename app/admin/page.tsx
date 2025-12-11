@@ -239,7 +239,7 @@ export default function AdminPage() {
         <p className="text-sm text-green-700 bg-green-50 p-3 rounded">{successMessage}</p>
       )}
 
-      <section className="border rounded p-4 space-y-3 bg-white shadow-sm">
+      <section className="space-y-4 rounded-xl border bg-card p-6 shadow-sm">
         <h2 className="text-lg font-semibold">Create Agent</h2>
         <div className="grid gap-3 md:grid-cols-2">
           <label className="flex flex-col text-sm">
@@ -301,7 +301,7 @@ export default function AdminPage() {
         </button>
       </section>
 
-      <section className="border rounded p-4 bg-white shadow-sm">
+      <section className="space-y-4 rounded-xl border bg-card p-6 shadow-sm">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-semibold">Existing Agents</h2>
           {loading && <span className="text-sm text-gray-500">Loading...</span>}
@@ -355,16 +355,16 @@ function AgentRow({
   const [pin, setPin] = useState("");
 
   return (
-    <div className="border rounded p-3">
-      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p className="font-semibold">{agent.userId}</p>
+    <div className="rounded-lg border bg-white p-3 shadow-sm md:p-4">
+      <div className="flex flex-wrap items-start gap-3 lg:items-center lg:justify-between">
+        <div className="min-w-0 space-y-1">
+          <p className="font-semibold break-words">{agent.userId}</p>
           <p className="text-xs text-gray-500">
             Updated {new Date(agent.updatedAt).toLocaleString()} | Created {new Date(agent.createdAt).toLocaleDateString()}
           </p>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="flex gap-2 text-sm">
+        <div className="flex flex-1 flex-wrap items-start gap-3">
+          <div className="flex flex-wrap gap-2 text-sm">
             <label className="flex items-center gap-1 text-xs">
               <input
                 type="checkbox"
@@ -382,45 +382,47 @@ function AgentRow({
               Admin
             </label>
           </div>
-          <div className="flex flex-col text-xs">
+          <div className="flex flex-1 min-w-[160px] flex-col gap-1 text-xs">
             <label>Telegram Chat ID</label>
             <input
-              className="border rounded p-1 text-sm"
+              className="border rounded p-2 text-sm"
               value={telegramChatId}
               onChange={(e) => setTelegramChatId(e.target.value)}
               placeholder="Optional"
             />
           </div>
-          <div className="flex flex-col text-xs">
+          <div className="flex min-w-[140px] flex-1 flex-col gap-1 text-xs">
             <label>Reset PIN</label>
             <input
-              className="border rounded p-1 text-sm"
+              className="border rounded p-2 text-sm"
               type="password"
               value={pin}
               onChange={(e) => setPin(e.target.value)}
               placeholder="New PIN"
             />
           </div>
-          <button
-            className="bg-gray-800 text-white px-3 py-2 rounded text-sm hover:bg-gray-900 disabled:opacity-50"
-            onClick={() =>
-              onSave(agent, {
-                roles,
-                telegramChatId: telegramChatId || null,
-                pin: pin || undefined,
-              })
-            }
-            disabled={saving}
-          >
-            {saving ? "Saving..." : "Save"}
-          </button>
-          <button
-            className="bg-red-600 text-white px-3 py-2 rounded text-sm hover:bg-red-700 disabled:opacity-50"
-            onClick={() => onDelete(agent.userId)}
-            disabled={deleting}
-          >
-            {deleting ? "Deleting..." : "Delete"}
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              className="rounded bg-gray-800 px-3 py-2 text-sm text-white hover:bg-gray-900 disabled:opacity-50"
+              onClick={() =>
+                onSave(agent, {
+                  roles,
+                  telegramChatId: telegramChatId || null,
+                  pin: pin || undefined,
+                })
+              }
+              disabled={saving}
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
+            <button
+              className="rounded bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-700 disabled:opacity-50"
+              onClick={() => onDelete(agent.userId)}
+              disabled={deleting}
+            >
+              {deleting ? "Deleting..." : "Delete"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

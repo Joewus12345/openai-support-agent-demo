@@ -67,11 +67,12 @@ export default function InitVS() {
       const filesList: KBFile[] = [];
       for (const folder of KB_FOLDERS) {
         const folderFiles = await fetch(`/api/list_files?folder=${folder}`).then((res) => res.json());
+        const files = (folderFiles?.files ?? []) as { name: string }[];
         filesList.push(
-          ...folderFiles.map((file: string) => ({
+          ...files.map((file) => ({
             type: folder,
-            filename: file.split(".")[0],
-            filepath: `/public/${folder}/${file}`,
+            filename: file.name.split(".")[0],
+            filepath: `/public/${folder}/${file.name}`,
           }))
         );
       }
@@ -215,21 +216,23 @@ export default function InitVS() {
               Generates embeddings locally. Use “Rebuild” after changing files to refresh the embeddings without altering
               backend APIs.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid w-full gap-2 sm:grid-cols-2">
               {!loadingOllama ? (
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition hover:brightness-110"
+                  className="inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition hover:brightness-110"
                   onClick={handleInitializeOllama}
                 >
                   Initialize with Ollama
                 </button>
               ) : (
-                <div className="text-sm text-muted-foreground">{statusOllama || "Preparing Ollama vector store..."}</div>
+                <div className="flex min-h-[40px] items-center justify-center rounded-lg border border-dashed border-muted-foreground/30 px-3 py-2 text-sm text-muted-foreground">
+                  {statusOllama || "Preparing Ollama vector store..."}
+                </div>
               )}
               <button
                 type="button"
-                className="inline-flex items-center justify-center rounded-lg border border-primary px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:bg-primary hover:text-primary-foreground"
+                className="inline-flex w-full items-center justify-center rounded-lg border border-primary px-4 py-2 text-sm font-medium text-primary shadow-sm transition hover:bg-primary hover:text-primary-foreground disabled:opacity-60"
                 onClick={handleRebuildOllama}
                 disabled={loadingOllama}
               >
