@@ -72,7 +72,9 @@ export async function middleware(request: NextRequest) {
 
   const internalApiBase = process.env.INTERNAL_API_BASE_URL ?? "http://127.0.0.1:3000";
   const meUrl = context.isLocalhost
-    ? new URL("/api/auth/me", request.url)
+    ? context.protocol === "http"
+      ? new URL("/api/auth/me", request.url)
+      : new URL("/api/auth/me", internalApiBase)
     : new URL("/api/auth/me", internalApiBase);
 
   let meResponse: Response | null = null;

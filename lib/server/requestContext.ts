@@ -28,24 +28,27 @@ function isLocalhost(host: string | null | undefined) {
   return normalized ? LOCAL_HOSTS.includes(normalized) : false;
 }
 
-function resolveProtocol(request: Request | undefined) {
+function resolveProtocol(request: Request | undefined, isLocalhostRequest: boolean) {
   const forwarded = firstHeaderValue(request?.headers.get("x-forwarded-proto"));
-  if (forwarded === "http" || forwarded === "https") return forwarded;
-
   const cfVisitorScheme = parseCfVisitor(request?.headers.get("cf-visitor"));
-  if (cfVisitorScheme) return cfVisitorScheme;
+
+  if (!isLocalhostRequest) {
+    if (forwarded === "http" || forwarded === "https") return forwarded;
+    if (cfVisitorScheme === "http" || cfVisitorScheme === "https") return cfVisitorScheme;
+  }
 
   if (request) {
     try {
       const url = new URL(request.url);
       const proto = url.protocol.replace(":", "").toLowerCase();
-      if (proto === "http" || proto === "https") return proto;
+      if (proto === "http") return "http";
+      if (proto === "https") return isLocalhostRequest ? "http" : "https";
     } catch {
       // ignore
     }
   }
 
-  return process.env.NODE_ENV === "production" ? "https" : "http";
+  return process.env.NODE_ENV === "production" && !isLocalhostRequest ? "https" : "http";
 }
 
 function resolveHost(request: Request | undefined) {
@@ -65,13 +68,13 @@ export type RequestContext = {
 };
 
 export function getRequestContext(request?: Request): RequestContext {
-  const forwardedProto = firstHeaderValue(request?.headers.get("x-forwarded-proto"));
-  const cfVisitorScheme = parseCfVisitor(request?.headers.get("cf-visitor"));
-  const protocol = resolveProtocol(request);
   const forwardedHost = firstHeaderValue(request?.headers.get("x-forwarded-host"));
   const host = resolveHost(request);
   const hostname = stripPort(host);
   const localhost = isLocalhost(hostname);
+  const forwardedProto = firstHeaderValue(request?.headers.get("x-forwarded-proto"));
+  const cfVisitorScheme = parseCfVisitor(request?.headers.get("cf-visitor"));
+  const protocol = resolveProtocol(request, localhost);
 
   return {
     protocol,
