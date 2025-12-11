@@ -9,7 +9,7 @@ const API_PROXY_TARGET = process.env.API_PROXY_TARGET;
 type ProxyMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS";
 
 type ProxyContext = {
-  params: Promise<{ path?: string[] }> | { path?: string[] };
+  params: Promise<{ path: string[] }>;
 };
 
 /**
