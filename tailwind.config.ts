@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
+import tailwindcssContainerQueries from "@tailwindcss/container-queries";
 import tailwindcssTypography from "@tailwindcss/typography";
 export default {
   darkMode: ["class"],
@@ -9,8 +10,17 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-  	extend: {
-  		colors: {
+        extend: {
+                screens: {
+                        "5xl": "1920px",
+                },
+                containers: {
+                        main: {
+                                center: true,
+                                padding: "1rem",
+                        },
+                },
+                colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -91,5 +101,5 @@ export default {
   		}
   	}
   },
-  plugins: [tailwindcssAnimate, tailwindcssTypography],
+  plugins: [tailwindcssAnimate, tailwindcssTypography, tailwindcssContainerQueries],
 } satisfies Config;

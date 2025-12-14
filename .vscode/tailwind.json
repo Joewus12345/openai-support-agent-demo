@@ -4,6 +4,7 @@
     { "name": "@tailwind" },
     { "name": "@apply" },
     { "name": "@layer" },
-    { "name": "@variants" }
+    { "name": "@variants" },
+    { "name": "@container" }
   ]
 }
