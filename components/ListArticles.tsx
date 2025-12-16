@@ -39,6 +39,9 @@ type FileMetadata = {
 
 const PAGE_SIZE = 10;
 
+const getFileId = (file: FileMetadata) =>
+  file.name.replace(/\.([^.]+)$/u, "") || file.name;
+
 const markdownComponents: Components = {
   img: (props) => (
     <ImageModal src={(props.src as string) ?? ""}>
@@ -101,7 +104,7 @@ export default function ListArticles({
         if (section) {
           setSelectedId(section);
           const index = metadata.findIndex(
-            (file) => file.name.split(".")[0] === section
+            (file) => getFileId(file) === section
           );
           if (index >= 0) {
             setPageIndex(Math.floor(index / PAGE_SIZE));
@@ -119,9 +122,7 @@ export default function ListArticles({
 
   useEffect(() => {
     if (!selectedId) return;
-    const selectedFile = files.find(
-      (file) => file.name.split(".")[0] === selectedId
-    );
+    const selectedFile = files.find((file) => getFileId(file) === selectedId);
     if (!selectedFile || fileContents[selectedId]) return;
 
     const fetchContent = async () => {
@@ -146,9 +147,7 @@ export default function ListArticles({
   }, [files, pageIndex]);
 
   const totalPages = Math.max(1, Math.ceil(files.length / PAGE_SIZE));
-  const selectedFile = files.find(
-    (file) => file.name.split(".")[0] === selectedId
-  );
+  const selectedFile = files.find((file) => getFileId(file) === selectedId);
   const selectedContent = selectedId ? fileContents[selectedId] : null;
 
   const totalSize = files.reduce((acc, file) => acc + file.size, 0);
@@ -272,17 +271,23 @@ export default function ListArticles({
                     </TableRow>
                   ) : paginatedFiles.length ? (
                     paginatedFiles.map((file) => {
-                      const id = file.name.split(".")[0];
+                      const id = getFileId(file);
+                      const fileIndex = files.findIndex(
+                        (entry) => getFileId(entry) === id
+                      );
                       const isSelected = id === selectedId;
                       return (
                         <TableRow
-                          key={file.name}
+                          key={id}
                           data-state={isSelected ? "selected" : undefined}
                           className={cn(
                             "cursor-pointer transition hover:bg-muted/60",
                             isSelected ? "bg-blue-50/80" : ""
                           )}
                           onClick={() => {
+                            if (fileIndex >= 0) {
+                              setPageIndex(Math.floor(fileIndex / PAGE_SIZE));
+                            }
                             setSelectedId(id);
                           }}
                         >
@@ -308,6 +313,9 @@ export default function ListArticles({
                               className="h-8 px-2"
                               onClick={(e) => {
                                 e.stopPropagation();
+                                if (fileIndex >= 0) {
+                                  setPageIndex(Math.floor(fileIndex / PAGE_SIZE));
+                                }
                                 setSelectedId(id);
                               }}
                             >
