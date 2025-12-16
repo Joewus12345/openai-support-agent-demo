@@ -72,10 +72,8 @@ No content found
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - Tank](https://automationghana.com/wp-content/uploads/2024/09/Tank-1024x321.webp)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
-  3. Tank Inventory Management System
+![The Automation Ghana Group - Tank](https://18.197.210.112/wp-content/uploads/2024/09/Tank-1024x321.webp)
+  1. [Home](https://18.197.210.112)
 
 
 ## Enhance Safety, Compliance, and Operational Efficiency with Comprehensive Tank Monitoring Solutions
@@ -84,8 +82,8 @@ Our Tank Inventory Management System combines state-of-the-art technology with r
   * In the oil and gas sector, precise inventory management is critical for ensuring operational continuity, maintaining safety standards, and minimizing costs. Our Tank Inventory Management System offers an advanced, integrated approach to monitoring and managing storage tanks, designed to meet the unique challenges of the oil and gas environment.
 
 
-![The Automation Ghana Group - Tank Inventory Diagram](https://automationghana.com/wp-content/uploads/2024/09/Tank-Inventory-Diagram.png)
-![The Automation Ghana Group - Tank Gauging system](https://automationghana.com/wp-content/uploads/2024/09/Tank-Gauging-system.webp)
+![The Automation Ghana Group - Tank Inventory Diagram](https://18.197.210.112/wp-content/uploads/2024/09/Tank-Inventory-Diagram.png)
+![The Automation Ghana Group - Tank Gauging system](https://18.197.210.112/wp-content/uploads/2024/09/Tank-Gauging-system.webp)
 ## Advanced Tank Gauging
   * Utilizing high-precision sensors, our system provides continuous, real-time gauging of storage tank levels. This ensures accurate readings, reduces the risk of overfills or shortages, and enhances inventory accuracy.
 
@@ -94,8 +92,8 @@ Our Tank Inventory Management System combines state-of-the-art technology with r
   * Seamlessly track inter-tank transfers with real-time data acquisition, allowing for efficient management of transfer activities and minimizing the risk of human error.
 
 
-![The Automation Ghana Group - Fuel tank monitoring system](https://automationghana.com/wp-content/uploads/2024/09/Fuel-tank-monitoring-system.webp)
-![The Automation Ghana Group - Multiple parameter fuel](https://automationghana.com/wp-content/uploads/2024/09/Multiple-parameter-fuel.jpg)
+![The Automation Ghana Group - Fuel tank monitoring system](https://18.197.210.112/wp-content/uploads/2024/09/Fuel-tank-monitoring-system.webp)
+![The Automation Ghana Group - Multiple parameter fuel](https://18.197.210.112/wp-content/uploads/2024/09/Multiple-parameter-fuel.jpg)
 ## Integrated Multi-Parameter Measurement 
   * Our system measures multiple parameters including temperature, pressure, and flow to deliver a comprehensive overview of the tank environment, supporting both operational decisions and safety compliance.
 
@@ -104,8 +102,8 @@ Our Tank Inventory Management System combines state-of-the-art technology with r
   * We help you get remote access to inventory data through a secure interface, allowing for real-time monitoring, historical data analysis, and predictive maintenance planning.
 
 
-![The Automation Ghana Group - Data analytics for fuel management](https://automationghana.com/wp-content/uploads/2024/09/Data-analytics-for-fuel-management.jpg)
-![The Automation Ghana Group - SCADA Upgrade 1](https://automationghana.com/wp-content/uploads/2024/08/SCADA-Upgrade-1.jpg)
+![The Automation Ghana Group - Data analytics for fuel management](https://18.197.210.112/wp-content/uploads/2024/09/Data-analytics-for-fuel-management.jpg)
+![The Automation Ghana Group - SCADA Upgrade 1](https://18.197.210.112/wp-content/uploads/2024/08/SCADA-Upgrade-1.jpg)
 ## Seamless Integration with Existing Infrastructure 
   * Designed to integrate with your existing SCADA (Supervisory Control and Data Acquisition) systems, our solution allows for a streamlined operation with minimal disruption.
 
@@ -114,7 +112,7 @@ Our Tank Inventory Management System combines state-of-the-art technology with r
   * Built-in overfill prevention mechanisms, coupled with alarm systems, provide immediate alerts in case of any potential safety breaches, helping to prevent spills and mitigate environmental risks.
 
 
-![The Automation Ghana Group - Overfill Prevention and Alarm Systems](https://automationghana.com/wp-content/uploads/2024/09/Overfill-Prevention-and-Alarm-Systems.png)
+![The Automation Ghana Group - Overfill Prevention and Alarm Systems](https://18.197.210.112/wp-content/uploads/2024/09/Overfill-Prevention-and-Alarm-Systems.png)
 ## Benefits
 ## Greater Inventory Accuracy and Transparency
 By providing precise measurement of tank levels and transfers, our system reduces discrepancies, enhances accountability, and supports accurate inventory forecasting.
@@ -124,10 +122,10 @@ Continuous monitoring, overfill prevention features, and real-time alerts ensure
 Real-time insights into inventory levels, transfer activities, and tank conditions enable informed decision-making, reducing downtime, optimizing resource allocation, and cutting operational costs.
 ## Increased Flexibility and Scalability
 The modular design of our system allows it to be easily scaled or adapted to accommodate different tank types, capacities, and configurations as your operations grow.
-[ How Can We Help? ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-a0fd110692819123175b)
+[ How Can We Help? ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-a0fd110694002576e130)
 With over 2(two) decades of experience in electrical engineering and automation, we bring experience in delivering tailored solutions for the oil and gas industry. Our Tank Inventory Management System is designed to enhance the safety, efficiency, and reliability of your storage operations. We provide comprehensive support, from initial consultation and system design to installation, integration, and ongoing maintenance, ensuring that your inventory management is both precise and robust.
 Our solutions are implemented in strict compliance with international standards and protocols, ensuring seamless interoperability with systems from the world’s leading brands in power automation and integrated technologies.
-[ What We Offer ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-3ee4934692819123175b)
+[ What We Offer ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-3ee4934694002576e130)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -137,7 +135,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-32d8655692819123175b)
+[ Hardware and Software ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-32d8655694002576e130)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -150,7 +148,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-62ecacd692819123175b)
+[ Services ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-62ecacd694002576e130)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

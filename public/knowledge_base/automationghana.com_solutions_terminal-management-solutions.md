@@ -104,10 +104,10 @@ With advanced metering and automation, you achieve enhanced accuracy in volume a
 Automating critical processes and integrating them with business systems results in streamlined operations, faster turnaround times, and improved overall terminal productivity.
 ## Flexible and Scalable Solution
 Our modular approach allows for easy scalability and customization, enabling you to adapt the system to changing requirements or terminal expansions.
-[ How Can We Help? ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-a0fd110692819008f267)
+[ How Can We Help? ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-a0fd110693f54f94b661)
 At Automation Ghana Group, we understand the complexities of terminal management in the oil and gas industry. With over a decade of experience, we offer tailored solutions that maximize efficiency, minimize costs, and ensure compliance with industry standards. Our team of experts will work closely with you to design, implement, and maintain a terminal management solution that aligns with your specific operational needs and business goals.
 From initial consultation and system design to deployment and ongoing support, we provide a full range of services to help you optimize your terminal operations. Trust us to deliver reliable, scalable, and future-ready terminal management solutions that drive your business forward.
-[ What We Offer ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-3ee4934692819008f267)
+[ What We Offer ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-3ee4934693f54f94b661)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -117,7 +117,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-32d8655692819008f267)
+[ Hardware and Software ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-32d8655693f54f94b661)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -130,7 +130,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-62ecacd692819008f267)
+[ Services ](https://automationghana.com/solutions/terminal-management-solutions/#collapse-62ecacd693f54f94b661)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

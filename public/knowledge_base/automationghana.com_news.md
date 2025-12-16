@@ -77,6 +77,10 @@ No content found
 
 
 # News
+[![The Automation Ghana Group - TAGG Unveils Industrial Scale Energy Storage Breakthrough with Huawei LUNA2000–215 1](https://automationghana.com/wp-content/uploads/2025/12/TAGG-Unveils-Industrial-Scale-Energy-Storage-Breakthrough-with-Huawei-LUNA2000–215-1-1024x570.jpg)](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+###  [ TAGG Unveils Industrial-Scale Energy Storage Breakthrough with Huawei LUNA2000–215 ](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+[ Read More » ](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+December 12, 2025 
 [![Future Leaders Educational Fund](https://automationghana.com/wp-content/uploads/2025/11/IMG_0264-1024x535.jpg)](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
 ###  [ Celebrating 10 Years of the Future Leaders Educational Fund ](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
 [ Read More » ](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)

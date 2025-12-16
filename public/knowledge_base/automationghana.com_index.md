@@ -72,9 +72,9 @@ No content found
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-# Electrical and Automation Services through innovation
-Industrial Automation Services, Smart Home Solutions, Electrical Switchgear, Medium & High Voltage Grid Automation. 
-[ Discover More ](https://automationghana.com/our-solutions/) [ Free Consultation ](https://automationghana.com/contact-us/)
+# Exceptional Customer Support Service
+From routine maintenance, system audits to troubleshooting & training, we assist you with solutions and fast response times 
+[ Discover More ](https://automationghana.com/support) [ Free Consultation ](https://automationghana.com/contact-us/)
 ![The Automation Ghana Group - Solar PV Systems](https://automationghana.com/wp-content/uploads/2024/03/Solar-PV-Systems.png)
 ![The Automation Ghana Group - Energy Monitoring and Management System](https://automationghana.com/wp-content/uploads/2024/03/Energy-Monitoring-and-Management-System.png)
 ![The Automation Ghana Group - Energy Monitoring and Management](https://automationghana.com/wp-content/uploads/2024/03/Energy-Monitoring-and-Management.png)
@@ -229,6 +229,10 @@ TAGG designed a custom smart home system that simplified our lives. We couldn't 
 ## News
 Latest News and Events at The Automation Ghana Group. 
 [ More News ](https://automationghana.com/news/)
+[![The Automation Ghana Group - TAGG Unveils Industrial Scale Energy Storage Breakthrough with Huawei LUNA2000–215 1](https://automationghana.com/wp-content/uploads/2025/12/TAGG-Unveils-Industrial-Scale-Energy-Storage-Breakthrough-with-Huawei-LUNA2000–215-1-1024x570.jpg)](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+###  [ TAGG Unveils Industrial-Scale Energy Storage Breakthrough with Huawei LUNA2000–215 ](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+[ Read More » ](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+December 12, 2025 
 [![Future Leaders Educational Fund](https://automationghana.com/wp-content/uploads/2025/11/IMG_0264-1024x535.jpg)](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
 ###  [ Celebrating 10 Years of the Future Leaders Educational Fund ](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
 [ Read More » ](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
@@ -277,3 +281,5 @@ We provide unique electrical and automation services and products through innova
 enquiries@automationghana.com 
 © Copyright 2024. The Automation Ghana Group.
   * [ Policy Statements ](https://automationghana.com/policies/)
+
+

@@ -51,14 +51,14 @@ NH40-100/4CSW, Manual Changeover Panel With Iron Shield, 100A
 
 Related Products 
 ## Related products
-  * [![MCB, C20A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C20-1P-300x300.jpg)MCB, C20A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c20-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/?add-to-cart=1778)
-  * [![Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel, 200A, 4P, NH40-200/4CSW/ENC/BAR, Chint ₵2,807.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-200-4csw-enc-bar-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/?add-to-cart=1757)
-  * [![Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint ₵2,719.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
-[Add to cart](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/?add-to-cart=1756)
+  * [![MCB 4A 1P, NXB-63 1P C4 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C4-1P-300x300.jpg)MCB 4A 1P, NXB-63 1P C4 6kA, Chint ₵37.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c4-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/?add-to-cart=1785)
   * [![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)Automatic Voltage Regulator (AVR), 75kvA, 3 Phase ₵58,063.00 ](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
 [Add to cart](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/?add-to-cart=1641)
+  * [![AVR, 50KVA-3 Phase, TNSZ\(SBW\)-50, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-30-300x300.jpg)AVR, 50KVA-3 Phase, TNSZ(SBW)-50, Chint ₵50,216.00 ](https://store.automationghana.com/product/avr-tnszsbw-50-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/?add-to-cart=1640)
+  * [![AVR 10KVA 1 Phase, TND1\(SVC\)-10AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 10KVA 1 Phase, TND1(SVC)-10AF, Chint ₵7,405.00 ](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/)
+[Add to cart](https://store.automationghana.com/product/manual-changeover-nh40-100-4csw-with-iron-shield-chint/?add-to-cart=1635)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

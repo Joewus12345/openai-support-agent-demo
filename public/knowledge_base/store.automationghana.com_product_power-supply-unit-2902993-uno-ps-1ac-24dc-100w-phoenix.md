@@ -44,12 +44,12 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![UNO2-PS/1AC/24DC/60W/PT - Power supply - 1399933](https://store.automationghana.com/wp-content/uploads/2025/11/00206784_full_b408-300x300.jpg)UNO2-PS/1AC/24DC/60W/PT – Power supply – 1399933 ₵1,500.00 ](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/)
-[Add to cart](https://store.automationghana.com/product/power-supply-unit-2902993-uno-ps-1ac-24dc-100w-phoenix/?add-to-cart=24981)
-  * [![Power Supply Unit, ESSENTIAL-PS/3AC/24DC/240W/EE - 1018291, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/1018291-290x300.jpg)Power Supply Unit, ESSENTIAL-PS/3AC/24DC/240W/EE – 1018291, Phoenix Contact ₵1,991.40 ](https://store.automationghana.com/product/power-supply-unit-essential-ps-3ac-24dc-240w-ee-1018291-phoenix-contact/)
-[Add to cart](https://store.automationghana.com/product/power-supply-unit-2902993-uno-ps-1ac-24dc-100w-phoenix/?add-to-cart=24950)
-  * [![Power Supply Unit\(TRIO-PS-2G/3AC/24DC/5\), 2903153, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/Power-Supply-UnitTRIO-300x300.jpg)Power Supply Unit(TRIO-PS-2G/3AC/24DC/5), 2903153, Phoenix Contact ₵2,200.00 ](https://store.automationghana.com/product/power-supply-unittrio-ps-2g-3ac-24dc-5-2903153-phoenix-contact/)
-[Add to cart](https://store.automationghana.com/product/power-supply-unit-2902993-uno-ps-1ac-24dc-100w-phoenix/?add-to-cart=24943)
+  * [![Power Supply Unit, TRIO3-PS/3AC/24DC/40/8C/IOL -1362792, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/00187709_full_b408-300x300.jpg)Power Supply Unit, TRIO3-PS/3AC/24DC/40/8C/IOL -1362792, Phoenix Contact ₵5,788.20 ](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-40-8c-iol-1362792-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/power-supply-unit-2902993-uno-ps-1ac-24dc-100w-phoenix/?add-to-cart=24970)
+  * [![Power Supply Unit, PS-EE-2G/1AC/24DC/60W/SC - 1394764, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/00157045_full_b408-1-300x300.jpg)Power Supply Unit, PS-EE-2G/1AC/24DC/60W/SC – 1394764, Phoenix Contact ₵445.00 ](https://store.automationghana.com/product/power-supply-unit-ps-ee-2g-1ac-24dc-60w-sc-1394764-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/power-supply-unit-2902993-uno-ps-1ac-24dc-100w-phoenix/?add-to-cart=24963)
+  * [![Power Supply Unit, ESSENTIAL-PS/3AC/24DC/960W/EE -1018294, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/1018294-300x300.jpg)Power Supply Unit, ESSENTIAL-PS/3AC/24DC/960W/EE -1018294, Phoenix Contact ₵3,242.20 ](https://store.automationghana.com/product/power-supply-unit-essential-ps-3ac-24dc-960w-ee-1018294-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/power-supply-unit-2902993-uno-ps-1ac-24dc-100w-phoenix/?add-to-cart=24954)
   * [![Power Supply 2868541 STEP-PS/1AC/5DC/6.5 Phoenix](https://store.automationghana.com/wp-content/uploads/2025/11/2868541-STEP-300x300.jpg)Power Supply 2868541 STEP-PS/1AC/5DC/6.5 Phoenix ₵650.10 ](https://store.automationghana.com/product/power-supply-2868541-step-ps-1ac-5dc-6-5-phoenix/)
 [Add to cart](https://store.automationghana.com/product/power-supply-unit-2902993-uno-ps-1ac-24dc-100w-phoenix/?add-to-cart=24939)
 

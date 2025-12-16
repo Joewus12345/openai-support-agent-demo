@@ -45,14 +45,14 @@ Product Description
 The Hioki CM4373-50 Clamp Meter provides precise AC and DC current measurements with non-invasive clamping technology. It supports a wide current range and includes features such as inrush current measurement and data hold for capturing transient events. Designed for electrical troubleshooting, load analysis, and maintenance, it offers rugged construction with ergonomic handling for extended field use. This clamp meter ensures safety and accuracy in one compact tool.
 Related Products 
 ## Related products
-  * [![Clamp On Earth Tester, FT6380-50, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Clamp-On-Earth-Tester-FT6380-50-Hioki-300x300.png)Clamp On Earth Tester, FT6380-50, Hioki ₵22,774.40 ](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/)
-[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/?add-to-cart=24687)
+  * [![DC Signal Source, SS7012, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/DC-Signal-Source-SS7012-Hioki-300x300.png)DC Signal Source, SS7012, Hioki ₵33,104.40 ](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/)
+[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/?add-to-cart=24683)
   * [![Digital Insulation Tester, IR4056-20, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Insulation-Tester-IR4056-20-Hioki-300x300.png)Digital Insulation Tester, IR4056-20, Hioki ₵5,738.90 ](https://store.automationghana.com/product/digital-insulation-tester-ir4056-20-hioki/)
 [Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/?add-to-cart=24681)
-  * [![AC Clamp Meter, CM3289, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/AC-Clamp-Meter-CM3289-Hioki-300x300.png)AC Clamp Meter, CM3289, Hioki ₵2,447.00 ](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/)
-[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/?add-to-cart=24677)
   * [![Digital Multimeter, DT4282, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Multimeter-DT4282-300x300.png)Digital Multimeter, DT4282, Hioki ₵9,304.00 ](https://store.automationghana.com/product/digital-multimeter-dt4282-hioki/)
 [Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/?add-to-cart=24673)
+  * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/03/hioki-300x300.png)Hioki CM4373-50 Clamp Meter ₵12,541.50 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/)
+[Add to cart](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/?add-to-cart=24576)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

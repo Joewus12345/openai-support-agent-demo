@@ -114,9 +114,9 @@ Prevent operational shutdowns caused by lightning-related failures, keeping your
 Protect your employees and property from the dangers of lightning strikes.
 ## Long-Term Savings
 Avoid costly repairs, replacements, and business interruptions with proactive protection measures.
-[ How Can We Help? ](https://automationghana.com/solutions/lightning-protection-systems/#collapse-a0fd1106927e74583476)
+[ How Can We Help? ](https://automationghana.com/solutions/lightning-protection-systems/#collapse-a0fd1106940787d6f3da)
 At TAGG, we provide **comprehensive lightning protection systems** to safeguard your infrastructure. From risk assessments to custom installation and ongoing maintenance, our experts ensure your systems are fully protected against the dangers of lightning strikes.
-[ What We Offer ](https://automationghana.com/solutions/lightning-protection-systems/#collapse-3ee49346927e74583476)
+[ What We Offer ](https://automationghana.com/solutions/lightning-protection-systems/#collapse-3ee49346940787d6f3da)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -126,7 +126,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/lightning-protection-systems/#collapse-32d86556927e74583476)
+[ Hardware and Software ](https://automationghana.com/solutions/lightning-protection-systems/#collapse-32d86556940787d6f3da)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -139,7 +139,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/lightning-protection-systems/#collapse-62ecacd6927e74583476)
+[ Services ](https://automationghana.com/solutions/lightning-protection-systems/#collapse-62ecacd6940787d6f3da)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

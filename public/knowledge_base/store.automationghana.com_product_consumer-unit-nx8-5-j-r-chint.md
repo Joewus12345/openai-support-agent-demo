@@ -50,14 +50,14 @@ NX8-5-J (R), 5-Way Consumer Unit, Empty
 
 Related Products 
 ## Related products
-  * [![Distribution Board, 8 Way, Surface, NX9-8, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 8 Way, Surface, NX9-8, Chint ₵1,458.00 ](https://store.automationghana.com/product/dist-board-nx9-8-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/?add-to-cart=1709)
-  * [![Distribution Board, 6 Way, Surface, NX9-6, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 6 Way, Surface, NX9-6, Chint ₵1,375.00 ](https://store.automationghana.com/product/dist-board-nx9-6-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/?add-to-cart=1707)
-  * [![Distribution Board, 4 Way, Surface, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 4 Way, Surface, NX9-4, Chint ₵1,333.00 ](https://store.automationghana.com/product/dist-board-nx9-4-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/?add-to-cart=1704)
   * [![Distribution Board, 4 Way, Flush, NX9-4, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Flush-Chint-300x300.jpg)Distribution Board, 4 Way, Flush, NX9-4, Chint ₵1,237.00 ](https://store.automationghana.com/product/dist-board-nx9-4-flush-chint/)
 [Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/?add-to-cart=1703)
+  * [![Consumer Unit, 8-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 8-Way ₵254.00 ](https://store.automationghana.com/product/consumer-unit-nx8-8-r-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/?add-to-cart=1646)
+  * [![din-rail-th35-7.5-chint](https://store.automationghana.com/wp-content/uploads/2020/04/din-rail-th35-7.5-chint-300x300.jpg)Din Rail-TH35-7.5, Chint ₵25.00 ](https://store.automationghana.com/product/din-rail-th35-7-5-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/?add-to-cart=1562)
+  * [![Distribution Board, 6 Way, Surface, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Surface, NX9-6M, Chint ₵1,514.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-surface-chint/)
+[Add to cart](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/?add-to-cart=1506)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -146,14 +146,14 @@ Free updates for bug fixes, operational efficiency etc.
   * Ideal for new and expansion projects.
 
 
-[ How Can We Help? ](https://automationghana.com/solutions/energy-monitoring-and-management/#collapse-a0fd11069285705300a5)
+[ How Can We Help? ](https://automationghana.com/solutions/energy-monitoring-and-management/#collapse-a0fd110693f549ee915d)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy BMS solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/energy-monitoring-and-management/#collapse-3ee493469285705300a5)
+[ What We Offer ](https://automationghana.com/solutions/energy-monitoring-and-management/#collapse-3ee4934693f549ee915d)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -163,7 +163,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/energy-monitoring-and-management/#collapse-32d865569285705300a5)
+[ Hardware and Software ](https://automationghana.com/solutions/energy-monitoring-and-management/#collapse-32d8655693f549ee915d)
   * XPro Software + License
   * emmX Server
   * Monitoring PC
@@ -174,7 +174,7 @@ We offer after sales support services including:
   * Labour
 
 
-[ Services ](https://automationghana.com/solutions/energy-monitoring-and-management/#collapse-62ecacd69285705300a5)
+[ Services ](https://automationghana.com/solutions/energy-monitoring-and-management/#collapse-62ecacd693f549ee915d)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

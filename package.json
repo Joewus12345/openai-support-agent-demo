@@ -41,6 +41,7 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@reach/visually-hidden": "^0.18.0",
+    "@tabler/icons-react": "^3.35.0",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/react-table": "^8.21.3",
     "@xyflow/react": "^12.3.0",

@@ -74,8 +74,6 @@ No content found
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
 ![The Automation Ghana Group](https://automationghana.com/wp-content/uploads/2024/05/Safeguard.png)
   1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
-  3. Uninterruptible Power Supply
 
 
 ## **Safeguard Your Production:** Reliable UPS Systems 
@@ -99,14 +97,14 @@ Bridge the gap between power outages and the restoration of utility power, prote
 Power fluctuations and surges can damage sensitive electronic equipment. UPS systems provide clean and consistent power, protecting your valuable machinery and extending its lifespan. 
 ## Process continuity 
 Even a brief power interruption can disrupt your production process. UPS systems ensure uninterrupted power supply, allowing your operations to continue seamlessly and minimizing disruptions. 
-[ How Can We Help? ](https://automationghana.com/solutions/ups-systems/#collapse-a0fd1106927e77f4604a)
+[ How Can We Help? ](https://automationghana.com/solutions/ups-systems/#collapse-a0fd11069403cacc6abf)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/ups-systems/#collapse-3ee49346927e77f4604a)
+[ What We Offer ](https://automationghana.com/solutions/ups-systems/#collapse-3ee493469403cacc6abf)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -116,7 +114,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/ups-systems/#collapse-62ecacd6927e77f4604a)
+[ Services ](https://automationghana.com/solutions/ups-systems/#collapse-62ecacd69403cacc6abf)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

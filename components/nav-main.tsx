@@ -1,31 +1,32 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { MailIcon, PlusCircleIcon, type LucideIcon } from "lucide-react"
+import { type LucideIcon } from "lucide-react";
+import { IconCirclePlusFilled, IconMail } from "@tabler/icons-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 export function NavMain({
   items,
 }: {
   items: {
-    title: string
-    url: string
-    icon?: LucideIcon
-    disabled?: boolean
-  }[]
+    title: string;
+    url: string;
+    icon?: LucideIcon;
+    disabled?: boolean;
+  }[];
 }) {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <SidebarGroup>
@@ -38,18 +39,18 @@ export function NavMain({
               className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
             >
               <Link href="/" prefetch={false}>
-                <PlusCircleIcon />
+                <IconCirclePlusFilled />
                 <span>Quick Create</span>
               </Link>
             </SidebarMenuButton>
             <Button
               asChild
               size="icon"
-              className="h-9 w-9 shrink-0 group-data-[collapsible=icon]:opacity-0"
+              className="w-8 h-8 group-data-[collapsible=icon]:opacity-0"
               variant="outline"
             >
               <Link href="/" prefetch={false}>
-                <MailIcon />
+                <IconMail className="w-4 h-4" />
                 <span className="sr-only">Inbox</span>
               </Link>
             </Button>
@@ -58,7 +59,7 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => {
             const isActive =
-              pathname === item.url || pathname.startsWith(`${item.url}/`)
+              pathname === item.url || pathname.startsWith(`${item.url}/`);
 
             return (
               <SidebarMenuItem key={item.title}>
@@ -86,10 +87,10 @@ export function NavMain({
                   )}
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            )
+            );
           })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  )
+  );
 }

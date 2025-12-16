@@ -25,7 +25,7 @@ Search
 Search
 [Home](https://store.automationghana.com) / [Electrical Power Conditioning & Distribution](https://store.automationghana.com/product-category/electrical-power-distribution/) / Automatic Voltage Regulator (AVR), 75kvA, 3 Phase
 [![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/avr-tnszsbw-75-chint/)
-[![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75.jpg)
+[![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75.jpg)![Automatic Voltage Regulator \(AVR\), 75kvA, 3 Phase](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75.jpg)
 ####  Automatic Voltage Regulator (AVR), 75kvA, 3 Phase 
 **SKU :** TNSZ(SBW)-75 
 ₵58,063.00
@@ -51,14 +51,14 @@ AVR TNSZ (SBW)-75, 3 Phase
 
 Related Products 
 ## Related products
-  * [![MCB 4A 1P, NXB-63 1P C4 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C4-1P-300x300.jpg)MCB 4A 1P, NXB-63 1P C4 6kA, Chint ₵37.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c4-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/avr-tnszsbw-75-chint/?add-to-cart=1785)
-  * [![MCB 25A 1P, NXB-63 1P C25 6kA, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-C25-1P-300x300.jpg)MCB 25A 1P, NXB-63 1P C25 6kA, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c25-6ka-chint/)
-[Add to cart](https://store.automationghana.com/product/avr-tnszsbw-75-chint/?add-to-cart=1779)
-  * [![Manual Changeover Switch, 32A, 2P](https://store.automationghana.com/wp-content/uploads/2020/04/nzk1-32-300x300.jpg)Manual Changeover Switch, 32A, 2P ₵95.00 ](https://store.automationghana.com/product/manual-changeover-switch-32a-nzk1-32-22pr-chint/)
-[Add to cart](https://store.automationghana.com/product/avr-tnszsbw-75-chint/?add-to-cart=1759)
+  * [![Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXB-63-1P-C6-6KA-300x300.jpg)Miniature Circuit Breaker, 32A-1P-6kA, NXB-63, Chint ₵41.00 ](https://store.automationghana.com/product/mcb-nxb-63-1p-c32-6ka-chint/)
+[Add to cart](https://store.automationghana.com/product/avr-tnszsbw-75-chint/?add-to-cart=1780)
+  * [![Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/AUTOMATIC-TRANSFER-SWITCH-1-300x300.jpg)Manual Changeover Panel 160A, 4P, NH40-160/4CSW/ENC/BAR, Chint ₵2,719.00 ](https://store.automationghana.com/product/manual-changeover-panel-nh40-160-4csw-enc-bar-chint/)
+[Add to cart](https://store.automationghana.com/product/avr-tnszsbw-75-chint/?add-to-cart=1756)
   * [![AVR, 100KVA-3 Phase, TNSZ\(SBW\)-100, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TNSZSBW-75-300x300.jpg)AVR, 100KVA-3 Phase, TNSZ(SBW)-100, Chint ₵62,258.00 ](https://store.automationghana.com/product/avr-tnszsbw-100-chint/)
 [Add to cart](https://store.automationghana.com/product/avr-tnszsbw-75-chint/?add-to-cart=1638)
+  * [![AVR 10KVA 1 Phase, TND1\(SVC\)-10AF, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/TND1SVC-10AF.jpg)AVR 10KVA 1 Phase, TND1(SVC)-10AF, Chint ₵7,405.00 ](https://store.automationghana.com/product/avr-tnd1svc-10af-chint/)
+[Add to cart](https://store.automationghana.com/product/avr-tnszsbw-75-chint/?add-to-cart=1635)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

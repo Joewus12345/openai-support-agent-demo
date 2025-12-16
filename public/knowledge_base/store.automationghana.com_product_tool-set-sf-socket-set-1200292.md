@@ -44,14 +44,14 @@ Product Description
 1/4″ socket set, 47-piece, 1/4″ reversible ratchet, 48 teeth with fast locking system, 50 mm and 100 mm 1/4″ extensions, 1/4″ screwdriver handle, 150 mm 1/4″ flexible extension, 1/4″ Cardan joint, 1/4″ T-handle 2 x 1/4″ bit adapter, 13 knurled 1/4″ sockets, wrench size: 4 / 4.5 / 5 / 5.5 / 6 / 7 / 8 / 9 / 10 / 11 / 12 / 13 / 14 mm, 21 knurled socket bits: 6 x Torx® T10, T15, T20, T25, T30, T40, 6 x Hex 3, 4, 5, 6, 7, 8 mm, 3 x Phillips recess® PH1, PH2, PH3, 3 x Pozidriv® PZ1, PZ2, PZ3, 3 x slotted 4, 5.5, 7 mm, Allen wrench Hex 1.27, 1.5, 2, 2.5 mm, breakage and impact-resistant plastic case with metal fastening
 Related Products 
 ## Related products
-  * [![FLUKE-115](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-115-300x300.jpg)Multimeter-FLUKE-115, Fluke ₵5,282.00 ](https://store.automationghana.com/product/multimeter-fluke-115-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2013)
-  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
-[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2001)
+  * [![Industrial TRMS AC/DC Current Clamp, MD 9225, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Industrial-TRMS-AC-DC-Current-Clamp-MD-9225-Metrel-300x300.png)Metrel Industrial TRMS AC/DC Current Clamp Meter, MD 9225 ₵1,340.00 ](https://store.automationghana.com/product/industrial-trms-ac-dc-current-clamp-md-9225-metrel/)
+[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2006)
   * [![Digital Multimeter, MD 9010, Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9010-Metrel-300x300.png)Multimeter, Digital, 600VDC/VAC, 2mA AC/DC, MD 9010, Metrel ₵728.00 ](https://store.automationghana.com/product/digital-multimeter-md-9010-metrel/)
 [Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2000)
-  * [![FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER](https://store.automationghana.com/wp-content/uploads/2020/04/FLUKE-179-TRUE-RMS-DIGITAL-MULTIMETER-300x300.jpg)Multimeter, Digital with Temperature Reading, FLUKE-179, Fluke ₵5,505.00 ](https://store.automationghana.com/product/digital-multimeter-fluke-179-fluke/)
-[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=1999)
+  * [![Digital-Multimeter-MD-9016-Metrel](https://store.automationghana.com/wp-content/uploads/2020/04/Digital-Multimeter-MD-9016-Metrel-300x300.png)Metrel Electrical Field Service Multimeter, MD 9016 ₵1,204.00 ](https://store.automationghana.com/product/digital-multimeter-md-9016-metrel/)
+[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=2001)
+  * [ Sale! ![fluke-t5-600-24a](https://store.automationghana.com/wp-content/uploads/2020/04/fluke-t5-600-24a-300x300.jpg)Continuity and Current Tester, Fluke-T5-600, Fluke ~~₵ 3,039.00~~ Original price was: ₵3,039.00.₵2,252.32Current price is: ₵2,252.32. ](https://store.automationghana.com/product/continuity-and-current-tester-fluke-t5-600-fluke/)
+[Add to cart](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/?add-to-cart=1996)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

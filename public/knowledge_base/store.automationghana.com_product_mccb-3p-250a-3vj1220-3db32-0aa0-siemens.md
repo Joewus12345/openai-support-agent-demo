@@ -46,14 +46,14 @@ Product Description
 Circuit Breaker 3VJ1 IEC Framesize 3VJ12 250A Line Protection ATFM 3 Pole Icu=25kA@415V Ics=75% Icu In=200A Overload Protection Ir=160A…200A Short-Circuit Protection Ii=10 x In Screw Connection
 Related Products 
 ## Related products
-  * [![Miniature Circuit Breaker, 1P-10A-6kA-230/415V, 5TJ6110-7, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Miniature-Circuit-Breaker-300x300.jpg)Miniature Circuit Breaker, 1P-10A-6kA-230/415V, 5TJ6110-7, Siemens ₵57.50 ](https://store.automationghana.com/product/miniature-circuit-breaker-1p-10a-6ka-230-415v-5tj6110-7-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-250a-3vj1220-3db32-0aa0-siemens/?add-to-cart=24513)
-  * [![Auxiliary Switch Front, 3MH7910-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7910-0CT10, Siemens ₵42.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7910-0ct10-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-250a-3vj1220-3db32-0aa0-siemens/?add-to-cart=24503)
-  * [![Contactor, 3P-120A-230VAC, 3MT7120-5AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-120A-230VAC, 3MT7120-5AA00-0AP0, Siemens ₵3,910.00 ](https://store.automationghana.com/product/contactor-3p-120a-230vac-3mt7120-5aa00-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-250a-3vj1220-3db32-0aa0-siemens/?add-to-cart=24495)
-  * [![Contactor, 3P-50A-230VAC, 3MT7050-3AA11-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-50A-230VAC, 3MT7050-3AA11-0AP0, Siemens ₵1,438.00 ](https://store.automationghana.com/product/contactor-3p-50a-230vac-3mt7050-3aa11-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/mccb-3p-250a-3vj1220-3db32-0aa0-siemens/?add-to-cart=24490)
+  * [![Auxiliary Switch Lateral, 1NO+1NC, 3MH79110CL22, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Lateral-300x300.jpg)Auxiliary Switch Lateral, 1NO+1NC, 3MH79110CL22, Siemens ₵125.00 ](https://store.automationghana.com/product/auxiliary-switch-lateral-1no1nc-3mh79110cl22-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-250a-3vj1220-3db32-0aa0-siemens/?add-to-cart=24506)
+  * [![Auxiliary Switch Front, 3MH7902-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7902-0CT10, Siemens ₵57.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7902-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-250a-3vj1220-3db32-0aa0-siemens/?add-to-cart=24501)
+  * [![Auxiliary Switch Front, 3MH7920-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7920-0CT10, Siemens ₵57.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7920-0ct10-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-250a-3vj1220-3db32-0aa0-siemens/?add-to-cart=24499)
+  * [![Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/contactor-1.jpg)Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens ₵11,487.00 ](https://store.automationghana.com/product/contactor-3p-300a-3mt7300-7aa00-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/mccb-3p-250a-3vj1220-3db32-0aa0-siemens/?add-to-cart=24498)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

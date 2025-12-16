@@ -25,7 +25,7 @@ Search
 Search
 [Home](https://store.automationghana.com) / [Cables & Cable Management](https://store.automationghana.com/product-category/cables-cable-management/) / Autoflex Cable (Black), 3Cx1.5mm², JZ-500-C, Helukabel
 [![🔍](https://s.w.org/images/core/emoji/16.0.1/svg/1f50d.svg)](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/)
-[![Autoflex Cable \(Black\), 3Cx1.5mm², JZ-500-C, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-Cable-Black-3Cx1.5mm²-JZ-500-C.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-Cable-Black-3Cx1.5mm²-JZ-500-C.jpg)
+[![Autoflex Cable \(Black\), 3Cx1.5mm², JZ-500-C, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-Cable-Black-3Cx1.5mm²-JZ-500-C.jpg)](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-Cable-Black-3Cx1.5mm²-JZ-500-C.jpg)![Autoflex Cable \(Black\), 3Cx1.5mm², JZ-500-C, Helukabel](https://store.automationghana.com/wp-content/uploads/2020/04/Autoflex-Cable-Black-3Cx1.5mm²-JZ-500-C.jpg)
 ####  Autoflex Cable (Black), 3Cx1.5mm², JZ-500-C, Helukabel 
 **SKU :** Autoflex Cable (Black), 3Cx1.5mm², JZ-500-C 
 ₵20.10
@@ -62,14 +62,14 @@ This is used for flexible applications involving medium mechanical stress with f
 
 Related Products 
 ## Related products
-  * [![Autoflex Cable \(Green-Yellow\), H07V-K-1Cx16mm², 29210, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable (Green-Yellow), H07V-K-1Cx16mm², 29210, Helukabel ₵33.00 ](https://store.automationghana.com/product/autoflexcable-29210-h07v-k-1cx16-y-g-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1486)
-  * [![Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29177-H07V-K-1Cx6 BLK, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29177-h07v-k-1cx6-blk-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1471)
-  * [![Autoflex Cable-29179-H07V-K-1Cx6 BE, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable-29179-H07V-K-1Cx6 BE, Helukabel ₵14.70 ](https://store.automationghana.com/product/autoflex-cable-29179-h07v-k-1cx6-be-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1473)
-  * [![Autoflex Cable \(Blue\), H07V-K-1Cx4mm², 29163, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-4-300x300.jpg)Autoflex Cable (Blue), H07V-K-1Cx4mm², 29163, Helukabel ₵12.50 ](https://store.automationghana.com/product/autoflex-cable-29163-h07v-k-1cx4-be-helukabel/)
-[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1469)
+  * [![Autoflex Cable, 29194-H07V-K-1Cx10mm² Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29194-H07V-K-1Cx10mm² Y/G, Helukabel ₵25.50 ](https://store.automationghana.com/product/autoflex-cable-29194-h07v-k-1cx10-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1476)
+  * [![Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-2-300x300.jpg)Autoflex Cable, 29162-H07V-K-1Cx4 Y/G, Helukabel ₵12.00 ](https://store.automationghana.com/product/autoflex-cable-29162-h07v-k-1cx4-y-g-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1468)
+  * [![Autoflex Cable, 29161-H07V-K-1Cx4 BLK, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable, 29161-H07V-K-1Cx4 BLK, Helukabel ₵11.00 ](https://store.automationghana.com/product/autoflex-cable-29161-h07v-k-1cx4-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1467)
+  * [![Autoflex Cable \(Black\), H07V-K-1Cx1.5mm², 29129, Helukabel](https://store.automationghana.com/wp-content/uploads/2019/12/CABLES-3-300x300.jpg)Autoflex Cable (Black), H07V-K-1Cx1.5mm², 29129, Helukabel ₵4.80 ](https://store.automationghana.com/product/autoflex-cable-29129-h07v-k-1cx1-5-blk-helukabel/)
+[Add to cart](https://store.automationghana.com/product/armoured-power-cable-yjv32-4x240-chint/?add-to-cart=1460)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

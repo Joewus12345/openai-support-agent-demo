@@ -77,7 +77,10 @@ export default function ListArticles({
 
   const getLink = useCallback(
     (section: string) => {
-      const url = new URL(`/${page}?section=${section}`, window.location.origin);
+      const url = new URL(
+        `/${page}?section=${section}`,
+        window.location.origin
+      );
       navigator.clipboard.writeText(url.toString());
     },
     [page]
@@ -97,7 +100,9 @@ export default function ListArticles({
         const section = urlParams.get("section");
         if (section) {
           setSelectedId(section);
-          const index = metadata.findIndex((file) => file.name.split(".")[0] === section);
+          const index = metadata.findIndex(
+            (file) => file.name.split(".")[0] === section
+          );
           if (index >= 0) {
             setPageIndex(Math.floor(index / PAGE_SIZE));
           }
@@ -114,7 +119,9 @@ export default function ListArticles({
 
   useEffect(() => {
     if (!selectedId) return;
-    const selectedFile = files.find((file) => file.name.split(".")[0] === selectedId);
+    const selectedFile = files.find(
+      (file) => file.name.split(".")[0] === selectedId
+    );
     if (!selectedFile || fileContents[selectedId]) return;
 
     const fetchContent = async () => {
@@ -139,7 +146,9 @@ export default function ListArticles({
   }, [files, pageIndex]);
 
   const totalPages = Math.max(1, Math.ceil(files.length / PAGE_SIZE));
-  const selectedFile = files.find((file) => file.name.split(".")[0] === selectedId);
+  const selectedFile = files.find(
+    (file) => file.name.split(".")[0] === selectedId
+  );
   const selectedContent = selectedId ? fileContents[selectedId] : null;
 
   const totalSize = files.reduce((acc, file) => acc + file.size, 0);
@@ -170,7 +179,9 @@ export default function ListArticles({
                   {selectedFile.type || "md"}
                 </Badge>
                 <span>{humanFileSize(selectedFile.size)}</span>
-                <span>Updated {new Date(selectedFile.modifiedAt).toLocaleString()}</span>
+                <span>
+                  Updated {new Date(selectedFile.modifiedAt).toLocaleString()}
+                </span>
               </div>
             ) : null}
           </div>
@@ -187,22 +198,28 @@ export default function ListArticles({
           ) : null}
         </div>
         <Separator />
-        <ReactMarkdown components={markdownComponents} className="prose prose-sm max-w-none text-muted-foreground">
+        <ReactMarkdown
+          components={markdownComponents}
+          className="prose prose-sm max-w-none text-muted-foreground"
+        >
           {contentBody}
         </ReactMarkdown>
       </div>
     );
   }, [selectedContent, selectedFile, selectedId, getLink]);
 
-  const layoutHasDetail = Boolean(selectedFile && (selectedContent || loadingContent));
+  const layoutHasDetail = Boolean(
+    selectedFile && (selectedContent || loadingContent)
+  );
 
   return (
     <div className="w-full space-y-4 p-4">
       <div className="flex flex-wrap justify-between gap-3">
         <div className="space-y-1">
-          <h1 className="text-2xl font-bold leading-tight">{title}</h1>
+          <h1 className="text-2xl font-semibold leading-tight">{title}</h1>
           <p className="text-sm text-muted-foreground">
-            Browse knowledge base markdown files. Click a row to preview the content without leaving the table.
+            Browse knowledge base markdown files. Click a row to preview the
+            content without leaving the table.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -220,12 +237,16 @@ export default function ListArticles({
         <Card className="shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg">Knowledge base files</CardTitle>
-            <CardDescription>Showing {PAGE_SIZE} files per page</CardDescription>
+            <CardDescription>
+              Showing {PAGE_SIZE} files per page
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="overflow-hidden rounded-lg border">
               <Table>
-                <TableCaption className="sr-only">Knowledge base files</TableCaption>
+                <TableCaption className="sr-only">
+                  Knowledge base files
+                </TableCaption>
                 <TableHeader>
                   <TableRow>
                     <TableHead className="min-w-[160px]">Name</TableHead>
@@ -239,9 +260,13 @@ export default function ListArticles({
                 <TableBody>
                   {loadingFiles ? (
                     <TableRow>
-                      <TableCell colSpan={6} className="py-6 text-center text-sm text-muted-foreground">
+                      <TableCell
+                        colSpan={6}
+                        className="py-6 text-center text-sm text-muted-foreground"
+                      >
                         <div className="flex items-center justify-center gap-2">
-                          <Loader2 className="h-4 w-4 animate-spin" /> Loading files…
+                          <Loader2 className="h-4 w-4 animate-spin" /> Loading
+                          files…
                         </div>
                       </TableCell>
                     </TableRow>
@@ -261,9 +286,15 @@ export default function ListArticles({
                             setSelectedId(id);
                           }}
                         >
-                          <TableCell className="font-medium">{file.name}</TableCell>
-                          <TableCell className="capitalize text-muted-foreground">{file.type || "md"}</TableCell>
-                          <TableCell className="text-muted-foreground">{humanFileSize(file.size)}</TableCell>
+                          <TableCell className="font-medium">
+                            {file.name}
+                          </TableCell>
+                          <TableCell className="capitalize text-muted-foreground">
+                            {file.type || "md"}
+                          </TableCell>
+                          <TableCell className="text-muted-foreground">
+                            {humanFileSize(file.size)}
+                          </TableCell>
                           <TableCell className="text-muted-foreground">
                             {new Date(file.createdAt).toLocaleString()}
                           </TableCell>
@@ -288,7 +319,10 @@ export default function ListArticles({
                     })
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={6} className="py-6 text-center text-sm text-muted-foreground">
+                      <TableCell
+                        colSpan={6}
+                        className="py-6 text-center text-sm text-muted-foreground"
+                      >
                         No files found.
                       </TableCell>
                     </TableRow>
@@ -313,7 +347,9 @@ export default function ListArticles({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setPageIndex((prev) => Math.min(totalPages - 1, prev + 1))}
+                  onClick={() =>
+                    setPageIndex((prev) => Math.min(totalPages - 1, prev + 1))
+                  }
                   disabled={pageIndex >= totalPages - 1}
                 >
                   Next
@@ -333,13 +369,16 @@ export default function ListArticles({
               {loadingContent && !selectedContent ? (
                 <div className="flex h-full min-h-[240px] items-center justify-center text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" /> Loading article…
+                    <Loader2 className="h-4 w-4 animate-spin" /> Loading
+                    article…
                   </div>
                 </div>
               ) : selectedContent ? (
                 renderedContent
               ) : (
-                <p className="text-sm text-muted-foreground">Select a file to preview its contents.</p>
+                <p className="text-sm text-muted-foreground">
+                  Select a file to preview its contents.
+                </p>
               )}
             </CardContent>
           </Card>

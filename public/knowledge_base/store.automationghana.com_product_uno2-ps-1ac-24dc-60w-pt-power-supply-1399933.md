@@ -43,14 +43,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![STEP-PS/ 1AC/24DC/0.75 - Power supply - 2868635](https://store.automationghana.com/wp-content/uploads/2025/11/2868635-300x300.jpg)STEP-PS/ 1AC/24DC/0.75 – Power supply – 2868635 ₵1,500.00 ](https://store.automationghana.com/product/step-ps-1ac-24dc-0-75-power-supply-2868635/)
-[Add to cart](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/?add-to-cart=24979)
-  * [![Power Supply Unit, TRIO3-PS/3AC/24DC/40/8C/IOL -1362792, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/00187709_full_b408-300x300.jpg)Power Supply Unit, TRIO3-PS/3AC/24DC/40/8C/IOL -1362792, Phoenix Contact ₵5,788.20 ](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-40-8c-iol-1362792-phoenix-contact/)
-[Add to cart](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/?add-to-cart=24970)
-  * [![Power Supply Unit, ESSENTIAL-PS/3AC/24DC/240W/EE - 1018291, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/1018291-290x300.jpg)Power Supply Unit, ESSENTIAL-PS/3AC/24DC/240W/EE – 1018291, Phoenix Contact ₵1,991.40 ](https://store.automationghana.com/product/power-supply-unit-essential-ps-3ac-24dc-240w-ee-1018291-phoenix-contact/)
-[Add to cart](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/?add-to-cart=24950)
-  * [![Tool set - TOOL-CASE 1212629](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-TOOL-CASE-9-300x300.jpg)Tool set – TOOL-CASE 1212629 ₵33,999.00 ](https://store.automationghana.com/product/tool-set-tool-case-1212629/)
-[Add to cart](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/?add-to-cart=24911)
+  * [![Power Supply Unit 2902993 - UNO-PS/1AC/24DC/100W, Phoenix](https://store.automationghana.com/wp-content/uploads/2025/11/Capture1-300x300.jpg)Power Supply Unit 2902993 – UNO-PS/1AC/24DC/100W, Phoenix ₵855.00 ](https://store.automationghana.com/product/power-supply-unit-2902993-uno-ps-1ac-24dc-100w-phoenix/)
+[Add to cart](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/?add-to-cart=24972)
+  * [![Power Supply Unit, PS-EE-2G/1AC/24DC/480W/SC - 1234308, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/00155526_full_b408-1-300x300.jpg)Power Supply Unit, PS-EE-2G/1AC/24DC/480W/SC – 1234308, Phoenix Contact ₵4,500.00 ](https://store.automationghana.com/product/power-supply-unit-ps-ee-2g-1ac-24dc-480w-sc-1234308-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/?add-to-cart=24960)
+  * [![Power Supply Unit, PS-EE-2G/1AC/24DC/240W/SC - 1234304, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/00155525_full_b408-300x300.jpg)Power Supply Unit, PS-EE-2G/1AC/24DC/240W/SC – 1234304, Phoenix Contact ₵2,700.00 ](https://store.automationghana.com/product/power-supply-unit-ps-ee-2g-1ac-24dc-240w-sc-1234304-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/?add-to-cart=24958)
+  * [![Fluke 323 True RMS Clamp Meter \(400 A\)](https://store.automationghana.com/wp-content/uploads/2025/03/Fluke-323-True-RMS-Clamp-Meter-400-A-300x300.png)Fluke 323 True RMS Clamp Meter (400 A) ₵4,167.00 ](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/)
+[Add to cart](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/?add-to-cart=24574)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

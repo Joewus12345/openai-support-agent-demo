@@ -112,14 +112,14 @@ Ensure materials are readily available to meet production schedules. Real-time i
 Stock-outs can lead to production delays, missed deadlines, and unhappy customers. Our system helps you avoid this by automatically generating alerts when inventory levels reach critical points, allowing you to replenish supplies before they run out. 
 ## Optimized space utilization
 Free up valuable storage space for more efficient operations. By maintaining optimal inventory levels, you can eliminate the need for excess storage space and utilize your warehouse footprint more effectively. 
-[ How Can We Help? ](https://automationghana.com/solutions/automated-inventory-management-system/#collapse-a0fd1106928239f14ad9)
+[ How Can We Help? ](https://automationghana.com/solutions/automated-inventory-management-system/#collapse-a0fd11069406596d8780)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/automated-inventory-management-system/#collapse-3ee49346928239f14ad9)
+[ What We Offer ](https://automationghana.com/solutions/automated-inventory-management-system/#collapse-3ee493469406596d8780)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -129,7 +129,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/automated-inventory-management-system/#collapse-62ecacd6928239f14ad9)
+[ Services ](https://automationghana.com/solutions/automated-inventory-management-system/#collapse-62ecacd69406596d8780)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

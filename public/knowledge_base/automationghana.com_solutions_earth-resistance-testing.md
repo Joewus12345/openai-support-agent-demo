@@ -112,9 +112,9 @@ Ensure that your electrical systems are properly grounded, protecting both perso
 Prevent electrical system failures by addressing grounding issues before they lead to faults or downtime.
 ## Enhanced Safety
 Avoid costly repairs and replacements due to electrical failures caused by poor grounding.
-[ How Can We Help? ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-a0fd1106927bd929700d)
+[ How Can We Help? ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-a0fd1106940764133123)
 We provide thorough **earth resistance testing** services to ensure your electrical grounding systems are safe, reliable, and compliant with industry regulations. Our team will work with you to identify any potential risks and implement effective solutions that guarantee the safety and performance of your electrical infrastructure.
-[ What We Offer ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-3ee49346927bd929700d)
+[ What We Offer ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-3ee49346940764133123)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -124,7 +124,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-32d86556927bd929700d)
+[ Hardware and Software ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-32d86556940764133123)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -137,7 +137,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting partsVisit www.store.automationghana.com to purchase our testing tools
 
 
-[ Services ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-62ecacd6927bd929700d)
+[ Services ](https://automationghana.com/solutions/earth-resistance-testing/#collapse-62ecacd6940764133123)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

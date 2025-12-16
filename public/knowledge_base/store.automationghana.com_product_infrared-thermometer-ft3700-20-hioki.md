@@ -45,14 +45,14 @@ Product Description
 The Hioki FT3700-20 Infrared Thermometer provides fast, non-contact temperature readings with excellent accuracy. It’s ideal for measuring surface temperatures of electrical components, mechanical systems, and HVAC equipment without physical contact, reducing risk and improving safety. Features include adjustable emissivity, laser targeting, and data hold, supporting detailed diagnostics and preventive maintenance.
 Related Products 
 ## Related products
-  * [![Digital Multimeter, DT4255, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Digital-Multimeter-DT4255-Hioki-300x300.png)Digital Multimeter, DT4255, Hioki ₵3,292.40 ](https://store.automationghana.com/product/digital-multimeter-dt4255-hioki/)
-[Add to cart](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/?add-to-cart=24689)
-  * [![AC Clamp Meter, CM3289, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/AC-Clamp-Meter-CM3289-Hioki-300x300.png)AC Clamp Meter, CM3289, Hioki ₵2,447.00 ](https://store.automationghana.com/product/ac-clamp-meter-cm3289-hioki/)
-[Add to cart](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/?add-to-cart=24677)
-  * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/03/hioki-300x300.png)Hioki CM4373-50 Clamp Meter ₵12,541.50 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter/)
-[Add to cart](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/?add-to-cart=24576)
-  * [![HIOKI DT4281 Digital Multimeter](https://store.automationghana.com/wp-content/uploads/2025/01/Hioki-Digital-4281-1-300x300.jpg)HIOKI DT4281 Digital Multimeter ₵8,654.73 ](https://store.automationghana.com/product/hioki-dt4281-digital-multimeter/)
-[Add to cart](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/?add-to-cart=22653)
+  * [![Clamp On Earth Tester, FT6380-50, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/Clamp-On-Earth-Tester-FT6380-50-Hioki-300x300.png)Clamp On Earth Tester, FT6380-50, Hioki ₵22,774.40 ](https://store.automationghana.com/product/clamp-on-earth-tester-ft6380-50-hioki/)
+[Add to cart](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/?add-to-cart=24687)
+  * [![DC Signal Source, SS7012, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/DC-Signal-Source-SS7012-Hioki-300x300.png)DC Signal Source, SS7012, Hioki ₵33,104.40 ](https://store.automationghana.com/product/dc-signal-source-ss7012-hioki/)
+[Add to cart](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/?add-to-cart=24683)
+  * [![AC Clamp Meter, 3280-10F, Hioki](https://store.automationghana.com/wp-content/uploads/2025/05/AC-Clamp-Meter-328010F-Hioki-300x300.png)AC Clamp Meter, 3280-10F, Hioki ₵1,540.50 ](https://store.automationghana.com/product/ac-clamp-meter-3280-10f-hioki/)
+[Add to cart](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/?add-to-cart=24679)
+  * [![Hioki CM4373-50 Clamp Meter](https://store.automationghana.com/wp-content/uploads/2025/05/ACDC-Clamp-Meter-300x300.png)Hioki CM4373-50 Clamp Meter ₵8,790.00 ](https://store.automationghana.com/product/hioki-cm4373-50-clamp-meter-2/)
+[Add to cart](https://store.automationghana.com/product/infrared-thermometer-ft3700-20-hioki/?add-to-cart=24675)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

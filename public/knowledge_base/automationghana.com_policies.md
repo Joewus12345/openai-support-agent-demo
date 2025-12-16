@@ -77,7 +77,7 @@ No content found
 
 
 # Policies
-![Quality Policy](https://automationghana.com/wp-content/uploads/2024/08/Website-Banner-Policy-3-1024x256.jpg)
+![Quality Policy](https://18.197.210.112/wp-content/uploads/2024/08/Website-Banner-Policy-3-1024x256.jpg)
 ## Quality Policy
 **The Automation Ghana Group (TAGG)** is a consortium comprising of three companies;
   * Process and Plant Automation Limited (PPA),
@@ -87,17 +87,17 @@ No content found
 
 These three companies provide complementary electromechanical solutions and services. With its headquarters situated at the Automation Hub on Spintex Road, TAGG employs over two hundred people, collaborating to deliver electrical engineering and automation products and services to a wide variety of customers in the telecommunications, mining, oil, and gas, and manufacturing industries in Ghana and across the West African sub-region.
 [ Read More ](https://automationghana.com/policies/quality-policy/)
-![The Automation Ghana Group - Website Banner Policy 2](https://automationghana.com/wp-content/uploads/2024/08/Website-Banner-Policy-2-1024x256.jpg)
+![The Automation Ghana Group - Website Banner Policy 2](https://18.197.210.112/wp-content/uploads/2024/08/Website-Banner-Policy-2-1024x256.jpg)
 ## Occupational Health, Safety & Environment Policy
 **The Automation Ghana Group (TAGG)** is a consortium comprising three companies; Process and Plant Automation Limited (PPA), Automation Solutions Limited (ASL), and Electrical Switchgear Limited (ESL).These three companies provide complementary electromechanical solutions and services.
 With its headquarters situated at the Automation Hub on the Spintex Road in Accra Ghana, TAGG employs over two hundred people, and is committed to its mission; to transform the lives of stakeholders by providing unique electrical and automation services through innovation, training, and exceptional customer service. 
 [ Read More ](https://automationghana.com/policies/occupational-health-safety-environment-policy/)
-![Privacy Statement](https://automationghana.com/wp-content/uploads/2024/08/privacy_policy_tagg.jpg)
+![Privacy Statement](https://18.197.210.112/wp-content/uploads/2024/08/privacy_policy_tagg.jpg)
 ## Privacy Statement
 TAGG and its subsidiaries are committed to maintaining the accuracy, confidentiality, and security of your personally identifiable information. A wide variety of parties entrust their information to TAGG for business purposes, and all employees do their best to safeguard the privacy and security of this information.
 As part of this commitment, our privacy policy governs our actions as they relate to the collection, use and disclosure of Information.
 [ Read More ](https://automationghana.com/policies/privacy-statement/)
-![COVID-19 Policy](https://automationghana.com/wp-content/uploads/2024/08/Website-Banner-Policy-1-1024x256.jpg)
+![COVID-19 Policy](https://18.197.210.112/wp-content/uploads/2024/08/Website-Banner-Policy-1-1024x256.jpg)
 ## COVID-19 Policy 
 The Automation Ghana Group (TAGG) remains committed to the safety and wellbeing of its workers, customers and visitors. This commitment has been demonstrated through our high standards of environmental protection; the sharing of best practices; and provision a safe and healthy work environment.
 With the recent threat of the novel corona virus (COVID-19) and its potential ramifications, there is no higher priority TAGG than the safety of our customers, our partners, our employees, and their families.

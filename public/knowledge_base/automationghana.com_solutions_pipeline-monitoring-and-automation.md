@@ -72,9 +72,9 @@ No content found
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![Advanced pipeline monitoring c](https://automationghana.com/wp-content/uploads/2024/09/Pipeline-Automation-2.jpg)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
+![Advanced pipeline monitoring c](https://18.197.210.112/wp-content/uploads/2024/09/Pipeline-Automation-2.jpg)
+  1. [Home](https://18.197.210.112)
+  2. [Solution](https://18.197.210.112/solutions/)
   3. Pipeline Monitoring
 
 
@@ -84,8 +84,8 @@ Pipeline Monitoring and Automation solution is designed to provide continuous, r
   * In the oil and gas sector, precise inventory management is critical for ensuring operational continuity, maintaining safety standards, and minimizing costs. Our Tank Inventory Management System offers an advanced, integrated approach to monitoring and managing storage tanks, designed to meet the unique challenges of the oil and gas environment.
 
 
-![The Automation Ghana Group - Oil and gas engineers 1 1](https://automationghana.com/wp-content/uploads/2024/09/Oil-and-gas-engineers-1-1.avif)
-![The Automation Ghana Group - Flow measurements](https://automationghana.com/wp-content/uploads/2024/09/Flow-measurements.jpg)
+![The Automation Ghana Group - Oil and gas engineers 1 1](https://18.197.210.112/wp-content/uploads/2024/09/Oil-and-gas-engineers-1-1.avif)
+![The Automation Ghana Group - Flow measurements](https://18.197.210.112/wp-content/uploads/2024/09/Flow-measurements.jpg)
 ## Flow Measurement
   * Our advanced pipeline monitoring solution uses highly accurate flow meters to continuously track the volume of product transferred. Built for reliability under varying conditions, these flow meters deliver precise measurements that safeguard product quality, minimize wastage, and enhance operational efficiency.
 
@@ -94,8 +94,8 @@ Pipeline Monitoring and Automation solution is designed to provide continuous, r
   * Our system measures the density of the product in real time, utilizing state-of-the-art sensors. This capability helps detect any changes in the product’s composition, identifying potential contamination or mixing of different products, and ensuring product quality and consistency.
 
 
-![The Automation Ghana Group - Density Measurement](https://automationghana.com/wp-content/uploads/2024/09/Density-Measurement-1024x490.png)
-![The Automation Ghana Group - Pipeline Leakage detection](https://automationghana.com/wp-content/uploads/2024/09/Pipeline-Leakage-detection.jpeg)
+![The Automation Ghana Group - Density Measurement](https://18.197.210.112/wp-content/uploads/2024/09/Density-Measurement-1024x490.png)
+![The Automation Ghana Group - Pipeline Leakage detection](https://18.197.210.112/wp-content/uploads/2024/09/Pipeline-Leakage-detection.jpeg)
 ## Leakage Detection and Reporting 
   * The solution integrates sophisticated leak detection algorithms that continuously monitor the pipeline for signs of leaks, pressure drops, or flow inconsistencies. When a potential leak is detected, immediate alerts are sent to the control center, enabling swift action to mitigate risks and prevent environmental damage.
 
@@ -104,8 +104,8 @@ Pipeline Monitoring and Automation solution is designed to provide continuous, r
   * Advanced automation controls allow for remote operation and management of valves, pumps, and other critical equipment along the pipeline. This ensures optimal flow rates, minimizes pressure fluctuations, and enables quick responses to operational changes or emergencies.
 
 
-![The Automation Ghana Group - Automated Controls](https://automationghana.com/wp-content/uploads/2024/09/Automated-Controls.jpg)
-![The Automation Ghana Group - Real time data analytics](https://automationghana.com/wp-content/uploads/2024/09/Real-time-data-analytics.png)
+![The Automation Ghana Group - Automated Controls](https://18.197.210.112/wp-content/uploads/2024/09/Automated-Controls.jpg)
+![The Automation Ghana Group - Real time data analytics](https://18.197.210.112/wp-content/uploads/2024/09/Real-time-data-analytics.png)
 ## Real-Time Data Analytics and Reporting
   * Our system provides a comprehensive dashboard that displays real-time data, historical trends, and predictive analytics, enabling informed decision-making and proactive maintenance.
 
@@ -114,7 +114,7 @@ Pipeline Monitoring and Automation solution is designed to provide continuous, r
   * The solution can be integrated with existing SCADA systems, providing centralized control and remote monitoring capabilities from a secure interface, ensuring operational continuity even in remote locations.
 
 
-![The Automation Ghana Group - SCADA 1](https://automationghana.com/wp-content/uploads/2024/09/SCADA-1.jpg)
+![The Automation Ghana Group - SCADA 1](https://18.197.210.112/wp-content/uploads/2024/09/SCADA-1.jpg)
 ## Benefits
 ## Enhanced Safety and Environmental Protection
 Early leak detection and rapid response capabilities minimize the risk of spills, environmental damage, and safety hazards.
@@ -124,10 +124,10 @@ Real-time monitoring and automation reduce manual interventions, optimize produc
 By preventing leaks and detecting anomalies early, the solution helps reduce product losses, maintenance costs, and potential regulatory fines.
 ## Increased Transparency and Compliance
 Continuous monitoring and detailed reporting support regulatory compliance and enhance transparency, building trust with stakeholders and regulatory bodies.
-[ How Can We Help? ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-a0fd110692876ddcb595)
+[ How Can We Help? ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-a0fd110693f325a9b0cc)
 At Automation Ghana Group, we specialize in providing advanced pipeline monitoring and automation solutions tailored to the unique challenges of the oil and gas sector. With over a decade of experience, we bring in-depth industry knowledge and cutting-edge technology to optimize your pipeline operations, enhance safety, and drive operational efficiency.
 Our team of experts works closely with you to design, implement, and maintain a customized solution that meets your specific needs, ensuring seamless integration with your existing systems. We provide end-to-end support, from initial consultation and design to installation, training, and ongoing maintenance, ensuring that your pipeline operations are always secure and efficient.
-[ What We Offer ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-3ee4934692876ddcb595)
+[ What We Offer ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-3ee4934693f325a9b0cc)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -137,7 +137,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-32d8655692876ddcb595)
+[ Hardware and Software ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-32d8655693f325a9b0cc)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -150,7 +150,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-62ecacd692876ddcb595)
+[ Services ](https://automationghana.com/solutions/pipeline-monitoring-and-automation/#collapse-62ecacd693f325a9b0cc)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

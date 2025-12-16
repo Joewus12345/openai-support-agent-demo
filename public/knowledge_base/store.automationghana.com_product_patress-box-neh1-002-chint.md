@@ -46,14 +46,14 @@ Product Description
 NEH1-002, 3 X 6 Recessed Pattress Box, Plastic 
 Related Products 
 ## Related products
-  * [![RT UPS, 1kVA, UPA102R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)RT UPS, 1kVA, UPA102R2RX0B035, Delta ₵7,779.00 ](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=24750)
+  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 60", DCF-FS52920, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/photo_2025-08-21_10-59-29-300x287.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 60″, DCF-FS52920, Zhongshan Weiyu ~~₵ 2,650.50~~ Original price was: ₵2,650.50.₵2,205.50Current price is: ₵2,205.50. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-60-dcf-fs52920-zhongshan-weiyu/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=24817)
+  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 42", IBCF-C03, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/31GqGkJyvuL._AC_US750_-300x300.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 42″, IBCF-C03, Zhongshan Weiyu ~~₵ 2,099.50~~ Original price was: ₵2,099.50.₵1,747.00Current price is: ₵1,747.00. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-42-ibcf-c03-zhongshan-weiyu/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=24814)
   * [![Pattress Box 3 x 3, NEH1-001A Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box 3 x 3, NEH1-001A Chint ₵7.50 ](https://store.automationghana.com/product/patress-box-neh1-001a-chint/)
 [Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1829)
-  * [![Pattress Box NEH1-202 Chint](https://store.automationghana.com/wp-content/uploads/2020/04/3x6-patress-300x300.jpg)Pattress Box NEH1-202 Chint ₵17.00 ](https://store.automationghana.com/product/pattress-box-neh1-202-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1832)
-  * [![Blank Plate For 3 x 3 Patress, NEW7-G951, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate For 3 x 3 Patress, NEW7-G951, Chint ₵8.50 ](https://store.automationghana.com/product/blank-plate-new7-g951-chint/)
-[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1642)
+  * [![Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/Blank-Plate-NEW6-D95200-Chint-300x300.jpg)Blank Plate 3 x 6, 2-Gang, NEW6-D95200, White, Chint ₵31.00 ](https://store.automationghana.com/product/blank-plate-new6-d95200-chint/)
+[Add to cart](https://store.automationghana.com/product/patress-box-neh1-002-chint/?add-to-cart=1503)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -44,14 +44,14 @@ Product Description
 Get accurate, reliable electrical measurements with the Fluke 323 True RMS Clamp Meter. Designed for tough environments, this slim and ergonomic meter delivers precise AC current (up to 400 A), voltage (600 V AC/DC), and resistance measurements (up to 4 kΩ). Ideal for electrical panels, HVAC/R, and plant maintenance, it features a large, easy-to-read display, CAT III 600V & CAT IV 300V safety ratings, and a rugged design built to withstand harsh conditions.
 Related Products 
 ## Related products
-  * [![UNO2-PS/1AC/24DC/60W/PT - Power supply - 1399933](https://store.automationghana.com/wp-content/uploads/2025/11/00206784_full_b408-300x300.jpg)UNO2-PS/1AC/24DC/60W/PT – Power supply – 1399933 ₵1,500.00 ](https://store.automationghana.com/product/uno2-ps-1ac-24dc-60w-pt-power-supply-1399933/)
-[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24981)
-  * [![Power Supply Unit, PS-EE-2G/1AC/24DC/60W/SC - 1394764, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/00157045_full_b408-1-300x300.jpg)Power Supply Unit, PS-EE-2G/1AC/24DC/60W/SC – 1394764, Phoenix Contact ₵445.00 ](https://store.automationghana.com/product/power-supply-unit-ps-ee-2g-1ac-24dc-60w-sc-1394764-phoenix-contact/)
-[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24963)
-  * [![Power Supply Unit, ESSENTIAL-PS/3AC/24DC/480W/EE -1018299, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/1018299-278x300.jpg)Power Supply Unit, ESSENTIAL-PS/3AC/24DC/480W/EE -1018299, Phoenix Contact ₵2,517.40 ](https://store.automationghana.com/product/power-supply-unit-essential-ps-3ac-24dc-480w-ee-1018299-phoenix-contact/)
-[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24952)
+  * [![Power Supply Unit, TRIO3-PS/3AC/24DC/40/8C/IOL -1362792, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/00187709_full_b408-300x300.jpg)Power Supply Unit, TRIO3-PS/3AC/24DC/40/8C/IOL -1362792, Phoenix Contact ₵5,788.20 ](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-40-8c-iol-1362792-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24970)
+  * [![Power Supply Unit\(TRIO3-PS/3AC/24DC/40\), 1159045, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/Power-Supply-UnitTRIO3-PS-300x300.jpg)Power Supply Unit(TRIO3-PS/3AC/24DC/40), 1159045, Phoenix Contact ₵6,900.00 ](https://store.automationghana.com/product/power-supply-unittrio3-ps-3ac-24dc-40-1159045-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24948)
   * [![Tool set – Tool Wrap 1212505](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-–-Tool-Wrap-5-300x300.jpg)Tool set – Tool Wrap 1212505 ₵5,992.03 ](https://store.automationghana.com/product/tool-set-tool-wrap-1212505/)
 [Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24915)
+  * [![Tool set - TOOL-CARRIER 1212503](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-TOOL-CARRIER-1212503-300x300.jpg)Tool set – TOOL-CARRIER 1212503 ₵12,858.74 ](https://store.automationghana.com/product/tool-set-tool-carrier-1212503-2/)
+[Add to cart](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/?add-to-cart=24905)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

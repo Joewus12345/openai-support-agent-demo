@@ -44,14 +44,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Power Supply Unit\(TRIO3-PS/3AC/24DC/10\), 1159042, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/Power-Supply-UnitTRIO3-1-300x300.jpg)Power Supply Unit(TRIO3-PS/3AC/24DC/10), 1159042, Phoenix Contact ₵3,800.00 ](https://store.automationghana.com/product/power-supply-unittrio3-ps-3ac-24dc-10-1159042-phoenix-contact/)
-[Add to cart](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-20-1159044-phoenix-contact/?add-to-cart=24945)
+  * [![Power Supply Unit\(TRIO-PS-2G/3AC/24DC/5\), 2903153, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/Power-Supply-UnitTRIO-300x300.jpg)Power Supply Unit(TRIO-PS-2G/3AC/24DC/5), 2903153, Phoenix Contact ₵2,200.00 ](https://store.automationghana.com/product/power-supply-unittrio-ps-2g-3ac-24dc-5-2903153-phoenix-contact/)
+[Add to cart](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-20-1159044-phoenix-contact/?add-to-cart=24943)
   * [![Power Supply 2868541 STEP-PS/1AC/5DC/6.5 Phoenix](https://store.automationghana.com/wp-content/uploads/2025/11/2868541-STEP-300x300.jpg)Power Supply 2868541 STEP-PS/1AC/5DC/6.5 Phoenix ₵650.10 ](https://store.automationghana.com/product/power-supply-2868541-step-ps-1ac-5dc-6-5-phoenix/)
 [Add to cart](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-20-1159044-phoenix-contact/?add-to-cart=24939)
-  * [![Tool set - TOOL-BAG 1212504](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-TOOL-BAG-300x300.jpg)Tool set – TOOL-BAG 1212504 ₵15,954.33 ](https://store.automationghana.com/product/tool-set-tool-bag-1212504-2/)
-[Add to cart](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-20-1159044-phoenix-contact/?add-to-cart=24907)
-  * [![Fluke 323 True RMS Clamp Meter \(400 A\)](https://store.automationghana.com/wp-content/uploads/2025/03/Fluke-323-True-RMS-Clamp-Meter-400-A-300x300.png)Fluke 323 True RMS Clamp Meter (400 A) ₵4,167.00 ](https://store.automationghana.com/product/fluke-323-true-rms-clamp-meter-400-a/)
-[Add to cart](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-20-1159044-phoenix-contact/?add-to-cart=24574)
+  * [![Tool set – SF – Socket Set 1200292](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-–-SF-–-Socket-Set-2-300x300.jpg)Tool set – SF – Socket Set 1200292 ₵6,458.77 ](https://store.automationghana.com/product/tool-set-sf-socket-set-1200292/)
+[Add to cart](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-20-1159044-phoenix-contact/?add-to-cart=24913)
+  * [![Tool set - TOOL-CARRIER 1212503](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-TOOL-CARRIER-1212503-300x300.jpg)Tool set – TOOL-CARRIER 1212503 ₵12,858.74 ](https://store.automationghana.com/product/tool-set-tool-carrier-1212503-2/)
+[Add to cart](https://store.automationghana.com/product/power-supply-unit-trio3-ps-3ac-24dc-20-1159044-phoenix-contact/?add-to-cart=24905)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

@@ -103,14 +103,14 @@ Our EMS ensures you meet all regulatory and sustainability standards.
 Robust instrumentation guarantees accurate data collection and analysis.
 ## Scalability
 Our solution adapts to various industries and scales to meet your specific energy management needs.
-[ How Can We Help? ](https://automationghana.com/solutions/monitoring-the-fermentation-process-in-beer-production-2/#collapse-a0fd11069283fa393fc9)
+[ How Can We Help? ](https://automationghana.com/solutions/monitoring-the-fermentation-process-in-beer-production-2/#collapse-a0fd110693f913424a60)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/monitoring-the-fermentation-process-in-beer-production-2/#collapse-3ee493469283fa393fc9)
+[ What We Offer ](https://automationghana.com/solutions/monitoring-the-fermentation-process-in-beer-production-2/#collapse-3ee4934693f913424a60)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -120,7 +120,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/monitoring-the-fermentation-process-in-beer-production-2/#collapse-62ecacd69283fa393fc9)
+[ Services ](https://automationghana.com/solutions/monitoring-the-fermentation-process-in-beer-production-2/#collapse-62ecacd693f913424a60)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
