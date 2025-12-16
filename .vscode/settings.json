@@ -1,5 +1,8 @@
 {
-    "python.analysis.extraPaths": [
-        "./crawl4AI-agent-v2"
-    ]
+  "python.analysis.extraPaths": ["./crawl4AI-agent-v2"],
+  "css.validate": false,
+  "css.customData": ["./.vscode/tailwind.json"],
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  }
 }

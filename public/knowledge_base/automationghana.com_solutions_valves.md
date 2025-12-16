@@ -104,9 +104,9 @@ Provides precise control over fluid flow to optimize performance and reduce wast
 Lowers maintenance requirements and operational costs through robust construction and efficient design.
 ## Versatility
 Accommodates a wide range of fluid types and applications, making it suitable for various industrial processes.
-[ How Can We Help? ](https://automationghana.com/solutions/valves/#collapse-a0fd1106927723e60e6a)
+[ How Can We Help? ](https://automationghana.com/solutions/valves/#collapse-a0fd110693f550258177)
 We optimize your fluid control systems with our comprehensive range of valves tailored for the mining sector. Our solutions enhance efficiency and reliability in managing abrasive and general fluids, ensuring smooth operations and reduced downtime. Our expert team is ready to assist in selecting and integrating the right valves for your specific needs, providing ongoing support for optimal performance.
-[ What We Offer ](https://automationghana.com/solutions/valves/#collapse-3ee49346927723e60e6a)
+[ What We Offer ](https://automationghana.com/solutions/valves/#collapse-3ee4934693f550258177)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -116,7 +116,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/valves/#collapse-32d86556927723e60e6a)
+[ Hardware and Software ](https://automationghana.com/solutions/valves/#collapse-32d8655693f550258177)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -129,7 +129,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/valves/#collapse-62ecacd6927723e60e6a)
+[ Services ](https://automationghana.com/solutions/valves/#collapse-62ecacd693f550258177)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

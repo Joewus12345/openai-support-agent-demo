@@ -72,7 +72,7 @@ No content found
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - energy class and efficiency app on phone over arch 2023 11 27 04 56 45 utc](https://automationghana.com/wp-content/uploads/2024/03/energy-class-and-efficiency-app-on-phone-over-arch-2023-11-27-04-56-45-utc-1024x683.jpg)
+![The Automation Ghana Group - energy class and efficiency app on phone over arch 2023 11 27 04 56 45 utc](http://18.197.210.112/wp-content/uploads/2024/03/energy-class-and-efficiency-app-on-phone-over-arch-2023-11-27-04-56-45-utc-1024x683.jpg)
 ## Energy Management & Monitoring
 ## **Reduce Costs, Boost Sustainability:** Industrial Energy Management
 Our energy management solutions go beyond just electrical systems. This translates to significant cost savings and a smaller environmental footprint. We then recommend targeted solutions like variable speed drives that adjust power based on demand, or power factor correction to optimize electricity usage. Save money, reduce your environmental footprint, and gain a competitive edge. 
@@ -85,8 +85,8 @@ Experience impressive energy savings ranging from 18% to 60%, optimizing your re
 Detect system faults early on, empowering your maintenance staff to act swiftly and effectively, saving both time and money.
 **Seamless Monitoring and Reporting**
 Enjoy the convenience of local and remote monitoring, with detailed production data logged for visibility, accessibility, and effortless report generation.
-![The Automation Ghana Group](https://automationghana.com/wp-content/uploads/2024/04/EFMS.png)
-![The Automation Ghana Group](https://automationghana.com/wp-content/uploads/2024/04/Energy-Audit.png)
+![The Automation Ghana Group](http://18.197.210.112/wp-content/uploads/2024/04/EFMS.png)
+![The Automation Ghana Group](http://18.197.210.112/wp-content/uploads/2024/04/Energy-Audit.png)
 ## Energy Audit & Power Quality Analysis 
 Choose from a range of high-quality switchgear, transformers, and power synchronization panels, tailored to meet the unique needs in efficient energy measurement, ensuring reliable power supply for essential production processes such as boiling, baking, and frying.
 Opt for optional add-ons that include monitoring components tracking critical parameters and device status, increasing forecast accuracy, maximizing uptime and minimizing maintenance efforts during essential production processes such as pasteurization and sterilization.
@@ -107,7 +107,7 @@ Opt for optional add-ons that include monitoring components tracking critical pa
   * Reduced chances of error
 
 
-![The Automation Ghana Group](https://automationghana.com/wp-content/uploads/2024/04/power-synch.png)
+![The Automation Ghana Group](http://18.197.210.112/wp-content/uploads/2024/04/power-synch.png)
 ## Benefits
 ## Reduced energy waste 
 Gain real-time insights into energy usage across your entire production process with data that allows you to identify and address inefficiencies proactively, preventing wasted energy. 
@@ -117,14 +117,14 @@ Showcase your commitment to environmental responsibility with detailed energy us
 Tailor your processes for peak efficiency based on collected energy consumption data. Adjusting production schedules or implementing energy-saving practices 
 ## Lower utility bills
 Our energy management system can pinpoint areas with the highest energy consumption, allowing you to prioritize upgrades and replacements for maximum impact. 
-[ How Can We Help? ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-a0fd11069276bd1b01c2)
+[ How Can We Help? ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-a0fd110693fb61462d3a)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-3ee493469276bd1b01c2)
+[ What We Offer ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-3ee4934693fb61462d3a)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -134,7 +134,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-62ecacd69276bd1b01c2)
+[ Services ](https://automationghana.com/solutions/energy-management-monitoring/#collapse-62ecacd693fb61462d3a)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

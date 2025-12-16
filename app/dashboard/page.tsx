@@ -9,19 +9,37 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SectionCards } from "@/components/section-cards";
 import { SiteHeader } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import useConversationStore from "@/stores/useConversationStore";
 import { useSessionStore } from "@/stores/useSessionStore";
 import type { ChatMessage } from "@/lib/assistant";
+import { DataTable } from "@/components/data-table";
+import data from "@/app/dashboard/data.json";
+import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 
 function RecentMessages() {
   const chatMessages = useConversationStore((state) => state.chatMessages);
-  const pendingMessages = useConversationStore((state) => state.pendingMessages);
+  const pendingMessages = useConversationStore(
+    (state) => state.pendingMessages
+  );
 
   const rows = useMemo(() => {
     return [...chatMessages]
@@ -45,7 +63,8 @@ function RecentMessages() {
       <CardHeader>
         <CardTitle>Conversation activity</CardTitle>
         <CardDescription>
-          Latest exchanges between the customer and the support assistant. Pending messages: {pendingMessages.length}
+          Latest exchanges between the customer and the support assistant.
+          Pending messages: {pendingMessages.length}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -76,7 +95,13 @@ function RecentMessages() {
   );
 }
 
-function ConversationWorkspace({ activeView, onChange }: { activeView: string; onChange: (value: string) => void }) {
+function ConversationWorkspace({
+  activeView,
+  onChange,
+}: {
+  activeView: string;
+  onChange: (value: string) => void;
+}) {
   return (
     <Card className="@container/card">
       <CardHeader className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
@@ -96,20 +121,34 @@ function ConversationWorkspace({ activeView, onChange }: { activeView: string; o
         <Tabs value={activeView} onValueChange={onChange} className="space-y-4">
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-center gap-3 rounded-md border px-3 py-2 text-xs md:hidden">
-              <span className={`font-semibold ${activeView === "customer" ? "text-foreground" : "text-muted-foreground"}`}>
-                Customer view
+              <span
+                className={`font-semibold ${
+                  activeView === "customer"
+                    ? "text-foreground"
+                    : "text-muted-foreground"
+                }`}
+              >
+                Customer View
               </span>
               <Switch
                 checked={activeView === "agent"}
-                onCheckedChange={(checked) => onChange(checked ? "agent" : "customer")}
+                onCheckedChange={(checked) =>
+                  onChange(checked ? "agent" : "customer")
+                }
               />
-              <span className={`font-semibold ${activeView === "agent" ? "text-foreground" : "text-muted-foreground"}`}>
-                Agent tools
+              <span
+                className={`font-semibold ${
+                  activeView === "agent"
+                    ? "text-foreground"
+                    : "text-muted-foreground"
+                }`}
+              >
+                Agent View
               </span>
             </div>
             <TabsList className="hidden w-full grid-cols-2 md:grid">
-              <TabsTrigger value="customer">Customer view</TabsTrigger>
-              <TabsTrigger value="agent">Agent tools</TabsTrigger>
+              <TabsTrigger value="customer">Customer View</TabsTrigger>
+              <TabsTrigger value="agent">Agent View</TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="customer" className="space-y-4">
@@ -125,12 +164,21 @@ function ConversationWorkspace({ activeView, onChange }: { activeView: string; o
 }
 
 export default function Page() {
-  const { chatMessages, pendingMessages, autoReply, modelProvider } = useConversationStore();
+  const { chatMessages, pendingMessages, autoReply, modelProvider } =
+    useConversationStore();
   const { roles, userId, verified, expiresAt } = useSessionStore();
   const [activeView, setActiveView] = useState("customer");
 
   return (
-    <SidebarProvider>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "16rem",
+          "--sidebar-width-icon": "3rem",
+          "--header-height": "calc(var(--spacing) * 14)",
+        } as React.CSSProperties
+      }
+    >
       <AppSidebar variant="inset" />
       <SidebarInset>
         <SiteHeader />
@@ -150,11 +198,18 @@ export default function Page() {
                 }}
               />
               <div className="px-4 lg:px-6">
-                <ConversationWorkspace activeView={activeView} onChange={setActiveView} />
+                <ConversationWorkspace
+                  activeView={activeView}
+                  onChange={setActiveView}
+                />
               </div>
               <div className="px-4 lg:px-6">
                 <RecentMessages />
               </div>
+              <div className="px-4 lg:px-6">
+                <ChartAreaInteractive />
+              </div>
+              <DataTable data={data} />
             </div>
           </div>
         </div>

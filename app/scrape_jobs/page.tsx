@@ -19,6 +19,8 @@ import {
   XCircle,
 } from "lucide-react";
 
+import { Separator } from "@/components/ui/separator";
+
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { AppPageShell } from "@/components/app-page-shell";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
@@ -31,6 +33,8 @@ import {
   validateTargetForSchema,
 } from "@/config/scrapeScripts";
 import { useSessionStore } from "@/stores/useSessionStore";
+import { DataTable } from "@/components/data-table";
+import datatable from "@/app/dashboard/data.json";
 
 type ScrapeJob = {
   id: string;
@@ -77,7 +81,10 @@ const fetcher = async (url: string) => {
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-      const res = await fetch(url, { credentials: "same-origin", signal: controller.signal });
+      const res = await fetch(url, {
+        credentials: "same-origin",
+        signal: controller.signal,
+      });
 
       if (res.status === 401) {
         const error = new Error("Unauthorized");
@@ -87,7 +94,8 @@ const fetcher = async (url: string) => {
 
       if (!res.ok) {
         const error = new Error("Failed to load scrape jobs");
-        (error as Error & { status?: number; info?: unknown }).status = res.status;
+        (error as Error & { status?: number; info?: unknown }).status =
+          res.status;
         (error as Error & { status?: number; info?: unknown }).info = await res
           .text()
           .catch(() => null);
@@ -99,7 +107,9 @@ const fetcher = async (url: string) => {
       const isLastAttempt = attempt === maxAttempts;
       const isAbortError = (error as Error)?.name === "AbortError";
       const message = isAbortError
-        ? `Scrape jobs request timed out after ${timeoutMs / 1000}s; will retry automatically.`
+        ? `Scrape jobs request timed out after ${
+            timeoutMs / 1000
+          }s; will retry automatically.`
         : "Error fetching scrape jobs";
 
       if (isAbortError) {
@@ -110,7 +120,8 @@ const fetcher = async (url: string) => {
 
       if (isLastAttempt) {
         const finalError = new Error(message);
-        (finalError as Error & { cause?: unknown; name?: string }).cause = error;
+        (finalError as Error & { cause?: unknown; name?: string }).cause =
+          error;
         if (isAbortError) {
           finalError.name = "TimeoutError";
         }
@@ -157,7 +168,8 @@ function toLocalDateTimeInput(value: string | null) {
 function parseLocalDateTimeInput(value: string | null) {
   if (!value) return { iso: null, date: null, error: undefined } as const;
   const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) return { iso: null, date: null, error: "Enter a valid date/time" } as const;
+  if (Number.isNaN(parsed.getTime()))
+    return { iso: null, date: null, error: "Enter a valid date/time" } as const;
   return { iso: parsed.toISOString(), date: parsed, error: undefined } as const;
 }
 
@@ -173,7 +185,11 @@ function deriveProgress(job: ScrapeJob) {
     return Math.max(0, Math.min(100, Math.round(job.progress)));
   }
   if (job.paused) return 0;
-  if (job.status === ScrapeJobStatus.completed || job.status === ScrapeJobStatus.failed) return 100;
+  if (
+    job.status === ScrapeJobStatus.completed ||
+    job.status === ScrapeJobStatus.failed
+  )
+    return 100;
   if (job.status === ScrapeJobStatus.canceled) return 100;
   if (job.status === ScrapeJobStatus.running) return 70;
   if (job.status === ScrapeJobStatus.queued) return 25;
@@ -191,13 +207,16 @@ function progressColor(status: ScrapeJobStatus, paused: boolean) {
 function getJobTarget(job: ScrapeJob) {
   const args = job.args as Record<string, unknown> | null;
   if (!args) return "";
-  const value = (args.url as string | undefined) ?? (args.targetUrl as string | undefined);
+  const value =
+    (args.url as string | undefined) ?? (args.targetUrl as string | undefined);
   return typeof value === "string" ? value : "";
 }
 
 export default function ScrapeJobsPage() {
   const [isDocumentVisible, setIsDocumentVisible] = useState(
-    typeof document === "undefined" ? true : document.visibilityState === "visible"
+    typeof document === "undefined"
+      ? true
+      : document.visibilityState === "visible"
   );
   const [consecutiveErrors, setConsecutiveErrors] = useState(0);
   const [detailedPolling, setDetailedPolling] = useState(true);
@@ -222,16 +241,26 @@ export default function ScrapeJobsPage() {
     [csrfToken]
   );
   const eventSourceRef = useRef<EventSource | null>(null);
-  const eventSourceRetryRef = useRef<{ attempt: number; timer: NodeJS.Timeout | null }>({
+  const eventSourceRetryRef = useRef<{
+    attempt: number;
+    timer: NodeJS.Timeout | null;
+  }>({
     attempt: 0,
     timer: null,
   });
 
-  const { data, error, isLoading, mutate, setSize: setPageCount } = useSWRInfinite<JobsPage>(
+  const {
+    data,
+    error,
+    isLoading,
+    mutate,
+    setSize: setPageCount,
+  } = useSWRInfinite<JobsPage>(
     (index: number, previousPage: JobsPage | null) => {
       if (!isAdmin) return null;
       if (previousPage && !previousPage.nextCursor) return null;
-      const cursorParam = index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
+      const cursorParam =
+        index === 0 ? "" : `&cursor=${previousPage?.nextCursor ?? ""}`;
       const statusParam = appliedHistoryFilters.status
         ? `&status=${appliedHistoryFilters.status}`
         : "";
@@ -241,17 +270,21 @@ export default function ScrapeJobsPage() {
       const toParam = appliedHistoryFilters.to
         ? `&to=${encodeURIComponent(appliedHistoryFilters.to)}`
         : "";
-      return `/api/scrape_jobs?detailed=${detailedPolling ? "true" : "false"}&logPreview=true&limit=${JOB_PAGE_SIZE}${cursorParam}${statusParam}${fromParam}${toParam}`;
+      return `/api/scrape_jobs?detailed=${
+        detailedPolling ? "true" : "false"
+      }&logPreview=true&limit=${JOB_PAGE_SIZE}${cursorParam}${statusParam}${fromParam}${toParam}`;
     },
     paginatedFetcher,
     {
       refreshInterval: (latestPages: JobsPage[] | undefined) => {
         if (!isDocumentVisible) return 0;
 
-        const merged = latestPages?.flatMap((page: JobsPage) => page.jobs ?? []) ?? [];
+        const merged =
+          latestPages?.flatMap((page: JobsPage) => page.jobs ?? []) ?? [];
         const hasActiveJobs = merged.some(
           (job: SerializedJob) =>
-            job.job.status === ScrapeJobStatus.running || job.job.status === ScrapeJobStatus.queued
+            job.job.status === ScrapeJobStatus.running ||
+            job.job.status === ScrapeJobStatus.queued
         );
         const jobCount = merged.length;
 
@@ -260,8 +293,8 @@ export default function ScrapeJobsPage() {
             ? 20000
             : 35000
           : jobCount > 75
-            ? 60000
-            : 45000;
+          ? 60000
+          : 45000;
 
         const backoffFactor = Math.min(consecutiveErrors + 1, 5);
         return baseInterval * backoffFactor;
@@ -293,7 +326,8 @@ export default function ScrapeJobsPage() {
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 
   useEffect(() => {
@@ -325,9 +359,13 @@ export default function ScrapeJobsPage() {
 
   const [selectedPreset, setSelectedPreset] = useState(SCRIPT_PRESETS[0].key);
   const [targetUrl, setTargetUrl] = useState(SCRIPT_PRESETS[0].defaultTarget);
-  const [createTargetError, setCreateTargetError] = useState<string | null>(null);
+  const [createTargetError, setCreateTargetError] = useState<string | null>(
+    null
+  );
   const [createArgError, setCreateArgError] = useState<string | null>(null);
-  const [requiredArgDrafts, setRequiredArgDrafts] = useState<Record<string, string>>({});
+  const [requiredArgDrafts, setRequiredArgDrafts] = useState<
+    Record<string, string>
+  >({});
   const [creating, setCreating] = useState<string | null>(null);
   const [ingesting, setIngesting] = useState<Record<string, string>>({});
   const [copiedTarget, setCopiedTarget] = useState(false);
@@ -335,7 +373,9 @@ export default function ScrapeJobsPage() {
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [runMessages, setRunMessages] = useState<Record<string, string>>({});
-  const [scheduleErrors, setScheduleErrors] = useState<Record<string, string>>({});
+  const [scheduleErrors, setScheduleErrors] = useState<Record<string, string>>(
+    {}
+  );
   const [scheduleDrafts, setScheduleDrafts] = useState<
     Record<
       string,
@@ -447,7 +487,9 @@ export default function ScrapeJobsPage() {
       body: JSON.stringify({ token: authTokenInput }),
     });
 
-    const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+    const payload = (await res.json().catch(() => null)) as {
+      error?: string;
+    } | null;
 
     if (res.ok) {
       setAuthRequired(false);
@@ -510,7 +552,10 @@ export default function ScrapeJobsPage() {
       schema.requiredArgs.forEach((req) => {
         const draft = (requiredArgDrafts[req.key] ?? "").trim();
         if (draft) {
-          const parts = draft.split(",").map((part) => part.trim()).filter(Boolean);
+          const parts = draft
+            .split(",")
+            .map((part) => part.trim())
+            .filter(Boolean);
           argsPayload[req.key] = parts.length > 1 ? parts : parts[0];
         }
       });
@@ -590,8 +635,13 @@ export default function ScrapeJobsPage() {
         const nextCadence = updates.cadence ?? current.cadence;
         const nextAutoRunManualWithNext = (() => {
           if (nextCadence !== ScrapeJobCadence.manual) return false;
-          if (current.cadence !== ScrapeJobCadence.manual && updates.cadence === ScrapeJobCadence.manual)
-            return job.autoRunManualWithNext ?? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT;
+          if (
+            current.cadence !== ScrapeJobCadence.manual &&
+            updates.cadence === ScrapeJobCadence.manual
+          )
+            return (
+              job.autoRunManualWithNext ?? AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
+            );
           return updates.autoRunManualWithNext ?? current.autoRunManualWithNext;
         })();
 
@@ -649,13 +699,19 @@ export default function ScrapeJobsPage() {
         await mutate();
       } else {
         setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
-        const error = typeof result?.error === "string" ? result.error : "Failed to start ingestion.";
+        const error =
+          typeof result?.error === "string"
+            ? result.error
+            : "Failed to start ingestion.";
         setRunMessages((state) => ({ ...state, [job.job.id]: error }));
       }
     } catch (err) {
       console.error("Error sending to vector store", err);
       setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
-      setRunMessages((state) => ({ ...state, [job.job.id]: "Unexpected error while sending to vector store." }));
+      setRunMessages((state) => ({
+        ...state,
+        [job.job.id]: "Unexpected error while sending to vector store.",
+      }));
     }
   };
 
@@ -669,9 +725,15 @@ export default function ScrapeJobsPage() {
       return { isoNextRunAt: null, error: parsed.error };
     }
 
-    if (draft.cadence === ScrapeJobCadence.manual && draft.autoRunManualWithNext) {
+    if (
+      draft.cadence === ScrapeJobCadence.manual &&
+      draft.autoRunManualWithNext
+    ) {
       if (!parsed.date) {
-        return { isoNextRunAt: null, error: "Set a next run time to auto-run manual jobs." };
+        return {
+          isoNextRunAt: null,
+          error: "Set a next run time to auto-run manual jobs.",
+        };
       }
       if (parsed.date.getTime() <= Date.now()) {
         return {
@@ -679,7 +741,11 @@ export default function ScrapeJobsPage() {
           error: "Next run time must be in the future for scheduled cadences.",
         };
       }
-    } else if (parsed.date && draft.cadence !== ScrapeJobCadence.manual && parsed.date.getTime() <= Date.now()) {
+    } else if (
+      parsed.date &&
+      draft.cadence !== ScrapeJobCadence.manual &&
+      parsed.date.getTime() <= Date.now()
+    ) {
       return {
         isoNextRunAt: parsed.iso,
         error: "Next run time must be in the future for scheduled cadences.",
@@ -735,9 +801,11 @@ export default function ScrapeJobsPage() {
 
       if (handleAuthFailure(res)) return;
 
-      const payload = (await res.json().catch(() => null)) as
-        | { message?: string; error?: string; cancellation?: { message?: string } }
-        | null;
+      const payload = (await res.json().catch(() => null)) as {
+        message?: string;
+        error?: string;
+        cancellation?: { message?: string };
+      } | null;
 
       if (payload?.message || payload?.cancellation?.message) {
         setRunMessages((state) => ({
@@ -822,9 +890,9 @@ export default function ScrapeJobsPage() {
       if (handleAuthFailure(res)) return;
 
       if (res.ok) {
-        const payload = (await res.json().catch(() => null)) as
-          | { job?: { id?: string } }
-          | null;
+        const payload = (await res.json().catch(() => null)) as {
+          job?: { id?: string };
+        } | null;
         const newJobId = payload?.job?.id;
         if (newJobId) {
           setRunMessages((current) => ({
@@ -862,7 +930,9 @@ export default function ScrapeJobsPage() {
           cadence: draft.cadence,
           nextRunAt: isoNextRunAt,
           autoRunManualWithNext:
-            draft.cadence === ScrapeJobCadence.manual ? draft.autoRunManualWithNext : false,
+            draft.cadence === ScrapeJobCadence.manual
+              ? draft.autoRunManualWithNext
+              : false,
         }),
       });
 
@@ -880,7 +950,9 @@ export default function ScrapeJobsPage() {
         });
         await mutate();
       } else {
-        const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+        const payload = (await res.json().catch(() => null)) as {
+          error?: string;
+        } | null;
         const message = payload?.error || "Failed to update schedule";
         setScheduleErrors((current) => ({ ...current, [job.job.id]: message }));
         console.error("Failed to update schedule", message);
@@ -901,17 +973,25 @@ export default function ScrapeJobsPage() {
       [ScrapeJobStatus.canceled]: "Canceled",
     };
 
-    const label = paused ? `Paused — ${labels[status] ?? status}` : labels[status] ?? status;
+    const label = paused
+      ? `Paused — ${labels[status] ?? status}`
+      : labels[status] ?? status;
 
     const colors: Partial<Record<ScrapeJobStatus, string>> = {
-      [ScrapeJobStatus.queued]: "bg-amber-50 text-amber-700 border border-amber-200",
-      [ScrapeJobStatus.running]: "bg-blue-50 text-blue-700 border border-blue-200",
-      [ScrapeJobStatus.completed]: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+      [ScrapeJobStatus.queued]:
+        "bg-amber-50 text-amber-700 border border-amber-200",
+      [ScrapeJobStatus.running]:
+        "bg-blue-50 text-blue-700 border border-blue-200",
+      [ScrapeJobStatus.completed]:
+        "bg-emerald-50 text-emerald-700 border border-emerald-200",
       [ScrapeJobStatus.failed]: "bg-red-50 text-red-700 border border-red-200",
-      [ScrapeJobStatus.canceled]: "bg-zinc-100 text-zinc-700 border border-zinc-200",
+      [ScrapeJobStatus.canceled]:
+        "bg-zinc-100 text-zinc-700 border border-zinc-200",
     };
 
-    const baseColor = paused ? "bg-amber-50 text-amber-700 border border-amber-200" : colors[status];
+    const baseColor = paused
+      ? "bg-amber-50 text-amber-700 border border-amber-200"
+      : colors[status];
 
     return (
       <span
@@ -927,7 +1007,9 @@ export default function ScrapeJobsPage() {
   if (!roles) {
     return (
       <AppPageShell>
-        <div className="p-6 text-sm text-muted-foreground">Checking your access…</div>
+        <div className="p-6 text-sm text-muted-foreground">
+          Checking your access…
+        </div>
       </AppPageShell>
     );
   }
@@ -937,14 +1019,16 @@ export default function ScrapeJobsPage() {
       <AppPageShell>
         <div className="p-6">
           <p className="rounded bg-destructive/10 p-4 text-destructive">
-            You are not authorized to manage scrape jobs. Return to {defaultRedirect}.
+            You are not authorized to manage scrape jobs. Return to{" "}
+            {defaultRedirect}.
           </p>
         </div>
       </AppPageShell>
     );
   }
 
-  const unauthorized = authRequired || (error as { status?: number } | null)?.status === 401;
+  const unauthorized =
+    authRequired || (error as { status?: number } | null)?.status === 401;
 
   if (unauthorized) {
     return (
@@ -964,13 +1048,14 @@ export default function ScrapeJobsPage() {
   return (
     <AppPageShell>
       <div className="w-full flex flex-col gap-5">
-        <div className="flex flex-col gap-1 max-w-3xl border-b border-border pb-3">
-          <div className="text-[11px] uppercase tracking-wide text-muted-foreground">Scrape jobs</div>
-          <div className="text-2xl font-bold">Scrape job control panel</div>
+        <div className="flex flex-col gap-2 max-w-4xl">
+          <div className="text-2xl font-semibold">Scrape Job Control Panel</div>
           <p className="text-sm text-muted-foreground">
-            Mirror the vector store setup flow: pick a crawler preset, send it now or schedule it, then ship logs to
-            vector stores for embeddings in one click.
+            Mirror the vector store setup flow: pick a crawler preset, send it
+            now or schedule it, then ship logs to vector stores for embeddings
+            in one click.
           </p>
+          <Separator className="mt-1" />
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -1035,13 +1120,19 @@ export default function ScrapeJobsPage() {
                 ) : null}
                 {activeSchema.requiredArgs?.length ? (
                   <div className="text-[11px] text-amber-700">
-                    Requires: {activeSchema.requiredArgs.map((req) => req.description).join("; ")}
+                    Requires:{" "}
+                    {activeSchema.requiredArgs
+                      .map((req) => req.description)
+                      .join("; ")}
                   </div>
                 ) : null}
               </div>
             ) : null}
             {activeSchema?.requiredArgs?.map((req) => (
-              <label key={req.key} className="flex flex-col gap-1 text-sm text-zinc-600">
+              <label
+                key={req.key}
+                className="flex flex-col gap-1 text-sm text-zinc-600"
+              >
                 {req.description}
                 <input
                   value={requiredArgDrafts[req.key] ?? ""}
@@ -1058,9 +1149,13 @@ export default function ScrapeJobsPage() {
               </label>
             ))}
             {createTargetError ? (
-              <div className="text-[11px] text-red-600">{createTargetError}</div>
+              <div className="text-[11px] text-red-600">
+                {createTargetError}
+              </div>
             ) : null}
-            {createArgError ? <div className="text-[11px] text-red-600">{createArgError}</div> : null}
+            {createArgError ? (
+              <div className="text-[11px] text-red-600">{createArgError}</div>
+            ) : null}
             <button
               onClick={enqueueManual}
               disabled={creating !== null}
@@ -1081,8 +1176,8 @@ export default function ScrapeJobsPage() {
               Schedule daily/weekly/monthly
             </div>
             <p className="text-sm text-zinc-600">
-              Keep high-value sources fresh by enrolling them in the scheduler. We will enqueue runs at the start of the next
-              interval.
+              Keep high-value sources fresh by enrolling them in the scheduler.
+              We will enqueue runs at the start of the next interval.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <button
@@ -1131,7 +1226,9 @@ export default function ScrapeJobsPage() {
               <div className="flex flex-col gap-1">
                 <div className="text-lg font-semibold">Past jobs</div>
               </div>
-              {isLoading && <Loader2 size={18} className="animate-spin text-zinc-400" />}
+              {isLoading && (
+                <Loader2 size={18} className="animate-spin text-zinc-400" />
+              )}
             </div>
             <div className="grid w-full gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-xs text-zinc-700 sm:grid-cols-2 md:grid-cols-4">
               <label className="flex flex-col gap-1">
@@ -1140,7 +1237,10 @@ export default function ScrapeJobsPage() {
                   className="rounded-lg border border-zinc-200 px-2 py-1 min-w-[150px] bg-white"
                   value={historyFilters.status}
                   onChange={(event) =>
-                    setHistoryFilters((prev) => ({ ...prev, status: event.target.value as ScrapeJobStatus | "" }))
+                    setHistoryFilters((prev) => ({
+                      ...prev,
+                      status: event.target.value as ScrapeJobStatus | "",
+                    }))
                   }
                 >
                   <option value="">All statuses</option>
@@ -1157,16 +1257,28 @@ export default function ScrapeJobsPage() {
                   type="datetime-local"
                   className="rounded-lg border border-zinc-200 px-2 py-1 bg-white"
                   value={historyFilters.from}
-                  onChange={(event) => setHistoryFilters((prev) => ({ ...prev, from: event.target.value }))}
+                  onChange={(event) =>
+                    setHistoryFilters((prev) => ({
+                      ...prev,
+                      from: event.target.value,
+                    }))
+                  }
                 />
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-[11px] text-zinc-500">Created before</span>
+                <span className="text-[11px] text-zinc-500">
+                  Created before
+                </span>
                 <input
                   type="datetime-local"
                   className="rounded-lg border border-zinc-200 px-2 py-1 bg-white"
                   value={historyFilters.to}
-                  onChange={(event) => setHistoryFilters((prev) => ({ ...prev, to: event.target.value }))}
+                  onChange={(event) =>
+                    setHistoryFilters((prev) => ({
+                      ...prev,
+                      to: event.target.value,
+                    }))
+                  }
                 />
               </label>
               <div className="flex items-center gap-2">
@@ -1191,9 +1303,7 @@ export default function ScrapeJobsPage() {
           </div>
           {error && (
             <div className="flex items-center justify-between gap-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-              <span>
-                Failed to load jobs. {error.message}
-              </span>
+              <span>Failed to load jobs. {error.message}</span>
               <button
                 type="button"
                 className="rounded-md border border-red-200 bg-white px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100"
@@ -1222,7 +1332,8 @@ export default function ScrapeJobsPage() {
               </thead>
               <tbody className="divide-y divide-zinc-100">
                 {jobs.map((item: SerializedJob) => {
-                  const logSnippet = (item.log || "").split("\n").find(Boolean) || "No log yet.";
+                  const logSnippet =
+                    (item.log || "").split("\n").find(Boolean) || "No log yet.";
                   const progress = deriveProgress(item.job);
                   const actionState = rowActions[item.job.id];
                   const schema = SCRIPT_SCHEMA_MAP.get(item.job.script);
@@ -1230,22 +1341,37 @@ export default function ScrapeJobsPage() {
                     <tr key={item.job.id} className="align-top">
                       <td className="py-3 pr-3">
                         <div className="font-medium text-zinc-800">
-                          <Link href={`/scrape_jobs/${item.job.id}`} className="hover:underline text-[#2B83F6]">
+                          <Link
+                            href={`/scrape_jobs/${item.job.id}`}
+                            className="hover:underline text-[#2B83F6]"
+                          >
                             {item.job.script}
                           </Link>
                         </div>
-                        <div className="text-xs text-zinc-500">{formatDate(item.job.createdAt)}</div>
+                        <div className="text-xs text-zinc-500">
+                          {formatDate(item.job.createdAt)}
+                        </div>
                       </td>
                       <td className="py-3 pr-3 w-60 align-top">
-                        <div className="text-xs text-zinc-700 break-all max-w-xs">{getJobTarget(item.job) || "—"}</div>
+                        <div className="text-xs text-zinc-700 break-all max-w-xs">
+                          {getJobTarget(item.job) || "—"}
+                        </div>
                         <div className="text-[11px] text-zinc-500 flex flex-col gap-0.5 pt-1">
-                          <span>{schema?.target.description ?? "Applies to the next run"}</span>
+                          <span>
+                            {schema?.target.description ??
+                              "Applies to the next run"}
+                          </span>
                           {schema?.target.example ? (
-                            <span className="text-[11px] text-zinc-500">Example: {schema.target.example}</span>
+                            <span className="text-[11px] text-zinc-500">
+                              Example: {schema.target.example}
+                            </span>
                           ) : null}
                           {schema?.requiredArgs?.length ? (
                             <span className="text-[11px] text-amber-700">
-                              Requires: {schema.requiredArgs.map((req) => req.description).join("; ")}
+                              Requires:{" "}
+                              {schema.requiredArgs
+                                .map((req) => req.description)
+                                .join("; ")}
                             </span>
                           ) : null}
                           <Link
@@ -1256,7 +1382,9 @@ export default function ScrapeJobsPage() {
                           </Link>
                         </div>
                       </td>
-                      <td className="py-3 pr-3">{renderStatusPill(item.job.status, item.job.paused)}</td>
+                      <td className="py-3 pr-3">
+                        {renderStatusPill(item.job.status, item.job.paused)}
+                      </td>
                       <td className="py-3 pr-3 w-64 align-top">
                         <div className="flex flex-col gap-2 text-xs text-zinc-700">
                           <div className="flex items-center gap-2">
@@ -1265,16 +1393,23 @@ export default function ScrapeJobsPage() {
                               value={getScheduleDraft(item.job).cadence}
                               onChange={(event) =>
                                 updateScheduleDraft(item.job, {
-                                  cadence: event.target.value as ScrapeJobCadence,
+                                  cadence: event.target
+                                    .value as ScrapeJobCadence,
                                 })
                               }
                               disabled={Boolean(actionState)}
                             >
-                              {Object.values(ScrapeJobCadence).map((cadence) => (
-                                <option key={cadence} value={cadence} className="capitalize">
-                                  {cadence}
-                                </option>
-                              ))}
+                              {Object.values(ScrapeJobCadence).map(
+                                (cadence) => (
+                                  <option
+                                    key={cadence}
+                                    value={cadence}
+                                    className="capitalize"
+                                  >
+                                    {cadence}
+                                  </option>
+                                )
+                              )}
                             </select>
                             <button
                               type="button"
@@ -1296,17 +1431,23 @@ export default function ScrapeJobsPage() {
                               className="rounded-lg border border-zinc-200 px-2 py-1"
                               value={getScheduleDraft(item.job).nextRunAt}
                               onChange={(event) =>
-                                updateScheduleDraft(item.job, { nextRunAt: event.target.value })
+                                updateScheduleDraft(item.job, {
+                                  nextRunAt: event.target.value,
+                                })
                               }
                               disabled={Boolean(actionState)}
                             />
                           </label>
-                          {getScheduleDraft(item.job).cadence === ScrapeJobCadence.manual ? (
+                          {getScheduleDraft(item.job).cadence ===
+                          ScrapeJobCadence.manual ? (
                             <label className="flex items-center gap-2 text-[11px] text-zinc-700">
                               <input
                                 type="checkbox"
                                 className="h-4 w-4 rounded border-zinc-300"
-                                checked={getScheduleDraft(item.job).autoRunManualWithNext}
+                                checked={
+                                  getScheduleDraft(item.job)
+                                    .autoRunManualWithNext
+                                }
                                 onChange={(event) =>
                                   updateScheduleDraft(item.job, {
                                     autoRunManualWithNext: event.target.checked,
@@ -1316,26 +1457,35 @@ export default function ScrapeJobsPage() {
                               />
                               <span>
                                 Auto-run manual jobs at next run time
-                                <span className="text-zinc-500"> (scheduler default: </span>
+                                <span className="text-zinc-500">
+                                  {" "}
+                                  (scheduler default:{" "}
+                                </span>
                                 <span className="font-semibold text-zinc-700">
-                                  {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? "enabled" : "disabled"}
+                                  {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
+                                    ? "enabled"
+                                    : "disabled"}
                                 </span>
                                 <span className="text-zinc-500">)</span>
                               </span>
                             </label>
                           ) : null}
-                          {getScheduleDraft(item.job).cadence === ScrapeJobCadence.manual &&
+                          {getScheduleDraft(item.job).cadence ===
+                            ScrapeJobCadence.manual &&
                           !AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? (
                             <div
                               className="flex items-center gap-1 text-[11px] text-amber-600"
                               title="Deployment setting AUTO_RUN_MANUAL_WITH_NEXT is off; enable the toggle to opt this job into scheduled manual runs."
                             >
                               <Info size={12} />
-                              Manual cadences stay paused unless explicitly enabled for this job.
+                              Manual cadences stay paused unless explicitly
+                              enabled for this job.
                             </div>
                           ) : null}
                           {scheduleErrors[item.job.id] && (
-                            <div className="text-[11px] text-red-600">{scheduleErrors[item.job.id]}</div>
+                            <div className="text-[11px] text-red-600">
+                              {scheduleErrors[item.job.id]}
+                            </div>
                           )}
                           <div className="text-[11px] text-zinc-500">
                             Upcoming: {formatDate(item.job.nextRunAt)}
@@ -1344,58 +1494,75 @@ export default function ScrapeJobsPage() {
                       </td>
                       <td className="py-3 pr-3">
                         <div className="flex items-center gap-2 text-xs text-zinc-600">
-                          <span>{formatDuration(item.stats.durationSeconds)}</span>
+                          <span>
+                            {formatDuration(item.stats.durationSeconds)}
+                          </span>
                           <div className="flex-1 h-2 bg-zinc-100 rounded-full overflow-hidden">
                             <div
-                              className={`h-2 ${progressColor(item.job.status, item.job.paused)}`}
+                              className={`h-2 ${progressColor(
+                                item.job.status,
+                                item.job.paused
+                              )}`}
                               style={{ width: `${progress}%` }}
                             />
                           </div>
-                          <span className="tabular-nums text-[11px] text-zinc-500">{progress}%</span>
+                          <span className="tabular-nums text-[11px] text-zinc-500">
+                            {progress}%
+                          </span>
                         </div>
                         <div className="text-[11px] text-zinc-400">
-                          Started {formatDate(item.job.startedAt)} · Finished {formatDate(item.job.finishedAt)}
+                          Started {formatDate(item.job.startedAt)} · Finished{" "}
+                          {formatDate(item.job.finishedAt)}
                         </div>
-                        <div className="text-[11px] text-zinc-500">Next run: {formatDate(item.job.nextRunAt)}</div>
+                        <div className="text-[11px] text-zinc-500">
+                          Next run: {formatDate(item.job.nextRunAt)}
+                        </div>
                       </td>
                       <td className="py-3 pr-3 text-xs text-zinc-700">
                         {item.stats.documentsIngested ?? "—"}
                       </td>
-                  <td className="py-3 pr-3 w-64 max-w-xs">
-                    <div
-                      className={`text-xs rounded-md border px-2 py-1 ${
-                        item.job.status === ScrapeJobStatus.failed
-                          ? "border-red-200 bg-red-50 text-red-700"
-                          : item.job.status === ScrapeJobStatus.canceled
-                            ? "border-zinc-200 bg-zinc-50 text-zinc-700"
-                            : "border-emerald-200 bg-emerald-50 text-emerald-700"
-                      }`}
-                      title={item.log || ""}
-                    >
-                      {logSnippet.length > 140
-                        ? `${logSnippet.slice(0, 140)}…`
-                        : logSnippet}
-                    </div>
-                    <div className="flex items-center gap-1 text-[11px] text-zinc-500 mt-1">
-                      <span>Output: {KNOWLEDGE_BASE_PATH}</span>
-                      <button
-                        type="button"
-                        className="text-[#2B83F6] hover:underline"
-                        onClick={() =>
-                          copyText(KNOWLEDGE_BASE_PATH, () => {
-                            setCopiedLog((state) => ({ ...state, [item.job.id]: true }));
-                            setTimeout(
-                              () => setCopiedLog((state) => ({ ...state, [item.job.id]: false })),
-                              1200
-                            );
-                          })
-                        }
-                        aria-label="Copy output path"
-                      >
-                        {copiedLog[item.job.id] ? "Copied" : "Copy"}
-                      </button>
-                    </div>
-                  </td>
+                      <td className="py-3 pr-3 w-64 max-w-xs">
+                        <div
+                          className={`text-xs rounded-md border px-2 py-1 ${
+                            item.job.status === ScrapeJobStatus.failed
+                              ? "border-red-200 bg-red-50 text-red-700"
+                              : item.job.status === ScrapeJobStatus.canceled
+                              ? "border-zinc-200 bg-zinc-50 text-zinc-700"
+                              : "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          }`}
+                          title={item.log || ""}
+                        >
+                          {logSnippet.length > 140
+                            ? `${logSnippet.slice(0, 140)}…`
+                            : logSnippet}
+                        </div>
+                        <div className="flex items-center gap-1 text-[11px] text-zinc-500 mt-1">
+                          <span>Output: {KNOWLEDGE_BASE_PATH}</span>
+                          <button
+                            type="button"
+                            className="text-[#2B83F6] hover:underline"
+                            onClick={() =>
+                              copyText(KNOWLEDGE_BASE_PATH, () => {
+                                setCopiedLog((state) => ({
+                                  ...state,
+                                  [item.job.id]: true,
+                                }));
+                                setTimeout(
+                                  () =>
+                                    setCopiedLog((state) => ({
+                                      ...state,
+                                      [item.job.id]: false,
+                                    })),
+                                  1200
+                                );
+                              })
+                            }
+                            aria-label="Copy output path"
+                          >
+                            {copiedLog[item.job.id] ? "Copied" : "Copy"}
+                          </button>
+                        </div>
+                      </td>
                       <td className="py-3">
                         <div className="relative job-actions-menu inline-block text-left">
                           <button
@@ -1424,10 +1591,15 @@ export default function ScrapeJobsPage() {
                                     setOpenMenu(null);
                                     void sendToVectorStore(item);
                                   }}
-                                  disabled={ingesting[item.job.id] === "working"}
+                                  disabled={
+                                    ingesting[item.job.id] === "working"
+                                  }
                                 >
                                   {ingesting[item.job.id] === "working" ? (
-                                    <Loader2 size={14} className="animate-spin" />
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
                                   ) : (
                                     <Send size={14} />
                                   )}
@@ -1441,14 +1613,20 @@ export default function ScrapeJobsPage() {
                                   }}
                                   disabled={Boolean(actionState)}
                                 >
-                                  {actionState === "pause" || actionState === "resume" ? (
-                                    <Loader2 size={14} className="animate-spin" />
+                                  {actionState === "pause" ||
+                                  actionState === "resume" ? (
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
                                   ) : item.job.paused ? (
                                     <PlayCircle size={14} />
                                   ) : (
                                     <PauseCircle size={14} />
                                   )}
-                                  <span>{item.job.paused ? "Resume" : "Pause"}</span>
+                                  <span>
+                                    {item.job.paused ? "Resume" : "Pause"}
+                                  </span>
                                 </button>
                                 <button
                                   className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
@@ -1459,7 +1637,10 @@ export default function ScrapeJobsPage() {
                                   disabled={Boolean(actionState)}
                                 >
                                   {actionState === "run-now" ? (
-                                    <Loader2 size={14} className="animate-spin" />
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
                                   ) : (
                                     <Zap size={14} />
                                   )}
@@ -1474,7 +1655,10 @@ export default function ScrapeJobsPage() {
                                   disabled={Boolean(actionState)}
                                 >
                                   {actionState === "requeue" ? (
-                                    <Loader2 size={14} className="animate-spin" />
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
                                   ) : (
                                     <RotateCcw size={14} />
                                   )}
@@ -1489,7 +1673,10 @@ export default function ScrapeJobsPage() {
                                   disabled={Boolean(actionState)}
                                 >
                                   {actionState === "cancel" ? (
-                                    <Loader2 size={14} className="animate-spin" />
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
                                   ) : (
                                     <XCircle size={14} />
                                   )}
@@ -1504,7 +1691,10 @@ export default function ScrapeJobsPage() {
                                   disabled={Boolean(actionState)}
                                 >
                                   {actionState === "delete" ? (
-                                    <Loader2 size={14} className="animate-spin" />
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
                                   ) : (
                                     <Trash2 size={14} />
                                   )}
@@ -1519,13 +1709,15 @@ export default function ScrapeJobsPage() {
                             {runMessages[item.job.id]}
                           </div>
                         )}
-                                        {ingesting[item.job.id] === "done" && (
+                        {ingesting[item.job.id] === "done" && (
                           <div className="text-[11px] text-emerald-600 mt-1">
                             {runMessages[item.job.id] || "Ingestion triggered."}
                           </div>
                         )}
                         {ingesting[item.job.id] === "error" && (
-                          <div className="text-[11px] text-red-600 mt-1">Failed to send; retry?</div>
+                          <div className="text-[11px] text-red-600 mt-1">
+                            Failed to send; retry?
+                          </div>
                         )}
                       </td>
                     </tr>
@@ -1543,8 +1735,13 @@ export default function ScrapeJobsPage() {
             >
               {nextCursor ? "Load more" : "All history loaded"}
             </button>
-            <div className="text-[11px] text-zinc-500">{jobs.length} job(s) loaded</div>
+            <div className="text-[11px] text-zinc-500">
+              {jobs.length} job(s) loaded
+            </div>
           </div>
+        </div>
+        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+          <DataTable data={datatable} />
         </div>
       </div>
     </AppPageShell>

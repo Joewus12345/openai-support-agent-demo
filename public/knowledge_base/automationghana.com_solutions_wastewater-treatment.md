@@ -92,14 +92,14 @@ Maintain optimal dissolved oxygen levels for efficient bacterial activity, ensur
 Meet environmental regulations by optimizing the nitrification process and reducing harmful ammonia levels.
 ## Reduced Maintenance Costs
 Continuous monitoring decreases the likelihood of equipment failures, minimizing downtime and maintenance expenses.
-[ How Can We Help? ](https://automationghana.com/solutions/wastewater-treatment/#collapse-a0fd1106928772920c7d)
+[ How Can We Help? ](https://automationghana.com/solutions/wastewater-treatment/#collapse-a0fd110693f37531a6f0)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/wastewater-treatment/#collapse-3ee49346928772920c7d)
+[ What We Offer ](https://automationghana.com/solutions/wastewater-treatment/#collapse-3ee4934693f37531a6f0)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -109,7 +109,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/wastewater-treatment/#collapse-62ecacd6928772920c7d)
+[ Services ](https://automationghana.com/solutions/wastewater-treatment/#collapse-62ecacd693f37531a6f0)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

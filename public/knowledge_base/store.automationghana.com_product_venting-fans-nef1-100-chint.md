@@ -52,14 +52,14 @@ NEF1-100 Venting Fans
 
 Related Products 
 ## Related products
-  * [ Sale! ![Led Light Remote and Wi-Fi Control Ceiling Fan, 42", IBCF-C03, Zhongshan Weiyu](https://store.automationghana.com/wp-content/uploads/2025/08/31GqGkJyvuL._AC_US750_-300x300.jpg)Led Light Remote and Wi-Fi Control Ceiling Fan, 42″, IBCF-C03, Zhongshan Weiyu ~~₵ 2,099.50~~ Original price was: ₵2,099.50.₵1,747.00Current price is: ₵1,747.00. ](https://store.automationghana.com/product/led-light-remote-and-wi-fi-control-ceiling-fan-42-ibcf-c03-zhongshan-weiyu/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=24814)
+  * [![RT UPS, 6kVA, UPS602R2RT0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-6kVA-S-300x300.jpg)RT UPS, 6kVA, UPS602R2RT0B035, Delta ₵36,103.50 ](https://store.automationghana.com/product/rt-ups-6kva-ups602r2rt0b035-delta/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=24753)
   * [![RT UPS, 1kVA, UPA102R2RX0B035, Delta](https://store.automationghana.com/wp-content/uploads/2025/06/RT-1kVA-Gen-300x300.jpg)RT UPS, 1kVA, UPA102R2RX0B035, Delta ₵7,779.00 ](https://store.automationghana.com/product/rt-ups-1kva-upa102r2rx0b035-delta/)
 [Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=24750)
-  * [![RCA Female Socket Connector](https://store.automationghana.com/wp-content/uploads/2021/10/RCA-FEMALE-CONNECTOR.jpg)RCA Female Socket Connector ₵4.00 ](https://store.automationghana.com/product/rca-female-socket-connector/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=3637)
-  * [![2-Way Surface Mount Consumer Unit](https://store.automationghana.com/wp-content/uploads/2020/04/8692spf-solera.png)2-Way Surface Mount Consumer Unit ₵52.00 ](https://store.automationghana.com/product/consumer-unit-8692spf-solera/)
-[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=1971)
+  * [![Pattress Box-NEH1-004A, Chint](https://store.automationghana.com/wp-content/uploads/2019/12/PATTRESS-1-300x300.jpg)Pattress Box-NEH1-004A, Chint ₵12.00 ](https://store.automationghana.com/product/recessed-mounting-box/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=3373)
+  * [![Infrared Sensor, NEW7-G31100A, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/infrared-sensor-300x300.jpeg)Infrared Sensor, NEW7-G31100A, Chint ₵168.00 ](https://store.automationghana.com/product/infrared-sensor-new7-g31100a-chint/)
+[Add to cart](https://store.automationghana.com/product/venting-fans-nef1-100-chint/?add-to-cart=1753)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

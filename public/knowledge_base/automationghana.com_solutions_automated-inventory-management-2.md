@@ -72,9 +72,9 @@ No content found
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![Bunker fuel metering system with real-time monitoring and accurate fuel measurement for oil and gas operations](https://automationghana.com/wp-content/uploads/2024/08/Waited.jpg)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
+![Bunker fuel metering system with real-time monitoring and accurate fuel measurement for oil and gas operations](https://18.197.210.112/wp-content/uploads/2024/08/Waited.jpg)
+  1. [Home](https://18.197.210.112)
+  2. [Solution](https://18.197.210.112/solutions/)
   3. Bunker Fuel Metering
 
 
@@ -83,10 +83,10 @@ No content found
 Our advanced Bunker Fuel Metering system is engineered to provide precise fuel measurement, even under the demanding conditions typically found in offshore and onshore oil and gas operations. The system includes specialized technology that accurately measures fuel volumes while accounting for air pockets and other variables that can affect accuracy during the transfer process.
 Precise Measurement with Air Pocket Compensation: Our system accurately compensates for air pockets that might form during the tank emptying process, ensuring that the measured fuel quantity reflects the true volume, thereby minimizing errors and maximizing accountability.
 **Enhanced Transparency and Accountability:** By offering detailed data tracking before, during, and after fueling, our solution promotes transparency and builds trust between operators, suppliers, and other stakeholders, mitigating the risk of disputes.
-![The Automation Ghana Group - Accurate fuel measurement](https://automationghana.com/wp-content/uploads/2024/08/Accurate-fuel-measurement.png)
+![The Automation Ghana Group - Accurate fuel measurement](https://18.197.210.112/wp-content/uploads/2024/08/Accurate-fuel-measurement.png)
 During fueling, our **bunker fuel metering system** continuously monitors and records multiple process parameters such as fuel flow rate, fuel temperature, and fuel pressure ensuring **accurate bunker fuel measurement**. All data is displayed as detailed **metering profiles** on a digital control panel, providing complete visibility into the **bunker fuel transaction** from start to finish.
 **Graphical Display for Fuel Metering Analysis:** The system presents **bunker fuel metering profiles** in a clear, graphical format, making it easy to analyze data, detect discrepancies, and make informed operational decisions. This **marine fuel metering solution** improves transparency, accuracy, and accountability across the entire fueling process.
-![The Automation Ghana Group - Bunker Fuel Reporting](https://automationghana.com/wp-content/uploads/2024/08/Bunker-Fuel-Reporting.jpg)
+![The Automation Ghana Group - Bunker Fuel Reporting](https://18.197.210.112/wp-content/uploads/2024/08/Bunker-Fuel-Reporting.jpg)
 ## Benefits
 ## Increased Profitability
 Reduces losses and discrepancies, optimizing fuel management.
@@ -94,14 +94,14 @@ Reduces losses and discrepancies, optimizing fuel management.
 Enhances the accuracy and integrity of fuel transactions.
 ## Higher Trust
 We enhance your operational confidence by ensuring precise measurement and clear communication between all stakeholders in your fuel bunkering processes.
-[ How Can We Help? ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-a0fd1106927ee7df09cd)
+[ How Can We Help? ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-a0fd110693f392f53919)
   * With over 20 years of experience in electrical engineering and automation, we offer a comprehensive bunker fuel metering solution tailored to the needs of the oil and gas industry. Our team provides seamless integration, precise installation, and ongoing support, ensuring your fuel management processes are reliable, accurate, and efficient.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-3ee49346927ee7df09cd)
+[ What We Offer ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-3ee4934693f392f53919)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -111,7 +111,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-62ecacd6927ee7df09cd)
+[ Services ](https://automationghana.com/solutions/automated-inventory-management-2/#collapse-62ecacd693f392f53919)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

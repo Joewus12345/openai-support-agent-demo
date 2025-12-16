@@ -50,14 +50,14 @@ NPH1-20, Push Button Enclosure
 
 Related Products 
 ## Related products
-  * [![Distribution Board, 12 Way, 125A Incomer, Flush, NX9-12M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8M-Surface-Chint.jpg)Distribution Board, 12 Way, 125A Incomer, Flush, NX9-12M, Chint ₵1,954.00 ](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-125-chint/)
-[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1699)
-  * [![Distribution Board, 12 Way, 250A Incomer, Flush, NX9-12M, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NX9-8-Surface-Chint.jpg)Distribution Board, 12 Way, 250A Incomer, Flush, NX9-12M, Chint ₵2,111.00 ](https://store.automationghana.com/product/dist-board-nx9-12m-flush-nm8-250-chint/)
-[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1700)
-  * [![Consumer Unit, 5-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 5-Way ₵218.00 ](https://store.automationghana.com/product/consumer-unit-nx8-5-j-r-chint/)
-[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1645)
-  * [![Distribution Board, 6 Way, Surface, NX9-6M, Chint](https://store.automationghana.com/wp-content/uploads/2019/11/CONSUMER-UNITS-4-e1586086541786-300x300.jpg)Distribution Board, 6 Way, Surface, NX9-6M, Chint ₵1,514.00 ](https://store.automationghana.com/product/distribution-board-nx9-6m-surface-chint/)
-[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1506)
+  * [![Consumer Unit, 8-Way](https://store.automationghana.com/wp-content/uploads/2020/04/NX8-8-J-R-300x300.png)Consumer Unit, 8-Way ₵254.00 ](https://store.automationghana.com/product/consumer-unit-nx8-8-r-chint/)
+[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1646)
+  * [![Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 700x500x300mm, NXW5-7050/30, Chint ₵1,055.50 ](https://store.automationghana.com/product/enclosure-nxw5-7050-30-chint/)
+[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1567)
+  * [![Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/NXW5-ENCLOSURES-300x300.png)Enclosure Wall Mount 300x300x200mm, NXW5-3030/20, Chint ₵595.00 ](https://store.automationghana.com/product/enclosure-nxw5-3030-20-chint/)
+[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1563)
+  * [![din-rail-th35-7.5-chint](https://store.automationghana.com/wp-content/uploads/2020/04/din-rail-th35-7.5-chint-300x300.jpg)Din Rail-TH35-7.5, Chint ₵25.00 ](https://store.automationghana.com/product/din-rail-th35-7-5-chint/)
+[Add to cart](https://store.automationghana.com/product/push-button-enclosure-nph1-20-chint/?add-to-cart=1562)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

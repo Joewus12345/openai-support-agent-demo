@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vscode-css-languageservice/main/docs/customData.schema.json",
+  "atDirectives": [
+    { "name": "@tailwind" },
+    { "name": "@apply" },
+    { "name": "@layer" },
+    { "name": "@variants" },
+    { "name": "@container" }
+  ]
+}

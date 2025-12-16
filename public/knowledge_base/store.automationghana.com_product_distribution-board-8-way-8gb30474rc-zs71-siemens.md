@@ -44,14 +44,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 7-10A, 3MU7110-0MA0, Siemens ₵310.00 ](https://store.automationghana.com/product/thermal-overload-relay-7-10a-3mu7110-0ma0-siemens/)
-[Add to cart](https://store.automationghana.com/product/distribution-board-8-way-8gb30474rc-zs71-siemens/?add-to-cart=24512)
+  * [![Thermal Overload Relay, 17-25A, 3MU7110-0QA0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/thermal-overload-300x300.png)Thermal Overload Relay, 17-25A, 3MU7110-0QA0, Siemens ₵346.00 ](https://store.automationghana.com/product/thermal-overload-relay-17-25a-3mu7110-0qa0-siemens/)
+[Add to cart](https://store.automationghana.com/product/distribution-board-8-way-8gb30474rc-zs71-siemens/?add-to-cart=24511)
   * [![Auxiliary Switch Front, 3MH7902-0CT10, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/Aux-Switch-Front-300x300.jpg)Auxiliary Switch Front, 3MH7902-0CT10, Siemens ₵57.00 ](https://store.automationghana.com/product/auxiliary-switch-front-3mh7902-0ct10-siemens/)
 [Add to cart](https://store.automationghana.com/product/distribution-board-8-way-8gb30474rc-zs71-siemens/?add-to-cart=24501)
-  * [![Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/contactor-1.jpg)Contactor, 3P-300A, 3MT7300-7AA00-0AP0, Siemens ₵11,487.00 ](https://store.automationghana.com/product/contactor-3p-300a-3mt7300-7aa00-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/distribution-board-8-way-8gb30474rc-zs71-siemens/?add-to-cart=24498)
-  * [![Contactor, 3P-12A-230VAC, 3MT7012-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-12A-230VAC, 3MT7012-0AA10-0AP0, Siemens ₵342.00 ](https://store.automationghana.com/product/contactor-3p-12a-230vac-3mt7012-0aa10-0ap0-siemens/)
-[Add to cart](https://store.automationghana.com/product/distribution-board-8-way-8gb30474rc-zs71-siemens/?add-to-cart=24486)
+  * [![Contactor, 3P-120A-230VAC, 3MT7120-5AA00-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-120A-230VAC, 3MT7120-5AA00-0AP0, Siemens ₵3,910.00 ](https://store.automationghana.com/product/contactor-3p-120a-230vac-3mt7120-5aa00-0ap0-siemens/)
+[Add to cart](https://store.automationghana.com/product/distribution-board-8-way-8gb30474rc-zs71-siemens/?add-to-cart=24495)
+  * [![Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens](https://store.automationghana.com/wp-content/uploads/2025/03/P_IN01_XX_00058i.jpg)Contactor, 3P-9A-230VAC, 3MT7010-0AA10-0AP0, Siemens ₵277.00 ](https://store.automationghana.com/product/contactor-3p-9a-230vac-3mt7010-0aa10-0ap0-siemens-2/)
+[Add to cart](https://store.automationghana.com/product/distribution-board-8-way-8gb30474rc-zs71-siemens/?add-to-cart=24483)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

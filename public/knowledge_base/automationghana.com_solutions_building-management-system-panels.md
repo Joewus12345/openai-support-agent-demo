@@ -74,8 +74,6 @@ No content found
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
 ![The Automation Ghana Group - image](https://automationghana.com/wp-content/uploads/2024/09/image.jpg)
   1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
-  3. Building Management System (BMS) Panels
 
 
 ## Building Management System Panels

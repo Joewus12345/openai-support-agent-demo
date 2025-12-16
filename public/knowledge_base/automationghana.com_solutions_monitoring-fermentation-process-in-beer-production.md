@@ -122,14 +122,14 @@ The closed-loop system with a cleanable sensor minimizes contamination risks, id
 Enables quick responses to process changes, reducing energy use and product waste, and ensuring consistent quality for low/no-alcohol beers.
 ## Predictive Capabilities
 Provides alerts on potential issues and estimates fermentation completion time, improving process reliability and scheduling.
-[ How Can We Help? ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-a0fd1106928a7cab8913)
+[ How Can We Help? ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-a0fd110693f54f24af64)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-3ee49346928a7cab8913)
+[ What We Offer ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-3ee4934693f54f24af64)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -139,7 +139,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-62ecacd6928a7cab8913)
+[ Services ](https://automationghana.com/solutions/monitoring-fermentation-process-in-beer-production/#collapse-62ecacd693f54f24af64)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -202,3 +202,5 @@ We provide unique electrical and automation services and products through innova
 enquiries@automationghana.com 
 © Copyright 2024. The Automation Ghana Group.
   * [ Policy Statements ](https://automationghana.com/policies/)
+
+

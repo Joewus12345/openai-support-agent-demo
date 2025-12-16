@@ -91,14 +91,14 @@ Continuous monitoring of inventory levels with remote access to data, optimizing
 Enhances storage utilization and optimizes inventory levels, reducing operational costs and ensuring better availability of raw materials.
 ## Scalability
 Supports multi-site operations with cloud-based data integration, suitable for large-scale inventory management.
-[ How Can We Help? ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-a0fd110692856b64356d)
+[ How Can We Help? ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-a0fd110693f54f6d9e72)
   * With over 20 years of experience in electrical engineering and automation we customize and deploy our solutions to suit any type of building in any industry and at any scale.
   * We deploy our solution in conformance to international standards and protocols ensuring **interoperability** with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-3ee4934692856b64356d)
+[ What We Offer ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-3ee4934693f54f6d9e72)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -108,7 +108,7 @@ We offer after sales support services including:
   * supply of spares.
 
 
-[ Services ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-62ecacd692856b64356d)
+[ Services ](https://automationghana.com/solutions/inventory-monitoring-tank-gauging-solution/#collapse-62ecacd693f54f6d9e72)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

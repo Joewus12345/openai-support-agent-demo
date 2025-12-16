@@ -1,18 +1,16 @@
-"use client"
+"use client";
 
-import {
-  FolderIcon,
-  MoreHorizontalIcon,
-  ShareIcon,
-  type LucideIcon,
-} from "lucide-react"
+import { FolderIcon, MoreHorizontalIcon, type LucideIcon } from "lucide-react";
+
+import { IconShare3, IconTrash } from "@tabler/icons-react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -21,20 +19,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import Link from "next/link"
+} from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavDocuments({
   items,
 }: {
   items: {
-    name: string
-    url: string
-    icon: LucideIcon
-    disabled?: boolean
-  }[]
+    name: string;
+    url: string;
+    icon: LucideIcon;
+    disabled?: boolean;
+  }[];
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -45,7 +43,9 @@ export function NavDocuments({
             <SidebarMenuButton
               asChild={!item.disabled}
               disabled={item.disabled}
-              className={item.disabled ? "cursor-not-allowed opacity-60" : undefined}
+              className={
+                item.disabled ? "cursor-not-allowed opacity-60" : undefined
+              }
             >
               {item.disabled ? (
                 <div className="flex items-center gap-2">
@@ -79,8 +79,13 @@ export function NavDocuments({
                   <span>Open</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <ShareIcon />
+                  <IconShare3 />
                   <span>Share</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem variant="destructive">
+                  <IconTrash />
+                  <span>Delete</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -94,5 +99,5 @@ export function NavDocuments({
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

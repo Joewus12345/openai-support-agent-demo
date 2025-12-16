@@ -72,10 +72,9 @@ No content found
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - Overfill prevention banner](https://automationghana.com/wp-content/uploads/2024/08/Overfill-prevention-banner-1024x576.jpg)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
-  3. Overfill Prevention for Consumables
+![The Automation Ghana Group - Overfill prevention banner](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Overfill-prevention-banner-1024x576.jpg)
+  1. [Home](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com)
+  2. Search Result
 
 
 ## Enhancing Safety, Reliability, and Performance with Advanced Automation and Control Systems
@@ -84,8 +83,8 @@ For over a decade, TAGG has been delivering cutting-edge products and services t
   * We offer a full suite of solutions covering all major applications for Floating Production Storage and Offloading (FPSO) units throughout their lifecycle. This includes control and automation systems, emergency shutdown systems, fire and gas detection systems, and complete instrumentation packages.
 
 
-![The Automation Ghana Group - Fire gas detection 1](https://automationghana.com/wp-content/uploads/2024/08/Fire-gas-detection-1-1024x536.jpg)
-![The Automation Ghana Group - Automated control](https://automationghana.com/wp-content/uploads/2024/08/Automated-control.jpg)
+![The Automation Ghana Group - Fire gas detection 1](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Fire-gas-detection-1-1024x536.jpg)
+![The Automation Ghana Group - Automated control](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Automated-control.jpg)
 ## Integrated Control and Safety Shutdown System (ICSS)
   * Our automation portfolio integrates process control and safety applications into a single platform. Ideal for FPSOs, this solution ensures seamless operation and management of control and safety functions.
 
@@ -94,7 +93,7 @@ For over a decade, TAGG has been delivering cutting-edge products and services t
   * Our solutions extend to integrated operations that combine on-board control and engineering functions with remote monitoring and management from onshore locations.
 
 
-![The Automation Ghana Group - Remote monitoring of oil and gas](https://automationghana.com/wp-content/uploads/2024/08/Remote-monitoring-of-oil-and-gas-1024x370.jpg)
+![The Automation Ghana Group - Remote monitoring of oil and gas](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Remote-monitoring-of-oil-and-gas-1024x370.jpg)
 ## Benefits
 ## Transparency and Accountability
 Ensure clear visibility and accountability in operations for improved oversight and management.
@@ -102,14 +101,14 @@ Ensure clear visibility and accountability in operations for improved oversight 
 Enable quicker, higher-quality decisions through advanced data integration and analysis.
 ## Increased Productivity
 Enhance operational efficiency and productivity with streamlined automation and control systems.
-[ How Can We Help? ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-a0fd11069283fa49cb3b)
+[ How Can We Help? ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-a0fd110693fd9da65329)
   * With over 20 years of experience in electrical engineering and automation, we offer specialized offshore drilling solutions that enhance safety, reliability, and operational efficiency. Our team will work closely with you to implement state-of-the-art technologies, ensuring optimal performance and reduced risks in your offshore drilling operations.
   * We deploy our solution in conformance to international standards and protocols ensuring interoperability with systems and solutions from the world’s best brands in automation and integrated systems
   * We offer upgrades for obsolete systems and collaborate with you to scale up existing systems to save cost and meet your business objectives.
   * Leverage on our experience and access to Original Equipment Manufacturers to implement the latest technologies in electrical, instrumentation and controls engineering.
 
 
-[ What We Offer ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-3ee493469283fa49cb3b)
+[ What We Offer ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-3ee4934693fd9da65329)
 TAGG is your number one partner for smart solutions. We deploy custom packages based on your immediate requirements.
 Our deployments are designed with future expansion in mind and can be scaled up as your needs expand.
 We offer after sales support services including:
@@ -119,7 +118,7 @@ We offer after sales support services including:
 
 
 supply of spares.
-[ Hardware and Software ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-32d865569283fa49cb3b)
+[ Hardware and Software ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-32d8655693fd9da65329)
   * Flow and Temperature Sensors
   * 4–20 mA Signal Transmitters
   * Digital Output Devices
@@ -141,7 +140,7 @@ supply of spares.
   * Reagent Dosing Software
 
 
-[ Services ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-62ecacd69283fa49cb3b)
+[ Services ](https://automationghana.com/solutions/overfill-prevention-for-consumables/#collapse-62ecacd693fd9da65329)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)

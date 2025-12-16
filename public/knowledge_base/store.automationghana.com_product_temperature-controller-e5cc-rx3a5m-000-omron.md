@@ -52,12 +52,12 @@ E5CC-RX3A5M-000, Temperature Controller
 
 Related Products 
 ## Related products
-  * [![Inverter Drive \(RX\), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/RX-Series-Omron-1-300x300.jpg)Inverter Drive (RX), 45kW, 91A, 3-Phase, 400 VAC, 3G3RX-A4450-E1F CHN, Omron ₵24,297.00 ](https://store.automationghana.com/product/rx-inverter-drive-3g3rx-a4450-e1f-chn-omron/)
-[Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/?add-to-cart=1589)
+  * [![MX Inverter Drive, 200VAC, 0.75kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive, 200VAC, 0.75kW, 1Phase ₵4,536.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab007-e-chn-omron/)
+[Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/?add-to-cart=1991)
+  * [![Temperature Controller, 12VDC, Pulse Output, 3 Aux, E5CC-QX3A5M-000, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/E5CC-Omron-temp-controller-300x300.jpg)Temperature Controller, 12VDC, Pulse Output, 3 Aux, E5CC-QX3A5M-000, Omron ₵997.00 ](https://store.automationghana.com/product/pid-temperature-controller-e5cc-qx3a5m-000-omron/)
+[Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/?add-to-cart=1585)
   * [![MX Inverter Drive 200VAC, 1.5kW, 1Phase](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)MX Inverter Drive 200VAC, 1.5kW, 1Phase ₵4,721.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-ab015-e-chn-omron/)
 [Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/?add-to-cart=1581)
-  * [![Temperature Controller, 0/4-20mA Current Output, 3 Aux, E5CC-CX3A5M-004, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/PID-Temperature-Controller-E5CC-CX3A5M-004-Omron-300x300.png)Temperature Controller, 0/4-20mA Current Output, 3 Aux, E5CC-CX3A5M-004, Omron ₵1,324.00 ](https://store.automationghana.com/product/pid-temperature-controller-e5cc-cx3a5m-004-omron/)
-[Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/?add-to-cart=1584)
   * [![Inverter Drive\(MX\), 0.75kW, 3.4/4.1A , 3~Phase, 400 VAC, 3G3MX2-A4007-E CHN, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/MX2-series-OMRON-300x300.jpg)Inverter Drive(MX), 0.75kW, 3.4/4.1A , 3~Phase, 400 VAC, 3G3MX2-A4007-E CHN, Omron ₵4,267.00 ](https://store.automationghana.com/product/mx-inverter-drive-3g3mx2-a4007-e-chn-omron/)
 [Add to cart](https://store.automationghana.com/product/temperature-controller-e5cc-rx3a5m-000-omron/?add-to-cart=1575)
 

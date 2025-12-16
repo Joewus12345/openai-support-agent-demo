@@ -73,6 +73,9 @@ No content found
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
 # Category: Uncategorized
+## [TAGG Unveils Industrial-Scale Energy Storage Breakthrough with Huawei LUNA2000–215](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+[![The Automation Ghana Group - TAGG Unveils Industrial Scale Energy Storage Breakthrough with Huawei LUNA2000–215 1](https://automationghana.com/wp-content/uploads/2025/12/TAGG-Unveils-Industrial-Scale-Energy-Storage-Breakthrough-with-Huawei-LUNA2000–215-1-1024x570.jpg)](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+First-of-its-kind installation marks Ghana’s bold step toward reliable, sustainable and cost-effective power for commercial and industrial operations. The Automation Ghana Group (TAGG) — the umbrella brand representing its member companies Process & Plant Automation Ltd (PPA), Automation Solutions Ltd (ASL) and Electrical Switchgear Ltd (ESL) — has commissioned the Huawei LUNA2000–215 kWh Battery […]
 ## [Celebrating 10 Years of the Future Leaders Educational Fund](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
 [![Future Leaders Educational Fund](https://automationghana.com/wp-content/uploads/2025/11/IMG_0264-1024x535.jpg)](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
 “What if financial hardship never stopped a child from pursuing their education?” This was the question we asked ourselves in 2015 as a company, as we thought of ways to give back to our community. A decade later, this question has been answered through the Future Leaders Educational Fund. And while we remain on the […]

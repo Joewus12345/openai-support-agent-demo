@@ -44,14 +44,14 @@ Product Description
 Product Description
 Related Products 
 ## Related products
-  * [![STEP-PS/ 1AC/24DC/0.75 - Power supply - 2868635](https://store.automationghana.com/wp-content/uploads/2025/11/2868635-300x300.jpg)STEP-PS/ 1AC/24DC/0.75 – Power supply – 2868635 ₵1,500.00 ](https://store.automationghana.com/product/step-ps-1ac-24dc-0-75-power-supply-2868635/)
-[Add to cart](https://store.automationghana.com/product/power-supply-unittrio-ps-2g-3ac-24dc-5-2903153-phoenix-contact/?add-to-cart=24979)
   * [![Power Supply Unit, PS-EE-2G/1AC/24DC/120W/SC - 1234302, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/00146698_full_b408-300x300.jpg)Power Supply Unit, PS-EE-2G/1AC/24DC/120W/SC – 1234302, Phoenix Contact ₵1,802.00 ](https://store.automationghana.com/product/power-supply-unit-ps-ee-2g-1ac-24dc-120w-sc-1234302-phoenix-contact/)
 [Add to cart](https://store.automationghana.com/product/power-supply-unittrio-ps-2g-3ac-24dc-5-2903153-phoenix-contact/?add-to-cart=24956)
   * [![Power Supply Unit\(TRIO3-PS/3AC/24DC/40\), 1159045, Phoenix Contact](https://store.automationghana.com/wp-content/uploads/2025/11/Power-Supply-UnitTRIO3-PS-300x300.jpg)Power Supply Unit(TRIO3-PS/3AC/24DC/40), 1159045, Phoenix Contact ₵6,900.00 ](https://store.automationghana.com/product/power-supply-unittrio3-ps-3ac-24dc-40-1159045-phoenix-contact/)
 [Add to cart](https://store.automationghana.com/product/power-supply-unittrio-ps-2g-3ac-24dc-5-2903153-phoenix-contact/?add-to-cart=24948)
-  * [![Tool set - TOOL-CASE 1212629](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-TOOL-CASE-9-300x300.jpg)Tool set – TOOL-CASE 1212629 ₵33,999.00 ](https://store.automationghana.com/product/tool-set-tool-case-1212629/)
-[Add to cart](https://store.automationghana.com/product/power-supply-unittrio-ps-2g-3ac-24dc-5-2903153-phoenix-contact/?add-to-cart=24911)
+  * [![Power Supply Unit - QUINT4-PS/1AC/24DC/5, 2904600, Phoenix](https://store.automationghana.com/wp-content/uploads/2025/11/2904600-300x300.jpg)Power Supply Unit – QUINT4-PS/1AC/24DC/5, 2904600, Phoenix ₵2,016.10 ](https://store.automationghana.com/product/power-supply-unit-quint4-ps-1ac-24dc-5-2904600-phoenix/)
+[Add to cart](https://store.automationghana.com/product/power-supply-unittrio-ps-2g-3ac-24dc-5-2903153-phoenix-contact/?add-to-cart=24941)
+  * [![Tool set - TOOL-CARRIER 1212503](https://store.automationghana.com/wp-content/uploads/2025/10/Tool-set-TOOL-CARRIER-1212503-300x300.jpg)Tool set – TOOL-CARRIER 1212503 ₵12,858.74 ](https://store.automationghana.com/product/tool-set-tool-carrier-1212503-2/)
+[Add to cart](https://store.automationghana.com/product/power-supply-unittrio-ps-2g-3ac-24dc-5-2903153-phoenix-contact/?add-to-cart=24905)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)

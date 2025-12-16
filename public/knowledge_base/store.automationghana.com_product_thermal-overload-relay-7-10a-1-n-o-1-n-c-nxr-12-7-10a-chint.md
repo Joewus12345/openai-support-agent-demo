@@ -45,14 +45,14 @@ Product Description
 NXR thermal overload relay are suitable for overload and phase loss protection for uninterrupted or intermittent AC motors with AC frequency of 50 Hz/60 Hz, a voltage up to 690 V, and a current of (0.1-630)A. The thermal relays also provide temperature compensation, action indication, automatic and manual reset, stop, and testing functions. The products are characterized by stable and reliable performance. The thermal relays can be plugged into contactors or installed independently. 
 Related Products 
 ## Related products
+  * [![Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC \(S\), Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-MY4N-D2-24DC-S-Omron.jpg)Relay, Electromagnetic, 14-Pin, 24VDC, MY4N-D2 24DC (S), Omron ₵72.00 ](https://store.automationghana.com/product/14-pin-relay-my4n-d2-24dc-s-omron/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1601)
+  * [![Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint](https://store.automationghana.com/wp-content/uploads/2020/04/11-Pin-Relay-JQX-10F_3Z-220VAC-Chint-2-300x300.jpg)Electromagnetic Relay, 11 Pin-220VAC, JQX-10F/3Z, Chint ₵71.00 ](https://store.automationghana.com/product/11-pin-relay-jqx-10f-3z-220vac-chint/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1592)
   * [![Relay Socket, 14 Pin ,PTF14A-E, Omron](https://store.automationghana.com/wp-content/uploads/2020/04/14-Pin-Relay-Socket-PTF14A-E-Omron.jpg)Relay Socket, 14 Pin ,PTF14A-E, Omron ₵67.00 ](https://store.automationghana.com/product/14-pin-relay-socket-ptf14a-e-omron/)
 [Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1594)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/932456.png)Industrial Socket, 63A, 3P+N+E, 400V, Surface Mounted, 932456, Solera ₵721.00 ](https://store.automationghana.com/product/surface-mounted-socket-932456-solera/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1537)
-  * [![Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera](https://store.automationghana.com/wp-content/uploads/2020/02/SOLERA-21-300x300.jpg)Industrial Socket, 16A, 2P+E, 230V, Surface Mounted, 932131, Solera ₵124.00 ](https://store.automationghana.com/product/socket-932131-solera/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1534)
-  * [![Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/903456A.png)Industrial Socket, 63A, 3P+N+E, 400V, 903456A, Solera ₵747.00 ](https://store.automationghana.com/product/industrial-socket-903456a-solera/)
-[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1514)
+  * [![Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera](https://store.automationghana.com/wp-content/uploads/2020/04/902454A.png)Industrial Plug, 32A 3P+N+E 400V, 902454A, Solera ₵204.00 ](https://store.automationghana.com/product/industrial-plug-902454a-solera/)
+[Add to cart](https://store.automationghana.com/product/thermal-overload-relay-7-10a-1-n-o-1-n-c-nxr-12-7-10a-chint/?add-to-cart=1512)
 
 
 ![](https://store.automationghana.com/wp-content/uploads/2024/04/AutomationGhana_logo_white.png)
