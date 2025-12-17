@@ -14,7 +14,6 @@ import {
   RotateCcw,
   Send,
   Info,
-  Zap,
   Trash2,
   XCircle,
 } from "lucide-react";
@@ -374,7 +373,6 @@ export default function ScrapeJobsPage() {
   const [copiedLog, setCopiedLog] = useState<Record<string, boolean>>({});
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
   const [openMenu, setOpenMenu] = useState<string | null>(null);
-  const [runMessages, setRunMessages] = useState<Record<string, string>>({});
   const [scheduleErrors, setScheduleErrors] = useState<Record<string, string>>(
     {}
   );
@@ -669,10 +667,6 @@ export default function ScrapeJobsPage() {
     const artifactPaths = job.artifacts || [];
 
     if (artifactPaths.length === 0) {
-      setRunMessages((state) => ({
-        ...state,
-        [job.job.id]: "No scraped artifacts were found for this run.",
-      }));
       setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
       return;
     }
@@ -697,7 +691,7 @@ export default function ScrapeJobsPage() {
           typeof result.message === "string"
             ? result.message
             : `Ingestion triggered for ${docs.length} document(s).`;
-        setRunMessages((state) => ({ ...state, [job.job.id]: message }));
+        console.info(message);
         await mutate();
       } else {
         setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
@@ -705,15 +699,11 @@ export default function ScrapeJobsPage() {
           typeof result?.error === "string"
             ? result.error
             : "Failed to start ingestion.";
-        setRunMessages((state) => ({ ...state, [job.job.id]: error }));
+        console.error(error);
       }
     } catch (err) {
       console.error("Error sending to vector store", err);
       setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
-      setRunMessages((state) => ({
-        ...state,
-        [job.job.id]: "Unexpected error while sending to vector store.",
-      }));
     }
   };
 
@@ -809,13 +799,6 @@ export default function ScrapeJobsPage() {
         cancellation?: { message?: string };
       } | null;
 
-      if (payload?.message || payload?.cancellation?.message) {
-        setRunMessages((state) => ({
-          ...state,
-          [jobId]: payload.message || payload.cancellation?.message || "",
-        }));
-      }
-
       if (res.ok) {
         await mutate();
       } else {
@@ -859,30 +842,8 @@ export default function ScrapeJobsPage() {
     }
   };
 
-  const requeueJob = async (jobId: string) => {
-    markRowAction(jobId, "requeue");
-    try {
-      const res = await fetch(`/api/scrape_jobs/${jobId}/trigger`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
-      });
-
-      if (handleAuthFailure(res)) return;
-
-      if (res.ok) {
-        await mutate();
-      } else {
-        console.error("Failed to requeue job", await res.text());
-      }
-    } catch (error) {
-      console.error("Error requeuing job", error);
-    } finally {
-      markRowAction(jobId, null);
-    }
-  };
-
-  const runJobNow = async (jobId: string) => {
-    markRowAction(jobId, "run-now");
+  const rerunJob = async (jobId: string) => {
+    markRowAction(jobId, "rerun");
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/clone`, {
         method: "POST",
@@ -896,12 +857,6 @@ export default function ScrapeJobsPage() {
           job?: { id?: string };
         } | null;
         const newJobId = payload?.job?.id;
-        if (newJobId) {
-          setRunMessages((current) => ({
-            ...current,
-            [jobId]: `New run created (${newJobId})`,
-          }));
-        }
         await mutate();
       } else {
         console.error("Failed to run job immediately", await res.text());
@@ -941,10 +896,6 @@ export default function ScrapeJobsPage() {
       if (handleAuthFailure(res)) return;
 
       if (res.ok) {
-        setRunMessages((current) => ({
-          ...current,
-          [job.job.id]: "Schedule updated.",
-        }));
         setScheduleErrors((current) => {
           const next = { ...current };
           delete next[job.job.id];
@@ -1636,9 +1587,6 @@ export default function ScrapeJobsPage() {
               {jobs.length} job(s) loaded
             </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          <DataTable data={datatable} />
         </div>
       </div>
     </AppPageShell>
