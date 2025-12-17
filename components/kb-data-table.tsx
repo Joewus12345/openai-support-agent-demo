@@ -147,14 +147,14 @@ export function KnowledgeBaseDataTable({ folder = "knowledge_base" }: { folder?:
       <CardContent className="space-y-3">
         <div className="overflow-hidden rounded-lg border">
           <div className="w-full overflow-x-auto">
-            <Table>
+            <Table className="text-sm">
               <TableHeader className="bg-muted/40">
                 <TableRow>
-                  <TableHead className="w-[40%] min-w-[200px]">File name</TableHead>
-                  <TableHead className="min-w-[100px]">Type</TableHead>
-                  <TableHead className="min-w-[100px]">Size</TableHead>
-                  <TableHead className="min-w-[140px]">Created</TableHead>
-                  <TableHead className="min-w-[140px]">Updated</TableHead>
+                  <TableHead className="w-[40%] min-w-[160px]">File name</TableHead>
+                  <TableHead className="min-w-[80px]">Type</TableHead>
+                  <TableHead className="min-w-[80px]">Size</TableHead>
+                  <TableHead className="min-w-[120px]">Created</TableHead>
+                  <TableHead className="min-w-[120px]">Updated</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

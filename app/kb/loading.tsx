@@ -9,12 +9,14 @@ export default function KnowledgeBaseLoading() {
     <AppPageShell>
       <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="space-y-2">
-            <Skeleton className="h-6 w-48" />
-            <Skeleton className="h-4 w-80" />
+          <div className="space-y-1">
+            <p className="text-2xl font-semibold">Knowledge base</p>
+            <p className="text-sm text-muted-foreground">
+              Browse uploaded markdown files and open inline previews.
+            </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-5 w-16" />
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Loading folders</span>
             <Skeleton className="h-5 w-20" />
           </div>
         </div>

@@ -8,9 +8,11 @@ export default function AdminLoading() {
   return (
     <AppPageShell>
       <div className="space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-4 w-80" />
+        <div className="space-y-1">
+          <p className="text-2xl font-semibold">Admin console</p>
+          <p className="text-sm text-muted-foreground">
+            Manage agent accounts, permissions, and messaging access.
+          </p>
         </div>
         <Card className="shadow-sm">
           <CardHeader className="space-y-2">

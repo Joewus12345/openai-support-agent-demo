@@ -8,9 +8,11 @@ export default function OnboardingLoading() {
   return (
     <AppPageShell>
       <div className="space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <Skeleton className="h-6 w-52" />
-          <Skeleton className="h-4 w-72" />
+        <div className="space-y-1 text-center">
+          <p className="text-2xl font-semibold">Initialize Admin Access</p>
+          <p className="text-sm text-muted-foreground">
+            Create the first admin account to unlock the workspace.
+          </p>
         </div>
         <Card className="shadow-sm">
           <CardHeader>
