@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import AgentView from "@/components/AgentView";
 import SessionTimer from "@/components/SessionTimer";
@@ -31,9 +31,19 @@ import { Switch } from "@/components/ui/switch";
 import useConversationStore from "@/stores/useConversationStore";
 import { useSessionStore } from "@/stores/useSessionStore";
 import type { ChatMessage } from "@/lib/assistant";
-import { DataTable } from "@/components/data-table";
-import data from "@/app/dashboard/data.json";
+import {
+  DashboardDataTable,
+  type DashboardFileRow,
+  type DashboardJobRow,
+} from "@/components/dashboard-data-table";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
+
+function formatDateValue(value: string | null | undefined) {
+  if (!value) return "—";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "—";
+  return parsed.toLocaleString();
+}
 
 function RecentMessages() {
   const chatMessages = useConversationStore((state) => state.chatMessages);
@@ -168,6 +178,101 @@ export default function Page() {
     useConversationStore();
   const { roles, userId, verified, expiresAt } = useSessionStore();
   const [activeView, setActiveView] = useState("customer");
+  const [jobRows, setJobRows] = useState<DashboardJobRow[]>([]);
+  const [fileRows, setFileRows] = useState<DashboardFileRow[]>([]);
+  const [loadingJobs, setLoadingJobs] = useState(true);
+  const [loadingFiles, setLoadingFiles] = useState(true);
+
+  useEffect(() => {
+    const loadJobs = async () => {
+      try {
+        setLoadingJobs(true);
+        const response = await fetch("/api/scrape_jobs?limit=20");
+        const payload = await response.json();
+        const jobsArray = Array.isArray(payload)
+          ? payload
+          : Array.isArray(payload?.jobs)
+          ? payload.jobs
+          : [];
+
+        const normalized: DashboardJobRow[] = jobsArray.slice(0, 10).map((entry: any, index: number) => {
+          const job = entry?.job ?? entry ?? {};
+          const args = job.args as Record<string, unknown> | undefined;
+          const target = (args?.url as string | undefined) ?? (args?.targetUrl as string | undefined) ?? "";
+
+          return {
+            id: job.id ?? `job-${index}`,
+            script: job.script ?? "Unknown script",
+            status: String(job.status ?? "unknown"),
+            target,
+            createdAt: formatDateValue(job.createdAt ?? job.startedAt ?? null),
+            finishedAt: formatDateValue(job.finishedAt ?? null),
+          };
+        });
+
+        setJobRows(normalized);
+      } catch (error) {
+        console.error("Failed to load dashboard jobs", error);
+        setJobRows([]);
+      } finally {
+        setLoadingJobs(false);
+      }
+    };
+
+    const loadFiles = async () => {
+      try {
+        setLoadingFiles(true);
+        const response = await fetch("/api/list_files?folder=knowledge_base");
+        const payload = await response.json();
+        const files = (payload?.files as DashboardFileRow[]) ?? [];
+        const sorted = [...files].sort((a, b) => a.name.localeCompare(b.name)).slice(0, 10);
+        setFileRows(
+          sorted.map((file) => ({
+            ...file,
+            modifiedAt: formatDateValue(file.modifiedAt),
+          }))
+        );
+      } catch (error) {
+        console.error("Failed to load dashboard knowledge base files", error);
+        setFileRows([]);
+      } finally {
+        setLoadingFiles(false);
+      }
+    };
+
+    void loadJobs();
+    void loadFiles();
+  }, []);
+
+  const chartData = useMemo(() => {
+    const today = new Date();
+    const days = Array.from({ length: 14 }).map((_, idx) => {
+      const date = new Date(today);
+      date.setDate(today.getDate() - (13 - idx));
+      return date;
+    });
+
+    const jobCounts = jobRows.reduce<Record<string, number>>((acc, job) => {
+      const dateKey = job.createdAt !== "—" ? new Date(job.createdAt).toISOString().slice(0, 10) : null;
+      if (dateKey) acc[dateKey] = (acc[dateKey] ?? 0) + 1;
+      return acc;
+    }, {});
+
+    const kbCounts = fileRows.reduce<Record<string, number>>((acc, file) => {
+      const key = file.modifiedAt !== "—" ? new Date(file.modifiedAt).toISOString().slice(0, 10) : null;
+      if (key) acc[key] = (acc[key] ?? 0) + 1;
+      return acc;
+    }, {});
+
+    return days.map((date) => {
+      const key = date.toISOString().slice(0, 10);
+      return {
+        date: key,
+        jobs: jobCounts[key] ?? 0,
+        updates: kbCounts[key] ?? 0,
+      };
+    });
+  }, [jobRows, fileRows]);
 
   return (
     <SidebarProvider
@@ -207,9 +312,21 @@ export default function Page() {
                 <RecentMessages />
               </div>
               <div className="px-4 lg:px-6">
-                <ChartAreaInteractive />
+                <ChartAreaInteractive
+                  data={chartData}
+                  title="User and content activity"
+                  description="Daily scrape completions and knowledge base updates"
+                  defaultRange="30d"
+                />
               </div>
-              <DataTable data={data} />
+              <div className="px-4 lg:px-6">
+                <DashboardDataTable
+                  jobs={jobRows}
+                  files={fileRows}
+                  loadingJobs={loadingJobs}
+                  loadingFiles={loadingFiles}
+                />
+              </div>
             </div>
           </div>
         </div>
