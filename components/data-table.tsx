@@ -112,6 +112,15 @@ export const schema = z.object({
   reviewer: z.string(),
 });
 
+export type KnowledgeBaseRow = {
+  id: string;
+  name: string;
+  type: string;
+  size: number;
+  createdAt: string;
+  modifiedAt: string;
+};
+
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
@@ -332,11 +341,287 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   );
 }
 
-export function DataTable({
-  data: initialData,
-}: {
-  data: z.infer<typeof schema>[];
-}) {
+type KnowledgeBaseVariantProps = {
+  data: KnowledgeBaseRow[];
+  renderPreview: (item: KnowledgeBaseRow) => React.ReactNode;
+  onSelect: (id: string) => void;
+  selectedId?: string;
+  loading?: boolean;
+  formatSize: (size: number) => string;
+};
+
+function KnowledgeBaseTableVariant({
+  data,
+  renderPreview,
+  onSelect,
+  selectedId,
+  loading,
+  formatSize,
+}: KnowledgeBaseVariantProps) {
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  const isMobile = useIsMobile();
+
+  const kbColumns = React.useMemo<ColumnDef<KnowledgeBaseRow>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Name",
+        cell: ({ row }) => {
+          const item = row.original;
+          return (
+            <Drawer direction={isMobile ? "bottom" : "right"}>
+              <DrawerTrigger asChild>
+                <Button
+                  variant="link"
+                  className="w-fit px-0 text-left font-semibold"
+                  onClick={() => onSelect(item.id)}
+                >
+                  {item.name}
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent className="sm:max-w-2xl">
+                <DrawerHeader className="gap-1">
+                  <DrawerTitle className="text-lg">{item.name}</DrawerTitle>
+                  <DrawerDescription className="text-xs text-muted-foreground">
+                    Type {item.type} • {formatSize(item.size)} • Updated {" "}
+                    {new Date(item.modifiedAt).toLocaleString()}
+                  </DrawerDescription>
+                </DrawerHeader>
+                <div className="max-h-[60vh] overflow-auto px-4 pb-4 text-sm text-muted-foreground">
+                  {renderPreview(item)}
+                </div>
+                <DrawerFooter className="gap-2">
+                  <DrawerClose asChild>
+                    <Button variant="outline">Close</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+          );
+        },
+      },
+      {
+        accessorKey: "type",
+        header: "Type",
+        cell: ({ row }) => (
+          <Badge variant="outline" className="capitalize text-muted-foreground">
+            {row.original.type}
+          </Badge>
+        ),
+        size: 100,
+      },
+      {
+        accessorKey: "size",
+        header: "Size",
+        cell: ({ row }) => (
+          <span className="text-muted-foreground">{formatSize(row.original.size)}</span>
+        ),
+        size: 120,
+      },
+      {
+        accessorKey: "createdAt",
+        header: "Created",
+        cell: ({ row }) => (
+          <span className="text-muted-foreground">
+            {new Date(row.original.createdAt).toLocaleString()}
+          </span>
+        ),
+        size: 180,
+      },
+      {
+        accessorKey: "modifiedAt",
+        header: "Updated",
+        cell: ({ row }) => (
+          <span className="text-muted-foreground">
+            {new Date(row.original.modifiedAt).toLocaleString()}
+          </span>
+        ),
+        size: 180,
+      },
+    ],
+    [formatSize, isMobile, onSelect, renderPreview]
+  );
+
+  const table = useReactTable({
+    data,
+    columns: kbColumns,
+    state: {
+      columnFilters,
+      sorting,
+      pagination,
+      columnVisibility,
+    },
+    onColumnFiltersChange: setColumnFilters,
+    onSortingChange: setSorting,
+    onPaginationChange: setPagination,
+    onColumnVisibilityChange: setColumnVisibility,
+    getRowId: (row) => row.id,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+  });
+
+  const filteredCount = table.getFilteredRowModel().rows.length;
+
+  return (
+    <Card className="shadow-sm">
+      <CardHeader className="gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <CardTitle className="text-lg">Knowledge base files</CardTitle>
+          <CardDescription>
+            Responsive table with inline markdown preview
+          </CardDescription>
+        </div>
+        <Input
+          placeholder="Search files"
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("name")?.setFilterValue(event.target.value)
+          }
+          className="w-full min-w-40 sm:w-64"
+        />
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader className="bg-muted/40">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      style={{ width: header.getSize() }}
+                      className="whitespace-nowrap"
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={kbColumns.length} className="py-8 text-center">
+                    Loading files...
+                  </TableCell>
+                </TableRow>
+              ) : table.getRowModel().rows.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={selectedId === row.original.id ? "selected" : undefined}
+                    className="hover:bg-muted/60"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className="align-middle">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={kbColumns.length} className="py-8 text-center">
+                    No files found.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        <div className="flex flex-col gap-3 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <span>{filteredCount} files</span>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <IconChevronsLeft className="size-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <IconChevronLeft className="size-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <IconChevronRight className="size-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              <IconChevronsRight className="size-4" />
+            </Button>
+            <span className="px-2">
+              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount() || 1}
+            </span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+type DataTableProps =
+  | { variant?: "default"; data: z.infer<typeof schema>[] }
+  | ({
+      variant: "knowledgeBase";
+      kbData: KnowledgeBaseRow[];
+      renderPreview: (item: KnowledgeBaseRow) => React.ReactNode;
+      onSelect: (id: string) => void;
+      selectedId?: string;
+      loading?: boolean;
+      getHumanFileSize: (size: number) => string;
+    });
+
+export function DataTable(props: DataTableProps) {
+  if (props.variant === "knowledgeBase") {
+    return (
+      <KnowledgeBaseTableVariant
+        data={props.kbData}
+        renderPreview={props.renderPreview}
+        onSelect={props.onSelect}
+        selectedId={props.selectedId}
+        loading={props.loading}
+        formatSize={props.getHumanFileSize}
+      />
+    );
+  }
+
+  const { data: initialData } = props;
   const [data, setData] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
