@@ -45,6 +45,13 @@ function formatDateValue(value: string | null | undefined) {
   return parsed.toLocaleString();
 }
 
+function getDateKey(value: string | null | undefined) {
+  if (!value) return null;
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed.toISOString().slice(0, 10);
+}
+
 function RecentMessages() {
   const chatMessages = useConversationStore((state) => state.chatMessages);
   const pendingMessages = useConversationStore(
@@ -178,8 +185,8 @@ export default function Page() {
     useConversationStore();
   const { roles, userId, verified, expiresAt } = useSessionStore();
   const [activeView, setActiveView] = useState("customer");
-  const [jobRows, setJobRows] = useState<DashboardJobRow[]>([]);
-  const [fileRows, setFileRows] = useState<DashboardFileRow[]>([]);
+  const [jobRows, setJobRows] = useState<(DashboardJobRow & { createdAtRaw: string | null; finishedAtRaw: string | null })[]>([]);
+  const [fileRows, setFileRows] = useState<(DashboardFileRow & { modifiedAtRaw: string | null })[]>([]);
   const [loadingJobs, setLoadingJobs] = useState(true);
   const [loadingFiles, setLoadingFiles] = useState(true);
 
@@ -195,18 +202,22 @@ export default function Page() {
           ? payload.jobs
           : [];
 
-        const normalized: DashboardJobRow[] = jobsArray.slice(0, 10).map((entry: any, index: number) => {
+        const normalized = jobsArray.slice(0, 10).map((entry: any, index: number) => {
           const job = entry?.job ?? entry ?? {};
           const args = job.args as Record<string, unknown> | undefined;
           const target = (args?.url as string | undefined) ?? (args?.targetUrl as string | undefined) ?? "";
+          const createdAtRaw = (job.createdAt as string | undefined) ?? (job.startedAt as string | undefined) ?? null;
+          const finishedAtRaw = (job.finishedAt as string | undefined) ?? null;
 
           return {
             id: job.id ?? `job-${index}`,
             script: job.script ?? "Unknown script",
             status: String(job.status ?? "unknown"),
             target,
-            createdAt: formatDateValue(job.createdAt ?? job.startedAt ?? null),
-            finishedAt: formatDateValue(job.finishedAt ?? null),
+            createdAt: formatDateValue(createdAtRaw),
+            finishedAt: formatDateValue(finishedAtRaw),
+            createdAtRaw,
+            finishedAtRaw,
           };
         });
 
@@ -227,10 +238,14 @@ export default function Page() {
         const files = (payload?.files as DashboardFileRow[]) ?? [];
         const sorted = [...files].sort((a, b) => a.name.localeCompare(b.name)).slice(0, 10);
         setFileRows(
-          sorted.map((file) => ({
-            ...file,
-            modifiedAt: formatDateValue(file.modifiedAt),
-          }))
+          sorted.map((file) => {
+            const modifiedAtRaw = file.modifiedAt ?? null;
+            return {
+              ...file,
+              modifiedAt: formatDateValue(modifiedAtRaw),
+              modifiedAtRaw,
+            };
+          })
         );
       } catch (error) {
         console.error("Failed to load dashboard knowledge base files", error);
@@ -253,13 +268,13 @@ export default function Page() {
     });
 
     const jobCounts = jobRows.reduce<Record<string, number>>((acc, job) => {
-      const dateKey = job.createdAt !== "—" ? new Date(job.createdAt).toISOString().slice(0, 10) : null;
+      const dateKey = getDateKey(job.createdAtRaw);
       if (dateKey) acc[dateKey] = (acc[dateKey] ?? 0) + 1;
       return acc;
     }, {});
 
     const kbCounts = fileRows.reduce<Record<string, number>>((acc, file) => {
-      const key = file.modifiedAt !== "—" ? new Date(file.modifiedAt).toISOString().slice(0, 10) : null;
+      const key = getDateKey(file.modifiedAtRaw);
       if (key) acc[key] = (acc[key] ?? 0) + 1;
       return acc;
     }, {});
