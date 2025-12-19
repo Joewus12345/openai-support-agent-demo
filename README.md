@@ -173,6 +173,7 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
    A standalone Docker setup is available to test the service in isolation:
 
    ```bash
+   docker network create support-net
    docker compose -f docker-compose.agent.yml up --build
    ```
 
