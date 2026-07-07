@@ -1,10 +1,33 @@
+![Revisit consent button](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/revisit.svg)
+We value your privacy
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.
+You can choose to accept all cookies, reject non-essential cookies, or manage your preferences at any time. [Cookie Policy](https://automationghana.com/policies/privacy-statement/)
+Customise Reject Accept
+Customise Consent Preferences![Close](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/close.svg)
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.... Show more
+EssentialAlways Active
+Required for the website to function properly
+No cookies to display.
+Functional
+Enhance site features and personalisation
+No cookies to display.
+Analytics
+Help us understand website usage and improve performance
+No cookies to display.
+Performance
+Performance cookies are used to understand and analyse the key performance indexes of the website which helps in delivering a better user experience for the visitors.
+No cookies to display.
+Advertisement
+Advertisement cookies are used to provide visitors with customised advertisements based on the pages you visited previously and to analyse the effectiveness of the ad campaigns.
+No cookies to display.
+AcceptSave My Preferences Reject
 [Skip to content](https://automationghana.com/solutions/hybrid-energy-power-solution/#content)
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)
 Search
   * [ Careers ](https://automationghana.com/tagg-career-opportunities/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ News ](https://automationghana.com/news/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
   * [ Our Store ](https://store.automationghana.com/)
 
 
@@ -26,30 +49,37 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-No content found
+![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
+Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
+[ Learn more ](https://automationghana.com/asl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
+Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
+[ Learn more ](https://automationghana.com/esl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
+Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
+[ Learn more ](https://automationghana.com/ppa/)
   * [Our Solutions](https://automationghana.com/solutions/hybrid-energy-power-solution/)
-## Building Solutions
-    * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
+    * **Building Solutions**
+    * [ Building Management Solutions ](https://automationghana.com/solutions/building-management-system/)
     * [ Smart Home Solutions ](https://automationghana.com/solutions/smart-home-solutions/)
     * [ Energy Monitoring and Management ](https://automationghana.com/solutions/energy-monitoring-and-management/)
     * [ Solar PV Systems ](https://automationghana.com/solutions/solar-pv-systems/)
-    * [ View More ](https://automationghana.com/solution-categories/building-solutions/)
-## Food & Beverage Solutions
-    * [ Electrical & Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
-    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming/)
-    * [ Electrical & Equipment installation ](https://automationghana.com/solutions/electrical-equipment-installation-2/)
-    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management/)
-    * [ View More ](https://automationghana.com/solution-categories/food-beverage/)
-## Power & Energy
+    * [ _View more_ ](https://automationghana.com/solution-categories/building-solutions/)
+    * **Food & Beverage Solutions**
+    * [ Electrical and Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
+    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
+    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management-system/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/food-beverage/)
+    * **Power & Energy**
     * [ Integrated Terminal Management and Tank Farm Solutions ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/)
     * [ Demand Side Management ](https://automationghana.com/solutions/demand-side-management/)
     * [ Lightning Protection Systems ](https://automationghana.com/solutions/lightning-protection-systems/)
     * [ Earth Resistance Testing ](https://automationghana.com/solutions/earth-resistance-testing/)
-    * [ View All Solutions ](https://automationghana.com/our-solutions/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/power-energy/)
   * [Our Services](https://automationghana.com/solutions/hybrid-energy-power-solution/)
     * [Projects](https://automationghana.com/projects-portfolio/)
     * [Support Services](https://automationghana.com/support-services/)
-    * [The Automation Ghana Academy](https://automationghana.com/training-old/)
+    * [The Automation Academy](https://automationghana.com/training-academy/)
     * [Sale](https://automationghana.com/solutions/hybrid-energy-power-solution/)
 ![](https://automationghana.com/wp-content/uploads/2024/03/Cables-and-Cable-management.png)
     * [ Our Projects ](https://automationghana.com/projects/)
@@ -60,21 +90,21 @@ No content found
     * [Building Solutions](https://automationghana.com/solution-categories/building-solutions/)
     * [Mining](https://automationghana.com/solution-categories/mining/)
     * [Oil & Gas](https://automationghana.com/solution-categories/oil-gas/)
-    * [Telecommnunications](https://automationghana.com/solution-categories/telecommnunications/)
+    * [Telecommunications](https://automationghana.com/solution-categories/telecommnunications/)
     * [Power & Energy](https://automationghana.com/solution-categories/power-energy/)
 ![Untitled 3](https://automationghana.com/wp-content/uploads/2023/09/Untitled-3.jpg)
     * [ Food & Beverage ](https://automationghana.com/solution-categories/food-beverage/)
     * [ Building Solutions ](https://automationghana.com/solution-categories/building-solutions/)
-    * [ Minning ](https://automationghana.com/solution-categories/mining/)
+    * [ Mining ](https://automationghana.com/solution-categories/mining/)
     * [ Oil & Gas ](https://automationghana.com/solution-categories/oil-gas/)
-    * [ Telecommnunications ](https://automationghana.com/solution-categories/telecommnunications/)
+    * [ Telecommunications ](https://automationghana.com/solution-categories/telecommnunications/)
     * [ Power & Energy ](https://automationghana.com/solution-categories/power-energy/)
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![Hybrid energy power solution](https://automationghana.com/wp-content/uploads/2024/09/sustainability-16-06180-g005-1-1024x836.webp)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
+![Hybrid energy power solution](https://18.197.210.112/wp-content/uploads/2024/09/sustainability-16-06180-g005-1-1024x836.webp)
+  1. [Home](https://18.197.210.112)
+  2. [Solution](https://18.197.210.112/solutions/)
   3. Hybrid Energy Power Solution 1
 
 
@@ -84,8 +114,8 @@ Our **Hybrid Energy Power Solution** is specifically designed to meet the energy
   * Our solar PV systems utilize clean energy and renewable energy to significantly reduce reliance on diesel generators and grid power, ensuring sustainable energy solutions, cost-efficient operations, and energy independence. By integrating solar power systems with energy storage solutions, we provide reliable power supply, energy efficiency, and reduced carbon footprint. Our hybrid power solutions combine solar energy, battery storage, and backup generators to deliver uninterrupted power, energy savings, and environmentally friendly operations for both residential solar systems and commercial solar installations.
 
 
-![Hybrid Energy Power Solution](https://automationghana.com/wp-content/uploads/2024/09/Solar-PV-systems.jpg)
-![The Automation Ghana Group - Eaton UPS](https://automationghana.com/wp-content/uploads/2024/09/Eaton-UPS.jpg)
+![Hybrid Energy Power Solution](https://18.197.210.112/wp-content/uploads/2024/09/Solar-PV-systems.jpg)
+![The Automation Ghana Group - Eaton UPS](https://18.197.210.112/wp-content/uploads/2024/09/Eaton-UPS.jpg)
 ## Diesel Generator Backup 
   * We provide a dependable power source during periods of low solar output, to ensure a continuous power supply and stabilize network operations.
 
@@ -94,7 +124,7 @@ Our **Hybrid Energy Power Solution** is specifically designed to meet the energy
   * Our solution seamlessly connects to the grid, ensuring an uninterrupted power supply and stabilizing network operations. Designed for reliability, it enhances grid resilience, balances load fluctuations, and minimizes downtime, giving you confidence in maintaining consistent and efficient energy distribution, even in the most challenging conditions.
 
 
-![The Automation Ghana Group - Solar PV](https://automationghana.com/wp-content/uploads/2024/09/Solar-PV-1024x694.jpg)
+![The Automation Ghana Group - Solar PV](https://18.197.210.112/wp-content/uploads/2024/09/Solar-PV-1024x694.jpg)
 ## Benefits
 ## Improved Network Reliability
 Ensures consistent power supply, minimizing downtime and maintaining service availability for telecom sites, even in remote locations.
@@ -104,9 +134,9 @@ Reduces energy costs by optimizing the use of solar, grid, and diesel power, low
 Lowers maintenance requirements and operational costs through robust construction and efficient design.
 ## Flexible and Scalable Solution
 Easily adapts to varying telecom site requirements and is scalable for future network expansions or upgrades.
-[ How Can We Help? ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-a0fd110694047c68be94)
+[ How Can We Help? ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-a0fd1106a387e4ed8ee8)
 We optimize your fluid control systems with our comprehensive range of valves tailored for the mining sector. Our solutions enhance efficiency and reliability in managing abrasive and general fluids, ensuring smooth operations and reduced downtime. Our expert team is ready to assist in selecting and integrating the right valves for your specific needs, providing ongoing support for optimal performance.
-[ What We Offer ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-3ee4934694047c68be94)
+[ What We Offer ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-3ee49346a387e4ed8ee8)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -116,7 +146,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-32d8655694047c68be94)
+[ Hardware and Software ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-32d86556a387e4ed8ee8)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -129,7 +159,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting partsVisit our **e-store** @ (store.automationghana.com)
 
 
-[ Services ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-62ecacd694047c68be94)
+[ Services ](https://automationghana.com/solutions/hybrid-energy-power-solution/#collapse-62ecacd6a387e4ed8ee8)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -156,7 +186,8 @@ We provide unique electrical and automation services and products through innova
   * [ Industries We Serve ](https://automationghana.com/industries-we-serve/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ Policies ](https://automationghana.com/policies/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
+  * [ Blog ](https://automationghana.com/blog/)
 
 
 #### Let's Connect

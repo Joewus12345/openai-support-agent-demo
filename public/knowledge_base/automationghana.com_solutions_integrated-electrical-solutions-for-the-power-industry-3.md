@@ -1,10 +1,33 @@
+![Revisit consent button](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/revisit.svg)
+We value your privacy
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.
+You can choose to accept all cookies, reject non-essential cookies, or manage your preferences at any time. [Cookie Policy](https://automationghana.com/policies/privacy-statement/)
+Customise Reject Accept
+Customise Consent Preferences![Close](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/close.svg)
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.... Show more
+EssentialAlways Active
+Required for the website to function properly
+No cookies to display.
+Functional
+Enhance site features and personalisation
+No cookies to display.
+Analytics
+Help us understand website usage and improve performance
+No cookies to display.
+Performance
+Performance cookies are used to understand and analyse the key performance indexes of the website which helps in delivering a better user experience for the visitors.
+No cookies to display.
+Advertisement
+Advertisement cookies are used to provide visitors with customised advertisements based on the pages you visited previously and to analyse the effectiveness of the ad campaigns.
+No cookies to display.
+AcceptSave My Preferences Reject
 [Skip to content](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/#content)
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)
 Search
   * [ Careers ](https://automationghana.com/tagg-career-opportunities/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ News ](https://automationghana.com/news/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
   * [ Our Store ](https://store.automationghana.com/)
 
 
@@ -26,30 +49,37 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-No content found
+![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
+Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
+[ Learn more ](https://automationghana.com/asl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
+Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
+[ Learn more ](https://automationghana.com/esl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
+Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
+[ Learn more ](https://automationghana.com/ppa/)
   * [Our Solutions](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/)
-## Building Solutions
-    * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
+    * **Building Solutions**
+    * [ Building Management Solutions ](https://automationghana.com/solutions/building-management-system/)
     * [ Smart Home Solutions ](https://automationghana.com/solutions/smart-home-solutions/)
     * [ Energy Monitoring and Management ](https://automationghana.com/solutions/energy-monitoring-and-management/)
     * [ Solar PV Systems ](https://automationghana.com/solutions/solar-pv-systems/)
-    * [ View More ](https://automationghana.com/solution-categories/building-solutions/)
-## Food & Beverage Solutions
-    * [ Electrical & Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
-    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming/)
-    * [ Electrical & Equipment installation ](https://automationghana.com/solutions/electrical-equipment-installation-2/)
-    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management/)
-    * [ View More ](https://automationghana.com/solution-categories/food-beverage/)
-## Power & Energy
+    * [ _View more_ ](https://automationghana.com/solution-categories/building-solutions/)
+    * **Food & Beverage Solutions**
+    * [ Electrical and Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
+    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
+    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management-system/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/food-beverage/)
+    * **Power & Energy**
     * [ Integrated Terminal Management and Tank Farm Solutions ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/)
     * [ Demand Side Management ](https://automationghana.com/solutions/demand-side-management/)
     * [ Lightning Protection Systems ](https://automationghana.com/solutions/lightning-protection-systems/)
     * [ Earth Resistance Testing ](https://automationghana.com/solutions/earth-resistance-testing/)
-    * [ View All Solutions ](https://automationghana.com/our-solutions/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/power-energy/)
   * [Our Services](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/)
     * [Projects](https://automationghana.com/projects-portfolio/)
     * [Support Services](https://automationghana.com/support-services/)
-    * [The Automation Ghana Academy](https://automationghana.com/training-old/)
+    * [The Automation Academy](https://automationghana.com/training-academy/)
     * [Sale](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/)
 ![](https://automationghana.com/wp-content/uploads/2024/03/Cables-and-Cable-management.png)
     * [ Our Projects ](https://automationghana.com/projects/)
@@ -60,21 +90,22 @@ No content found
     * [Building Solutions](https://automationghana.com/solution-categories/building-solutions/)
     * [Mining](https://automationghana.com/solution-categories/mining/)
     * [Oil & Gas](https://automationghana.com/solution-categories/oil-gas/)
-    * [Telecommnunications](https://automationghana.com/solution-categories/telecommnunications/)
+    * [Telecommunications](https://automationghana.com/solution-categories/telecommnunications/)
     * [Power & Energy](https://automationghana.com/solution-categories/power-energy/)
 ![Untitled 3](https://automationghana.com/wp-content/uploads/2023/09/Untitled-3.jpg)
     * [ Food & Beverage ](https://automationghana.com/solution-categories/food-beverage/)
     * [ Building Solutions ](https://automationghana.com/solution-categories/building-solutions/)
-    * [ Minning ](https://automationghana.com/solution-categories/mining/)
+    * [ Mining ](https://automationghana.com/solution-categories/mining/)
     * [ Oil & Gas ](https://automationghana.com/solution-categories/oil-gas/)
-    * [ Telecommnunications ](https://automationghana.com/solution-categories/telecommnunications/)
+    * [ Telecommunications ](https://automationghana.com/solution-categories/telecommnunications/)
     * [ Power & Energy ](https://automationghana.com/solution-categories/power-energy/)
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - 5857477889094698122 1](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/5857477889094698122-1-1024x682.jpg)
-  1. [Home](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com)
-  2. Search Result
+![The Automation Ghana Group - 5857477889094698122 1](https://automationghana.com/wp-content/uploads/2024/08/5857477889094698122-1-1024x682.jpg)
+  1. [Home](https://automationghana.com)
+  2. [Solution](https://automationghana.com/solutions/)
+  3. Integrated Electrical Solutions
 
 
 ## Driving the Energy Sector Forward with Integrated Solutions to Increase Efficiency and Reliability.
@@ -83,8 +114,8 @@ We understand the critical role of electrical systems in the power industry. Tha
   * Our advanced switchgear solutions provide dependable power distribution, ensuring high performance and durability across your electrical infrastructure.
 
 
-![The Automation Ghana Group - MCC](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/MCC.jpg)
-![The Automation Ghana Group - protection relays](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/protection-relays.jpg)
+![The Automation Ghana Group - MCC](https://automationghana.com/wp-content/uploads/2024/08/MCC.jpg)
+![The Automation Ghana Group - protection relays](https://automationghana.com/wp-content/uploads/2024/08/protection-relays.jpg)
 ## Protection Relays 
   * Protect your electrical systems with our technologically advanced protection relays, designed to safeguard against overloads and faults, enhancing the safety and reliability of your electrical networks.
 
@@ -93,8 +124,8 @@ We understand the critical role of electrical systems in the power industry. Tha
   * Optimize efficiency and reliability with our comprehensive power management solutions, crafted to improve the performance and management of your power systems.
 
 
-![The Automation Ghana Group - 5857477889094698125](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/5857477889094698125-1024x682.jpg)
-![The Automation Ghana Group - Helukabel cable](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Helukabel-cable.jpg)
+![The Automation Ghana Group - 5857477889094698125](https://automationghana.com/wp-content/uploads/2024/08/5857477889094698125-1024x682.jpg)
+![The Automation Ghana Group - Helukabel cable](https://automationghana.com/wp-content/uploads/2024/08/Helukabel-cable.jpg)
 ## Cables & Conductors
   * Our range of cables and conductors is tailored for effective power transmission and distribution, meeting all industry standards for performance and safety.
 
@@ -103,8 +134,8 @@ We understand the critical role of electrical systems in the power industry. Tha
   * Gain real-time insights and precise control with our SCADA systems, which facilitate enhanced monitoring and management of your power infrastructure.
 
 
-![The Automation Ghana Group - SCADA](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/SCADA.jpg)
-![RCB, MCCB, MCB](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Black-Cables-Shop-Social-Feed-Static-Ad-1.png)
+![The Automation Ghana Group - SCADA](https://automationghana.com/wp-content/uploads/2024/08/SCADA.jpg)
+![RCB, MCCB, MCB](https://automationghana.com/wp-content/uploads/2024/08/Black-Cables-Shop-Social-Feed-Static-Ad-1.png)
 ## Circuit Breakers 
   * We supply and install circuit breakers to protect your electrical circuits from overloads and short circuits, ensuring the continued safety and functionality of your systems.
 
@@ -113,8 +144,8 @@ We understand the critical role of electrical systems in the power industry. Tha
   * We provide locally built electrical panels designed for efficient power distribution and control, customized to fit your specific operational needs.
 
 
-![The Automation Ghana Group - Combo ATS TPN DB 01](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Combo_ATS_TPN_DB_01-683x1024.png)
-![Delta UPS](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Blue-White-Modern-Health-Day-Check-Up-Banner-Portrait-850-x-2000-mm.jpg)
+![The Automation Ghana Group - Combo ATS TPN DB 01](https://automationghana.com/wp-content/uploads/2024/08/Combo_ATS_TPN_DB_01-683x1024.png)
+![Delta UPS](https://automationghana.com/wp-content/uploads/2024/08/Blue-White-Modern-Health-Day-Check-Up-Banner-Portrait-850-x-2000-mm.jpg)
 ### UPS SYSTEMS 
   * We deliver reliable UPS systems that protect critical operations from outages, surges, and fluctuations. Our solutions ensure seamless backup power, real-time monitoring, and scalable configurations—keeping your business running without interruption. Ideal for: Data centers, industrial processes, healthcare, finance, and energy sectors.
 
@@ -123,7 +154,7 @@ We understand the critical role of electrical systems in the power industry. Tha
   * Automation Ghana supplies all types of electrical and control cables, including the full HELUKABEL range, and provides tailored cable management solutions—from cable trays and conduits to routing and installation.
 
 
-![Cable management](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/helukabel-tray-control-cables-launch.jpg)
+![Cable management](https://automationghana.com/wp-content/uploads/2024/08/helukabel-tray-control-cables-launch.jpg)
 ## Benefits
 ##  Comprehensive Protection
 Our protection relays and circuit breakers safeguard your systems from overloads, faults, and short circuits, reducing downtime and extending the lifespan of your equipment.
@@ -135,10 +166,10 @@ The modular nature of our integrated solutions allows for easy scalability, ensu
 Our SCADA systems provide you with real-time data and analytics, enabling informed decision-making, quick response to issues, and improved overall system performance.
 ## Reduced Maintenance Costs
 With reliable and durable equipment, you experience fewer system failures and reduced maintenance requirements, leading to lower overall maintenance costs and increased system uptime.
-[ How Can We Help? ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/#collapse-a0fd110693fe2e8a02f9)
+[ How Can We Help? ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/#collapse-a0fd1106a3898b1b8ec8)
 With over 2(two) decades of experience in electrical engineering and automation, we tailor and deploy advanced power management solutions to meet the unique demands of power generation and distribution at any scale. Our solutions are implemented in strict compliance with international standards and protocols, ensuring seamless interoperability with systems from the world’s leading brands in power automation and integrated technologies.
 We provide comprehensive upgrades for outdated systems and work closely with you to scale existing infrastructures, optimizing costs while achieving your business goals. Leverage our deep industry expertise and connections with Original Equipment Manufacturers (OEMs) to integrate the latest technologies in electrical, instrumentation, and controls engineering into your power systems.
-[ What We Offer ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/#collapse-3ee4934693fe2e8a02f9)
+[ What We Offer ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/#collapse-3ee49346a3898b1b8ec8)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -148,7 +179,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/#collapse-32d8655693fe2e8a02f9)
+[ Hardware and Software ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/#collapse-32d86556a3898b1b8ec8)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -161,7 +192,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/#collapse-62ecacd693fe2e8a02f9)
+[ Services ](https://automationghana.com/solutions/integrated-electrical-solutions-for-the-power-industry-3/#collapse-62ecacd6a3898b1b8ec8)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -172,17 +203,17 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
 
 
 ## Key Components & Spares
-![Medium Voltage switchgears](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Medium-Voltage-switchgears.jpg)
+![Medium Voltage switchgears](https://automationghana.com/wp-content/uploads/2024/08/Medium-Voltage-switchgears.jpg)
 ### Medium-Voltage Switchgear (MLVs)
-![MCC](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/MCC.jpg)
+![MCC](https://automationghana.com/wp-content/uploads/2024/08/MCC.jpg)
 ### Motor Control Centers (MCCs)
-![Switch boards](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Switch-boards.jpg)
+![Switch boards](https://automationghana.com/wp-content/uploads/2024/08/Switch-boards.jpg)
 ### Switchboard
-![RCB, MCCB, MCB](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Black-Cables-Shop-Social-Feed-Static-Ad-1.png)
+![RCB, MCCB, MCB](https://automationghana.com/wp-content/uploads/2024/08/Black-Cables-Shop-Social-Feed-Static-Ad-1.png)
 ### Circuit Breakers
-![PLC Control Panels](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/PLC-Control-Panels.jpeg)
+![PLC Control Panels](https://automationghana.com/wp-content/uploads/2024/08/PLC-Control-Panels.jpeg)
 ### PLC Control Panel
-![Safety Switches](https://ec2-18-197-210-112.eu-central-1.compute.amazonaws.com/wp-content/uploads/2024/08/Safety-Switches.jpg)
+![Safety Switches](https://automationghana.com/wp-content/uploads/2024/08/Safety-Switches.jpg)
 ### Safety Switches
 ## Explore Other Solutions
 ![ats](https://automationghana.com/wp-content/uploads/2024/08/ats-1.jpg)
@@ -226,7 +257,8 @@ We provide unique electrical and automation services and products through innova
   * [ Industries We Serve ](https://automationghana.com/industries-we-serve/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ Policies ](https://automationghana.com/policies/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
+  * [ Blog ](https://automationghana.com/blog/)
 
 
 #### Let's Connect

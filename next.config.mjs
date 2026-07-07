@@ -30,6 +30,11 @@ const nextConfig = {
         hostname: "tagg2.automationghana.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "gna.org.gh",
+        pathname: "/**",
+      },
     ],
   },
   allowedDevOrigins: [

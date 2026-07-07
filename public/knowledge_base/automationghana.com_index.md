@@ -1,10 +1,33 @@
+![Revisit consent button](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/revisit.svg)
+We value your privacy
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.
+You can choose to accept all cookies, reject non-essential cookies, or manage your preferences at any time. [Cookie Policy](https://automationghana.com/policies/privacy-statement/)
+Customise Reject Accept
+Customise Consent Preferences![Close](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/close.svg)
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.... Show more
+EssentialAlways Active
+Required for the website to function properly
+No cookies to display.
+Functional
+Enhance site features and personalisation
+No cookies to display.
+Analytics
+Help us understand website usage and improve performance
+No cookies to display.
+Performance
+Performance cookies are used to understand and analyse the key performance indexes of the website which helps in delivering a better user experience for the visitors.
+No cookies to display.
+Advertisement
+Advertisement cookies are used to provide visitors with customised advertisements based on the pages you visited previously and to analyse the effectiveness of the ad campaigns.
+No cookies to display.
+AcceptSave My Preferences Reject
 [Skip to content](https://automationghana.com/#content)
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)
 Search
   * [ Careers ](https://automationghana.com/tagg-career-opportunities/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ News ](https://automationghana.com/news/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
   * [ Our Store ](https://store.automationghana.com/)
 
 
@@ -26,30 +49,37 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-No content found
+![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
+Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
+[ Learn more ](https://automationghana.com/asl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
+Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
+[ Learn more ](https://automationghana.com/esl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
+Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
+[ Learn more ](https://automationghana.com/ppa/)
   * [Our Solutions](https://automationghana.com/)
-## Building Solutions
-    * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
+    * **Building Solutions**
+    * [ Building Management Solutions ](https://automationghana.com/solutions/building-management-system/)
     * [ Smart Home Solutions ](https://automationghana.com/solutions/smart-home-solutions/)
     * [ Energy Monitoring and Management ](https://automationghana.com/solutions/energy-monitoring-and-management/)
     * [ Solar PV Systems ](https://automationghana.com/solutions/solar-pv-systems/)
-    * [ View More ](https://automationghana.com/solution-categories/building-solutions/)
-## Food & Beverage Solutions
-    * [ Electrical & Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
-    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming/)
-    * [ Electrical & Equipment installation ](https://automationghana.com/solutions/electrical-equipment-installation-2/)
-    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management/)
-    * [ View More ](https://automationghana.com/solution-categories/food-beverage/)
-## Power & Energy
+    * [ _View more_ ](https://automationghana.com/solution-categories/building-solutions/)
+    * **Food & Beverage Solutions**
+    * [ Electrical and Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
+    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
+    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management-system/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/food-beverage/)
+    * **Power & Energy**
     * [ Integrated Terminal Management and Tank Farm Solutions ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/)
     * [ Demand Side Management ](https://automationghana.com/solutions/demand-side-management/)
     * [ Lightning Protection Systems ](https://automationghana.com/solutions/lightning-protection-systems/)
     * [ Earth Resistance Testing ](https://automationghana.com/solutions/earth-resistance-testing/)
-    * [ View All Solutions ](https://automationghana.com/our-solutions/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/power-energy/)
   * [Our Services](https://automationghana.com/)
     * [Projects](https://automationghana.com/projects-portfolio/)
     * [Support Services](https://automationghana.com/support-services/)
-    * [The Automation Ghana Academy](https://automationghana.com/training-old/)
+    * [The Automation Academy](https://automationghana.com/training-academy/)
     * [Sale](https://automationghana.com/)
 ![](https://automationghana.com/wp-content/uploads/2024/03/Cables-and-Cable-management.png)
     * [ Our Projects ](https://automationghana.com/projects/)
@@ -60,21 +90,21 @@ No content found
     * [Building Solutions](https://automationghana.com/solution-categories/building-solutions/)
     * [Mining](https://automationghana.com/solution-categories/mining/)
     * [Oil & Gas](https://automationghana.com/solution-categories/oil-gas/)
-    * [Telecommnunications](https://automationghana.com/solution-categories/telecommnunications/)
+    * [Telecommunications](https://automationghana.com/solution-categories/telecommnunications/)
     * [Power & Energy](https://automationghana.com/solution-categories/power-energy/)
 ![Untitled 3](https://automationghana.com/wp-content/uploads/2023/09/Untitled-3.jpg)
     * [ Food & Beverage ](https://automationghana.com/solution-categories/food-beverage/)
     * [ Building Solutions ](https://automationghana.com/solution-categories/building-solutions/)
-    * [ Minning ](https://automationghana.com/solution-categories/mining/)
+    * [ Mining ](https://automationghana.com/solution-categories/mining/)
     * [ Oil & Gas ](https://automationghana.com/solution-categories/oil-gas/)
-    * [ Telecommnunications ](https://automationghana.com/solution-categories/telecommnunications/)
+    * [ Telecommunications ](https://automationghana.com/solution-categories/telecommnunications/)
     * [ Power & Energy ](https://automationghana.com/solution-categories/power-energy/)
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-# Exceptional Customer Support Service
-From routine maintenance, system audits to troubleshooting & training, we assist you with solutions and fast response times 
-[ Discover More ](https://automationghana.com/support) [ Free Consultation ](https://automationghana.com/contact-us/)
+# Smart Home
+Your Home, Easily Controlled, Intelligently Automated 
+[ Discover More ](https://automationghana.com/solutions/smart-home-solutions/) [ Free Consultation ](https://automationghana.com/contact-us/)
 ![The Automation Ghana Group - Solar PV Systems](https://automationghana.com/wp-content/uploads/2024/03/Solar-PV-Systems.png)
 ![The Automation Ghana Group - Energy Monitoring and Management System](https://automationghana.com/wp-content/uploads/2024/03/Energy-Monitoring-and-Management-System.png)
 ![The Automation Ghana Group - Energy Monitoring and Management](https://automationghana.com/wp-content/uploads/2024/03/Energy-Monitoring-and-Management.png)
@@ -99,13 +129,13 @@ Through respect, trust and integrity, we ensure customer satisfaction by operati
 ## Our Brands
 ![The Automation Ghana Group - asl loog](https://automationghana.com/wp-content/uploads/2024/08/asl_loog.png)
 Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
-[ Learn more ](http://automationghana.com/asl/)
+[ Learn more ](https://automationghana.com/asl/)
 ![The Automation Ghana Group - esl logo](https://automationghana.com/wp-content/uploads/2024/08/esl_logo.png)
 Designs and builds electrical low voltage main distribution and control panels for industrial, commercial and residential applications. 
-[ Learn more ](http://automationghana.com/esl/)
+[ Learn more ](https://automationghana.com/esl/)
 ![The Automation Ghana Group - ppa logo](https://automationghana.com/wp-content/uploads/2024/08/ppa_logo.png)
 Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. 
-[ Learn more ](http://automationghana.com/ppa/)
+[ Learn more ](https://automationghana.com/ppa/)
 ![The Automation Ghana Group - smart home logo](https://automationghana.com/wp-content/uploads/2024/08/smart_home_logo.png)
 SmartHome Solutions provides automation solutions designed for; Homes, Hospitals, Malls, Hotels, Schools, Churches/Mosques, Showrooms, Airports etc.
 [ Learn more ](https://automationghana.com/solutions/smart-home-solutions/)
@@ -164,13 +194,13 @@ enquiries@automationghana.com​
 ![The Automation Ghana Group - 21 03](https://automationghana.com/wp-content/uploads/2024/08/21-03.png)
 ![The Automation Ghana Group - 16 03](https://automationghana.com/wp-content/uploads/2024/08/16-03.png)
 ## Our Portfolio
-As a leading provider of electrical and automation services, we have had the privilege of collaborating with esteemed clients across various industries, leaving a trail of successful ventures and satisfied customers.
+As a leading provider of electrical and [automation](https://automationghana.com/industry-4-0/) services, we have had the privilege of collaborating with esteemed clients across various industries, leaving a trail of successful ventures and satisfied customers.
 [ View All Portfolio ](https://automationghana.com/projects/)
 ### [ NCA Towers - Smart Metering  Smart metering with full emmX functionality ](https://automationghana.com/project/nca-towers-smart-metering/)
 ### [ Juaben Oil Mills - Plant Production  Energy Metering Solution to improve plant efficiency and process control ](https://automationghana.com/project/juaben-oil-mills-plant-production-mass-balance/)
 ### [ Atwea Mountains - Solar Project  Supply & installation of 22.32 kWp Off-Grid PV System ](https://automationghana.com/project/atwea-mountains-prayer-camp-solar-project/)
 ## Our Clients
-We serve a diverse range of clients across industries like manufacturing, utilities, mining, banks, brewerery and more with customized automation solutions.
+We serve a diverse range of clients across industries like [manufacturing](https://automationghana.com/smart-factory/), utilities, mining, banking, brewing and more with customized [automation](https://automationghana.com/digital-business-transformation/) solutions.
 ![Parliament of Ghana](https://automationghana.com/wp-content/uploads/2024/12/Parliament-of-Ghana.png)
 ![ecg](https://automationghana.com/wp-content/uploads/2024/12/ecg.png)
 ![national communications authority](https://automationghana.com/wp-content/uploads/2024/12/national-communications-authority.png)
@@ -229,29 +259,29 @@ TAGG designed a custom smart home system that simplified our lives. We couldn't 
 ## News
 Latest News and Events at The Automation Ghana Group. 
 [ More News ](https://automationghana.com/news/)
-[![The Automation Ghana Group - TAGG Unveils Industrial Scale Energy Storage Breakthrough with Huawei LUNA2000–215 1](https://automationghana.com/wp-content/uploads/2025/12/TAGG-Unveils-Industrial-Scale-Energy-Storage-Breakthrough-with-Huawei-LUNA2000–215-1-1024x570.jpg)](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
-###  [ TAGG Unveils Industrial-Scale Energy Storage Breakthrough with Huawei LUNA2000–215 ](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
-[ Read More » ](https://automationghana.com/2025/12/12/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+[![The Automation Ghana Group - TAGG Unveils Industrial Scale Energy Storage Breakthrough with Huawei LUNA2000–215 1](https://automationghana.com/wp-content/uploads/2025/12/TAGG-Unveils-Industrial-Scale-Energy-Storage-Breakthrough-with-Huawei-LUNA2000–215-1-1024x570.jpg)](https://automationghana.com/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+###  [ TAGG Unveils Industrial-Scale Energy Storage Breakthrough with Huawei LUNA2000–215 ](https://automationghana.com/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
+[ Read More » ](https://automationghana.com/tagg-unveils-industrial-scale-energy-storage-breakthrough-with-huawei-luna2000-215/)
 December 12, 2025 
-[![Future Leaders Educational Fund](https://automationghana.com/wp-content/uploads/2025/11/IMG_0264-1024x535.jpg)](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
-###  [ Celebrating 10 Years of the Future Leaders Educational Fund ](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
-[ Read More » ](https://automationghana.com/2025/11/12/celebrating-10-years-of-the-future-leaders-educational-fund/)
+[![Future Leaders Educational Fund](https://automationghana.com/wp-content/uploads/2025/11/IMG_0264-1024x535.jpg)](https://automationghana.com/celebrating-10-years-of-the-future-leaders-educational-fund/)
+###  [ Celebrating 10 Years of the Future Leaders Educational Fund ](https://automationghana.com/celebrating-10-years-of-the-future-leaders-educational-fund/)
+[ Read More » ](https://automationghana.com/celebrating-10-years-of-the-future-leaders-educational-fund/)
 November 12, 2025 
-[![Electrical engineering and instrumentation](https://automationghana.com/wp-content/uploads/2025/05/273A0536-1024x683.jpg)](https://automationghana.com/2025/05/26/tagg-open-house-event-2025/)
-###  [ TAGG Open House Event: Celebrating 20+ Years of Excellence in Engineering ](https://automationghana.com/2025/05/26/tagg-open-house-event-2025/)
-[ Read More » ](https://automationghana.com/2025/05/26/tagg-open-house-event-2025/)
+[![Electrical engineering and instrumentation](https://automationghana.com/wp-content/uploads/2025/05/273A0536-1024x683.jpg)](https://automationghana.com/tagg-open-house-event-2025/)
+###  [ TAGG Open House Event: Celebrating 20+ Years of Excellence in Engineering ](https://automationghana.com/tagg-open-house-event-2025/)
+[ Read More » ](https://automationghana.com/tagg-open-house-event-2025/)
 May 26, 2025 
-[![TAGG at SSTN Business Conference 2024](https://automationghana.com/wp-content/uploads/2024/11/IMG_0069-1024x683.jpg)](https://automationghana.com/2024/11/01/sstn-business-conference-2024-tagg/)
-###  [ TAGG at the Stanford Seed Transformation Network Business Conference 2024 ](https://automationghana.com/2024/11/01/sstn-business-conference-2024-tagg/)
-[ Read More » ](https://automationghana.com/2024/11/01/sstn-business-conference-2024-tagg/)
+[![TAGG at SSTN Business Conference 2024](https://automationghana.com/wp-content/uploads/2024/11/IMG_0069-1024x683.jpg)](https://automationghana.com/sstn-business-conference-2024-tagg/)
+###  [ TAGG at the Stanford Seed Transformation Network Business Conference 2024 ](https://automationghana.com/sstn-business-conference-2024-tagg/)
+[ Read More » ](https://automationghana.com/sstn-business-conference-2024-tagg/)
 November 1, 2024 
-[![The Automation Ghana Group - Picture3](https://automationghana.com/wp-content/uploads/2023/07/Picture3-1024x431.png)](https://automationghana.com/2024/10/08/tagg-2024-scholarship-program/)
-###  [ PPA Future Leaders Educational Fund (PPAFLEF), 2024/2025 Academic Year Scholarships ](https://automationghana.com/2024/10/08/tagg-2024-scholarship-program/)
-[ Read More » ](https://automationghana.com/2024/10/08/tagg-2024-scholarship-program/)
+[![The Automation Ghana Group - Picture3](https://automationghana.com/wp-content/uploads/2023/07/Picture3-1024x431.png)](https://automationghana.com/tagg-2024-scholarship-program/)
+###  [ PPA Future Leaders Educational Fund (PPAFLEF), 2024/2025 Academic Year Scholarships ](https://automationghana.com/tagg-2024-scholarship-program/)
+[ Read More » ](https://automationghana.com/tagg-2024-scholarship-program/)
 October 8, 2024 
-[![The Automation Ghana Group - News BLOG 04](https://automationghana.com/wp-content/uploads/2024/08/News_BLOG-04-1024x256.jpg)](https://automationghana.com/2024/08/16/process-and-plant-automation-limited-achieves-iso-90012015-certification/)
-###  [ Process and Plant Automation Limited Achieves ISO 9001:2015 Certification ](https://automationghana.com/2024/08/16/process-and-plant-automation-limited-achieves-iso-90012015-certification/)
-[ Read More » ](https://automationghana.com/2024/08/16/process-and-plant-automation-limited-achieves-iso-90012015-certification/)
+[![The Automation Ghana Group - News BLOG 04](https://automationghana.com/wp-content/uploads/2024/08/News_BLOG-04-1024x256.jpg)](https://automationghana.com/process-and-plant-automation-limited-achieves-iso-90012015-certification/)
+###  [ Process and Plant Automation Limited Achieves ISO 9001:2015 Certification ](https://automationghana.com/process-and-plant-automation-limited-achieves-iso-90012015-certification/)
+[ Read More » ](https://automationghana.com/process-and-plant-automation-limited-achieves-iso-90012015-certification/)
 August 16, 2024 
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
@@ -270,7 +300,8 @@ We provide unique electrical and automation services and products through innova
   * [ Industries We Serve ](https://automationghana.com/industries-we-serve/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ Policies ](https://automationghana.com/policies/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
+  * [ Blog ](https://automationghana.com/blog/)
 
 
 #### Let's Connect

@@ -25,7 +25,6 @@ import {
 import useSWR from "swr";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
-import { AppPageShell } from "@/components/app-page-shell";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
 import { SCRIPT_SCHEMA_MAP, validateTargetForSchema } from "@/config/scrapeScripts";
@@ -1099,11 +1098,9 @@ export default function ScrapeJobDetail({
 
   if (!id) {
     return (
-      <AppPageShell>
-        <div className="flex min-h-[60vh] w-full items-center justify-center text-sm text-zinc-600">
-          Loading job…
-        </div>
-      </AppPageShell>
+      <div className="min-h-screen w-full flex items-center justify-center text-sm text-zinc-600">
+        Loading job…
+      </div>
     );
   }
 
@@ -1111,46 +1108,38 @@ export default function ScrapeJobDetail({
 
   if (unauthorized) {
     return (
-      <AppPageShell>
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <ScrapeJobAuthPrompt
-            token={authTokenInput}
-            busy={authenticating}
-            error={authError || "Authentication required"}
-            onTokenChange={setAuthTokenInput}
-            onSubmit={authenticate}
-            description="Authenticate to view and manage this scrape job."
-          />
-        </div>
-      </AppPageShell>
+      <ScrapeJobAuthPrompt
+        token={authTokenInput}
+        busy={authenticating}
+        error={authError || "Authentication required"}
+        onTokenChange={setAuthTokenInput}
+        onSubmit={authenticate}
+        description="Authenticate to view and manage this scrape job."
+      />
     );
   }
 
   if (isLoading) {
     return (
-      <AppPageShell>
-        <div className="flex min-h-[60vh] w-full items-center justify-center text-sm text-zinc-600">
-          Loading job…
-        </div>
-      </AppPageShell>
+      <div className="min-h-screen w-full flex items-center justify-center text-sm text-zinc-600">
+        Loading job…
+      </div>
     );
   }
 
   if (error || !data) {
     return (
-      <AppPageShell>
-        <div className="flex min-h-[60vh] w-full items-center justify-center text-sm text-red-600">
-          Failed to load job details.
-        </div>
-      </AppPageShell>
+      <div className="min-h-screen w-full flex items-center justify-center text-sm text-red-600">
+        Failed to load job details.
+      </div>
     );
   }
 
   const progressValue = deriveProgress(data.job);
 
   return (
-    <AppPageShell>
-      <div className="flex flex-col gap-5 px-2 pb-8 pt-4 md:px-4 md:pt-6">
+    <div className="min-h-screen w-full bg-white flex flex-col items-center pt-10 md:pt-14 px-4 pb-16 md:pb-20">
+      <div className="w-full max-w-4xl flex flex-col gap-5">
         <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
           <div className="flex flex-col gap-1">
             <div className="text-[11px] uppercase tracking-wide text-zinc-500">Scrape job</div>
@@ -1164,7 +1153,7 @@ export default function ScrapeJobDetail({
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-white border border-zinc-200 rounded-lg p-4 shadow-sm flex flex-col gap-2">
             <div className="text-sm text-zinc-500">Status</div>
             <div className="flex items-center gap-2 text-lg font-semibold text-zinc-800">
@@ -1888,6 +1877,6 @@ export default function ScrapeJobDetail({
           </div>
         </div>
       </div>
-    </AppPageShell>
+    </div>
   );
 }

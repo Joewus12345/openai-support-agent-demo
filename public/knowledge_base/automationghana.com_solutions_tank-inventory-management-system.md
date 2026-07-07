@@ -1,10 +1,33 @@
+![Revisit consent button](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/revisit.svg)
+We value your privacy
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.
+You can choose to accept all cookies, reject non-essential cookies, or manage your preferences at any time. [Cookie Policy](https://automationghana.com/policies/privacy-statement/)
+Customise Reject Accept
+Customise Consent Preferences![Close](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/close.svg)
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.... Show more
+EssentialAlways Active
+Required for the website to function properly
+No cookies to display.
+Functional
+Enhance site features and personalisation
+No cookies to display.
+Analytics
+Help us understand website usage and improve performance
+No cookies to display.
+Performance
+Performance cookies are used to understand and analyse the key performance indexes of the website which helps in delivering a better user experience for the visitors.
+No cookies to display.
+Advertisement
+Advertisement cookies are used to provide visitors with customised advertisements based on the pages you visited previously and to analyse the effectiveness of the ad campaigns.
+No cookies to display.
+AcceptSave My Preferences Reject
 [Skip to content](https://automationghana.com/solutions/tank-inventory-management-system/#content)
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)
 Search
   * [ Careers ](https://automationghana.com/tagg-career-opportunities/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ News ](https://automationghana.com/news/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
   * [ Our Store ](https://store.automationghana.com/)
 
 
@@ -26,30 +49,37 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-No content found
+![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
+Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
+[ Learn more ](https://automationghana.com/asl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
+Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
+[ Learn more ](https://automationghana.com/esl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
+Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
+[ Learn more ](https://automationghana.com/ppa/)
   * [Our Solutions](https://automationghana.com/solutions/tank-inventory-management-system/)
-## Building Solutions
-    * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
+    * **Building Solutions**
+    * [ Building Management Solutions ](https://automationghana.com/solutions/building-management-system/)
     * [ Smart Home Solutions ](https://automationghana.com/solutions/smart-home-solutions/)
     * [ Energy Monitoring and Management ](https://automationghana.com/solutions/energy-monitoring-and-management/)
     * [ Solar PV Systems ](https://automationghana.com/solutions/solar-pv-systems/)
-    * [ View More ](https://automationghana.com/solution-categories/building-solutions/)
-## Food & Beverage Solutions
-    * [ Electrical & Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
-    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming/)
-    * [ Electrical & Equipment installation ](https://automationghana.com/solutions/electrical-equipment-installation-2/)
-    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management/)
-    * [ View More ](https://automationghana.com/solution-categories/food-beverage/)
-## Power & Energy
+    * [ _View more_ ](https://automationghana.com/solution-categories/building-solutions/)
+    * **Food & Beverage Solutions**
+    * [ Electrical and Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
+    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
+    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management-system/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/food-beverage/)
+    * **Power & Energy**
     * [ Integrated Terminal Management and Tank Farm Solutions ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/)
     * [ Demand Side Management ](https://automationghana.com/solutions/demand-side-management/)
     * [ Lightning Protection Systems ](https://automationghana.com/solutions/lightning-protection-systems/)
     * [ Earth Resistance Testing ](https://automationghana.com/solutions/earth-resistance-testing/)
-    * [ View All Solutions ](https://automationghana.com/our-solutions/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/power-energy/)
   * [Our Services](https://automationghana.com/solutions/tank-inventory-management-system/)
     * [Projects](https://automationghana.com/projects-portfolio/)
     * [Support Services](https://automationghana.com/support-services/)
-    * [The Automation Ghana Academy](https://automationghana.com/training-old/)
+    * [The Automation Academy](https://automationghana.com/training-academy/)
     * [Sale](https://automationghana.com/solutions/tank-inventory-management-system/)
 ![](https://automationghana.com/wp-content/uploads/2024/03/Cables-and-Cable-management.png)
     * [ Our Projects ](https://automationghana.com/projects/)
@@ -60,20 +90,22 @@ No content found
     * [Building Solutions](https://automationghana.com/solution-categories/building-solutions/)
     * [Mining](https://automationghana.com/solution-categories/mining/)
     * [Oil & Gas](https://automationghana.com/solution-categories/oil-gas/)
-    * [Telecommnunications](https://automationghana.com/solution-categories/telecommnunications/)
+    * [Telecommunications](https://automationghana.com/solution-categories/telecommnunications/)
     * [Power & Energy](https://automationghana.com/solution-categories/power-energy/)
 ![Untitled 3](https://automationghana.com/wp-content/uploads/2023/09/Untitled-3.jpg)
     * [ Food & Beverage ](https://automationghana.com/solution-categories/food-beverage/)
     * [ Building Solutions ](https://automationghana.com/solution-categories/building-solutions/)
-    * [ Minning ](https://automationghana.com/solution-categories/mining/)
+    * [ Mining ](https://automationghana.com/solution-categories/mining/)
     * [ Oil & Gas ](https://automationghana.com/solution-categories/oil-gas/)
-    * [ Telecommnunications ](https://automationghana.com/solution-categories/telecommnunications/)
+    * [ Telecommunications ](https://automationghana.com/solution-categories/telecommnunications/)
     * [ Power & Energy ](https://automationghana.com/solution-categories/power-energy/)
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![The Automation Ghana Group - Tank](https://18.197.210.112/wp-content/uploads/2024/09/Tank-1024x321.webp)
-  1. [Home](https://18.197.210.112)
+![The Automation Ghana Group - Tank](https://automationghana.com/wp-content/uploads/2024/09/Tank-1024x321.webp)
+  1. [Home](https://automationghana.com)
+  2. [Solution](https://automationghana.com/solutions/)
+  3. Tank Inventory Management System
 
 
 ## Enhance Safety, Compliance, and Operational Efficiency with Comprehensive Tank Monitoring Solutions
@@ -82,8 +114,8 @@ Our Tank Inventory Management System combines state-of-the-art technology with r
   * In the oil and gas sector, precise inventory management is critical for ensuring operational continuity, maintaining safety standards, and minimizing costs. Our Tank Inventory Management System offers an advanced, integrated approach to monitoring and managing storage tanks, designed to meet the unique challenges of the oil and gas environment.
 
 
-![The Automation Ghana Group - Tank Inventory Diagram](https://18.197.210.112/wp-content/uploads/2024/09/Tank-Inventory-Diagram.png)
-![The Automation Ghana Group - Tank Gauging system](https://18.197.210.112/wp-content/uploads/2024/09/Tank-Gauging-system.webp)
+![The Automation Ghana Group - Tank Inventory Diagram](https://automationghana.com/wp-content/uploads/2024/09/Tank-Inventory-Diagram.png)
+![The Automation Ghana Group - Tank Gauging system](https://automationghana.com/wp-content/uploads/2024/09/Tank-Gauging-system.webp)
 ## Advanced Tank Gauging
   * Utilizing high-precision sensors, our system provides continuous, real-time gauging of storage tank levels. This ensures accurate readings, reduces the risk of overfills or shortages, and enhances inventory accuracy.
 
@@ -92,8 +124,8 @@ Our Tank Inventory Management System combines state-of-the-art technology with r
   * Seamlessly track inter-tank transfers with real-time data acquisition, allowing for efficient management of transfer activities and minimizing the risk of human error.
 
 
-![The Automation Ghana Group - Fuel tank monitoring system](https://18.197.210.112/wp-content/uploads/2024/09/Fuel-tank-monitoring-system.webp)
-![The Automation Ghana Group - Multiple parameter fuel](https://18.197.210.112/wp-content/uploads/2024/09/Multiple-parameter-fuel.jpg)
+![The Automation Ghana Group - Fuel tank monitoring system](https://automationghana.com/wp-content/uploads/2024/09/Fuel-tank-monitoring-system.webp)
+![The Automation Ghana Group - Multiple parameter fuel](https://automationghana.com/wp-content/uploads/2024/09/Multiple-parameter-fuel.jpg)
 ## Integrated Multi-Parameter Measurement 
   * Our system measures multiple parameters including temperature, pressure, and flow to deliver a comprehensive overview of the tank environment, supporting both operational decisions and safety compliance.
 
@@ -102,8 +134,8 @@ Our Tank Inventory Management System combines state-of-the-art technology with r
   * We help you get remote access to inventory data through a secure interface, allowing for real-time monitoring, historical data analysis, and predictive maintenance planning.
 
 
-![The Automation Ghana Group - Data analytics for fuel management](https://18.197.210.112/wp-content/uploads/2024/09/Data-analytics-for-fuel-management.jpg)
-![The Automation Ghana Group - SCADA Upgrade 1](https://18.197.210.112/wp-content/uploads/2024/08/SCADA-Upgrade-1.jpg)
+![The Automation Ghana Group - Data analytics for fuel management](https://automationghana.com/wp-content/uploads/2024/09/Data-analytics-for-fuel-management.jpg)
+![The Automation Ghana Group - SCADA Upgrade 1](https://automationghana.com/wp-content/uploads/2024/08/SCADA-Upgrade-1.jpg)
 ## Seamless Integration with Existing Infrastructure 
   * Designed to integrate with your existing SCADA (Supervisory Control and Data Acquisition) systems, our solution allows for a streamlined operation with minimal disruption.
 
@@ -112,7 +144,7 @@ Our Tank Inventory Management System combines state-of-the-art technology with r
   * Built-in overfill prevention mechanisms, coupled with alarm systems, provide immediate alerts in case of any potential safety breaches, helping to prevent spills and mitigate environmental risks.
 
 
-![The Automation Ghana Group - Overfill Prevention and Alarm Systems](https://18.197.210.112/wp-content/uploads/2024/09/Overfill-Prevention-and-Alarm-Systems.png)
+![The Automation Ghana Group - Overfill Prevention and Alarm Systems](https://automationghana.com/wp-content/uploads/2024/09/Overfill-Prevention-and-Alarm-Systems.png)
 ## Benefits
 ## Greater Inventory Accuracy and Transparency
 By providing precise measurement of tank levels and transfers, our system reduces discrepancies, enhances accountability, and supports accurate inventory forecasting.
@@ -122,10 +154,10 @@ Continuous monitoring, overfill prevention features, and real-time alerts ensure
 Real-time insights into inventory levels, transfer activities, and tank conditions enable informed decision-making, reducing downtime, optimizing resource allocation, and cutting operational costs.
 ## Increased Flexibility and Scalability
 The modular design of our system allows it to be easily scaled or adapted to accommodate different tank types, capacities, and configurations as your operations grow.
-[ How Can We Help? ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-a0fd110694002576e130)
+[ How Can We Help? ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-a0fd1106a384cdac9b3e)
 With over 2(two) decades of experience in electrical engineering and automation, we bring experience in delivering tailored solutions for the oil and gas industry. Our Tank Inventory Management System is designed to enhance the safety, efficiency, and reliability of your storage operations. We provide comprehensive support, from initial consultation and system design to installation, integration, and ongoing maintenance, ensuring that your inventory management is both precise and robust.
 Our solutions are implemented in strict compliance with international standards and protocols, ensuring seamless interoperability with systems from the world’s leading brands in power automation and integrated technologies.
-[ What We Offer ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-3ee4934694002576e130)
+[ What We Offer ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-3ee49346a384cdac9b3e)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -135,7 +167,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-32d8655694002576e130)
+[ Hardware and Software ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-32d86556a384cdac9b3e)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -148,7 +180,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-62ecacd694002576e130)
+[ Services ](https://automationghana.com/solutions/tank-inventory-management-system/#collapse-62ecacd6a384cdac9b3e)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -200,7 +232,8 @@ We provide unique electrical and automation services and products through innova
   * [ Industries We Serve ](https://automationghana.com/industries-we-serve/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ Policies ](https://automationghana.com/policies/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
+  * [ Blog ](https://automationghana.com/blog/)
 
 
 #### Let's Connect

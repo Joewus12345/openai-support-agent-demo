@@ -51,7 +51,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const documents = React.useMemo(
     () => [
-      { name: "FAQs", url: "/", icon: FileQuestionIcon },
+      { name: "FAQs", url: "/faq", icon: FileQuestionIcon },
       { name: "Agent handbook", url: "/", icon: BotIcon },
       { name: "Support surface", url: "/", icon: LayoutDashboardIcon },
     ],

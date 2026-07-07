@@ -2,3 +2,34 @@ node_modules
 npm-debug.log
 Dockerfile.agent
 Dockerfile
+
+# Build artifacts (recreated inside the container)
+.next
+.dist
+
+# Python virtual environments (Windows binaries can't run in Linux container)
+# .venv-c4ai-v1
+# .venv-c4ai-v2
+# **/__pycache__
+# **/*.pyc
+
+# Git history
+.git
+.gitignore
+
+# Environment / secrets (injected at runtime via docker-compose env_file)
+# .env
+# .env.*
+# !.env.example
+
+# Logs and generated data
+logs/
+*.log
+build.log
+# data/ingestion_results/
+
+# Dev tooling
+.vscode/
+.idea/
+tests/
+

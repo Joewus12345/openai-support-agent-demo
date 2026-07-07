@@ -1,10 +1,33 @@
+![Revisit consent button](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/revisit.svg)
+We value your privacy
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.
+You can choose to accept all cookies, reject non-essential cookies, or manage your preferences at any time. [Cookie Policy](https://automationghana.com/policies/privacy-statement/)
+Customise Reject Accept
+Customise Consent Preferences![Close](https://automationghana.com/wp-content/plugins/cookie-law-info/lite/frontend/images/close.svg)
+TAGG uses cookies to ensure our website functions properly and to help us understand how visitors interact with our site. Cookies are tiny files that are downloaded to your computer to improve your experience. Some cookies are essential, while others help us improve performance and user experience.... Show more
+EssentialAlways Active
+Required for the website to function properly
+No cookies to display.
+Functional
+Enhance site features and personalisation
+No cookies to display.
+Analytics
+Help us understand website usage and improve performance
+No cookies to display.
+Performance
+Performance cookies are used to understand and analyse the key performance indexes of the website which helps in delivering a better user experience for the visitors.
+No cookies to display.
+Advertisement
+Advertisement cookies are used to provide visitors with customised advertisements based on the pages you visited previously and to analyse the effectiveness of the ad campaigns.
+No cookies to display.
+AcceptSave My Preferences Reject
 [Skip to content](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#content)
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)
 Search
   * [ Careers ](https://automationghana.com/tagg-career-opportunities/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ News ](https://automationghana.com/news/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
   * [ Our Store ](https://store.automationghana.com/)
 
 
@@ -26,30 +49,37 @@ Search
     * [ASL](https://automationghana.com/asl/)
     * [ESL](https://automationghana.com/esl/)
     * [PPA](https://automationghana.com/ppa/)
-No content found
+![](https://automationghana.com/wp-content/uploads/2023/07/asl_solutions-1.jpeg)
+Automation Solutions Limited is a provider of process control, instrumentation solutions and services for industrial processes.
+[ Learn more ](https://automationghana.com/asl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/esl_ghana-1.jpeg)
+Electrical Switchgear Limited (ESL) is a registered electrical panel manufacturing Company incorporated in Ghana in 2017. 
+[ Learn more ](https://automationghana.com/esl/)
+![](https://automationghana.com/wp-content/uploads/2023/07/ppa_ghana-1.jpeg)
+Process & Plant Automation Limited is an electrical engineering solutions provider with expertise in industrial and building automation. The company was setup in 2003 in Ghana.
+[ Learn more ](https://automationghana.com/ppa/)
   * [Our Solutions](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/)
-## Building Solutions
-    * [ Building Management System ](https://automationghana.com/solutions/building-management-system/)
+    * **Building Solutions**
+    * [ Building Management Solutions ](https://automationghana.com/solutions/building-management-system/)
     * [ Smart Home Solutions ](https://automationghana.com/solutions/smart-home-solutions/)
     * [ Energy Monitoring and Management ](https://automationghana.com/solutions/energy-monitoring-and-management/)
     * [ Solar PV Systems ](https://automationghana.com/solutions/solar-pv-systems/)
-    * [ View More ](https://automationghana.com/solution-categories/building-solutions/)
-## Food & Beverage Solutions
-    * [ Electrical & Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
-    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming/)
-    * [ Electrical & Equipment installation ](https://automationghana.com/solutions/electrical-equipment-installation-2/)
-    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management/)
-    * [ View More ](https://automationghana.com/solution-categories/food-beverage/)
-## Power & Energy
+    * [ _View more_ ](https://automationghana.com/solution-categories/building-solutions/)
+    * **Food & Beverage Solutions**
+    * [ Electrical and Equipment Installation ](https://automationghana.com/solutions/electrical-equipment-installation/)
+    * [ PLC & SCADA Programming ](https://automationghana.com/solutions/plc-scada-programming-expertise/)
+    * [ Automated Inventory Management ](https://automationghana.com/solutions/automated-inventory-management-system/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/food-beverage/)
+    * **Power & Energy**
     * [ Integrated Terminal Management and Tank Farm Solutions ](https://automationghana.com/solutions/terminal-management-and-tank-farm-solutions-2/)
     * [ Demand Side Management ](https://automationghana.com/solutions/demand-side-management/)
     * [ Lightning Protection Systems ](https://automationghana.com/solutions/lightning-protection-systems/)
     * [ Earth Resistance Testing ](https://automationghana.com/solutions/earth-resistance-testing/)
-    * [ View All Solutions ](https://automationghana.com/our-solutions/)
+    * [ _View more_ ](https://automationghana.com/solution-categories/power-energy/)
   * [Our Services](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/)
     * [Projects](https://automationghana.com/projects-portfolio/)
     * [Support Services](https://automationghana.com/support-services/)
-    * [The Automation Ghana Academy](https://automationghana.com/training-old/)
+    * [The Automation Academy](https://automationghana.com/training-academy/)
     * [Sale](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/)
 ![](https://automationghana.com/wp-content/uploads/2024/03/Cables-and-Cable-management.png)
     * [ Our Projects ](https://automationghana.com/projects/)
@@ -60,21 +90,21 @@ No content found
     * [Building Solutions](https://automationghana.com/solution-categories/building-solutions/)
     * [Mining](https://automationghana.com/solution-categories/mining/)
     * [Oil & Gas](https://automationghana.com/solution-categories/oil-gas/)
-    * [Telecommnunications](https://automationghana.com/solution-categories/telecommnunications/)
+    * [Telecommunications](https://automationghana.com/solution-categories/telecommnunications/)
     * [Power & Energy](https://automationghana.com/solution-categories/power-energy/)
 ![Untitled 3](https://automationghana.com/wp-content/uploads/2023/09/Untitled-3.jpg)
     * [ Food & Beverage ](https://automationghana.com/solution-categories/food-beverage/)
     * [ Building Solutions ](https://automationghana.com/solution-categories/building-solutions/)
-    * [ Minning ](https://automationghana.com/solution-categories/mining/)
+    * [ Mining ](https://automationghana.com/solution-categories/mining/)
     * [ Oil & Gas ](https://automationghana.com/solution-categories/oil-gas/)
-    * [ Telecommnunications ](https://automationghana.com/solution-categories/telecommnunications/)
+    * [ Telecommunications ](https://automationghana.com/solution-categories/telecommnunications/)
     * [ Power & Energy ](https://automationghana.com/solution-categories/power-energy/)
 
 
 [![Website TAGG Logo BLUE](http://tagg2.automationghana.com/wp-content/uploads/2023/07/Website-TAGG-Logo-BLUE.png)](https://automationghana.com)X
-![Advanced pipeline monitoring c](https://automationghana.com/wp-content/uploads/2024/09/Pipeline-Automation-2.jpg)
-  1. [Home](https://automationghana.com)
-  2. [Solution](https://automationghana.com/solutions/)
+![Advanced pipeline monitoring c](https://ftp.automationghana.com/wp-content/uploads/2024/09/Pipeline-Automation-2.jpg)
+  1. [Home](https://ftp.automationghana.com)
+  2. [Solution](https://ftp.automationghana.com/solutions/)
   3. Distribution Automation and Smart Grid Technologies
 
 
@@ -84,8 +114,8 @@ At Automation Ghana Group, we are committed to revolutionizing the way energy is
   * Our distribution automation solutions streamline the control and monitoring of electrical power distribution networks. By implementing automated switches, remote fault detection, and self-healing networks, we help you reduce the frequency and duration of outages, enhance power quality, and lower operational costs. These systems automatically isolate faults and reconfigure the network to maintain service continuity, reducing the need for manual intervention.
 
 
-![The Automation Ghana Group - Smart grid distribution autonomy](https://automationghana.com/wp-content/uploads/2024/09/Smart-grid-distribution-autonomy.webp)
-![The Automation Ghana Group - Smart grid](https://automationghana.com/wp-content/uploads/2024/09/Smart-grid.webp)
+![The Automation Ghana Group - Smart grid distribution autonomy](https://ftp.automationghana.com/wp-content/uploads/2024/09/Smart-grid-distribution-autonomy.webp)
+![The Automation Ghana Group - Smart grid](https://ftp.automationghana.com/wp-content/uploads/2024/09/Smart-grid.webp)
 ## Smart Grid Technologies
   * Our smart grid technologies utilize advanced sensors, communication networks, and data analytics to enable a more dynamic and interactive grid. The integration of intelligent systems allows for real-time monitoring and control, immediate data analysis for better decision-making and grid responsiveness. 
 
@@ -99,7 +129,7 @@ By optimizing energy distribution and reducing peak demand, our systems help low
 Efficiently manage and distribute energy across the grid, reduce energy loss, and optimize the use of renewable sources. Our solutions help decrease greenhouse gas emissions, contributing to a sustainable environment.
 ## Increased Transparency and Compliance
 Continuous monitoring and detailed reporting support regulatory compliance and enhance transparency, building trust with stakeholders and regulatory bodies.
-[ How Can We Help? ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-a0fd110693f2e5968993)
+[ How Can We Help? ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-a0fd1106a391a072468d)
 **How We Can Help You:**
 At Automation Ghana Group, we offer tailored solutions to modernize your energy distribution network. Whether you're a utility provider or an industrial client, our team of experts will work closely with you to:
   * **Design and Implement Customized Solutions:** From initial assessment to system design, we ensure our solutions meet your specific operational and regulatory needs.
@@ -107,7 +137,7 @@ At Automation Ghana Group, we offer tailored solutions to modernize your energy 
   * **Support Ongoing Operations:** With our comprehensive maintenance and support services, we ensure your systems continue to perform optimally, providing long-term reliability and efficiency.
 
 
-[ What We Offer ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-3ee4934693f2e5968993)
+[ What We Offer ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-3ee49346a391a072468d)
 At TAGG, we provide tailored electrical solutions for power generation, distribution, and transmission, designed to meet your immediate needs with the flexibility to scale as your operations grow.
 Our solutions are engineered for future expansion, ensuring your power infrastructure remains robust and adaptable.
 **Comprehensive After-Sales Support** We are dedicated to your long-term success, offering full after-sales support for our electrical solutions, including:
@@ -117,7 +147,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Supply of spare parts
 
 
-[ Hardware and Software ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-32d8655693f2e5968993)
+[ Hardware and Software ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-32d86556a391a072468d)
   * Circuit Breakers
   * Cables
   * Conductors
@@ -130,7 +160,7 @@ Our solutions are engineered for future expansion, ensuring your power infrastru
   * Panel Retrofitting parts
 
 
-[ Services ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-62ecacd693f2e5968993)
+[ Services ](https://automationghana.com/solutions/distribution-automation-smart-grid-technologies-and-demand-side-management/#collapse-62ecacd6a391a072468d)
   * General Electrical Installation Services
   * Upgrade of obsolete systems to modern solutions
   * Systems Audit (Energy, Power Quality)
@@ -165,7 +195,7 @@ Consider investing in a reliable cost effective Solar PV system. Find out how yo
 ##### Energy Monitoring and Management
 Find out about how you can track energy consumption from multiple electricity sources and bill tenants for exactly what they use. We offer a wall to wall solution comprising of electrical distribution hardware connected to our cloud Xpro platform to give you global access.
 [ Learn More ](https://automationghana.com/solutions/energy-monitoring-and-management/)
-![The Automation Ghana Group - placeholder](https://automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
+![The Automation Ghana Group - placeholder](https://ftp.automationghana.com/wp-content/plugins/elementor/assets/images/placeholder.png)
 ![AutomationGhana logo white](https://automationghana.com/wp-content/uploads/2023/07/AutomationGhana_logo_white.png)
 We provide unique electrical and automation services and products through innovation, training and exceptional customer service.
 [ Facebook ](https://www.facebook.com/automationgh/) [ Instagram ](https://www.instagram.com/automationgh/) [ Linkedin ](https://www.linkedin.com/company/the-automation-ghana-limited/) [ Youtube ](https://www.youtube.com/channel/UCurrRDUSm5oIW39VXjn1u0w) [ Flickr ](https://www.flickr.com/photos/181794037@N07/)
@@ -183,7 +213,8 @@ We provide unique electrical and automation services and products through innova
   * [ Industries We Serve ](https://automationghana.com/industries-we-serve/)
   * [ CSR ](https://automationghana.com/www-automationghana-com-impact-our-community/)
   * [ Policies ](https://automationghana.com/policies/)
-  * [ Contact Us ](http://automationghana.com/contact-us/)
+  * [ Contact Us ](https://automationghana.com/contact-us/)
+  * [ Blog ](https://automationghana.com/blog/)
 
 
 #### Let's Connect

@@ -7,11 +7,14 @@ services:
     env_file:
       - .env.ai
     ports:
-      - '3001:3001'
+      - "3001:3001"
     depends_on: # services reference each other via these container names
-      - postgres
-      - redis
-      - ollama
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
     entrypoint: docker/entrypoints/ai-agent.sh
     networks:
       - support-net
@@ -22,9 +25,14 @@ services:
   postgres:
     image: pgvector/pgvector:pg16
     container_name: demo-db
-    restart: always
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
-      - '5434:5432' # use host port 5434 to avoid conflicts with local Postgres on 5432
+      - "5434:5432" # use host port 5434 to avoid conflicts with local Postgres on 5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -36,9 +44,14 @@ services:
 
   redis:
     image: redis:alpine
-    restart: always
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
-      - '6380:6379' # use host port 6380 to avoid conflicts with local Redis on 6379
+      - "6380:6379" # use host port 6380 to avoid conflicts with local Redis on 6379
     volumes:
       - redis_data:/data
     container_name: demo-redis
@@ -48,8 +61,13 @@ services:
   ollama:
     image: ollama/ollama:latest
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
-      - '11434:11434'
+      - "11434:11434"
     volumes:
       - ollama:/root/.ollama
     networks:

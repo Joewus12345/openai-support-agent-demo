@@ -1,8 +1,26 @@
 {
-  "python.analysis.extraPaths": ["./crawl4AI-agent-v2"],
+  "python.analysis.extraPaths": [
+    "./crawl4AI-agent-v2"
+  ],
   "css.validate": false,
-  "css.customData": ["./.vscode/tailwind.json"],
+  "css.customData": [
+    "./.vscode/tailwind.json"
+  ],
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
-  }
+  },
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "args": [
+        "-NoLogo",
+        "-NoExit",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${env:USERPROFILE}\\Pictures\\openai-support-agent-demo\\.vscode\\terminal-init.ps1"
+      ]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell"
 }

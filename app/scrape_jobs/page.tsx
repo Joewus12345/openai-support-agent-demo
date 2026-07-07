@@ -14,18 +14,12 @@ import {
   RotateCcw,
   Send,
   Info,
+  Zap,
   Trash2,
   XCircle,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { AppPageShell } from "@/components/app-page-shell";
@@ -39,10 +33,8 @@ import {
   validateTargetForSchema,
 } from "@/config/scrapeScripts";
 import { useSessionStore } from "@/stores/useSessionStore";
-import {
-  ScrapeJobDisplayRow,
-  ScrapeJobsDataTable,
-} from "@/components/scrape-jobs-data-table";
+import { DataTable } from "@/components/data-table";
+import datatable from "@/app/dashboard/data.json";
 
 type ScrapeJob = {
   id: string;
@@ -379,6 +371,8 @@ export default function ScrapeJobsPage() {
   const [copiedTarget, setCopiedTarget] = useState(false);
   const [copiedLog, setCopiedLog] = useState<Record<string, boolean>>({});
   const [rowActions, setRowActions] = useState<Record<string, string>>({});
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [runMessages, setRunMessages] = useState<Record<string, string>>({});
   const [scheduleErrors, setScheduleErrors] = useState<Record<string, string>>(
     {}
   );
@@ -461,6 +455,7 @@ export default function ScrapeJobsPage() {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
       if (!target?.closest(".job-actions-menu")) {
+        setOpenMenu(null);
       }
     };
 
@@ -672,6 +667,10 @@ export default function ScrapeJobsPage() {
     const artifactPaths = job.artifacts || [];
 
     if (artifactPaths.length === 0) {
+      setRunMessages((state) => ({
+        ...state,
+        [job.job.id]: "No scraped artifacts were found for this run.",
+      }));
       setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
       return;
     }
@@ -696,7 +695,7 @@ export default function ScrapeJobsPage() {
           typeof result.message === "string"
             ? result.message
             : `Ingestion triggered for ${docs.length} document(s).`;
-        console.info(message);
+        setRunMessages((state) => ({ ...state, [job.job.id]: message }));
         await mutate();
       } else {
         setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
@@ -704,11 +703,15 @@ export default function ScrapeJobsPage() {
           typeof result?.error === "string"
             ? result.error
             : "Failed to start ingestion.";
-        console.error(error);
+        setRunMessages((state) => ({ ...state, [job.job.id]: error }));
       }
     } catch (err) {
       console.error("Error sending to vector store", err);
       setIngesting((state) => ({ ...state, [job.job.id]: "error" }));
+      setRunMessages((state) => ({
+        ...state,
+        [job.job.id]: "Unexpected error while sending to vector store.",
+      }));
     }
   };
 
@@ -804,6 +807,13 @@ export default function ScrapeJobsPage() {
         cancellation?: { message?: string };
       } | null;
 
+      if (payload?.message || payload?.cancellation?.message) {
+        setRunMessages((state) => ({
+          ...state,
+          [jobId]: payload.message || payload.cancellation?.message || "",
+        }));
+      }
+
       if (res.ok) {
         await mutate();
       } else {
@@ -843,11 +853,34 @@ export default function ScrapeJobsPage() {
       console.error("Error deleting job", error);
     } finally {
       markRowAction(jobId, null);
+      setOpenMenu(null);
     }
   };
 
-  const rerunJob = async (jobId: string) => {
-    markRowAction(jobId, "rerun");
+  const requeueJob = async (jobId: string) => {
+    markRowAction(jobId, "requeue");
+    try {
+      const res = await fetch(`/api/scrape_jobs/${jobId}/trigger`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(csrfHeaders ?? {}) },
+      });
+
+      if (handleAuthFailure(res)) return;
+
+      if (res.ok) {
+        await mutate();
+      } else {
+        console.error("Failed to requeue job", await res.text());
+      }
+    } catch (error) {
+      console.error("Error requeuing job", error);
+    } finally {
+      markRowAction(jobId, null);
+    }
+  };
+
+  const runJobNow = async (jobId: string) => {
+    markRowAction(jobId, "run-now");
     try {
       const res = await fetch(`/api/scrape_jobs/${jobId}/clone`, {
         method: "POST",
@@ -857,7 +890,16 @@ export default function ScrapeJobsPage() {
       if (handleAuthFailure(res)) return;
 
       if (res.ok) {
-        await res.json().catch(() => null);
+        const payload = (await res.json().catch(() => null)) as {
+          job?: { id?: string };
+        } | null;
+        const newJobId = payload?.job?.id;
+        if (newJobId) {
+          setRunMessages((current) => ({
+            ...current,
+            [jobId]: `New run created (${newJobId})`,
+          }));
+        }
         await mutate();
       } else {
         console.error("Failed to run job immediately", await res.text());
@@ -897,6 +939,10 @@ export default function ScrapeJobsPage() {
       if (handleAuthFailure(res)) return;
 
       if (res.ok) {
+        setRunMessages((current) => ({
+          ...current,
+          [job.job.id]: "Schedule updated.",
+        }));
         setScheduleErrors((current) => {
           const next = { ...current };
           delete next[job.job.id];
@@ -957,303 +1003,6 @@ export default function ScrapeJobsPage() {
       </span>
     );
   };
-
-  const historyRows: ScrapeJobDisplayRow[] = jobs.map((item) => {
-        const logSnippet =
-          (item.log || "").split("\n").find(Boolean) || "No log yet.";
-        const progress = deriveProgress(item.job);
-        const actionState = rowActions[item.job.id];
-        const schema = SCRIPT_SCHEMA_MAP.get(item.job.script);
-
-        return {
-          id: item.job.id,
-          keywords: `${item.job.script} ${getJobTarget(item.job)} ${item.job.status}`,
-          script: (
-            <div className="space-y-1">
-              <div className="font-medium text-zinc-800">
-                <Link
-                  href={`/scrape_jobs/${item.job.id}`}
-                  className="text-[#2B83F6] hover:underline"
-                >
-                  {item.job.script}
-                </Link>
-              </div>
-              <div className="text-xs text-zinc-500">
-                {formatDate(item.job.createdAt)}
-              </div>
-            </div>
-          ),
-          target: (
-            <div className="space-y-2 text-xs text-zinc-700">
-              <div className="break-all text-sm leading-5">
-                {getJobTarget(item.job) || "—"}
-              </div>
-              <div className="flex flex-col gap-1 text-[11px] text-zinc-500">
-                <span>{schema?.target.description ?? "Applies to the next run"}</span>
-                {schema?.target.example ? (
-                  <span className="text-[11px] text-zinc-500">
-                    Example: {schema.target.example}
-                  </span>
-                ) : null}
-                {schema?.requiredArgs?.length ? (
-                  <span className="text-[11px] text-amber-700">
-                    Requires: {schema.requiredArgs.map((req) => req.description).join("; ")}
-                  </span>
-                ) : null}
-                <Link
-                  href={`/scrape_jobs/${item.job.id}`}
-                  className="text-[11px] text-[#2B83F6] hover:underline"
-                >
-                  Edit target in job details
-                </Link>
-              </div>
-            </div>
-          ),
-          status: renderStatusPill(item.job.status, item.job.paused),
-          cadence: (
-            <div className="flex flex-col gap-2 text-xs text-zinc-700">
-              <div className="flex items-center gap-2 flex-wrap">
-                <select
-                  className="w-28 rounded-lg border border-zinc-200 px-2 py-1 capitalize"
-                  value={getScheduleDraft(item.job).cadence}
-                  onChange={(event) =>
-                    updateScheduleDraft(item.job, {
-                      cadence: event.target.value as ScrapeJobCadence,
-                    })
-                  }
-                  disabled={Boolean(actionState)}
-                >
-                  {Object.values(ScrapeJobCadence).map((cadence) => (
-                    <option key={cadence} value={cadence} className="capitalize">
-                      {cadence}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="button"
-                  className="rounded-lg border border-zinc-200 px-2 py-1 text-[11px] font-medium hover:border-[#2B83F6] disabled:opacity-60"
-                  onClick={() => void saveSchedule(item)}
-                  disabled={Boolean(actionState)}
-                >
-                  {actionState === "schedule" ? (
-                    <Loader2 size={12} className="animate-spin" />
-                  ) : (
-                    "Save"
-                  )}
-                </button>
-              </div>
-              <label className="flex flex-col gap-1 text-[11px] text-zinc-600">
-                Next run at
-                <input
-                  type="datetime-local"
-                  className="rounded-lg border border-zinc-200 px-2 py-1"
-                  value={getScheduleDraft(item.job).nextRunAt}
-                  onChange={(event) =>
-                    updateScheduleDraft(item.job, {
-                      nextRunAt: event.target.value,
-                    })
-                  }
-                  disabled={Boolean(actionState)}
-                />
-              </label>
-              {getScheduleDraft(item.job).cadence === ScrapeJobCadence.manual ? (
-                <label className="flex items-center gap-2 text-[11px] text-zinc-700">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-zinc-300"
-                    checked={getScheduleDraft(item.job).autoRunManualWithNext}
-                    onChange={(event) =>
-                      updateScheduleDraft(item.job, {
-                        autoRunManualWithNext: event.target.checked,
-                      })
-                    }
-                    disabled={Boolean(actionState)}
-                  />
-                  <span>
-                    Auto-run manual jobs at next run time
-                    <span className="text-zinc-500"> (scheduler default: </span>
-                    <span className="font-semibold text-zinc-700">
-                      {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? "enabled" : "disabled"}
-                    </span>
-                    <span className="text-zinc-500">)</span>
-                  </span>
-                </label>
-              ) : null}
-              {getScheduleDraft(item.job).cadence === ScrapeJobCadence.manual &&
-              !AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? (
-                <div
-                  className="flex items-center gap-1 text-[11px] text-amber-600"
-                  title="Deployment setting AUTO_RUN_MANUAL_WITH_NEXT is off; enable the toggle to opt this job into scheduled manual runs."
-                >
-                  <Info size={12} />
-                  Manual cadences stay paused unless explicitly enabled for this job.
-                </div>
-              ) : null}
-              {scheduleErrors[item.job.id] && (
-                <div className="text-[11px] text-red-600">
-                  {scheduleErrors[item.job.id]}
-                </div>
-              )}
-              <div className="text-[11px] text-zinc-500">
-                Upcoming: {formatDate(item.job.nextRunAt)}
-              </div>
-            </div>
-          ),
-          timing: (
-            <div className="space-y-1 text-xs text-zinc-600">
-              <div className="flex items-center gap-2">
-                <span>{formatDuration(item.stats.durationSeconds)}</span>
-                <div className="flex-1 h-2 rounded-full bg-zinc-100 overflow-hidden">
-                  <div
-                    className={`h-2 ${progressColor(item.job.status, item.job.paused)}`}
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
-                <span className="tabular-nums text-[11px] text-zinc-500">{progress}%</span>
-              </div>
-              <div className="text-[11px] text-zinc-400">
-                Started {formatDate(item.job.startedAt)} · Finished {formatDate(item.job.finishedAt)}
-              </div>
-              <div className="text-[11px] text-zinc-500">Next run: {formatDate(item.job.nextRunAt)}</div>
-            </div>
-          ),
-          docs: item.stats.documentsIngested ?? "—",
-          log: (
-            <div className="space-y-1">
-              <div
-                className={`text-xs rounded-md border px-2 py-1 ${
-                  item.job.status === ScrapeJobStatus.failed
-                    ? "border-red-200 bg-red-50 text-red-700"
-                    : item.job.status === ScrapeJobStatus.canceled
-                    ? "border-zinc-200 bg-zinc-50 text-zinc-700"
-                    : "border-emerald-200 bg-emerald-50 text-emerald-700"
-                }`}
-                title={item.log || ""}
-              >
-                {logSnippet.length > 140 ? `${logSnippet.slice(0, 140)}…` : logSnippet}
-              </div>
-              <div className="flex items-center gap-1 text-[11px] text-zinc-500">
-                <span>Output: {KNOWLEDGE_BASE_PATH}</span>
-                <button
-                  type="button"
-                  className="text-[#2B83F6] hover:underline"
-                  onClick={() =>
-                    copyText(KNOWLEDGE_BASE_PATH, () => {
-                      setCopiedLog((state) => ({ ...state, [item.job.id]: true }));
-                      setTimeout(
-                        () =>
-                          setCopiedLog((state) => ({
-                            ...state,
-                            [item.job.id]: false,
-                          })),
-                        1200
-                      );
-                    })
-                  }
-                  aria-label="Copy output path"
-                >
-                  {copiedLog[item.job.id] ? "Copied" : "Copy"}
-                </button>
-              </div>
-            </div>
-          ),
-          actions: (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-1 border-zinc-200 text-xs font-medium"
-                  disabled={Boolean(actionState)}
-                  aria-label="Job actions"
-                >
-                  <MoreVertical size={14} />
-                  Actions
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-60">
-                <DropdownMenuItem
-                  disabled={ingesting[item.job.id] === "working"}
-                  onSelect={(event) => {
-                    event.preventDefault();
-                    void sendToVectorStore(item);
-                  }}
-                  className="flex items-center gap-2 text-xs"
-                >
-                  {ingesting[item.job.id] === "working" ? (
-                    <Loader2 size={14} className="animate-spin" />
-                  ) : (
-                    <Send size={14} />
-                  )}
-                  <span>Send to vector stores</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  disabled={Boolean(actionState)}
-                  onSelect={(event) => {
-                    event.preventDefault();
-                    void togglePauseJob(item);
-                  }}
-                  className="flex items-center gap-2 text-xs"
-                >
-                  {actionState === "pause" || actionState === "resume" ? (
-                    <Loader2 size={14} className="animate-spin" />
-                  ) : item.job.paused ? (
-                    <PlayCircle size={14} />
-                  ) : (
-                    <PauseCircle size={14} />
-                  )}
-                  <span>{item.job.paused ? "Resume" : "Pause"}</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  disabled={Boolean(actionState)}
-                  onSelect={(event) => {
-                    event.preventDefault();
-                    void rerunJob(item.job.id);
-                  }}
-                  className="flex items-center gap-2 text-xs"
-                >
-                  {actionState === "rerun" ? (
-                    <Loader2 size={14} className="animate-spin" />
-                  ) : (
-                    <RotateCcw size={14} />
-                  )}
-                  <span>Restart job</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  disabled={Boolean(actionState)}
-                  onSelect={(event) => {
-                    event.preventDefault();
-                    void cancelJob(item.job.id);
-                  }}
-                  className="flex items-center gap-2 text-xs"
-                >
-                  {actionState === "cancel" ? (
-                    <Loader2 size={14} className="animate-spin" />
-                  ) : (
-                    <XCircle size={14} />
-                  )}
-                  <span>Cancel job</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  disabled={Boolean(actionState)}
-                  onSelect={(event) => {
-                    event.preventDefault();
-                    void deleteJob(item.job.id);
-                  }}
-                  className="flex items-center gap-2 text-xs text-red-700 focus:text-red-700"
-                >
-                  {actionState === "delete" ? (
-                    <Loader2 size={14} className="animate-spin" />
-                  ) : (
-                    <Trash2 size={14} />
-                  )}
-                  <span>Delete</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ),
-        };
-      });
 
   if (!roles) {
     return (
@@ -1567,7 +1316,416 @@ export default function ScrapeJobsPage() {
           {jobs.length === 0 && !isLoading && !error && (
             <div className="text-sm text-zinc-500">No jobs available yet.</div>
           )}
-          <ScrapeJobsDataTable rows={historyRows} loading={isLoading} />
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead>
+                <tr className="text-left text-zinc-500">
+                  <th className="py-2 pr-3">Script</th>
+                  <th className="py-2 pr-3">Target</th>
+                  <th className="py-2 pr-3">Status</th>
+                  <th className="py-2 pr-3">Cadence &amp; schedule</th>
+                  <th className="py-2 pr-3">Timing</th>
+                  <th className="py-2 pr-3">Docs</th>
+                  <th className="py-2 pr-3">Log snippet</th>
+                  <th className="py-2">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-100">
+                {jobs.map((item: SerializedJob) => {
+                  const logSnippet =
+                    (item.log || "").split("\n").find(Boolean) || "No log yet.";
+                  const progress = deriveProgress(item.job);
+                  const actionState = rowActions[item.job.id];
+                  const schema = SCRIPT_SCHEMA_MAP.get(item.job.script);
+                  return (
+                    <tr key={item.job.id} className="align-top">
+                      <td className="py-3 pr-3">
+                        <div className="font-medium text-zinc-800">
+                          <Link
+                            href={`/scrape_jobs/${item.job.id}`}
+                            className="hover:underline text-[#2B83F6]"
+                          >
+                            {item.job.script}
+                          </Link>
+                        </div>
+                        <div className="text-xs text-zinc-500">
+                          {formatDate(item.job.createdAt)}
+                        </div>
+                      </td>
+                      <td className="py-3 pr-3 w-60 align-top">
+                        <div className="text-xs text-zinc-700 break-all max-w-xs">
+                          {getJobTarget(item.job) || "—"}
+                        </div>
+                        <div className="text-[11px] text-zinc-500 flex flex-col gap-0.5 pt-1">
+                          <span>
+                            {schema?.target.description ??
+                              "Applies to the next run"}
+                          </span>
+                          {schema?.target.example ? (
+                            <span className="text-[11px] text-zinc-500">
+                              Example: {schema.target.example}
+                            </span>
+                          ) : null}
+                          {schema?.requiredArgs?.length ? (
+                            <span className="text-[11px] text-amber-700">
+                              Requires:{" "}
+                              {schema.requiredArgs
+                                .map((req) => req.description)
+                                .join("; ")}
+                            </span>
+                          ) : null}
+                          <Link
+                            href={`/scrape_jobs/${item.job.id}`}
+                            className="text-[11px] text-[#2B83F6] hover:underline"
+                          >
+                            Edit target in job details
+                          </Link>
+                        </div>
+                      </td>
+                      <td className="py-3 pr-3">
+                        {renderStatusPill(item.job.status, item.job.paused)}
+                      </td>
+                      <td className="py-3 pr-3 w-64 align-top">
+                        <div className="flex flex-col gap-2 text-xs text-zinc-700">
+                          <div className="flex items-center gap-2">
+                            <select
+                              className="w-28 rounded-lg border border-zinc-200 px-2 py-1 capitalize"
+                              value={getScheduleDraft(item.job).cadence}
+                              onChange={(event) =>
+                                updateScheduleDraft(item.job, {
+                                  cadence: event.target
+                                    .value as ScrapeJobCadence,
+                                })
+                              }
+                              disabled={Boolean(actionState)}
+                            >
+                              {Object.values(ScrapeJobCadence).map(
+                                (cadence) => (
+                                  <option
+                                    key={cadence}
+                                    value={cadence}
+                                    className="capitalize"
+                                  >
+                                    {cadence}
+                                  </option>
+                                )
+                              )}
+                            </select>
+                            <button
+                              type="button"
+                              className="rounded-lg border border-zinc-200 px-2 py-1 text-[11px] font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                              onClick={() => void saveSchedule(item)}
+                              disabled={Boolean(actionState)}
+                            >
+                              {actionState === "schedule" ? (
+                                <Loader2 size={12} className="animate-spin" />
+                              ) : (
+                                "Save"
+                              )}
+                            </button>
+                          </div>
+                          <label className="flex flex-col gap-1 text-[11px] text-zinc-600">
+                            Next run at
+                            <input
+                              type="datetime-local"
+                              className="rounded-lg border border-zinc-200 px-2 py-1"
+                              value={getScheduleDraft(item.job).nextRunAt}
+                              onChange={(event) =>
+                                updateScheduleDraft(item.job, {
+                                  nextRunAt: event.target.value,
+                                })
+                              }
+                              disabled={Boolean(actionState)}
+                            />
+                          </label>
+                          {getScheduleDraft(item.job).cadence ===
+                          ScrapeJobCadence.manual ? (
+                            <label className="flex items-center gap-2 text-[11px] text-zinc-700">
+                              <input
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-zinc-300"
+                                checked={
+                                  getScheduleDraft(item.job)
+                                    .autoRunManualWithNext
+                                }
+                                onChange={(event) =>
+                                  updateScheduleDraft(item.job, {
+                                    autoRunManualWithNext: event.target.checked,
+                                  })
+                                }
+                                disabled={Boolean(actionState)}
+                              />
+                              <span>
+                                Auto-run manual jobs at next run time
+                                <span className="text-zinc-500">
+                                  {" "}
+                                  (scheduler default:{" "}
+                                </span>
+                                <span className="font-semibold text-zinc-700">
+                                  {AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT
+                                    ? "enabled"
+                                    : "disabled"}
+                                </span>
+                                <span className="text-zinc-500">)</span>
+                              </span>
+                            </label>
+                          ) : null}
+                          {getScheduleDraft(item.job).cadence ===
+                            ScrapeJobCadence.manual &&
+                          !AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT ? (
+                            <div
+                              className="flex items-center gap-1 text-[11px] text-amber-600"
+                              title="Deployment setting AUTO_RUN_MANUAL_WITH_NEXT is off; enable the toggle to opt this job into scheduled manual runs."
+                            >
+                              <Info size={12} />
+                              Manual cadences stay paused unless explicitly
+                              enabled for this job.
+                            </div>
+                          ) : null}
+                          {scheduleErrors[item.job.id] && (
+                            <div className="text-[11px] text-red-600">
+                              {scheduleErrors[item.job.id]}
+                            </div>
+                          )}
+                          <div className="text-[11px] text-zinc-500">
+                            Upcoming: {formatDate(item.job.nextRunAt)}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3 pr-3">
+                        <div className="flex items-center gap-2 text-xs text-zinc-600">
+                          <span>
+                            {formatDuration(item.stats.durationSeconds)}
+                          </span>
+                          <div className="flex-1 h-2 bg-zinc-100 rounded-full overflow-hidden">
+                            <div
+                              className={`h-2 ${progressColor(
+                                item.job.status,
+                                item.job.paused
+                              )}`}
+                              style={{ width: `${progress}%` }}
+                            />
+                          </div>
+                          <span className="tabular-nums text-[11px] text-zinc-500">
+                            {progress}%
+                          </span>
+                        </div>
+                        <div className="text-[11px] text-zinc-400">
+                          Started {formatDate(item.job.startedAt)} · Finished{" "}
+                          {formatDate(item.job.finishedAt)}
+                        </div>
+                        <div className="text-[11px] text-zinc-500">
+                          Next run: {formatDate(item.job.nextRunAt)}
+                        </div>
+                      </td>
+                      <td className="py-3 pr-3 text-xs text-zinc-700">
+                        {item.stats.documentsIngested ?? "—"}
+                      </td>
+                      <td className="py-3 pr-3 w-64 max-w-xs">
+                        <div
+                          className={`text-xs rounded-md border px-2 py-1 ${
+                            item.job.status === ScrapeJobStatus.failed
+                              ? "border-red-200 bg-red-50 text-red-700"
+                              : item.job.status === ScrapeJobStatus.canceled
+                              ? "border-zinc-200 bg-zinc-50 text-zinc-700"
+                              : "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          }`}
+                          title={item.log || ""}
+                        >
+                          {logSnippet.length > 140
+                            ? `${logSnippet.slice(0, 140)}…`
+                            : logSnippet}
+                        </div>
+                        <div className="flex items-center gap-1 text-[11px] text-zinc-500 mt-1">
+                          <span>Output: {KNOWLEDGE_BASE_PATH}</span>
+                          <button
+                            type="button"
+                            className="text-[#2B83F6] hover:underline"
+                            onClick={() =>
+                              copyText(KNOWLEDGE_BASE_PATH, () => {
+                                setCopiedLog((state) => ({
+                                  ...state,
+                                  [item.job.id]: true,
+                                }));
+                                setTimeout(
+                                  () =>
+                                    setCopiedLog((state) => ({
+                                      ...state,
+                                      [item.job.id]: false,
+                                    })),
+                                  1200
+                                );
+                              })
+                            }
+                            aria-label="Copy output path"
+                          >
+                            {copiedLog[item.job.id] ? "Copied" : "Copy"}
+                          </button>
+                        </div>
+                      </td>
+                      <td className="py-3">
+                        <div className="relative job-actions-menu inline-block text-left">
+                          <button
+                            type="button"
+                            className="flex items-center gap-1 rounded-lg border border-zinc-200 px-2 py-1 text-xs font-medium hover:border-[#2B83F6] disabled:opacity-60"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              setOpenMenu((current) =>
+                                current === item.job.id ? null : item.job.id
+                              );
+                            }}
+                            disabled={Boolean(actionState)}
+                            aria-haspopup="menu"
+                            aria-expanded={openMenu === item.job.id}
+                          >
+                            <MoreVertical size={14} />
+                            Actions
+                          </button>
+
+                          {openMenu === item.job.id && (
+                            <div className="absolute right-0 z-10 mt-2 w-56 rounded-lg border border-zinc-200 bg-white shadow-lg">
+                              <div className="py-1 text-xs text-zinc-700">
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void sendToVectorStore(item);
+                                  }}
+                                  disabled={
+                                    ingesting[item.job.id] === "working"
+                                  }
+                                >
+                                  {ingesting[item.job.id] === "working" ? (
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
+                                  ) : (
+                                    <Send size={14} />
+                                  )}
+                                  <span>Send to vector stores</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void togglePauseJob(item);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "pause" ||
+                                  actionState === "resume" ? (
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
+                                  ) : item.job.paused ? (
+                                    <PlayCircle size={14} />
+                                  ) : (
+                                    <PauseCircle size={14} />
+                                  )}
+                                  <span>
+                                    {item.job.paused ? "Resume" : "Pause"}
+                                  </span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void runJobNow(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "run-now" ? (
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
+                                  ) : (
+                                    <Zap size={14} />
+                                  )}
+                                  <span>Run now</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 hover:bg-zinc-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void requeueJob(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "requeue" ? (
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
+                                  ) : (
+                                    <RotateCcw size={14} />
+                                  )}
+                                  <span>Requeue</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 text-red-700 hover:bg-red-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void cancelJob(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "cancel" ? (
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
+                                  ) : (
+                                    <XCircle size={14} />
+                                  )}
+                                  <span>Cancel</span>
+                                </button>
+                                <button
+                                  className="flex w-full items-center gap-2 px-3 py-2 text-red-700 hover:bg-red-50 disabled:opacity-60"
+                                  onClick={() => {
+                                    setOpenMenu(null);
+                                    void deleteJob(item.job.id);
+                                  }}
+                                  disabled={Boolean(actionState)}
+                                >
+                                  {actionState === "delete" ? (
+                                    <Loader2
+                                      size={14}
+                                      className="animate-spin"
+                                    />
+                                  ) : (
+                                    <Trash2 size={14} />
+                                  )}
+                                  <span>Delete</span>
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        {runMessages[item.job.id] && (
+                          <div className="text-[11px] text-blue-600 mt-1">
+                            {runMessages[item.job.id]}
+                          </div>
+                        )}
+                        {ingesting[item.job.id] === "done" && (
+                          <div className="text-[11px] text-emerald-600 mt-1">
+                            {runMessages[item.job.id] || "Ingestion triggered."}
+                          </div>
+                        )}
+                        {ingesting[item.job.id] === "error" && (
+                          <div className="text-[11px] text-red-600 mt-1">
+                            Failed to send; retry?
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
           <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
             <button
               type="button"
@@ -1581,6 +1739,9 @@ export default function ScrapeJobsPage() {
               {jobs.length} job(s) loaded
             </div>
           </div>
+        </div>
+        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+          <DataTable data={datatable} />
         </div>
       </div>
     </AppPageShell>

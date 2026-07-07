@@ -97,13 +97,19 @@ export function ChartAreaInteractive({
       ? new Date(data[data.length - 1].date)
       : new Date();
 
-    const daysToSubtract = timeRange === "30d" ? 30 : timeRange === "7d" ? 7 : 90;
-    const startDate = new Date(latest);
-    startDate.setDate(startDate.getDate() - daysToSubtract);
+    // normalize to midnight so comparisons are consistent
+    const latestDay = new Date(latest);
+    latestDay.setHours(0, 0, 0, 0);
+
+    const rangeDays = timeRange === "30d" ? 30 : timeRange === "7d" ? 7 : 90;
+
+    const startDate = new Date(latestDay);
+    startDate.setDate(startDate.getDate() - (rangeDays - 1)); // inclusive range
 
     return data.filter((item) => {
       const date = new Date(item.date);
-      return date >= startDate;
+      date.setHours(0, 0, 0, 0);
+      return date >= startDate && date <= latestDay;
     });
   }, [data, timeRange, referenceDate]);
 
@@ -168,9 +174,18 @@ export function ChartAreaInteractive({
           <AreaChart data={filteredData}>
             <defs>
               {seriesKeys.map((key) => {
-                const color = (resolvedConfig[key] as { color?: string })?.color ?? "var(--primary)";
+                const color =
+                  (resolvedConfig[key] as { color?: string })?.color ??
+                  "var(--primary)";
                 return (
-                  <linearGradient key={key} id={`fill-${key}`} x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient
+                    key={key}
+                    id={`fill-${key}`}
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
                     <stop offset="5%" stopColor={color} stopOpacity={0.9} />
                     <stop offset="95%" stopColor={color} stopOpacity={0.1} />
                   </linearGradient>
@@ -208,7 +223,9 @@ export function ChartAreaInteractive({
               }
             />
             {seriesKeys.map((key) => {
-              const color = (resolvedConfig[key] as { color?: string })?.color ?? "var(--primary)";
+              const color =
+                (resolvedConfig[key] as { color?: string })?.color ??
+                "var(--primary)";
               return (
                 <Area
                   key={key}
