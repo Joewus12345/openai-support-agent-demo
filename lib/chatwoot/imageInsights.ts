@@ -6,6 +6,8 @@ import {
   type SearchKnowledgeBaseArgs,
 } from "@/lib/knowledgeBase/searchKnowledgeBase";
 import { normalizeQueryLengths } from "@/lib/utils/normalizeQueryLengths";
+import { getAccountRuntimeContext, getAccountRuntimeValue } from "@/lib/accountRuntime";
+import { createOpenAIClient } from "@/lib/providers/openaiClient";
 
 export type ImageInsightsClient = Pick<OpenAI, "responses">;
 
@@ -58,8 +60,14 @@ let sharedOpenAIClient: ImageInsightsClient | undefined;
  * constructing new clients.
  */
 function getSharedOpenAIClient(): ImageInsightsClient {
+  const accountRuntime = getAccountRuntimeContext();
+  if (accountRuntime) {
+    const apiKey = accountRuntime.config.OPENAI_API_KEY;
+    if (!apiKey) throw new Error("OPENAI_API_KEY is not configured for this account");
+    return createOpenAIClient(accountRuntime.config);
+  }
   if (!sharedOpenAIClient) {
-    sharedOpenAIClient = new OpenAI();
+    sharedOpenAIClient = createOpenAIClient();
   }
   return sharedOpenAIClient;
 }
@@ -89,11 +97,6 @@ export async function withImageInsightsClientStub<T>(
   }
 }
 
-const DEFAULT_IMAGE_MODEL =
-  process.env.CHATWOOT_IMAGE_MODEL?.trim() || "gpt-4.1-mini";
-const DEFAULT_KB_LIMIT = Number(
-  process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim() || 3
-);
 const QUERY_CHAR_LIMIT = Infinity;
 
 function dedupeStrings(values: Array<string | undefined | null>): string[] {
@@ -439,7 +442,8 @@ export async function gatherImageInsights({
     return undefined;
   }
 
-  const finalImageModel = imageModel?.trim() || DEFAULT_IMAGE_MODEL;
+  const finalImageModel =
+    imageModel?.trim() || getAccountRuntimeValue("CHATWOOT_IMAGE_MODEL")?.trim() || "gpt-4.1-mini";
 
   let parsedJson: any;
   try {
@@ -540,7 +544,7 @@ export async function gatherImageInsights({
 
   const kbLimit = Number.isFinite(maxKnowledgeBaseResults)
     ? Number(maxKnowledgeBaseResults)
-    : DEFAULT_KB_LIMIT;
+    : Number(getAccountRuntimeValue("CHATWOOT_IMAGE_KB_LIMIT")?.trim() || 3);
 
   let knowledgeBaseMatches: ImageKnowledgeBaseMatch[] = [];
   if (uniqueQueries.length) {

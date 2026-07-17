@@ -8,8 +8,13 @@ import { DEFAULT_SEARCH_LIMIT } from "@/config/constants";
 import cleanMarkdown from "./cleanMarkdown";
 import { splitText } from "./textSplitter";
 import pLimit from "p-limit";
+import { getAccountRuntimeContext } from "@/lib/accountRuntime";
+import {
+  getKnowledgeSourceDirectories,
+  toStorageKey,
+} from "@/lib/server/accountStorage";
 
-const STORE_PATH = path.join(process.cwd(), "data", "local_vector_store.json");
+const LEGACY_STORE_PATH = path.join(process.cwd(), "data", "local_vector_store.json");
 
 interface Entry {
   id: string;
@@ -36,26 +41,37 @@ function cosineSimilarity(a: number[], b: number[]) {
   return dot / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
-class LocalVectorStore {
+class AccountLocalVectorStore {
   private store: Entry[] = [];
   private loaded = false;
+
+  constructor(
+    private readonly accountId?: string,
+    private readonly isPrimary = false
+  ) {}
+
+  private get storePath() {
+    return this.accountId
+      ? path.join(process.cwd(), "data", "accounts", this.accountId, "local_vector_store.json")
+      : LEGACY_STORE_PATH;
+  }
 
   private async ensureLoaded() {
     if (this.loaded) return;
     try {
-      const data = await fs.readFile(STORE_PATH, "utf8");
+      const data = await fs.readFile(this.storePath, "utf8");
       try {
         const parsed = JSON.parse(data);
         if (Array.isArray(parsed)) {
           this.store = parsed;
         } else {
           console.warn(
-            `Unexpected format in ${STORE_PATH}, initializing empty store`
+            `Unexpected format in ${this.storePath}, initializing empty store`
           );
           this.store = [];
         }
       } catch (err) {
-        console.error(`Failed to parse ${STORE_PATH}:`, err);
+        console.error(`Failed to parse ${this.storePath}:`, err);
         this.store = [];
       }
     } catch {
@@ -96,8 +112,8 @@ class LocalVectorStore {
 
     if (filePaths.length === 0) {
       console.warn("No knowledge base files found for local vector store.");
-      await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
-      await fs.writeFile(STORE_PATH, JSON.stringify(this.store, null, 2));
+      await fs.mkdir(path.dirname(this.storePath), { recursive: true });
+      await fs.writeFile(this.storePath, JSON.stringify(this.store, null, 2));
       return;
     }
 
@@ -121,13 +137,13 @@ class LocalVectorStore {
 
     this.store.push(...entries);
 
-    await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
+    await fs.mkdir(path.dirname(this.storePath), { recursive: true });
     console.log(
       `Processed ${filesProcessed} files and ${chunksProcessed} chunks in parallel. Writing local vector store...`,
     );
-    await fs.writeFile(STORE_PATH, JSON.stringify(this.store, null, 2));
+    await fs.writeFile(this.storePath, JSON.stringify(this.store, null, 2));
     console.log(
-      `Local vector store written to ${STORE_PATH} with ${this.store.length} entries.`,
+      `Local vector store written to ${this.storePath} with ${this.store.length} entries.`,
     );
   }
 
@@ -138,14 +154,23 @@ class LocalVectorStore {
   private async collectKnowledgeBaseFiles() {
     const files: string[] = [];
     for (const folder of KB_FOLDERS) {
-      const dir = path.join(process.cwd(), "public", folder);
-      try {
-        const entries = await fs.readdir(dir);
-        for (const entry of entries) {
-          files.push(path.join(dir, entry));
+      const directories = this.accountId
+        ? getKnowledgeSourceDirectories(
+            { id: this.accountId, isPrimary: this.isPrimary },
+            folder
+          )
+        : [path.join(process.cwd(), "public", folder)];
+      for (const dir of directories) {
+        try {
+          const entries = await fs.readdir(dir, { withFileTypes: true });
+          for (const entry of entries) {
+            if (entry.isFile()) files.push(path.join(dir, entry.name));
+          }
+        } catch (err) {
+          if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
+            console.warn(`Skipping unavailable knowledge base folder: ${dir}`, err);
+          }
         }
-      } catch (err) {
-        console.warn(`Skipping missing knowledge base folder: ${dir}`, err);
       }
     }
     return files;
@@ -153,6 +178,7 @@ class LocalVectorStore {
 
   private async processFiles(filePaths: string[], concurrency: number) {
     const filesData: {
+      absolutePath: string;
       folder: string;
       file: string;
       joinedChunks: string[];
@@ -160,12 +186,8 @@ class LocalVectorStore {
     }[] = [];
 
     for (const absolutePath of filePaths) {
-      const relativeToPublic = path.relative(
-        path.join(process.cwd(), "public"),
-        absolutePath,
-      );
-      const [folder, ...rest] = relativeToPublic.split(path.sep);
-      const file = rest.join(path.sep);
+      const folder = path.basename(path.dirname(absolutePath));
+      const file = path.basename(absolutePath);
 
       if (!KB_FOLDERS.includes(folder)) {
         console.warn(
@@ -202,6 +224,7 @@ class LocalVectorStore {
         });
 
         filesData.push({
+          absolutePath,
           folder,
           file,
           joinedChunks,
@@ -221,7 +244,7 @@ class LocalVectorStore {
     const limit = pLimit(concurrency > 0 ? concurrency : totalChunks || 1);
     const tasks: Promise<void>[] = [];
 
-    for (const { folder, file, joinedChunks, overlap } of filesData) {
+    for (const { absolutePath, folder, file, joinedChunks, overlap } of filesData) {
       joinedChunks.forEach((chunk, idx) => {
         tasks.push(
           limit(async () => {
@@ -238,9 +261,7 @@ class LocalVectorStore {
                 attributes: {
                   type: folder,
                   filename: file.replace(/\.(md|json)$/, ""),
-                  filepath: path
-                    .join("public", folder, file)
-                    .replace(/\\/g, "/"),
+                  filepath: toStorageKey(absolutePath),
                   chunk: idx,
                   overlap,
                 },
@@ -333,4 +354,68 @@ class LocalVectorStore {
   }
 }
 
-export const localVectorStore = new LocalVectorStore();
+class LocalVectorStoreManager {
+  private readonly stores = new Map<string, AccountLocalVectorStore>();
+
+  private getStore(accountId?: string, isPrimary = false) {
+    const key = accountId ?? "legacy";
+    const existing = this.stores.get(key);
+    if (existing) return existing;
+    const store = new AccountLocalVectorStore(accountId, isPrimary);
+    this.stores.set(key, store);
+    return store;
+  }
+
+  // Preserve the legacy test/maintenance surface for the unscoped store while
+  // production requests resolve an account-specific instance.
+  get store() {
+    return (this.getStore() as any).store as Entry[];
+  }
+
+  set store(value: Entry[]) {
+    (this.getStore() as any).store = value;
+  }
+
+  get loaded() {
+    return Boolean((this.getStore() as any).loaded);
+  }
+
+  set loaded(value: boolean) {
+    (this.getStore() as any).loaded = value;
+  }
+
+  set embedding(value: (text: string) => Promise<number[]>) {
+    (this.getStore() as any).embedding = value;
+  }
+
+  initialize(
+    options: {
+      force?: boolean;
+      concurrency?: number;
+      files?: string[];
+      accountId?: string;
+      isPrimary?: boolean;
+    } = {}
+  ) {
+    const runtime = getAccountRuntimeContext();
+    const accountId = options.accountId ?? runtime?.accountId;
+    const { accountId: _accountId, isPrimary, ...initializeOptions } = options;
+    void _accountId;
+    return this.getStore(accountId, Boolean(isPrimary)).initialize(initializeOptions);
+  }
+
+  search(
+    query: string,
+    options: { limit?: number; threshold?: number; topKOnly?: boolean } = {}
+  ) {
+    const runtime = getAccountRuntimeContext();
+    return this.getStore(runtime?.accountId).search(query, options);
+  }
+
+  getStatus(accountId?: string, isPrimary = false) {
+    const runtime = getAccountRuntimeContext();
+    return this.getStore(accountId ?? runtime?.accountId, isPrimary).getStatus();
+  }
+}
+
+export const localVectorStore = new LocalVectorStoreManager();

@@ -7,6 +7,7 @@ import type { LimiterTokens } from "./limiter";
 export interface ProviderOptions {
   model?: string;
   limiterTokens?: LimiterTokens;
+  config?: Record<string, string>;
 }
 
 export type ProviderFunction = (

@@ -2,25 +2,17 @@ import type {
   ChatwootFormContentAttributes,
   ChatwootFormField,
 } from "@/lib/chatwoot/forms";
-
-const CHATWOOT_URL = (process.env.CHATWOOT_URL || "").replace(/\/$/, "");
-const CHATWOOT_BOT_TOKEN = process.env.CHATWOOT_BOT_TOKEN || "";
-
-if (!CHATWOOT_URL) {
-  console.warn(
-    "CHATWOOT_URL is not set. Chatwoot integration will be disabled."
-  );
-}
-if (!CHATWOOT_BOT_TOKEN) {
-  console.warn(
-    "CHATWOOT_BOT_TOKEN is not set. Bot messaging and labeling will not work."
-  );
-}
+import { getAccountRuntimeValue } from "@/lib/accountRuntime";
 
 async function chatwootBotFetch(path: string, init: RequestInit = {}) {
-  const url = `${CHATWOOT_URL}${path}`;
+  const chatwootUrl = (getAccountRuntimeValue("CHATWOOT_URL") || "").replace(/\/$/, "");
+  const botToken = getAccountRuntimeValue("CHATWOOT_BOT_TOKEN") || "";
+  if (!chatwootUrl || !botToken) {
+    throw new Error("CHATWOOT_URL and CHATWOOT_BOT_TOKEN must be configured for this account");
+  }
+  const url = `${chatwootUrl}${path}`;
   const headers = {
-    api_access_token: CHATWOOT_BOT_TOKEN,
+    api_access_token: botToken,
     ...(init.headers || {}),
   } as Record<string, string>;
   const { method = "GET", body } = init;

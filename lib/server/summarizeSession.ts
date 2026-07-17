@@ -1,6 +1,6 @@
-import OpenAI from "openai";
 import type { EasyInputMessage } from "openai/resources/responses";
 import cleanMarkdown from "../cleanMarkdown";
+import { createOpenAIClient } from "@/lib/providers/openaiClient";
 
 type SummaryMessage = {
   type: "message";
@@ -11,15 +11,20 @@ type SummaryMessage = {
 export async function summarizeSession({
   priorSummary,
   newMessages,
+  config,
 }: {
   priorSummary?: string | null;
   newMessages: any[];
+  config?: Record<string, string>;
 }): Promise<string> {
   if (!Array.isArray(newMessages) || newMessages.length === 0) {
     return "";
   }
 
-  const openai = new OpenAI();
+  if (config && !config.OPENAI_API_KEY) {
+    throw new Error("OPENAI_API_KEY is not configured for this account");
+  }
+  const openai = createOpenAIClient(config);
   const prompt =
     "Summarize the following new messages in 3–5 bullet points, capturing the user's issue/questions asked, actions taken, and pending follow-ups.";
 
@@ -65,7 +70,7 @@ export async function summarizeSession({
   };
 
   const response = await openai.responses.create({
-    model: "gpt-4o-mini",
+    model: config?.OPENAI_MODEL || "gpt-4o-mini",
     input: [...summaryIntro, ...filteredMessages, extraPrompt] as EasyInputMessage[],
   });
 

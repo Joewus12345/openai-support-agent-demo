@@ -1,7 +1,10 @@
 import prisma from "@/lib/prisma";
+import { requireTenantSession } from "@/lib/server/tenantSession";
 
 export async function GET(request: Request) {
   try {
+    const auth = await requireTenantSession(request);
+    if ("response" in auth) return auth.response;
     const { searchParams } = new URL(request.url);
     const email = searchParams.get("email");
     if (!email) {
@@ -10,7 +13,7 @@ export async function GET(request: Request) {
       });
     }
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { accountId_email: { accountId: auth.accountId, email } },
       include: { orders: true },
     });
     if (!user) {
@@ -27,6 +30,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const auth = await requireTenantSession(request, { csrfProtected: true });
+    if ("response" in auth) return auth.response;
     const { email, name, phone, address } = await request.json();
     if (!email) {
       return new Response(JSON.stringify({ error: "Email is required" }), {
@@ -34,9 +39,9 @@ export async function POST(request: Request) {
       });
     }
     const user = await prisma.user.upsert({
-      where: { email },
+      where: { accountId_email: { accountId: auth.accountId, email } },
       update: { name, phone, address },
-      create: { email, name, phone, address },
+      create: { accountId: auth.accountId, email, name, phone, address },
       include: { orders: true },
     });
     return new Response(JSON.stringify(user), { status: 200 });

@@ -42,17 +42,20 @@ export function calculateNextRun(
 }
 
 export async function enqueueScheduledJobs({
+  accountId,
   cadence,
   now = new Date(),
   autoRunManualWithNext = process.env.AUTO_RUN_MANUAL_WITH_NEXT === "true",
   includeManualCadence = false,
 }: {
+  accountId?: string;
   cadence?: ScrapeJobCadence;
   now?: Date;
   autoRunManualWithNext?: boolean;
   includeManualCadence?: boolean;
 }) {
   const baseFilters: Prisma.ScrapeJobWhereInput = {
+    ...(accountId ? { accountId } : {}),
     paused: false,
     status: { notIn: [ScrapeJobStatus.running, ScrapeJobStatus.canceled] },
   };

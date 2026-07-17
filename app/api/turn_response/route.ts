@@ -8,6 +8,9 @@ import {
   RELEVANCE_FOLLOW_UP_MESSAGE,
   RELEVANCE_REJECTION_MESSAGE,
 } from "@/config/guardrailMessages";
+import { requireSession } from "@/lib/server/auth";
+import { resolveAccountRuntimeConfig } from "@/lib/server/accountConfig";
+import { describeProviderError } from "@/lib/providers/providerErrors";
 
 function extractMessageText(message: any): string {
   if (!message) {
@@ -39,13 +42,27 @@ function extractMessageText(message: any): string {
 export async function POST(request: Request) {
   const start = Date.now();
   try {
+    const bodyPromise = request.json();
+    const authResult = await requireSession(request, { csrfProtected: true });
+    if ("response" in authResult) return authResult.response;
+    const accountId = authResult.session.account?.id;
+    if (!accountId) {
+      return NextResponse.json({ error: "No account selected" }, { status: 409 });
+    }
+    const [body, accountConfig] = await Promise.all([
+      bodyPromise,
+      resolveAccountRuntimeConfig(accountId),
+    ]);
     const {
       messages,
       tools,
       provider,
       model,
       session_id,
-    } = await request.json();
+    } = body;
+    const guardrailConfig = provider
+      ? { ...accountConfig, CHATWOOT_WEBHOOK_PROVIDER: provider }
+      : accountConfig;
     console.log("Received messages:", messages);
 
     const normalizedMessages = Array.isArray(messages)
@@ -95,10 +112,10 @@ export async function POST(request: Request) {
       guardrailInput = JSON.stringify(recent);
     }
 
-    relevance = await runRelevanceGuardrail({ input: guardrailInput });
+    relevance = await runRelevanceGuardrail({ input: guardrailInput, config: guardrailConfig });
     console.log("Relevance guardrail result:", relevance);
 
-    jailbreak = await runJailbreakGuardrail({ input: userInput });
+    jailbreak = await runJailbreakGuardrail({ input: userInput, config: guardrailConfig });
     console.log("Jailbreak guardrail result:", jailbreak);
 
     const lastMessageIndex = normalizedMessages.lastIndexOf(lastMessage);
@@ -156,8 +173,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const providerFn = getProvider(provider);
-    const events = providerFn(normalizedMessages, tools, { model });
+    const providerName = provider || accountConfig.CHATWOOT_WEBHOOK_PROVIDER;
+    const providerFn = getProvider(providerName);
+    const events = providerFn(normalizedMessages, tools, {
+      model,
+      config: accountConfig,
+    });
 
     const stream = new ReadableStream({
       async start(controller) {
@@ -273,6 +294,7 @@ export async function POST(request: Request) {
                 }));
               }
               const result = await saveSessionMessages(
+                accountId,
                 session_id,
                 [lastMessage, assistantMessage]
               );
@@ -284,8 +306,23 @@ export async function POST(request: Request) {
             }
           }
         } catch (error) {
-          console.error("Error in streaming loop:", error);
-          controller.error(error);
+          const failure = describeProviderError(
+            error,
+            providerName === "openai" ? "OpenAI" : providerName
+          );
+          console.error("Provider stream failed", {
+            accountId,
+            provider: providerName,
+            code: failure.code,
+            error: failure.technicalMessage,
+          });
+          controller.enqueue(
+            `data: ${JSON.stringify({
+              event: "error",
+              data: { message: failure.message, code: failure.code },
+            })}\n\n`
+          );
+          controller.close();
         }
       },
     });
@@ -299,12 +336,17 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error("Error in POST handler:", error);
+    const failure = describeProviderError(error, "OpenAI");
+    console.error("Turn request failed", {
+      code: failure.code,
+      error: failure.technicalMessage,
+    });
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : "Unknown error",
+        error: failure.message,
+        code: failure.code,
       },
-      { status: 500 }
+      { status: failure.status }
     );
   }
 }

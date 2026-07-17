@@ -27,7 +27,7 @@ export async function run() {
         }
       }
       await prisma.chatSession.update({
-        where: { id: s.id },
+        where: { accountId_id: { accountId: s.accountId, id: s.id } },
         data: { messages: unsummarized, summary, lastSummarizedIndex: 0 },
       });
       if (summaryUpdated) {
@@ -47,7 +47,7 @@ export async function run() {
           .filter(Boolean)
           .join("\n");
         await prisma.user.update({
-          where: { id: s.userId },
+          where: { accountId_id: { accountId: s.accountId, id: s.userId } },
           data: { longSummary },
         });
       }

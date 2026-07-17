@@ -25,6 +25,7 @@ export async function POST(request: Request) {
   const body = (await request.json().catch(() => null)) as {
     userId?: string;
     pin?: string;
+    accountName?: string;
     telegramChatId?: string | null;
     secret?: string;
   } | null;
@@ -36,25 +37,57 @@ export async function POST(request: Request) {
   if (!body.userId || !body.pin) {
     return badRequest("userId and pin are required");
   }
+  const userId = body.userId;
+  const pin = body.pin;
 
   try {
-    const agent = await prisma.agentAccount.create({
-      data: {
-        userId: body.userId,
-        hashedPin: hashPin(body.pin),
-        roles: [AgentRole.admin, AgentRole.agent],
-        telegramChatId: body.telegramChatId ?? null,
-      },
+    const result = await prisma.$transaction(async (transaction) => {
+      const existingPrimary = await transaction.account.findFirst({ where: { isPrimary: true } });
+      const account =
+        existingPrimary ??
+        (await transaction.account.create({
+          data: {
+            name: body.accountName?.trim() || "Primary account",
+            slug: "primary",
+            isPrimary: true,
+          },
+        }));
+      const updatedAccount =
+        body.accountName?.trim() && existingPrimary?.name === "Primary account"
+          ? await transaction.account.update({
+              where: { id: account.id },
+              data: { name: body.accountName.trim() },
+            })
+          : account;
+      const agent = await transaction.agentAccount.create({
+        data: {
+          userId,
+          hashedPin: hashPin(pin),
+          platformAdmin: true,
+          roles: [AgentRole.admin, AgentRole.agent],
+          telegramChatId: body.telegramChatId ?? null,
+        },
+      });
+      await transaction.accountMembership.create({
+        data: {
+          accountId: updatedAccount.id,
+          agentId: agent.userId,
+          role: AgentRole.admin,
+          invitedById: agent.userId,
+        },
+      });
+      return { account: updatedAccount, agent };
     });
 
     return new Response(
       JSON.stringify({
         agent: {
-          userId: agent.userId,
-          roles: agent.roles,
-          telegramChatId: agent.telegramChatId,
-          createdAt: agent.createdAt,
+          userId: result.agent.userId,
+          roles: result.agent.roles,
+          telegramChatId: result.agent.telegramChatId,
+          createdAt: result.agent.createdAt,
         },
+        account: result.account,
       }),
       { headers: { "Content-Type": "application/json" } }
     );

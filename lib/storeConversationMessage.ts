@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { getConversationKey } from "@/lib/getConversationKey";
+import { getRuntimeTenantAccountId } from "@/lib/accounts/constants";
 
 export type StoreAssistantMessageParams = {
   accountId: number;
@@ -70,6 +71,7 @@ export async function storeAssistantMessage({
 
   const conversationKey =
     providedKey ?? getConversationKey(accountId, conversationId, inboxId);
+  const tenantAccountId = getRuntimeTenantAccountId();
 
   const normalizedContent =
     typeof content === "string"
@@ -79,6 +81,7 @@ export async function storeAssistantMessage({
         : String(content ?? "");
 
   const messageData: Parameters<typeof prisma.conversationMessage.upsert>[0]["create"] = {
+    tenantAccountId,
     messageId,
     conversationId,
     inboxId,
@@ -94,7 +97,13 @@ export async function storeAssistantMessage({
 
   try {
     await prisma.conversationMessage.upsert({
-      where: { conversationKey_messageId: { conversationKey, messageId } },
+      where: {
+        tenantAccountId_conversationKey_messageId: {
+          tenantAccountId,
+          conversationKey,
+          messageId,
+        },
+      },
       update: {},
       create: messageData,
     });
@@ -122,7 +131,11 @@ export async function storeAssistantMessage({
       if (!keyExists) {
         const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const recent = await prisma.conversationMessage.findMany({
-          where: { conversationKey, createdAt: { gte: since } },
+          where: {
+            tenantAccountId,
+            conversationKey,
+            createdAt: { gte: since },
+          },
           orderBy: { messageId: "asc" },
         });
         if (recent.length) {

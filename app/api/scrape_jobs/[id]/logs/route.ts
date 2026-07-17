@@ -1,9 +1,15 @@
 import fs from "fs/promises";
 import path from "path";
 
-import { ensureAuthenticated } from "../../helpers";
+import { requireScrapeSession } from "../../helpers";
 import { AgentRole } from "@/lib/generated/prisma";
 import { listJobLogRuns } from "../../helpers";
+import prisma from "@/lib/prisma";
+import {
+  getAccountScrapeLogRoot,
+  getLegacyScrapeLogRoot,
+  toStorageKey,
+} from "@/lib/server/accountStorage";
 
 function parseLimit(value: string | null) {
   const parsed = Number(value ?? "");
@@ -14,9 +20,14 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.agent });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, { role: AgentRole.agent });
+  if ("response" in authResult) return authResult.response;
   const { id } = await params;
+  const job = await prisma.scrapeJob.findUnique({
+    where: { accountId_id: { accountId: authResult.accountId, id } },
+    select: { id: true },
+  });
+  if (!job) return Response.json({ error: "Job not found" }, { status: 404 });
   const { searchParams } = new URL(request.url);
   const loadAll = searchParams.get("all") === "true";
   const limit = parseLimit(searchParams.get("limit"));
@@ -69,7 +80,7 @@ export async function GET(
   })();
 
   try {
-    const { logs, nextCursor, exhaustive } = await listJobLogRuns(id, {
+    const { logs, nextCursor, exhaustive } = await listJobLogRuns(authResult.accountId, id, {
       limit,
       cursor,
       fetchAll: loadAll,
@@ -86,13 +97,14 @@ export async function GET(
           ? Math.max(1000, Math.min(50000, Number(contentLimit)))
           : null,
       contentByLogId: parsedRanges,
+      includeLegacy: Boolean(authResult.session.account?.isPrimary),
     });
 
     return new Response(
       JSON.stringify({
         logs: logs.map((log) => ({
           id: log.id,
-          path: log.path,
+          path: toStorageKey(log.path),
           startedAt: log.startedAt.toISOString(),
           size: log.size,
           content: log.content ?? null,
@@ -117,28 +129,55 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, {
+    role: AgentRole.admin,
+    csrf: true,
+  });
+  if ("response" in authResult) return authResult.response;
 
   const { id } = await params;
   const body = (await request.json().catch(() => ({}))) as { logId?: string | null };
   const targetId = body.logId ?? null;
 
   try {
-    const { logs } = await listJobLogRuns(id, { limit: 1, includeContent: false });
+    const job = await prisma.scrapeJob.findUnique({
+      where: { accountId_id: { accountId: authResult.accountId, id } },
+      select: { id: true },
+    });
+    if (!job) return Response.json({ error: "Job not found" }, { status: 404 });
+    const { logs } = await listJobLogRuns(authResult.accountId, id, {
+      fetchAll: true,
+      maxRuns: 120,
+      includeContent: false,
+      includeLegacy: Boolean(authResult.session.account?.isPrimary),
+    });
     const targetLog = targetId ? logs.find((log) => log.id === targetId) : logs[0];
 
     if (!targetLog) {
       return new Response(JSON.stringify({ error: "Log not found" }), { status: 404 });
     }
 
-    const baseDir = path.join(process.cwd(), "logs", "scrape_jobs");
     const absolutePath = path.resolve(targetLog.path);
-    if (!absolutePath.startsWith(baseDir)) {
+    const allowedRoots = [
+      getAccountScrapeLogRoot(authResult.accountId),
+      ...(authResult.session.account?.isPrimary ? [getLegacyScrapeLogRoot()] : []),
+    ];
+    const isAllowed = allowedRoots.some((root) => {
+      const relative = path.relative(path.resolve(root), absolutePath);
+      return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+    });
+    if (!isAllowed) {
       return new Response(JSON.stringify({ error: "Invalid log path" }), { status: 400 });
     }
 
     await fs.unlink(absolutePath).catch(() => {});
+    await prisma.scrapeJobLog.deleteMany({
+      where: {
+        accountId: authResult.accountId,
+        jobId: id,
+        storageKey: toStorageKey(absolutePath),
+      },
+    });
 
     return new Response(JSON.stringify({ deleted: targetLog.id }), { status: 200 });
   } catch (error) {

@@ -335,6 +335,34 @@ body {
 /* Smooth scrolling for the entire page */
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: hsl(var(--primary) / 0.16);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Logo carousel animation */

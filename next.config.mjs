@@ -3,6 +3,9 @@ import path from "node:path";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   devIndicators: false,
+  experimental: {
+    optimizePackageImports: ["lucide-react", "@tabler/icons-react"],
+  },
   images: {
     remotePatterns: [
       {

@@ -5,10 +5,12 @@ const { mock } = test;
 const constants = require('../config/constants');
 constants.MAX_UNSUMMARIZED_MESSAGES = 3;
 constants.LARGE_MESSAGE_THRESHOLD = 50;
+const accountId = 'account-1';
 
 const user = { id: 'u1', longSummary: null };
 const session = {
   id: 's1',
+  accountId,
   userId: 'u1',
   messages: [],
   summary: null,
@@ -49,6 +51,19 @@ require.cache[require.resolve('../lib/redis.ts')] = { exports: redisMock };
 require.cache[require.resolve('../lib/server/summarizeSession.ts')] = {
   exports: { summarizeSession },
 };
+require.cache[require.resolve('../lib/server/tenantSession.ts')] = {
+  exports: {
+    requireTenantSession: async () => ({ accountId, session: { account: { id: accountId } } }),
+  },
+};
+require.cache[require.resolve('../lib/server/accountConfig.ts')] = {
+  exports: {
+    resolveAccountRuntimeConfig: async () => ({
+      OPENAI_API_KEY: 'test-key',
+      OPENAI_MODEL: 'test-model',
+    }),
+  },
+};
 
 const { saveSessionMessages } = require('../lib/server/saveSessionMessages.ts');
 
@@ -70,7 +85,7 @@ test('saveSessionMessages prunes old unsummarized messages', async () => {
     { id: '4', role: 'assistant', content: [{ type: 'output_text', text: 'm4' }] },
     { id: '5', role: 'user', content: [{ type: 'input_text', text: 'm5' }] },
   ];
-  await saveSessionMessages('s1', msgs);
+  await saveSessionMessages(accountId, 's1', msgs);
   assert.strictEqual(session.summary, 'm1 m2');
   assert.strictEqual(session.lastSummarizedIndex, 0);
   assert.deepStrictEqual(
@@ -109,13 +124,13 @@ test('unsummarized limit shrinks after repeated large messages and prunes', asyn
   const large1 = { id: 'l1', role: 'assistant', content: [{ type: 'output_text', text: 'x'.repeat(60) }] };
   const large2 = { id: 'l2', role: 'assistant', content: [{ type: 'output_text', text: 'y'.repeat(60) }] };
   const large3 = { id: 'l3', role: 'assistant', content: [{ type: 'output_text', text: 'z'.repeat(60) }] };
-  await saveSessionMessages('s1', [large1]);
+  await saveSessionMessages(accountId, 's1', [large1]);
   assert.strictEqual(session.unsummarizedLimit, 3);
-  await saveSessionMessages('s1', [large2]);
+  await saveSessionMessages(accountId, 's1', [large2]);
   assert.strictEqual(session.unsummarizedLimit, 2);
-  await saveSessionMessages('s1', [large3]);
+  await saveSessionMessages(accountId, 's1', [large3]);
   assert.strictEqual(session.unsummarizedLimit, 1);
-  await saveSessionMessages('s1', [
+  await saveSessionMessages(accountId, 's1', [
     { id: '4', role: 'user', content: [{ type: 'input_text', text: 'ok' }] },
   ]);
   assert.strictEqual(session.unsummarizedLimit, 1);

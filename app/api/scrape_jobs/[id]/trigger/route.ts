@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { AgentRole, Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import { parseCadence } from "@/lib/scheduler";
-import { ensureAuthenticated } from "../../helpers";
+import { requireScrapeSession } from "../../helpers";
 import {
   mergeArgsWithTarget,
   normalizeArgsForScript,
@@ -20,8 +20,11 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, {
+    role: AgentRole.admin,
+    csrf: true,
+  });
+  if ("response" in authResult) return authResult.response;
 
   try {
     const { id } = await params;
@@ -31,7 +34,7 @@ export async function POST(
 
     try {
       const existing = await prisma.scrapeJob.findUnique({
-        where: { id },
+        where: { accountId_id: { accountId: authResult.accountId, id } },
         select: { id: true, cadence: true, args: true, script: true },
       });
 
@@ -74,7 +77,7 @@ export async function POST(
       }
 
       const job = await prisma.scrapeJob.update({
-        where: { id },
+        where: { accountId_id: { accountId: authResult.accountId, id } },
         data: {
           status: ScrapeJobStatus.queued,
           startedAt: null,

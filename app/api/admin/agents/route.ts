@@ -1,74 +1,106 @@
+import { AgentRole } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
+import { canAdministerAccount } from "@/lib/server/accountAccess";
 import { requireSession } from "@/lib/server/auth";
 import { hashPin } from "@/lib/vendor/bcrypt";
-import { AgentRole } from "@/lib/generated/prisma";
+import { z } from "zod";
 
-function sanitizeAgent(agent: {
-  userId: string;
-  roles: AgentRole[];
-  telegramChatId: string | null;
+const createMemberSchema = z.object({
+  accountId: z.string().uuid(),
+  userId: z.string().trim().min(2).max(120),
+  pin: z.string().min(4).max(128).optional(),
+  role: z.nativeEnum(AgentRole),
+  telegramChatId: z.string().trim().max(120).nullable().optional(),
+});
+
+function serializeMembership(membership: {
+  role: AgentRole;
   createdAt: Date;
   updatedAt: Date;
+  agent: {
+    userId: string;
+    telegramChatId: string | null;
+    platformAdmin: boolean;
+  };
 }) {
   return {
-    userId: agent.userId,
-    roles: agent.roles,
-    telegramChatId: agent.telegramChatId,
-    createdAt: agent.createdAt,
-    updatedAt: agent.updatedAt,
+    userId: membership.agent.userId,
+    role: membership.role,
+    telegramChatId: membership.agent.telegramChatId,
+    platformAdmin: membership.agent.platformAdmin,
+    createdAt: membership.createdAt,
+    updatedAt: membership.updatedAt,
   };
 }
 
 export async function GET(request: Request) {
-  const result = await requireSession(request, { role: AgentRole.admin, csrfProtected: true });
+  const result = await requireSession(request, {
+    role: AgentRole.admin,
+    csrfProtected: true,
+    allowInactiveAccount: true,
+  });
   if ("response" in result) return result.response;
 
-  const agents = await prisma.agentAccount.findMany({
-    orderBy: { createdAt: "asc" },
-  });
+  const accountId = new URL(request.url).searchParams.get("accountId") || result.session.account?.id;
+  if (!accountId) return Response.json({ error: "No account selected" }, { status: 409 });
+  const authorized = await canAdministerAccount(result.session, accountId);
+  if (!authorized) return Response.json({ error: "Forbidden" }, { status: 403 });
 
-  return new Response(JSON.stringify({ agents: agents.map(sanitizeAgent) }), {
-    headers: { "Content-Type": "application/json" },
+  const memberships = await prisma.accountMembership.findMany({
+    where: { accountId },
+    orderBy: { createdAt: "asc" },
+    include: { agent: true },
   });
+  return Response.json({ members: memberships.map(serializeMembership) });
 }
 
 export async function POST(request: Request) {
-  const result = await requireSession(request, { role: AgentRole.admin, csrfProtected: true });
+  const result = await requireSession(request, {
+    role: AgentRole.admin,
+    csrfProtected: true,
+    allowInactiveAccount: true,
+  });
   if ("response" in result) return result.response;
 
-  const payload = (await request.json().catch(() => null)) as {
-    userId?: string;
-    pin?: string;
-    roles?: AgentRole[];
-    telegramChatId?: string | null;
-  } | null;
-
-  if (!payload?.userId || !payload.pin || !Array.isArray(payload.roles)) {
-    return new Response(JSON.stringify({ error: "userId, roles, and pin are required" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+  const parsed = createMemberSchema.safeParse(await request.json().catch(() => null));
+  if (!parsed.success) {
+    return Response.json({ error: parsed.error.issues[0]?.message || "Invalid member details" }, { status: 400 });
   }
+  const authorized = await canAdministerAccount(result.session, parsed.data.accountId);
+  if (!authorized) return Response.json({ error: "Forbidden" }, { status: 403 });
 
   try {
-    const agent = await prisma.agentAccount.create({
-      data: {
-        userId: payload.userId,
-        hashedPin: hashPin(payload.pin),
-        roles: payload.roles,
-        telegramChatId: payload.telegramChatId ?? null,
-      },
+    const membership = await prisma.$transaction(async (transaction) => {
+      const existing = await transaction.agentAccount.findUnique({ where: { userId: parsed.data.userId } });
+      if (!existing && !parsed.data.pin) throw new Error("A temporary PIN is required for a new user");
+      const agent = existing
+        ? existing
+        : await transaction.agentAccount.create({
+            data: {
+              userId: parsed.data.userId,
+              hashedPin: hashPin(parsed.data.pin as string),
+              roles: [AgentRole.agent],
+              telegramChatId: parsed.data.telegramChatId ?? null,
+            },
+          });
+      return transaction.accountMembership.create({
+        data: {
+          accountId: parsed.data.accountId,
+          agentId: agent.userId,
+          role: parsed.data.role,
+          invitedById: result.session.agent.userId,
+        },
+        include: { agent: true },
+      });
     });
-
-    return new Response(JSON.stringify({ agent: sanitizeAgent(agent) }), {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    });
+    return Response.json({ member: serializeMembership(membership) }, { status: 201 });
   } catch (error) {
-    console.error("Failed to create agent", error);
-    return new Response(JSON.stringify({ error: "Unable to create agent" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("Failed to add account member", error);
+    const message = error instanceof Error ? error.message : "Unable to add member";
+    const conflict = message.toLowerCase().includes("unique constraint");
+    return Response.json(
+      { error: conflict ? "This user already belongs to the account" : message },
+      { status: conflict ? 409 : 400 }
+    );
   }
 }

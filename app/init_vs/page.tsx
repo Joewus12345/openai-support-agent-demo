@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 
 import { AppPageShell } from "@/components/app-page-shell";
 import { defaultRouteForRoles } from "@/lib/auth/routes";
+import { authFetch } from "@/lib/client/authFetch";
 import { useSessionStore } from "@/stores/useSessionStore";
 
 interface KBFile {
@@ -15,6 +16,7 @@ interface KBFile {
 
 export default function InitVS() {
   const roles = useSessionStore((state) => state.roles);
+  const platformAdmin = useSessionStore((state) => state.platformAdmin);
   const defaultRedirect = useMemo(() => defaultRouteForRoles(roles), [roles]);
   const [loadingOpenAI, setLoadingOpenAI] = useState(false);
   const [vectorStoreId, setVectorStoreId] = useState<string | null>(null);
@@ -27,7 +29,7 @@ export default function InitVS() {
   const [errorOllama, setErrorOllama] = useState<string | null>(null);
   const [successOllama, setSuccessOllama] = useState(false);
 
-  if (!roles) {
+  if (!roles || platformAdmin === undefined) {
     return (
       <AppPageShell>
         <div className="p-6 text-sm text-muted-foreground">Checking your access…</div>
@@ -35,7 +37,7 @@ export default function InitVS() {
     );
   }
 
-  if (!roles.includes("admin")) {
+  if (!platformAdmin) {
     return (
       <AppPageShell>
         <div className="p-6">
@@ -56,7 +58,7 @@ export default function InitVS() {
     setSuccessOpenAI(false);
     setErrorOpenAI(null);
     setStatusOpenAI("Creating vector store...");
-    const response = await fetch("/api/vector_stores/create_store", {
+    const response = await authFetch("/api/vector_stores/create_store", {
       method: "POST",
       body: JSON.stringify({ name: "CS Knowledge Base" }),
     });
@@ -78,7 +80,7 @@ export default function InitVS() {
       }
       setStatusOpenAI(`Uploading ${filesList.length} files to vector store...`);
       for (const file of filesList) {
-        const uploadRes = await fetch("/api/vector_stores/upload_file", {
+        const uploadRes = await authFetch("/api/vector_stores/upload_file", {
           method: "POST",
           body: JSON.stringify({ filePath: file.filepath }),
         });
@@ -90,7 +92,7 @@ export default function InitVS() {
             filename: file.filename,
             filepath: file.filepath,
           };
-          const addFileResponse = await fetch("/api/vector_stores/add_file", {
+          const addFileResponse = await authFetch("/api/vector_stores/add_file", {
             method: "POST",
             body: JSON.stringify({ vectorStoreId: vs.id, fileId, attributes }),
           });
@@ -117,7 +119,7 @@ export default function InitVS() {
     setSuccessOllama(false);
     setErrorOllama(null);
     setStatusOllama("Initializing local vector store...");
-    const res = await fetch("/api/local_vector_store/init", {
+    const res = await authFetch("/api/local_vector_store/init", {
       method: "POST",
     });
     if (res.ok) {
@@ -134,7 +136,7 @@ export default function InitVS() {
     setSuccessOllama(false);
     setErrorOllama(null);
     setStatusOllama("Rebuilding embeddings...");
-    const res = await fetch("/api/local_vector_store/init?force=true", {
+    const res = await authFetch("/api/local_vector_store/init?force=true", {
       method: "POST",
     });
     if (res.ok) {
@@ -152,11 +154,11 @@ export default function InitVS() {
         <div className="rounded-xl border bg-card p-6 shadow-sm">
           <div className="flex flex-col gap-4 border-b border-border pb-4 md:flex-row md:items-start md:justify-between md:gap-6">
             <div className="max-w-2xl space-y-2">
-              <div className="text-2xl font-bold">Initialize the Vector Store</div>
+              <h1 className="text-2xl font-bold">Initialize the Vector Store</h1>
               <p className="text-sm text-muted-foreground">
                 Load knowledge base content into a vector store so your agents can search and retrieve it. Content in
-                <span className="font-mono rounded-md bg-accent px-1 py-0.5">/public/knowledge_base</span> and
-                <span className="font-mono rounded-md bg-accent px-1 py-0.5">/public/faq</span> will be embedded using
+                <span className="font-mono rounded-md bg-accent px-1 py-0.5">the active account knowledge base</span> and
+                <span className="font-mono rounded-md bg-accent px-1 py-0.5">FAQ</span> will be embedded using
                 Ollama and stored locally.
               </p>
               <p className="text-sm text-muted-foreground">

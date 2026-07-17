@@ -1,10 +1,13 @@
 import prisma from "@/lib/prisma";
+import { requireTenantSession } from "@/lib/server/tenantSession";
 
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ user_id: string }> }
 ) {
   try {
+    const auth = await requireTenantSession(request, { csrfProtected: true });
+    if ("response" in auth) return auth.response;
     const { user_id } = await params;
     const { email, phone, address, name } = await request.json();
     const data = {
@@ -14,7 +17,7 @@ export async function POST(
       ...(name && { name }),
     };
     await prisma.user.update({
-      where: { id: user_id },
+      where: { accountId_id: { accountId: auth.accountId, id: user_id } },
       data,
     });
     return new Response(

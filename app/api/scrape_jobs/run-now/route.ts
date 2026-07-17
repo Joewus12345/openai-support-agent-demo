@@ -1,4 +1,6 @@
 import { enqueueScheduledJobs, parseCadence } from "@/lib/scheduler";
+import { AgentRole } from "@/lib/generated/prisma";
+import { requireScrapeSession } from "../helpers";
 
 function parseBoolean(value: string | null): boolean | undefined {
   if (value === null) return undefined;
@@ -6,6 +8,11 @@ function parseBoolean(value: string | null): boolean | undefined {
 }
 
 export async function POST(request: Request) {
+  const authResult = await requireScrapeSession(request, {
+    role: AgentRole.admin,
+    csrf: true,
+  });
+  if ("response" in authResult) return authResult.response;
   try {
     const { searchParams } = new URL(request.url);
     const cadenceParam = parseCadence(searchParams.get("schedule"));
@@ -22,6 +29,7 @@ export async function POST(request: Request) {
     const includeManualCadence = includeManualCadenceOverride ?? false;
 
     const queued = await enqueueScheduledJobs({
+      accountId: authResult.accountId,
       cadence: cadenceParam,
       autoRunManualWithNext,
       includeManualCadence,

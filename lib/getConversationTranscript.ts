@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
+import { getRuntimeTenantAccountId } from "@/lib/accounts/constants";
 
 export type ConversationTranscriptEntry = {
   messageId?: number;
@@ -329,8 +330,9 @@ async function loadFromPrisma(
   take: number
 ): Promise<RawTranscriptRecord[]> {
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const tenantAccountId = getRuntimeTenantAccountId();
   const records = await prisma.conversationMessage.findMany({
-    where: { conversationKey, createdAt: { gte: since } },
+    where: { tenantAccountId, conversationKey, createdAt: { gte: since } },
     orderBy: { messageId: "desc" },
     take,
   });

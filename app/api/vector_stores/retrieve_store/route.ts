@@ -1,13 +1,20 @@
-import OpenAI from "openai";
-
-const openai = new OpenAI();
+import { AgentRole } from "@/lib/generated/prisma";
+import { requireAccountOpenAI } from "@/lib/server/accountOpenAI";
 
 export async function GET(request: Request) {
+  const authResult = await requireAccountOpenAI(request, {
+    role: AgentRole.agent,
+    requireVectorStore: true,
+  });
+  if ("response" in authResult) return authResult.response;
   const { searchParams } = new URL(request.url);
   const vectorStoreId = searchParams.get("vector_store_id");
+  if (vectorStoreId && vectorStoreId !== authResult.vectorStoreId) {
+    return Response.json({ error: "Vector store does not belong to the active account" }, { status: 403 });
+  }
   try {
-    const vectorStore = await openai.vectorStores.retrieve(
-      vectorStoreId || ""
+    const vectorStore = await authResult.openai.vectorStores.retrieve(
+      authResult.vectorStoreId!
     );
     return new Response(JSON.stringify(vectorStore), { status: 200 });
   } catch (error) {

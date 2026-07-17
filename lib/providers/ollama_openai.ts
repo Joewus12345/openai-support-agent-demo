@@ -22,12 +22,25 @@ export async function* ollamaOpenAIProvider(
   tools: any,
   opts?: ProviderOptions
 ): AsyncGenerator<ProviderEvent> {
+  if (opts?.config && !opts.config.OLLAMA_OPENAI_BASE_URL) {
+    throw new Error("OLLAMA_OPENAI_BASE_URL is not configured for this account");
+  }
   const openai = new OpenAI({
-    baseURL: process.env.OLLAMA_OPENAI_BASE_URL || "http://localhost:11434/v1",
-    apiKey: process.env.OLLAMA_OPENAI_API_KEY || "ollama",
+    baseURL:
+      opts?.config?.OLLAMA_OPENAI_BASE_URL ||
+      (!opts?.config ? process.env.OLLAMA_OPENAI_BASE_URL : undefined) ||
+      "http://localhost:11434/v1",
+    apiKey:
+      opts?.config?.OLLAMA_OPENAI_API_KEY ||
+      (!opts?.config ? process.env.OLLAMA_OPENAI_API_KEY : undefined) ||
+      "ollama",
   });
 
-  const model = opts?.model || defaultModel;
+  const model = opts?.model || opts?.config?.OLLAMA_MODEL || (opts?.config ? "llama3.2" : defaultModel);
+  const contextWindow = parseInt(
+    opts?.config?.OLLAMA_NUM_CTX || (opts?.config ? "16384" : String(num_ctx)),
+    10
+  );
   const limiterTokens =
     opts?.limiterTokens ?? deriveLimiterTokens(messages, model);
 
@@ -64,7 +77,7 @@ export async function* ollamaOpenAIProvider(
       messages: converted as any,
       tools,
       stream: true,
-      options: { num_ctx },
+      options: { num_ctx: contextWindow },
     } as any;
     const retried = await retryWithBackoff(
       async () =>

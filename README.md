@@ -106,6 +106,7 @@ The steps below show how to build and run each container manually.
    ```bash
    DATABASE_URL="postgresql://<user>:<password>@localhost:5432/<dbname>"
    REDIS_URL=redis://localhost:6379
+   ACCOUNT_CONFIG_ENCRYPTION_KEY=<stable-random-secret>
    SESSION_RETENTION_DAYS=30 # How many days to retain ended sessions
    CHATWOOT_URL=https://e245e7cb03bc.ngrok-free.app
    CHATWOOT_APP_TOKEN=<chatwoot-app-token>
@@ -199,6 +200,34 @@ If Redis runs on a dynamically mapped port (e.g. `docker port` or `docker compos
 5. **Ticket IDs in chats:**
 
    When a customer does not share an email, the `create_ticket` tool generates a ticket ID in the format `#<index>/<date>` (for example `#1/2024-05-01`). The ID is stored with the chat session so the conversation can be resumed later using that ticket number.
+
+## Multi-account administration
+
+The admin control plane uses a Chatwoot-style tenant model:
+
+- `AgentAccount` is the global sign-in identity.
+- `AccountMembership` assigns one account-scoped role (`admin` or `agent`) to that identity.
+- `Account` represents a company and has a manually controlled `active`, `suspended`, or `maintenance` status.
+- `platformAdmin` identifies the installation owner who can create companies and control account status. It is separate from an account administrator.
+- `AccountConfiguration` stores allow-listed BYOK values encrypted with AES-256-GCM. Secret values are never returned by the API.
+- Customer profiles, orders, tickets, chat sessions, stored Chatwoot messages, agent assignments, and handoff queues carry an account boundary. Customer email addresses and external order IDs are unique within an account rather than across the entire installation.
+
+The bootstrap user becomes the platform administrator and an administrator of the primary account. Existing single-account installations are migrated into the primary account, and the earliest existing admin becomes the platform administrator. The primary account continues to read its integration values from the server environment. Additional accounts do not inherit those values and must configure their own credentials in **Admin → Environment**.
+
+The legacy-data migration backfills existing business records to the primary account before enforcing non-null account keys and composite tenant relationships. API reads and writes resolve the account from the verified session; background Chatwoot work resolves it from the account runtime attached to the webhook request or queued job.
+
+There is no automated subscription or Stripe state in this control plane. The platform administrator manually activates, suspends, or places managed tenant accounts into maintenance mode. Inactive accounts cannot run operational or AI endpoints; the platform administrator can still open the admin dashboard to restore access. The primary environment-managed account remains active so the control plane and legacy primary webhook route stay recoverable.
+
+For a secondary account, point Chatwoot message and status webhooks at the tenant-specific routes shown in its Environment panel:
+
+```text
+/api/chatwoot-webhook?tenant=<account-slug>
+/api/chatwoot-status-webhook?tenant=<account-slug>
+```
+
+Authenticate that webhook with `x-chatwoot-webhook-secret` (recommended), `x-webhook-secret`, a Bearer token, or the `secret` query parameter. The value must match the account’s `CHATWOOT_WEBHOOK_ENDPOINT_SECRET` or `CHATWOOT_BOT_WEBHOOK_SECRET`. Queue metadata retains the internal tenant ID so delayed and retried jobs resolve the correct account credentials.
+
+Keep `ACCOUNT_CONFIG_ENCRYPTION_KEY` stable across deployments. Changing or losing it makes stored account secrets unreadable. Use a dedicated high-entropy value; `AUTH_SESSION_SECRET` is only a compatibility fallback.
 
 ## Provider limiter observability
 

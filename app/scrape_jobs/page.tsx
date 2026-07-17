@@ -155,7 +155,7 @@ const paginatedFetcher = async (url: string): Promise<JobsPage> => {
 
 const SCRIPT_PRESETS = SCRIPT_SCHEMAS;
 
-const KNOWLEDGE_BASE_PATH = "public/knowledge_base";
+const KNOWLEDGE_BASE_PATH = "data/accounts/<account-id>/knowledge_base";
 const AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT =
   process.env.NEXT_PUBLIC_AUTO_RUN_MANUAL_WITH_NEXT === "true";
 

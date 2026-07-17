@@ -2,7 +2,7 @@ import { AgentRole, Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/gene
 import prisma from "@/lib/prisma";
 import { calculateNextRun } from "@/lib/scheduler";
 import { cancelRunningScrape } from "@/lib/scrapeRunner";
-import { ensureAuthenticated, serializeJob } from "../helpers";
+import { requireScrapeSession, serializeJob } from "../helpers";
 import {
   mergeArgObjects,
   mergeArgsWithTarget,
@@ -38,10 +38,10 @@ function parseDate(value: unknown): { value: Date | null | undefined; error?: st
 }
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.agent });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, { role: AgentRole.agent });
+  if ("response" in authResult) return authResult.response;
   const { id } = await params;
-  const job = await serializeJob(id);
+  const job = await serializeJob(authResult.accountId, id);
   if (!job) {
     return new Response("Not found", { status: 404 });
   }
@@ -53,8 +53,11 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, {
+    role: AgentRole.admin,
+    csrf: true,
+  });
+  if ("response" in authResult) return authResult.response;
 
   try {
     const { id } = await params;
@@ -68,7 +71,8 @@ export async function PATCH(
       ? parseTargetUrlFromArgs(body.args, { required: true })
       : { provided: false, url: null as string | null, error: undefined };
 
-    const existing = await prisma.scrapeJob.findUnique({ where: { id } });
+    const jobWhere = { accountId_id: { accountId: authResult.accountId, id } };
+    const existing = await prisma.scrapeJob.findUnique({ where: jobWhere });
     if (!existing) {
       return new Response(JSON.stringify({ error: "Job not found" }), { status: 404 });
     }
@@ -162,7 +166,7 @@ export async function PATCH(
       });
     }
 
-    const job = await prisma.scrapeJob.update({ where: { id }, data });
+    const job = await prisma.scrapeJob.update({ where: jobWhere, data });
     return new Response(JSON.stringify(job), { status: 200 });
   } catch (error) {
     console.error("Error updating scrape job:", error);
@@ -174,8 +178,11 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, {
+    role: AgentRole.admin,
+    csrf: true,
+  });
+  if ("response" in authResult) return authResult.response;
 
   try {
     const { id } = await params;
@@ -184,7 +191,7 @@ export async function DELETE(
 
     try {
       const job = await prisma.scrapeJob.update({
-        where: { id },
+        where: { accountId_id: { accountId: authResult.accountId, id } },
         data: {
           status: ScrapeJobStatus.canceled,
           paused: false,

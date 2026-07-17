@@ -4,6 +4,7 @@ const { mock } = test;
 
 const constants = require('../config/constants');
 constants.MAX_UNSUMMARIZED_MESSAGES = 3;
+const accountId = 'account-1';
 
 const user1 = { id: 'u1', longSummary: null };
 const user2 = { id: 'u2', longSummary: null };
@@ -16,6 +17,7 @@ function msg(id, text) {
 // Session with too many unsummarized messages
 const session1 = {
   id: 's1',
+  accountId,
   userId: 'u1',
   messages: [
     msg('1', 'm1'),
@@ -32,6 +34,7 @@ const session1 = {
 // Session already within limits
 const session2 = {
   id: 's2',
+  accountId,
   userId: 'u2',
   messages: [msg('a', 'a'), msg('b', 'b')],
   summary: null,
@@ -42,7 +45,8 @@ const session2 = {
 const sessions = [session1, session2];
 
 const update = mock.fn(async ({ where, data }) => {
-  const s = sessions.find((sess) => sess.id === where.id);
+  const key = where.accountId_id;
+  const s = sessions.find((sess) => sess.id === key.id && sess.accountId === key.accountId);
   Object.assign(s, data);
   return s;
 });
@@ -54,7 +58,8 @@ const prismaMock = {
   },
   user: {
     update: async ({ where, data }) => {
-      const u = [user1, user2].find((usr) => usr.id === where.id);
+      const key = where.accountId_id;
+      const u = [user1, user2].find((usr) => usr.id === key.id);
       Object.assign(u, data);
       return u;
     },
@@ -96,6 +101,9 @@ test('prunes excess session messages and skips sessions within limit', async () 
 
   // Only one update should occur
   assert.strictEqual(update.mock.calls.length, 1);
-  assert.strictEqual(update.mock.calls[0].arguments[0].where.id, 's1');
+  assert.deepStrictEqual(update.mock.calls[0].arguments[0].where.accountId_id, {
+    accountId,
+    id: 's1',
+  });
 });
 

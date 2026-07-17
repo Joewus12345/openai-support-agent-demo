@@ -1,5 +1,5 @@
 import { ProviderEvent } from "./openai";
-import ollama from "ollama";
+import { Ollama } from "ollama";
 import { randomUUID } from "crypto";
 import type { ProviderOptions } from "./index";
 import { fileSearch } from "@/lib/tools/fileSearch";
@@ -11,19 +11,6 @@ import { ProviderRetryError, retryWithBackoff } from "./retry";
 const defaultModel = process.env.OLLAMA_MODEL || "llama3.2";
 // Context window size for Ollama requests. Set via OLLAMA_NUM_CTX.
 const num_ctx = parseInt(process.env.OLLAMA_NUM_CTX || "16384", 10);
-const host = process.env.OLLAMA_HOST;
-
-if (host) {
-  try {
-    (ollama as any).defaults = { ...(ollama as any).defaults, host };
-  } catch {
-    try {
-      (ollama as any).config.host = host;
-    } catch {
-      // ignore if unable to set host
-    }
-  }
-}
 
 export function convertMessages(messages: any[]) {
   return (messages || [])
@@ -60,7 +47,20 @@ export async function* ollamaProvider(
   tools: any,
   options?: ProviderOptions
 ): AsyncGenerator<ProviderEvent> {
-  const model = options?.model || defaultModel;
+  if (options?.config && !options.config.OLLAMA_HOST) {
+    throw new Error("OLLAMA_HOST is not configured for this account");
+  }
+  const model =
+    options?.model ||
+    options?.config?.OLLAMA_MODEL ||
+    (options?.config ? "llama3.2" : defaultModel);
+  const contextWindow = parseInt(
+    options?.config?.OLLAMA_NUM_CTX || (options?.config ? "16384" : String(num_ctx)),
+    10
+  );
+  const ollama = new Ollama({
+    host: options?.config?.OLLAMA_HOST || (!options?.config ? process.env.OLLAMA_HOST : undefined),
+  });
   const limiterTokens =
     options?.limiterTokens ?? deriveLimiterTokens(messages, model);
   const converted = convertMessages(messages);
@@ -72,7 +72,7 @@ export async function* ollamaProvider(
     messages: converted,
     tools,
     stream: true,
-    options: { num_ctx },
+    options: { num_ctx: contextWindow },
   } as any;
 
   try {

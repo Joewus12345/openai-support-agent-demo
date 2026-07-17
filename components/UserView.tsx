@@ -31,7 +31,7 @@ export default function UserView() {
   };
 
   return (
-    <div className="flex-1 w-full bg-white rounded-lg p-4 overflow-hidden">
+    <div className="h-full w-full min-w-0 overflow-hidden rounded-lg bg-white p-2 sm:p-4">
       <Chat
         items={chatMessages}
         view="user"

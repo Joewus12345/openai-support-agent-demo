@@ -7,6 +7,7 @@ import type { ChatwootWebhookPayload } from "@/types/chatwoot";
 
 type JobMetadata = {
   jobId?: number;
+  tenantId?: string;
   accountId?: number | string;
   conversationId?: number | string;
   payload?: ChatwootWebhookPayload;

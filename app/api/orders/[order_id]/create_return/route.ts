@@ -1,9 +1,13 @@
+import { requireTenantOrder } from "@/lib/server/tenantRecords";
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ order_id: string }> }
 ) {
   try {
     const { order_id } = await params;
+    const auth = await requireTenantOrder(request, order_id);
+    if ("response" in auth) return auth.response;
     const { product_ids } = await request.json();
     // Simulate return initiation
     return new Response(

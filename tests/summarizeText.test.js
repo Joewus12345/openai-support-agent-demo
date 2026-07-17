@@ -10,6 +10,7 @@ function clearModule(path) {
 function loadSummarizeText({ redisGet, redisSet, openaiCreate }) {
   clearModule('../lib/redis.ts');
   clearModule('openai');
+  clearModule('../lib/providers/openaiClient.ts');
   clearModule('../lib/server/summarizeText.ts');
 
   const redisMock = { get: redisGet, set: redisSet };

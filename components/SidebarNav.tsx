@@ -107,16 +107,19 @@ export default function SidebarNav() {
       </button>
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 bg-black/30 md:hidden" onClick={() => setMobileOpen(false)}>
-          <div
-            className="flex h-full w-72 flex-col bg-white shadow-xl"
-            onClick={(event) => event.stopPropagation()}
-          >
+        <div className="fixed inset-0 z-40 md:hidden">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/30"
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close navigation"
+          />
+          <div className="relative flex h-full w-72 flex-col bg-white shadow-xl">
             <div className="flex items-center justify-between border-b px-4 py-3">
               <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
                 <Home className="h-4 w-4" /> Navigation
               </div>
-              <button type="button" onClick={() => setMobileOpen(false)} aria-label="Close navigation">
+              <button type="button" className="flex size-11 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" onClick={() => setMobileOpen(false)} aria-label="Close navigation">
                 ✕
               </button>
             </div>

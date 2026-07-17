@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import useConversationStore from "@/stores/useConversationStore";
 import useDataStore from "@/stores/useDataStore";
+import { authFetch } from "@/lib/client/authFetch";
 
 const TIMEOUT_MS = 4 * 60 * 1000;
 
@@ -19,7 +20,7 @@ export default function SessionTimer() {
           useDataStore.getState() as any;
         if (sessionId) {
           try {
-            await fetch(`/api/sessions/${sessionId}/end`, {
+            await authFetch(`/api/sessions/${sessionId}/end`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({

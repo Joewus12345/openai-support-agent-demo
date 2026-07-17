@@ -1,9 +1,13 @@
+import { requireTenantOrder } from "@/lib/server/tenantRecords";
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ order_id: string }> }
 ) {
   try {
     const { order_id } = await params;
+    const auth = await requireTenantOrder(request, order_id);
+    if ("response" in auth) return auth.response;
     // Simulate order cancellation
     return new Response(
       JSON.stringify({ message: `Order ${order_id} cancelled successfully` }),

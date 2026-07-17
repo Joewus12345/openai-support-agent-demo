@@ -1,5 +1,6 @@
 import prisma from "./prisma";
 import { listAgents } from "./chatwoot";
+import { getRuntimeTenantAccountId } from "./accounts/constants";
 
 export type AgentAvailability = "online" | "busy" | "offline";
 
@@ -65,9 +66,10 @@ export async function getNextAgent(
   if (onlineAgents.length === 0) {
     return { agent: null, availabilitySummary };
   }
+  const tenantAccountId = getRuntimeTenantAccountId();
 
   const existing = await prisma.agentAssignment.findMany({
-    where: { inboxId: accountId },
+    where: { tenantAccountId, inboxId: accountId },
   });
   const onlineIds = new Set(onlineAgents.map((a) => a.id));
   const existingIds = new Set(existing.map((a) => a.agentId));
@@ -76,6 +78,7 @@ export async function getNextAgent(
   if (newAgents.length > 0) {
     await prisma.agentAssignment.createMany({
       data: newAgents.map((a) => ({
+        tenantAccountId,
         inboxId: accountId,
         agentId: a.id,
         lastAssignedAt: new Date(0),
@@ -90,13 +93,14 @@ export async function getNextAgent(
     await prisma.agentAssignment.deleteMany({
       where: {
         inboxId: accountId,
+        tenantAccountId,
         agentId: { in: offlineIds },
       },
     });
   }
 
   const nextAssignment = await prisma.agentAssignment.findFirst({
-    where: { inboxId: accountId },
+    where: { tenantAccountId, inboxId: accountId },
     orderBy: { lastAssignedAt: "asc" },
   });
   if (!nextAssignment) {
@@ -112,7 +116,8 @@ export async function getNextAgent(
 
   await prisma.agentAssignment.update({
     where: {
-      inboxId_agentId: {
+      tenantAccountId_inboxId_agentId: {
+        tenantAccountId,
         inboxId: accountId,
         agentId: nextAssignment.agentId,
       },
@@ -128,8 +133,9 @@ export async function setActiveConversation(
   conversationId: number,
   availabilityBeforeBusy?: AgentAvailability | null
 ) {
+  const tenantAccountId = getRuntimeTenantAccountId();
   await prisma.agentAssignment.updateMany({
-    where: { agentId },
+    where: { tenantAccountId, agentId },
     data: {
       activeConversationId: conversationId,
       availabilityBeforeBusy: availabilityBeforeBusy ?? null,
@@ -138,8 +144,10 @@ export async function setActiveConversation(
 }
 
 export async function clearActiveConversation(agentId: number) {
+  const tenantAccountId = getRuntimeTenantAccountId();
   const assignments = await prisma.agentAssignment.findMany({
     where: {
+      tenantAccountId,
       agentId,
       activeConversationId: { not: null },
     },
@@ -147,6 +155,7 @@ export async function clearActiveConversation(agentId: number) {
   });
   await prisma.agentAssignment.updateMany({
     where: {
+      tenantAccountId,
       agentId,
       activeConversationId: { not: null },
     },

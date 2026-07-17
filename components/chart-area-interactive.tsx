@@ -52,14 +52,14 @@ const defaultConfig = {
   },
 } satisfies ChartConfig;
 
-type RangeOption = "90d" | "30d" | "7d";
+type RangeOption = "3m" | "30d" | "7d";
 
 export function ChartAreaInteractive({
   data = defaultChartData,
   config = defaultConfig,
   title = "Activity overview",
   description: subtitle = "Scrape jobs and knowledge base updates",
-  defaultRange = "90d",
+  defaultRange = "3m",
   referenceDate,
 }: {
   data?: ChartAreaPoint[];
@@ -84,12 +84,6 @@ export function ChartAreaInteractive({
     return Object.fromEntries(entries) as ChartConfig;
   }, [config]);
 
-  React.useEffect(() => {
-    if (isMobile) {
-      setTimeRange("7d");
-    }
-  }, [isMobile]);
-
   const filteredData = React.useMemo(() => {
     const latest = referenceDate
       ? new Date(referenceDate)
@@ -97,11 +91,15 @@ export function ChartAreaInteractive({
       ? new Date(data[data.length - 1].date)
       : new Date();
 
-    const daysToSubtract = timeRange === "30d" ? 30 : timeRange === "7d" ? 7 : 90;
     const startDate = new Date(latest);
-    startDate.setDate(startDate.getDate() - daysToSubtract);
+    if (timeRange === "3m") {
+      startDate.setUTCMonth(startDate.getUTCMonth() - 3);
+    } else {
+      const inclusiveDays = timeRange === "30d" ? 30 : 7;
+      startDate.setUTCDate(startDate.getUTCDate() - (inclusiveDays - 1));
+    }
 
-    return data.filter((item) => {
+    return [...data].sort((a, b) => a.date.localeCompare(b.date)).filter((item) => {
       const date = new Date(item.date);
       return date >= startDate;
     });
@@ -129,9 +127,10 @@ export function ChartAreaInteractive({
               setTimeRange(value as RangeOption);
             }}
             variant="outline"
+            aria-label="Select activity range"
             className="hidden *:data-[slot=toggle-group-item]:!px-4 @[767px]/card:flex"
           >
-            <ToggleGroupItem value="90d">Last 3 months</ToggleGroupItem>
+            <ToggleGroupItem value="3m">Last 3 months</ToggleGroupItem>
             <ToggleGroupItem value="30d">Last 30 days</ToggleGroupItem>
             <ToggleGroupItem value="7d">Last 7 days</ToggleGroupItem>
           </ToggleGroup>
@@ -142,12 +141,12 @@ export function ChartAreaInteractive({
             <SelectTrigger
               className="flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[767px]/card:hidden"
               size="sm"
-              aria-label="Select a value"
+              aria-label="Select activity range"
             >
               <SelectValue placeholder="Last 3 months" />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
-              <SelectItem value="90d" className="rounded-lg">
+              <SelectItem value="3m" className="rounded-lg">
                 Last 3 months
               </SelectItem>
               <SelectItem value="30d" className="rounded-lg">

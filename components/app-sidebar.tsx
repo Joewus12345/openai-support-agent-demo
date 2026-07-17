@@ -2,8 +2,6 @@
 
 import * as React from "react";
 import {
-  BotIcon,
-  FileQuestionIcon,
   LayoutDashboardIcon,
   ListIcon,
   NetworkIcon,
@@ -14,12 +12,10 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-import { IconSearch, IconHelp } from "@tabler/icons-react";
-
-import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
+import { AccountSwitcher } from "@/components/account-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -34,43 +30,40 @@ import { useSessionStore } from "@/stores/useSessionStore";
 import Link from "next/link";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { userId, roles, verified } = useSessionStore();
+  const { userId, roles, verified, platformAdmin } = useSessionStore();
   // const { logout, loggingOut } = useLogout();
 
-  const navMain = React.useMemo(
-    () => [
+  const navMain = React.useMemo(() => {
+    const isAdmin = roles?.includes("admin") || platformAdmin;
+    return [
       { title: "Dashboard", url: "/", icon: LayoutDashboardIcon },
-      { title: "Scrape jobs", url: "/scrape_jobs", icon: ListIcon },
       { title: "Knowledge base", url: "/kb", icon: UserRoundSearchIcon },
-      { title: "Initialization", url: "/init_vs", icon: NetworkIcon },
       { title: "Agent", url: "/agent", icon: UsersIcon },
-      { title: "Admin", url: "/admin", icon: ShieldCheckIcon },
-    ],
-    []
-  );
-
-  const documents = React.useMemo(
-    () => [
-      { name: "FAQs", url: "/", icon: FileQuestionIcon },
-      { name: "Agent handbook", url: "/", icon: BotIcon },
-      { name: "Support surface", url: "/", icon: LayoutDashboardIcon },
-    ],
-    []
-  );
+      { title: "Scrape jobs", url: "/scrape_jobs", icon: ListIcon },
+      ...(isAdmin
+        ? [{ title: "Initialization", url: "/init_vs", icon: NetworkIcon }]
+        : []),
+      ...(isAdmin
+        ? [
+            { title: "Admin", url: "/admin", icon: ShieldCheckIcon },
+          ]
+        : []),
+    ];
+  }, [platformAdmin, roles]);
 
   const secondary = React.useMemo(
     () => [
-      { title: "Settings", url: "/", icon: SettingsIcon },
-      { title: "Get Help", url: "/", icon: IconHelp },
-      { title: "Search", url: "/", icon: IconSearch },
+      ...(roles?.includes("admin") || platformAdmin
+        ? [{ title: "Settings", url: "/admin", icon: SettingsIcon }]
+        : []),
     ],
-    []
+    [platformAdmin, roles]
   );
 
   const user = {
     name: userId ?? "Guest",
     email: verified ? "Session verified" : "Awaiting verification",
-    avatar: "/openai_logo.svg",
+    avatar: "/download%20(3).png",
     roles: roles ?? [],
   };
 
@@ -90,6 +83,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          <SidebarMenuItem>
+            <AccountSwitcher />
+          </SidebarMenuItem>
           {/* <SidebarMenuItem>
             <SidebarMenuButton
               className="justify-between text-sm"
@@ -104,8 +100,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="flex-1 overflow-y-auto pb-4">
         <NavMain items={navMain} />
-        <NavDocuments items={documents} />
-        <NavSecondary items={secondary} className="mt-auto" />
+        {secondary.length > 0 ? <NavSecondary items={secondary} className="mt-auto" /> : null}
       </SidebarContent>
       <SidebarFooter className="sticky bottom-0 border-t border-sidebar-border bg-sidebar pb-[max(env(safe-area-inset-bottom,0px),0.5rem)] pt-2">
         <NavUser user={user} />

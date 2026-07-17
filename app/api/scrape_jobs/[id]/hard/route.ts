@@ -3,15 +3,17 @@ import path from "path";
 
 import prisma from "@/lib/prisma";
 import { AgentRole, ScrapeJobStatus } from "@/lib/generated/prisma";
-import { ensureAuthenticated } from "../../helpers";
-
-const LOG_DIR = path.join(process.cwd(), "logs", "scrape_jobs");
-const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
+import { requireScrapeSession } from "../../helpers";
+import {
+  getAccountScrapeLogRoot,
+  getLegacyScrapeLogRoot,
+} from "@/lib/server/accountStorage";
 
 async function removeIfWithinBase(target: string | null | undefined, base: string, options?: fs.RmOptions) {
   if (!target) return;
   const resolved = path.resolve(target);
-  if (!resolved.startsWith(path.resolve(base))) return;
+  const relative = path.relative(path.resolve(base), resolved);
+  if (relative.startsWith("..") || path.isAbsolute(relative)) return;
 
   try {
     await fs.promises.rm(resolved, { force: true, ...options });
@@ -21,26 +23,35 @@ async function removeIfWithinBase(target: string | null | undefined, base: strin
 }
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, {
+    role: AgentRole.admin,
+    csrf: true,
+  });
+  if ("response" in authResult) return authResult.response;
 
   const { id } = await params;
 
-  const job = await prisma.scrapeJob.findUnique({ where: { id } });
+  const jobWhere = { accountId_id: { accountId: authResult.accountId, id } };
+  const job = await prisma.scrapeJob.findUnique({ where: jobWhere });
   if (!job) {
     return new Response(JSON.stringify({ error: "Job not found" }), { status: 404 });
   }
 
-  const defaultLogPath = path.join(LOG_DIR, `${job.id}.log`);
-  const knowledgeBaseJobDir = path.join(KNOWLEDGE_BASE_DIR, job.id);
+  const accountLogRoot = getAccountScrapeLogRoot(authResult.accountId);
+  const defaultLogPath = path.join(accountLogRoot, `${job.id}.log`);
+  const runLogDirectory = path.join(accountLogRoot, job.id);
 
-  await prisma.scrapeJob.delete({ where: { id } });
+  await prisma.scrapeJob.delete({ where: jobWhere });
 
-  await Promise.all([
-    removeIfWithinBase(job.logPath, LOG_DIR),
-    removeIfWithinBase(defaultLogPath, LOG_DIR),
-    removeIfWithinBase(knowledgeBaseJobDir, KNOWLEDGE_BASE_DIR, { recursive: true }),
-  ]);
+  const cleanup = [
+    removeIfWithinBase(job.logPath, accountLogRoot),
+    removeIfWithinBase(defaultLogPath, accountLogRoot),
+    removeIfWithinBase(runLogDirectory, accountLogRoot, { recursive: true }),
+  ];
+  if (authResult.session.account?.isPrimary) {
+    cleanup.push(removeIfWithinBase(job.logPath, getLegacyScrapeLogRoot()));
+  }
+  await Promise.all(cleanup);
 
   return new Response(
     JSON.stringify({ status: ScrapeJobStatus.canceled, deleted: true, id: job.id }),

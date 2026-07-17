@@ -1,7 +1,7 @@
 import { AgentRole, ScrapeJobStatus } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { triggerScrapeJob } from "@/lib/scrapeRunner";
-import { ensureAuthenticated } from "../../helpers";
+import { requireScrapeSession } from "../../helpers";
 import {
   mergeArgsWithTarget,
   normalizeArgsForScript,
@@ -13,13 +13,16 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, {
+    role: AgentRole.admin,
+    csrf: true,
+  });
+  if ("response" in authResult) return authResult.response;
 
   try {
     const { id } = await params;
     const source = await prisma.scrapeJob.findUnique({
-      where: { id },
+      where: { accountId_id: { accountId: authResult.accountId, id } },
       select: {
         id: true,
         script: true,
@@ -52,6 +55,7 @@ export async function POST(
 
     const job = await prisma.scrapeJob.create({
       data: {
+        account: { connect: { id: authResult.accountId } },
         script: source.script,
         args,
         cadence: source.cadence,
@@ -62,7 +66,7 @@ export async function POST(
       },
     });
 
-    void triggerScrapeJob(job.id);
+    void triggerScrapeJob(authResult.accountId, job.id);
 
     return new Response(
       JSON.stringify({

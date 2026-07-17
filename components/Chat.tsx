@@ -51,7 +51,7 @@ function TypingIndicator({ sender }: { sender: "user" | "agent" }) {
 }
 
 export default function Chat({ items, view, onSendMessage }: ChatProps) {
-  const itemsEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const [inputMessageText, setInputMessageText] = useState("");
   const [isComposing, setIsComposing] = useState(false);
@@ -76,7 +76,12 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
   const autoReply = useConversationStore((s) => s.autoReply);
 
   useEffect(() => {
-    itemsEndRef.current?.scrollIntoView({ behavior: "instant" });
+    const container = messagesContainerRef.current;
+    if (!container) return;
+    const frame = window.requestAnimationFrame(() => {
+      container.scrollTo({ top: container.scrollHeight, behavior: "auto" });
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [items, suggestedMessage]);
 
   useEffect(() => {
@@ -139,9 +144,9 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
   }, [suggestedMessage, setComposerText, setSuggestedMessage, setAgentTyping]);
 
   return (
-    <div className="flex flex-col h-full max-w-[750px] mx-auto">
+    <div className="mx-auto flex h-[34rem] w-full min-w-0 max-w-[750px] flex-col sm:h-[38rem]">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto min-h-0 md:px-4 pt-4 pb-20">
+      <div ref={messagesContainerRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain pt-4 pb-20 md:px-4">
         {items.map((item, idx) => (
           <React.Fragment key={idx}>
             {item.type === "tool_call" && view === "agent" ? (
@@ -168,20 +173,22 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
               <div className="flex justify-end text-xs mt-2">
                 <div className="flex flex-col gap-1">
                   <div className="mt-2 flex gap-2">
-                    <div
+                    <button
+                      type="button"
                       onClick={handleSendNow}
-                      className="cursor-pointer flex items-center gap-1 px-3 py-1 font-medium rounded-md bg-[#2B83F6] text-white hover:bg-[#2B83F6]/90"
+                      className="flex items-center gap-1 rounded-md bg-[#2B83F6] px-3 py-1 font-medium text-white hover:bg-[#2B83F6]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     >
                       <SendIcon className="w-3 h-3" />
                       Send now
-                    </div>
-                    <div
+                    </button>
+                    <button
+                      type="button"
                       onClick={handleEdit}
-                      className="cursor-pointer flex items-center gap-1 px-3 py-1 font-medium rounded-md bg-[#2B83F6] text-white hover:bg-[#2B83F6]/90"
+                      className="flex items-center gap-1 rounded-md bg-[#2B83F6] px-3 py-1 font-medium text-white hover:bg-[#2B83F6]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     >
                       <PencilIcon className="w-3 h-3" />
                       Edit
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -193,7 +200,6 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
         {view === "user" && agentTyping && <TypingIndicator sender="agent" />}
         {view === "agent" && userTyping && <TypingIndicator sender="user" />}
 
-        <div ref={itemsEndRef} />
       </div>
 
       {/* Input */}
@@ -205,11 +211,12 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
                 <div className="flex min-w-0 flex-1 flex-col">
                   <textarea
                     id="prompt-textarea"
+                    aria-label={view === "agent" ? "Agent message" : "Customer message"}
                     tabIndex={0}
                     dir="auto"
                     rows={2}
-                    placeholder="Message..."
-                    className="mb-2 resize-none border-0 focus:outline-none text-sm bg-transparent px-0 pb-6 pt-2"
+                    placeholder="Message…"
+                    className="mb-2 resize-none rounded-md border-0 bg-transparent px-0 pb-6 pt-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
                     value={view === "agent" ? composerText : inputMessageText}
                     onChange={(e) =>
                       view === "agent"
@@ -224,14 +231,16 @@ export default function Chat({ items, view, onSendMessage }: ChatProps) {
                   />
                 </div>
                 <button
+                  type="button"
                   disabled={
                     view === "agent"
                       ? !composerText.trim()
                       : !inputMessageText.trim()
                   }
                   data-testid="send-button"
-                    className="flex h-8 w-8 items-end justify-center rounded-full bg-[#2B83F6] text-white hover:bg-[#2B83F6]/90 disabled:bg-gray-300 disabled:text-gray-400 transition-colors focus:outline-none"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[#2B83F6] text-white transition-colors hover:bg-[#2B83F6]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2B83F6] focus-visible:ring-offset-2 disabled:bg-gray-300 disabled:text-gray-400"
                   onClick={handleSendMessage}
+                  aria-label="Send message"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

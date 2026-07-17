@@ -6,7 +6,7 @@ import { AppPageShell } from "@/components/app-page-shell";
 export default function KnowledgeBasePage() {
   return (
     <AppPageShell>
-      <ListArticles page="faq" folder="faq" title="Public FAQ" />
+      <ListArticles page="faq" folder="faq" title="Account FAQ" />
     </AppPageShell>
   );
 }

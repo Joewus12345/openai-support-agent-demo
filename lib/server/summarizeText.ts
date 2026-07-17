@@ -1,6 +1,6 @@
-import OpenAI from "openai";
 import crypto from "crypto";
 import redis from "@/lib/redis";
+import { createOpenAIClient } from "@/lib/providers/openaiClient";
 
 /**
  * Summarize arbitrary text to roughly the given number of tokens.
@@ -12,14 +12,25 @@ import redis from "@/lib/redis";
  * 100k characters of the input. Anything beyond that point is ignored both when
  * generating the cache key and when creating the summary.
  */
-export async function summarizeText(text: string, maxTokens = 200): Promise<string> {
+export type SummarizeTextOptions = {
+  config?: Record<string, string>;
+  cacheNamespace?: string;
+};
+
+export async function summarizeText(
+  text: string,
+  maxTokens = 200,
+  options: SummarizeTextOptions = {}
+): Promise<string> {
   const MAX_INPUT_CHARS = 100_000; // process only this many characters
   // Cache summaries for 24 hours to keep them relatively fresh.
   const CACHE_TTL_SECONDS = 60 * 60 * 24; // 24h
   const truncated = text.slice(0, MAX_INPUT_CHARS);
 
   const hash = crypto.createHash("sha256").update(truncated).digest("hex");
-  const key = `summary:${hash}`;
+  const key = options.cacheNamespace
+    ? `summary:${options.cacheNamespace}:${hash}`
+    : `summary:${hash}`;
   try {
     const cached = await redis.get(key);
     if (cached) return cached as string;
@@ -28,10 +39,34 @@ export async function summarizeText(text: string, maxTokens = 200): Promise<stri
   }
 
   try {
-    const openai = new OpenAI();
+    const selectedProvider = options.config?.CHATWOOT_WEBHOOK_PROVIDER
+      ?.trim()
+      .toLowerCase();
+    const useOllama =
+      selectedProvider === "ollama" || selectedProvider === "ollama-openai";
+    const baseURL = useOllama
+      ? options.config?.OLLAMA_OPENAI_BASE_URL ||
+        (options.config?.OLLAMA_HOST
+          ? `${options.config.OLLAMA_HOST.replace(/\/$/, "")}/v1`
+          : undefined)
+      : options.config?.OPENAI_BASE_URL;
+    const apiKey = useOllama
+      ? options.config?.OLLAMA_OPENAI_API_KEY || "ollama"
+      : options.config?.OPENAI_API_KEY;
+    if (options.config && (!apiKey || (useOllama && !baseURL))) {
+      throw new Error("The account does not have a summarization provider configured");
+    }
+    const openai = createOpenAIClient({
+      ...options.config,
+      ...(apiKey ? { OPENAI_API_KEY: apiKey } : {}),
+      ...(baseURL ? { OPENAI_BASE_URL: baseURL } : {}),
+    });
+    const model = useOllama
+      ? options.config?.OLLAMA_MODEL || "llama3.2"
+      : options.config?.OPENAI_MODEL || "gpt-4o-mini";
     const prompt = `Summarize the following text in about ${maxTokens} tokens:`;
     const response = await openai.responses.create({
-      model: "gpt-4o-mini",
+      model,
       input: [
         {
           role: "user",

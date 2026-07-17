@@ -54,6 +54,16 @@ export type HandoffRequest = $Result.DefaultSelection<Prisma.$HandoffRequestPayl
  */
 export type ScrapeJob = $Result.DefaultSelection<Prisma.$ScrapeJobPayload>
 /**
+ * Model ScrapeJobLog
+ * 
+ */
+export type ScrapeJobLog = $Result.DefaultSelection<Prisma.$ScrapeJobLogPayload>
+/**
+ * Model KnowledgeDocument
+ * 
+ */
+export type KnowledgeDocument = $Result.DefaultSelection<Prisma.$KnowledgeDocumentPayload>
+/**
  * Model AgentAccount
  * 
  */
@@ -68,6 +78,21 @@ export type LoginToken = $Result.DefaultSelection<Prisma.$LoginTokenPayload>
  * 
  */
 export type LoginAudit = $Result.DefaultSelection<Prisma.$LoginAuditPayload>
+/**
+ * Model Account
+ * 
+ */
+export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
+/**
+ * Model AccountMembership
+ * 
+ */
+export type AccountMembership = $Result.DefaultSelection<Prisma.$AccountMembershipPayload>
+/**
+ * Model AccountConfiguration
+ * 
+ */
+export type AccountConfiguration = $Result.DefaultSelection<Prisma.$AccountConfigurationPayload>
 
 /**
  * Enums
@@ -94,12 +119,29 @@ export const ScrapeJobCadence: {
 export type ScrapeJobCadence = (typeof ScrapeJobCadence)[keyof typeof ScrapeJobCadence]
 
 
+export const KnowledgeDocumentKind: {
+  knowledge_base: 'knowledge_base',
+  faq: 'faq'
+};
+
+export type KnowledgeDocumentKind = (typeof KnowledgeDocumentKind)[keyof typeof KnowledgeDocumentKind]
+
+
 export const AgentRole: {
   admin: 'admin',
   agent: 'agent'
 };
 
 export type AgentRole = (typeof AgentRole)[keyof typeof AgentRole]
+
+
+export const AccountStatus: {
+  active: 'active',
+  suspended: 'suspended',
+  maintenance: 'maintenance'
+};
+
+export type AccountStatus = (typeof AccountStatus)[keyof typeof AccountStatus]
 
 
 export const LoginAuditStatus: {
@@ -140,9 +182,17 @@ export type ScrapeJobCadence = $Enums.ScrapeJobCadence
 
 export const ScrapeJobCadence: typeof $Enums.ScrapeJobCadence
 
+export type KnowledgeDocumentKind = $Enums.KnowledgeDocumentKind
+
+export const KnowledgeDocumentKind: typeof $Enums.KnowledgeDocumentKind
+
 export type AgentRole = $Enums.AgentRole
 
 export const AgentRole: typeof $Enums.AgentRole
+
+export type AccountStatus = $Enums.AccountStatus
+
+export const AccountStatus: typeof $Enums.AccountStatus
 
 export type LoginAuditStatus = $Enums.LoginAuditStatus
 
@@ -355,6 +405,26 @@ export class PrismaClient<
   get scrapeJob(): Prisma.ScrapeJobDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.scrapeJobLog`: Exposes CRUD operations for the **ScrapeJobLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScrapeJobLogs
+    * const scrapeJobLogs = await prisma.scrapeJobLog.findMany()
+    * ```
+    */
+  get scrapeJobLog(): Prisma.ScrapeJobLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.knowledgeDocument`: Exposes CRUD operations for the **KnowledgeDocument** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KnowledgeDocuments
+    * const knowledgeDocuments = await prisma.knowledgeDocument.findMany()
+    * ```
+    */
+  get knowledgeDocument(): Prisma.KnowledgeDocumentDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.agentAccount`: Exposes CRUD operations for the **AgentAccount** model.
     * Example usage:
     * ```ts
@@ -383,6 +453,36 @@ export class PrismaClient<
     * ```
     */
   get loginAudit(): Prisma.LoginAuditDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.account`: Exposes CRUD operations for the **Account** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Accounts
+    * const accounts = await prisma.account.findMany()
+    * ```
+    */
+  get account(): Prisma.AccountDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.accountMembership`: Exposes CRUD operations for the **AccountMembership** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AccountMemberships
+    * const accountMemberships = await prisma.accountMembership.findMany()
+    * ```
+    */
+  get accountMembership(): Prisma.AccountMembershipDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.accountConfiguration`: Exposes CRUD operations for the **AccountConfiguration** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AccountConfigurations
+    * const accountConfigurations = await prisma.accountConfiguration.findMany()
+    * ```
+    */
+  get accountConfiguration(): Prisma.AccountConfigurationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -441,8 +541,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.19.0
-   * Query Engine version: 2ba551f319ab1df4bc874a89965d8b3641056773
+   * Prisma Client JS version: 6.19.3
+   * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
     client: string
@@ -832,9 +932,14 @@ export namespace Prisma {
     AgentAssignment: 'AgentAssignment',
     HandoffRequest: 'HandoffRequest',
     ScrapeJob: 'ScrapeJob',
+    ScrapeJobLog: 'ScrapeJobLog',
+    KnowledgeDocument: 'KnowledgeDocument',
     AgentAccount: 'AgentAccount',
     LoginToken: 'LoginToken',
-    LoginAudit: 'LoginAudit'
+    LoginAudit: 'LoginAudit',
+    Account: 'Account',
+    AccountMembership: 'AccountMembership',
+    AccountConfiguration: 'AccountConfiguration'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -853,7 +958,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "order" | "chatSession" | "ticket" | "conversationMessage" | "agentAssignment" | "handoffRequest" | "scrapeJob" | "agentAccount" | "loginToken" | "loginAudit"
+      modelProps: "user" | "order" | "chatSession" | "ticket" | "conversationMessage" | "agentAssignment" | "handoffRequest" | "scrapeJob" | "scrapeJobLog" | "knowledgeDocument" | "agentAccount" | "loginToken" | "loginAudit" | "account" | "accountMembership" | "accountConfiguration"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1449,6 +1554,154 @@ export namespace Prisma {
           }
         }
       }
+      ScrapeJobLog: {
+        payload: Prisma.$ScrapeJobLogPayload<ExtArgs>
+        fields: Prisma.ScrapeJobLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScrapeJobLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScrapeJobLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload>
+          }
+          findFirst: {
+            args: Prisma.ScrapeJobLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScrapeJobLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload>
+          }
+          findMany: {
+            args: Prisma.ScrapeJobLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload>[]
+          }
+          create: {
+            args: Prisma.ScrapeJobLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload>
+          }
+          createMany: {
+            args: Prisma.ScrapeJobLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScrapeJobLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload>[]
+          }
+          delete: {
+            args: Prisma.ScrapeJobLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload>
+          }
+          update: {
+            args: Prisma.ScrapeJobLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScrapeJobLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScrapeJobLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScrapeJobLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.ScrapeJobLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScrapeJobLogPayload>
+          }
+          aggregate: {
+            args: Prisma.ScrapeJobLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScrapeJobLog>
+          }
+          groupBy: {
+            args: Prisma.ScrapeJobLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScrapeJobLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScrapeJobLogCountArgs<ExtArgs>
+            result: $Utils.Optional<ScrapeJobLogCountAggregateOutputType> | number
+          }
+        }
+      }
+      KnowledgeDocument: {
+        payload: Prisma.$KnowledgeDocumentPayload<ExtArgs>
+        fields: Prisma.KnowledgeDocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KnowledgeDocumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KnowledgeDocumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.KnowledgeDocumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KnowledgeDocumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload>
+          }
+          findMany: {
+            args: Prisma.KnowledgeDocumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload>[]
+          }
+          create: {
+            args: Prisma.KnowledgeDocumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload>
+          }
+          createMany: {
+            args: Prisma.KnowledgeDocumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KnowledgeDocumentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload>[]
+          }
+          delete: {
+            args: Prisma.KnowledgeDocumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload>
+          }
+          update: {
+            args: Prisma.KnowledgeDocumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.KnowledgeDocumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KnowledgeDocumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KnowledgeDocumentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload>[]
+          }
+          upsert: {
+            args: Prisma.KnowledgeDocumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeDocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.KnowledgeDocumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKnowledgeDocument>
+          }
+          groupBy: {
+            args: Prisma.KnowledgeDocumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KnowledgeDocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KnowledgeDocumentCountArgs<ExtArgs>
+            result: $Utils.Optional<KnowledgeDocumentCountAggregateOutputType> | number
+          }
+        }
+      }
       AgentAccount: {
         payload: Prisma.$AgentAccountPayload<ExtArgs>
         fields: Prisma.AgentAccountFieldRefs
@@ -1671,6 +1924,228 @@ export namespace Prisma {
           }
         }
       }
+      Account: {
+        payload: Prisma.$AccountPayload<ExtArgs>
+        fields: Prisma.AccountFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AccountFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AccountFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>
+          }
+          findFirst: {
+            args: Prisma.AccountFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AccountFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>
+          }
+          findMany: {
+            args: Prisma.AccountFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>[]
+          }
+          create: {
+            args: Prisma.AccountCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>
+          }
+          createMany: {
+            args: Prisma.AccountCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AccountCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>[]
+          }
+          delete: {
+            args: Prisma.AccountDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>
+          }
+          update: {
+            args: Prisma.AccountUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>
+          }
+          deleteMany: {
+            args: Prisma.AccountDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AccountUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AccountUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>[]
+          }
+          upsert: {
+            args: Prisma.AccountUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>
+          }
+          aggregate: {
+            args: Prisma.AccountAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAccount>
+          }
+          groupBy: {
+            args: Prisma.AccountGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AccountGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AccountCountArgs<ExtArgs>
+            result: $Utils.Optional<AccountCountAggregateOutputType> | number
+          }
+        }
+      }
+      AccountMembership: {
+        payload: Prisma.$AccountMembershipPayload<ExtArgs>
+        fields: Prisma.AccountMembershipFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AccountMembershipFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AccountMembershipFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload>
+          }
+          findFirst: {
+            args: Prisma.AccountMembershipFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AccountMembershipFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload>
+          }
+          findMany: {
+            args: Prisma.AccountMembershipFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload>[]
+          }
+          create: {
+            args: Prisma.AccountMembershipCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload>
+          }
+          createMany: {
+            args: Prisma.AccountMembershipCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AccountMembershipCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload>[]
+          }
+          delete: {
+            args: Prisma.AccountMembershipDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload>
+          }
+          update: {
+            args: Prisma.AccountMembershipUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload>
+          }
+          deleteMany: {
+            args: Prisma.AccountMembershipDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AccountMembershipUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AccountMembershipUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload>[]
+          }
+          upsert: {
+            args: Prisma.AccountMembershipUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountMembershipPayload>
+          }
+          aggregate: {
+            args: Prisma.AccountMembershipAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAccountMembership>
+          }
+          groupBy: {
+            args: Prisma.AccountMembershipGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AccountMembershipGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AccountMembershipCountArgs<ExtArgs>
+            result: $Utils.Optional<AccountMembershipCountAggregateOutputType> | number
+          }
+        }
+      }
+      AccountConfiguration: {
+        payload: Prisma.$AccountConfigurationPayload<ExtArgs>
+        fields: Prisma.AccountConfigurationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AccountConfigurationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AccountConfigurationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload>
+          }
+          findFirst: {
+            args: Prisma.AccountConfigurationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AccountConfigurationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload>
+          }
+          findMany: {
+            args: Prisma.AccountConfigurationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload>[]
+          }
+          create: {
+            args: Prisma.AccountConfigurationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload>
+          }
+          createMany: {
+            args: Prisma.AccountConfigurationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AccountConfigurationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload>[]
+          }
+          delete: {
+            args: Prisma.AccountConfigurationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload>
+          }
+          update: {
+            args: Prisma.AccountConfigurationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload>
+          }
+          deleteMany: {
+            args: Prisma.AccountConfigurationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AccountConfigurationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AccountConfigurationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload>[]
+          }
+          upsert: {
+            args: Prisma.AccountConfigurationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountConfigurationPayload>
+          }
+          aggregate: {
+            args: Prisma.AccountConfigurationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAccountConfiguration>
+          }
+          groupBy: {
+            args: Prisma.AccountConfigurationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AccountConfigurationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AccountConfigurationCountArgs<ExtArgs>
+            result: $Utils.Optional<AccountConfigurationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1775,9 +2250,14 @@ export namespace Prisma {
     agentAssignment?: AgentAssignmentOmit
     handoffRequest?: HandoffRequestOmit
     scrapeJob?: ScrapeJobOmit
+    scrapeJobLog?: ScrapeJobLogOmit
+    knowledgeDocument?: KnowledgeDocumentOmit
     agentAccount?: AgentAccountOmit
     loginToken?: LoginTokenOmit
     loginAudit?: LoginAuditOmit
+    account?: AccountOmit
+    accountMembership?: AccountMembershipOmit
+    accountConfiguration?: AccountConfigurationOmit
   }
 
   /* Types for Logging */
@@ -1903,17 +2383,50 @@ export namespace Prisma {
 
 
   /**
+   * Count Type ScrapeJobCountOutputType
+   */
+
+  export type ScrapeJobCountOutputType = {
+    logs: number
+  }
+
+  export type ScrapeJobCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    logs?: boolean | ScrapeJobCountOutputTypeCountLogsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ScrapeJobCountOutputType without action
+   */
+  export type ScrapeJobCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobCountOutputType
+     */
+    select?: ScrapeJobCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ScrapeJobCountOutputType without action
+   */
+  export type ScrapeJobCountOutputTypeCountLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScrapeJobLogWhereInput
+  }
+
+
+  /**
    * Count Type AgentAccountCountOutputType
    */
 
   export type AgentAccountCountOutputType = {
     loginTokens: number
     audits: number
+    memberships: number
   }
 
   export type AgentAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     loginTokens?: boolean | AgentAccountCountOutputTypeCountLoginTokensArgs
     audits?: boolean | AgentAccountCountOutputTypeCountAuditsArgs
+    memberships?: boolean | AgentAccountCountOutputTypeCountMembershipsArgs
   }
 
   // Custom InputTypes
@@ -1941,6 +2454,152 @@ export namespace Prisma {
     where?: LoginAuditWhereInput
   }
 
+  /**
+   * AgentAccountCountOutputType without action
+   */
+  export type AgentAccountCountOutputTypeCountMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccountMembershipWhereInput
+  }
+
+
+  /**
+   * Count Type AccountCountOutputType
+   */
+
+  export type AccountCountOutputType = {
+    memberships: number
+    configurations: number
+    loginTokens: number
+    users: number
+    orders: number
+    chatSessions: number
+    tickets: number
+    conversationMessages: number
+    agentAssignments: number
+    handoffRequests: number
+    scrapeJobs: number
+    scrapeJobLogs: number
+    knowledgeDocuments: number
+  }
+
+  export type AccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    memberships?: boolean | AccountCountOutputTypeCountMembershipsArgs
+    configurations?: boolean | AccountCountOutputTypeCountConfigurationsArgs
+    loginTokens?: boolean | AccountCountOutputTypeCountLoginTokensArgs
+    users?: boolean | AccountCountOutputTypeCountUsersArgs
+    orders?: boolean | AccountCountOutputTypeCountOrdersArgs
+    chatSessions?: boolean | AccountCountOutputTypeCountChatSessionsArgs
+    tickets?: boolean | AccountCountOutputTypeCountTicketsArgs
+    conversationMessages?: boolean | AccountCountOutputTypeCountConversationMessagesArgs
+    agentAssignments?: boolean | AccountCountOutputTypeCountAgentAssignmentsArgs
+    handoffRequests?: boolean | AccountCountOutputTypeCountHandoffRequestsArgs
+    scrapeJobs?: boolean | AccountCountOutputTypeCountScrapeJobsArgs
+    scrapeJobLogs?: boolean | AccountCountOutputTypeCountScrapeJobLogsArgs
+    knowledgeDocuments?: boolean | AccountCountOutputTypeCountKnowledgeDocumentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountCountOutputType
+     */
+    select?: AccountCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccountMembershipWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountConfigurationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccountConfigurationWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountLoginTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoginTokenWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountChatSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatSessionWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountConversationMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConversationMessageWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountAgentAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentAssignmentWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountHandoffRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HandoffRequestWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountScrapeJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScrapeJobWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountScrapeJobLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScrapeJobLogWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountKnowledgeDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KnowledgeDocumentWhereInput
+  }
+
 
   /**
    * Models
@@ -1958,6 +2617,7 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: string | null
+    accountId: string | null
     email: string | null
     name: string | null
     phone: string | null
@@ -1968,6 +2628,7 @@ export namespace Prisma {
 
   export type UserMaxAggregateOutputType = {
     id: string | null
+    accountId: string | null
     email: string | null
     name: string | null
     phone: string | null
@@ -1978,6 +2639,7 @@ export namespace Prisma {
 
   export type UserCountAggregateOutputType = {
     id: number
+    accountId: number
     email: number
     name: number
     phone: number
@@ -1990,6 +2652,7 @@ export namespace Prisma {
 
   export type UserMinAggregateInputType = {
     id?: true
+    accountId?: true
     email?: true
     name?: true
     phone?: true
@@ -2000,6 +2663,7 @@ export namespace Prisma {
 
   export type UserMaxAggregateInputType = {
     id?: true
+    accountId?: true
     email?: true
     name?: true
     phone?: true
@@ -2010,6 +2674,7 @@ export namespace Prisma {
 
   export type UserCountAggregateInputType = {
     id?: true
+    accountId?: true
     email?: true
     name?: true
     phone?: true
@@ -2093,6 +2758,7 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
+    accountId: string
     email: string
     name: string | null
     phone: string | null
@@ -2120,12 +2786,14 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     email?: boolean
     name?: boolean
     phone?: boolean
     address?: boolean
     longSummary?: boolean
     createdAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     tickets?: boolean | User$ticketsArgs<ExtArgs>
@@ -2134,26 +2802,31 @@ export namespace Prisma {
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     email?: boolean
     name?: boolean
     phone?: boolean
     address?: boolean
     longSummary?: boolean
     createdAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     email?: boolean
     name?: boolean
     phone?: boolean
     address?: boolean
     longSummary?: boolean
     createdAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
+    accountId?: boolean
     email?: boolean
     name?: boolean
     phone?: boolean
@@ -2162,25 +2835,32 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "phone" | "address" | "longSummary" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "email" | "name" | "phone" | "address" | "longSummary" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     tickets?: boolean | User$ticketsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      account: Prisma.$AccountPayload<ExtArgs>
       orders: Prisma.$OrderPayload<ExtArgs>[]
       sessions: Prisma.$ChatSessionPayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      accountId: string
       email: string
       name: string | null
       phone: string | null
@@ -2581,6 +3261,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     orders<T extends User$ordersArgs<ExtArgs> = {}>(args?: Subset<T, User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tickets<T extends User$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, User$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2614,6 +3295,7 @@ export namespace Prisma {
    */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
+    readonly accountId: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
@@ -2869,6 +3551,10 @@ export namespace Prisma {
      */
     data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2939,6 +3625,10 @@ export namespace Prisma {
      * Limit how many Users to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3110,6 +3800,7 @@ export namespace Prisma {
 
   export type OrderMinAggregateOutputType = {
     id: string | null
+    accountId: string | null
     userId: string | null
     orderId: string | null
     createdAt: Date | null
@@ -3118,6 +3809,7 @@ export namespace Prisma {
 
   export type OrderMaxAggregateOutputType = {
     id: string | null
+    accountId: string | null
     userId: string | null
     orderId: string | null
     createdAt: Date | null
@@ -3126,6 +3818,7 @@ export namespace Prisma {
 
   export type OrderCountAggregateOutputType = {
     id: number
+    accountId: number
     userId: number
     orderId: number
     createdAt: number
@@ -3136,6 +3829,7 @@ export namespace Prisma {
 
   export type OrderMinAggregateInputType = {
     id?: true
+    accountId?: true
     userId?: true
     orderId?: true
     createdAt?: true
@@ -3144,6 +3838,7 @@ export namespace Prisma {
 
   export type OrderMaxAggregateInputType = {
     id?: true
+    accountId?: true
     userId?: true
     orderId?: true
     createdAt?: true
@@ -3152,6 +3847,7 @@ export namespace Prisma {
 
   export type OrderCountAggregateInputType = {
     id?: true
+    accountId?: true
     userId?: true
     orderId?: true
     createdAt?: true
@@ -3233,6 +3929,7 @@ export namespace Prisma {
 
   export type OrderGroupByOutputType = {
     id: string
+    accountId: string
     userId: string | null
     orderId: string
     createdAt: Date
@@ -3258,57 +3955,69 @@ export namespace Prisma {
 
   export type OrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     userId?: boolean
     orderId?: boolean
     createdAt?: boolean
     status?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Order$userArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     userId?: boolean
     orderId?: boolean
     createdAt?: boolean
     status?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Order$userArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     userId?: boolean
     orderId?: boolean
     createdAt?: boolean
     status?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Order$userArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectScalar = {
     id?: boolean
+    accountId?: boolean
     userId?: boolean
     orderId?: boolean
     createdAt?: boolean
     status?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "orderId" | "createdAt" | "status", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "userId" | "orderId" | "createdAt" | "status", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Order$userArgs<ExtArgs>
   }
   export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Order$userArgs<ExtArgs>
   }
   export type OrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Order$userArgs<ExtArgs>
   }
 
   export type $OrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Order"
     objects: {
+      account: Prisma.$AccountPayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      accountId: string
       userId: string | null
       orderId: string
       createdAt: Date
@@ -3707,6 +4416,7 @@ export namespace Prisma {
    */
   export interface Prisma__OrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends Order$userArgs<ExtArgs> = {}>(args?: Subset<T, Order$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3738,6 +4448,7 @@ export namespace Prisma {
    */
   interface OrderFieldRefs {
     readonly id: FieldRef<"Order", 'String'>
+    readonly accountId: FieldRef<"Order", 'String'>
     readonly userId: FieldRef<"Order", 'String'>
     readonly orderId: FieldRef<"Order", 'String'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
@@ -4199,6 +4910,7 @@ export namespace Prisma {
 
   export type ChatSessionMinAggregateOutputType = {
     id: string | null
+    accountId: string | null
     userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4210,6 +4922,7 @@ export namespace Prisma {
 
   export type ChatSessionMaxAggregateOutputType = {
     id: string | null
+    accountId: string | null
     userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4221,6 +4934,7 @@ export namespace Prisma {
 
   export type ChatSessionCountAggregateOutputType = {
     id: number
+    accountId: number
     userId: number
     createdAt: number
     updatedAt: number
@@ -4245,6 +4959,7 @@ export namespace Prisma {
 
   export type ChatSessionMinAggregateInputType = {
     id?: true
+    accountId?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
@@ -4256,6 +4971,7 @@ export namespace Prisma {
 
   export type ChatSessionMaxAggregateInputType = {
     id?: true
+    accountId?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
@@ -4267,6 +4983,7 @@ export namespace Prisma {
 
   export type ChatSessionCountAggregateInputType = {
     id?: true
+    accountId?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
@@ -4366,6 +5083,7 @@ export namespace Prisma {
 
   export type ChatSessionGroupByOutputType = {
     id: string
+    accountId: string
     userId: string
     createdAt: Date
     updatedAt: Date
@@ -4397,6 +5115,7 @@ export namespace Prisma {
 
   export type ChatSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4405,11 +5124,13 @@ export namespace Prisma {
     summary?: boolean
     lastSummarizedIndex?: boolean
     unsummarizedLimit?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
   export type ChatSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4418,11 +5139,13 @@ export namespace Prisma {
     summary?: boolean
     lastSummarizedIndex?: boolean
     unsummarizedLimit?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
   export type ChatSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4431,11 +5154,13 @@ export namespace Prisma {
     summary?: boolean
     lastSummarizedIndex?: boolean
     unsummarizedLimit?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
   export type ChatSessionSelectScalar = {
     id?: boolean
+    accountId?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4446,24 +5171,29 @@ export namespace Prisma {
     unsummarizedLimit?: boolean
   }
 
-  export type ChatSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt" | "endedAt" | "messages" | "summary" | "lastSummarizedIndex" | "unsummarizedLimit", ExtArgs["result"]["chatSession"]>
+  export type ChatSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "userId" | "createdAt" | "updatedAt" | "endedAt" | "messages" | "summary" | "lastSummarizedIndex" | "unsummarizedLimit", ExtArgs["result"]["chatSession"]>
   export type ChatSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ChatSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ChatSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ChatSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ChatSession"
     objects: {
+      account: Prisma.$AccountPayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      accountId: string
       userId: string
       createdAt: Date
       updatedAt: Date
@@ -4866,6 +5596,7 @@ export namespace Prisma {
    */
   export interface Prisma__ChatSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4897,6 +5628,7 @@ export namespace Prisma {
    */
   interface ChatSessionFieldRefs {
     readonly id: FieldRef<"ChatSession", 'String'>
+    readonly accountId: FieldRef<"ChatSession", 'String'>
     readonly userId: FieldRef<"ChatSession", 'String'>
     readonly createdAt: FieldRef<"ChatSession", 'DateTime'>
     readonly updatedAt: FieldRef<"ChatSession", 'DateTime'>
@@ -5331,6 +6063,7 @@ export namespace Prisma {
 
   export type TicketMinAggregateOutputType = {
     id: string | null
+    accountId: string | null
     ticket: string | null
     createdAt: Date | null
     userId: string | null
@@ -5338,6 +6071,7 @@ export namespace Prisma {
 
   export type TicketMaxAggregateOutputType = {
     id: string | null
+    accountId: string | null
     ticket: string | null
     createdAt: Date | null
     userId: string | null
@@ -5345,6 +6079,7 @@ export namespace Prisma {
 
   export type TicketCountAggregateOutputType = {
     id: number
+    accountId: number
     ticket: number
     createdAt: number
     userId: number
@@ -5354,6 +6089,7 @@ export namespace Prisma {
 
   export type TicketMinAggregateInputType = {
     id?: true
+    accountId?: true
     ticket?: true
     createdAt?: true
     userId?: true
@@ -5361,6 +6097,7 @@ export namespace Prisma {
 
   export type TicketMaxAggregateInputType = {
     id?: true
+    accountId?: true
     ticket?: true
     createdAt?: true
     userId?: true
@@ -5368,6 +6105,7 @@ export namespace Prisma {
 
   export type TicketCountAggregateInputType = {
     id?: true
+    accountId?: true
     ticket?: true
     createdAt?: true
     userId?: true
@@ -5448,6 +6186,7 @@ export namespace Prisma {
 
   export type TicketGroupByOutputType = {
     id: string
+    accountId: string
     ticket: string
     createdAt: Date
     userId: string | null
@@ -5472,53 +6211,65 @@ export namespace Prisma {
 
   export type TicketSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     ticket?: boolean
     createdAt?: boolean
     userId?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Ticket$userArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     ticket?: boolean
     createdAt?: boolean
     userId?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Ticket$userArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     ticket?: boolean
     createdAt?: boolean
     userId?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Ticket$userArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectScalar = {
     id?: boolean
+    accountId?: boolean
     ticket?: boolean
     createdAt?: boolean
     userId?: boolean
   }
 
-  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ticket" | "createdAt" | "userId", ExtArgs["result"]["ticket"]>
+  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "ticket" | "createdAt" | "userId", ExtArgs["result"]["ticket"]>
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Ticket$userArgs<ExtArgs>
   }
   export type TicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Ticket$userArgs<ExtArgs>
   }
   export type TicketIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
     user?: boolean | Ticket$userArgs<ExtArgs>
   }
 
   export type $TicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Ticket"
     objects: {
+      account: Prisma.$AccountPayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      accountId: string
       ticket: string
       createdAt: Date
       userId: string | null
@@ -5916,6 +6667,7 @@ export namespace Prisma {
    */
   export interface Prisma__TicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends Ticket$userArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5947,6 +6699,7 @@ export namespace Prisma {
    */
   interface TicketFieldRefs {
     readonly id: FieldRef<"Ticket", 'String'>
+    readonly accountId: FieldRef<"Ticket", 'String'>
     readonly ticket: FieldRef<"Ticket", 'String'>
     readonly createdAt: FieldRef<"Ticket", 'DateTime'>
     readonly userId: FieldRef<"Ticket", 'String'>
@@ -6411,6 +7164,7 @@ export namespace Prisma {
 
   export type ConversationMessageMinAggregateOutputType = {
     id: number | null
+    tenantAccountId: string | null
     messageId: number | null
     conversationId: number | null
     inboxId: number | null
@@ -6422,6 +7176,7 @@ export namespace Prisma {
 
   export type ConversationMessageMaxAggregateOutputType = {
     id: number | null
+    tenantAccountId: string | null
     messageId: number | null
     conversationId: number | null
     inboxId: number | null
@@ -6433,6 +7188,7 @@ export namespace Prisma {
 
   export type ConversationMessageCountAggregateOutputType = {
     id: number
+    tenantAccountId: number
     messageId: number
     conversationId: number
     inboxId: number
@@ -6460,6 +7216,7 @@ export namespace Prisma {
 
   export type ConversationMessageMinAggregateInputType = {
     id?: true
+    tenantAccountId?: true
     messageId?: true
     conversationId?: true
     inboxId?: true
@@ -6471,6 +7228,7 @@ export namespace Prisma {
 
   export type ConversationMessageMaxAggregateInputType = {
     id?: true
+    tenantAccountId?: true
     messageId?: true
     conversationId?: true
     inboxId?: true
@@ -6482,6 +7240,7 @@ export namespace Prisma {
 
   export type ConversationMessageCountAggregateInputType = {
     id?: true
+    tenantAccountId?: true
     messageId?: true
     conversationId?: true
     inboxId?: true
@@ -6580,6 +7339,7 @@ export namespace Prisma {
 
   export type ConversationMessageGroupByOutputType = {
     id: number
+    tenantAccountId: string
     messageId: number
     conversationId: number
     inboxId: number
@@ -6610,6 +7370,7 @@ export namespace Prisma {
 
   export type ConversationMessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantAccountId?: boolean
     messageId?: boolean
     conversationId?: boolean
     inboxId?: boolean
@@ -6617,10 +7378,12 @@ export namespace Prisma {
     sender?: boolean
     content?: boolean
     createdAt?: boolean
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conversationMessage"]>
 
   export type ConversationMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantAccountId?: boolean
     messageId?: boolean
     conversationId?: boolean
     inboxId?: boolean
@@ -6628,10 +7391,12 @@ export namespace Prisma {
     sender?: boolean
     content?: boolean
     createdAt?: boolean
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conversationMessage"]>
 
   export type ConversationMessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantAccountId?: boolean
     messageId?: boolean
     conversationId?: boolean
     inboxId?: boolean
@@ -6639,10 +7404,12 @@ export namespace Prisma {
     sender?: boolean
     content?: boolean
     createdAt?: boolean
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conversationMessage"]>
 
   export type ConversationMessageSelectScalar = {
     id?: boolean
+    tenantAccountId?: boolean
     messageId?: boolean
     conversationId?: boolean
     inboxId?: boolean
@@ -6652,13 +7419,25 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type ConversationMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "messageId" | "conversationId" | "inboxId" | "conversationKey" | "sender" | "content" | "createdAt", ExtArgs["result"]["conversationMessage"]>
+  export type ConversationMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantAccountId" | "messageId" | "conversationId" | "inboxId" | "conversationKey" | "sender" | "content" | "createdAt", ExtArgs["result"]["conversationMessage"]>
+  export type ConversationMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type ConversationMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type ConversationMessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
+  }
 
   export type $ConversationMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ConversationMessage"
-    objects: {}
+    objects: {
+      tenantAccount: Prisma.$AccountPayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      tenantAccountId: string
       messageId: number
       conversationId: number
       inboxId: number
@@ -7060,6 +7839,7 @@ export namespace Prisma {
    */
   export interface Prisma__ConversationMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenantAccount<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7090,6 +7870,7 @@ export namespace Prisma {
    */
   interface ConversationMessageFieldRefs {
     readonly id: FieldRef<"ConversationMessage", 'Int'>
+    readonly tenantAccountId: FieldRef<"ConversationMessage", 'String'>
     readonly messageId: FieldRef<"ConversationMessage", 'Int'>
     readonly conversationId: FieldRef<"ConversationMessage", 'Int'>
     readonly inboxId: FieldRef<"ConversationMessage", 'Int'>
@@ -7114,6 +7895,10 @@ export namespace Prisma {
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
+    /**
      * Filter, which ConversationMessage to fetch.
      */
     where: ConversationMessageWhereUniqueInput
@@ -7132,6 +7917,10 @@ export namespace Prisma {
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
+    /**
      * Filter, which ConversationMessage to fetch.
      */
     where: ConversationMessageWhereUniqueInput
@@ -7149,6 +7938,10 @@ export namespace Prisma {
      * Omit specific fields from the ConversationMessage
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
     /**
      * Filter, which ConversationMessage to fetch.
      */
@@ -7198,6 +7991,10 @@ export namespace Prisma {
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
+    /**
      * Filter, which ConversationMessage to fetch.
      */
     where?: ConversationMessageWhereInput
@@ -7246,6 +8043,10 @@ export namespace Prisma {
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
+    /**
      * Filter, which ConversationMessages to fetch.
      */
     where?: ConversationMessageWhereInput
@@ -7289,6 +8090,10 @@ export namespace Prisma {
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
+    /**
      * The data needed to create a ConversationMessage.
      */
     data: XOR<ConversationMessageCreateInput, ConversationMessageUncheckedCreateInput>
@@ -7322,6 +8127,10 @@ export namespace Prisma {
      */
     data: ConversationMessageCreateManyInput | ConversationMessageCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7336,6 +8145,10 @@ export namespace Prisma {
      * Omit specific fields from the ConversationMessage
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
     /**
      * The data needed to update a ConversationMessage.
      */
@@ -7388,6 +8201,10 @@ export namespace Prisma {
      * Limit how many ConversationMessages to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7402,6 +8219,10 @@ export namespace Prisma {
      * Omit specific fields from the ConversationMessage
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
     /**
      * The filter to search for the ConversationMessage to update in case it exists.
      */
@@ -7428,6 +8249,10 @@ export namespace Prisma {
      * Omit specific fields from the ConversationMessage
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
     /**
      * Filter which ConversationMessage to delete.
      */
@@ -7460,6 +8285,10 @@ export namespace Prisma {
      * Omit specific fields from the ConversationMessage
      */
     omit?: ConversationMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
   }
 
 
@@ -7488,6 +8317,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentMinAggregateOutputType = {
+    tenantAccountId: string | null
     inboxId: number | null
     agentId: number | null
     lastAssignedAt: Date | null
@@ -7496,6 +8326,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentMaxAggregateOutputType = {
+    tenantAccountId: string | null
     inboxId: number | null
     agentId: number | null
     lastAssignedAt: Date | null
@@ -7504,6 +8335,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentCountAggregateOutputType = {
+    tenantAccountId: number
     inboxId: number
     agentId: number
     lastAssignedAt: number
@@ -7526,6 +8358,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentMinAggregateInputType = {
+    tenantAccountId?: true
     inboxId?: true
     agentId?: true
     lastAssignedAt?: true
@@ -7534,6 +8367,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentMaxAggregateInputType = {
+    tenantAccountId?: true
     inboxId?: true
     agentId?: true
     lastAssignedAt?: true
@@ -7542,6 +8376,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentCountAggregateInputType = {
+    tenantAccountId?: true
     inboxId?: true
     agentId?: true
     lastAssignedAt?: true
@@ -7637,6 +8472,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentGroupByOutputType = {
+    tenantAccountId: string
     inboxId: number
     agentId: number
     lastAssignedAt: Date | null
@@ -7664,30 +8500,37 @@ export namespace Prisma {
 
 
   export type AgentAssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    tenantAccountId?: boolean
     inboxId?: boolean
     agentId?: boolean
     lastAssignedAt?: boolean
     activeConversationId?: boolean
     availabilityBeforeBusy?: boolean
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentAssignment"]>
 
   export type AgentAssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    tenantAccountId?: boolean
     inboxId?: boolean
     agentId?: boolean
     lastAssignedAt?: boolean
     activeConversationId?: boolean
     availabilityBeforeBusy?: boolean
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentAssignment"]>
 
   export type AgentAssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    tenantAccountId?: boolean
     inboxId?: boolean
     agentId?: boolean
     lastAssignedAt?: boolean
     activeConversationId?: boolean
     availabilityBeforeBusy?: boolean
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentAssignment"]>
 
   export type AgentAssignmentSelectScalar = {
+    tenantAccountId?: boolean
     inboxId?: boolean
     agentId?: boolean
     lastAssignedAt?: boolean
@@ -7695,12 +8538,24 @@ export namespace Prisma {
     availabilityBeforeBusy?: boolean
   }
 
-  export type AgentAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"inboxId" | "agentId" | "lastAssignedAt" | "activeConversationId" | "availabilityBeforeBusy", ExtArgs["result"]["agentAssignment"]>
+  export type AgentAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"tenantAccountId" | "inboxId" | "agentId" | "lastAssignedAt" | "activeConversationId" | "availabilityBeforeBusy", ExtArgs["result"]["agentAssignment"]>
+  export type AgentAssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type AgentAssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type AgentAssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
+  }
 
   export type $AgentAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AgentAssignment"
-    objects: {}
+    objects: {
+      tenantAccount: Prisma.$AccountPayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
+      tenantAccountId: string
       inboxId: number
       agentId: number
       lastAssignedAt: Date | null
@@ -7789,8 +8644,8 @@ export namespace Prisma {
      * // Get first 10 AgentAssignments
      * const agentAssignments = await prisma.agentAssignment.findMany({ take: 10 })
      * 
-     * // Only select the `inboxId`
-     * const agentAssignmentWithInboxIdOnly = await prisma.agentAssignment.findMany({ select: { inboxId: true } })
+     * // Only select the `tenantAccountId`
+     * const agentAssignmentWithTenantAccountIdOnly = await prisma.agentAssignment.findMany({ select: { tenantAccountId: true } })
      * 
      */
     findMany<T extends AgentAssignmentFindManyArgs>(args?: SelectSubset<T, AgentAssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -7834,9 +8689,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many AgentAssignments and only return the `inboxId`
-     * const agentAssignmentWithInboxIdOnly = await prisma.agentAssignment.createManyAndReturn({
-     *   select: { inboxId: true },
+     * // Create many AgentAssignments and only return the `tenantAccountId`
+     * const agentAssignmentWithTenantAccountIdOnly = await prisma.agentAssignment.createManyAndReturn({
+     *   select: { tenantAccountId: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -7925,9 +8780,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more AgentAssignments and only return the `inboxId`
-     * const agentAssignmentWithInboxIdOnly = await prisma.agentAssignment.updateManyAndReturn({
-     *   select: { inboxId: true },
+     * // Update zero or more AgentAssignments and only return the `tenantAccountId`
+     * const agentAssignmentWithTenantAccountIdOnly = await prisma.agentAssignment.updateManyAndReturn({
+     *   select: { tenantAccountId: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8100,6 +8955,7 @@ export namespace Prisma {
    */
   export interface Prisma__AgentAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenantAccount<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8129,6 +8985,7 @@ export namespace Prisma {
    * Fields of the AgentAssignment model
    */
   interface AgentAssignmentFieldRefs {
+    readonly tenantAccountId: FieldRef<"AgentAssignment", 'String'>
     readonly inboxId: FieldRef<"AgentAssignment", 'Int'>
     readonly agentId: FieldRef<"AgentAssignment", 'Int'>
     readonly lastAssignedAt: FieldRef<"AgentAssignment", 'DateTime'>
@@ -8151,6 +9008,10 @@ export namespace Prisma {
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
+    /**
      * Filter, which AgentAssignment to fetch.
      */
     where: AgentAssignmentWhereUniqueInput
@@ -8169,6 +9030,10 @@ export namespace Prisma {
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
+    /**
      * Filter, which AgentAssignment to fetch.
      */
     where: AgentAssignmentWhereUniqueInput
@@ -8186,6 +9051,10 @@ export namespace Prisma {
      * Omit specific fields from the AgentAssignment
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
     /**
      * Filter, which AgentAssignment to fetch.
      */
@@ -8235,6 +9104,10 @@ export namespace Prisma {
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
+    /**
      * Filter, which AgentAssignment to fetch.
      */
     where?: AgentAssignmentWhereInput
@@ -8283,6 +9156,10 @@ export namespace Prisma {
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
+    /**
      * Filter, which AgentAssignments to fetch.
      */
     where?: AgentAssignmentWhereInput
@@ -8326,6 +9203,10 @@ export namespace Prisma {
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
+    /**
      * The data needed to create a AgentAssignment.
      */
     data: XOR<AgentAssignmentCreateInput, AgentAssignmentUncheckedCreateInput>
@@ -8359,6 +9240,10 @@ export namespace Prisma {
      */
     data: AgentAssignmentCreateManyInput | AgentAssignmentCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -8373,6 +9258,10 @@ export namespace Prisma {
      * Omit specific fields from the AgentAssignment
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
     /**
      * The data needed to update a AgentAssignment.
      */
@@ -8425,6 +9314,10 @@ export namespace Prisma {
      * Limit how many AgentAssignments to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -8439,6 +9332,10 @@ export namespace Prisma {
      * Omit specific fields from the AgentAssignment
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
     /**
      * The filter to search for the AgentAssignment to update in case it exists.
      */
@@ -8465,6 +9362,10 @@ export namespace Prisma {
      * Omit specific fields from the AgentAssignment
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
     /**
      * Filter which AgentAssignment to delete.
      */
@@ -8497,6 +9398,10 @@ export namespace Prisma {
      * Omit specific fields from the AgentAssignment
      */
     omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
   }
 
 
@@ -8530,6 +9435,7 @@ export namespace Prisma {
 
   export type HandoffRequestMinAggregateOutputType = {
     conversationKey: string | null
+    tenantAccountId: string | null
     conversationId: number | null
     accountId: number | null
     inboxId: number | null
@@ -8541,6 +9447,7 @@ export namespace Prisma {
 
   export type HandoffRequestMaxAggregateOutputType = {
     conversationKey: string | null
+    tenantAccountId: string | null
     conversationId: number | null
     accountId: number | null
     inboxId: number | null
@@ -8552,6 +9459,7 @@ export namespace Prisma {
 
   export type HandoffRequestCountAggregateOutputType = {
     conversationKey: number
+    tenantAccountId: number
     conversationId: number
     accountId: number
     inboxId: number
@@ -8581,6 +9489,7 @@ export namespace Prisma {
 
   export type HandoffRequestMinAggregateInputType = {
     conversationKey?: true
+    tenantAccountId?: true
     conversationId?: true
     accountId?: true
     inboxId?: true
@@ -8592,6 +9501,7 @@ export namespace Prisma {
 
   export type HandoffRequestMaxAggregateInputType = {
     conversationKey?: true
+    tenantAccountId?: true
     conversationId?: true
     accountId?: true
     inboxId?: true
@@ -8603,6 +9513,7 @@ export namespace Prisma {
 
   export type HandoffRequestCountAggregateInputType = {
     conversationKey?: true
+    tenantAccountId?: true
     conversationId?: true
     accountId?: true
     inboxId?: true
@@ -8701,6 +9612,7 @@ export namespace Prisma {
 
   export type HandoffRequestGroupByOutputType = {
     conversationKey: string
+    tenantAccountId: string
     conversationId: number
     accountId: number
     inboxId: number
@@ -8731,6 +9643,7 @@ export namespace Prisma {
 
   export type HandoffRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     conversationKey?: boolean
+    tenantAccountId?: boolean
     conversationId?: boolean
     accountId?: boolean
     inboxId?: boolean
@@ -8738,10 +9651,12 @@ export namespace Prisma {
     status?: boolean
     agentId?: boolean
     lastPositionNotified?: boolean
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["handoffRequest"]>
 
   export type HandoffRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     conversationKey?: boolean
+    tenantAccountId?: boolean
     conversationId?: boolean
     accountId?: boolean
     inboxId?: boolean
@@ -8749,10 +9664,12 @@ export namespace Prisma {
     status?: boolean
     agentId?: boolean
     lastPositionNotified?: boolean
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["handoffRequest"]>
 
   export type HandoffRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     conversationKey?: boolean
+    tenantAccountId?: boolean
     conversationId?: boolean
     accountId?: boolean
     inboxId?: boolean
@@ -8760,10 +9677,12 @@ export namespace Prisma {
     status?: boolean
     agentId?: boolean
     lastPositionNotified?: boolean
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["handoffRequest"]>
 
   export type HandoffRequestSelectScalar = {
     conversationKey?: boolean
+    tenantAccountId?: boolean
     conversationId?: boolean
     accountId?: boolean
     inboxId?: boolean
@@ -8773,13 +9692,25 @@ export namespace Prisma {
     lastPositionNotified?: boolean
   }
 
-  export type HandoffRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"conversationKey" | "conversationId" | "accountId" | "inboxId" | "requestedAt" | "status" | "agentId" | "lastPositionNotified", ExtArgs["result"]["handoffRequest"]>
+  export type HandoffRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"conversationKey" | "tenantAccountId" | "conversationId" | "accountId" | "inboxId" | "requestedAt" | "status" | "agentId" | "lastPositionNotified", ExtArgs["result"]["handoffRequest"]>
+  export type HandoffRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type HandoffRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type HandoffRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenantAccount?: boolean | AccountDefaultArgs<ExtArgs>
+  }
 
   export type $HandoffRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "HandoffRequest"
-    objects: {}
+    objects: {
+      tenantAccount: Prisma.$AccountPayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
       conversationKey: string
+      tenantAccountId: string
       conversationId: number
       accountId: number
       inboxId: number
@@ -9181,6 +10112,7 @@ export namespace Prisma {
    */
   export interface Prisma__HandoffRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenantAccount<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9211,6 +10143,7 @@ export namespace Prisma {
    */
   interface HandoffRequestFieldRefs {
     readonly conversationKey: FieldRef<"HandoffRequest", 'String'>
+    readonly tenantAccountId: FieldRef<"HandoffRequest", 'String'>
     readonly conversationId: FieldRef<"HandoffRequest", 'Int'>
     readonly accountId: FieldRef<"HandoffRequest", 'Int'>
     readonly inboxId: FieldRef<"HandoffRequest", 'Int'>
@@ -9235,6 +10168,10 @@ export namespace Prisma {
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
+    /**
      * Filter, which HandoffRequest to fetch.
      */
     where: HandoffRequestWhereUniqueInput
@@ -9253,6 +10190,10 @@ export namespace Prisma {
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
+    /**
      * Filter, which HandoffRequest to fetch.
      */
     where: HandoffRequestWhereUniqueInput
@@ -9270,6 +10211,10 @@ export namespace Prisma {
      * Omit specific fields from the HandoffRequest
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
     /**
      * Filter, which HandoffRequest to fetch.
      */
@@ -9319,6 +10264,10 @@ export namespace Prisma {
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
+    /**
      * Filter, which HandoffRequest to fetch.
      */
     where?: HandoffRequestWhereInput
@@ -9367,6 +10316,10 @@ export namespace Prisma {
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
+    /**
      * Filter, which HandoffRequests to fetch.
      */
     where?: HandoffRequestWhereInput
@@ -9410,6 +10363,10 @@ export namespace Prisma {
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
+    /**
      * The data needed to create a HandoffRequest.
      */
     data: XOR<HandoffRequestCreateInput, HandoffRequestUncheckedCreateInput>
@@ -9443,6 +10400,10 @@ export namespace Prisma {
      */
     data: HandoffRequestCreateManyInput | HandoffRequestCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9457,6 +10418,10 @@ export namespace Prisma {
      * Omit specific fields from the HandoffRequest
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
     /**
      * The data needed to update a HandoffRequest.
      */
@@ -9509,6 +10474,10 @@ export namespace Prisma {
      * Limit how many HandoffRequests to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9523,6 +10492,10 @@ export namespace Prisma {
      * Omit specific fields from the HandoffRequest
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
     /**
      * The filter to search for the HandoffRequest to update in case it exists.
      */
@@ -9549,6 +10522,10 @@ export namespace Prisma {
      * Omit specific fields from the HandoffRequest
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
     /**
      * Filter which HandoffRequest to delete.
      */
@@ -9581,6 +10558,10 @@ export namespace Prisma {
      * Omit specific fields from the HandoffRequest
      */
     omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
   }
 
 
@@ -9610,6 +10591,7 @@ export namespace Prisma {
 
   export type ScrapeJobMinAggregateOutputType = {
     id: string | null
+    accountId: string | null
     script: string | null
     status: $Enums.ScrapeJobStatus | null
     cadence: $Enums.ScrapeJobCadence | null
@@ -9628,6 +10610,7 @@ export namespace Prisma {
 
   export type ScrapeJobMaxAggregateOutputType = {
     id: string | null
+    accountId: string | null
     script: string | null
     status: $Enums.ScrapeJobStatus | null
     cadence: $Enums.ScrapeJobCadence | null
@@ -9646,6 +10629,7 @@ export namespace Prisma {
 
   export type ScrapeJobCountAggregateOutputType = {
     id: number
+    accountId: number
     script: number
     args: number
     status: number
@@ -9679,6 +10663,7 @@ export namespace Prisma {
 
   export type ScrapeJobMinAggregateInputType = {
     id?: true
+    accountId?: true
     script?: true
     status?: true
     cadence?: true
@@ -9697,6 +10682,7 @@ export namespace Prisma {
 
   export type ScrapeJobMaxAggregateInputType = {
     id?: true
+    accountId?: true
     script?: true
     status?: true
     cadence?: true
@@ -9715,6 +10701,7 @@ export namespace Prisma {
 
   export type ScrapeJobCountAggregateInputType = {
     id?: true
+    accountId?: true
     script?: true
     args?: true
     status?: true
@@ -9821,6 +10808,7 @@ export namespace Prisma {
 
   export type ScrapeJobGroupByOutputType = {
     id: string
+    accountId: string
     script: string
     args: JsonValue | null
     status: $Enums.ScrapeJobStatus
@@ -9859,6 +10847,7 @@ export namespace Prisma {
 
   export type ScrapeJobSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     script?: boolean
     args?: boolean
     status?: boolean
@@ -9874,10 +10863,14 @@ export namespace Prisma {
     documentsIngested?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    logs?: boolean | ScrapeJob$logsArgs<ExtArgs>
+    _count?: boolean | ScrapeJobCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["scrapeJob"]>
 
   export type ScrapeJobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     script?: boolean
     args?: boolean
     status?: boolean
@@ -9893,10 +10886,12 @@ export namespace Prisma {
     documentsIngested?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["scrapeJob"]>
 
   export type ScrapeJobSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
     script?: boolean
     args?: boolean
     status?: boolean
@@ -9912,10 +10907,12 @@ export namespace Prisma {
     documentsIngested?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["scrapeJob"]>
 
   export type ScrapeJobSelectScalar = {
     id?: boolean
+    accountId?: boolean
     script?: boolean
     args?: boolean
     status?: boolean
@@ -9933,13 +10930,28 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "args" | "status" | "cadence" | "autoRunManualWithNext" | "paused" | "progress" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "durationSeconds" | "documentsIngested" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
+  export type ScrapeJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "script" | "args" | "status" | "cadence" | "autoRunManualWithNext" | "paused" | "progress" | "startedAt" | "finishedAt" | "logPath" | "nextRunAt" | "durationSeconds" | "documentsIngested" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJob"]>
+  export type ScrapeJobInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    logs?: boolean | ScrapeJob$logsArgs<ExtArgs>
+    _count?: boolean | ScrapeJobCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ScrapeJobIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type ScrapeJobIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
 
   export type $ScrapeJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ScrapeJob"
-    objects: {}
+    objects: {
+      account: Prisma.$AccountPayload<ExtArgs>
+      logs: Prisma.$ScrapeJobLogPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      accountId: string
       script: string
       args: Prisma.JsonValue | null
       status: $Enums.ScrapeJobStatus
@@ -10349,6 +11361,8 @@ export namespace Prisma {
    */
   export interface Prisma__ScrapeJobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    logs<T extends ScrapeJob$logsArgs<ExtArgs> = {}>(args?: Subset<T, ScrapeJob$logsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10379,6 +11393,7 @@ export namespace Prisma {
    */
   interface ScrapeJobFieldRefs {
     readonly id: FieldRef<"ScrapeJob", 'String'>
+    readonly accountId: FieldRef<"ScrapeJob", 'String'>
     readonly script: FieldRef<"ScrapeJob", 'String'>
     readonly args: FieldRef<"ScrapeJob", 'Json'>
     readonly status: FieldRef<"ScrapeJob", 'ScrapeJobStatus'>
@@ -10411,6 +11426,10 @@ export namespace Prisma {
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
+    /**
      * Filter, which ScrapeJob to fetch.
      */
     where: ScrapeJobWhereUniqueInput
@@ -10429,6 +11448,10 @@ export namespace Prisma {
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
+    /**
      * Filter, which ScrapeJob to fetch.
      */
     where: ScrapeJobWhereUniqueInput
@@ -10446,6 +11469,10 @@ export namespace Prisma {
      * Omit specific fields from the ScrapeJob
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
     /**
      * Filter, which ScrapeJob to fetch.
      */
@@ -10495,6 +11522,10 @@ export namespace Prisma {
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
+    /**
      * Filter, which ScrapeJob to fetch.
      */
     where?: ScrapeJobWhereInput
@@ -10543,6 +11574,10 @@ export namespace Prisma {
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
+    /**
      * Filter, which ScrapeJobs to fetch.
      */
     where?: ScrapeJobWhereInput
@@ -10586,6 +11621,10 @@ export namespace Prisma {
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
+    /**
      * The data needed to create a ScrapeJob.
      */
     data: XOR<ScrapeJobCreateInput, ScrapeJobUncheckedCreateInput>
@@ -10619,6 +11658,10 @@ export namespace Prisma {
      */
     data: ScrapeJobCreateManyInput | ScrapeJobCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10633,6 +11676,10 @@ export namespace Prisma {
      * Omit specific fields from the ScrapeJob
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
     /**
      * The data needed to update a ScrapeJob.
      */
@@ -10685,6 +11732,10 @@ export namespace Prisma {
      * Limit how many ScrapeJobs to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10699,6 +11750,10 @@ export namespace Prisma {
      * Omit specific fields from the ScrapeJob
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
     /**
      * The filter to search for the ScrapeJob to update in case it exists.
      */
@@ -10726,6 +11781,10 @@ export namespace Prisma {
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
+    /**
      * Filter which ScrapeJob to delete.
      */
     where: ScrapeJobWhereUniqueInput
@@ -10746,6 +11805,30 @@ export namespace Prisma {
   }
 
   /**
+   * ScrapeJob.logs
+   */
+  export type ScrapeJob$logsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    where?: ScrapeJobLogWhereInput
+    orderBy?: ScrapeJobLogOrderByWithRelationInput | ScrapeJobLogOrderByWithRelationInput[]
+    cursor?: ScrapeJobLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScrapeJobLogScalarFieldEnum | ScrapeJobLogScalarFieldEnum[]
+  }
+
+  /**
    * ScrapeJob without action
    */
   export type ScrapeJobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10757,6 +11840,2332 @@ export namespace Prisma {
      * Omit specific fields from the ScrapeJob
      */
     omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ScrapeJobLog
+   */
+
+  export type AggregateScrapeJobLog = {
+    _count: ScrapeJobLogCountAggregateOutputType | null
+    _avg: ScrapeJobLogAvgAggregateOutputType | null
+    _sum: ScrapeJobLogSumAggregateOutputType | null
+    _min: ScrapeJobLogMinAggregateOutputType | null
+    _max: ScrapeJobLogMaxAggregateOutputType | null
+  }
+
+  export type ScrapeJobLogAvgAggregateOutputType = {
+    byteSize: number | null
+  }
+
+  export type ScrapeJobLogSumAggregateOutputType = {
+    byteSize: number | null
+  }
+
+  export type ScrapeJobLogMinAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    jobId: string | null
+    storageKey: string | null
+    startedAt: Date | null
+    byteSize: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScrapeJobLogMaxAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    jobId: string | null
+    storageKey: string | null
+    startedAt: Date | null
+    byteSize: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScrapeJobLogCountAggregateOutputType = {
+    id: number
+    accountId: number
+    jobId: number
+    storageKey: number
+    startedAt: number
+    byteSize: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ScrapeJobLogAvgAggregateInputType = {
+    byteSize?: true
+  }
+
+  export type ScrapeJobLogSumAggregateInputType = {
+    byteSize?: true
+  }
+
+  export type ScrapeJobLogMinAggregateInputType = {
+    id?: true
+    accountId?: true
+    jobId?: true
+    storageKey?: true
+    startedAt?: true
+    byteSize?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScrapeJobLogMaxAggregateInputType = {
+    id?: true
+    accountId?: true
+    jobId?: true
+    storageKey?: true
+    startedAt?: true
+    byteSize?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScrapeJobLogCountAggregateInputType = {
+    id?: true
+    accountId?: true
+    jobId?: true
+    storageKey?: true
+    startedAt?: true
+    byteSize?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ScrapeJobLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScrapeJobLog to aggregate.
+     */
+    where?: ScrapeJobLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScrapeJobLogs to fetch.
+     */
+    orderBy?: ScrapeJobLogOrderByWithRelationInput | ScrapeJobLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScrapeJobLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScrapeJobLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScrapeJobLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScrapeJobLogs
+    **/
+    _count?: true | ScrapeJobLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ScrapeJobLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScrapeJobLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScrapeJobLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScrapeJobLogMaxAggregateInputType
+  }
+
+  export type GetScrapeJobLogAggregateType<T extends ScrapeJobLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateScrapeJobLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScrapeJobLog[P]>
+      : GetScalarType<T[P], AggregateScrapeJobLog[P]>
+  }
+
+
+
+
+  export type ScrapeJobLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScrapeJobLogWhereInput
+    orderBy?: ScrapeJobLogOrderByWithAggregationInput | ScrapeJobLogOrderByWithAggregationInput[]
+    by: ScrapeJobLogScalarFieldEnum[] | ScrapeJobLogScalarFieldEnum
+    having?: ScrapeJobLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScrapeJobLogCountAggregateInputType | true
+    _avg?: ScrapeJobLogAvgAggregateInputType
+    _sum?: ScrapeJobLogSumAggregateInputType
+    _min?: ScrapeJobLogMinAggregateInputType
+    _max?: ScrapeJobLogMaxAggregateInputType
+  }
+
+  export type ScrapeJobLogGroupByOutputType = {
+    id: string
+    accountId: string
+    jobId: string
+    storageKey: string
+    startedAt: Date
+    byteSize: number
+    createdAt: Date
+    updatedAt: Date
+    _count: ScrapeJobLogCountAggregateOutputType | null
+    _avg: ScrapeJobLogAvgAggregateOutputType | null
+    _sum: ScrapeJobLogSumAggregateOutputType | null
+    _min: ScrapeJobLogMinAggregateOutputType | null
+    _max: ScrapeJobLogMaxAggregateOutputType | null
+  }
+
+  type GetScrapeJobLogGroupByPayload<T extends ScrapeJobLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScrapeJobLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScrapeJobLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScrapeJobLogGroupByOutputType[P]>
+            : GetScalarType<T[P], ScrapeJobLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScrapeJobLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    jobId?: boolean
+    storageKey?: boolean
+    startedAt?: boolean
+    byteSize?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    job?: boolean | ScrapeJobDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scrapeJobLog"]>
+
+  export type ScrapeJobLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    jobId?: boolean
+    storageKey?: boolean
+    startedAt?: boolean
+    byteSize?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    job?: boolean | ScrapeJobDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scrapeJobLog"]>
+
+  export type ScrapeJobLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    jobId?: boolean
+    storageKey?: boolean
+    startedAt?: boolean
+    byteSize?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    job?: boolean | ScrapeJobDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scrapeJobLog"]>
+
+  export type ScrapeJobLogSelectScalar = {
+    id?: boolean
+    accountId?: boolean
+    jobId?: boolean
+    storageKey?: boolean
+    startedAt?: boolean
+    byteSize?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ScrapeJobLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "jobId" | "storageKey" | "startedAt" | "byteSize" | "createdAt" | "updatedAt", ExtArgs["result"]["scrapeJobLog"]>
+  export type ScrapeJobLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    job?: boolean | ScrapeJobDefaultArgs<ExtArgs>
+  }
+  export type ScrapeJobLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    job?: boolean | ScrapeJobDefaultArgs<ExtArgs>
+  }
+  export type ScrapeJobLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    job?: boolean | ScrapeJobDefaultArgs<ExtArgs>
+  }
+
+  export type $ScrapeJobLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScrapeJobLog"
+    objects: {
+      account: Prisma.$AccountPayload<ExtArgs>
+      job: Prisma.$ScrapeJobPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      accountId: string
+      jobId: string
+      storageKey: string
+      startedAt: Date
+      byteSize: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["scrapeJobLog"]>
+    composites: {}
+  }
+
+  type ScrapeJobLogGetPayload<S extends boolean | null | undefined | ScrapeJobLogDefaultArgs> = $Result.GetResult<Prisma.$ScrapeJobLogPayload, S>
+
+  type ScrapeJobLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScrapeJobLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScrapeJobLogCountAggregateInputType | true
+    }
+
+  export interface ScrapeJobLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScrapeJobLog'], meta: { name: 'ScrapeJobLog' } }
+    /**
+     * Find zero or one ScrapeJobLog that matches the filter.
+     * @param {ScrapeJobLogFindUniqueArgs} args - Arguments to find a ScrapeJobLog
+     * @example
+     * // Get one ScrapeJobLog
+     * const scrapeJobLog = await prisma.scrapeJobLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScrapeJobLogFindUniqueArgs>(args: SelectSubset<T, ScrapeJobLogFindUniqueArgs<ExtArgs>>): Prisma__ScrapeJobLogClient<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ScrapeJobLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScrapeJobLogFindUniqueOrThrowArgs} args - Arguments to find a ScrapeJobLog
+     * @example
+     * // Get one ScrapeJobLog
+     * const scrapeJobLog = await prisma.scrapeJobLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScrapeJobLogFindUniqueOrThrowArgs>(args: SelectSubset<T, ScrapeJobLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScrapeJobLogClient<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScrapeJobLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobLogFindFirstArgs} args - Arguments to find a ScrapeJobLog
+     * @example
+     * // Get one ScrapeJobLog
+     * const scrapeJobLog = await prisma.scrapeJobLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScrapeJobLogFindFirstArgs>(args?: SelectSubset<T, ScrapeJobLogFindFirstArgs<ExtArgs>>): Prisma__ScrapeJobLogClient<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScrapeJobLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobLogFindFirstOrThrowArgs} args - Arguments to find a ScrapeJobLog
+     * @example
+     * // Get one ScrapeJobLog
+     * const scrapeJobLog = await prisma.scrapeJobLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScrapeJobLogFindFirstOrThrowArgs>(args?: SelectSubset<T, ScrapeJobLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScrapeJobLogClient<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ScrapeJobLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScrapeJobLogs
+     * const scrapeJobLogs = await prisma.scrapeJobLog.findMany()
+     * 
+     * // Get first 10 ScrapeJobLogs
+     * const scrapeJobLogs = await prisma.scrapeJobLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scrapeJobLogWithIdOnly = await prisma.scrapeJobLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScrapeJobLogFindManyArgs>(args?: SelectSubset<T, ScrapeJobLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ScrapeJobLog.
+     * @param {ScrapeJobLogCreateArgs} args - Arguments to create a ScrapeJobLog.
+     * @example
+     * // Create one ScrapeJobLog
+     * const ScrapeJobLog = await prisma.scrapeJobLog.create({
+     *   data: {
+     *     // ... data to create a ScrapeJobLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScrapeJobLogCreateArgs>(args: SelectSubset<T, ScrapeJobLogCreateArgs<ExtArgs>>): Prisma__ScrapeJobLogClient<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ScrapeJobLogs.
+     * @param {ScrapeJobLogCreateManyArgs} args - Arguments to create many ScrapeJobLogs.
+     * @example
+     * // Create many ScrapeJobLogs
+     * const scrapeJobLog = await prisma.scrapeJobLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScrapeJobLogCreateManyArgs>(args?: SelectSubset<T, ScrapeJobLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScrapeJobLogs and returns the data saved in the database.
+     * @param {ScrapeJobLogCreateManyAndReturnArgs} args - Arguments to create many ScrapeJobLogs.
+     * @example
+     * // Create many ScrapeJobLogs
+     * const scrapeJobLog = await prisma.scrapeJobLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScrapeJobLogs and only return the `id`
+     * const scrapeJobLogWithIdOnly = await prisma.scrapeJobLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScrapeJobLogCreateManyAndReturnArgs>(args?: SelectSubset<T, ScrapeJobLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ScrapeJobLog.
+     * @param {ScrapeJobLogDeleteArgs} args - Arguments to delete one ScrapeJobLog.
+     * @example
+     * // Delete one ScrapeJobLog
+     * const ScrapeJobLog = await prisma.scrapeJobLog.delete({
+     *   where: {
+     *     // ... filter to delete one ScrapeJobLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScrapeJobLogDeleteArgs>(args: SelectSubset<T, ScrapeJobLogDeleteArgs<ExtArgs>>): Prisma__ScrapeJobLogClient<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ScrapeJobLog.
+     * @param {ScrapeJobLogUpdateArgs} args - Arguments to update one ScrapeJobLog.
+     * @example
+     * // Update one ScrapeJobLog
+     * const scrapeJobLog = await prisma.scrapeJobLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScrapeJobLogUpdateArgs>(args: SelectSubset<T, ScrapeJobLogUpdateArgs<ExtArgs>>): Prisma__ScrapeJobLogClient<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ScrapeJobLogs.
+     * @param {ScrapeJobLogDeleteManyArgs} args - Arguments to filter ScrapeJobLogs to delete.
+     * @example
+     * // Delete a few ScrapeJobLogs
+     * const { count } = await prisma.scrapeJobLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScrapeJobLogDeleteManyArgs>(args?: SelectSubset<T, ScrapeJobLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScrapeJobLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScrapeJobLogs
+     * const scrapeJobLog = await prisma.scrapeJobLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScrapeJobLogUpdateManyArgs>(args: SelectSubset<T, ScrapeJobLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScrapeJobLogs and returns the data updated in the database.
+     * @param {ScrapeJobLogUpdateManyAndReturnArgs} args - Arguments to update many ScrapeJobLogs.
+     * @example
+     * // Update many ScrapeJobLogs
+     * const scrapeJobLog = await prisma.scrapeJobLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ScrapeJobLogs and only return the `id`
+     * const scrapeJobLogWithIdOnly = await prisma.scrapeJobLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScrapeJobLogUpdateManyAndReturnArgs>(args: SelectSubset<T, ScrapeJobLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ScrapeJobLog.
+     * @param {ScrapeJobLogUpsertArgs} args - Arguments to update or create a ScrapeJobLog.
+     * @example
+     * // Update or create a ScrapeJobLog
+     * const scrapeJobLog = await prisma.scrapeJobLog.upsert({
+     *   create: {
+     *     // ... data to create a ScrapeJobLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScrapeJobLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScrapeJobLogUpsertArgs>(args: SelectSubset<T, ScrapeJobLogUpsertArgs<ExtArgs>>): Prisma__ScrapeJobLogClient<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ScrapeJobLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobLogCountArgs} args - Arguments to filter ScrapeJobLogs to count.
+     * @example
+     * // Count the number of ScrapeJobLogs
+     * const count = await prisma.scrapeJobLog.count({
+     *   where: {
+     *     // ... the filter for the ScrapeJobLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScrapeJobLogCountArgs>(
+      args?: Subset<T, ScrapeJobLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScrapeJobLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScrapeJobLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScrapeJobLogAggregateArgs>(args: Subset<T, ScrapeJobLogAggregateArgs>): Prisma.PrismaPromise<GetScrapeJobLogAggregateType<T>>
+
+    /**
+     * Group by ScrapeJobLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScrapeJobLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScrapeJobLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScrapeJobLogGroupByArgs['orderBy'] }
+        : { orderBy?: ScrapeJobLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScrapeJobLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScrapeJobLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScrapeJobLog model
+   */
+  readonly fields: ScrapeJobLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScrapeJobLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScrapeJobLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    job<T extends ScrapeJobDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ScrapeJobDefaultArgs<ExtArgs>>): Prisma__ScrapeJobClient<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScrapeJobLog model
+   */
+  interface ScrapeJobLogFieldRefs {
+    readonly id: FieldRef<"ScrapeJobLog", 'String'>
+    readonly accountId: FieldRef<"ScrapeJobLog", 'String'>
+    readonly jobId: FieldRef<"ScrapeJobLog", 'String'>
+    readonly storageKey: FieldRef<"ScrapeJobLog", 'String'>
+    readonly startedAt: FieldRef<"ScrapeJobLog", 'DateTime'>
+    readonly byteSize: FieldRef<"ScrapeJobLog", 'Int'>
+    readonly createdAt: FieldRef<"ScrapeJobLog", 'DateTime'>
+    readonly updatedAt: FieldRef<"ScrapeJobLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScrapeJobLog findUnique
+   */
+  export type ScrapeJobLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJobLog to fetch.
+     */
+    where: ScrapeJobLogWhereUniqueInput
+  }
+
+  /**
+   * ScrapeJobLog findUniqueOrThrow
+   */
+  export type ScrapeJobLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJobLog to fetch.
+     */
+    where: ScrapeJobLogWhereUniqueInput
+  }
+
+  /**
+   * ScrapeJobLog findFirst
+   */
+  export type ScrapeJobLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJobLog to fetch.
+     */
+    where?: ScrapeJobLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScrapeJobLogs to fetch.
+     */
+    orderBy?: ScrapeJobLogOrderByWithRelationInput | ScrapeJobLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScrapeJobLogs.
+     */
+    cursor?: ScrapeJobLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScrapeJobLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScrapeJobLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScrapeJobLogs.
+     */
+    distinct?: ScrapeJobLogScalarFieldEnum | ScrapeJobLogScalarFieldEnum[]
+  }
+
+  /**
+   * ScrapeJobLog findFirstOrThrow
+   */
+  export type ScrapeJobLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJobLog to fetch.
+     */
+    where?: ScrapeJobLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScrapeJobLogs to fetch.
+     */
+    orderBy?: ScrapeJobLogOrderByWithRelationInput | ScrapeJobLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScrapeJobLogs.
+     */
+    cursor?: ScrapeJobLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScrapeJobLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScrapeJobLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScrapeJobLogs.
+     */
+    distinct?: ScrapeJobLogScalarFieldEnum | ScrapeJobLogScalarFieldEnum[]
+  }
+
+  /**
+   * ScrapeJobLog findMany
+   */
+  export type ScrapeJobLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ScrapeJobLogs to fetch.
+     */
+    where?: ScrapeJobLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScrapeJobLogs to fetch.
+     */
+    orderBy?: ScrapeJobLogOrderByWithRelationInput | ScrapeJobLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScrapeJobLogs.
+     */
+    cursor?: ScrapeJobLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScrapeJobLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScrapeJobLogs.
+     */
+    skip?: number
+    distinct?: ScrapeJobLogScalarFieldEnum | ScrapeJobLogScalarFieldEnum[]
+  }
+
+  /**
+   * ScrapeJobLog create
+   */
+  export type ScrapeJobLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ScrapeJobLog.
+     */
+    data: XOR<ScrapeJobLogCreateInput, ScrapeJobLogUncheckedCreateInput>
+  }
+
+  /**
+   * ScrapeJobLog createMany
+   */
+  export type ScrapeJobLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScrapeJobLogs.
+     */
+    data: ScrapeJobLogCreateManyInput | ScrapeJobLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScrapeJobLog createManyAndReturn
+   */
+  export type ScrapeJobLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many ScrapeJobLogs.
+     */
+    data: ScrapeJobLogCreateManyInput | ScrapeJobLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScrapeJobLog update
+   */
+  export type ScrapeJobLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ScrapeJobLog.
+     */
+    data: XOR<ScrapeJobLogUpdateInput, ScrapeJobLogUncheckedUpdateInput>
+    /**
+     * Choose, which ScrapeJobLog to update.
+     */
+    where: ScrapeJobLogWhereUniqueInput
+  }
+
+  /**
+   * ScrapeJobLog updateMany
+   */
+  export type ScrapeJobLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScrapeJobLogs.
+     */
+    data: XOR<ScrapeJobLogUpdateManyMutationInput, ScrapeJobLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ScrapeJobLogs to update
+     */
+    where?: ScrapeJobLogWhereInput
+    /**
+     * Limit how many ScrapeJobLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScrapeJobLog updateManyAndReturn
+   */
+  export type ScrapeJobLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * The data used to update ScrapeJobLogs.
+     */
+    data: XOR<ScrapeJobLogUpdateManyMutationInput, ScrapeJobLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ScrapeJobLogs to update
+     */
+    where?: ScrapeJobLogWhereInput
+    /**
+     * Limit how many ScrapeJobLogs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScrapeJobLog upsert
+   */
+  export type ScrapeJobLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ScrapeJobLog to update in case it exists.
+     */
+    where: ScrapeJobLogWhereUniqueInput
+    /**
+     * In case the ScrapeJobLog found by the `where` argument doesn't exist, create a new ScrapeJobLog with this data.
+     */
+    create: XOR<ScrapeJobLogCreateInput, ScrapeJobLogUncheckedCreateInput>
+    /**
+     * In case the ScrapeJobLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScrapeJobLogUpdateInput, ScrapeJobLogUncheckedUpdateInput>
+  }
+
+  /**
+   * ScrapeJobLog delete
+   */
+  export type ScrapeJobLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    /**
+     * Filter which ScrapeJobLog to delete.
+     */
+    where: ScrapeJobLogWhereUniqueInput
+  }
+
+  /**
+   * ScrapeJobLog deleteMany
+   */
+  export type ScrapeJobLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScrapeJobLogs to delete
+     */
+    where?: ScrapeJobLogWhereInput
+    /**
+     * Limit how many ScrapeJobLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScrapeJobLog without action
+   */
+  export type ScrapeJobLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model KnowledgeDocument
+   */
+
+  export type AggregateKnowledgeDocument = {
+    _count: KnowledgeDocumentCountAggregateOutputType | null
+    _avg: KnowledgeDocumentAvgAggregateOutputType | null
+    _sum: KnowledgeDocumentSumAggregateOutputType | null
+    _min: KnowledgeDocumentMinAggregateOutputType | null
+    _max: KnowledgeDocumentMaxAggregateOutputType | null
+  }
+
+  export type KnowledgeDocumentAvgAggregateOutputType = {
+    byteSize: number | null
+  }
+
+  export type KnowledgeDocumentSumAggregateOutputType = {
+    byteSize: number | null
+  }
+
+  export type KnowledgeDocumentMinAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    kind: $Enums.KnowledgeDocumentKind | null
+    name: string | null
+    storageKey: string | null
+    mimeType: string | null
+    byteSize: number | null
+    sourceCreatedAt: Date | null
+    sourceModifiedAt: Date | null
+    sourceJobId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type KnowledgeDocumentMaxAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    kind: $Enums.KnowledgeDocumentKind | null
+    name: string | null
+    storageKey: string | null
+    mimeType: string | null
+    byteSize: number | null
+    sourceCreatedAt: Date | null
+    sourceModifiedAt: Date | null
+    sourceJobId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type KnowledgeDocumentCountAggregateOutputType = {
+    id: number
+    accountId: number
+    kind: number
+    name: number
+    storageKey: number
+    mimeType: number
+    byteSize: number
+    sourceCreatedAt: number
+    sourceModifiedAt: number
+    sourceJobId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type KnowledgeDocumentAvgAggregateInputType = {
+    byteSize?: true
+  }
+
+  export type KnowledgeDocumentSumAggregateInputType = {
+    byteSize?: true
+  }
+
+  export type KnowledgeDocumentMinAggregateInputType = {
+    id?: true
+    accountId?: true
+    kind?: true
+    name?: true
+    storageKey?: true
+    mimeType?: true
+    byteSize?: true
+    sourceCreatedAt?: true
+    sourceModifiedAt?: true
+    sourceJobId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type KnowledgeDocumentMaxAggregateInputType = {
+    id?: true
+    accountId?: true
+    kind?: true
+    name?: true
+    storageKey?: true
+    mimeType?: true
+    byteSize?: true
+    sourceCreatedAt?: true
+    sourceModifiedAt?: true
+    sourceJobId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type KnowledgeDocumentCountAggregateInputType = {
+    id?: true
+    accountId?: true
+    kind?: true
+    name?: true
+    storageKey?: true
+    mimeType?: true
+    byteSize?: true
+    sourceCreatedAt?: true
+    sourceModifiedAt?: true
+    sourceJobId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type KnowledgeDocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KnowledgeDocument to aggregate.
+     */
+    where?: KnowledgeDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KnowledgeDocuments to fetch.
+     */
+    orderBy?: KnowledgeDocumentOrderByWithRelationInput | KnowledgeDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KnowledgeDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KnowledgeDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KnowledgeDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KnowledgeDocuments
+    **/
+    _count?: true | KnowledgeDocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KnowledgeDocumentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KnowledgeDocumentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KnowledgeDocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KnowledgeDocumentMaxAggregateInputType
+  }
+
+  export type GetKnowledgeDocumentAggregateType<T extends KnowledgeDocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateKnowledgeDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKnowledgeDocument[P]>
+      : GetScalarType<T[P], AggregateKnowledgeDocument[P]>
+  }
+
+
+
+
+  export type KnowledgeDocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KnowledgeDocumentWhereInput
+    orderBy?: KnowledgeDocumentOrderByWithAggregationInput | KnowledgeDocumentOrderByWithAggregationInput[]
+    by: KnowledgeDocumentScalarFieldEnum[] | KnowledgeDocumentScalarFieldEnum
+    having?: KnowledgeDocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KnowledgeDocumentCountAggregateInputType | true
+    _avg?: KnowledgeDocumentAvgAggregateInputType
+    _sum?: KnowledgeDocumentSumAggregateInputType
+    _min?: KnowledgeDocumentMinAggregateInputType
+    _max?: KnowledgeDocumentMaxAggregateInputType
+  }
+
+  export type KnowledgeDocumentGroupByOutputType = {
+    id: string
+    accountId: string
+    kind: $Enums.KnowledgeDocumentKind
+    name: string
+    storageKey: string
+    mimeType: string
+    byteSize: number
+    sourceCreatedAt: Date
+    sourceModifiedAt: Date
+    sourceJobId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: KnowledgeDocumentCountAggregateOutputType | null
+    _avg: KnowledgeDocumentAvgAggregateOutputType | null
+    _sum: KnowledgeDocumentSumAggregateOutputType | null
+    _min: KnowledgeDocumentMinAggregateOutputType | null
+    _max: KnowledgeDocumentMaxAggregateOutputType | null
+  }
+
+  type GetKnowledgeDocumentGroupByPayload<T extends KnowledgeDocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KnowledgeDocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KnowledgeDocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KnowledgeDocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], KnowledgeDocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KnowledgeDocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    kind?: boolean
+    name?: boolean
+    storageKey?: boolean
+    mimeType?: boolean
+    byteSize?: boolean
+    sourceCreatedAt?: boolean
+    sourceModifiedAt?: boolean
+    sourceJobId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["knowledgeDocument"]>
+
+  export type KnowledgeDocumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    kind?: boolean
+    name?: boolean
+    storageKey?: boolean
+    mimeType?: boolean
+    byteSize?: boolean
+    sourceCreatedAt?: boolean
+    sourceModifiedAt?: boolean
+    sourceJobId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["knowledgeDocument"]>
+
+  export type KnowledgeDocumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    kind?: boolean
+    name?: boolean
+    storageKey?: boolean
+    mimeType?: boolean
+    byteSize?: boolean
+    sourceCreatedAt?: boolean
+    sourceModifiedAt?: boolean
+    sourceJobId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["knowledgeDocument"]>
+
+  export type KnowledgeDocumentSelectScalar = {
+    id?: boolean
+    accountId?: boolean
+    kind?: boolean
+    name?: boolean
+    storageKey?: boolean
+    mimeType?: boolean
+    byteSize?: boolean
+    sourceCreatedAt?: boolean
+    sourceModifiedAt?: boolean
+    sourceJobId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type KnowledgeDocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "kind" | "name" | "storageKey" | "mimeType" | "byteSize" | "sourceCreatedAt" | "sourceModifiedAt" | "sourceJobId" | "createdAt" | "updatedAt", ExtArgs["result"]["knowledgeDocument"]>
+  export type KnowledgeDocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type KnowledgeDocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type KnowledgeDocumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+
+  export type $KnowledgeDocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KnowledgeDocument"
+    objects: {
+      account: Prisma.$AccountPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      accountId: string
+      kind: $Enums.KnowledgeDocumentKind
+      name: string
+      storageKey: string
+      mimeType: string
+      byteSize: number
+      sourceCreatedAt: Date
+      sourceModifiedAt: Date
+      sourceJobId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["knowledgeDocument"]>
+    composites: {}
+  }
+
+  type KnowledgeDocumentGetPayload<S extends boolean | null | undefined | KnowledgeDocumentDefaultArgs> = $Result.GetResult<Prisma.$KnowledgeDocumentPayload, S>
+
+  type KnowledgeDocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KnowledgeDocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KnowledgeDocumentCountAggregateInputType | true
+    }
+
+  export interface KnowledgeDocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KnowledgeDocument'], meta: { name: 'KnowledgeDocument' } }
+    /**
+     * Find zero or one KnowledgeDocument that matches the filter.
+     * @param {KnowledgeDocumentFindUniqueArgs} args - Arguments to find a KnowledgeDocument
+     * @example
+     * // Get one KnowledgeDocument
+     * const knowledgeDocument = await prisma.knowledgeDocument.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KnowledgeDocumentFindUniqueArgs>(args: SelectSubset<T, KnowledgeDocumentFindUniqueArgs<ExtArgs>>): Prisma__KnowledgeDocumentClient<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KnowledgeDocument that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KnowledgeDocumentFindUniqueOrThrowArgs} args - Arguments to find a KnowledgeDocument
+     * @example
+     * // Get one KnowledgeDocument
+     * const knowledgeDocument = await prisma.knowledgeDocument.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KnowledgeDocumentFindUniqueOrThrowArgs>(args: SelectSubset<T, KnowledgeDocumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KnowledgeDocumentClient<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KnowledgeDocument that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeDocumentFindFirstArgs} args - Arguments to find a KnowledgeDocument
+     * @example
+     * // Get one KnowledgeDocument
+     * const knowledgeDocument = await prisma.knowledgeDocument.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KnowledgeDocumentFindFirstArgs>(args?: SelectSubset<T, KnowledgeDocumentFindFirstArgs<ExtArgs>>): Prisma__KnowledgeDocumentClient<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KnowledgeDocument that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeDocumentFindFirstOrThrowArgs} args - Arguments to find a KnowledgeDocument
+     * @example
+     * // Get one KnowledgeDocument
+     * const knowledgeDocument = await prisma.knowledgeDocument.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KnowledgeDocumentFindFirstOrThrowArgs>(args?: SelectSubset<T, KnowledgeDocumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__KnowledgeDocumentClient<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KnowledgeDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeDocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KnowledgeDocuments
+     * const knowledgeDocuments = await prisma.knowledgeDocument.findMany()
+     * 
+     * // Get first 10 KnowledgeDocuments
+     * const knowledgeDocuments = await prisma.knowledgeDocument.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const knowledgeDocumentWithIdOnly = await prisma.knowledgeDocument.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KnowledgeDocumentFindManyArgs>(args?: SelectSubset<T, KnowledgeDocumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KnowledgeDocument.
+     * @param {KnowledgeDocumentCreateArgs} args - Arguments to create a KnowledgeDocument.
+     * @example
+     * // Create one KnowledgeDocument
+     * const KnowledgeDocument = await prisma.knowledgeDocument.create({
+     *   data: {
+     *     // ... data to create a KnowledgeDocument
+     *   }
+     * })
+     * 
+     */
+    create<T extends KnowledgeDocumentCreateArgs>(args: SelectSubset<T, KnowledgeDocumentCreateArgs<ExtArgs>>): Prisma__KnowledgeDocumentClient<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KnowledgeDocuments.
+     * @param {KnowledgeDocumentCreateManyArgs} args - Arguments to create many KnowledgeDocuments.
+     * @example
+     * // Create many KnowledgeDocuments
+     * const knowledgeDocument = await prisma.knowledgeDocument.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KnowledgeDocumentCreateManyArgs>(args?: SelectSubset<T, KnowledgeDocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KnowledgeDocuments and returns the data saved in the database.
+     * @param {KnowledgeDocumentCreateManyAndReturnArgs} args - Arguments to create many KnowledgeDocuments.
+     * @example
+     * // Create many KnowledgeDocuments
+     * const knowledgeDocument = await prisma.knowledgeDocument.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KnowledgeDocuments and only return the `id`
+     * const knowledgeDocumentWithIdOnly = await prisma.knowledgeDocument.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KnowledgeDocumentCreateManyAndReturnArgs>(args?: SelectSubset<T, KnowledgeDocumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KnowledgeDocument.
+     * @param {KnowledgeDocumentDeleteArgs} args - Arguments to delete one KnowledgeDocument.
+     * @example
+     * // Delete one KnowledgeDocument
+     * const KnowledgeDocument = await prisma.knowledgeDocument.delete({
+     *   where: {
+     *     // ... filter to delete one KnowledgeDocument
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KnowledgeDocumentDeleteArgs>(args: SelectSubset<T, KnowledgeDocumentDeleteArgs<ExtArgs>>): Prisma__KnowledgeDocumentClient<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KnowledgeDocument.
+     * @param {KnowledgeDocumentUpdateArgs} args - Arguments to update one KnowledgeDocument.
+     * @example
+     * // Update one KnowledgeDocument
+     * const knowledgeDocument = await prisma.knowledgeDocument.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KnowledgeDocumentUpdateArgs>(args: SelectSubset<T, KnowledgeDocumentUpdateArgs<ExtArgs>>): Prisma__KnowledgeDocumentClient<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KnowledgeDocuments.
+     * @param {KnowledgeDocumentDeleteManyArgs} args - Arguments to filter KnowledgeDocuments to delete.
+     * @example
+     * // Delete a few KnowledgeDocuments
+     * const { count } = await prisma.knowledgeDocument.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KnowledgeDocumentDeleteManyArgs>(args?: SelectSubset<T, KnowledgeDocumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KnowledgeDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeDocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KnowledgeDocuments
+     * const knowledgeDocument = await prisma.knowledgeDocument.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KnowledgeDocumentUpdateManyArgs>(args: SelectSubset<T, KnowledgeDocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KnowledgeDocuments and returns the data updated in the database.
+     * @param {KnowledgeDocumentUpdateManyAndReturnArgs} args - Arguments to update many KnowledgeDocuments.
+     * @example
+     * // Update many KnowledgeDocuments
+     * const knowledgeDocument = await prisma.knowledgeDocument.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KnowledgeDocuments and only return the `id`
+     * const knowledgeDocumentWithIdOnly = await prisma.knowledgeDocument.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KnowledgeDocumentUpdateManyAndReturnArgs>(args: SelectSubset<T, KnowledgeDocumentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KnowledgeDocument.
+     * @param {KnowledgeDocumentUpsertArgs} args - Arguments to update or create a KnowledgeDocument.
+     * @example
+     * // Update or create a KnowledgeDocument
+     * const knowledgeDocument = await prisma.knowledgeDocument.upsert({
+     *   create: {
+     *     // ... data to create a KnowledgeDocument
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KnowledgeDocument we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KnowledgeDocumentUpsertArgs>(args: SelectSubset<T, KnowledgeDocumentUpsertArgs<ExtArgs>>): Prisma__KnowledgeDocumentClient<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KnowledgeDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeDocumentCountArgs} args - Arguments to filter KnowledgeDocuments to count.
+     * @example
+     * // Count the number of KnowledgeDocuments
+     * const count = await prisma.knowledgeDocument.count({
+     *   where: {
+     *     // ... the filter for the KnowledgeDocuments we want to count
+     *   }
+     * })
+    **/
+    count<T extends KnowledgeDocumentCountArgs>(
+      args?: Subset<T, KnowledgeDocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KnowledgeDocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KnowledgeDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KnowledgeDocumentAggregateArgs>(args: Subset<T, KnowledgeDocumentAggregateArgs>): Prisma.PrismaPromise<GetKnowledgeDocumentAggregateType<T>>
+
+    /**
+     * Group by KnowledgeDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeDocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KnowledgeDocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KnowledgeDocumentGroupByArgs['orderBy'] }
+        : { orderBy?: KnowledgeDocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KnowledgeDocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKnowledgeDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KnowledgeDocument model
+   */
+  readonly fields: KnowledgeDocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KnowledgeDocument.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KnowledgeDocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KnowledgeDocument model
+   */
+  interface KnowledgeDocumentFieldRefs {
+    readonly id: FieldRef<"KnowledgeDocument", 'String'>
+    readonly accountId: FieldRef<"KnowledgeDocument", 'String'>
+    readonly kind: FieldRef<"KnowledgeDocument", 'KnowledgeDocumentKind'>
+    readonly name: FieldRef<"KnowledgeDocument", 'String'>
+    readonly storageKey: FieldRef<"KnowledgeDocument", 'String'>
+    readonly mimeType: FieldRef<"KnowledgeDocument", 'String'>
+    readonly byteSize: FieldRef<"KnowledgeDocument", 'Int'>
+    readonly sourceCreatedAt: FieldRef<"KnowledgeDocument", 'DateTime'>
+    readonly sourceModifiedAt: FieldRef<"KnowledgeDocument", 'DateTime'>
+    readonly sourceJobId: FieldRef<"KnowledgeDocument", 'String'>
+    readonly createdAt: FieldRef<"KnowledgeDocument", 'DateTime'>
+    readonly updatedAt: FieldRef<"KnowledgeDocument", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KnowledgeDocument findUnique
+   */
+  export type KnowledgeDocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeDocument to fetch.
+     */
+    where: KnowledgeDocumentWhereUniqueInput
+  }
+
+  /**
+   * KnowledgeDocument findUniqueOrThrow
+   */
+  export type KnowledgeDocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeDocument to fetch.
+     */
+    where: KnowledgeDocumentWhereUniqueInput
+  }
+
+  /**
+   * KnowledgeDocument findFirst
+   */
+  export type KnowledgeDocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeDocument to fetch.
+     */
+    where?: KnowledgeDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KnowledgeDocuments to fetch.
+     */
+    orderBy?: KnowledgeDocumentOrderByWithRelationInput | KnowledgeDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KnowledgeDocuments.
+     */
+    cursor?: KnowledgeDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KnowledgeDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KnowledgeDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KnowledgeDocuments.
+     */
+    distinct?: KnowledgeDocumentScalarFieldEnum | KnowledgeDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * KnowledgeDocument findFirstOrThrow
+   */
+  export type KnowledgeDocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeDocument to fetch.
+     */
+    where?: KnowledgeDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KnowledgeDocuments to fetch.
+     */
+    orderBy?: KnowledgeDocumentOrderByWithRelationInput | KnowledgeDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KnowledgeDocuments.
+     */
+    cursor?: KnowledgeDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KnowledgeDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KnowledgeDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KnowledgeDocuments.
+     */
+    distinct?: KnowledgeDocumentScalarFieldEnum | KnowledgeDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * KnowledgeDocument findMany
+   */
+  export type KnowledgeDocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeDocuments to fetch.
+     */
+    where?: KnowledgeDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KnowledgeDocuments to fetch.
+     */
+    orderBy?: KnowledgeDocumentOrderByWithRelationInput | KnowledgeDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KnowledgeDocuments.
+     */
+    cursor?: KnowledgeDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KnowledgeDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KnowledgeDocuments.
+     */
+    skip?: number
+    distinct?: KnowledgeDocumentScalarFieldEnum | KnowledgeDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * KnowledgeDocument create
+   */
+  export type KnowledgeDocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KnowledgeDocument.
+     */
+    data: XOR<KnowledgeDocumentCreateInput, KnowledgeDocumentUncheckedCreateInput>
+  }
+
+  /**
+   * KnowledgeDocument createMany
+   */
+  export type KnowledgeDocumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KnowledgeDocuments.
+     */
+    data: KnowledgeDocumentCreateManyInput | KnowledgeDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KnowledgeDocument createManyAndReturn
+   */
+  export type KnowledgeDocumentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to create many KnowledgeDocuments.
+     */
+    data: KnowledgeDocumentCreateManyInput | KnowledgeDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KnowledgeDocument update
+   */
+  export type KnowledgeDocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KnowledgeDocument.
+     */
+    data: XOR<KnowledgeDocumentUpdateInput, KnowledgeDocumentUncheckedUpdateInput>
+    /**
+     * Choose, which KnowledgeDocument to update.
+     */
+    where: KnowledgeDocumentWhereUniqueInput
+  }
+
+  /**
+   * KnowledgeDocument updateMany
+   */
+  export type KnowledgeDocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KnowledgeDocuments.
+     */
+    data: XOR<KnowledgeDocumentUpdateManyMutationInput, KnowledgeDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which KnowledgeDocuments to update
+     */
+    where?: KnowledgeDocumentWhereInput
+    /**
+     * Limit how many KnowledgeDocuments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KnowledgeDocument updateManyAndReturn
+   */
+  export type KnowledgeDocumentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to update KnowledgeDocuments.
+     */
+    data: XOR<KnowledgeDocumentUpdateManyMutationInput, KnowledgeDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which KnowledgeDocuments to update
+     */
+    where?: KnowledgeDocumentWhereInput
+    /**
+     * Limit how many KnowledgeDocuments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KnowledgeDocument upsert
+   */
+  export type KnowledgeDocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KnowledgeDocument to update in case it exists.
+     */
+    where: KnowledgeDocumentWhereUniqueInput
+    /**
+     * In case the KnowledgeDocument found by the `where` argument doesn't exist, create a new KnowledgeDocument with this data.
+     */
+    create: XOR<KnowledgeDocumentCreateInput, KnowledgeDocumentUncheckedCreateInput>
+    /**
+     * In case the KnowledgeDocument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KnowledgeDocumentUpdateInput, KnowledgeDocumentUncheckedUpdateInput>
+  }
+
+  /**
+   * KnowledgeDocument delete
+   */
+  export type KnowledgeDocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    /**
+     * Filter which KnowledgeDocument to delete.
+     */
+    where: KnowledgeDocumentWhereUniqueInput
+  }
+
+  /**
+   * KnowledgeDocument deleteMany
+   */
+  export type KnowledgeDocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KnowledgeDocuments to delete
+     */
+    where?: KnowledgeDocumentWhereInput
+    /**
+     * Limit how many KnowledgeDocuments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KnowledgeDocument without action
+   */
+  export type KnowledgeDocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
   }
 
 
@@ -10774,6 +14183,7 @@ export namespace Prisma {
     userId: string | null
     hashedPin: string | null
     telegramChatId: string | null
+    platformAdmin: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10782,6 +14192,7 @@ export namespace Prisma {
     userId: string | null
     hashedPin: string | null
     telegramChatId: string | null
+    platformAdmin: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10790,6 +14201,7 @@ export namespace Prisma {
     userId: number
     hashedPin: number
     telegramChatId: number
+    platformAdmin: number
     roles: number
     createdAt: number
     updatedAt: number
@@ -10801,6 +14213,7 @@ export namespace Prisma {
     userId?: true
     hashedPin?: true
     telegramChatId?: true
+    platformAdmin?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10809,6 +14222,7 @@ export namespace Prisma {
     userId?: true
     hashedPin?: true
     telegramChatId?: true
+    platformAdmin?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10817,6 +14231,7 @@ export namespace Prisma {
     userId?: true
     hashedPin?: true
     telegramChatId?: true
+    platformAdmin?: true
     roles?: true
     createdAt?: true
     updatedAt?: true
@@ -10899,6 +14314,7 @@ export namespace Prisma {
     userId: string
     hashedPin: string
     telegramChatId: string | null
+    platformAdmin: boolean
     roles: $Enums.AgentRole[]
     createdAt: Date
     updatedAt: Date
@@ -10925,11 +14341,13 @@ export namespace Prisma {
     userId?: boolean
     hashedPin?: boolean
     telegramChatId?: boolean
+    platformAdmin?: boolean
     roles?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     loginTokens?: boolean | AgentAccount$loginTokensArgs<ExtArgs>
     audits?: boolean | AgentAccount$auditsArgs<ExtArgs>
+    memberships?: boolean | AgentAccount$membershipsArgs<ExtArgs>
     _count?: boolean | AgentAccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentAccount"]>
 
@@ -10937,6 +14355,7 @@ export namespace Prisma {
     userId?: boolean
     hashedPin?: boolean
     telegramChatId?: boolean
+    platformAdmin?: boolean
     roles?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -10946,6 +14365,7 @@ export namespace Prisma {
     userId?: boolean
     hashedPin?: boolean
     telegramChatId?: boolean
+    platformAdmin?: boolean
     roles?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -10955,15 +14375,17 @@ export namespace Prisma {
     userId?: boolean
     hashedPin?: boolean
     telegramChatId?: boolean
+    platformAdmin?: boolean
     roles?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AgentAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "hashedPin" | "telegramChatId" | "roles" | "createdAt" | "updatedAt", ExtArgs["result"]["agentAccount"]>
+  export type AgentAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "hashedPin" | "telegramChatId" | "platformAdmin" | "roles" | "createdAt" | "updatedAt", ExtArgs["result"]["agentAccount"]>
   export type AgentAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     loginTokens?: boolean | AgentAccount$loginTokensArgs<ExtArgs>
     audits?: boolean | AgentAccount$auditsArgs<ExtArgs>
+    memberships?: boolean | AgentAccount$membershipsArgs<ExtArgs>
     _count?: boolean | AgentAccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AgentAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -10974,11 +14396,13 @@ export namespace Prisma {
     objects: {
       loginTokens: Prisma.$LoginTokenPayload<ExtArgs>[]
       audits: Prisma.$LoginAuditPayload<ExtArgs>[]
+      memberships: Prisma.$AccountMembershipPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: string
       hashedPin: string
       telegramChatId: string | null
+      platformAdmin: boolean
       roles: $Enums.AgentRole[]
       createdAt: Date
       updatedAt: Date
@@ -11378,6 +14802,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     loginTokens<T extends AgentAccount$loginTokensArgs<ExtArgs> = {}>(args?: Subset<T, AgentAccount$loginTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     audits<T extends AgentAccount$auditsArgs<ExtArgs> = {}>(args?: Subset<T, AgentAccount$auditsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    memberships<T extends AgentAccount$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, AgentAccount$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11410,6 +14835,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"AgentAccount", 'String'>
     readonly hashedPin: FieldRef<"AgentAccount", 'String'>
     readonly telegramChatId: FieldRef<"AgentAccount", 'String'>
+    readonly platformAdmin: FieldRef<"AgentAccount", 'Boolean'>
     readonly roles: FieldRef<"AgentAccount", 'AgentRole[]'>
     readonly createdAt: FieldRef<"AgentAccount", 'DateTime'>
     readonly updatedAt: FieldRef<"AgentAccount", 'DateTime'>
@@ -11849,6 +15275,30 @@ export namespace Prisma {
   }
 
   /**
+   * AgentAccount.memberships
+   */
+  export type AgentAccount$membershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    where?: AccountMembershipWhereInput
+    orderBy?: AccountMembershipOrderByWithRelationInput | AccountMembershipOrderByWithRelationInput[]
+    cursor?: AccountMembershipWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AccountMembershipScalarFieldEnum | AccountMembershipScalarFieldEnum[]
+  }
+
+  /**
    * AgentAccount without action
    */
   export type AgentAccountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11880,6 +15330,7 @@ export namespace Prisma {
   export type LoginTokenMinAggregateOutputType = {
     id: string | null
     agentId: string | null
+    accountId: string | null
     tokenHash: string | null
     expiresAt: Date | null
     consumedAt: Date | null
@@ -11889,6 +15340,7 @@ export namespace Prisma {
   export type LoginTokenMaxAggregateOutputType = {
     id: string | null
     agentId: string | null
+    accountId: string | null
     tokenHash: string | null
     expiresAt: Date | null
     consumedAt: Date | null
@@ -11898,6 +15350,7 @@ export namespace Prisma {
   export type LoginTokenCountAggregateOutputType = {
     id: number
     agentId: number
+    accountId: number
     tokenHash: number
     expiresAt: number
     consumedAt: number
@@ -11909,6 +15362,7 @@ export namespace Prisma {
   export type LoginTokenMinAggregateInputType = {
     id?: true
     agentId?: true
+    accountId?: true
     tokenHash?: true
     expiresAt?: true
     consumedAt?: true
@@ -11918,6 +15372,7 @@ export namespace Prisma {
   export type LoginTokenMaxAggregateInputType = {
     id?: true
     agentId?: true
+    accountId?: true
     tokenHash?: true
     expiresAt?: true
     consumedAt?: true
@@ -11927,6 +15382,7 @@ export namespace Prisma {
   export type LoginTokenCountAggregateInputType = {
     id?: true
     agentId?: true
+    accountId?: true
     tokenHash?: true
     expiresAt?: true
     consumedAt?: true
@@ -12009,6 +15465,7 @@ export namespace Prisma {
   export type LoginTokenGroupByOutputType = {
     id: string
     agentId: string
+    accountId: string | null
     tokenHash: string
     expiresAt: Date
     consumedAt: Date | null
@@ -12035,61 +15492,73 @@ export namespace Prisma {
   export type LoginTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     agentId?: boolean
+    accountId?: boolean
     tokenHash?: boolean
     expiresAt?: boolean
     consumedAt?: boolean
     createdAt?: boolean
     agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+    account?: boolean | LoginToken$accountArgs<ExtArgs>
   }, ExtArgs["result"]["loginToken"]>
 
   export type LoginTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     agentId?: boolean
+    accountId?: boolean
     tokenHash?: boolean
     expiresAt?: boolean
     consumedAt?: boolean
     createdAt?: boolean
     agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+    account?: boolean | LoginToken$accountArgs<ExtArgs>
   }, ExtArgs["result"]["loginToken"]>
 
   export type LoginTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     agentId?: boolean
+    accountId?: boolean
     tokenHash?: boolean
     expiresAt?: boolean
     consumedAt?: boolean
     createdAt?: boolean
     agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+    account?: boolean | LoginToken$accountArgs<ExtArgs>
   }, ExtArgs["result"]["loginToken"]>
 
   export type LoginTokenSelectScalar = {
     id?: boolean
     agentId?: boolean
+    accountId?: boolean
     tokenHash?: boolean
     expiresAt?: boolean
     consumedAt?: boolean
     createdAt?: boolean
   }
 
-  export type LoginTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentId" | "tokenHash" | "expiresAt" | "consumedAt" | "createdAt", ExtArgs["result"]["loginToken"]>
+  export type LoginTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentId" | "accountId" | "tokenHash" | "expiresAt" | "consumedAt" | "createdAt", ExtArgs["result"]["loginToken"]>
   export type LoginTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+    account?: boolean | LoginToken$accountArgs<ExtArgs>
   }
   export type LoginTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+    account?: boolean | LoginToken$accountArgs<ExtArgs>
   }
   export type LoginTokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+    account?: boolean | LoginToken$accountArgs<ExtArgs>
   }
 
   export type $LoginTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "LoginToken"
     objects: {
       agent: Prisma.$AgentAccountPayload<ExtArgs>
+      account: Prisma.$AccountPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       agentId: string
+      accountId: string | null
       tokenHash: string
       expiresAt: Date
       consumedAt: Date | null
@@ -12489,6 +15958,7 @@ export namespace Prisma {
   export interface Prisma__LoginTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     agent<T extends AgentAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentAccountDefaultArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    account<T extends LoginToken$accountArgs<ExtArgs> = {}>(args?: Subset<T, LoginToken$accountArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12520,6 +15990,7 @@ export namespace Prisma {
   interface LoginTokenFieldRefs {
     readonly id: FieldRef<"LoginToken", 'String'>
     readonly agentId: FieldRef<"LoginToken", 'String'>
+    readonly accountId: FieldRef<"LoginToken", 'String'>
     readonly tokenHash: FieldRef<"LoginToken", 'String'>
     readonly expiresAt: FieldRef<"LoginToken", 'DateTime'>
     readonly consumedAt: FieldRef<"LoginToken", 'DateTime'>
@@ -12917,6 +16388,25 @@ export namespace Prisma {
      * Limit how many LoginTokens to delete.
      */
     limit?: number
+  }
+
+  /**
+   * LoginToken.account
+   */
+  export type LoginToken$accountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    where?: AccountWhereInput
   }
 
   /**
@@ -14023,6 +17513,3692 @@ export namespace Prisma {
 
 
   /**
+   * Model Account
+   */
+
+  export type AggregateAccount = {
+    _count: AccountCountAggregateOutputType | null
+    _min: AccountMinAggregateOutputType | null
+    _max: AccountMaxAggregateOutputType | null
+  }
+
+  export type AccountMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    status: $Enums.AccountStatus | null
+    isPrimary: boolean | null
+    suspensionReason: string | null
+    maintenanceMessage: string | null
+    createdById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccountMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    status: $Enums.AccountStatus | null
+    isPrimary: boolean | null
+    suspensionReason: string | null
+    maintenanceMessage: string | null
+    createdById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccountCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    status: number
+    isPrimary: number
+    suspensionReason: number
+    maintenanceMessage: number
+    createdById: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AccountMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    status?: true
+    isPrimary?: true
+    suspensionReason?: true
+    maintenanceMessage?: true
+    createdById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccountMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    status?: true
+    isPrimary?: true
+    suspensionReason?: true
+    maintenanceMessage?: true
+    createdById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccountCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    status?: true
+    isPrimary?: true
+    suspensionReason?: true
+    maintenanceMessage?: true
+    createdById?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AccountAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Account to aggregate.
+     */
+    where?: AccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     */
+    orderBy?: AccountOrderByWithRelationInput | AccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Accounts
+    **/
+    _count?: true | AccountCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AccountMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AccountMaxAggregateInputType
+  }
+
+  export type GetAccountAggregateType<T extends AccountAggregateArgs> = {
+        [P in keyof T & keyof AggregateAccount]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccount[P]>
+      : GetScalarType<T[P], AggregateAccount[P]>
+  }
+
+
+
+
+  export type AccountGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccountWhereInput
+    orderBy?: AccountOrderByWithAggregationInput | AccountOrderByWithAggregationInput[]
+    by: AccountScalarFieldEnum[] | AccountScalarFieldEnum
+    having?: AccountScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AccountCountAggregateInputType | true
+    _min?: AccountMinAggregateInputType
+    _max?: AccountMaxAggregateInputType
+  }
+
+  export type AccountGroupByOutputType = {
+    id: string
+    name: string
+    slug: string
+    status: $Enums.AccountStatus
+    isPrimary: boolean
+    suspensionReason: string | null
+    maintenanceMessage: string | null
+    createdById: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AccountCountAggregateOutputType | null
+    _min: AccountMinAggregateOutputType | null
+    _max: AccountMaxAggregateOutputType | null
+  }
+
+  type GetAccountGroupByPayload<T extends AccountGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AccountGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AccountGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccountGroupByOutputType[P]>
+            : GetScalarType<T[P], AccountGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    status?: boolean
+    isPrimary?: boolean
+    suspensionReason?: boolean
+    maintenanceMessage?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    memberships?: boolean | Account$membershipsArgs<ExtArgs>
+    configurations?: boolean | Account$configurationsArgs<ExtArgs>
+    loginTokens?: boolean | Account$loginTokensArgs<ExtArgs>
+    users?: boolean | Account$usersArgs<ExtArgs>
+    orders?: boolean | Account$ordersArgs<ExtArgs>
+    chatSessions?: boolean | Account$chatSessionsArgs<ExtArgs>
+    tickets?: boolean | Account$ticketsArgs<ExtArgs>
+    conversationMessages?: boolean | Account$conversationMessagesArgs<ExtArgs>
+    agentAssignments?: boolean | Account$agentAssignmentsArgs<ExtArgs>
+    handoffRequests?: boolean | Account$handoffRequestsArgs<ExtArgs>
+    scrapeJobs?: boolean | Account$scrapeJobsArgs<ExtArgs>
+    scrapeJobLogs?: boolean | Account$scrapeJobLogsArgs<ExtArgs>
+    knowledgeDocuments?: boolean | Account$knowledgeDocumentsArgs<ExtArgs>
+    _count?: boolean | AccountCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["account"]>
+
+  export type AccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    status?: boolean
+    isPrimary?: boolean
+    suspensionReason?: boolean
+    maintenanceMessage?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["account"]>
+
+  export type AccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    status?: boolean
+    isPrimary?: boolean
+    suspensionReason?: boolean
+    maintenanceMessage?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["account"]>
+
+  export type AccountSelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    status?: boolean
+    isPrimary?: boolean
+    suspensionReason?: boolean
+    maintenanceMessage?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "status" | "isPrimary" | "suspensionReason" | "maintenanceMessage" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["account"]>
+  export type AccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    memberships?: boolean | Account$membershipsArgs<ExtArgs>
+    configurations?: boolean | Account$configurationsArgs<ExtArgs>
+    loginTokens?: boolean | Account$loginTokensArgs<ExtArgs>
+    users?: boolean | Account$usersArgs<ExtArgs>
+    orders?: boolean | Account$ordersArgs<ExtArgs>
+    chatSessions?: boolean | Account$chatSessionsArgs<ExtArgs>
+    tickets?: boolean | Account$ticketsArgs<ExtArgs>
+    conversationMessages?: boolean | Account$conversationMessagesArgs<ExtArgs>
+    agentAssignments?: boolean | Account$agentAssignmentsArgs<ExtArgs>
+    handoffRequests?: boolean | Account$handoffRequestsArgs<ExtArgs>
+    scrapeJobs?: boolean | Account$scrapeJobsArgs<ExtArgs>
+    scrapeJobLogs?: boolean | Account$scrapeJobLogsArgs<ExtArgs>
+    knowledgeDocuments?: boolean | Account$knowledgeDocumentsArgs<ExtArgs>
+    _count?: boolean | AccountCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type AccountIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $AccountPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Account"
+    objects: {
+      memberships: Prisma.$AccountMembershipPayload<ExtArgs>[]
+      configurations: Prisma.$AccountConfigurationPayload<ExtArgs>[]
+      loginTokens: Prisma.$LoginTokenPayload<ExtArgs>[]
+      users: Prisma.$UserPayload<ExtArgs>[]
+      orders: Prisma.$OrderPayload<ExtArgs>[]
+      chatSessions: Prisma.$ChatSessionPayload<ExtArgs>[]
+      tickets: Prisma.$TicketPayload<ExtArgs>[]
+      conversationMessages: Prisma.$ConversationMessagePayload<ExtArgs>[]
+      agentAssignments: Prisma.$AgentAssignmentPayload<ExtArgs>[]
+      handoffRequests: Prisma.$HandoffRequestPayload<ExtArgs>[]
+      scrapeJobs: Prisma.$ScrapeJobPayload<ExtArgs>[]
+      scrapeJobLogs: Prisma.$ScrapeJobLogPayload<ExtArgs>[]
+      knowledgeDocuments: Prisma.$KnowledgeDocumentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      slug: string
+      status: $Enums.AccountStatus
+      isPrimary: boolean
+      suspensionReason: string | null
+      maintenanceMessage: string | null
+      createdById: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["account"]>
+    composites: {}
+  }
+
+  type AccountGetPayload<S extends boolean | null | undefined | AccountDefaultArgs> = $Result.GetResult<Prisma.$AccountPayload, S>
+
+  type AccountCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AccountFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AccountCountAggregateInputType | true
+    }
+
+  export interface AccountDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Account'], meta: { name: 'Account' } }
+    /**
+     * Find zero or one Account that matches the filter.
+     * @param {AccountFindUniqueArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AccountFindUniqueArgs>(args: SelectSubset<T, AccountFindUniqueArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Account that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AccountFindUniqueOrThrowArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AccountFindUniqueOrThrowArgs>(args: SelectSubset<T, AccountFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Account that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountFindFirstArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AccountFindFirstArgs>(args?: SelectSubset<T, AccountFindFirstArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Account that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountFindFirstOrThrowArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AccountFindFirstOrThrowArgs>(args?: SelectSubset<T, AccountFindFirstOrThrowArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Accounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Accounts
+     * const accounts = await prisma.account.findMany()
+     * 
+     * // Get first 10 Accounts
+     * const accounts = await prisma.account.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const accountWithIdOnly = await prisma.account.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AccountFindManyArgs>(args?: SelectSubset<T, AccountFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Account.
+     * @param {AccountCreateArgs} args - Arguments to create a Account.
+     * @example
+     * // Create one Account
+     * const Account = await prisma.account.create({
+     *   data: {
+     *     // ... data to create a Account
+     *   }
+     * })
+     * 
+     */
+    create<T extends AccountCreateArgs>(args: SelectSubset<T, AccountCreateArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Accounts.
+     * @param {AccountCreateManyArgs} args - Arguments to create many Accounts.
+     * @example
+     * // Create many Accounts
+     * const account = await prisma.account.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AccountCreateManyArgs>(args?: SelectSubset<T, AccountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Accounts and returns the data saved in the database.
+     * @param {AccountCreateManyAndReturnArgs} args - Arguments to create many Accounts.
+     * @example
+     * // Create many Accounts
+     * const account = await prisma.account.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Accounts and only return the `id`
+     * const accountWithIdOnly = await prisma.account.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AccountCreateManyAndReturnArgs>(args?: SelectSubset<T, AccountCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Account.
+     * @param {AccountDeleteArgs} args - Arguments to delete one Account.
+     * @example
+     * // Delete one Account
+     * const Account = await prisma.account.delete({
+     *   where: {
+     *     // ... filter to delete one Account
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AccountDeleteArgs>(args: SelectSubset<T, AccountDeleteArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Account.
+     * @param {AccountUpdateArgs} args - Arguments to update one Account.
+     * @example
+     * // Update one Account
+     * const account = await prisma.account.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AccountUpdateArgs>(args: SelectSubset<T, AccountUpdateArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Accounts.
+     * @param {AccountDeleteManyArgs} args - Arguments to filter Accounts to delete.
+     * @example
+     * // Delete a few Accounts
+     * const { count } = await prisma.account.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AccountDeleteManyArgs>(args?: SelectSubset<T, AccountDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Accounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Accounts
+     * const account = await prisma.account.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AccountUpdateManyArgs>(args: SelectSubset<T, AccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Accounts and returns the data updated in the database.
+     * @param {AccountUpdateManyAndReturnArgs} args - Arguments to update many Accounts.
+     * @example
+     * // Update many Accounts
+     * const account = await prisma.account.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Accounts and only return the `id`
+     * const accountWithIdOnly = await prisma.account.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AccountUpdateManyAndReturnArgs>(args: SelectSubset<T, AccountUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Account.
+     * @param {AccountUpsertArgs} args - Arguments to update or create a Account.
+     * @example
+     * // Update or create a Account
+     * const account = await prisma.account.upsert({
+     *   create: {
+     *     // ... data to create a Account
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Account we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AccountUpsertArgs>(args: SelectSubset<T, AccountUpsertArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Accounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountCountArgs} args - Arguments to filter Accounts to count.
+     * @example
+     * // Count the number of Accounts
+     * const count = await prisma.account.count({
+     *   where: {
+     *     // ... the filter for the Accounts we want to count
+     *   }
+     * })
+    **/
+    count<T extends AccountCountArgs>(
+      args?: Subset<T, AccountCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AccountCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Account.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AccountAggregateArgs>(args: Subset<T, AccountAggregateArgs>): Prisma.PrismaPromise<GetAccountAggregateType<T>>
+
+    /**
+     * Group by Account.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AccountGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AccountGroupByArgs['orderBy'] }
+        : { orderBy?: AccountGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Account model
+   */
+  readonly fields: AccountFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Account.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AccountClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    memberships<T extends Account$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, Account$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    configurations<T extends Account$configurationsArgs<ExtArgs> = {}>(args?: Subset<T, Account$configurationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    loginTokens<T extends Account$loginTokensArgs<ExtArgs> = {}>(args?: Subset<T, Account$loginTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    users<T extends Account$usersArgs<ExtArgs> = {}>(args?: Subset<T, Account$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orders<T extends Account$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Account$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chatSessions<T extends Account$chatSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Account$chatSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tickets<T extends Account$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Account$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    conversationMessages<T extends Account$conversationMessagesArgs<ExtArgs> = {}>(args?: Subset<T, Account$conversationMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    agentAssignments<T extends Account$agentAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Account$agentAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    handoffRequests<T extends Account$handoffRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Account$handoffRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HandoffRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    scrapeJobs<T extends Account$scrapeJobsArgs<ExtArgs> = {}>(args?: Subset<T, Account$scrapeJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScrapeJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    scrapeJobLogs<T extends Account$scrapeJobLogsArgs<ExtArgs> = {}>(args?: Subset<T, Account$scrapeJobLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScrapeJobLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    knowledgeDocuments<T extends Account$knowledgeDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, Account$knowledgeDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KnowledgeDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Account model
+   */
+  interface AccountFieldRefs {
+    readonly id: FieldRef<"Account", 'String'>
+    readonly name: FieldRef<"Account", 'String'>
+    readonly slug: FieldRef<"Account", 'String'>
+    readonly status: FieldRef<"Account", 'AccountStatus'>
+    readonly isPrimary: FieldRef<"Account", 'Boolean'>
+    readonly suspensionReason: FieldRef<"Account", 'String'>
+    readonly maintenanceMessage: FieldRef<"Account", 'String'>
+    readonly createdById: FieldRef<"Account", 'String'>
+    readonly createdAt: FieldRef<"Account", 'DateTime'>
+    readonly updatedAt: FieldRef<"Account", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Account findUnique
+   */
+  export type AccountFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    /**
+     * Filter, which Account to fetch.
+     */
+    where: AccountWhereUniqueInput
+  }
+
+  /**
+   * Account findUniqueOrThrow
+   */
+  export type AccountFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    /**
+     * Filter, which Account to fetch.
+     */
+    where: AccountWhereUniqueInput
+  }
+
+  /**
+   * Account findFirst
+   */
+  export type AccountFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    /**
+     * Filter, which Account to fetch.
+     */
+    where?: AccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     */
+    orderBy?: AccountOrderByWithRelationInput | AccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Accounts.
+     */
+    cursor?: AccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Accounts.
+     */
+    distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+  }
+
+  /**
+   * Account findFirstOrThrow
+   */
+  export type AccountFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    /**
+     * Filter, which Account to fetch.
+     */
+    where?: AccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     */
+    orderBy?: AccountOrderByWithRelationInput | AccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Accounts.
+     */
+    cursor?: AccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Accounts.
+     */
+    distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+  }
+
+  /**
+   * Account findMany
+   */
+  export type AccountFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    /**
+     * Filter, which Accounts to fetch.
+     */
+    where?: AccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     */
+    orderBy?: AccountOrderByWithRelationInput | AccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Accounts.
+     */
+    cursor?: AccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     */
+    skip?: number
+    distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+  }
+
+  /**
+   * Account create
+   */
+  export type AccountCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Account.
+     */
+    data: XOR<AccountCreateInput, AccountUncheckedCreateInput>
+  }
+
+  /**
+   * Account createMany
+   */
+  export type AccountCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Accounts.
+     */
+    data: AccountCreateManyInput | AccountCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Account createManyAndReturn
+   */
+  export type AccountCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * The data used to create many Accounts.
+     */
+    data: AccountCreateManyInput | AccountCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Account update
+   */
+  export type AccountUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Account.
+     */
+    data: XOR<AccountUpdateInput, AccountUncheckedUpdateInput>
+    /**
+     * Choose, which Account to update.
+     */
+    where: AccountWhereUniqueInput
+  }
+
+  /**
+   * Account updateMany
+   */
+  export type AccountUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Accounts.
+     */
+    data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyInput>
+    /**
+     * Filter which Accounts to update
+     */
+    where?: AccountWhereInput
+    /**
+     * Limit how many Accounts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Account updateManyAndReturn
+   */
+  export type AccountUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * The data used to update Accounts.
+     */
+    data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyInput>
+    /**
+     * Filter which Accounts to update
+     */
+    where?: AccountWhereInput
+    /**
+     * Limit how many Accounts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Account upsert
+   */
+  export type AccountUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Account to update in case it exists.
+     */
+    where: AccountWhereUniqueInput
+    /**
+     * In case the Account found by the `where` argument doesn't exist, create a new Account with this data.
+     */
+    create: XOR<AccountCreateInput, AccountUncheckedCreateInput>
+    /**
+     * In case the Account was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AccountUpdateInput, AccountUncheckedUpdateInput>
+  }
+
+  /**
+   * Account delete
+   */
+  export type AccountDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    /**
+     * Filter which Account to delete.
+     */
+    where: AccountWhereUniqueInput
+  }
+
+  /**
+   * Account deleteMany
+   */
+  export type AccountDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Accounts to delete
+     */
+    where?: AccountWhereInput
+    /**
+     * Limit how many Accounts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Account.memberships
+   */
+  export type Account$membershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    where?: AccountMembershipWhereInput
+    orderBy?: AccountMembershipOrderByWithRelationInput | AccountMembershipOrderByWithRelationInput[]
+    cursor?: AccountMembershipWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AccountMembershipScalarFieldEnum | AccountMembershipScalarFieldEnum[]
+  }
+
+  /**
+   * Account.configurations
+   */
+  export type Account$configurationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    where?: AccountConfigurationWhereInput
+    orderBy?: AccountConfigurationOrderByWithRelationInput | AccountConfigurationOrderByWithRelationInput[]
+    cursor?: AccountConfigurationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AccountConfigurationScalarFieldEnum | AccountConfigurationScalarFieldEnum[]
+  }
+
+  /**
+   * Account.loginTokens
+   */
+  export type Account$loginTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoginToken
+     */
+    select?: LoginTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoginToken
+     */
+    omit?: LoginTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoginTokenInclude<ExtArgs> | null
+    where?: LoginTokenWhereInput
+    orderBy?: LoginTokenOrderByWithRelationInput | LoginTokenOrderByWithRelationInput[]
+    cursor?: LoginTokenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoginTokenScalarFieldEnum | LoginTokenScalarFieldEnum[]
+  }
+
+  /**
+   * Account.users
+   */
+  export type Account$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * Account.orders
+   */
+  export type Account$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * Account.chatSessions
+   */
+  export type Account$chatSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatSession
+     */
+    select?: ChatSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatSession
+     */
+    omit?: ChatSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatSessionInclude<ExtArgs> | null
+    where?: ChatSessionWhereInput
+    orderBy?: ChatSessionOrderByWithRelationInput | ChatSessionOrderByWithRelationInput[]
+    cursor?: ChatSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatSessionScalarFieldEnum | ChatSessionScalarFieldEnum[]
+  }
+
+  /**
+   * Account.tickets
+   */
+  export type Account$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ticket
+     */
+    select?: TicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ticket
+     */
+    omit?: TicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketInclude<ExtArgs> | null
+    where?: TicketWhereInput
+    orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
+    cursor?: TicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
+   * Account.conversationMessages
+   */
+  export type Account$conversationMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConversationMessage
+     */
+    select?: ConversationMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConversationMessage
+     */
+    omit?: ConversationMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationMessageInclude<ExtArgs> | null
+    where?: ConversationMessageWhereInput
+    orderBy?: ConversationMessageOrderByWithRelationInput | ConversationMessageOrderByWithRelationInput[]
+    cursor?: ConversationMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConversationMessageScalarFieldEnum | ConversationMessageScalarFieldEnum[]
+  }
+
+  /**
+   * Account.agentAssignments
+   */
+  export type Account$agentAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentAssignment
+     */
+    select?: AgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentAssignment
+     */
+    omit?: AgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentAssignmentInclude<ExtArgs> | null
+    where?: AgentAssignmentWhereInput
+    orderBy?: AgentAssignmentOrderByWithRelationInput | AgentAssignmentOrderByWithRelationInput[]
+    cursor?: AgentAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgentAssignmentScalarFieldEnum | AgentAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Account.handoffRequests
+   */
+  export type Account$handoffRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HandoffRequest
+     */
+    select?: HandoffRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HandoffRequest
+     */
+    omit?: HandoffRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HandoffRequestInclude<ExtArgs> | null
+    where?: HandoffRequestWhereInput
+    orderBy?: HandoffRequestOrderByWithRelationInput | HandoffRequestOrderByWithRelationInput[]
+    cursor?: HandoffRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HandoffRequestScalarFieldEnum | HandoffRequestScalarFieldEnum[]
+  }
+
+  /**
+   * Account.scrapeJobs
+   */
+  export type Account$scrapeJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJob
+     */
+    select?: ScrapeJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJob
+     */
+    omit?: ScrapeJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobInclude<ExtArgs> | null
+    where?: ScrapeJobWhereInput
+    orderBy?: ScrapeJobOrderByWithRelationInput | ScrapeJobOrderByWithRelationInput[]
+    cursor?: ScrapeJobWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScrapeJobScalarFieldEnum | ScrapeJobScalarFieldEnum[]
+  }
+
+  /**
+   * Account.scrapeJobLogs
+   */
+  export type Account$scrapeJobLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScrapeJobLog
+     */
+    select?: ScrapeJobLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScrapeJobLog
+     */
+    omit?: ScrapeJobLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScrapeJobLogInclude<ExtArgs> | null
+    where?: ScrapeJobLogWhereInput
+    orderBy?: ScrapeJobLogOrderByWithRelationInput | ScrapeJobLogOrderByWithRelationInput[]
+    cursor?: ScrapeJobLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScrapeJobLogScalarFieldEnum | ScrapeJobLogScalarFieldEnum[]
+  }
+
+  /**
+   * Account.knowledgeDocuments
+   */
+  export type Account$knowledgeDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeDocument
+     */
+    select?: KnowledgeDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeDocument
+     */
+    omit?: KnowledgeDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeDocumentInclude<ExtArgs> | null
+    where?: KnowledgeDocumentWhereInput
+    orderBy?: KnowledgeDocumentOrderByWithRelationInput | KnowledgeDocumentOrderByWithRelationInput[]
+    cursor?: KnowledgeDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KnowledgeDocumentScalarFieldEnum | KnowledgeDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Account without action
+   */
+  export type AccountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AccountMembership
+   */
+
+  export type AggregateAccountMembership = {
+    _count: AccountMembershipCountAggregateOutputType | null
+    _min: AccountMembershipMinAggregateOutputType | null
+    _max: AccountMembershipMaxAggregateOutputType | null
+  }
+
+  export type AccountMembershipMinAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    agentId: string | null
+    role: $Enums.AgentRole | null
+    invitedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccountMembershipMaxAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    agentId: string | null
+    role: $Enums.AgentRole | null
+    invitedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccountMembershipCountAggregateOutputType = {
+    id: number
+    accountId: number
+    agentId: number
+    role: number
+    invitedById: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AccountMembershipMinAggregateInputType = {
+    id?: true
+    accountId?: true
+    agentId?: true
+    role?: true
+    invitedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccountMembershipMaxAggregateInputType = {
+    id?: true
+    accountId?: true
+    agentId?: true
+    role?: true
+    invitedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccountMembershipCountAggregateInputType = {
+    id?: true
+    accountId?: true
+    agentId?: true
+    role?: true
+    invitedById?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AccountMembershipAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AccountMembership to aggregate.
+     */
+    where?: AccountMembershipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccountMemberships to fetch.
+     */
+    orderBy?: AccountMembershipOrderByWithRelationInput | AccountMembershipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AccountMembershipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccountMemberships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccountMemberships.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AccountMemberships
+    **/
+    _count?: true | AccountMembershipCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AccountMembershipMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AccountMembershipMaxAggregateInputType
+  }
+
+  export type GetAccountMembershipAggregateType<T extends AccountMembershipAggregateArgs> = {
+        [P in keyof T & keyof AggregateAccountMembership]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccountMembership[P]>
+      : GetScalarType<T[P], AggregateAccountMembership[P]>
+  }
+
+
+
+
+  export type AccountMembershipGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccountMembershipWhereInput
+    orderBy?: AccountMembershipOrderByWithAggregationInput | AccountMembershipOrderByWithAggregationInput[]
+    by: AccountMembershipScalarFieldEnum[] | AccountMembershipScalarFieldEnum
+    having?: AccountMembershipScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AccountMembershipCountAggregateInputType | true
+    _min?: AccountMembershipMinAggregateInputType
+    _max?: AccountMembershipMaxAggregateInputType
+  }
+
+  export type AccountMembershipGroupByOutputType = {
+    id: string
+    accountId: string
+    agentId: string
+    role: $Enums.AgentRole
+    invitedById: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AccountMembershipCountAggregateOutputType | null
+    _min: AccountMembershipMinAggregateOutputType | null
+    _max: AccountMembershipMaxAggregateOutputType | null
+  }
+
+  type GetAccountMembershipGroupByPayload<T extends AccountMembershipGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AccountMembershipGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AccountMembershipGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccountMembershipGroupByOutputType[P]>
+            : GetScalarType<T[P], AccountMembershipGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AccountMembershipSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    agentId?: boolean
+    role?: boolean
+    invitedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accountMembership"]>
+
+  export type AccountMembershipSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    agentId?: boolean
+    role?: boolean
+    invitedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accountMembership"]>
+
+  export type AccountMembershipSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    agentId?: boolean
+    role?: boolean
+    invitedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accountMembership"]>
+
+  export type AccountMembershipSelectScalar = {
+    id?: boolean
+    accountId?: boolean
+    agentId?: boolean
+    role?: boolean
+    invitedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AccountMembershipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "agentId" | "role" | "invitedById" | "createdAt" | "updatedAt", ExtArgs["result"]["accountMembership"]>
+  export type AccountMembershipInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }
+  export type AccountMembershipIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }
+  export type AccountMembershipIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+    agent?: boolean | AgentAccountDefaultArgs<ExtArgs>
+  }
+
+  export type $AccountMembershipPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AccountMembership"
+    objects: {
+      account: Prisma.$AccountPayload<ExtArgs>
+      agent: Prisma.$AgentAccountPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      accountId: string
+      agentId: string
+      role: $Enums.AgentRole
+      invitedById: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["accountMembership"]>
+    composites: {}
+  }
+
+  type AccountMembershipGetPayload<S extends boolean | null | undefined | AccountMembershipDefaultArgs> = $Result.GetResult<Prisma.$AccountMembershipPayload, S>
+
+  type AccountMembershipCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AccountMembershipFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AccountMembershipCountAggregateInputType | true
+    }
+
+  export interface AccountMembershipDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AccountMembership'], meta: { name: 'AccountMembership' } }
+    /**
+     * Find zero or one AccountMembership that matches the filter.
+     * @param {AccountMembershipFindUniqueArgs} args - Arguments to find a AccountMembership
+     * @example
+     * // Get one AccountMembership
+     * const accountMembership = await prisma.accountMembership.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AccountMembershipFindUniqueArgs>(args: SelectSubset<T, AccountMembershipFindUniqueArgs<ExtArgs>>): Prisma__AccountMembershipClient<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AccountMembership that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AccountMembershipFindUniqueOrThrowArgs} args - Arguments to find a AccountMembership
+     * @example
+     * // Get one AccountMembership
+     * const accountMembership = await prisma.accountMembership.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AccountMembershipFindUniqueOrThrowArgs>(args: SelectSubset<T, AccountMembershipFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AccountMembershipClient<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AccountMembership that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountMembershipFindFirstArgs} args - Arguments to find a AccountMembership
+     * @example
+     * // Get one AccountMembership
+     * const accountMembership = await prisma.accountMembership.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AccountMembershipFindFirstArgs>(args?: SelectSubset<T, AccountMembershipFindFirstArgs<ExtArgs>>): Prisma__AccountMembershipClient<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AccountMembership that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountMembershipFindFirstOrThrowArgs} args - Arguments to find a AccountMembership
+     * @example
+     * // Get one AccountMembership
+     * const accountMembership = await prisma.accountMembership.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AccountMembershipFindFirstOrThrowArgs>(args?: SelectSubset<T, AccountMembershipFindFirstOrThrowArgs<ExtArgs>>): Prisma__AccountMembershipClient<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AccountMemberships that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountMembershipFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AccountMemberships
+     * const accountMemberships = await prisma.accountMembership.findMany()
+     * 
+     * // Get first 10 AccountMemberships
+     * const accountMemberships = await prisma.accountMembership.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const accountMembershipWithIdOnly = await prisma.accountMembership.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AccountMembershipFindManyArgs>(args?: SelectSubset<T, AccountMembershipFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AccountMembership.
+     * @param {AccountMembershipCreateArgs} args - Arguments to create a AccountMembership.
+     * @example
+     * // Create one AccountMembership
+     * const AccountMembership = await prisma.accountMembership.create({
+     *   data: {
+     *     // ... data to create a AccountMembership
+     *   }
+     * })
+     * 
+     */
+    create<T extends AccountMembershipCreateArgs>(args: SelectSubset<T, AccountMembershipCreateArgs<ExtArgs>>): Prisma__AccountMembershipClient<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AccountMemberships.
+     * @param {AccountMembershipCreateManyArgs} args - Arguments to create many AccountMemberships.
+     * @example
+     * // Create many AccountMemberships
+     * const accountMembership = await prisma.accountMembership.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AccountMembershipCreateManyArgs>(args?: SelectSubset<T, AccountMembershipCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AccountMemberships and returns the data saved in the database.
+     * @param {AccountMembershipCreateManyAndReturnArgs} args - Arguments to create many AccountMemberships.
+     * @example
+     * // Create many AccountMemberships
+     * const accountMembership = await prisma.accountMembership.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AccountMemberships and only return the `id`
+     * const accountMembershipWithIdOnly = await prisma.accountMembership.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AccountMembershipCreateManyAndReturnArgs>(args?: SelectSubset<T, AccountMembershipCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AccountMembership.
+     * @param {AccountMembershipDeleteArgs} args - Arguments to delete one AccountMembership.
+     * @example
+     * // Delete one AccountMembership
+     * const AccountMembership = await prisma.accountMembership.delete({
+     *   where: {
+     *     // ... filter to delete one AccountMembership
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AccountMembershipDeleteArgs>(args: SelectSubset<T, AccountMembershipDeleteArgs<ExtArgs>>): Prisma__AccountMembershipClient<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AccountMembership.
+     * @param {AccountMembershipUpdateArgs} args - Arguments to update one AccountMembership.
+     * @example
+     * // Update one AccountMembership
+     * const accountMembership = await prisma.accountMembership.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AccountMembershipUpdateArgs>(args: SelectSubset<T, AccountMembershipUpdateArgs<ExtArgs>>): Prisma__AccountMembershipClient<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AccountMemberships.
+     * @param {AccountMembershipDeleteManyArgs} args - Arguments to filter AccountMemberships to delete.
+     * @example
+     * // Delete a few AccountMemberships
+     * const { count } = await prisma.accountMembership.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AccountMembershipDeleteManyArgs>(args?: SelectSubset<T, AccountMembershipDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AccountMemberships.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountMembershipUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AccountMemberships
+     * const accountMembership = await prisma.accountMembership.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AccountMembershipUpdateManyArgs>(args: SelectSubset<T, AccountMembershipUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AccountMemberships and returns the data updated in the database.
+     * @param {AccountMembershipUpdateManyAndReturnArgs} args - Arguments to update many AccountMemberships.
+     * @example
+     * // Update many AccountMemberships
+     * const accountMembership = await prisma.accountMembership.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AccountMemberships and only return the `id`
+     * const accountMembershipWithIdOnly = await prisma.accountMembership.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AccountMembershipUpdateManyAndReturnArgs>(args: SelectSubset<T, AccountMembershipUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AccountMembership.
+     * @param {AccountMembershipUpsertArgs} args - Arguments to update or create a AccountMembership.
+     * @example
+     * // Update or create a AccountMembership
+     * const accountMembership = await prisma.accountMembership.upsert({
+     *   create: {
+     *     // ... data to create a AccountMembership
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AccountMembership we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AccountMembershipUpsertArgs>(args: SelectSubset<T, AccountMembershipUpsertArgs<ExtArgs>>): Prisma__AccountMembershipClient<$Result.GetResult<Prisma.$AccountMembershipPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AccountMemberships.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountMembershipCountArgs} args - Arguments to filter AccountMemberships to count.
+     * @example
+     * // Count the number of AccountMemberships
+     * const count = await prisma.accountMembership.count({
+     *   where: {
+     *     // ... the filter for the AccountMemberships we want to count
+     *   }
+     * })
+    **/
+    count<T extends AccountMembershipCountArgs>(
+      args?: Subset<T, AccountMembershipCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AccountMembershipCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AccountMembership.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountMembershipAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AccountMembershipAggregateArgs>(args: Subset<T, AccountMembershipAggregateArgs>): Prisma.PrismaPromise<GetAccountMembershipAggregateType<T>>
+
+    /**
+     * Group by AccountMembership.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountMembershipGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AccountMembershipGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AccountMembershipGroupByArgs['orderBy'] }
+        : { orderBy?: AccountMembershipGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AccountMembershipGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccountMembershipGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AccountMembership model
+   */
+  readonly fields: AccountMembershipFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AccountMembership.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AccountMembershipClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    agent<T extends AgentAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentAccountDefaultArgs<ExtArgs>>): Prisma__AgentAccountClient<$Result.GetResult<Prisma.$AgentAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AccountMembership model
+   */
+  interface AccountMembershipFieldRefs {
+    readonly id: FieldRef<"AccountMembership", 'String'>
+    readonly accountId: FieldRef<"AccountMembership", 'String'>
+    readonly agentId: FieldRef<"AccountMembership", 'String'>
+    readonly role: FieldRef<"AccountMembership", 'AgentRole'>
+    readonly invitedById: FieldRef<"AccountMembership", 'String'>
+    readonly createdAt: FieldRef<"AccountMembership", 'DateTime'>
+    readonly updatedAt: FieldRef<"AccountMembership", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AccountMembership findUnique
+   */
+  export type AccountMembershipFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountMembership to fetch.
+     */
+    where: AccountMembershipWhereUniqueInput
+  }
+
+  /**
+   * AccountMembership findUniqueOrThrow
+   */
+  export type AccountMembershipFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountMembership to fetch.
+     */
+    where: AccountMembershipWhereUniqueInput
+  }
+
+  /**
+   * AccountMembership findFirst
+   */
+  export type AccountMembershipFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountMembership to fetch.
+     */
+    where?: AccountMembershipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccountMemberships to fetch.
+     */
+    orderBy?: AccountMembershipOrderByWithRelationInput | AccountMembershipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AccountMemberships.
+     */
+    cursor?: AccountMembershipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccountMemberships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccountMemberships.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AccountMemberships.
+     */
+    distinct?: AccountMembershipScalarFieldEnum | AccountMembershipScalarFieldEnum[]
+  }
+
+  /**
+   * AccountMembership findFirstOrThrow
+   */
+  export type AccountMembershipFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountMembership to fetch.
+     */
+    where?: AccountMembershipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccountMemberships to fetch.
+     */
+    orderBy?: AccountMembershipOrderByWithRelationInput | AccountMembershipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AccountMemberships.
+     */
+    cursor?: AccountMembershipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccountMemberships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccountMemberships.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AccountMemberships.
+     */
+    distinct?: AccountMembershipScalarFieldEnum | AccountMembershipScalarFieldEnum[]
+  }
+
+  /**
+   * AccountMembership findMany
+   */
+  export type AccountMembershipFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountMemberships to fetch.
+     */
+    where?: AccountMembershipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccountMemberships to fetch.
+     */
+    orderBy?: AccountMembershipOrderByWithRelationInput | AccountMembershipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AccountMemberships.
+     */
+    cursor?: AccountMembershipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccountMemberships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccountMemberships.
+     */
+    skip?: number
+    distinct?: AccountMembershipScalarFieldEnum | AccountMembershipScalarFieldEnum[]
+  }
+
+  /**
+   * AccountMembership create
+   */
+  export type AccountMembershipCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AccountMembership.
+     */
+    data: XOR<AccountMembershipCreateInput, AccountMembershipUncheckedCreateInput>
+  }
+
+  /**
+   * AccountMembership createMany
+   */
+  export type AccountMembershipCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AccountMemberships.
+     */
+    data: AccountMembershipCreateManyInput | AccountMembershipCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AccountMembership createManyAndReturn
+   */
+  export type AccountMembershipCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * The data used to create many AccountMemberships.
+     */
+    data: AccountMembershipCreateManyInput | AccountMembershipCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AccountMembership update
+   */
+  export type AccountMembershipUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AccountMembership.
+     */
+    data: XOR<AccountMembershipUpdateInput, AccountMembershipUncheckedUpdateInput>
+    /**
+     * Choose, which AccountMembership to update.
+     */
+    where: AccountMembershipWhereUniqueInput
+  }
+
+  /**
+   * AccountMembership updateMany
+   */
+  export type AccountMembershipUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AccountMemberships.
+     */
+    data: XOR<AccountMembershipUpdateManyMutationInput, AccountMembershipUncheckedUpdateManyInput>
+    /**
+     * Filter which AccountMemberships to update
+     */
+    where?: AccountMembershipWhereInput
+    /**
+     * Limit how many AccountMemberships to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AccountMembership updateManyAndReturn
+   */
+  export type AccountMembershipUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * The data used to update AccountMemberships.
+     */
+    data: XOR<AccountMembershipUpdateManyMutationInput, AccountMembershipUncheckedUpdateManyInput>
+    /**
+     * Filter which AccountMemberships to update
+     */
+    where?: AccountMembershipWhereInput
+    /**
+     * Limit how many AccountMemberships to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AccountMembership upsert
+   */
+  export type AccountMembershipUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AccountMembership to update in case it exists.
+     */
+    where: AccountMembershipWhereUniqueInput
+    /**
+     * In case the AccountMembership found by the `where` argument doesn't exist, create a new AccountMembership with this data.
+     */
+    create: XOR<AccountMembershipCreateInput, AccountMembershipUncheckedCreateInput>
+    /**
+     * In case the AccountMembership was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AccountMembershipUpdateInput, AccountMembershipUncheckedUpdateInput>
+  }
+
+  /**
+   * AccountMembership delete
+   */
+  export type AccountMembershipDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+    /**
+     * Filter which AccountMembership to delete.
+     */
+    where: AccountMembershipWhereUniqueInput
+  }
+
+  /**
+   * AccountMembership deleteMany
+   */
+  export type AccountMembershipDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AccountMemberships to delete
+     */
+    where?: AccountMembershipWhereInput
+    /**
+     * Limit how many AccountMemberships to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AccountMembership without action
+   */
+  export type AccountMembershipDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountMembership
+     */
+    select?: AccountMembershipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountMembership
+     */
+    omit?: AccountMembershipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountMembershipInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AccountConfiguration
+   */
+
+  export type AggregateAccountConfiguration = {
+    _count: AccountConfigurationCountAggregateOutputType | null
+    _min: AccountConfigurationMinAggregateOutputType | null
+    _max: AccountConfigurationMaxAggregateOutputType | null
+  }
+
+  export type AccountConfigurationMinAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    key: string | null
+    encryptedValue: string | null
+    iv: string | null
+    authTag: string | null
+    isSecret: boolean | null
+    updatedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccountConfigurationMaxAggregateOutputType = {
+    id: string | null
+    accountId: string | null
+    key: string | null
+    encryptedValue: string | null
+    iv: string | null
+    authTag: string | null
+    isSecret: boolean | null
+    updatedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccountConfigurationCountAggregateOutputType = {
+    id: number
+    accountId: number
+    key: number
+    encryptedValue: number
+    iv: number
+    authTag: number
+    isSecret: number
+    updatedById: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AccountConfigurationMinAggregateInputType = {
+    id?: true
+    accountId?: true
+    key?: true
+    encryptedValue?: true
+    iv?: true
+    authTag?: true
+    isSecret?: true
+    updatedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccountConfigurationMaxAggregateInputType = {
+    id?: true
+    accountId?: true
+    key?: true
+    encryptedValue?: true
+    iv?: true
+    authTag?: true
+    isSecret?: true
+    updatedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccountConfigurationCountAggregateInputType = {
+    id?: true
+    accountId?: true
+    key?: true
+    encryptedValue?: true
+    iv?: true
+    authTag?: true
+    isSecret?: true
+    updatedById?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AccountConfigurationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AccountConfiguration to aggregate.
+     */
+    where?: AccountConfigurationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccountConfigurations to fetch.
+     */
+    orderBy?: AccountConfigurationOrderByWithRelationInput | AccountConfigurationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AccountConfigurationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccountConfigurations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccountConfigurations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AccountConfigurations
+    **/
+    _count?: true | AccountConfigurationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AccountConfigurationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AccountConfigurationMaxAggregateInputType
+  }
+
+  export type GetAccountConfigurationAggregateType<T extends AccountConfigurationAggregateArgs> = {
+        [P in keyof T & keyof AggregateAccountConfiguration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccountConfiguration[P]>
+      : GetScalarType<T[P], AggregateAccountConfiguration[P]>
+  }
+
+
+
+
+  export type AccountConfigurationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccountConfigurationWhereInput
+    orderBy?: AccountConfigurationOrderByWithAggregationInput | AccountConfigurationOrderByWithAggregationInput[]
+    by: AccountConfigurationScalarFieldEnum[] | AccountConfigurationScalarFieldEnum
+    having?: AccountConfigurationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AccountConfigurationCountAggregateInputType | true
+    _min?: AccountConfigurationMinAggregateInputType
+    _max?: AccountConfigurationMaxAggregateInputType
+  }
+
+  export type AccountConfigurationGroupByOutputType = {
+    id: string
+    accountId: string
+    key: string
+    encryptedValue: string
+    iv: string
+    authTag: string
+    isSecret: boolean
+    updatedById: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AccountConfigurationCountAggregateOutputType | null
+    _min: AccountConfigurationMinAggregateOutputType | null
+    _max: AccountConfigurationMaxAggregateOutputType | null
+  }
+
+  type GetAccountConfigurationGroupByPayload<T extends AccountConfigurationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AccountConfigurationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AccountConfigurationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccountConfigurationGroupByOutputType[P]>
+            : GetScalarType<T[P], AccountConfigurationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AccountConfigurationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    key?: boolean
+    encryptedValue?: boolean
+    iv?: boolean
+    authTag?: boolean
+    isSecret?: boolean
+    updatedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accountConfiguration"]>
+
+  export type AccountConfigurationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    key?: boolean
+    encryptedValue?: boolean
+    iv?: boolean
+    authTag?: boolean
+    isSecret?: boolean
+    updatedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accountConfiguration"]>
+
+  export type AccountConfigurationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accountId?: boolean
+    key?: boolean
+    encryptedValue?: boolean
+    iv?: boolean
+    authTag?: boolean
+    isSecret?: boolean
+    updatedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accountConfiguration"]>
+
+  export type AccountConfigurationSelectScalar = {
+    id?: boolean
+    accountId?: boolean
+    key?: boolean
+    encryptedValue?: boolean
+    iv?: boolean
+    authTag?: boolean
+    isSecret?: boolean
+    updatedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AccountConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "key" | "encryptedValue" | "iv" | "authTag" | "isSecret" | "updatedById" | "createdAt" | "updatedAt", ExtArgs["result"]["accountConfiguration"]>
+  export type AccountConfigurationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type AccountConfigurationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+  export type AccountConfigurationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    account?: boolean | AccountDefaultArgs<ExtArgs>
+  }
+
+  export type $AccountConfigurationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AccountConfiguration"
+    objects: {
+      account: Prisma.$AccountPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      accountId: string
+      key: string
+      encryptedValue: string
+      iv: string
+      authTag: string
+      isSecret: boolean
+      updatedById: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["accountConfiguration"]>
+    composites: {}
+  }
+
+  type AccountConfigurationGetPayload<S extends boolean | null | undefined | AccountConfigurationDefaultArgs> = $Result.GetResult<Prisma.$AccountConfigurationPayload, S>
+
+  type AccountConfigurationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AccountConfigurationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AccountConfigurationCountAggregateInputType | true
+    }
+
+  export interface AccountConfigurationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AccountConfiguration'], meta: { name: 'AccountConfiguration' } }
+    /**
+     * Find zero or one AccountConfiguration that matches the filter.
+     * @param {AccountConfigurationFindUniqueArgs} args - Arguments to find a AccountConfiguration
+     * @example
+     * // Get one AccountConfiguration
+     * const accountConfiguration = await prisma.accountConfiguration.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AccountConfigurationFindUniqueArgs>(args: SelectSubset<T, AccountConfigurationFindUniqueArgs<ExtArgs>>): Prisma__AccountConfigurationClient<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AccountConfiguration that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AccountConfigurationFindUniqueOrThrowArgs} args - Arguments to find a AccountConfiguration
+     * @example
+     * // Get one AccountConfiguration
+     * const accountConfiguration = await prisma.accountConfiguration.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AccountConfigurationFindUniqueOrThrowArgs>(args: SelectSubset<T, AccountConfigurationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AccountConfigurationClient<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AccountConfiguration that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountConfigurationFindFirstArgs} args - Arguments to find a AccountConfiguration
+     * @example
+     * // Get one AccountConfiguration
+     * const accountConfiguration = await prisma.accountConfiguration.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AccountConfigurationFindFirstArgs>(args?: SelectSubset<T, AccountConfigurationFindFirstArgs<ExtArgs>>): Prisma__AccountConfigurationClient<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AccountConfiguration that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountConfigurationFindFirstOrThrowArgs} args - Arguments to find a AccountConfiguration
+     * @example
+     * // Get one AccountConfiguration
+     * const accountConfiguration = await prisma.accountConfiguration.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AccountConfigurationFindFirstOrThrowArgs>(args?: SelectSubset<T, AccountConfigurationFindFirstOrThrowArgs<ExtArgs>>): Prisma__AccountConfigurationClient<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AccountConfigurations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountConfigurationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AccountConfigurations
+     * const accountConfigurations = await prisma.accountConfiguration.findMany()
+     * 
+     * // Get first 10 AccountConfigurations
+     * const accountConfigurations = await prisma.accountConfiguration.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const accountConfigurationWithIdOnly = await prisma.accountConfiguration.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AccountConfigurationFindManyArgs>(args?: SelectSubset<T, AccountConfigurationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AccountConfiguration.
+     * @param {AccountConfigurationCreateArgs} args - Arguments to create a AccountConfiguration.
+     * @example
+     * // Create one AccountConfiguration
+     * const AccountConfiguration = await prisma.accountConfiguration.create({
+     *   data: {
+     *     // ... data to create a AccountConfiguration
+     *   }
+     * })
+     * 
+     */
+    create<T extends AccountConfigurationCreateArgs>(args: SelectSubset<T, AccountConfigurationCreateArgs<ExtArgs>>): Prisma__AccountConfigurationClient<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AccountConfigurations.
+     * @param {AccountConfigurationCreateManyArgs} args - Arguments to create many AccountConfigurations.
+     * @example
+     * // Create many AccountConfigurations
+     * const accountConfiguration = await prisma.accountConfiguration.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AccountConfigurationCreateManyArgs>(args?: SelectSubset<T, AccountConfigurationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AccountConfigurations and returns the data saved in the database.
+     * @param {AccountConfigurationCreateManyAndReturnArgs} args - Arguments to create many AccountConfigurations.
+     * @example
+     * // Create many AccountConfigurations
+     * const accountConfiguration = await prisma.accountConfiguration.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AccountConfigurations and only return the `id`
+     * const accountConfigurationWithIdOnly = await prisma.accountConfiguration.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AccountConfigurationCreateManyAndReturnArgs>(args?: SelectSubset<T, AccountConfigurationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AccountConfiguration.
+     * @param {AccountConfigurationDeleteArgs} args - Arguments to delete one AccountConfiguration.
+     * @example
+     * // Delete one AccountConfiguration
+     * const AccountConfiguration = await prisma.accountConfiguration.delete({
+     *   where: {
+     *     // ... filter to delete one AccountConfiguration
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AccountConfigurationDeleteArgs>(args: SelectSubset<T, AccountConfigurationDeleteArgs<ExtArgs>>): Prisma__AccountConfigurationClient<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AccountConfiguration.
+     * @param {AccountConfigurationUpdateArgs} args - Arguments to update one AccountConfiguration.
+     * @example
+     * // Update one AccountConfiguration
+     * const accountConfiguration = await prisma.accountConfiguration.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AccountConfigurationUpdateArgs>(args: SelectSubset<T, AccountConfigurationUpdateArgs<ExtArgs>>): Prisma__AccountConfigurationClient<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AccountConfigurations.
+     * @param {AccountConfigurationDeleteManyArgs} args - Arguments to filter AccountConfigurations to delete.
+     * @example
+     * // Delete a few AccountConfigurations
+     * const { count } = await prisma.accountConfiguration.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AccountConfigurationDeleteManyArgs>(args?: SelectSubset<T, AccountConfigurationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AccountConfigurations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountConfigurationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AccountConfigurations
+     * const accountConfiguration = await prisma.accountConfiguration.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AccountConfigurationUpdateManyArgs>(args: SelectSubset<T, AccountConfigurationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AccountConfigurations and returns the data updated in the database.
+     * @param {AccountConfigurationUpdateManyAndReturnArgs} args - Arguments to update many AccountConfigurations.
+     * @example
+     * // Update many AccountConfigurations
+     * const accountConfiguration = await prisma.accountConfiguration.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AccountConfigurations and only return the `id`
+     * const accountConfigurationWithIdOnly = await prisma.accountConfiguration.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AccountConfigurationUpdateManyAndReturnArgs>(args: SelectSubset<T, AccountConfigurationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AccountConfiguration.
+     * @param {AccountConfigurationUpsertArgs} args - Arguments to update or create a AccountConfiguration.
+     * @example
+     * // Update or create a AccountConfiguration
+     * const accountConfiguration = await prisma.accountConfiguration.upsert({
+     *   create: {
+     *     // ... data to create a AccountConfiguration
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AccountConfiguration we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AccountConfigurationUpsertArgs>(args: SelectSubset<T, AccountConfigurationUpsertArgs<ExtArgs>>): Prisma__AccountConfigurationClient<$Result.GetResult<Prisma.$AccountConfigurationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AccountConfigurations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountConfigurationCountArgs} args - Arguments to filter AccountConfigurations to count.
+     * @example
+     * // Count the number of AccountConfigurations
+     * const count = await prisma.accountConfiguration.count({
+     *   where: {
+     *     // ... the filter for the AccountConfigurations we want to count
+     *   }
+     * })
+    **/
+    count<T extends AccountConfigurationCountArgs>(
+      args?: Subset<T, AccountConfigurationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AccountConfigurationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AccountConfiguration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountConfigurationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AccountConfigurationAggregateArgs>(args: Subset<T, AccountConfigurationAggregateArgs>): Prisma.PrismaPromise<GetAccountConfigurationAggregateType<T>>
+
+    /**
+     * Group by AccountConfiguration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountConfigurationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AccountConfigurationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AccountConfigurationGroupByArgs['orderBy'] }
+        : { orderBy?: AccountConfigurationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AccountConfigurationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccountConfigurationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AccountConfiguration model
+   */
+  readonly fields: AccountConfigurationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AccountConfiguration.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AccountConfigurationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AccountConfiguration model
+   */
+  interface AccountConfigurationFieldRefs {
+    readonly id: FieldRef<"AccountConfiguration", 'String'>
+    readonly accountId: FieldRef<"AccountConfiguration", 'String'>
+    readonly key: FieldRef<"AccountConfiguration", 'String'>
+    readonly encryptedValue: FieldRef<"AccountConfiguration", 'String'>
+    readonly iv: FieldRef<"AccountConfiguration", 'String'>
+    readonly authTag: FieldRef<"AccountConfiguration", 'String'>
+    readonly isSecret: FieldRef<"AccountConfiguration", 'Boolean'>
+    readonly updatedById: FieldRef<"AccountConfiguration", 'String'>
+    readonly createdAt: FieldRef<"AccountConfiguration", 'DateTime'>
+    readonly updatedAt: FieldRef<"AccountConfiguration", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AccountConfiguration findUnique
+   */
+  export type AccountConfigurationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountConfiguration to fetch.
+     */
+    where: AccountConfigurationWhereUniqueInput
+  }
+
+  /**
+   * AccountConfiguration findUniqueOrThrow
+   */
+  export type AccountConfigurationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountConfiguration to fetch.
+     */
+    where: AccountConfigurationWhereUniqueInput
+  }
+
+  /**
+   * AccountConfiguration findFirst
+   */
+  export type AccountConfigurationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountConfiguration to fetch.
+     */
+    where?: AccountConfigurationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccountConfigurations to fetch.
+     */
+    orderBy?: AccountConfigurationOrderByWithRelationInput | AccountConfigurationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AccountConfigurations.
+     */
+    cursor?: AccountConfigurationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccountConfigurations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccountConfigurations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AccountConfigurations.
+     */
+    distinct?: AccountConfigurationScalarFieldEnum | AccountConfigurationScalarFieldEnum[]
+  }
+
+  /**
+   * AccountConfiguration findFirstOrThrow
+   */
+  export type AccountConfigurationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountConfiguration to fetch.
+     */
+    where?: AccountConfigurationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccountConfigurations to fetch.
+     */
+    orderBy?: AccountConfigurationOrderByWithRelationInput | AccountConfigurationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AccountConfigurations.
+     */
+    cursor?: AccountConfigurationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccountConfigurations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccountConfigurations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AccountConfigurations.
+     */
+    distinct?: AccountConfigurationScalarFieldEnum | AccountConfigurationScalarFieldEnum[]
+  }
+
+  /**
+   * AccountConfiguration findMany
+   */
+  export type AccountConfigurationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which AccountConfigurations to fetch.
+     */
+    where?: AccountConfigurationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccountConfigurations to fetch.
+     */
+    orderBy?: AccountConfigurationOrderByWithRelationInput | AccountConfigurationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AccountConfigurations.
+     */
+    cursor?: AccountConfigurationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccountConfigurations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccountConfigurations.
+     */
+    skip?: number
+    distinct?: AccountConfigurationScalarFieldEnum | AccountConfigurationScalarFieldEnum[]
+  }
+
+  /**
+   * AccountConfiguration create
+   */
+  export type AccountConfigurationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AccountConfiguration.
+     */
+    data: XOR<AccountConfigurationCreateInput, AccountConfigurationUncheckedCreateInput>
+  }
+
+  /**
+   * AccountConfiguration createMany
+   */
+  export type AccountConfigurationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AccountConfigurations.
+     */
+    data: AccountConfigurationCreateManyInput | AccountConfigurationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AccountConfiguration createManyAndReturn
+   */
+  export type AccountConfigurationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * The data used to create many AccountConfigurations.
+     */
+    data: AccountConfigurationCreateManyInput | AccountConfigurationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AccountConfiguration update
+   */
+  export type AccountConfigurationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AccountConfiguration.
+     */
+    data: XOR<AccountConfigurationUpdateInput, AccountConfigurationUncheckedUpdateInput>
+    /**
+     * Choose, which AccountConfiguration to update.
+     */
+    where: AccountConfigurationWhereUniqueInput
+  }
+
+  /**
+   * AccountConfiguration updateMany
+   */
+  export type AccountConfigurationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AccountConfigurations.
+     */
+    data: XOR<AccountConfigurationUpdateManyMutationInput, AccountConfigurationUncheckedUpdateManyInput>
+    /**
+     * Filter which AccountConfigurations to update
+     */
+    where?: AccountConfigurationWhereInput
+    /**
+     * Limit how many AccountConfigurations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AccountConfiguration updateManyAndReturn
+   */
+  export type AccountConfigurationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * The data used to update AccountConfigurations.
+     */
+    data: XOR<AccountConfigurationUpdateManyMutationInput, AccountConfigurationUncheckedUpdateManyInput>
+    /**
+     * Filter which AccountConfigurations to update
+     */
+    where?: AccountConfigurationWhereInput
+    /**
+     * Limit how many AccountConfigurations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AccountConfiguration upsert
+   */
+  export type AccountConfigurationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AccountConfiguration to update in case it exists.
+     */
+    where: AccountConfigurationWhereUniqueInput
+    /**
+     * In case the AccountConfiguration found by the `where` argument doesn't exist, create a new AccountConfiguration with this data.
+     */
+    create: XOR<AccountConfigurationCreateInput, AccountConfigurationUncheckedCreateInput>
+    /**
+     * In case the AccountConfiguration was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AccountConfigurationUpdateInput, AccountConfigurationUncheckedUpdateInput>
+  }
+
+  /**
+   * AccountConfiguration delete
+   */
+  export type AccountConfigurationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter which AccountConfiguration to delete.
+     */
+    where: AccountConfigurationWhereUniqueInput
+  }
+
+  /**
+   * AccountConfiguration deleteMany
+   */
+  export type AccountConfigurationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AccountConfigurations to delete
+     */
+    where?: AccountConfigurationWhereInput
+    /**
+     * Limit how many AccountConfigurations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AccountConfiguration without action
+   */
+  export type AccountConfigurationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountConfiguration
+     */
+    select?: AccountConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountConfiguration
+     */
+    omit?: AccountConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountConfigurationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -14038,6 +21214,7 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
+    accountId: 'accountId',
     email: 'email',
     name: 'name',
     phone: 'phone',
@@ -14051,6 +21228,7 @@ export namespace Prisma {
 
   export const OrderScalarFieldEnum: {
     id: 'id',
+    accountId: 'accountId',
     userId: 'userId',
     orderId: 'orderId',
     createdAt: 'createdAt',
@@ -14062,6 +21240,7 @@ export namespace Prisma {
 
   export const ChatSessionScalarFieldEnum: {
     id: 'id',
+    accountId: 'accountId',
     userId: 'userId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -14077,6 +21256,7 @@ export namespace Prisma {
 
   export const TicketScalarFieldEnum: {
     id: 'id',
+    accountId: 'accountId',
     ticket: 'ticket',
     createdAt: 'createdAt',
     userId: 'userId'
@@ -14087,6 +21267,7 @@ export namespace Prisma {
 
   export const ConversationMessageScalarFieldEnum: {
     id: 'id',
+    tenantAccountId: 'tenantAccountId',
     messageId: 'messageId',
     conversationId: 'conversationId',
     inboxId: 'inboxId',
@@ -14100,6 +21281,7 @@ export namespace Prisma {
 
 
   export const AgentAssignmentScalarFieldEnum: {
+    tenantAccountId: 'tenantAccountId',
     inboxId: 'inboxId',
     agentId: 'agentId',
     lastAssignedAt: 'lastAssignedAt',
@@ -14112,6 +21294,7 @@ export namespace Prisma {
 
   export const HandoffRequestScalarFieldEnum: {
     conversationKey: 'conversationKey',
+    tenantAccountId: 'tenantAccountId',
     conversationId: 'conversationId',
     accountId: 'accountId',
     inboxId: 'inboxId',
@@ -14126,6 +21309,7 @@ export namespace Prisma {
 
   export const ScrapeJobScalarFieldEnum: {
     id: 'id',
+    accountId: 'accountId',
     script: 'script',
     args: 'args',
     status: 'status',
@@ -14146,10 +21330,43 @@ export namespace Prisma {
   export type ScrapeJobScalarFieldEnum = (typeof ScrapeJobScalarFieldEnum)[keyof typeof ScrapeJobScalarFieldEnum]
 
 
+  export const ScrapeJobLogScalarFieldEnum: {
+    id: 'id',
+    accountId: 'accountId',
+    jobId: 'jobId',
+    storageKey: 'storageKey',
+    startedAt: 'startedAt',
+    byteSize: 'byteSize',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ScrapeJobLogScalarFieldEnum = (typeof ScrapeJobLogScalarFieldEnum)[keyof typeof ScrapeJobLogScalarFieldEnum]
+
+
+  export const KnowledgeDocumentScalarFieldEnum: {
+    id: 'id',
+    accountId: 'accountId',
+    kind: 'kind',
+    name: 'name',
+    storageKey: 'storageKey',
+    mimeType: 'mimeType',
+    byteSize: 'byteSize',
+    sourceCreatedAt: 'sourceCreatedAt',
+    sourceModifiedAt: 'sourceModifiedAt',
+    sourceJobId: 'sourceJobId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type KnowledgeDocumentScalarFieldEnum = (typeof KnowledgeDocumentScalarFieldEnum)[keyof typeof KnowledgeDocumentScalarFieldEnum]
+
+
   export const AgentAccountScalarFieldEnum: {
     userId: 'userId',
     hashedPin: 'hashedPin',
     telegramChatId: 'telegramChatId',
+    platformAdmin: 'platformAdmin',
     roles: 'roles',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -14161,6 +21378,7 @@ export namespace Prisma {
   export const LoginTokenScalarFieldEnum: {
     id: 'id',
     agentId: 'agentId',
+    accountId: 'accountId',
     tokenHash: 'tokenHash',
     expiresAt: 'expiresAt',
     consumedAt: 'consumedAt',
@@ -14181,6 +21399,51 @@ export namespace Prisma {
   };
 
   export type LoginAuditScalarFieldEnum = (typeof LoginAuditScalarFieldEnum)[keyof typeof LoginAuditScalarFieldEnum]
+
+
+  export const AccountScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    status: 'status',
+    isPrimary: 'isPrimary',
+    suspensionReason: 'suspensionReason',
+    maintenanceMessage: 'maintenanceMessage',
+    createdById: 'createdById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+  export const AccountMembershipScalarFieldEnum: {
+    id: 'id',
+    accountId: 'accountId',
+    agentId: 'agentId',
+    role: 'role',
+    invitedById: 'invitedById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AccountMembershipScalarFieldEnum = (typeof AccountMembershipScalarFieldEnum)[keyof typeof AccountMembershipScalarFieldEnum]
+
+
+  export const AccountConfigurationScalarFieldEnum: {
+    id: 'id',
+    accountId: 'accountId',
+    key: 'key',
+    encryptedValue: 'encryptedValue',
+    iv: 'iv',
+    authTag: 'authTag',
+    isSecret: 'isSecret',
+    updatedById: 'updatedById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AccountConfigurationScalarFieldEnum = (typeof AccountConfigurationScalarFieldEnum)[keyof typeof AccountConfigurationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -14370,6 +21633,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'KnowledgeDocumentKind'
+   */
+  export type EnumKnowledgeDocumentKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KnowledgeDocumentKind'>
+    
+
+
+  /**
+   * Reference to a field of type 'KnowledgeDocumentKind[]'
+   */
+  export type ListEnumKnowledgeDocumentKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KnowledgeDocumentKind[]'>
+    
+
+
+  /**
    * Reference to a field of type 'AgentRole[]'
    */
   export type ListEnumAgentRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentRole[]'>
@@ -14395,6 +21672,20 @@ export namespace Prisma {
    */
   export type ListEnumLoginAuditStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LoginAuditStatus[]'>
     
+
+
+  /**
+   * Reference to a field of type 'AccountStatus'
+   */
+  export type EnumAccountStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccountStatus[]'
+   */
+  export type ListEnumAccountStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountStatus[]'>
+    
   /**
    * Deep Input Types
    */
@@ -14405,12 +21696,14 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
+    accountId?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
     address?: StringNullableFilter<"User"> | string | null
     longSummary?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     orders?: OrderListRelationFilter
     sessions?: ChatSessionListRelationFilter
     tickets?: TicketListRelationFilter
@@ -14418,12 +21711,14 @@ export namespace Prisma {
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     email?: SortOrder
     name?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     longSummary?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    account?: AccountOrderByWithRelationInput
     orders?: OrderOrderByRelationAggregateInput
     sessions?: ChatSessionOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
@@ -14431,22 +21726,27 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    email?: string
+    accountId_email?: UserAccountIdEmailCompoundUniqueInput
+    accountId_id?: UserAccountIdIdCompoundUniqueInput
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
+    accountId?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
     address?: StringNullableFilter<"User"> | string | null
     longSummary?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     orders?: OrderListRelationFilter
     sessions?: ChatSessionListRelationFilter
     tickets?: TicketListRelationFilter
-  }, "id" | "email">
+  }, "id" | "accountId_email" | "accountId_id">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     email?: SortOrder
     name?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
@@ -14463,6 +21763,7 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
+    accountId?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -14476,36 +21777,44 @@ export namespace Prisma {
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
     id?: StringFilter<"Order"> | string
+    accountId?: StringFilter<"Order"> | string
     userId?: StringNullableFilter<"Order"> | string | null
     orderId?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
     status?: StringNullableFilter<"Order"> | string | null
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type OrderOrderByWithRelationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrderInput | SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
     status?: SortOrderInput | SortOrder
+    account?: AccountOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
 
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    orderId?: string
+    accountId_orderId?: OrderAccountIdOrderIdCompoundUniqueInput
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
+    accountId?: StringFilter<"Order"> | string
     userId?: StringNullableFilter<"Order"> | string | null
+    orderId?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
     status?: StringNullableFilter<"Order"> | string | null
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }, "id" | "orderId">
+  }, "id" | "accountId_orderId">
 
   export type OrderOrderByWithAggregationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrderInput | SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
@@ -14520,6 +21829,7 @@ export namespace Prisma {
     OR?: OrderScalarWhereWithAggregatesInput[]
     NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Order"> | string
+    accountId?: StringWithAggregatesFilter<"Order"> | string
     userId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     orderId?: StringWithAggregatesFilter<"Order"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
@@ -14531,6 +21841,7 @@ export namespace Prisma {
     OR?: ChatSessionWhereInput[]
     NOT?: ChatSessionWhereInput | ChatSessionWhereInput[]
     id?: StringFilter<"ChatSession"> | string
+    accountId?: StringFilter<"ChatSession"> | string
     userId?: StringFilter<"ChatSession"> | string
     createdAt?: DateTimeFilter<"ChatSession"> | Date | string
     updatedAt?: DateTimeFilter<"ChatSession"> | Date | string
@@ -14539,11 +21850,13 @@ export namespace Prisma {
     summary?: StringNullableFilter<"ChatSession"> | string | null
     lastSummarizedIndex?: IntFilter<"ChatSession"> | number
     unsummarizedLimit?: IntFilter<"ChatSession"> | number
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ChatSessionOrderByWithRelationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14552,14 +21865,17 @@ export namespace Prisma {
     summary?: SortOrderInput | SortOrder
     lastSummarizedIndex?: SortOrder
     unsummarizedLimit?: SortOrder
+    account?: AccountOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
 
   export type ChatSessionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    accountId_id?: ChatSessionAccountIdIdCompoundUniqueInput
     AND?: ChatSessionWhereInput | ChatSessionWhereInput[]
     OR?: ChatSessionWhereInput[]
     NOT?: ChatSessionWhereInput | ChatSessionWhereInput[]
+    accountId?: StringFilter<"ChatSession"> | string
     userId?: StringFilter<"ChatSession"> | string
     createdAt?: DateTimeFilter<"ChatSession"> | Date | string
     updatedAt?: DateTimeFilter<"ChatSession"> | Date | string
@@ -14568,11 +21884,13 @@ export namespace Prisma {
     summary?: StringNullableFilter<"ChatSession"> | string | null
     lastSummarizedIndex?: IntFilter<"ChatSession"> | number
     unsummarizedLimit?: IntFilter<"ChatSession"> | number
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "accountId_id">
 
   export type ChatSessionOrderByWithAggregationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14593,6 +21911,7 @@ export namespace Prisma {
     OR?: ChatSessionScalarWhereWithAggregatesInput[]
     NOT?: ChatSessionScalarWhereWithAggregatesInput | ChatSessionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ChatSession"> | string
+    accountId?: StringWithAggregatesFilter<"ChatSession"> | string
     userId?: StringWithAggregatesFilter<"ChatSession"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ChatSession"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ChatSession"> | Date | string
@@ -14608,17 +21927,21 @@ export namespace Prisma {
     OR?: TicketWhereInput[]
     NOT?: TicketWhereInput | TicketWhereInput[]
     id?: StringFilter<"Ticket"> | string
+    accountId?: StringFilter<"Ticket"> | string
     ticket?: StringFilter<"Ticket"> | string
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     userId?: StringNullableFilter<"Ticket"> | string | null
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type TicketOrderByWithRelationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     ticket?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrderInput | SortOrder
+    account?: AccountOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
 
@@ -14627,14 +21950,17 @@ export namespace Prisma {
     AND?: TicketWhereInput | TicketWhereInput[]
     OR?: TicketWhereInput[]
     NOT?: TicketWhereInput | TicketWhereInput[]
+    accountId?: StringFilter<"Ticket"> | string
     ticket?: StringFilter<"Ticket"> | string
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     userId?: StringNullableFilter<"Ticket"> | string | null
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type TicketOrderByWithAggregationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     ticket?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrderInput | SortOrder
@@ -14648,6 +21974,7 @@ export namespace Prisma {
     OR?: TicketScalarWhereWithAggregatesInput[]
     NOT?: TicketScalarWhereWithAggregatesInput | TicketScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Ticket"> | string
+    accountId?: StringWithAggregatesFilter<"Ticket"> | string
     ticket?: StringWithAggregatesFilter<"Ticket"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Ticket"> | Date | string
     userId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
@@ -14658,6 +21985,7 @@ export namespace Prisma {
     OR?: ConversationMessageWhereInput[]
     NOT?: ConversationMessageWhereInput | ConversationMessageWhereInput[]
     id?: IntFilter<"ConversationMessage"> | number
+    tenantAccountId?: StringFilter<"ConversationMessage"> | string
     messageId?: IntFilter<"ConversationMessage"> | number
     conversationId?: IntFilter<"ConversationMessage"> | number
     inboxId?: IntFilter<"ConversationMessage"> | number
@@ -14665,10 +21993,12 @@ export namespace Prisma {
     sender?: StringFilter<"ConversationMessage"> | string
     content?: StringFilter<"ConversationMessage"> | string
     createdAt?: DateTimeFilter<"ConversationMessage"> | Date | string
+    tenantAccount?: XOR<AccountScalarRelationFilter, AccountWhereInput>
   }
 
   export type ConversationMessageOrderByWithRelationInput = {
     id?: SortOrder
+    tenantAccountId?: SortOrder
     messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
@@ -14676,14 +22006,16 @@ export namespace Prisma {
     sender?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
+    tenantAccount?: AccountOrderByWithRelationInput
   }
 
   export type ConversationMessageWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    conversationKey_messageId?: ConversationMessageConversationKeyMessageIdCompoundUniqueInput
+    tenantAccountId_conversationKey_messageId?: ConversationMessageTenantAccountIdConversationKeyMessageIdCompoundUniqueInput
     AND?: ConversationMessageWhereInput | ConversationMessageWhereInput[]
     OR?: ConversationMessageWhereInput[]
     NOT?: ConversationMessageWhereInput | ConversationMessageWhereInput[]
+    tenantAccountId?: StringFilter<"ConversationMessage"> | string
     messageId?: IntFilter<"ConversationMessage"> | number
     conversationId?: IntFilter<"ConversationMessage"> | number
     inboxId?: IntFilter<"ConversationMessage"> | number
@@ -14691,10 +22023,12 @@ export namespace Prisma {
     sender?: StringFilter<"ConversationMessage"> | string
     content?: StringFilter<"ConversationMessage"> | string
     createdAt?: DateTimeFilter<"ConversationMessage"> | Date | string
-  }, "id" | "conversationKey_messageId">
+    tenantAccount?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+  }, "id" | "tenantAccountId_conversationKey_messageId">
 
   export type ConversationMessageOrderByWithAggregationInput = {
     id?: SortOrder
+    tenantAccountId?: SortOrder
     messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
@@ -14714,6 +22048,7 @@ export namespace Prisma {
     OR?: ConversationMessageScalarWhereWithAggregatesInput[]
     NOT?: ConversationMessageScalarWhereWithAggregatesInput | ConversationMessageScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"ConversationMessage"> | number
+    tenantAccountId?: StringWithAggregatesFilter<"ConversationMessage"> | string
     messageId?: IntWithAggregatesFilter<"ConversationMessage"> | number
     conversationId?: IntWithAggregatesFilter<"ConversationMessage"> | number
     inboxId?: IntWithAggregatesFilter<"ConversationMessage"> | number
@@ -14727,34 +22062,41 @@ export namespace Prisma {
     AND?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
     OR?: AgentAssignmentWhereInput[]
     NOT?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
+    tenantAccountId?: StringFilter<"AgentAssignment"> | string
     inboxId?: IntFilter<"AgentAssignment"> | number
     agentId?: IntFilter<"AgentAssignment"> | number
     lastAssignedAt?: DateTimeNullableFilter<"AgentAssignment"> | Date | string | null
     activeConversationId?: IntNullableFilter<"AgentAssignment"> | number | null
     availabilityBeforeBusy?: EnumAgentAvailabilityNullableFilter<"AgentAssignment"> | $Enums.AgentAvailability | null
+    tenantAccount?: XOR<AccountScalarRelationFilter, AccountWhereInput>
   }
 
   export type AgentAssignmentOrderByWithRelationInput = {
+    tenantAccountId?: SortOrder
     inboxId?: SortOrder
     agentId?: SortOrder
     lastAssignedAt?: SortOrderInput | SortOrder
     activeConversationId?: SortOrderInput | SortOrder
     availabilityBeforeBusy?: SortOrderInput | SortOrder
+    tenantAccount?: AccountOrderByWithRelationInput
   }
 
   export type AgentAssignmentWhereUniqueInput = Prisma.AtLeast<{
-    inboxId_agentId?: AgentAssignmentInboxIdAgentIdCompoundUniqueInput
+    tenantAccountId_inboxId_agentId?: AgentAssignmentTenantAccountIdInboxIdAgentIdCompoundUniqueInput
     AND?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
     OR?: AgentAssignmentWhereInput[]
     NOT?: AgentAssignmentWhereInput | AgentAssignmentWhereInput[]
+    tenantAccountId?: StringFilter<"AgentAssignment"> | string
     inboxId?: IntFilter<"AgentAssignment"> | number
     agentId?: IntFilter<"AgentAssignment"> | number
     lastAssignedAt?: DateTimeNullableFilter<"AgentAssignment"> | Date | string | null
     activeConversationId?: IntNullableFilter<"AgentAssignment"> | number | null
     availabilityBeforeBusy?: EnumAgentAvailabilityNullableFilter<"AgentAssignment"> | $Enums.AgentAvailability | null
-  }, "inboxId_agentId">
+    tenantAccount?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+  }, "tenantAccountId_inboxId_agentId">
 
   export type AgentAssignmentOrderByWithAggregationInput = {
+    tenantAccountId?: SortOrder
     inboxId?: SortOrder
     agentId?: SortOrder
     lastAssignedAt?: SortOrderInput | SortOrder
@@ -14771,6 +22113,7 @@ export namespace Prisma {
     AND?: AgentAssignmentScalarWhereWithAggregatesInput | AgentAssignmentScalarWhereWithAggregatesInput[]
     OR?: AgentAssignmentScalarWhereWithAggregatesInput[]
     NOT?: AgentAssignmentScalarWhereWithAggregatesInput | AgentAssignmentScalarWhereWithAggregatesInput[]
+    tenantAccountId?: StringWithAggregatesFilter<"AgentAssignment"> | string
     inboxId?: IntWithAggregatesFilter<"AgentAssignment"> | number
     agentId?: IntWithAggregatesFilter<"AgentAssignment"> | number
     lastAssignedAt?: DateTimeNullableWithAggregatesFilter<"AgentAssignment"> | Date | string | null
@@ -14783,6 +22126,7 @@ export namespace Prisma {
     OR?: HandoffRequestWhereInput[]
     NOT?: HandoffRequestWhereInput | HandoffRequestWhereInput[]
     conversationKey?: StringFilter<"HandoffRequest"> | string
+    tenantAccountId?: StringFilter<"HandoffRequest"> | string
     conversationId?: IntFilter<"HandoffRequest"> | number
     accountId?: IntFilter<"HandoffRequest"> | number
     inboxId?: IntFilter<"HandoffRequest"> | number
@@ -14790,10 +22134,12 @@ export namespace Prisma {
     status?: EnumHandoffRequestStatusFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
     agentId?: IntNullableFilter<"HandoffRequest"> | number | null
     lastPositionNotified?: IntNullableFilter<"HandoffRequest"> | number | null
+    tenantAccount?: XOR<AccountScalarRelationFilter, AccountWhereInput>
   }
 
   export type HandoffRequestOrderByWithRelationInput = {
     conversationKey?: SortOrder
+    tenantAccountId?: SortOrder
     conversationId?: SortOrder
     accountId?: SortOrder
     inboxId?: SortOrder
@@ -14801,6 +22147,7 @@ export namespace Prisma {
     status?: SortOrder
     agentId?: SortOrderInput | SortOrder
     lastPositionNotified?: SortOrderInput | SortOrder
+    tenantAccount?: AccountOrderByWithRelationInput
   }
 
   export type HandoffRequestWhereUniqueInput = Prisma.AtLeast<{
@@ -14808,6 +22155,7 @@ export namespace Prisma {
     AND?: HandoffRequestWhereInput | HandoffRequestWhereInput[]
     OR?: HandoffRequestWhereInput[]
     NOT?: HandoffRequestWhereInput | HandoffRequestWhereInput[]
+    tenantAccountId?: StringFilter<"HandoffRequest"> | string
     conversationId?: IntFilter<"HandoffRequest"> | number
     accountId?: IntFilter<"HandoffRequest"> | number
     inboxId?: IntFilter<"HandoffRequest"> | number
@@ -14815,10 +22163,12 @@ export namespace Prisma {
     status?: EnumHandoffRequestStatusFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
     agentId?: IntNullableFilter<"HandoffRequest"> | number | null
     lastPositionNotified?: IntNullableFilter<"HandoffRequest"> | number | null
+    tenantAccount?: XOR<AccountScalarRelationFilter, AccountWhereInput>
   }, "conversationKey">
 
   export type HandoffRequestOrderByWithAggregationInput = {
     conversationKey?: SortOrder
+    tenantAccountId?: SortOrder
     conversationId?: SortOrder
     accountId?: SortOrder
     inboxId?: SortOrder
@@ -14838,6 +22188,7 @@ export namespace Prisma {
     OR?: HandoffRequestScalarWhereWithAggregatesInput[]
     NOT?: HandoffRequestScalarWhereWithAggregatesInput | HandoffRequestScalarWhereWithAggregatesInput[]
     conversationKey?: StringWithAggregatesFilter<"HandoffRequest"> | string
+    tenantAccountId?: StringWithAggregatesFilter<"HandoffRequest"> | string
     conversationId?: IntWithAggregatesFilter<"HandoffRequest"> | number
     accountId?: IntWithAggregatesFilter<"HandoffRequest"> | number
     inboxId?: IntWithAggregatesFilter<"HandoffRequest"> | number
@@ -14852,6 +22203,7 @@ export namespace Prisma {
     OR?: ScrapeJobWhereInput[]
     NOT?: ScrapeJobWhereInput | ScrapeJobWhereInput[]
     id?: StringFilter<"ScrapeJob"> | string
+    accountId?: StringFilter<"ScrapeJob"> | string
     script?: StringFilter<"ScrapeJob"> | string
     args?: JsonNullableFilter<"ScrapeJob">
     status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
@@ -14867,10 +22219,13 @@ export namespace Prisma {
     documentsIngested?: IntNullableFilter<"ScrapeJob"> | number | null
     createdAt?: DateTimeFilter<"ScrapeJob"> | Date | string
     updatedAt?: DateTimeFilter<"ScrapeJob"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+    logs?: ScrapeJobLogListRelationFilter
   }
 
   export type ScrapeJobOrderByWithRelationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     script?: SortOrder
     args?: SortOrderInput | SortOrder
     status?: SortOrder
@@ -14886,13 +22241,17 @@ export namespace Prisma {
     documentsIngested?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    account?: AccountOrderByWithRelationInput
+    logs?: ScrapeJobLogOrderByRelationAggregateInput
   }
 
   export type ScrapeJobWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    accountId_id?: ScrapeJobAccountIdIdCompoundUniqueInput
     AND?: ScrapeJobWhereInput | ScrapeJobWhereInput[]
     OR?: ScrapeJobWhereInput[]
     NOT?: ScrapeJobWhereInput | ScrapeJobWhereInput[]
+    accountId?: StringFilter<"ScrapeJob"> | string
     script?: StringFilter<"ScrapeJob"> | string
     args?: JsonNullableFilter<"ScrapeJob">
     status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
@@ -14908,10 +22267,13 @@ export namespace Prisma {
     documentsIngested?: IntNullableFilter<"ScrapeJob"> | number | null
     createdAt?: DateTimeFilter<"ScrapeJob"> | Date | string
     updatedAt?: DateTimeFilter<"ScrapeJob"> | Date | string
-  }, "id">
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+    logs?: ScrapeJobLogListRelationFilter
+  }, "id" | "accountId_id">
 
   export type ScrapeJobOrderByWithAggregationInput = {
     id?: SortOrder
+    accountId?: SortOrder
     script?: SortOrder
     args?: SortOrderInput | SortOrder
     status?: SortOrder
@@ -14939,6 +22301,7 @@ export namespace Prisma {
     OR?: ScrapeJobScalarWhereWithAggregatesInput[]
     NOT?: ScrapeJobScalarWhereWithAggregatesInput | ScrapeJobScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ScrapeJob"> | string
+    accountId?: StringWithAggregatesFilter<"ScrapeJob"> | string
     script?: StringWithAggregatesFilter<"ScrapeJob"> | string
     args?: JsonNullableWithAggregatesFilter<"ScrapeJob">
     status?: EnumScrapeJobStatusWithAggregatesFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
@@ -14956,6 +22319,175 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ScrapeJob"> | Date | string
   }
 
+  export type ScrapeJobLogWhereInput = {
+    AND?: ScrapeJobLogWhereInput | ScrapeJobLogWhereInput[]
+    OR?: ScrapeJobLogWhereInput[]
+    NOT?: ScrapeJobLogWhereInput | ScrapeJobLogWhereInput[]
+    id?: StringFilter<"ScrapeJobLog"> | string
+    accountId?: StringFilter<"ScrapeJobLog"> | string
+    jobId?: StringFilter<"ScrapeJobLog"> | string
+    storageKey?: StringFilter<"ScrapeJobLog"> | string
+    startedAt?: DateTimeFilter<"ScrapeJobLog"> | Date | string
+    byteSize?: IntFilter<"ScrapeJobLog"> | number
+    createdAt?: DateTimeFilter<"ScrapeJobLog"> | Date | string
+    updatedAt?: DateTimeFilter<"ScrapeJobLog"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+    job?: XOR<ScrapeJobScalarRelationFilter, ScrapeJobWhereInput>
+  }
+
+  export type ScrapeJobLogOrderByWithRelationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    jobId?: SortOrder
+    storageKey?: SortOrder
+    startedAt?: SortOrder
+    byteSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    account?: AccountOrderByWithRelationInput
+    job?: ScrapeJobOrderByWithRelationInput
+  }
+
+  export type ScrapeJobLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    accountId_jobId_storageKey?: ScrapeJobLogAccountIdJobIdStorageKeyCompoundUniqueInput
+    AND?: ScrapeJobLogWhereInput | ScrapeJobLogWhereInput[]
+    OR?: ScrapeJobLogWhereInput[]
+    NOT?: ScrapeJobLogWhereInput | ScrapeJobLogWhereInput[]
+    accountId?: StringFilter<"ScrapeJobLog"> | string
+    jobId?: StringFilter<"ScrapeJobLog"> | string
+    storageKey?: StringFilter<"ScrapeJobLog"> | string
+    startedAt?: DateTimeFilter<"ScrapeJobLog"> | Date | string
+    byteSize?: IntFilter<"ScrapeJobLog"> | number
+    createdAt?: DateTimeFilter<"ScrapeJobLog"> | Date | string
+    updatedAt?: DateTimeFilter<"ScrapeJobLog"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+    job?: XOR<ScrapeJobScalarRelationFilter, ScrapeJobWhereInput>
+  }, "id" | "accountId_jobId_storageKey">
+
+  export type ScrapeJobLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    jobId?: SortOrder
+    storageKey?: SortOrder
+    startedAt?: SortOrder
+    byteSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ScrapeJobLogCountOrderByAggregateInput
+    _avg?: ScrapeJobLogAvgOrderByAggregateInput
+    _max?: ScrapeJobLogMaxOrderByAggregateInput
+    _min?: ScrapeJobLogMinOrderByAggregateInput
+    _sum?: ScrapeJobLogSumOrderByAggregateInput
+  }
+
+  export type ScrapeJobLogScalarWhereWithAggregatesInput = {
+    AND?: ScrapeJobLogScalarWhereWithAggregatesInput | ScrapeJobLogScalarWhereWithAggregatesInput[]
+    OR?: ScrapeJobLogScalarWhereWithAggregatesInput[]
+    NOT?: ScrapeJobLogScalarWhereWithAggregatesInput | ScrapeJobLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScrapeJobLog"> | string
+    accountId?: StringWithAggregatesFilter<"ScrapeJobLog"> | string
+    jobId?: StringWithAggregatesFilter<"ScrapeJobLog"> | string
+    storageKey?: StringWithAggregatesFilter<"ScrapeJobLog"> | string
+    startedAt?: DateTimeWithAggregatesFilter<"ScrapeJobLog"> | Date | string
+    byteSize?: IntWithAggregatesFilter<"ScrapeJobLog"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ScrapeJobLog"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ScrapeJobLog"> | Date | string
+  }
+
+  export type KnowledgeDocumentWhereInput = {
+    AND?: KnowledgeDocumentWhereInput | KnowledgeDocumentWhereInput[]
+    OR?: KnowledgeDocumentWhereInput[]
+    NOT?: KnowledgeDocumentWhereInput | KnowledgeDocumentWhereInput[]
+    id?: StringFilter<"KnowledgeDocument"> | string
+    accountId?: StringFilter<"KnowledgeDocument"> | string
+    kind?: EnumKnowledgeDocumentKindFilter<"KnowledgeDocument"> | $Enums.KnowledgeDocumentKind
+    name?: StringFilter<"KnowledgeDocument"> | string
+    storageKey?: StringFilter<"KnowledgeDocument"> | string
+    mimeType?: StringFilter<"KnowledgeDocument"> | string
+    byteSize?: IntFilter<"KnowledgeDocument"> | number
+    sourceCreatedAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    sourceModifiedAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    sourceJobId?: StringNullableFilter<"KnowledgeDocument"> | string | null
+    createdAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+  }
+
+  export type KnowledgeDocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    kind?: SortOrder
+    name?: SortOrder
+    storageKey?: SortOrder
+    mimeType?: SortOrder
+    byteSize?: SortOrder
+    sourceCreatedAt?: SortOrder
+    sourceModifiedAt?: SortOrder
+    sourceJobId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    account?: AccountOrderByWithRelationInput
+  }
+
+  export type KnowledgeDocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    accountId_kind_name?: KnowledgeDocumentAccountIdKindNameCompoundUniqueInput
+    AND?: KnowledgeDocumentWhereInput | KnowledgeDocumentWhereInput[]
+    OR?: KnowledgeDocumentWhereInput[]
+    NOT?: KnowledgeDocumentWhereInput | KnowledgeDocumentWhereInput[]
+    accountId?: StringFilter<"KnowledgeDocument"> | string
+    kind?: EnumKnowledgeDocumentKindFilter<"KnowledgeDocument"> | $Enums.KnowledgeDocumentKind
+    name?: StringFilter<"KnowledgeDocument"> | string
+    storageKey?: StringFilter<"KnowledgeDocument"> | string
+    mimeType?: StringFilter<"KnowledgeDocument"> | string
+    byteSize?: IntFilter<"KnowledgeDocument"> | number
+    sourceCreatedAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    sourceModifiedAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    sourceJobId?: StringNullableFilter<"KnowledgeDocument"> | string | null
+    createdAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+  }, "id" | "accountId_kind_name">
+
+  export type KnowledgeDocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    kind?: SortOrder
+    name?: SortOrder
+    storageKey?: SortOrder
+    mimeType?: SortOrder
+    byteSize?: SortOrder
+    sourceCreatedAt?: SortOrder
+    sourceModifiedAt?: SortOrder
+    sourceJobId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: KnowledgeDocumentCountOrderByAggregateInput
+    _avg?: KnowledgeDocumentAvgOrderByAggregateInput
+    _max?: KnowledgeDocumentMaxOrderByAggregateInput
+    _min?: KnowledgeDocumentMinOrderByAggregateInput
+    _sum?: KnowledgeDocumentSumOrderByAggregateInput
+  }
+
+  export type KnowledgeDocumentScalarWhereWithAggregatesInput = {
+    AND?: KnowledgeDocumentScalarWhereWithAggregatesInput | KnowledgeDocumentScalarWhereWithAggregatesInput[]
+    OR?: KnowledgeDocumentScalarWhereWithAggregatesInput[]
+    NOT?: KnowledgeDocumentScalarWhereWithAggregatesInput | KnowledgeDocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"KnowledgeDocument"> | string
+    accountId?: StringWithAggregatesFilter<"KnowledgeDocument"> | string
+    kind?: EnumKnowledgeDocumentKindWithAggregatesFilter<"KnowledgeDocument"> | $Enums.KnowledgeDocumentKind
+    name?: StringWithAggregatesFilter<"KnowledgeDocument"> | string
+    storageKey?: StringWithAggregatesFilter<"KnowledgeDocument"> | string
+    mimeType?: StringWithAggregatesFilter<"KnowledgeDocument"> | string
+    byteSize?: IntWithAggregatesFilter<"KnowledgeDocument"> | number
+    sourceCreatedAt?: DateTimeWithAggregatesFilter<"KnowledgeDocument"> | Date | string
+    sourceModifiedAt?: DateTimeWithAggregatesFilter<"KnowledgeDocument"> | Date | string
+    sourceJobId?: StringNullableWithAggregatesFilter<"KnowledgeDocument"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"KnowledgeDocument"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"KnowledgeDocument"> | Date | string
+  }
+
   export type AgentAccountWhereInput = {
     AND?: AgentAccountWhereInput | AgentAccountWhereInput[]
     OR?: AgentAccountWhereInput[]
@@ -14963,22 +22495,26 @@ export namespace Prisma {
     userId?: StringFilter<"AgentAccount"> | string
     hashedPin?: StringFilter<"AgentAccount"> | string
     telegramChatId?: StringNullableFilter<"AgentAccount"> | string | null
+    platformAdmin?: BoolFilter<"AgentAccount"> | boolean
     roles?: EnumAgentRoleNullableListFilter<"AgentAccount">
     createdAt?: DateTimeFilter<"AgentAccount"> | Date | string
     updatedAt?: DateTimeFilter<"AgentAccount"> | Date | string
     loginTokens?: LoginTokenListRelationFilter
     audits?: LoginAuditListRelationFilter
+    memberships?: AccountMembershipListRelationFilter
   }
 
   export type AgentAccountOrderByWithRelationInput = {
     userId?: SortOrder
     hashedPin?: SortOrder
     telegramChatId?: SortOrderInput | SortOrder
+    platformAdmin?: SortOrder
     roles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     loginTokens?: LoginTokenOrderByRelationAggregateInput
     audits?: LoginAuditOrderByRelationAggregateInput
+    memberships?: AccountMembershipOrderByRelationAggregateInput
   }
 
   export type AgentAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -14988,17 +22524,20 @@ export namespace Prisma {
     NOT?: AgentAccountWhereInput | AgentAccountWhereInput[]
     hashedPin?: StringFilter<"AgentAccount"> | string
     telegramChatId?: StringNullableFilter<"AgentAccount"> | string | null
+    platformAdmin?: BoolFilter<"AgentAccount"> | boolean
     roles?: EnumAgentRoleNullableListFilter<"AgentAccount">
     createdAt?: DateTimeFilter<"AgentAccount"> | Date | string
     updatedAt?: DateTimeFilter<"AgentAccount"> | Date | string
     loginTokens?: LoginTokenListRelationFilter
     audits?: LoginAuditListRelationFilter
+    memberships?: AccountMembershipListRelationFilter
   }, "userId">
 
   export type AgentAccountOrderByWithAggregationInput = {
     userId?: SortOrder
     hashedPin?: SortOrder
     telegramChatId?: SortOrderInput | SortOrder
+    platformAdmin?: SortOrder
     roles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15014,6 +22553,7 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"AgentAccount"> | string
     hashedPin?: StringWithAggregatesFilter<"AgentAccount"> | string
     telegramChatId?: StringNullableWithAggregatesFilter<"AgentAccount"> | string | null
+    platformAdmin?: BoolWithAggregatesFilter<"AgentAccount"> | boolean
     roles?: EnumAgentRoleNullableListFilter<"AgentAccount">
     createdAt?: DateTimeWithAggregatesFilter<"AgentAccount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AgentAccount"> | Date | string
@@ -15025,21 +22565,25 @@ export namespace Prisma {
     NOT?: LoginTokenWhereInput | LoginTokenWhereInput[]
     id?: StringFilter<"LoginToken"> | string
     agentId?: StringFilter<"LoginToken"> | string
+    accountId?: StringNullableFilter<"LoginToken"> | string | null
     tokenHash?: StringFilter<"LoginToken"> | string
     expiresAt?: DateTimeFilter<"LoginToken"> | Date | string
     consumedAt?: DateTimeNullableFilter<"LoginToken"> | Date | string | null
     createdAt?: DateTimeFilter<"LoginToken"> | Date | string
     agent?: XOR<AgentAccountScalarRelationFilter, AgentAccountWhereInput>
+    account?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
   }
 
   export type LoginTokenOrderByWithRelationInput = {
     id?: SortOrder
     agentId?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     tokenHash?: SortOrder
     expiresAt?: SortOrder
     consumedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     agent?: AgentAccountOrderByWithRelationInput
+    account?: AccountOrderByWithRelationInput
   }
 
   export type LoginTokenWhereUniqueInput = Prisma.AtLeast<{
@@ -15048,16 +22592,19 @@ export namespace Prisma {
     OR?: LoginTokenWhereInput[]
     NOT?: LoginTokenWhereInput | LoginTokenWhereInput[]
     agentId?: StringFilter<"LoginToken"> | string
+    accountId?: StringNullableFilter<"LoginToken"> | string | null
     tokenHash?: StringFilter<"LoginToken"> | string
     expiresAt?: DateTimeFilter<"LoginToken"> | Date | string
     consumedAt?: DateTimeNullableFilter<"LoginToken"> | Date | string | null
     createdAt?: DateTimeFilter<"LoginToken"> | Date | string
     agent?: XOR<AgentAccountScalarRelationFilter, AgentAccountWhereInput>
+    account?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
   }, "id">
 
   export type LoginTokenOrderByWithAggregationInput = {
     id?: SortOrder
     agentId?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     tokenHash?: SortOrder
     expiresAt?: SortOrder
     consumedAt?: SortOrderInput | SortOrder
@@ -15073,6 +22620,7 @@ export namespace Prisma {
     NOT?: LoginTokenScalarWhereWithAggregatesInput | LoginTokenScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"LoginToken"> | string
     agentId?: StringWithAggregatesFilter<"LoginToken"> | string
+    accountId?: StringNullableWithAggregatesFilter<"LoginToken"> | string | null
     tokenHash?: StringWithAggregatesFilter<"LoginToken"> | string
     expiresAt?: DateTimeWithAggregatesFilter<"LoginToken"> | Date | string
     consumedAt?: DateTimeNullableWithAggregatesFilter<"LoginToken"> | Date | string | null
@@ -15144,6 +22692,272 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"LoginAudit"> | Date | string
   }
 
+  export type AccountWhereInput = {
+    AND?: AccountWhereInput | AccountWhereInput[]
+    OR?: AccountWhereInput[]
+    NOT?: AccountWhereInput | AccountWhereInput[]
+    id?: StringFilter<"Account"> | string
+    name?: StringFilter<"Account"> | string
+    slug?: StringFilter<"Account"> | string
+    status?: EnumAccountStatusFilter<"Account"> | $Enums.AccountStatus
+    isPrimary?: BoolFilter<"Account"> | boolean
+    suspensionReason?: StringNullableFilter<"Account"> | string | null
+    maintenanceMessage?: StringNullableFilter<"Account"> | string | null
+    createdById?: StringNullableFilter<"Account"> | string | null
+    createdAt?: DateTimeFilter<"Account"> | Date | string
+    updatedAt?: DateTimeFilter<"Account"> | Date | string
+    memberships?: AccountMembershipListRelationFilter
+    configurations?: AccountConfigurationListRelationFilter
+    loginTokens?: LoginTokenListRelationFilter
+    users?: UserListRelationFilter
+    orders?: OrderListRelationFilter
+    chatSessions?: ChatSessionListRelationFilter
+    tickets?: TicketListRelationFilter
+    conversationMessages?: ConversationMessageListRelationFilter
+    agentAssignments?: AgentAssignmentListRelationFilter
+    handoffRequests?: HandoffRequestListRelationFilter
+    scrapeJobs?: ScrapeJobListRelationFilter
+    scrapeJobLogs?: ScrapeJobLogListRelationFilter
+    knowledgeDocuments?: KnowledgeDocumentListRelationFilter
+  }
+
+  export type AccountOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    status?: SortOrder
+    isPrimary?: SortOrder
+    suspensionReason?: SortOrderInput | SortOrder
+    maintenanceMessage?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    memberships?: AccountMembershipOrderByRelationAggregateInput
+    configurations?: AccountConfigurationOrderByRelationAggregateInput
+    loginTokens?: LoginTokenOrderByRelationAggregateInput
+    users?: UserOrderByRelationAggregateInput
+    orders?: OrderOrderByRelationAggregateInput
+    chatSessions?: ChatSessionOrderByRelationAggregateInput
+    tickets?: TicketOrderByRelationAggregateInput
+    conversationMessages?: ConversationMessageOrderByRelationAggregateInput
+    agentAssignments?: AgentAssignmentOrderByRelationAggregateInput
+    handoffRequests?: HandoffRequestOrderByRelationAggregateInput
+    scrapeJobs?: ScrapeJobOrderByRelationAggregateInput
+    scrapeJobLogs?: ScrapeJobLogOrderByRelationAggregateInput
+    knowledgeDocuments?: KnowledgeDocumentOrderByRelationAggregateInput
+  }
+
+  export type AccountWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: AccountWhereInput | AccountWhereInput[]
+    OR?: AccountWhereInput[]
+    NOT?: AccountWhereInput | AccountWhereInput[]
+    name?: StringFilter<"Account"> | string
+    status?: EnumAccountStatusFilter<"Account"> | $Enums.AccountStatus
+    isPrimary?: BoolFilter<"Account"> | boolean
+    suspensionReason?: StringNullableFilter<"Account"> | string | null
+    maintenanceMessage?: StringNullableFilter<"Account"> | string | null
+    createdById?: StringNullableFilter<"Account"> | string | null
+    createdAt?: DateTimeFilter<"Account"> | Date | string
+    updatedAt?: DateTimeFilter<"Account"> | Date | string
+    memberships?: AccountMembershipListRelationFilter
+    configurations?: AccountConfigurationListRelationFilter
+    loginTokens?: LoginTokenListRelationFilter
+    users?: UserListRelationFilter
+    orders?: OrderListRelationFilter
+    chatSessions?: ChatSessionListRelationFilter
+    tickets?: TicketListRelationFilter
+    conversationMessages?: ConversationMessageListRelationFilter
+    agentAssignments?: AgentAssignmentListRelationFilter
+    handoffRequests?: HandoffRequestListRelationFilter
+    scrapeJobs?: ScrapeJobListRelationFilter
+    scrapeJobLogs?: ScrapeJobLogListRelationFilter
+    knowledgeDocuments?: KnowledgeDocumentListRelationFilter
+  }, "id" | "slug">
+
+  export type AccountOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    status?: SortOrder
+    isPrimary?: SortOrder
+    suspensionReason?: SortOrderInput | SortOrder
+    maintenanceMessage?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AccountCountOrderByAggregateInput
+    _max?: AccountMaxOrderByAggregateInput
+    _min?: AccountMinOrderByAggregateInput
+  }
+
+  export type AccountScalarWhereWithAggregatesInput = {
+    AND?: AccountScalarWhereWithAggregatesInput | AccountScalarWhereWithAggregatesInput[]
+    OR?: AccountScalarWhereWithAggregatesInput[]
+    NOT?: AccountScalarWhereWithAggregatesInput | AccountScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Account"> | string
+    name?: StringWithAggregatesFilter<"Account"> | string
+    slug?: StringWithAggregatesFilter<"Account"> | string
+    status?: EnumAccountStatusWithAggregatesFilter<"Account"> | $Enums.AccountStatus
+    isPrimary?: BoolWithAggregatesFilter<"Account"> | boolean
+    suspensionReason?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    maintenanceMessage?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    createdById?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
+  }
+
+  export type AccountMembershipWhereInput = {
+    AND?: AccountMembershipWhereInput | AccountMembershipWhereInput[]
+    OR?: AccountMembershipWhereInput[]
+    NOT?: AccountMembershipWhereInput | AccountMembershipWhereInput[]
+    id?: StringFilter<"AccountMembership"> | string
+    accountId?: StringFilter<"AccountMembership"> | string
+    agentId?: StringFilter<"AccountMembership"> | string
+    role?: EnumAgentRoleFilter<"AccountMembership"> | $Enums.AgentRole
+    invitedById?: StringNullableFilter<"AccountMembership"> | string | null
+    createdAt?: DateTimeFilter<"AccountMembership"> | Date | string
+    updatedAt?: DateTimeFilter<"AccountMembership"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+    agent?: XOR<AgentAccountScalarRelationFilter, AgentAccountWhereInput>
+  }
+
+  export type AccountMembershipOrderByWithRelationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    agentId?: SortOrder
+    role?: SortOrder
+    invitedById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    account?: AccountOrderByWithRelationInput
+    agent?: AgentAccountOrderByWithRelationInput
+  }
+
+  export type AccountMembershipWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    accountId_agentId?: AccountMembershipAccountIdAgentIdCompoundUniqueInput
+    AND?: AccountMembershipWhereInput | AccountMembershipWhereInput[]
+    OR?: AccountMembershipWhereInput[]
+    NOT?: AccountMembershipWhereInput | AccountMembershipWhereInput[]
+    accountId?: StringFilter<"AccountMembership"> | string
+    agentId?: StringFilter<"AccountMembership"> | string
+    role?: EnumAgentRoleFilter<"AccountMembership"> | $Enums.AgentRole
+    invitedById?: StringNullableFilter<"AccountMembership"> | string | null
+    createdAt?: DateTimeFilter<"AccountMembership"> | Date | string
+    updatedAt?: DateTimeFilter<"AccountMembership"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+    agent?: XOR<AgentAccountScalarRelationFilter, AgentAccountWhereInput>
+  }, "id" | "accountId_agentId">
+
+  export type AccountMembershipOrderByWithAggregationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    agentId?: SortOrder
+    role?: SortOrder
+    invitedById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AccountMembershipCountOrderByAggregateInput
+    _max?: AccountMembershipMaxOrderByAggregateInput
+    _min?: AccountMembershipMinOrderByAggregateInput
+  }
+
+  export type AccountMembershipScalarWhereWithAggregatesInput = {
+    AND?: AccountMembershipScalarWhereWithAggregatesInput | AccountMembershipScalarWhereWithAggregatesInput[]
+    OR?: AccountMembershipScalarWhereWithAggregatesInput[]
+    NOT?: AccountMembershipScalarWhereWithAggregatesInput | AccountMembershipScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AccountMembership"> | string
+    accountId?: StringWithAggregatesFilter<"AccountMembership"> | string
+    agentId?: StringWithAggregatesFilter<"AccountMembership"> | string
+    role?: EnumAgentRoleWithAggregatesFilter<"AccountMembership"> | $Enums.AgentRole
+    invitedById?: StringNullableWithAggregatesFilter<"AccountMembership"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AccountMembership"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AccountMembership"> | Date | string
+  }
+
+  export type AccountConfigurationWhereInput = {
+    AND?: AccountConfigurationWhereInput | AccountConfigurationWhereInput[]
+    OR?: AccountConfigurationWhereInput[]
+    NOT?: AccountConfigurationWhereInput | AccountConfigurationWhereInput[]
+    id?: StringFilter<"AccountConfiguration"> | string
+    accountId?: StringFilter<"AccountConfiguration"> | string
+    key?: StringFilter<"AccountConfiguration"> | string
+    encryptedValue?: StringFilter<"AccountConfiguration"> | string
+    iv?: StringFilter<"AccountConfiguration"> | string
+    authTag?: StringFilter<"AccountConfiguration"> | string
+    isSecret?: BoolFilter<"AccountConfiguration"> | boolean
+    updatedById?: StringNullableFilter<"AccountConfiguration"> | string | null
+    createdAt?: DateTimeFilter<"AccountConfiguration"> | Date | string
+    updatedAt?: DateTimeFilter<"AccountConfiguration"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+  }
+
+  export type AccountConfigurationOrderByWithRelationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    key?: SortOrder
+    encryptedValue?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    isSecret?: SortOrder
+    updatedById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    account?: AccountOrderByWithRelationInput
+  }
+
+  export type AccountConfigurationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    accountId_key?: AccountConfigurationAccountIdKeyCompoundUniqueInput
+    AND?: AccountConfigurationWhereInput | AccountConfigurationWhereInput[]
+    OR?: AccountConfigurationWhereInput[]
+    NOT?: AccountConfigurationWhereInput | AccountConfigurationWhereInput[]
+    accountId?: StringFilter<"AccountConfiguration"> | string
+    key?: StringFilter<"AccountConfiguration"> | string
+    encryptedValue?: StringFilter<"AccountConfiguration"> | string
+    iv?: StringFilter<"AccountConfiguration"> | string
+    authTag?: StringFilter<"AccountConfiguration"> | string
+    isSecret?: BoolFilter<"AccountConfiguration"> | boolean
+    updatedById?: StringNullableFilter<"AccountConfiguration"> | string | null
+    createdAt?: DateTimeFilter<"AccountConfiguration"> | Date | string
+    updatedAt?: DateTimeFilter<"AccountConfiguration"> | Date | string
+    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
+  }, "id" | "accountId_key">
+
+  export type AccountConfigurationOrderByWithAggregationInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    key?: SortOrder
+    encryptedValue?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    isSecret?: SortOrder
+    updatedById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AccountConfigurationCountOrderByAggregateInput
+    _max?: AccountConfigurationMaxOrderByAggregateInput
+    _min?: AccountConfigurationMinOrderByAggregateInput
+  }
+
+  export type AccountConfigurationScalarWhereWithAggregatesInput = {
+    AND?: AccountConfigurationScalarWhereWithAggregatesInput | AccountConfigurationScalarWhereWithAggregatesInput[]
+    OR?: AccountConfigurationScalarWhereWithAggregatesInput[]
+    NOT?: AccountConfigurationScalarWhereWithAggregatesInput | AccountConfigurationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AccountConfiguration"> | string
+    accountId?: StringWithAggregatesFilter<"AccountConfiguration"> | string
+    key?: StringWithAggregatesFilter<"AccountConfiguration"> | string
+    encryptedValue?: StringWithAggregatesFilter<"AccountConfiguration"> | string
+    iv?: StringWithAggregatesFilter<"AccountConfiguration"> | string
+    authTag?: StringWithAggregatesFilter<"AccountConfiguration"> | string
+    isSecret?: BoolWithAggregatesFilter<"AccountConfiguration"> | boolean
+    updatedById?: StringNullableWithAggregatesFilter<"AccountConfiguration"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AccountConfiguration"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AccountConfiguration"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -15152,6 +22966,7 @@ export namespace Prisma {
     address?: string | null
     longSummary?: string | null
     createdAt?: Date | string
+    account: AccountCreateNestedOneWithoutUsersInput
     orders?: OrderCreateNestedManyWithoutUserInput
     sessions?: ChatSessionCreateNestedManyWithoutUserInput
     tickets?: TicketCreateNestedManyWithoutUserInput
@@ -15159,6 +22974,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateInput = {
     id?: string
+    accountId: string
     email: string
     name?: string | null
     phone?: string | null
@@ -15178,6 +22994,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutUsersNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
     sessions?: ChatSessionUpdateManyWithoutUserNestedInput
     tickets?: TicketUpdateManyWithoutUserNestedInput
@@ -15185,6 +23002,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15198,6 +23016,7 @@ export namespace Prisma {
 
   export type UserCreateManyInput = {
     id?: string
+    accountId: string
     email: string
     name?: string | null
     phone?: string | null
@@ -15218,6 +23037,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15231,11 +23051,13 @@ export namespace Prisma {
     orderId: string
     createdAt?: Date | string
     status?: string | null
+    account: AccountCreateNestedOneWithoutOrdersInput
     user?: UserCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateInput = {
     id?: string
+    accountId: string
     userId?: string | null
     orderId: string
     createdAt?: Date | string
@@ -15247,11 +23069,13 @@ export namespace Prisma {
     orderId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: NullableStringFieldUpdateOperationsInput | string | null
+    account?: AccountUpdateOneRequiredWithoutOrdersNestedInput
     user?: UserUpdateOneWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15260,6 +23084,7 @@ export namespace Prisma {
 
   export type OrderCreateManyInput = {
     id?: string
+    accountId: string
     userId?: string | null
     orderId: string
     createdAt?: Date | string
@@ -15275,6 +23100,7 @@ export namespace Prisma {
 
   export type OrderUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     orderId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15290,11 +23116,13 @@ export namespace Prisma {
     summary?: string | null
     lastSummarizedIndex?: number
     unsummarizedLimit?: number
+    account: AccountCreateNestedOneWithoutChatSessionsInput
     user: UserCreateNestedOneWithoutSessionsInput
   }
 
   export type ChatSessionUncheckedCreateInput = {
     id?: string
+    accountId: string
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15314,11 +23142,13 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     lastSummarizedIndex?: IntFieldUpdateOperationsInput | number
     unsummarizedLimit?: IntFieldUpdateOperationsInput | number
+    account?: AccountUpdateOneRequiredWithoutChatSessionsNestedInput
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
 
   export type ChatSessionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15331,6 +23161,7 @@ export namespace Prisma {
 
   export type ChatSessionCreateManyInput = {
     id?: string
+    accountId: string
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15354,6 +23185,7 @@ export namespace Prisma {
 
   export type ChatSessionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15368,11 +23200,13 @@ export namespace Prisma {
     id?: string
     ticket: string
     createdAt?: Date | string
+    account: AccountCreateNestedOneWithoutTicketsInput
     user?: UserCreateNestedOneWithoutTicketsInput
   }
 
   export type TicketUncheckedCreateInput = {
     id?: string
+    accountId: string
     ticket: string
     createdAt?: Date | string
     userId?: string | null
@@ -15382,11 +23216,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ticket?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutTicketsNestedInput
     user?: UserUpdateOneWithoutTicketsNestedInput
   }
 
   export type TicketUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     ticket?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15394,6 +23230,7 @@ export namespace Prisma {
 
   export type TicketCreateManyInput = {
     id?: string
+    accountId: string
     ticket: string
     createdAt?: Date | string
     userId?: string | null
@@ -15407,6 +23244,7 @@ export namespace Prisma {
 
   export type TicketUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     ticket?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15420,10 +23258,12 @@ export namespace Prisma {
     sender: string
     content: string
     createdAt?: Date | string
+    tenantAccount: AccountCreateNestedOneWithoutConversationMessagesInput
   }
 
   export type ConversationMessageUncheckedCreateInput = {
     id?: number
+    tenantAccountId: string
     messageId: number
     conversationId: number
     inboxId: number
@@ -15441,10 +23281,12 @@ export namespace Prisma {
     sender?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenantAccount?: AccountUpdateOneRequiredWithoutConversationMessagesNestedInput
   }
 
   export type ConversationMessageUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    tenantAccountId?: StringFieldUpdateOperationsInput | string
     messageId?: IntFieldUpdateOperationsInput | number
     conversationId?: IntFieldUpdateOperationsInput | number
     inboxId?: IntFieldUpdateOperationsInput | number
@@ -15456,6 +23298,7 @@ export namespace Prisma {
 
   export type ConversationMessageCreateManyInput = {
     id?: number
+    tenantAccountId: string
     messageId: number
     conversationId: number
     inboxId: number
@@ -15477,6 +23320,7 @@ export namespace Prisma {
 
   export type ConversationMessageUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    tenantAccountId?: StringFieldUpdateOperationsInput | string
     messageId?: IntFieldUpdateOperationsInput | number
     conversationId?: IntFieldUpdateOperationsInput | number
     inboxId?: IntFieldUpdateOperationsInput | number
@@ -15492,9 +23336,11 @@ export namespace Prisma {
     lastAssignedAt?: Date | string | null
     activeConversationId?: number | null
     availabilityBeforeBusy?: $Enums.AgentAvailability | null
+    tenantAccount: AccountCreateNestedOneWithoutAgentAssignmentsInput
   }
 
   export type AgentAssignmentUncheckedCreateInput = {
+    tenantAccountId: string
     inboxId: number
     agentId: number
     lastAssignedAt?: Date | string | null
@@ -15508,9 +23354,11 @@ export namespace Prisma {
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
     availabilityBeforeBusy?: NullableEnumAgentAvailabilityFieldUpdateOperationsInput | $Enums.AgentAvailability | null
+    tenantAccount?: AccountUpdateOneRequiredWithoutAgentAssignmentsNestedInput
   }
 
   export type AgentAssignmentUncheckedUpdateInput = {
+    tenantAccountId?: StringFieldUpdateOperationsInput | string
     inboxId?: IntFieldUpdateOperationsInput | number
     agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15519,6 +23367,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentCreateManyInput = {
+    tenantAccountId: string
     inboxId: number
     agentId: number
     lastAssignedAt?: Date | string | null
@@ -15535,6 +23384,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentUncheckedUpdateManyInput = {
+    tenantAccountId?: StringFieldUpdateOperationsInput | string
     inboxId?: IntFieldUpdateOperationsInput | number
     agentId?: IntFieldUpdateOperationsInput | number
     lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15551,10 +23401,12 @@ export namespace Prisma {
     status?: $Enums.HandoffRequestStatus
     agentId?: number | null
     lastPositionNotified?: number | null
+    tenantAccount: AccountCreateNestedOneWithoutHandoffRequestsInput
   }
 
   export type HandoffRequestUncheckedCreateInput = {
     conversationKey: string
+    tenantAccountId: string
     conversationId: number
     accountId: number
     inboxId: number
@@ -15573,10 +23425,12 @@ export namespace Prisma {
     status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
     agentId?: NullableIntFieldUpdateOperationsInput | number | null
     lastPositionNotified?: NullableIntFieldUpdateOperationsInput | number | null
+    tenantAccount?: AccountUpdateOneRequiredWithoutHandoffRequestsNestedInput
   }
 
   export type HandoffRequestUncheckedUpdateInput = {
     conversationKey?: StringFieldUpdateOperationsInput | string
+    tenantAccountId?: StringFieldUpdateOperationsInput | string
     conversationId?: IntFieldUpdateOperationsInput | number
     accountId?: IntFieldUpdateOperationsInput | number
     inboxId?: IntFieldUpdateOperationsInput | number
@@ -15588,6 +23442,7 @@ export namespace Prisma {
 
   export type HandoffRequestCreateManyInput = {
     conversationKey: string
+    tenantAccountId: string
     conversationId: number
     accountId: number
     inboxId: number
@@ -15610,6 +23465,7 @@ export namespace Prisma {
 
   export type HandoffRequestUncheckedUpdateManyInput = {
     conversationKey?: StringFieldUpdateOperationsInput | string
+    tenantAccountId?: StringFieldUpdateOperationsInput | string
     conversationId?: IntFieldUpdateOperationsInput | number
     accountId?: IntFieldUpdateOperationsInput | number
     inboxId?: IntFieldUpdateOperationsInput | number
@@ -15636,10 +23492,13 @@ export namespace Prisma {
     documentsIngested?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    account: AccountCreateNestedOneWithoutScrapeJobsInput
+    logs?: ScrapeJobLogCreateNestedManyWithoutJobInput
   }
 
   export type ScrapeJobUncheckedCreateInput = {
     id?: string
+    accountId: string
     script: string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ScrapeJobStatus
@@ -15655,6 +23514,7 @@ export namespace Prisma {
     documentsIngested?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    logs?: ScrapeJobLogUncheckedCreateNestedManyWithoutJobInput
   }
 
   export type ScrapeJobUpdateInput = {
@@ -15674,10 +23534,13 @@ export namespace Prisma {
     documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutScrapeJobsNestedInput
+    logs?: ScrapeJobLogUpdateManyWithoutJobNestedInput
   }
 
   export type ScrapeJobUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     script?: StringFieldUpdateOperationsInput | string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
@@ -15693,10 +23556,12 @@ export namespace Prisma {
     documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    logs?: ScrapeJobLogUncheckedUpdateManyWithoutJobNestedInput
   }
 
   export type ScrapeJobCreateManyInput = {
     id?: string
+    accountId: string
     script: string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.ScrapeJobStatus
@@ -15735,6 +23600,7 @@ export namespace Prisma {
 
   export type ScrapeJobUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     script?: StringFieldUpdateOperationsInput | string
     args?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
@@ -15752,54 +23618,242 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ScrapeJobLogCreateInput = {
+    id?: string
+    storageKey: string
+    startedAt: Date | string
+    byteSize: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: AccountCreateNestedOneWithoutScrapeJobLogsInput
+    job: ScrapeJobCreateNestedOneWithoutLogsInput
+  }
+
+  export type ScrapeJobLogUncheckedCreateInput = {
+    id?: string
+    accountId: string
+    jobId: string
+    storageKey: string
+    startedAt: Date | string
+    byteSize: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutScrapeJobLogsNestedInput
+    job?: ScrapeJobUpdateOneRequiredWithoutLogsNestedInput
+  }
+
+  export type ScrapeJobLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScrapeJobLogCreateManyInput = {
+    id?: string
+    accountId: string
+    jobId: string
+    storageKey: string
+    startedAt: Date | string
+    byteSize: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScrapeJobLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeDocumentCreateInput = {
+    id?: string
+    kind: $Enums.KnowledgeDocumentKind
+    name: string
+    storageKey: string
+    mimeType?: string
+    byteSize: number
+    sourceCreatedAt: Date | string
+    sourceModifiedAt: Date | string
+    sourceJobId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: AccountCreateNestedOneWithoutKnowledgeDocumentsInput
+  }
+
+  export type KnowledgeDocumentUncheckedCreateInput = {
+    id?: string
+    accountId: string
+    kind: $Enums.KnowledgeDocumentKind
+    name: string
+    storageKey: string
+    mimeType?: string
+    byteSize: number
+    sourceCreatedAt: Date | string
+    sourceModifiedAt: Date | string
+    sourceJobId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KnowledgeDocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumKnowledgeDocumentKindFieldUpdateOperationsInput | $Enums.KnowledgeDocumentKind
+    name?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    sourceCreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceJobId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutKnowledgeDocumentsNestedInput
+  }
+
+  export type KnowledgeDocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumKnowledgeDocumentKindFieldUpdateOperationsInput | $Enums.KnowledgeDocumentKind
+    name?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    sourceCreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceJobId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeDocumentCreateManyInput = {
+    id?: string
+    accountId: string
+    kind: $Enums.KnowledgeDocumentKind
+    name: string
+    storageKey: string
+    mimeType?: string
+    byteSize: number
+    sourceCreatedAt: Date | string
+    sourceModifiedAt: Date | string
+    sourceJobId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KnowledgeDocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumKnowledgeDocumentKindFieldUpdateOperationsInput | $Enums.KnowledgeDocumentKind
+    name?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    sourceCreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceJobId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeDocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumKnowledgeDocumentKindFieldUpdateOperationsInput | $Enums.KnowledgeDocumentKind
+    name?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    sourceCreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceJobId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AgentAccountCreateInput = {
     userId: string
     hashedPin: string
     telegramChatId?: string | null
+    platformAdmin?: boolean
     roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
     createdAt?: Date | string
     updatedAt?: Date | string
     loginTokens?: LoginTokenCreateNestedManyWithoutAgentInput
     audits?: LoginAuditCreateNestedManyWithoutAgentInput
+    memberships?: AccountMembershipCreateNestedManyWithoutAgentInput
   }
 
   export type AgentAccountUncheckedCreateInput = {
     userId: string
     hashedPin: string
     telegramChatId?: string | null
+    platformAdmin?: boolean
     roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
     createdAt?: Date | string
     updatedAt?: Date | string
     loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAgentInput
     audits?: LoginAuditUncheckedCreateNestedManyWithoutAgentInput
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentAccountUpdateInput = {
     userId?: StringFieldUpdateOperationsInput | string
     hashedPin?: StringFieldUpdateOperationsInput | string
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
     roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginTokens?: LoginTokenUpdateManyWithoutAgentNestedInput
     audits?: LoginAuditUpdateManyWithoutAgentNestedInput
+    memberships?: AccountMembershipUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentAccountUncheckedUpdateInput = {
     userId?: StringFieldUpdateOperationsInput | string
     hashedPin?: StringFieldUpdateOperationsInput | string
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
     roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginTokens?: LoginTokenUncheckedUpdateManyWithoutAgentNestedInput
     audits?: LoginAuditUncheckedUpdateManyWithoutAgentNestedInput
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentAccountCreateManyInput = {
     userId: string
     hashedPin: string
     telegramChatId?: string | null
+    platformAdmin?: boolean
     roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15809,6 +23863,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     hashedPin?: StringFieldUpdateOperationsInput | string
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
     roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15818,6 +23873,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     hashedPin?: StringFieldUpdateOperationsInput | string
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
     roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15830,11 +23886,13 @@ export namespace Prisma {
     consumedAt?: Date | string | null
     createdAt?: Date | string
     agent: AgentAccountCreateNestedOneWithoutLoginTokensInput
+    account?: AccountCreateNestedOneWithoutLoginTokensInput
   }
 
   export type LoginTokenUncheckedCreateInput = {
     id?: string
     agentId: string
+    accountId?: string | null
     tokenHash: string
     expiresAt: Date | string
     consumedAt?: Date | string | null
@@ -15848,11 +23906,13 @@ export namespace Prisma {
     consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agent?: AgentAccountUpdateOneRequiredWithoutLoginTokensNestedInput
+    account?: AccountUpdateOneWithoutLoginTokensNestedInput
   }
 
   export type LoginTokenUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     agentId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15862,6 +23922,7 @@ export namespace Prisma {
   export type LoginTokenCreateManyInput = {
     id?: string
     agentId: string
+    accountId?: string | null
     tokenHash: string
     expiresAt: Date | string
     consumedAt?: Date | string | null
@@ -15879,6 +23940,7 @@ export namespace Prisma {
   export type LoginTokenUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     agentId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15954,6 +24016,307 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AccountCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountCreateManyInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountMembershipCreateInput = {
+    id?: string
+    role?: $Enums.AgentRole
+    invitedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: AccountCreateNestedOneWithoutMembershipsInput
+    agent: AgentAccountCreateNestedOneWithoutMembershipsInput
+  }
+
+  export type AccountMembershipUncheckedCreateInput = {
+    id?: string
+    accountId: string
+    agentId: string
+    role?: $Enums.AgentRole
+    invitedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountMembershipUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutMembershipsNestedInput
+    agent?: AgentAccountUpdateOneRequiredWithoutMembershipsNestedInput
+  }
+
+  export type AccountMembershipUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountMembershipCreateManyInput = {
+    id?: string
+    accountId: string
+    agentId: string
+    role?: $Enums.AgentRole
+    invitedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountMembershipUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountMembershipUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountConfigurationCreateInput = {
+    id?: string
+    key: string
+    encryptedValue: string
+    iv: string
+    authTag: string
+    isSecret?: boolean
+    updatedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: AccountCreateNestedOneWithoutConfigurationsInput
+  }
+
+  export type AccountConfigurationUncheckedCreateInput = {
+    id?: string
+    accountId: string
+    key: string
+    encryptedValue: string
+    iv: string
+    authTag: string
+    isSecret?: boolean
+    updatedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountConfigurationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    encryptedValue?: StringFieldUpdateOperationsInput | string
+    iv?: StringFieldUpdateOperationsInput | string
+    authTag?: StringFieldUpdateOperationsInput | string
+    isSecret?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutConfigurationsNestedInput
+  }
+
+  export type AccountConfigurationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    encryptedValue?: StringFieldUpdateOperationsInput | string
+    iv?: StringFieldUpdateOperationsInput | string
+    authTag?: StringFieldUpdateOperationsInput | string
+    isSecret?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountConfigurationCreateManyInput = {
+    id?: string
+    accountId: string
+    key: string
+    encryptedValue: string
+    iv: string
+    authTag: string
+    isSecret?: boolean
+    updatedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountConfigurationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    encryptedValue?: StringFieldUpdateOperationsInput | string
+    iv?: StringFieldUpdateOperationsInput | string
+    authTag?: StringFieldUpdateOperationsInput | string
+    isSecret?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountConfigurationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    encryptedValue?: StringFieldUpdateOperationsInput | string
+    iv?: StringFieldUpdateOperationsInput | string
+    authTag?: StringFieldUpdateOperationsInput | string
+    isSecret?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15995,6 +24358,11 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type AccountScalarRelationFilter = {
+    is?: AccountWhereInput
+    isNot?: AccountWhereInput
+  }
+
   export type OrderListRelationFilter = {
     every?: OrderWhereInput
     some?: OrderWhereInput
@@ -16030,8 +24398,19 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type UserAccountIdEmailCompoundUniqueInput = {
+    accountId: string
+    email: string
+  }
+
+  export type UserAccountIdIdCompoundUniqueInput = {
+    accountId: string
+    id: string
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     email?: SortOrder
     name?: SortOrder
     phone?: SortOrder
@@ -16042,6 +24421,7 @@ export namespace Prisma {
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     email?: SortOrder
     name?: SortOrder
     phone?: SortOrder
@@ -16052,6 +24432,7 @@ export namespace Prisma {
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     email?: SortOrder
     name?: SortOrder
     phone?: SortOrder
@@ -16115,8 +24496,14 @@ export namespace Prisma {
     isNot?: UserWhereInput | null
   }
 
+  export type OrderAccountIdOrderIdCompoundUniqueInput = {
+    accountId: string
+    orderId: string
+  }
+
   export type OrderCountOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
@@ -16125,6 +24512,7 @@ export namespace Prisma {
 
   export type OrderMaxOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
@@ -16133,6 +24521,7 @@ export namespace Prisma {
 
   export type OrderMinOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
@@ -16189,8 +24578,14 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type ChatSessionAccountIdIdCompoundUniqueInput = {
+    accountId: string
+    id: string
+  }
+
   export type ChatSessionCountOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -16208,6 +24603,7 @@ export namespace Prisma {
 
   export type ChatSessionMaxOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -16219,6 +24615,7 @@ export namespace Prisma {
 
   export type ChatSessionMinOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -16291,6 +24688,7 @@ export namespace Prisma {
 
   export type TicketCountOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     ticket?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
@@ -16298,6 +24696,7 @@ export namespace Prisma {
 
   export type TicketMaxOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     ticket?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
@@ -16305,18 +24704,21 @@ export namespace Prisma {
 
   export type TicketMinOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     ticket?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
   }
 
-  export type ConversationMessageConversationKeyMessageIdCompoundUniqueInput = {
+  export type ConversationMessageTenantAccountIdConversationKeyMessageIdCompoundUniqueInput = {
+    tenantAccountId: string
     conversationKey: string
     messageId: number
   }
 
   export type ConversationMessageCountOrderByAggregateInput = {
     id?: SortOrder
+    tenantAccountId?: SortOrder
     messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
@@ -16335,6 +24737,7 @@ export namespace Prisma {
 
   export type ConversationMessageMaxOrderByAggregateInput = {
     id?: SortOrder
+    tenantAccountId?: SortOrder
     messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
@@ -16346,6 +24749,7 @@ export namespace Prisma {
 
   export type ConversationMessageMinOrderByAggregateInput = {
     id?: SortOrder
+    tenantAccountId?: SortOrder
     messageId?: SortOrder
     conversationId?: SortOrder
     inboxId?: SortOrder
@@ -16380,12 +24784,14 @@ export namespace Prisma {
     not?: NestedEnumAgentAvailabilityNullableFilter<$PrismaModel> | $Enums.AgentAvailability | null
   }
 
-  export type AgentAssignmentInboxIdAgentIdCompoundUniqueInput = {
+  export type AgentAssignmentTenantAccountIdInboxIdAgentIdCompoundUniqueInput = {
+    tenantAccountId: string
     inboxId: number
     agentId: number
   }
 
   export type AgentAssignmentCountOrderByAggregateInput = {
+    tenantAccountId?: SortOrder
     inboxId?: SortOrder
     agentId?: SortOrder
     lastAssignedAt?: SortOrder
@@ -16400,6 +24806,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentMaxOrderByAggregateInput = {
+    tenantAccountId?: SortOrder
     inboxId?: SortOrder
     agentId?: SortOrder
     lastAssignedAt?: SortOrder
@@ -16408,6 +24815,7 @@ export namespace Prisma {
   }
 
   export type AgentAssignmentMinOrderByAggregateInput = {
+    tenantAccountId?: SortOrder
     inboxId?: SortOrder
     agentId?: SortOrder
     lastAssignedAt?: SortOrder
@@ -16456,6 +24864,7 @@ export namespace Prisma {
 
   export type HandoffRequestCountOrderByAggregateInput = {
     conversationKey?: SortOrder
+    tenantAccountId?: SortOrder
     conversationId?: SortOrder
     accountId?: SortOrder
     inboxId?: SortOrder
@@ -16475,6 +24884,7 @@ export namespace Prisma {
 
   export type HandoffRequestMaxOrderByAggregateInput = {
     conversationKey?: SortOrder
+    tenantAccountId?: SortOrder
     conversationId?: SortOrder
     accountId?: SortOrder
     inboxId?: SortOrder
@@ -16486,6 +24896,7 @@ export namespace Prisma {
 
   export type HandoffRequestMinOrderByAggregateInput = {
     conversationKey?: SortOrder
+    tenantAccountId?: SortOrder
     conversationId?: SortOrder
     accountId?: SortOrder
     inboxId?: SortOrder
@@ -16566,8 +24977,24 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type ScrapeJobLogListRelationFilter = {
+    every?: ScrapeJobLogWhereInput
+    some?: ScrapeJobLogWhereInput
+    none?: ScrapeJobLogWhereInput
+  }
+
+  export type ScrapeJobLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScrapeJobAccountIdIdCompoundUniqueInput = {
+    accountId: string
+    id: string
+  }
+
   export type ScrapeJobCountOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     script?: SortOrder
     args?: SortOrder
     status?: SortOrder
@@ -16593,6 +25020,7 @@ export namespace Prisma {
 
   export type ScrapeJobMaxOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     script?: SortOrder
     status?: SortOrder
     cadence?: SortOrder
@@ -16611,6 +25039,7 @@ export namespace Prisma {
 
   export type ScrapeJobMinOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
     script?: SortOrder
     status?: SortOrder
     cadence?: SortOrder
@@ -16703,6 +25132,134 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type ScrapeJobScalarRelationFilter = {
+    is?: ScrapeJobWhereInput
+    isNot?: ScrapeJobWhereInput
+  }
+
+  export type ScrapeJobLogAccountIdJobIdStorageKeyCompoundUniqueInput = {
+    accountId: string
+    jobId: string
+    storageKey: string
+  }
+
+  export type ScrapeJobLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    jobId?: SortOrder
+    storageKey?: SortOrder
+    startedAt?: SortOrder
+    byteSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScrapeJobLogAvgOrderByAggregateInput = {
+    byteSize?: SortOrder
+  }
+
+  export type ScrapeJobLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    jobId?: SortOrder
+    storageKey?: SortOrder
+    startedAt?: SortOrder
+    byteSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScrapeJobLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    jobId?: SortOrder
+    storageKey?: SortOrder
+    startedAt?: SortOrder
+    byteSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScrapeJobLogSumOrderByAggregateInput = {
+    byteSize?: SortOrder
+  }
+
+  export type EnumKnowledgeDocumentKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.KnowledgeDocumentKind | EnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    in?: $Enums.KnowledgeDocumentKind[] | ListEnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KnowledgeDocumentKind[] | ListEnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumKnowledgeDocumentKindFilter<$PrismaModel> | $Enums.KnowledgeDocumentKind
+  }
+
+  export type KnowledgeDocumentAccountIdKindNameCompoundUniqueInput = {
+    accountId: string
+    kind: $Enums.KnowledgeDocumentKind
+    name: string
+  }
+
+  export type KnowledgeDocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    kind?: SortOrder
+    name?: SortOrder
+    storageKey?: SortOrder
+    mimeType?: SortOrder
+    byteSize?: SortOrder
+    sourceCreatedAt?: SortOrder
+    sourceModifiedAt?: SortOrder
+    sourceJobId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type KnowledgeDocumentAvgOrderByAggregateInput = {
+    byteSize?: SortOrder
+  }
+
+  export type KnowledgeDocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    kind?: SortOrder
+    name?: SortOrder
+    storageKey?: SortOrder
+    mimeType?: SortOrder
+    byteSize?: SortOrder
+    sourceCreatedAt?: SortOrder
+    sourceModifiedAt?: SortOrder
+    sourceJobId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type KnowledgeDocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    kind?: SortOrder
+    name?: SortOrder
+    storageKey?: SortOrder
+    mimeType?: SortOrder
+    byteSize?: SortOrder
+    sourceCreatedAt?: SortOrder
+    sourceModifiedAt?: SortOrder
+    sourceJobId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type KnowledgeDocumentSumOrderByAggregateInput = {
+    byteSize?: SortOrder
+  }
+
+  export type EnumKnowledgeDocumentKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KnowledgeDocumentKind | EnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    in?: $Enums.KnowledgeDocumentKind[] | ListEnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KnowledgeDocumentKind[] | ListEnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumKnowledgeDocumentKindWithAggregatesFilter<$PrismaModel> | $Enums.KnowledgeDocumentKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKnowledgeDocumentKindFilter<$PrismaModel>
+    _max?: NestedEnumKnowledgeDocumentKindFilter<$PrismaModel>
+  }
+
   export type EnumAgentRoleNullableListFilter<$PrismaModel = never> = {
     equals?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel> | null
     has?: $Enums.AgentRole | EnumAgentRoleFieldRefInput<$PrismaModel> | null
@@ -16723,6 +25280,12 @@ export namespace Prisma {
     none?: LoginAuditWhereInput
   }
 
+  export type AccountMembershipListRelationFilter = {
+    every?: AccountMembershipWhereInput
+    some?: AccountMembershipWhereInput
+    none?: AccountMembershipWhereInput
+  }
+
   export type LoginTokenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -16731,10 +25294,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type AccountMembershipOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type AgentAccountCountOrderByAggregateInput = {
     userId?: SortOrder
     hashedPin?: SortOrder
     telegramChatId?: SortOrder
+    platformAdmin?: SortOrder
     roles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -16744,6 +25312,7 @@ export namespace Prisma {
     userId?: SortOrder
     hashedPin?: SortOrder
     telegramChatId?: SortOrder
+    platformAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16752,6 +25321,7 @@ export namespace Prisma {
     userId?: SortOrder
     hashedPin?: SortOrder
     telegramChatId?: SortOrder
+    platformAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16761,9 +25331,15 @@ export namespace Prisma {
     isNot?: AgentAccountWhereInput
   }
 
+  export type AccountNullableScalarRelationFilter = {
+    is?: AccountWhereInput | null
+    isNot?: AccountWhereInput | null
+  }
+
   export type LoginTokenCountOrderByAggregateInput = {
     id?: SortOrder
     agentId?: SortOrder
+    accountId?: SortOrder
     tokenHash?: SortOrder
     expiresAt?: SortOrder
     consumedAt?: SortOrder
@@ -16773,6 +25349,7 @@ export namespace Prisma {
   export type LoginTokenMaxOrderByAggregateInput = {
     id?: SortOrder
     agentId?: SortOrder
+    accountId?: SortOrder
     tokenHash?: SortOrder
     expiresAt?: SortOrder
     consumedAt?: SortOrder
@@ -16782,6 +25359,7 @@ export namespace Prisma {
   export type LoginTokenMinOrderByAggregateInput = {
     id?: SortOrder
     agentId?: SortOrder
+    accountId?: SortOrder
     tokenHash?: SortOrder
     expiresAt?: SortOrder
     consumedAt?: SortOrder
@@ -16833,6 +25411,234 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLoginAuditStatusFilter<$PrismaModel>
     _max?: NestedEnumLoginAuditStatusFilter<$PrismaModel>
+  }
+
+  export type EnumAccountStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountStatus | EnumAccountStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountStatus[] | ListEnumAccountStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountStatus[] | ListEnumAccountStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountStatusFilter<$PrismaModel> | $Enums.AccountStatus
+  }
+
+  export type AccountConfigurationListRelationFilter = {
+    every?: AccountConfigurationWhereInput
+    some?: AccountConfigurationWhereInput
+    none?: AccountConfigurationWhereInput
+  }
+
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
+  }
+
+  export type ConversationMessageListRelationFilter = {
+    every?: ConversationMessageWhereInput
+    some?: ConversationMessageWhereInput
+    none?: ConversationMessageWhereInput
+  }
+
+  export type AgentAssignmentListRelationFilter = {
+    every?: AgentAssignmentWhereInput
+    some?: AgentAssignmentWhereInput
+    none?: AgentAssignmentWhereInput
+  }
+
+  export type HandoffRequestListRelationFilter = {
+    every?: HandoffRequestWhereInput
+    some?: HandoffRequestWhereInput
+    none?: HandoffRequestWhereInput
+  }
+
+  export type ScrapeJobListRelationFilter = {
+    every?: ScrapeJobWhereInput
+    some?: ScrapeJobWhereInput
+    none?: ScrapeJobWhereInput
+  }
+
+  export type KnowledgeDocumentListRelationFilter = {
+    every?: KnowledgeDocumentWhereInput
+    some?: KnowledgeDocumentWhereInput
+    none?: KnowledgeDocumentWhereInput
+  }
+
+  export type AccountConfigurationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConversationMessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AgentAssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type HandoffRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScrapeJobOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type KnowledgeDocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AccountCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    status?: SortOrder
+    isPrimary?: SortOrder
+    suspensionReason?: SortOrder
+    maintenanceMessage?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccountMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    status?: SortOrder
+    isPrimary?: SortOrder
+    suspensionReason?: SortOrder
+    maintenanceMessage?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccountMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    status?: SortOrder
+    isPrimary?: SortOrder
+    suspensionReason?: SortOrder
+    maintenanceMessage?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumAccountStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountStatus | EnumAccountStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountStatus[] | ListEnumAccountStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountStatus[] | ListEnumAccountStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountStatusWithAggregatesFilter<$PrismaModel> | $Enums.AccountStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccountStatusFilter<$PrismaModel>
+    _max?: NestedEnumAccountStatusFilter<$PrismaModel>
+  }
+
+  export type EnumAgentRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentRole | EnumAgentRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAgentRoleFilter<$PrismaModel> | $Enums.AgentRole
+  }
+
+  export type AccountMembershipAccountIdAgentIdCompoundUniqueInput = {
+    accountId: string
+    agentId: string
+  }
+
+  export type AccountMembershipCountOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    agentId?: SortOrder
+    role?: SortOrder
+    invitedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccountMembershipMaxOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    agentId?: SortOrder
+    role?: SortOrder
+    invitedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccountMembershipMinOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    agentId?: SortOrder
+    role?: SortOrder
+    invitedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumAgentRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentRole | EnumAgentRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAgentRoleWithAggregatesFilter<$PrismaModel> | $Enums.AgentRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAgentRoleFilter<$PrismaModel>
+    _max?: NestedEnumAgentRoleFilter<$PrismaModel>
+  }
+
+  export type AccountConfigurationAccountIdKeyCompoundUniqueInput = {
+    accountId: string
+    key: string
+  }
+
+  export type AccountConfigurationCountOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    key?: SortOrder
+    encryptedValue?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    isSecret?: SortOrder
+    updatedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccountConfigurationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    key?: SortOrder
+    encryptedValue?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    isSecret?: SortOrder
+    updatedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccountConfigurationMinOrderByAggregateInput = {
+    id?: SortOrder
+    accountId?: SortOrder
+    key?: SortOrder
+    encryptedValue?: SortOrder
+    iv?: SortOrder
+    authTag?: SortOrder
+    isSecret?: SortOrder
+    updatedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccountCreateNestedOneWithoutUsersInput = {
+    create?: XOR<AccountCreateWithoutUsersInput, AccountUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutUsersInput
+    connect?: AccountWhereUniqueInput
   }
 
   export type OrderCreateNestedManyWithoutUserInput = {
@@ -16887,6 +25693,14 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type AccountUpdateOneRequiredWithoutUsersNestedInput = {
+    create?: XOR<AccountCreateWithoutUsersInput, AccountUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutUsersInput
+    upsert?: AccountUpsertWithoutUsersInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutUsersInput, AccountUpdateWithoutUsersInput>, AccountUncheckedUpdateWithoutUsersInput>
   }
 
   export type OrderUpdateManyWithoutUserNestedInput = {
@@ -16973,10 +25787,24 @@ export namespace Prisma {
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
+  export type AccountCreateNestedOneWithoutOrdersInput = {
+    create?: XOR<AccountCreateWithoutOrdersInput, AccountUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutOrdersInput
+    connect?: AccountWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutOrdersInput = {
     create?: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
     connectOrCreate?: UserCreateOrConnectWithoutOrdersInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type AccountUpdateOneRequiredWithoutOrdersNestedInput = {
+    create?: XOR<AccountCreateWithoutOrdersInput, AccountUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutOrdersInput
+    upsert?: AccountUpsertWithoutOrdersInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutOrdersInput, AccountUpdateWithoutOrdersInput>, AccountUncheckedUpdateWithoutOrdersInput>
   }
 
   export type UserUpdateOneWithoutOrdersNestedInput = {
@@ -16987,6 +25815,12 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOrdersInput, UserUpdateWithoutOrdersInput>, UserUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type AccountCreateNestedOneWithoutChatSessionsInput = {
+    create?: XOR<AccountCreateWithoutChatSessionsInput, AccountUncheckedCreateWithoutChatSessionsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutChatSessionsInput
+    connect?: AccountWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -17007,6 +25841,14 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type AccountUpdateOneRequiredWithoutChatSessionsNestedInput = {
+    create?: XOR<AccountCreateWithoutChatSessionsInput, AccountUncheckedCreateWithoutChatSessionsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutChatSessionsInput
+    upsert?: AccountUpsertWithoutChatSessionsInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutChatSessionsInput, AccountUpdateWithoutChatSessionsInput>, AccountUncheckedUpdateWithoutChatSessionsInput>
+  }
+
   export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
     create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
@@ -17015,10 +25857,24 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
   }
 
+  export type AccountCreateNestedOneWithoutTicketsInput = {
+    create?: XOR<AccountCreateWithoutTicketsInput, AccountUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutTicketsInput
+    connect?: AccountWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutTicketsInput = {
     create?: XOR<UserCreateWithoutTicketsInput, UserUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: UserCreateOrConnectWithoutTicketsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type AccountUpdateOneRequiredWithoutTicketsNestedInput = {
+    create?: XOR<AccountCreateWithoutTicketsInput, AccountUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutTicketsInput
+    upsert?: AccountUpsertWithoutTicketsInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutTicketsInput, AccountUpdateWithoutTicketsInput>, AccountUncheckedUpdateWithoutTicketsInput>
   }
 
   export type UserUpdateOneWithoutTicketsNestedInput = {
@@ -17029,6 +25885,26 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTicketsInput, UserUpdateWithoutTicketsInput>, UserUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type AccountCreateNestedOneWithoutConversationMessagesInput = {
+    create?: XOR<AccountCreateWithoutConversationMessagesInput, AccountUncheckedCreateWithoutConversationMessagesInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutConversationMessagesInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type AccountUpdateOneRequiredWithoutConversationMessagesNestedInput = {
+    create?: XOR<AccountCreateWithoutConversationMessagesInput, AccountUncheckedCreateWithoutConversationMessagesInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutConversationMessagesInput
+    upsert?: AccountUpsertWithoutConversationMessagesInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutConversationMessagesInput, AccountUpdateWithoutConversationMessagesInput>, AccountUncheckedUpdateWithoutConversationMessagesInput>
+  }
+
+  export type AccountCreateNestedOneWithoutAgentAssignmentsInput = {
+    create?: XOR<AccountCreateWithoutAgentAssignmentsInput, AccountUncheckedCreateWithoutAgentAssignmentsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutAgentAssignmentsInput
+    connect?: AccountWhereUniqueInput
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -17043,8 +25919,50 @@ export namespace Prisma {
     set?: $Enums.AgentAvailability | null
   }
 
+  export type AccountUpdateOneRequiredWithoutAgentAssignmentsNestedInput = {
+    create?: XOR<AccountCreateWithoutAgentAssignmentsInput, AccountUncheckedCreateWithoutAgentAssignmentsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutAgentAssignmentsInput
+    upsert?: AccountUpsertWithoutAgentAssignmentsInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutAgentAssignmentsInput, AccountUpdateWithoutAgentAssignmentsInput>, AccountUncheckedUpdateWithoutAgentAssignmentsInput>
+  }
+
+  export type AccountCreateNestedOneWithoutHandoffRequestsInput = {
+    create?: XOR<AccountCreateWithoutHandoffRequestsInput, AccountUncheckedCreateWithoutHandoffRequestsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutHandoffRequestsInput
+    connect?: AccountWhereUniqueInput
+  }
+
   export type EnumHandoffRequestStatusFieldUpdateOperationsInput = {
     set?: $Enums.HandoffRequestStatus
+  }
+
+  export type AccountUpdateOneRequiredWithoutHandoffRequestsNestedInput = {
+    create?: XOR<AccountCreateWithoutHandoffRequestsInput, AccountUncheckedCreateWithoutHandoffRequestsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutHandoffRequestsInput
+    upsert?: AccountUpsertWithoutHandoffRequestsInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutHandoffRequestsInput, AccountUpdateWithoutHandoffRequestsInput>, AccountUncheckedUpdateWithoutHandoffRequestsInput>
+  }
+
+  export type AccountCreateNestedOneWithoutScrapeJobsInput = {
+    create?: XOR<AccountCreateWithoutScrapeJobsInput, AccountUncheckedCreateWithoutScrapeJobsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutScrapeJobsInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type ScrapeJobLogCreateNestedManyWithoutJobInput = {
+    create?: XOR<ScrapeJobLogCreateWithoutJobInput, ScrapeJobLogUncheckedCreateWithoutJobInput> | ScrapeJobLogCreateWithoutJobInput[] | ScrapeJobLogUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ScrapeJobLogCreateOrConnectWithoutJobInput | ScrapeJobLogCreateOrConnectWithoutJobInput[]
+    createMany?: ScrapeJobLogCreateManyJobInputEnvelope
+    connect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+  }
+
+  export type ScrapeJobLogUncheckedCreateNestedManyWithoutJobInput = {
+    create?: XOR<ScrapeJobLogCreateWithoutJobInput, ScrapeJobLogUncheckedCreateWithoutJobInput> | ScrapeJobLogCreateWithoutJobInput[] | ScrapeJobLogUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ScrapeJobLogCreateOrConnectWithoutJobInput | ScrapeJobLogCreateOrConnectWithoutJobInput[]
+    createMany?: ScrapeJobLogCreateManyJobInputEnvelope
+    connect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
   }
 
   export type EnumScrapeJobStatusFieldUpdateOperationsInput = {
@@ -17067,6 +25985,88 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type AccountUpdateOneRequiredWithoutScrapeJobsNestedInput = {
+    create?: XOR<AccountCreateWithoutScrapeJobsInput, AccountUncheckedCreateWithoutScrapeJobsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutScrapeJobsInput
+    upsert?: AccountUpsertWithoutScrapeJobsInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutScrapeJobsInput, AccountUpdateWithoutScrapeJobsInput>, AccountUncheckedUpdateWithoutScrapeJobsInput>
+  }
+
+  export type ScrapeJobLogUpdateManyWithoutJobNestedInput = {
+    create?: XOR<ScrapeJobLogCreateWithoutJobInput, ScrapeJobLogUncheckedCreateWithoutJobInput> | ScrapeJobLogCreateWithoutJobInput[] | ScrapeJobLogUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ScrapeJobLogCreateOrConnectWithoutJobInput | ScrapeJobLogCreateOrConnectWithoutJobInput[]
+    upsert?: ScrapeJobLogUpsertWithWhereUniqueWithoutJobInput | ScrapeJobLogUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: ScrapeJobLogCreateManyJobInputEnvelope
+    set?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    disconnect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    delete?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    connect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    update?: ScrapeJobLogUpdateWithWhereUniqueWithoutJobInput | ScrapeJobLogUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: ScrapeJobLogUpdateManyWithWhereWithoutJobInput | ScrapeJobLogUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: ScrapeJobLogScalarWhereInput | ScrapeJobLogScalarWhereInput[]
+  }
+
+  export type ScrapeJobLogUncheckedUpdateManyWithoutJobNestedInput = {
+    create?: XOR<ScrapeJobLogCreateWithoutJobInput, ScrapeJobLogUncheckedCreateWithoutJobInput> | ScrapeJobLogCreateWithoutJobInput[] | ScrapeJobLogUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: ScrapeJobLogCreateOrConnectWithoutJobInput | ScrapeJobLogCreateOrConnectWithoutJobInput[]
+    upsert?: ScrapeJobLogUpsertWithWhereUniqueWithoutJobInput | ScrapeJobLogUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: ScrapeJobLogCreateManyJobInputEnvelope
+    set?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    disconnect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    delete?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    connect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    update?: ScrapeJobLogUpdateWithWhereUniqueWithoutJobInput | ScrapeJobLogUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: ScrapeJobLogUpdateManyWithWhereWithoutJobInput | ScrapeJobLogUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: ScrapeJobLogScalarWhereInput | ScrapeJobLogScalarWhereInput[]
+  }
+
+  export type AccountCreateNestedOneWithoutScrapeJobLogsInput = {
+    create?: XOR<AccountCreateWithoutScrapeJobLogsInput, AccountUncheckedCreateWithoutScrapeJobLogsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutScrapeJobLogsInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type ScrapeJobCreateNestedOneWithoutLogsInput = {
+    create?: XOR<ScrapeJobCreateWithoutLogsInput, ScrapeJobUncheckedCreateWithoutLogsInput>
+    connectOrCreate?: ScrapeJobCreateOrConnectWithoutLogsInput
+    connect?: ScrapeJobWhereUniqueInput
+  }
+
+  export type AccountUpdateOneRequiredWithoutScrapeJobLogsNestedInput = {
+    create?: XOR<AccountCreateWithoutScrapeJobLogsInput, AccountUncheckedCreateWithoutScrapeJobLogsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutScrapeJobLogsInput
+    upsert?: AccountUpsertWithoutScrapeJobLogsInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutScrapeJobLogsInput, AccountUpdateWithoutScrapeJobLogsInput>, AccountUncheckedUpdateWithoutScrapeJobLogsInput>
+  }
+
+  export type ScrapeJobUpdateOneRequiredWithoutLogsNestedInput = {
+    create?: XOR<ScrapeJobCreateWithoutLogsInput, ScrapeJobUncheckedCreateWithoutLogsInput>
+    connectOrCreate?: ScrapeJobCreateOrConnectWithoutLogsInput
+    upsert?: ScrapeJobUpsertWithoutLogsInput
+    connect?: ScrapeJobWhereUniqueInput
+    update?: XOR<XOR<ScrapeJobUpdateToOneWithWhereWithoutLogsInput, ScrapeJobUpdateWithoutLogsInput>, ScrapeJobUncheckedUpdateWithoutLogsInput>
+  }
+
+  export type AccountCreateNestedOneWithoutKnowledgeDocumentsInput = {
+    create?: XOR<AccountCreateWithoutKnowledgeDocumentsInput, AccountUncheckedCreateWithoutKnowledgeDocumentsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutKnowledgeDocumentsInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type EnumKnowledgeDocumentKindFieldUpdateOperationsInput = {
+    set?: $Enums.KnowledgeDocumentKind
+  }
+
+  export type AccountUpdateOneRequiredWithoutKnowledgeDocumentsNestedInput = {
+    create?: XOR<AccountCreateWithoutKnowledgeDocumentsInput, AccountUncheckedCreateWithoutKnowledgeDocumentsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutKnowledgeDocumentsInput
+    upsert?: AccountUpsertWithoutKnowledgeDocumentsInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutKnowledgeDocumentsInput, AccountUpdateWithoutKnowledgeDocumentsInput>, AccountUncheckedUpdateWithoutKnowledgeDocumentsInput>
+  }
+
   export type AgentAccountCreaterolesInput = {
     set: $Enums.AgentRole[]
   }
@@ -17085,6 +26085,13 @@ export namespace Prisma {
     connect?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
   }
 
+  export type AccountMembershipCreateNestedManyWithoutAgentInput = {
+    create?: XOR<AccountMembershipCreateWithoutAgentInput, AccountMembershipUncheckedCreateWithoutAgentInput> | AccountMembershipCreateWithoutAgentInput[] | AccountMembershipUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AccountMembershipCreateOrConnectWithoutAgentInput | AccountMembershipCreateOrConnectWithoutAgentInput[]
+    createMany?: AccountMembershipCreateManyAgentInputEnvelope
+    connect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+  }
+
   export type LoginTokenUncheckedCreateNestedManyWithoutAgentInput = {
     create?: XOR<LoginTokenCreateWithoutAgentInput, LoginTokenUncheckedCreateWithoutAgentInput> | LoginTokenCreateWithoutAgentInput[] | LoginTokenUncheckedCreateWithoutAgentInput[]
     connectOrCreate?: LoginTokenCreateOrConnectWithoutAgentInput | LoginTokenCreateOrConnectWithoutAgentInput[]
@@ -17097,6 +26104,13 @@ export namespace Prisma {
     connectOrCreate?: LoginAuditCreateOrConnectWithoutAgentInput | LoginAuditCreateOrConnectWithoutAgentInput[]
     createMany?: LoginAuditCreateManyAgentInputEnvelope
     connect?: LoginAuditWhereUniqueInput | LoginAuditWhereUniqueInput[]
+  }
+
+  export type AccountMembershipUncheckedCreateNestedManyWithoutAgentInput = {
+    create?: XOR<AccountMembershipCreateWithoutAgentInput, AccountMembershipUncheckedCreateWithoutAgentInput> | AccountMembershipCreateWithoutAgentInput[] | AccountMembershipUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AccountMembershipCreateOrConnectWithoutAgentInput | AccountMembershipCreateOrConnectWithoutAgentInput[]
+    createMany?: AccountMembershipCreateManyAgentInputEnvelope
+    connect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
   }
 
   export type AgentAccountUpdaterolesInput = {
@@ -17132,6 +26146,20 @@ export namespace Prisma {
     deleteMany?: LoginAuditScalarWhereInput | LoginAuditScalarWhereInput[]
   }
 
+  export type AccountMembershipUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<AccountMembershipCreateWithoutAgentInput, AccountMembershipUncheckedCreateWithoutAgentInput> | AccountMembershipCreateWithoutAgentInput[] | AccountMembershipUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AccountMembershipCreateOrConnectWithoutAgentInput | AccountMembershipCreateOrConnectWithoutAgentInput[]
+    upsert?: AccountMembershipUpsertWithWhereUniqueWithoutAgentInput | AccountMembershipUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: AccountMembershipCreateManyAgentInputEnvelope
+    set?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    disconnect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    delete?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    connect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    update?: AccountMembershipUpdateWithWhereUniqueWithoutAgentInput | AccountMembershipUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: AccountMembershipUpdateManyWithWhereWithoutAgentInput | AccountMembershipUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: AccountMembershipScalarWhereInput | AccountMembershipScalarWhereInput[]
+  }
+
   export type LoginTokenUncheckedUpdateManyWithoutAgentNestedInput = {
     create?: XOR<LoginTokenCreateWithoutAgentInput, LoginTokenUncheckedCreateWithoutAgentInput> | LoginTokenCreateWithoutAgentInput[] | LoginTokenUncheckedCreateWithoutAgentInput[]
     connectOrCreate?: LoginTokenCreateOrConnectWithoutAgentInput | LoginTokenCreateOrConnectWithoutAgentInput[]
@@ -17160,10 +26188,30 @@ export namespace Prisma {
     deleteMany?: LoginAuditScalarWhereInput | LoginAuditScalarWhereInput[]
   }
 
+  export type AccountMembershipUncheckedUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<AccountMembershipCreateWithoutAgentInput, AccountMembershipUncheckedCreateWithoutAgentInput> | AccountMembershipCreateWithoutAgentInput[] | AccountMembershipUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AccountMembershipCreateOrConnectWithoutAgentInput | AccountMembershipCreateOrConnectWithoutAgentInput[]
+    upsert?: AccountMembershipUpsertWithWhereUniqueWithoutAgentInput | AccountMembershipUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: AccountMembershipCreateManyAgentInputEnvelope
+    set?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    disconnect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    delete?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    connect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    update?: AccountMembershipUpdateWithWhereUniqueWithoutAgentInput | AccountMembershipUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: AccountMembershipUpdateManyWithWhereWithoutAgentInput | AccountMembershipUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: AccountMembershipScalarWhereInput | AccountMembershipScalarWhereInput[]
+  }
+
   export type AgentAccountCreateNestedOneWithoutLoginTokensInput = {
     create?: XOR<AgentAccountCreateWithoutLoginTokensInput, AgentAccountUncheckedCreateWithoutLoginTokensInput>
     connectOrCreate?: AgentAccountCreateOrConnectWithoutLoginTokensInput
     connect?: AgentAccountWhereUniqueInput
+  }
+
+  export type AccountCreateNestedOneWithoutLoginTokensInput = {
+    create?: XOR<AccountCreateWithoutLoginTokensInput, AccountUncheckedCreateWithoutLoginTokensInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutLoginTokensInput
+    connect?: AccountWhereUniqueInput
   }
 
   export type AgentAccountUpdateOneRequiredWithoutLoginTokensNestedInput = {
@@ -17172,6 +26220,16 @@ export namespace Prisma {
     upsert?: AgentAccountUpsertWithoutLoginTokensInput
     connect?: AgentAccountWhereUniqueInput
     update?: XOR<XOR<AgentAccountUpdateToOneWithWhereWithoutLoginTokensInput, AgentAccountUpdateWithoutLoginTokensInput>, AgentAccountUncheckedUpdateWithoutLoginTokensInput>
+  }
+
+  export type AccountUpdateOneWithoutLoginTokensNestedInput = {
+    create?: XOR<AccountCreateWithoutLoginTokensInput, AccountUncheckedCreateWithoutLoginTokensInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutLoginTokensInput
+    upsert?: AccountUpsertWithoutLoginTokensInput
+    disconnect?: AccountWhereInput | boolean
+    delete?: AccountWhereInput | boolean
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutLoginTokensInput, AccountUpdateWithoutLoginTokensInput>, AccountUncheckedUpdateWithoutLoginTokensInput>
   }
 
   export type AgentAccountCreateNestedOneWithoutAuditsInput = {
@@ -17190,6 +26248,602 @@ export namespace Prisma {
     upsert?: AgentAccountUpsertWithoutAuditsInput
     connect?: AgentAccountWhereUniqueInput
     update?: XOR<XOR<AgentAccountUpdateToOneWithWhereWithoutAuditsInput, AgentAccountUpdateWithoutAuditsInput>, AgentAccountUncheckedUpdateWithoutAuditsInput>
+  }
+
+  export type AccountMembershipCreateNestedManyWithoutAccountInput = {
+    create?: XOR<AccountMembershipCreateWithoutAccountInput, AccountMembershipUncheckedCreateWithoutAccountInput> | AccountMembershipCreateWithoutAccountInput[] | AccountMembershipUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: AccountMembershipCreateOrConnectWithoutAccountInput | AccountMembershipCreateOrConnectWithoutAccountInput[]
+    createMany?: AccountMembershipCreateManyAccountInputEnvelope
+    connect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+  }
+
+  export type AccountConfigurationCreateNestedManyWithoutAccountInput = {
+    create?: XOR<AccountConfigurationCreateWithoutAccountInput, AccountConfigurationUncheckedCreateWithoutAccountInput> | AccountConfigurationCreateWithoutAccountInput[] | AccountConfigurationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: AccountConfigurationCreateOrConnectWithoutAccountInput | AccountConfigurationCreateOrConnectWithoutAccountInput[]
+    createMany?: AccountConfigurationCreateManyAccountInputEnvelope
+    connect?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+  }
+
+  export type LoginTokenCreateNestedManyWithoutAccountInput = {
+    create?: XOR<LoginTokenCreateWithoutAccountInput, LoginTokenUncheckedCreateWithoutAccountInput> | LoginTokenCreateWithoutAccountInput[] | LoginTokenUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoginTokenCreateOrConnectWithoutAccountInput | LoginTokenCreateOrConnectWithoutAccountInput[]
+    createMany?: LoginTokenCreateManyAccountInputEnvelope
+    connect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedManyWithoutAccountInput = {
+    create?: XOR<UserCreateWithoutAccountInput, UserUncheckedCreateWithoutAccountInput> | UserCreateWithoutAccountInput[] | UserUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutAccountInput | UserCreateOrConnectWithoutAccountInput[]
+    createMany?: UserCreateManyAccountInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type OrderCreateNestedManyWithoutAccountInput = {
+    create?: XOR<OrderCreateWithoutAccountInput, OrderUncheckedCreateWithoutAccountInput> | OrderCreateWithoutAccountInput[] | OrderUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutAccountInput | OrderCreateOrConnectWithoutAccountInput[]
+    createMany?: OrderCreateManyAccountInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type ChatSessionCreateNestedManyWithoutAccountInput = {
+    create?: XOR<ChatSessionCreateWithoutAccountInput, ChatSessionUncheckedCreateWithoutAccountInput> | ChatSessionCreateWithoutAccountInput[] | ChatSessionUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ChatSessionCreateOrConnectWithoutAccountInput | ChatSessionCreateOrConnectWithoutAccountInput[]
+    createMany?: ChatSessionCreateManyAccountInputEnvelope
+    connect?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+  }
+
+  export type TicketCreateNestedManyWithoutAccountInput = {
+    create?: XOR<TicketCreateWithoutAccountInput, TicketUncheckedCreateWithoutAccountInput> | TicketCreateWithoutAccountInput[] | TicketUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutAccountInput | TicketCreateOrConnectWithoutAccountInput[]
+    createMany?: TicketCreateManyAccountInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type ConversationMessageCreateNestedManyWithoutTenantAccountInput = {
+    create?: XOR<ConversationMessageCreateWithoutTenantAccountInput, ConversationMessageUncheckedCreateWithoutTenantAccountInput> | ConversationMessageCreateWithoutTenantAccountInput[] | ConversationMessageUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: ConversationMessageCreateOrConnectWithoutTenantAccountInput | ConversationMessageCreateOrConnectWithoutTenantAccountInput[]
+    createMany?: ConversationMessageCreateManyTenantAccountInputEnvelope
+    connect?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+  }
+
+  export type AgentAssignmentCreateNestedManyWithoutTenantAccountInput = {
+    create?: XOR<AgentAssignmentCreateWithoutTenantAccountInput, AgentAssignmentUncheckedCreateWithoutTenantAccountInput> | AgentAssignmentCreateWithoutTenantAccountInput[] | AgentAssignmentUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: AgentAssignmentCreateOrConnectWithoutTenantAccountInput | AgentAssignmentCreateOrConnectWithoutTenantAccountInput[]
+    createMany?: AgentAssignmentCreateManyTenantAccountInputEnvelope
+    connect?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+  }
+
+  export type HandoffRequestCreateNestedManyWithoutTenantAccountInput = {
+    create?: XOR<HandoffRequestCreateWithoutTenantAccountInput, HandoffRequestUncheckedCreateWithoutTenantAccountInput> | HandoffRequestCreateWithoutTenantAccountInput[] | HandoffRequestUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: HandoffRequestCreateOrConnectWithoutTenantAccountInput | HandoffRequestCreateOrConnectWithoutTenantAccountInput[]
+    createMany?: HandoffRequestCreateManyTenantAccountInputEnvelope
+    connect?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+  }
+
+  export type ScrapeJobCreateNestedManyWithoutAccountInput = {
+    create?: XOR<ScrapeJobCreateWithoutAccountInput, ScrapeJobUncheckedCreateWithoutAccountInput> | ScrapeJobCreateWithoutAccountInput[] | ScrapeJobUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ScrapeJobCreateOrConnectWithoutAccountInput | ScrapeJobCreateOrConnectWithoutAccountInput[]
+    createMany?: ScrapeJobCreateManyAccountInputEnvelope
+    connect?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+  }
+
+  export type ScrapeJobLogCreateNestedManyWithoutAccountInput = {
+    create?: XOR<ScrapeJobLogCreateWithoutAccountInput, ScrapeJobLogUncheckedCreateWithoutAccountInput> | ScrapeJobLogCreateWithoutAccountInput[] | ScrapeJobLogUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ScrapeJobLogCreateOrConnectWithoutAccountInput | ScrapeJobLogCreateOrConnectWithoutAccountInput[]
+    createMany?: ScrapeJobLogCreateManyAccountInputEnvelope
+    connect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+  }
+
+  export type KnowledgeDocumentCreateNestedManyWithoutAccountInput = {
+    create?: XOR<KnowledgeDocumentCreateWithoutAccountInput, KnowledgeDocumentUncheckedCreateWithoutAccountInput> | KnowledgeDocumentCreateWithoutAccountInput[] | KnowledgeDocumentUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: KnowledgeDocumentCreateOrConnectWithoutAccountInput | KnowledgeDocumentCreateOrConnectWithoutAccountInput[]
+    createMany?: KnowledgeDocumentCreateManyAccountInputEnvelope
+    connect?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+  }
+
+  export type AccountMembershipUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<AccountMembershipCreateWithoutAccountInput, AccountMembershipUncheckedCreateWithoutAccountInput> | AccountMembershipCreateWithoutAccountInput[] | AccountMembershipUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: AccountMembershipCreateOrConnectWithoutAccountInput | AccountMembershipCreateOrConnectWithoutAccountInput[]
+    createMany?: AccountMembershipCreateManyAccountInputEnvelope
+    connect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+  }
+
+  export type AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<AccountConfigurationCreateWithoutAccountInput, AccountConfigurationUncheckedCreateWithoutAccountInput> | AccountConfigurationCreateWithoutAccountInput[] | AccountConfigurationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: AccountConfigurationCreateOrConnectWithoutAccountInput | AccountConfigurationCreateOrConnectWithoutAccountInput[]
+    createMany?: AccountConfigurationCreateManyAccountInputEnvelope
+    connect?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+  }
+
+  export type LoginTokenUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<LoginTokenCreateWithoutAccountInput, LoginTokenUncheckedCreateWithoutAccountInput> | LoginTokenCreateWithoutAccountInput[] | LoginTokenUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoginTokenCreateOrConnectWithoutAccountInput | LoginTokenCreateOrConnectWithoutAccountInput[]
+    createMany?: LoginTokenCreateManyAccountInputEnvelope
+    connect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<UserCreateWithoutAccountInput, UserUncheckedCreateWithoutAccountInput> | UserCreateWithoutAccountInput[] | UserUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutAccountInput | UserCreateOrConnectWithoutAccountInput[]
+    createMany?: UserCreateManyAccountInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type OrderUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<OrderCreateWithoutAccountInput, OrderUncheckedCreateWithoutAccountInput> | OrderCreateWithoutAccountInput[] | OrderUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutAccountInput | OrderCreateOrConnectWithoutAccountInput[]
+    createMany?: OrderCreateManyAccountInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type ChatSessionUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<ChatSessionCreateWithoutAccountInput, ChatSessionUncheckedCreateWithoutAccountInput> | ChatSessionCreateWithoutAccountInput[] | ChatSessionUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ChatSessionCreateOrConnectWithoutAccountInput | ChatSessionCreateOrConnectWithoutAccountInput[]
+    createMany?: ChatSessionCreateManyAccountInputEnvelope
+    connect?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+  }
+
+  export type TicketUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<TicketCreateWithoutAccountInput, TicketUncheckedCreateWithoutAccountInput> | TicketCreateWithoutAccountInput[] | TicketUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutAccountInput | TicketCreateOrConnectWithoutAccountInput[]
+    createMany?: TicketCreateManyAccountInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput = {
+    create?: XOR<ConversationMessageCreateWithoutTenantAccountInput, ConversationMessageUncheckedCreateWithoutTenantAccountInput> | ConversationMessageCreateWithoutTenantAccountInput[] | ConversationMessageUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: ConversationMessageCreateOrConnectWithoutTenantAccountInput | ConversationMessageCreateOrConnectWithoutTenantAccountInput[]
+    createMany?: ConversationMessageCreateManyTenantAccountInputEnvelope
+    connect?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+  }
+
+  export type AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput = {
+    create?: XOR<AgentAssignmentCreateWithoutTenantAccountInput, AgentAssignmentUncheckedCreateWithoutTenantAccountInput> | AgentAssignmentCreateWithoutTenantAccountInput[] | AgentAssignmentUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: AgentAssignmentCreateOrConnectWithoutTenantAccountInput | AgentAssignmentCreateOrConnectWithoutTenantAccountInput[]
+    createMany?: AgentAssignmentCreateManyTenantAccountInputEnvelope
+    connect?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+  }
+
+  export type HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput = {
+    create?: XOR<HandoffRequestCreateWithoutTenantAccountInput, HandoffRequestUncheckedCreateWithoutTenantAccountInput> | HandoffRequestCreateWithoutTenantAccountInput[] | HandoffRequestUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: HandoffRequestCreateOrConnectWithoutTenantAccountInput | HandoffRequestCreateOrConnectWithoutTenantAccountInput[]
+    createMany?: HandoffRequestCreateManyTenantAccountInputEnvelope
+    connect?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+  }
+
+  export type ScrapeJobUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<ScrapeJobCreateWithoutAccountInput, ScrapeJobUncheckedCreateWithoutAccountInput> | ScrapeJobCreateWithoutAccountInput[] | ScrapeJobUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ScrapeJobCreateOrConnectWithoutAccountInput | ScrapeJobCreateOrConnectWithoutAccountInput[]
+    createMany?: ScrapeJobCreateManyAccountInputEnvelope
+    connect?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+  }
+
+  export type ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<ScrapeJobLogCreateWithoutAccountInput, ScrapeJobLogUncheckedCreateWithoutAccountInput> | ScrapeJobLogCreateWithoutAccountInput[] | ScrapeJobLogUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ScrapeJobLogCreateOrConnectWithoutAccountInput | ScrapeJobLogCreateOrConnectWithoutAccountInput[]
+    createMany?: ScrapeJobLogCreateManyAccountInputEnvelope
+    connect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+  }
+
+  export type KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<KnowledgeDocumentCreateWithoutAccountInput, KnowledgeDocumentUncheckedCreateWithoutAccountInput> | KnowledgeDocumentCreateWithoutAccountInput[] | KnowledgeDocumentUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: KnowledgeDocumentCreateOrConnectWithoutAccountInput | KnowledgeDocumentCreateOrConnectWithoutAccountInput[]
+    createMany?: KnowledgeDocumentCreateManyAccountInputEnvelope
+    connect?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+  }
+
+  export type EnumAccountStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AccountStatus
+  }
+
+  export type AccountMembershipUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<AccountMembershipCreateWithoutAccountInput, AccountMembershipUncheckedCreateWithoutAccountInput> | AccountMembershipCreateWithoutAccountInput[] | AccountMembershipUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: AccountMembershipCreateOrConnectWithoutAccountInput | AccountMembershipCreateOrConnectWithoutAccountInput[]
+    upsert?: AccountMembershipUpsertWithWhereUniqueWithoutAccountInput | AccountMembershipUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: AccountMembershipCreateManyAccountInputEnvelope
+    set?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    disconnect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    delete?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    connect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    update?: AccountMembershipUpdateWithWhereUniqueWithoutAccountInput | AccountMembershipUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: AccountMembershipUpdateManyWithWhereWithoutAccountInput | AccountMembershipUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: AccountMembershipScalarWhereInput | AccountMembershipScalarWhereInput[]
+  }
+
+  export type AccountConfigurationUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<AccountConfigurationCreateWithoutAccountInput, AccountConfigurationUncheckedCreateWithoutAccountInput> | AccountConfigurationCreateWithoutAccountInput[] | AccountConfigurationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: AccountConfigurationCreateOrConnectWithoutAccountInput | AccountConfigurationCreateOrConnectWithoutAccountInput[]
+    upsert?: AccountConfigurationUpsertWithWhereUniqueWithoutAccountInput | AccountConfigurationUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: AccountConfigurationCreateManyAccountInputEnvelope
+    set?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+    disconnect?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+    delete?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+    connect?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+    update?: AccountConfigurationUpdateWithWhereUniqueWithoutAccountInput | AccountConfigurationUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: AccountConfigurationUpdateManyWithWhereWithoutAccountInput | AccountConfigurationUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: AccountConfigurationScalarWhereInput | AccountConfigurationScalarWhereInput[]
+  }
+
+  export type LoginTokenUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<LoginTokenCreateWithoutAccountInput, LoginTokenUncheckedCreateWithoutAccountInput> | LoginTokenCreateWithoutAccountInput[] | LoginTokenUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoginTokenCreateOrConnectWithoutAccountInput | LoginTokenCreateOrConnectWithoutAccountInput[]
+    upsert?: LoginTokenUpsertWithWhereUniqueWithoutAccountInput | LoginTokenUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: LoginTokenCreateManyAccountInputEnvelope
+    set?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    disconnect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    delete?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    connect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    update?: LoginTokenUpdateWithWhereUniqueWithoutAccountInput | LoginTokenUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: LoginTokenUpdateManyWithWhereWithoutAccountInput | LoginTokenUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: LoginTokenScalarWhereInput | LoginTokenScalarWhereInput[]
+  }
+
+  export type UserUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<UserCreateWithoutAccountInput, UserUncheckedCreateWithoutAccountInput> | UserCreateWithoutAccountInput[] | UserUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutAccountInput | UserCreateOrConnectWithoutAccountInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutAccountInput | UserUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: UserCreateManyAccountInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutAccountInput | UserUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutAccountInput | UserUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type OrderUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<OrderCreateWithoutAccountInput, OrderUncheckedCreateWithoutAccountInput> | OrderCreateWithoutAccountInput[] | OrderUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutAccountInput | OrderCreateOrConnectWithoutAccountInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutAccountInput | OrderUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: OrderCreateManyAccountInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutAccountInput | OrderUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutAccountInput | OrderUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type ChatSessionUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<ChatSessionCreateWithoutAccountInput, ChatSessionUncheckedCreateWithoutAccountInput> | ChatSessionCreateWithoutAccountInput[] | ChatSessionUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ChatSessionCreateOrConnectWithoutAccountInput | ChatSessionCreateOrConnectWithoutAccountInput[]
+    upsert?: ChatSessionUpsertWithWhereUniqueWithoutAccountInput | ChatSessionUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: ChatSessionCreateManyAccountInputEnvelope
+    set?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+    disconnect?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+    delete?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+    connect?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+    update?: ChatSessionUpdateWithWhereUniqueWithoutAccountInput | ChatSessionUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: ChatSessionUpdateManyWithWhereWithoutAccountInput | ChatSessionUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: ChatSessionScalarWhereInput | ChatSessionScalarWhereInput[]
+  }
+
+  export type TicketUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<TicketCreateWithoutAccountInput, TicketUncheckedCreateWithoutAccountInput> | TicketCreateWithoutAccountInput[] | TicketUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutAccountInput | TicketCreateOrConnectWithoutAccountInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutAccountInput | TicketUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: TicketCreateManyAccountInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutAccountInput | TicketUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutAccountInput | TicketUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type ConversationMessageUpdateManyWithoutTenantAccountNestedInput = {
+    create?: XOR<ConversationMessageCreateWithoutTenantAccountInput, ConversationMessageUncheckedCreateWithoutTenantAccountInput> | ConversationMessageCreateWithoutTenantAccountInput[] | ConversationMessageUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: ConversationMessageCreateOrConnectWithoutTenantAccountInput | ConversationMessageCreateOrConnectWithoutTenantAccountInput[]
+    upsert?: ConversationMessageUpsertWithWhereUniqueWithoutTenantAccountInput | ConversationMessageUpsertWithWhereUniqueWithoutTenantAccountInput[]
+    createMany?: ConversationMessageCreateManyTenantAccountInputEnvelope
+    set?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+    disconnect?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+    delete?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+    connect?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+    update?: ConversationMessageUpdateWithWhereUniqueWithoutTenantAccountInput | ConversationMessageUpdateWithWhereUniqueWithoutTenantAccountInput[]
+    updateMany?: ConversationMessageUpdateManyWithWhereWithoutTenantAccountInput | ConversationMessageUpdateManyWithWhereWithoutTenantAccountInput[]
+    deleteMany?: ConversationMessageScalarWhereInput | ConversationMessageScalarWhereInput[]
+  }
+
+  export type AgentAssignmentUpdateManyWithoutTenantAccountNestedInput = {
+    create?: XOR<AgentAssignmentCreateWithoutTenantAccountInput, AgentAssignmentUncheckedCreateWithoutTenantAccountInput> | AgentAssignmentCreateWithoutTenantAccountInput[] | AgentAssignmentUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: AgentAssignmentCreateOrConnectWithoutTenantAccountInput | AgentAssignmentCreateOrConnectWithoutTenantAccountInput[]
+    upsert?: AgentAssignmentUpsertWithWhereUniqueWithoutTenantAccountInput | AgentAssignmentUpsertWithWhereUniqueWithoutTenantAccountInput[]
+    createMany?: AgentAssignmentCreateManyTenantAccountInputEnvelope
+    set?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+    disconnect?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+    delete?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+    connect?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+    update?: AgentAssignmentUpdateWithWhereUniqueWithoutTenantAccountInput | AgentAssignmentUpdateWithWhereUniqueWithoutTenantAccountInput[]
+    updateMany?: AgentAssignmentUpdateManyWithWhereWithoutTenantAccountInput | AgentAssignmentUpdateManyWithWhereWithoutTenantAccountInput[]
+    deleteMany?: AgentAssignmentScalarWhereInput | AgentAssignmentScalarWhereInput[]
+  }
+
+  export type HandoffRequestUpdateManyWithoutTenantAccountNestedInput = {
+    create?: XOR<HandoffRequestCreateWithoutTenantAccountInput, HandoffRequestUncheckedCreateWithoutTenantAccountInput> | HandoffRequestCreateWithoutTenantAccountInput[] | HandoffRequestUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: HandoffRequestCreateOrConnectWithoutTenantAccountInput | HandoffRequestCreateOrConnectWithoutTenantAccountInput[]
+    upsert?: HandoffRequestUpsertWithWhereUniqueWithoutTenantAccountInput | HandoffRequestUpsertWithWhereUniqueWithoutTenantAccountInput[]
+    createMany?: HandoffRequestCreateManyTenantAccountInputEnvelope
+    set?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+    disconnect?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+    delete?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+    connect?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+    update?: HandoffRequestUpdateWithWhereUniqueWithoutTenantAccountInput | HandoffRequestUpdateWithWhereUniqueWithoutTenantAccountInput[]
+    updateMany?: HandoffRequestUpdateManyWithWhereWithoutTenantAccountInput | HandoffRequestUpdateManyWithWhereWithoutTenantAccountInput[]
+    deleteMany?: HandoffRequestScalarWhereInput | HandoffRequestScalarWhereInput[]
+  }
+
+  export type ScrapeJobUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<ScrapeJobCreateWithoutAccountInput, ScrapeJobUncheckedCreateWithoutAccountInput> | ScrapeJobCreateWithoutAccountInput[] | ScrapeJobUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ScrapeJobCreateOrConnectWithoutAccountInput | ScrapeJobCreateOrConnectWithoutAccountInput[]
+    upsert?: ScrapeJobUpsertWithWhereUniqueWithoutAccountInput | ScrapeJobUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: ScrapeJobCreateManyAccountInputEnvelope
+    set?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+    disconnect?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+    delete?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+    connect?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+    update?: ScrapeJobUpdateWithWhereUniqueWithoutAccountInput | ScrapeJobUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: ScrapeJobUpdateManyWithWhereWithoutAccountInput | ScrapeJobUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: ScrapeJobScalarWhereInput | ScrapeJobScalarWhereInput[]
+  }
+
+  export type ScrapeJobLogUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<ScrapeJobLogCreateWithoutAccountInput, ScrapeJobLogUncheckedCreateWithoutAccountInput> | ScrapeJobLogCreateWithoutAccountInput[] | ScrapeJobLogUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ScrapeJobLogCreateOrConnectWithoutAccountInput | ScrapeJobLogCreateOrConnectWithoutAccountInput[]
+    upsert?: ScrapeJobLogUpsertWithWhereUniqueWithoutAccountInput | ScrapeJobLogUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: ScrapeJobLogCreateManyAccountInputEnvelope
+    set?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    disconnect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    delete?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    connect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    update?: ScrapeJobLogUpdateWithWhereUniqueWithoutAccountInput | ScrapeJobLogUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: ScrapeJobLogUpdateManyWithWhereWithoutAccountInput | ScrapeJobLogUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: ScrapeJobLogScalarWhereInput | ScrapeJobLogScalarWhereInput[]
+  }
+
+  export type KnowledgeDocumentUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<KnowledgeDocumentCreateWithoutAccountInput, KnowledgeDocumentUncheckedCreateWithoutAccountInput> | KnowledgeDocumentCreateWithoutAccountInput[] | KnowledgeDocumentUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: KnowledgeDocumentCreateOrConnectWithoutAccountInput | KnowledgeDocumentCreateOrConnectWithoutAccountInput[]
+    upsert?: KnowledgeDocumentUpsertWithWhereUniqueWithoutAccountInput | KnowledgeDocumentUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: KnowledgeDocumentCreateManyAccountInputEnvelope
+    set?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+    disconnect?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+    delete?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+    connect?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+    update?: KnowledgeDocumentUpdateWithWhereUniqueWithoutAccountInput | KnowledgeDocumentUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: KnowledgeDocumentUpdateManyWithWhereWithoutAccountInput | KnowledgeDocumentUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: KnowledgeDocumentScalarWhereInput | KnowledgeDocumentScalarWhereInput[]
+  }
+
+  export type AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<AccountMembershipCreateWithoutAccountInput, AccountMembershipUncheckedCreateWithoutAccountInput> | AccountMembershipCreateWithoutAccountInput[] | AccountMembershipUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: AccountMembershipCreateOrConnectWithoutAccountInput | AccountMembershipCreateOrConnectWithoutAccountInput[]
+    upsert?: AccountMembershipUpsertWithWhereUniqueWithoutAccountInput | AccountMembershipUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: AccountMembershipCreateManyAccountInputEnvelope
+    set?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    disconnect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    delete?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    connect?: AccountMembershipWhereUniqueInput | AccountMembershipWhereUniqueInput[]
+    update?: AccountMembershipUpdateWithWhereUniqueWithoutAccountInput | AccountMembershipUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: AccountMembershipUpdateManyWithWhereWithoutAccountInput | AccountMembershipUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: AccountMembershipScalarWhereInput | AccountMembershipScalarWhereInput[]
+  }
+
+  export type AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<AccountConfigurationCreateWithoutAccountInput, AccountConfigurationUncheckedCreateWithoutAccountInput> | AccountConfigurationCreateWithoutAccountInput[] | AccountConfigurationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: AccountConfigurationCreateOrConnectWithoutAccountInput | AccountConfigurationCreateOrConnectWithoutAccountInput[]
+    upsert?: AccountConfigurationUpsertWithWhereUniqueWithoutAccountInput | AccountConfigurationUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: AccountConfigurationCreateManyAccountInputEnvelope
+    set?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+    disconnect?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+    delete?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+    connect?: AccountConfigurationWhereUniqueInput | AccountConfigurationWhereUniqueInput[]
+    update?: AccountConfigurationUpdateWithWhereUniqueWithoutAccountInput | AccountConfigurationUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: AccountConfigurationUpdateManyWithWhereWithoutAccountInput | AccountConfigurationUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: AccountConfigurationScalarWhereInput | AccountConfigurationScalarWhereInput[]
+  }
+
+  export type LoginTokenUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<LoginTokenCreateWithoutAccountInput, LoginTokenUncheckedCreateWithoutAccountInput> | LoginTokenCreateWithoutAccountInput[] | LoginTokenUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: LoginTokenCreateOrConnectWithoutAccountInput | LoginTokenCreateOrConnectWithoutAccountInput[]
+    upsert?: LoginTokenUpsertWithWhereUniqueWithoutAccountInput | LoginTokenUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: LoginTokenCreateManyAccountInputEnvelope
+    set?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    disconnect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    delete?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    connect?: LoginTokenWhereUniqueInput | LoginTokenWhereUniqueInput[]
+    update?: LoginTokenUpdateWithWhereUniqueWithoutAccountInput | LoginTokenUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: LoginTokenUpdateManyWithWhereWithoutAccountInput | LoginTokenUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: LoginTokenScalarWhereInput | LoginTokenScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<UserCreateWithoutAccountInput, UserUncheckedCreateWithoutAccountInput> | UserCreateWithoutAccountInput[] | UserUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutAccountInput | UserCreateOrConnectWithoutAccountInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutAccountInput | UserUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: UserCreateManyAccountInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutAccountInput | UserUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutAccountInput | UserUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type OrderUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<OrderCreateWithoutAccountInput, OrderUncheckedCreateWithoutAccountInput> | OrderCreateWithoutAccountInput[] | OrderUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutAccountInput | OrderCreateOrConnectWithoutAccountInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutAccountInput | OrderUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: OrderCreateManyAccountInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutAccountInput | OrderUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutAccountInput | OrderUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type ChatSessionUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<ChatSessionCreateWithoutAccountInput, ChatSessionUncheckedCreateWithoutAccountInput> | ChatSessionCreateWithoutAccountInput[] | ChatSessionUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ChatSessionCreateOrConnectWithoutAccountInput | ChatSessionCreateOrConnectWithoutAccountInput[]
+    upsert?: ChatSessionUpsertWithWhereUniqueWithoutAccountInput | ChatSessionUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: ChatSessionCreateManyAccountInputEnvelope
+    set?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+    disconnect?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+    delete?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+    connect?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
+    update?: ChatSessionUpdateWithWhereUniqueWithoutAccountInput | ChatSessionUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: ChatSessionUpdateManyWithWhereWithoutAccountInput | ChatSessionUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: ChatSessionScalarWhereInput | ChatSessionScalarWhereInput[]
+  }
+
+  export type TicketUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<TicketCreateWithoutAccountInput, TicketUncheckedCreateWithoutAccountInput> | TicketCreateWithoutAccountInput[] | TicketUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutAccountInput | TicketCreateOrConnectWithoutAccountInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutAccountInput | TicketUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: TicketCreateManyAccountInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutAccountInput | TicketUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutAccountInput | TicketUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput = {
+    create?: XOR<ConversationMessageCreateWithoutTenantAccountInput, ConversationMessageUncheckedCreateWithoutTenantAccountInput> | ConversationMessageCreateWithoutTenantAccountInput[] | ConversationMessageUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: ConversationMessageCreateOrConnectWithoutTenantAccountInput | ConversationMessageCreateOrConnectWithoutTenantAccountInput[]
+    upsert?: ConversationMessageUpsertWithWhereUniqueWithoutTenantAccountInput | ConversationMessageUpsertWithWhereUniqueWithoutTenantAccountInput[]
+    createMany?: ConversationMessageCreateManyTenantAccountInputEnvelope
+    set?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+    disconnect?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+    delete?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+    connect?: ConversationMessageWhereUniqueInput | ConversationMessageWhereUniqueInput[]
+    update?: ConversationMessageUpdateWithWhereUniqueWithoutTenantAccountInput | ConversationMessageUpdateWithWhereUniqueWithoutTenantAccountInput[]
+    updateMany?: ConversationMessageUpdateManyWithWhereWithoutTenantAccountInput | ConversationMessageUpdateManyWithWhereWithoutTenantAccountInput[]
+    deleteMany?: ConversationMessageScalarWhereInput | ConversationMessageScalarWhereInput[]
+  }
+
+  export type AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput = {
+    create?: XOR<AgentAssignmentCreateWithoutTenantAccountInput, AgentAssignmentUncheckedCreateWithoutTenantAccountInput> | AgentAssignmentCreateWithoutTenantAccountInput[] | AgentAssignmentUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: AgentAssignmentCreateOrConnectWithoutTenantAccountInput | AgentAssignmentCreateOrConnectWithoutTenantAccountInput[]
+    upsert?: AgentAssignmentUpsertWithWhereUniqueWithoutTenantAccountInput | AgentAssignmentUpsertWithWhereUniqueWithoutTenantAccountInput[]
+    createMany?: AgentAssignmentCreateManyTenantAccountInputEnvelope
+    set?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+    disconnect?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+    delete?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+    connect?: AgentAssignmentWhereUniqueInput | AgentAssignmentWhereUniqueInput[]
+    update?: AgentAssignmentUpdateWithWhereUniqueWithoutTenantAccountInput | AgentAssignmentUpdateWithWhereUniqueWithoutTenantAccountInput[]
+    updateMany?: AgentAssignmentUpdateManyWithWhereWithoutTenantAccountInput | AgentAssignmentUpdateManyWithWhereWithoutTenantAccountInput[]
+    deleteMany?: AgentAssignmentScalarWhereInput | AgentAssignmentScalarWhereInput[]
+  }
+
+  export type HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput = {
+    create?: XOR<HandoffRequestCreateWithoutTenantAccountInput, HandoffRequestUncheckedCreateWithoutTenantAccountInput> | HandoffRequestCreateWithoutTenantAccountInput[] | HandoffRequestUncheckedCreateWithoutTenantAccountInput[]
+    connectOrCreate?: HandoffRequestCreateOrConnectWithoutTenantAccountInput | HandoffRequestCreateOrConnectWithoutTenantAccountInput[]
+    upsert?: HandoffRequestUpsertWithWhereUniqueWithoutTenantAccountInput | HandoffRequestUpsertWithWhereUniqueWithoutTenantAccountInput[]
+    createMany?: HandoffRequestCreateManyTenantAccountInputEnvelope
+    set?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+    disconnect?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+    delete?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+    connect?: HandoffRequestWhereUniqueInput | HandoffRequestWhereUniqueInput[]
+    update?: HandoffRequestUpdateWithWhereUniqueWithoutTenantAccountInput | HandoffRequestUpdateWithWhereUniqueWithoutTenantAccountInput[]
+    updateMany?: HandoffRequestUpdateManyWithWhereWithoutTenantAccountInput | HandoffRequestUpdateManyWithWhereWithoutTenantAccountInput[]
+    deleteMany?: HandoffRequestScalarWhereInput | HandoffRequestScalarWhereInput[]
+  }
+
+  export type ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<ScrapeJobCreateWithoutAccountInput, ScrapeJobUncheckedCreateWithoutAccountInput> | ScrapeJobCreateWithoutAccountInput[] | ScrapeJobUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ScrapeJobCreateOrConnectWithoutAccountInput | ScrapeJobCreateOrConnectWithoutAccountInput[]
+    upsert?: ScrapeJobUpsertWithWhereUniqueWithoutAccountInput | ScrapeJobUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: ScrapeJobCreateManyAccountInputEnvelope
+    set?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+    disconnect?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+    delete?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+    connect?: ScrapeJobWhereUniqueInput | ScrapeJobWhereUniqueInput[]
+    update?: ScrapeJobUpdateWithWhereUniqueWithoutAccountInput | ScrapeJobUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: ScrapeJobUpdateManyWithWhereWithoutAccountInput | ScrapeJobUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: ScrapeJobScalarWhereInput | ScrapeJobScalarWhereInput[]
+  }
+
+  export type ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<ScrapeJobLogCreateWithoutAccountInput, ScrapeJobLogUncheckedCreateWithoutAccountInput> | ScrapeJobLogCreateWithoutAccountInput[] | ScrapeJobLogUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: ScrapeJobLogCreateOrConnectWithoutAccountInput | ScrapeJobLogCreateOrConnectWithoutAccountInput[]
+    upsert?: ScrapeJobLogUpsertWithWhereUniqueWithoutAccountInput | ScrapeJobLogUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: ScrapeJobLogCreateManyAccountInputEnvelope
+    set?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    disconnect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    delete?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    connect?: ScrapeJobLogWhereUniqueInput | ScrapeJobLogWhereUniqueInput[]
+    update?: ScrapeJobLogUpdateWithWhereUniqueWithoutAccountInput | ScrapeJobLogUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: ScrapeJobLogUpdateManyWithWhereWithoutAccountInput | ScrapeJobLogUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: ScrapeJobLogScalarWhereInput | ScrapeJobLogScalarWhereInput[]
+  }
+
+  export type KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<KnowledgeDocumentCreateWithoutAccountInput, KnowledgeDocumentUncheckedCreateWithoutAccountInput> | KnowledgeDocumentCreateWithoutAccountInput[] | KnowledgeDocumentUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: KnowledgeDocumentCreateOrConnectWithoutAccountInput | KnowledgeDocumentCreateOrConnectWithoutAccountInput[]
+    upsert?: KnowledgeDocumentUpsertWithWhereUniqueWithoutAccountInput | KnowledgeDocumentUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: KnowledgeDocumentCreateManyAccountInputEnvelope
+    set?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+    disconnect?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+    delete?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+    connect?: KnowledgeDocumentWhereUniqueInput | KnowledgeDocumentWhereUniqueInput[]
+    update?: KnowledgeDocumentUpdateWithWhereUniqueWithoutAccountInput | KnowledgeDocumentUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: KnowledgeDocumentUpdateManyWithWhereWithoutAccountInput | KnowledgeDocumentUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: KnowledgeDocumentScalarWhereInput | KnowledgeDocumentScalarWhereInput[]
+  }
+
+  export type AccountCreateNestedOneWithoutMembershipsInput = {
+    create?: XOR<AccountCreateWithoutMembershipsInput, AccountUncheckedCreateWithoutMembershipsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutMembershipsInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type AgentAccountCreateNestedOneWithoutMembershipsInput = {
+    create?: XOR<AgentAccountCreateWithoutMembershipsInput, AgentAccountUncheckedCreateWithoutMembershipsInput>
+    connectOrCreate?: AgentAccountCreateOrConnectWithoutMembershipsInput
+    connect?: AgentAccountWhereUniqueInput
+  }
+
+  export type EnumAgentRoleFieldUpdateOperationsInput = {
+    set?: $Enums.AgentRole
+  }
+
+  export type AccountUpdateOneRequiredWithoutMembershipsNestedInput = {
+    create?: XOR<AccountCreateWithoutMembershipsInput, AccountUncheckedCreateWithoutMembershipsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutMembershipsInput
+    upsert?: AccountUpsertWithoutMembershipsInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutMembershipsInput, AccountUpdateWithoutMembershipsInput>, AccountUncheckedUpdateWithoutMembershipsInput>
+  }
+
+  export type AgentAccountUpdateOneRequiredWithoutMembershipsNestedInput = {
+    create?: XOR<AgentAccountCreateWithoutMembershipsInput, AgentAccountUncheckedCreateWithoutMembershipsInput>
+    connectOrCreate?: AgentAccountCreateOrConnectWithoutMembershipsInput
+    upsert?: AgentAccountUpsertWithoutMembershipsInput
+    connect?: AgentAccountWhereUniqueInput
+    update?: XOR<XOR<AgentAccountUpdateToOneWithWhereWithoutMembershipsInput, AgentAccountUpdateWithoutMembershipsInput>, AgentAccountUncheckedUpdateWithoutMembershipsInput>
+  }
+
+  export type AccountCreateNestedOneWithoutConfigurationsInput = {
+    create?: XOR<AccountCreateWithoutConfigurationsInput, AccountUncheckedCreateWithoutConfigurationsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutConfigurationsInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type AccountUpdateOneRequiredWithoutConfigurationsNestedInput = {
+    create?: XOR<AccountCreateWithoutConfigurationsInput, AccountUncheckedCreateWithoutConfigurationsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutConfigurationsInput
+    upsert?: AccountUpsertWithoutConfigurationsInput
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutConfigurationsInput, AccountUpdateWithoutConfigurationsInput>, AccountUncheckedUpdateWithoutConfigurationsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17523,6 +27177,23 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumKnowledgeDocumentKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.KnowledgeDocumentKind | EnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    in?: $Enums.KnowledgeDocumentKind[] | ListEnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KnowledgeDocumentKind[] | ListEnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumKnowledgeDocumentKindFilter<$PrismaModel> | $Enums.KnowledgeDocumentKind
+  }
+
+  export type NestedEnumKnowledgeDocumentKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KnowledgeDocumentKind | EnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    in?: $Enums.KnowledgeDocumentKind[] | ListEnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KnowledgeDocumentKind[] | ListEnumKnowledgeDocumentKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumKnowledgeDocumentKindWithAggregatesFilter<$PrismaModel> | $Enums.KnowledgeDocumentKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKnowledgeDocumentKindFilter<$PrismaModel>
+    _max?: NestedEnumKnowledgeDocumentKindFilter<$PrismaModel>
+  }
+
   export type NestedEnumLoginAuditStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.LoginAuditStatus | EnumLoginAuditStatusFieldRefInput<$PrismaModel>
     in?: $Enums.LoginAuditStatus[] | ListEnumLoginAuditStatusFieldRefInput<$PrismaModel>
@@ -17540,11 +27211,101 @@ export namespace Prisma {
     _max?: NestedEnumLoginAuditStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumAccountStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountStatus | EnumAccountStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountStatus[] | ListEnumAccountStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountStatus[] | ListEnumAccountStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountStatusFilter<$PrismaModel> | $Enums.AccountStatus
+  }
+
+  export type NestedEnumAccountStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountStatus | EnumAccountStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountStatus[] | ListEnumAccountStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountStatus[] | ListEnumAccountStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountStatusWithAggregatesFilter<$PrismaModel> | $Enums.AccountStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccountStatusFilter<$PrismaModel>
+    _max?: NestedEnumAccountStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAgentRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentRole | EnumAgentRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAgentRoleFilter<$PrismaModel> | $Enums.AgentRole
+  }
+
+  export type NestedEnumAgentRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentRole | EnumAgentRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AgentRole[] | ListEnumAgentRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAgentRoleWithAggregatesFilter<$PrismaModel> | $Enums.AgentRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAgentRoleFilter<$PrismaModel>
+    _max?: NestedEnumAgentRoleFilter<$PrismaModel>
+  }
+
+  export type AccountCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutUsersInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutUsersInput, AccountUncheckedCreateWithoutUsersInput>
+  }
+
   export type OrderCreateWithoutUserInput = {
     id?: string
     orderId: string
     createdAt?: Date | string
     status?: string | null
+    account: AccountCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateWithoutUserInput = {
@@ -17573,6 +27334,7 @@ export namespace Prisma {
     summary?: string | null
     lastSummarizedIndex?: number
     unsummarizedLimit?: number
+    account: AccountCreateNestedOneWithoutChatSessionsInput
   }
 
   export type ChatSessionUncheckedCreateWithoutUserInput = {
@@ -17600,6 +27362,7 @@ export namespace Prisma {
     id?: string
     ticket: string
     createdAt?: Date | string
+    account: AccountCreateNestedOneWithoutTicketsInput
   }
 
   export type TicketUncheckedCreateWithoutUserInput = {
@@ -17616,6 +27379,67 @@ export namespace Prisma {
   export type TicketCreateManyUserInputEnvelope = {
     data: TicketCreateManyUserInput | TicketCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type AccountUpsertWithoutUsersInput = {
+    update: XOR<AccountUpdateWithoutUsersInput, AccountUncheckedUpdateWithoutUsersInput>
+    create: XOR<AccountCreateWithoutUsersInput, AccountUncheckedCreateWithoutUsersInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutUsersInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutUsersInput, AccountUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type AccountUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type OrderUpsertWithWhereUniqueWithoutUserInput = {
@@ -17639,6 +27463,7 @@ export namespace Prisma {
     OR?: OrderScalarWhereInput[]
     NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
     id?: StringFilter<"Order"> | string
+    accountId?: StringFilter<"Order"> | string
     userId?: StringNullableFilter<"Order"> | string | null
     orderId?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
@@ -17666,6 +27491,7 @@ export namespace Prisma {
     OR?: ChatSessionScalarWhereInput[]
     NOT?: ChatSessionScalarWhereInput | ChatSessionScalarWhereInput[]
     id?: StringFilter<"ChatSession"> | string
+    accountId?: StringFilter<"ChatSession"> | string
     userId?: StringFilter<"ChatSession"> | string
     createdAt?: DateTimeFilter<"ChatSession"> | Date | string
     updatedAt?: DateTimeFilter<"ChatSession"> | Date | string
@@ -17697,9 +27523,65 @@ export namespace Prisma {
     OR?: TicketScalarWhereInput[]
     NOT?: TicketScalarWhereInput | TicketScalarWhereInput[]
     id?: StringFilter<"Ticket"> | string
+    accountId?: StringFilter<"Ticket"> | string
     ticket?: StringFilter<"Ticket"> | string
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     userId?: StringNullableFilter<"Ticket"> | string | null
+  }
+
+  export type AccountCreateWithoutOrdersInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutOrdersInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutOrdersInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutOrdersInput, AccountUncheckedCreateWithoutOrdersInput>
   }
 
   export type UserCreateWithoutOrdersInput = {
@@ -17710,12 +27592,14 @@ export namespace Prisma {
     address?: string | null
     longSummary?: string | null
     createdAt?: Date | string
+    account: AccountCreateNestedOneWithoutUsersInput
     sessions?: ChatSessionCreateNestedManyWithoutUserInput
     tickets?: TicketCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOrdersInput = {
     id?: string
+    accountId: string
     email: string
     name?: string | null
     phone?: string | null
@@ -17729,6 +27613,67 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutOrdersInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
+  }
+
+  export type AccountUpsertWithoutOrdersInput = {
+    update: XOR<AccountUpdateWithoutOrdersInput, AccountUncheckedUpdateWithoutOrdersInput>
+    create: XOR<AccountCreateWithoutOrdersInput, AccountUncheckedCreateWithoutOrdersInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutOrdersInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutOrdersInput, AccountUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type AccountUpdateWithoutOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type UserUpsertWithoutOrdersInput = {
@@ -17750,12 +27695,14 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutUsersNestedInput
     sessions?: ChatSessionUpdateManyWithoutUserNestedInput
     tickets?: TicketUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17766,6 +27713,61 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type AccountCreateWithoutChatSessionsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutChatSessionsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutChatSessionsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutChatSessionsInput, AccountUncheckedCreateWithoutChatSessionsInput>
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id?: string
     email: string
@@ -17774,12 +27776,14 @@ export namespace Prisma {
     address?: string | null
     longSummary?: string | null
     createdAt?: Date | string
+    account: AccountCreateNestedOneWithoutUsersInput
     orders?: OrderCreateNestedManyWithoutUserInput
     tickets?: TicketCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
     id?: string
+    accountId: string
     email: string
     name?: string | null
     phone?: string | null
@@ -17793,6 +27797,67 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutSessionsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
+  }
+
+  export type AccountUpsertWithoutChatSessionsInput = {
+    update: XOR<AccountUpdateWithoutChatSessionsInput, AccountUncheckedUpdateWithoutChatSessionsInput>
+    create: XOR<AccountCreateWithoutChatSessionsInput, AccountUncheckedCreateWithoutChatSessionsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutChatSessionsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutChatSessionsInput, AccountUncheckedUpdateWithoutChatSessionsInput>
+  }
+
+  export type AccountUpdateWithoutChatSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutChatSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type UserUpsertWithoutSessionsInput = {
@@ -17814,12 +27879,14 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutUsersNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
     tickets?: TicketUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17830,6 +27897,61 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type AccountCreateWithoutTicketsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutTicketsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutTicketsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutTicketsInput, AccountUncheckedCreateWithoutTicketsInput>
+  }
+
   export type UserCreateWithoutTicketsInput = {
     id?: string
     email: string
@@ -17838,12 +27960,14 @@ export namespace Prisma {
     address?: string | null
     longSummary?: string | null
     createdAt?: Date | string
+    account: AccountCreateNestedOneWithoutUsersInput
     orders?: OrderCreateNestedManyWithoutUserInput
     sessions?: ChatSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsInput = {
     id?: string
+    accountId: string
     email: string
     name?: string | null
     phone?: string | null
@@ -17857,6 +27981,67 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutTicketsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutTicketsInput, UserUncheckedCreateWithoutTicketsInput>
+  }
+
+  export type AccountUpsertWithoutTicketsInput = {
+    update: XOR<AccountUpdateWithoutTicketsInput, AccountUncheckedUpdateWithoutTicketsInput>
+    create: XOR<AccountCreateWithoutTicketsInput, AccountUncheckedCreateWithoutTicketsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutTicketsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutTicketsInput, AccountUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type AccountUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type UserUpsertWithoutTicketsInput = {
@@ -17878,12 +28063,14 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     longSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutUsersNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
     sessions?: ChatSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17894,16 +28081,869 @@ export namespace Prisma {
     sessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type AccountCreateWithoutConversationMessagesInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutConversationMessagesInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutConversationMessagesInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutConversationMessagesInput, AccountUncheckedCreateWithoutConversationMessagesInput>
+  }
+
+  export type AccountUpsertWithoutConversationMessagesInput = {
+    update: XOR<AccountUpdateWithoutConversationMessagesInput, AccountUncheckedUpdateWithoutConversationMessagesInput>
+    create: XOR<AccountCreateWithoutConversationMessagesInput, AccountUncheckedCreateWithoutConversationMessagesInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutConversationMessagesInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutConversationMessagesInput, AccountUncheckedUpdateWithoutConversationMessagesInput>
+  }
+
+  export type AccountUpdateWithoutConversationMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutConversationMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountCreateWithoutAgentAssignmentsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutAgentAssignmentsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutAgentAssignmentsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutAgentAssignmentsInput, AccountUncheckedCreateWithoutAgentAssignmentsInput>
+  }
+
+  export type AccountUpsertWithoutAgentAssignmentsInput = {
+    update: XOR<AccountUpdateWithoutAgentAssignmentsInput, AccountUncheckedUpdateWithoutAgentAssignmentsInput>
+    create: XOR<AccountCreateWithoutAgentAssignmentsInput, AccountUncheckedCreateWithoutAgentAssignmentsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutAgentAssignmentsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutAgentAssignmentsInput, AccountUncheckedUpdateWithoutAgentAssignmentsInput>
+  }
+
+  export type AccountUpdateWithoutAgentAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutAgentAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountCreateWithoutHandoffRequestsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutHandoffRequestsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutHandoffRequestsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutHandoffRequestsInput, AccountUncheckedCreateWithoutHandoffRequestsInput>
+  }
+
+  export type AccountUpsertWithoutHandoffRequestsInput = {
+    update: XOR<AccountUpdateWithoutHandoffRequestsInput, AccountUncheckedUpdateWithoutHandoffRequestsInput>
+    create: XOR<AccountCreateWithoutHandoffRequestsInput, AccountUncheckedCreateWithoutHandoffRequestsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutHandoffRequestsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutHandoffRequestsInput, AccountUncheckedUpdateWithoutHandoffRequestsInput>
+  }
+
+  export type AccountUpdateWithoutHandoffRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutHandoffRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountCreateWithoutScrapeJobsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutScrapeJobsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutScrapeJobsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutScrapeJobsInput, AccountUncheckedCreateWithoutScrapeJobsInput>
+  }
+
+  export type ScrapeJobLogCreateWithoutJobInput = {
+    id?: string
+    storageKey: string
+    startedAt: Date | string
+    byteSize: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: AccountCreateNestedOneWithoutScrapeJobLogsInput
+  }
+
+  export type ScrapeJobLogUncheckedCreateWithoutJobInput = {
+    id?: string
+    storageKey: string
+    startedAt: Date | string
+    byteSize: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobLogCreateOrConnectWithoutJobInput = {
+    where: ScrapeJobLogWhereUniqueInput
+    create: XOR<ScrapeJobLogCreateWithoutJobInput, ScrapeJobLogUncheckedCreateWithoutJobInput>
+  }
+
+  export type ScrapeJobLogCreateManyJobInputEnvelope = {
+    data: ScrapeJobLogCreateManyJobInput | ScrapeJobLogCreateManyJobInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AccountUpsertWithoutScrapeJobsInput = {
+    update: XOR<AccountUpdateWithoutScrapeJobsInput, AccountUncheckedUpdateWithoutScrapeJobsInput>
+    create: XOR<AccountCreateWithoutScrapeJobsInput, AccountUncheckedCreateWithoutScrapeJobsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutScrapeJobsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutScrapeJobsInput, AccountUncheckedUpdateWithoutScrapeJobsInput>
+  }
+
+  export type AccountUpdateWithoutScrapeJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutScrapeJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type ScrapeJobLogUpsertWithWhereUniqueWithoutJobInput = {
+    where: ScrapeJobLogWhereUniqueInput
+    update: XOR<ScrapeJobLogUpdateWithoutJobInput, ScrapeJobLogUncheckedUpdateWithoutJobInput>
+    create: XOR<ScrapeJobLogCreateWithoutJobInput, ScrapeJobLogUncheckedCreateWithoutJobInput>
+  }
+
+  export type ScrapeJobLogUpdateWithWhereUniqueWithoutJobInput = {
+    where: ScrapeJobLogWhereUniqueInput
+    data: XOR<ScrapeJobLogUpdateWithoutJobInput, ScrapeJobLogUncheckedUpdateWithoutJobInput>
+  }
+
+  export type ScrapeJobLogUpdateManyWithWhereWithoutJobInput = {
+    where: ScrapeJobLogScalarWhereInput
+    data: XOR<ScrapeJobLogUpdateManyMutationInput, ScrapeJobLogUncheckedUpdateManyWithoutJobInput>
+  }
+
+  export type ScrapeJobLogScalarWhereInput = {
+    AND?: ScrapeJobLogScalarWhereInput | ScrapeJobLogScalarWhereInput[]
+    OR?: ScrapeJobLogScalarWhereInput[]
+    NOT?: ScrapeJobLogScalarWhereInput | ScrapeJobLogScalarWhereInput[]
+    id?: StringFilter<"ScrapeJobLog"> | string
+    accountId?: StringFilter<"ScrapeJobLog"> | string
+    jobId?: StringFilter<"ScrapeJobLog"> | string
+    storageKey?: StringFilter<"ScrapeJobLog"> | string
+    startedAt?: DateTimeFilter<"ScrapeJobLog"> | Date | string
+    byteSize?: IntFilter<"ScrapeJobLog"> | number
+    createdAt?: DateTimeFilter<"ScrapeJobLog"> | Date | string
+    updatedAt?: DateTimeFilter<"ScrapeJobLog"> | Date | string
+  }
+
+  export type AccountCreateWithoutScrapeJobLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutScrapeJobLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutScrapeJobLogsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutScrapeJobLogsInput, AccountUncheckedCreateWithoutScrapeJobLogsInput>
+  }
+
+  export type ScrapeJobCreateWithoutLogsInput = {
+    id?: string
+    script: string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: boolean
+    paused?: boolean
+    progress?: number
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    logPath?: string | null
+    nextRunAt?: Date | string | null
+    durationSeconds?: number | null
+    documentsIngested?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: AccountCreateNestedOneWithoutScrapeJobsInput
+  }
+
+  export type ScrapeJobUncheckedCreateWithoutLogsInput = {
+    id?: string
+    accountId: string
+    script: string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: boolean
+    paused?: boolean
+    progress?: number
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    logPath?: string | null
+    nextRunAt?: Date | string | null
+    durationSeconds?: number | null
+    documentsIngested?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobCreateOrConnectWithoutLogsInput = {
+    where: ScrapeJobWhereUniqueInput
+    create: XOR<ScrapeJobCreateWithoutLogsInput, ScrapeJobUncheckedCreateWithoutLogsInput>
+  }
+
+  export type AccountUpsertWithoutScrapeJobLogsInput = {
+    update: XOR<AccountUpdateWithoutScrapeJobLogsInput, AccountUncheckedUpdateWithoutScrapeJobLogsInput>
+    create: XOR<AccountCreateWithoutScrapeJobLogsInput, AccountUncheckedCreateWithoutScrapeJobLogsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutScrapeJobLogsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutScrapeJobLogsInput, AccountUncheckedUpdateWithoutScrapeJobLogsInput>
+  }
+
+  export type AccountUpdateWithoutScrapeJobLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutScrapeJobLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type ScrapeJobUpsertWithoutLogsInput = {
+    update: XOR<ScrapeJobUpdateWithoutLogsInput, ScrapeJobUncheckedUpdateWithoutLogsInput>
+    create: XOR<ScrapeJobCreateWithoutLogsInput, ScrapeJobUncheckedCreateWithoutLogsInput>
+    where?: ScrapeJobWhereInput
+  }
+
+  export type ScrapeJobUpdateToOneWithWhereWithoutLogsInput = {
+    where?: ScrapeJobWhereInput
+    data: XOR<ScrapeJobUpdateWithoutLogsInput, ScrapeJobUncheckedUpdateWithoutLogsInput>
+  }
+
+  export type ScrapeJobUpdateWithoutLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: StringFieldUpdateOperationsInput | string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFieldUpdateOperationsInput | boolean
+    paused?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    logPath?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationSeconds?: NullableFloatFieldUpdateOperationsInput | number | null
+    documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutScrapeJobsNestedInput
+  }
+
+  export type ScrapeJobUncheckedUpdateWithoutLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    script?: StringFieldUpdateOperationsInput | string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFieldUpdateOperationsInput | boolean
+    paused?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    logPath?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationSeconds?: NullableFloatFieldUpdateOperationsInput | number | null
+    documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountCreateWithoutKnowledgeDocumentsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutKnowledgeDocumentsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutKnowledgeDocumentsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutKnowledgeDocumentsInput, AccountUncheckedCreateWithoutKnowledgeDocumentsInput>
+  }
+
+  export type AccountUpsertWithoutKnowledgeDocumentsInput = {
+    update: XOR<AccountUpdateWithoutKnowledgeDocumentsInput, AccountUncheckedUpdateWithoutKnowledgeDocumentsInput>
+    create: XOR<AccountCreateWithoutKnowledgeDocumentsInput, AccountUncheckedCreateWithoutKnowledgeDocumentsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutKnowledgeDocumentsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutKnowledgeDocumentsInput, AccountUncheckedUpdateWithoutKnowledgeDocumentsInput>
+  }
+
+  export type AccountUpdateWithoutKnowledgeDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutKnowledgeDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
   export type LoginTokenCreateWithoutAgentInput = {
     id?: string
     tokenHash: string
     expiresAt: Date | string
     consumedAt?: Date | string | null
     createdAt?: Date | string
+    account?: AccountCreateNestedOneWithoutLoginTokensInput
   }
 
   export type LoginTokenUncheckedCreateWithoutAgentInput = {
     id?: string
+    accountId?: string | null
     tokenHash: string
     expiresAt: Date | string
     consumedAt?: Date | string | null
@@ -17948,6 +28988,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AccountMembershipCreateWithoutAgentInput = {
+    id?: string
+    role?: $Enums.AgentRole
+    invitedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: AccountCreateNestedOneWithoutMembershipsInput
+  }
+
+  export type AccountMembershipUncheckedCreateWithoutAgentInput = {
+    id?: string
+    accountId: string
+    role?: $Enums.AgentRole
+    invitedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountMembershipCreateOrConnectWithoutAgentInput = {
+    where: AccountMembershipWhereUniqueInput
+    create: XOR<AccountMembershipCreateWithoutAgentInput, AccountMembershipUncheckedCreateWithoutAgentInput>
+  }
+
+  export type AccountMembershipCreateManyAgentInputEnvelope = {
+    data: AccountMembershipCreateManyAgentInput | AccountMembershipCreateManyAgentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type LoginTokenUpsertWithWhereUniqueWithoutAgentInput = {
     where: LoginTokenWhereUniqueInput
     update: XOR<LoginTokenUpdateWithoutAgentInput, LoginTokenUncheckedUpdateWithoutAgentInput>
@@ -17970,6 +29038,7 @@ export namespace Prisma {
     NOT?: LoginTokenScalarWhereInput | LoginTokenScalarWhereInput[]
     id?: StringFilter<"LoginToken"> | string
     agentId?: StringFilter<"LoginToken"> | string
+    accountId?: StringNullableFilter<"LoginToken"> | string | null
     tokenHash?: StringFilter<"LoginToken"> | string
     expiresAt?: DateTimeFilter<"LoginToken"> | Date | string
     consumedAt?: DateTimeNullableFilter<"LoginToken"> | Date | string | null
@@ -18005,29 +29074,117 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LoginAudit"> | Date | string
   }
 
+  export type AccountMembershipUpsertWithWhereUniqueWithoutAgentInput = {
+    where: AccountMembershipWhereUniqueInput
+    update: XOR<AccountMembershipUpdateWithoutAgentInput, AccountMembershipUncheckedUpdateWithoutAgentInput>
+    create: XOR<AccountMembershipCreateWithoutAgentInput, AccountMembershipUncheckedCreateWithoutAgentInput>
+  }
+
+  export type AccountMembershipUpdateWithWhereUniqueWithoutAgentInput = {
+    where: AccountMembershipWhereUniqueInput
+    data: XOR<AccountMembershipUpdateWithoutAgentInput, AccountMembershipUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type AccountMembershipUpdateManyWithWhereWithoutAgentInput = {
+    where: AccountMembershipScalarWhereInput
+    data: XOR<AccountMembershipUpdateManyMutationInput, AccountMembershipUncheckedUpdateManyWithoutAgentInput>
+  }
+
+  export type AccountMembershipScalarWhereInput = {
+    AND?: AccountMembershipScalarWhereInput | AccountMembershipScalarWhereInput[]
+    OR?: AccountMembershipScalarWhereInput[]
+    NOT?: AccountMembershipScalarWhereInput | AccountMembershipScalarWhereInput[]
+    id?: StringFilter<"AccountMembership"> | string
+    accountId?: StringFilter<"AccountMembership"> | string
+    agentId?: StringFilter<"AccountMembership"> | string
+    role?: EnumAgentRoleFilter<"AccountMembership"> | $Enums.AgentRole
+    invitedById?: StringNullableFilter<"AccountMembership"> | string | null
+    createdAt?: DateTimeFilter<"AccountMembership"> | Date | string
+    updatedAt?: DateTimeFilter<"AccountMembership"> | Date | string
+  }
+
   export type AgentAccountCreateWithoutLoginTokensInput = {
     userId: string
     hashedPin: string
     telegramChatId?: string | null
+    platformAdmin?: boolean
     roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
     createdAt?: Date | string
     updatedAt?: Date | string
     audits?: LoginAuditCreateNestedManyWithoutAgentInput
+    memberships?: AccountMembershipCreateNestedManyWithoutAgentInput
   }
 
   export type AgentAccountUncheckedCreateWithoutLoginTokensInput = {
     userId: string
     hashedPin: string
     telegramChatId?: string | null
+    platformAdmin?: boolean
     roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
     createdAt?: Date | string
     updatedAt?: Date | string
     audits?: LoginAuditUncheckedCreateNestedManyWithoutAgentInput
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentAccountCreateOrConnectWithoutLoginTokensInput = {
     where: AgentAccountWhereUniqueInput
     create: XOR<AgentAccountCreateWithoutLoginTokensInput, AgentAccountUncheckedCreateWithoutLoginTokensInput>
+  }
+
+  export type AccountCreateWithoutLoginTokensInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutLoginTokensInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutLoginTokensInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutLoginTokensInput, AccountUncheckedCreateWithoutLoginTokensInput>
   }
 
   export type AgentAccountUpsertWithoutLoginTokensInput = {
@@ -18045,40 +29202,109 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     hashedPin?: StringFieldUpdateOperationsInput | string
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
     roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     audits?: LoginAuditUpdateManyWithoutAgentNestedInput
+    memberships?: AccountMembershipUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentAccountUncheckedUpdateWithoutLoginTokensInput = {
     userId?: StringFieldUpdateOperationsInput | string
     hashedPin?: StringFieldUpdateOperationsInput | string
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
     roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     audits?: LoginAuditUncheckedUpdateManyWithoutAgentNestedInput
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AccountUpsertWithoutLoginTokensInput = {
+    update: XOR<AccountUpdateWithoutLoginTokensInput, AccountUncheckedUpdateWithoutLoginTokensInput>
+    create: XOR<AccountCreateWithoutLoginTokensInput, AccountUncheckedCreateWithoutLoginTokensInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutLoginTokensInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutLoginTokensInput, AccountUncheckedUpdateWithoutLoginTokensInput>
+  }
+
+  export type AccountUpdateWithoutLoginTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutLoginTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type AgentAccountCreateWithoutAuditsInput = {
     userId: string
     hashedPin: string
     telegramChatId?: string | null
+    platformAdmin?: boolean
     roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
     createdAt?: Date | string
     updatedAt?: Date | string
     loginTokens?: LoginTokenCreateNestedManyWithoutAgentInput
+    memberships?: AccountMembershipCreateNestedManyWithoutAgentInput
   }
 
   export type AgentAccountUncheckedCreateWithoutAuditsInput = {
     userId: string
     hashedPin: string
     telegramChatId?: string | null
+    platformAdmin?: boolean
     roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
     createdAt?: Date | string
     updatedAt?: Date | string
     loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAgentInput
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentAccountCreateOrConnectWithoutAuditsInput = {
@@ -18101,20 +29327,1058 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     hashedPin?: StringFieldUpdateOperationsInput | string
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
     roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginTokens?: LoginTokenUpdateManyWithoutAgentNestedInput
+    memberships?: AccountMembershipUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentAccountUncheckedUpdateWithoutAuditsInput = {
     userId?: StringFieldUpdateOperationsInput | string
     hashedPin?: StringFieldUpdateOperationsInput | string
     telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
     roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loginTokens?: LoginTokenUncheckedUpdateManyWithoutAgentNestedInput
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AccountMembershipCreateWithoutAccountInput = {
+    id?: string
+    role?: $Enums.AgentRole
+    invitedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    agent: AgentAccountCreateNestedOneWithoutMembershipsInput
+  }
+
+  export type AccountMembershipUncheckedCreateWithoutAccountInput = {
+    id?: string
+    agentId: string
+    role?: $Enums.AgentRole
+    invitedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountMembershipCreateOrConnectWithoutAccountInput = {
+    where: AccountMembershipWhereUniqueInput
+    create: XOR<AccountMembershipCreateWithoutAccountInput, AccountMembershipUncheckedCreateWithoutAccountInput>
+  }
+
+  export type AccountMembershipCreateManyAccountInputEnvelope = {
+    data: AccountMembershipCreateManyAccountInput | AccountMembershipCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AccountConfigurationCreateWithoutAccountInput = {
+    id?: string
+    key: string
+    encryptedValue: string
+    iv: string
+    authTag: string
+    isSecret?: boolean
+    updatedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountConfigurationUncheckedCreateWithoutAccountInput = {
+    id?: string
+    key: string
+    encryptedValue: string
+    iv: string
+    authTag: string
+    isSecret?: boolean
+    updatedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountConfigurationCreateOrConnectWithoutAccountInput = {
+    where: AccountConfigurationWhereUniqueInput
+    create: XOR<AccountConfigurationCreateWithoutAccountInput, AccountConfigurationUncheckedCreateWithoutAccountInput>
+  }
+
+  export type AccountConfigurationCreateManyAccountInputEnvelope = {
+    data: AccountConfigurationCreateManyAccountInput | AccountConfigurationCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LoginTokenCreateWithoutAccountInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    consumedAt?: Date | string | null
+    createdAt?: Date | string
+    agent: AgentAccountCreateNestedOneWithoutLoginTokensInput
+  }
+
+  export type LoginTokenUncheckedCreateWithoutAccountInput = {
+    id?: string
+    agentId: string
+    tokenHash: string
+    expiresAt: Date | string
+    consumedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoginTokenCreateOrConnectWithoutAccountInput = {
+    where: LoginTokenWhereUniqueInput
+    create: XOR<LoginTokenCreateWithoutAccountInput, LoginTokenUncheckedCreateWithoutAccountInput>
+  }
+
+  export type LoginTokenCreateManyAccountInputEnvelope = {
+    data: LoginTokenCreateManyAccountInput | LoginTokenCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutAccountInput = {
+    id?: string
+    email: string
+    name?: string | null
+    phone?: string | null
+    address?: string | null
+    longSummary?: string | null
+    createdAt?: Date | string
+    orders?: OrderCreateNestedManyWithoutUserInput
+    sessions?: ChatSessionCreateNestedManyWithoutUserInput
+    tickets?: TicketCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAccountInput = {
+    id?: string
+    email: string
+    name?: string | null
+    phone?: string | null
+    address?: string | null
+    longSummary?: string | null
+    createdAt?: Date | string
+    orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    sessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAccountInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAccountInput, UserUncheckedCreateWithoutAccountInput>
+  }
+
+  export type UserCreateManyAccountInputEnvelope = {
+    data: UserCreateManyAccountInput | UserCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrderCreateWithoutAccountInput = {
+    id?: string
+    orderId: string
+    createdAt?: Date | string
+    status?: string | null
+    user?: UserCreateNestedOneWithoutOrdersInput
+  }
+
+  export type OrderUncheckedCreateWithoutAccountInput = {
+    id?: string
+    userId?: string | null
+    orderId: string
+    createdAt?: Date | string
+    status?: string | null
+  }
+
+  export type OrderCreateOrConnectWithoutAccountInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutAccountInput, OrderUncheckedCreateWithoutAccountInput>
+  }
+
+  export type OrderCreateManyAccountInputEnvelope = {
+    data: OrderCreateManyAccountInput | OrderCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChatSessionCreateWithoutAccountInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    endedAt?: Date | string | null
+    messages: JsonNullValueInput | InputJsonValue
+    summary?: string | null
+    lastSummarizedIndex?: number
+    unsummarizedLimit?: number
+    user: UserCreateNestedOneWithoutSessionsInput
+  }
+
+  export type ChatSessionUncheckedCreateWithoutAccountInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    endedAt?: Date | string | null
+    messages: JsonNullValueInput | InputJsonValue
+    summary?: string | null
+    lastSummarizedIndex?: number
+    unsummarizedLimit?: number
+  }
+
+  export type ChatSessionCreateOrConnectWithoutAccountInput = {
+    where: ChatSessionWhereUniqueInput
+    create: XOR<ChatSessionCreateWithoutAccountInput, ChatSessionUncheckedCreateWithoutAccountInput>
+  }
+
+  export type ChatSessionCreateManyAccountInputEnvelope = {
+    data: ChatSessionCreateManyAccountInput | ChatSessionCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TicketCreateWithoutAccountInput = {
+    id?: string
+    ticket: string
+    createdAt?: Date | string
+    user?: UserCreateNestedOneWithoutTicketsInput
+  }
+
+  export type TicketUncheckedCreateWithoutAccountInput = {
+    id?: string
+    ticket: string
+    createdAt?: Date | string
+    userId?: string | null
+  }
+
+  export type TicketCreateOrConnectWithoutAccountInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutAccountInput, TicketUncheckedCreateWithoutAccountInput>
+  }
+
+  export type TicketCreateManyAccountInputEnvelope = {
+    data: TicketCreateManyAccountInput | TicketCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConversationMessageCreateWithoutTenantAccountInput = {
+    messageId: number
+    conversationId: number
+    inboxId: number
+    conversationKey: string
+    sender: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type ConversationMessageUncheckedCreateWithoutTenantAccountInput = {
+    id?: number
+    messageId: number
+    conversationId: number
+    inboxId: number
+    conversationKey: string
+    sender: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type ConversationMessageCreateOrConnectWithoutTenantAccountInput = {
+    where: ConversationMessageWhereUniqueInput
+    create: XOR<ConversationMessageCreateWithoutTenantAccountInput, ConversationMessageUncheckedCreateWithoutTenantAccountInput>
+  }
+
+  export type ConversationMessageCreateManyTenantAccountInputEnvelope = {
+    data: ConversationMessageCreateManyTenantAccountInput | ConversationMessageCreateManyTenantAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AgentAssignmentCreateWithoutTenantAccountInput = {
+    inboxId: number
+    agentId: number
+    lastAssignedAt?: Date | string | null
+    activeConversationId?: number | null
+    availabilityBeforeBusy?: $Enums.AgentAvailability | null
+  }
+
+  export type AgentAssignmentUncheckedCreateWithoutTenantAccountInput = {
+    inboxId: number
+    agentId: number
+    lastAssignedAt?: Date | string | null
+    activeConversationId?: number | null
+    availabilityBeforeBusy?: $Enums.AgentAvailability | null
+  }
+
+  export type AgentAssignmentCreateOrConnectWithoutTenantAccountInput = {
+    where: AgentAssignmentWhereUniqueInput
+    create: XOR<AgentAssignmentCreateWithoutTenantAccountInput, AgentAssignmentUncheckedCreateWithoutTenantAccountInput>
+  }
+
+  export type AgentAssignmentCreateManyTenantAccountInputEnvelope = {
+    data: AgentAssignmentCreateManyTenantAccountInput | AgentAssignmentCreateManyTenantAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type HandoffRequestCreateWithoutTenantAccountInput = {
+    conversationKey: string
+    conversationId: number
+    accountId: number
+    inboxId: number
+    requestedAt?: Date | string
+    status?: $Enums.HandoffRequestStatus
+    agentId?: number | null
+    lastPositionNotified?: number | null
+  }
+
+  export type HandoffRequestUncheckedCreateWithoutTenantAccountInput = {
+    conversationKey: string
+    conversationId: number
+    accountId: number
+    inboxId: number
+    requestedAt?: Date | string
+    status?: $Enums.HandoffRequestStatus
+    agentId?: number | null
+    lastPositionNotified?: number | null
+  }
+
+  export type HandoffRequestCreateOrConnectWithoutTenantAccountInput = {
+    where: HandoffRequestWhereUniqueInput
+    create: XOR<HandoffRequestCreateWithoutTenantAccountInput, HandoffRequestUncheckedCreateWithoutTenantAccountInput>
+  }
+
+  export type HandoffRequestCreateManyTenantAccountInputEnvelope = {
+    data: HandoffRequestCreateManyTenantAccountInput | HandoffRequestCreateManyTenantAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScrapeJobCreateWithoutAccountInput = {
+    id?: string
+    script: string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: boolean
+    paused?: boolean
+    progress?: number
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    logPath?: string | null
+    nextRunAt?: Date | string | null
+    durationSeconds?: number | null
+    documentsIngested?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    logs?: ScrapeJobLogCreateNestedManyWithoutJobInput
+  }
+
+  export type ScrapeJobUncheckedCreateWithoutAccountInput = {
+    id?: string
+    script: string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: boolean
+    paused?: boolean
+    progress?: number
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    logPath?: string | null
+    nextRunAt?: Date | string | null
+    durationSeconds?: number | null
+    documentsIngested?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    logs?: ScrapeJobLogUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type ScrapeJobCreateOrConnectWithoutAccountInput = {
+    where: ScrapeJobWhereUniqueInput
+    create: XOR<ScrapeJobCreateWithoutAccountInput, ScrapeJobUncheckedCreateWithoutAccountInput>
+  }
+
+  export type ScrapeJobCreateManyAccountInputEnvelope = {
+    data: ScrapeJobCreateManyAccountInput | ScrapeJobCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScrapeJobLogCreateWithoutAccountInput = {
+    id?: string
+    storageKey: string
+    startedAt: Date | string
+    byteSize: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    job: ScrapeJobCreateNestedOneWithoutLogsInput
+  }
+
+  export type ScrapeJobLogUncheckedCreateWithoutAccountInput = {
+    id?: string
+    jobId: string
+    storageKey: string
+    startedAt: Date | string
+    byteSize: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobLogCreateOrConnectWithoutAccountInput = {
+    where: ScrapeJobLogWhereUniqueInput
+    create: XOR<ScrapeJobLogCreateWithoutAccountInput, ScrapeJobLogUncheckedCreateWithoutAccountInput>
+  }
+
+  export type ScrapeJobLogCreateManyAccountInputEnvelope = {
+    data: ScrapeJobLogCreateManyAccountInput | ScrapeJobLogCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type KnowledgeDocumentCreateWithoutAccountInput = {
+    id?: string
+    kind: $Enums.KnowledgeDocumentKind
+    name: string
+    storageKey: string
+    mimeType?: string
+    byteSize: number
+    sourceCreatedAt: Date | string
+    sourceModifiedAt: Date | string
+    sourceJobId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KnowledgeDocumentUncheckedCreateWithoutAccountInput = {
+    id?: string
+    kind: $Enums.KnowledgeDocumentKind
+    name: string
+    storageKey: string
+    mimeType?: string
+    byteSize: number
+    sourceCreatedAt: Date | string
+    sourceModifiedAt: Date | string
+    sourceJobId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KnowledgeDocumentCreateOrConnectWithoutAccountInput = {
+    where: KnowledgeDocumentWhereUniqueInput
+    create: XOR<KnowledgeDocumentCreateWithoutAccountInput, KnowledgeDocumentUncheckedCreateWithoutAccountInput>
+  }
+
+  export type KnowledgeDocumentCreateManyAccountInputEnvelope = {
+    data: KnowledgeDocumentCreateManyAccountInput | KnowledgeDocumentCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AccountMembershipUpsertWithWhereUniqueWithoutAccountInput = {
+    where: AccountMembershipWhereUniqueInput
+    update: XOR<AccountMembershipUpdateWithoutAccountInput, AccountMembershipUncheckedUpdateWithoutAccountInput>
+    create: XOR<AccountMembershipCreateWithoutAccountInput, AccountMembershipUncheckedCreateWithoutAccountInput>
+  }
+
+  export type AccountMembershipUpdateWithWhereUniqueWithoutAccountInput = {
+    where: AccountMembershipWhereUniqueInput
+    data: XOR<AccountMembershipUpdateWithoutAccountInput, AccountMembershipUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type AccountMembershipUpdateManyWithWhereWithoutAccountInput = {
+    where: AccountMembershipScalarWhereInput
+    data: XOR<AccountMembershipUpdateManyMutationInput, AccountMembershipUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type AccountConfigurationUpsertWithWhereUniqueWithoutAccountInput = {
+    where: AccountConfigurationWhereUniqueInput
+    update: XOR<AccountConfigurationUpdateWithoutAccountInput, AccountConfigurationUncheckedUpdateWithoutAccountInput>
+    create: XOR<AccountConfigurationCreateWithoutAccountInput, AccountConfigurationUncheckedCreateWithoutAccountInput>
+  }
+
+  export type AccountConfigurationUpdateWithWhereUniqueWithoutAccountInput = {
+    where: AccountConfigurationWhereUniqueInput
+    data: XOR<AccountConfigurationUpdateWithoutAccountInput, AccountConfigurationUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type AccountConfigurationUpdateManyWithWhereWithoutAccountInput = {
+    where: AccountConfigurationScalarWhereInput
+    data: XOR<AccountConfigurationUpdateManyMutationInput, AccountConfigurationUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type AccountConfigurationScalarWhereInput = {
+    AND?: AccountConfigurationScalarWhereInput | AccountConfigurationScalarWhereInput[]
+    OR?: AccountConfigurationScalarWhereInput[]
+    NOT?: AccountConfigurationScalarWhereInput | AccountConfigurationScalarWhereInput[]
+    id?: StringFilter<"AccountConfiguration"> | string
+    accountId?: StringFilter<"AccountConfiguration"> | string
+    key?: StringFilter<"AccountConfiguration"> | string
+    encryptedValue?: StringFilter<"AccountConfiguration"> | string
+    iv?: StringFilter<"AccountConfiguration"> | string
+    authTag?: StringFilter<"AccountConfiguration"> | string
+    isSecret?: BoolFilter<"AccountConfiguration"> | boolean
+    updatedById?: StringNullableFilter<"AccountConfiguration"> | string | null
+    createdAt?: DateTimeFilter<"AccountConfiguration"> | Date | string
+    updatedAt?: DateTimeFilter<"AccountConfiguration"> | Date | string
+  }
+
+  export type LoginTokenUpsertWithWhereUniqueWithoutAccountInput = {
+    where: LoginTokenWhereUniqueInput
+    update: XOR<LoginTokenUpdateWithoutAccountInput, LoginTokenUncheckedUpdateWithoutAccountInput>
+    create: XOR<LoginTokenCreateWithoutAccountInput, LoginTokenUncheckedCreateWithoutAccountInput>
+  }
+
+  export type LoginTokenUpdateWithWhereUniqueWithoutAccountInput = {
+    where: LoginTokenWhereUniqueInput
+    data: XOR<LoginTokenUpdateWithoutAccountInput, LoginTokenUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type LoginTokenUpdateManyWithWhereWithoutAccountInput = {
+    where: LoginTokenScalarWhereInput
+    data: XOR<LoginTokenUpdateManyMutationInput, LoginTokenUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutAccountInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutAccountInput, UserUncheckedUpdateWithoutAccountInput>
+    create: XOR<UserCreateWithoutAccountInput, UserUncheckedCreateWithoutAccountInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutAccountInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutAccountInput, UserUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutAccountInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    accountId?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    name?: StringNullableFilter<"User"> | string | null
+    phone?: StringNullableFilter<"User"> | string | null
+    address?: StringNullableFilter<"User"> | string | null
+    longSummary?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+  }
+
+  export type OrderUpsertWithWhereUniqueWithoutAccountInput = {
+    where: OrderWhereUniqueInput
+    update: XOR<OrderUpdateWithoutAccountInput, OrderUncheckedUpdateWithoutAccountInput>
+    create: XOR<OrderCreateWithoutAccountInput, OrderUncheckedCreateWithoutAccountInput>
+  }
+
+  export type OrderUpdateWithWhereUniqueWithoutAccountInput = {
+    where: OrderWhereUniqueInput
+    data: XOR<OrderUpdateWithoutAccountInput, OrderUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type OrderUpdateManyWithWhereWithoutAccountInput = {
+    where: OrderScalarWhereInput
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type ChatSessionUpsertWithWhereUniqueWithoutAccountInput = {
+    where: ChatSessionWhereUniqueInput
+    update: XOR<ChatSessionUpdateWithoutAccountInput, ChatSessionUncheckedUpdateWithoutAccountInput>
+    create: XOR<ChatSessionCreateWithoutAccountInput, ChatSessionUncheckedCreateWithoutAccountInput>
+  }
+
+  export type ChatSessionUpdateWithWhereUniqueWithoutAccountInput = {
+    where: ChatSessionWhereUniqueInput
+    data: XOR<ChatSessionUpdateWithoutAccountInput, ChatSessionUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type ChatSessionUpdateManyWithWhereWithoutAccountInput = {
+    where: ChatSessionScalarWhereInput
+    data: XOR<ChatSessionUpdateManyMutationInput, ChatSessionUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type TicketUpsertWithWhereUniqueWithoutAccountInput = {
+    where: TicketWhereUniqueInput
+    update: XOR<TicketUpdateWithoutAccountInput, TicketUncheckedUpdateWithoutAccountInput>
+    create: XOR<TicketCreateWithoutAccountInput, TicketUncheckedCreateWithoutAccountInput>
+  }
+
+  export type TicketUpdateWithWhereUniqueWithoutAccountInput = {
+    where: TicketWhereUniqueInput
+    data: XOR<TicketUpdateWithoutAccountInput, TicketUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type TicketUpdateManyWithWhereWithoutAccountInput = {
+    where: TicketScalarWhereInput
+    data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type ConversationMessageUpsertWithWhereUniqueWithoutTenantAccountInput = {
+    where: ConversationMessageWhereUniqueInput
+    update: XOR<ConversationMessageUpdateWithoutTenantAccountInput, ConversationMessageUncheckedUpdateWithoutTenantAccountInput>
+    create: XOR<ConversationMessageCreateWithoutTenantAccountInput, ConversationMessageUncheckedCreateWithoutTenantAccountInput>
+  }
+
+  export type ConversationMessageUpdateWithWhereUniqueWithoutTenantAccountInput = {
+    where: ConversationMessageWhereUniqueInput
+    data: XOR<ConversationMessageUpdateWithoutTenantAccountInput, ConversationMessageUncheckedUpdateWithoutTenantAccountInput>
+  }
+
+  export type ConversationMessageUpdateManyWithWhereWithoutTenantAccountInput = {
+    where: ConversationMessageScalarWhereInput
+    data: XOR<ConversationMessageUpdateManyMutationInput, ConversationMessageUncheckedUpdateManyWithoutTenantAccountInput>
+  }
+
+  export type ConversationMessageScalarWhereInput = {
+    AND?: ConversationMessageScalarWhereInput | ConversationMessageScalarWhereInput[]
+    OR?: ConversationMessageScalarWhereInput[]
+    NOT?: ConversationMessageScalarWhereInput | ConversationMessageScalarWhereInput[]
+    id?: IntFilter<"ConversationMessage"> | number
+    tenantAccountId?: StringFilter<"ConversationMessage"> | string
+    messageId?: IntFilter<"ConversationMessage"> | number
+    conversationId?: IntFilter<"ConversationMessage"> | number
+    inboxId?: IntFilter<"ConversationMessage"> | number
+    conversationKey?: StringFilter<"ConversationMessage"> | string
+    sender?: StringFilter<"ConversationMessage"> | string
+    content?: StringFilter<"ConversationMessage"> | string
+    createdAt?: DateTimeFilter<"ConversationMessage"> | Date | string
+  }
+
+  export type AgentAssignmentUpsertWithWhereUniqueWithoutTenantAccountInput = {
+    where: AgentAssignmentWhereUniqueInput
+    update: XOR<AgentAssignmentUpdateWithoutTenantAccountInput, AgentAssignmentUncheckedUpdateWithoutTenantAccountInput>
+    create: XOR<AgentAssignmentCreateWithoutTenantAccountInput, AgentAssignmentUncheckedCreateWithoutTenantAccountInput>
+  }
+
+  export type AgentAssignmentUpdateWithWhereUniqueWithoutTenantAccountInput = {
+    where: AgentAssignmentWhereUniqueInput
+    data: XOR<AgentAssignmentUpdateWithoutTenantAccountInput, AgentAssignmentUncheckedUpdateWithoutTenantAccountInput>
+  }
+
+  export type AgentAssignmentUpdateManyWithWhereWithoutTenantAccountInput = {
+    where: AgentAssignmentScalarWhereInput
+    data: XOR<AgentAssignmentUpdateManyMutationInput, AgentAssignmentUncheckedUpdateManyWithoutTenantAccountInput>
+  }
+
+  export type AgentAssignmentScalarWhereInput = {
+    AND?: AgentAssignmentScalarWhereInput | AgentAssignmentScalarWhereInput[]
+    OR?: AgentAssignmentScalarWhereInput[]
+    NOT?: AgentAssignmentScalarWhereInput | AgentAssignmentScalarWhereInput[]
+    tenantAccountId?: StringFilter<"AgentAssignment"> | string
+    inboxId?: IntFilter<"AgentAssignment"> | number
+    agentId?: IntFilter<"AgentAssignment"> | number
+    lastAssignedAt?: DateTimeNullableFilter<"AgentAssignment"> | Date | string | null
+    activeConversationId?: IntNullableFilter<"AgentAssignment"> | number | null
+    availabilityBeforeBusy?: EnumAgentAvailabilityNullableFilter<"AgentAssignment"> | $Enums.AgentAvailability | null
+  }
+
+  export type HandoffRequestUpsertWithWhereUniqueWithoutTenantAccountInput = {
+    where: HandoffRequestWhereUniqueInput
+    update: XOR<HandoffRequestUpdateWithoutTenantAccountInput, HandoffRequestUncheckedUpdateWithoutTenantAccountInput>
+    create: XOR<HandoffRequestCreateWithoutTenantAccountInput, HandoffRequestUncheckedCreateWithoutTenantAccountInput>
+  }
+
+  export type HandoffRequestUpdateWithWhereUniqueWithoutTenantAccountInput = {
+    where: HandoffRequestWhereUniqueInput
+    data: XOR<HandoffRequestUpdateWithoutTenantAccountInput, HandoffRequestUncheckedUpdateWithoutTenantAccountInput>
+  }
+
+  export type HandoffRequestUpdateManyWithWhereWithoutTenantAccountInput = {
+    where: HandoffRequestScalarWhereInput
+    data: XOR<HandoffRequestUpdateManyMutationInput, HandoffRequestUncheckedUpdateManyWithoutTenantAccountInput>
+  }
+
+  export type HandoffRequestScalarWhereInput = {
+    AND?: HandoffRequestScalarWhereInput | HandoffRequestScalarWhereInput[]
+    OR?: HandoffRequestScalarWhereInput[]
+    NOT?: HandoffRequestScalarWhereInput | HandoffRequestScalarWhereInput[]
+    conversationKey?: StringFilter<"HandoffRequest"> | string
+    tenantAccountId?: StringFilter<"HandoffRequest"> | string
+    conversationId?: IntFilter<"HandoffRequest"> | number
+    accountId?: IntFilter<"HandoffRequest"> | number
+    inboxId?: IntFilter<"HandoffRequest"> | number
+    requestedAt?: DateTimeFilter<"HandoffRequest"> | Date | string
+    status?: EnumHandoffRequestStatusFilter<"HandoffRequest"> | $Enums.HandoffRequestStatus
+    agentId?: IntNullableFilter<"HandoffRequest"> | number | null
+    lastPositionNotified?: IntNullableFilter<"HandoffRequest"> | number | null
+  }
+
+  export type ScrapeJobUpsertWithWhereUniqueWithoutAccountInput = {
+    where: ScrapeJobWhereUniqueInput
+    update: XOR<ScrapeJobUpdateWithoutAccountInput, ScrapeJobUncheckedUpdateWithoutAccountInput>
+    create: XOR<ScrapeJobCreateWithoutAccountInput, ScrapeJobUncheckedCreateWithoutAccountInput>
+  }
+
+  export type ScrapeJobUpdateWithWhereUniqueWithoutAccountInput = {
+    where: ScrapeJobWhereUniqueInput
+    data: XOR<ScrapeJobUpdateWithoutAccountInput, ScrapeJobUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type ScrapeJobUpdateManyWithWhereWithoutAccountInput = {
+    where: ScrapeJobScalarWhereInput
+    data: XOR<ScrapeJobUpdateManyMutationInput, ScrapeJobUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type ScrapeJobScalarWhereInput = {
+    AND?: ScrapeJobScalarWhereInput | ScrapeJobScalarWhereInput[]
+    OR?: ScrapeJobScalarWhereInput[]
+    NOT?: ScrapeJobScalarWhereInput | ScrapeJobScalarWhereInput[]
+    id?: StringFilter<"ScrapeJob"> | string
+    accountId?: StringFilter<"ScrapeJob"> | string
+    script?: StringFilter<"ScrapeJob"> | string
+    args?: JsonNullableFilter<"ScrapeJob">
+    status?: EnumScrapeJobStatusFilter<"ScrapeJob"> | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFilter<"ScrapeJob"> | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFilter<"ScrapeJob"> | boolean
+    paused?: BoolFilter<"ScrapeJob"> | boolean
+    progress?: IntFilter<"ScrapeJob"> | number
+    startedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    finishedAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    logPath?: StringNullableFilter<"ScrapeJob"> | string | null
+    nextRunAt?: DateTimeNullableFilter<"ScrapeJob"> | Date | string | null
+    durationSeconds?: FloatNullableFilter<"ScrapeJob"> | number | null
+    documentsIngested?: IntNullableFilter<"ScrapeJob"> | number | null
+    createdAt?: DateTimeFilter<"ScrapeJob"> | Date | string
+    updatedAt?: DateTimeFilter<"ScrapeJob"> | Date | string
+  }
+
+  export type ScrapeJobLogUpsertWithWhereUniqueWithoutAccountInput = {
+    where: ScrapeJobLogWhereUniqueInput
+    update: XOR<ScrapeJobLogUpdateWithoutAccountInput, ScrapeJobLogUncheckedUpdateWithoutAccountInput>
+    create: XOR<ScrapeJobLogCreateWithoutAccountInput, ScrapeJobLogUncheckedCreateWithoutAccountInput>
+  }
+
+  export type ScrapeJobLogUpdateWithWhereUniqueWithoutAccountInput = {
+    where: ScrapeJobLogWhereUniqueInput
+    data: XOR<ScrapeJobLogUpdateWithoutAccountInput, ScrapeJobLogUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type ScrapeJobLogUpdateManyWithWhereWithoutAccountInput = {
+    where: ScrapeJobLogScalarWhereInput
+    data: XOR<ScrapeJobLogUpdateManyMutationInput, ScrapeJobLogUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type KnowledgeDocumentUpsertWithWhereUniqueWithoutAccountInput = {
+    where: KnowledgeDocumentWhereUniqueInput
+    update: XOR<KnowledgeDocumentUpdateWithoutAccountInput, KnowledgeDocumentUncheckedUpdateWithoutAccountInput>
+    create: XOR<KnowledgeDocumentCreateWithoutAccountInput, KnowledgeDocumentUncheckedCreateWithoutAccountInput>
+  }
+
+  export type KnowledgeDocumentUpdateWithWhereUniqueWithoutAccountInput = {
+    where: KnowledgeDocumentWhereUniqueInput
+    data: XOR<KnowledgeDocumentUpdateWithoutAccountInput, KnowledgeDocumentUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type KnowledgeDocumentUpdateManyWithWhereWithoutAccountInput = {
+    where: KnowledgeDocumentScalarWhereInput
+    data: XOR<KnowledgeDocumentUpdateManyMutationInput, KnowledgeDocumentUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type KnowledgeDocumentScalarWhereInput = {
+    AND?: KnowledgeDocumentScalarWhereInput | KnowledgeDocumentScalarWhereInput[]
+    OR?: KnowledgeDocumentScalarWhereInput[]
+    NOT?: KnowledgeDocumentScalarWhereInput | KnowledgeDocumentScalarWhereInput[]
+    id?: StringFilter<"KnowledgeDocument"> | string
+    accountId?: StringFilter<"KnowledgeDocument"> | string
+    kind?: EnumKnowledgeDocumentKindFilter<"KnowledgeDocument"> | $Enums.KnowledgeDocumentKind
+    name?: StringFilter<"KnowledgeDocument"> | string
+    storageKey?: StringFilter<"KnowledgeDocument"> | string
+    mimeType?: StringFilter<"KnowledgeDocument"> | string
+    byteSize?: IntFilter<"KnowledgeDocument"> | number
+    sourceCreatedAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    sourceModifiedAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    sourceJobId?: StringNullableFilter<"KnowledgeDocument"> | string | null
+    createdAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"KnowledgeDocument"> | Date | string
+  }
+
+  export type AccountCreateWithoutMembershipsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurations?: AccountConfigurationCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutMembershipsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    configurations?: AccountConfigurationUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutMembershipsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutMembershipsInput, AccountUncheckedCreateWithoutMembershipsInput>
+  }
+
+  export type AgentAccountCreateWithoutMembershipsInput = {
+    userId: string
+    hashedPin: string
+    telegramChatId?: string | null
+    platformAdmin?: boolean
+    roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loginTokens?: LoginTokenCreateNestedManyWithoutAgentInput
+    audits?: LoginAuditCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentAccountUncheckedCreateWithoutMembershipsInput = {
+    userId: string
+    hashedPin: string
+    telegramChatId?: string | null
+    platformAdmin?: boolean
+    roles?: AgentAccountCreaterolesInput | $Enums.AgentRole[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAgentInput
+    audits?: LoginAuditUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentAccountCreateOrConnectWithoutMembershipsInput = {
+    where: AgentAccountWhereUniqueInput
+    create: XOR<AgentAccountCreateWithoutMembershipsInput, AgentAccountUncheckedCreateWithoutMembershipsInput>
+  }
+
+  export type AccountUpsertWithoutMembershipsInput = {
+    update: XOR<AccountUpdateWithoutMembershipsInput, AccountUncheckedUpdateWithoutMembershipsInput>
+    create: XOR<AccountCreateWithoutMembershipsInput, AccountUncheckedCreateWithoutMembershipsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutMembershipsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutMembershipsInput, AccountUncheckedUpdateWithoutMembershipsInput>
+  }
+
+  export type AccountUpdateWithoutMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurations?: AccountConfigurationUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    configurations?: AccountConfigurationUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AgentAccountUpsertWithoutMembershipsInput = {
+    update: XOR<AgentAccountUpdateWithoutMembershipsInput, AgentAccountUncheckedUpdateWithoutMembershipsInput>
+    create: XOR<AgentAccountCreateWithoutMembershipsInput, AgentAccountUncheckedCreateWithoutMembershipsInput>
+    where?: AgentAccountWhereInput
+  }
+
+  export type AgentAccountUpdateToOneWithWhereWithoutMembershipsInput = {
+    where?: AgentAccountWhereInput
+    data: XOR<AgentAccountUpdateWithoutMembershipsInput, AgentAccountUncheckedUpdateWithoutMembershipsInput>
+  }
+
+  export type AgentAccountUpdateWithoutMembershipsInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginTokens?: LoginTokenUpdateManyWithoutAgentNestedInput
+    audits?: LoginAuditUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentAccountUncheckedUpdateWithoutMembershipsInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    hashedPin?: StringFieldUpdateOperationsInput | string
+    telegramChatId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformAdmin?: BoolFieldUpdateOperationsInput | boolean
+    roles?: AgentAccountUpdaterolesInput | $Enums.AgentRole[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAgentNestedInput
+    audits?: LoginAuditUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AccountCreateWithoutConfigurationsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenCreateNestedManyWithoutAccountInput
+    users?: UserCreateNestedManyWithoutAccountInput
+    orders?: OrderCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutAccountInput
+    tickets?: TicketCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutConfigurationsInput = {
+    id?: string
+    name: string
+    slug: string
+    status?: $Enums.AccountStatus
+    isPrimary?: boolean
+    suspensionReason?: string | null
+    maintenanceMessage?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: AccountMembershipUncheckedCreateNestedManyWithoutAccountInput
+    loginTokens?: LoginTokenUncheckedCreateNestedManyWithoutAccountInput
+    users?: UserUncheckedCreateNestedManyWithoutAccountInput
+    orders?: OrderUncheckedCreateNestedManyWithoutAccountInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutAccountInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutAccountInput
+    conversationMessages?: ConversationMessageUncheckedCreateNestedManyWithoutTenantAccountInput
+    agentAssignments?: AgentAssignmentUncheckedCreateNestedManyWithoutTenantAccountInput
+    handoffRequests?: HandoffRequestUncheckedCreateNestedManyWithoutTenantAccountInput
+    scrapeJobs?: ScrapeJobUncheckedCreateNestedManyWithoutAccountInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedCreateNestedManyWithoutAccountInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutConfigurationsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutConfigurationsInput, AccountUncheckedCreateWithoutConfigurationsInput>
+  }
+
+  export type AccountUpsertWithoutConfigurationsInput = {
+    update: XOR<AccountUpdateWithoutConfigurationsInput, AccountUncheckedUpdateWithoutConfigurationsInput>
+    create: XOR<AccountCreateWithoutConfigurationsInput, AccountUncheckedCreateWithoutConfigurationsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutConfigurationsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutConfigurationsInput, AccountUncheckedUpdateWithoutConfigurationsInput>
+  }
+
+  export type AccountUpdateWithoutConfigurationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUpdateManyWithoutAccountNestedInput
+    users?: UserUpdateManyWithoutAccountNestedInput
+    orders?: OrderUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutConfigurationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    suspensionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: AccountMembershipUncheckedUpdateManyWithoutAccountNestedInput
+    loginTokens?: LoginTokenUncheckedUpdateManyWithoutAccountNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccountNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutAccountNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutAccountNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutAccountNestedInput
+    conversationMessages?: ConversationMessageUncheckedUpdateManyWithoutTenantAccountNestedInput
+    agentAssignments?: AgentAssignmentUncheckedUpdateManyWithoutTenantAccountNestedInput
+    handoffRequests?: HandoffRequestUncheckedUpdateManyWithoutTenantAccountNestedInput
+    scrapeJobs?: ScrapeJobUncheckedUpdateManyWithoutAccountNestedInput
+    scrapeJobLogs?: ScrapeJobLogUncheckedUpdateManyWithoutAccountNestedInput
+    knowledgeDocuments?: KnowledgeDocumentUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type OrderCreateManyUserInput = {
@@ -18146,6 +30410,7 @@ export namespace Prisma {
     orderId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: NullableStringFieldUpdateOperationsInput | string | null
+    account?: AccountUpdateOneRequiredWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutUserInput = {
@@ -18171,6 +30436,7 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     lastSummarizedIndex?: IntFieldUpdateOperationsInput | number
     unsummarizedLimit?: IntFieldUpdateOperationsInput | number
+    account?: AccountUpdateOneRequiredWithoutChatSessionsNestedInput
   }
 
   export type ChatSessionUncheckedUpdateWithoutUserInput = {
@@ -18199,6 +30465,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ticket?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutTicketsNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutUserInput = {
@@ -18213,8 +30480,46 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ScrapeJobLogCreateManyJobInput = {
+    id?: string
+    storageKey: string
+    startedAt: Date | string
+    byteSize: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobLogUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutScrapeJobLogsNestedInput
+  }
+
+  export type ScrapeJobLogUncheckedUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScrapeJobLogUncheckedUpdateManyWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type LoginTokenCreateManyAgentInput = {
     id?: string
+    accountId?: string | null
     tokenHash: string
     expiresAt: Date | string
     consumedAt?: Date | string | null
@@ -18230,16 +30535,27 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type AccountMembershipCreateManyAgentInput = {
+    id?: string
+    accountId: string
+    role?: $Enums.AgentRole
+    invitedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type LoginTokenUpdateWithoutAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneWithoutLoginTokensNestedInput
   }
 
   export type LoginTokenUncheckedUpdateWithoutAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18248,6 +30564,7 @@ export namespace Prisma {
 
   export type LoginTokenUncheckedUpdateManyWithoutAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18279,6 +30596,600 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountMembershipUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneRequiredWithoutMembershipsNestedInput
+  }
+
+  export type AccountMembershipUncheckedUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountMembershipUncheckedUpdateManyWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountMembershipCreateManyAccountInput = {
+    id?: string
+    agentId: string
+    role?: $Enums.AgentRole
+    invitedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountConfigurationCreateManyAccountInput = {
+    id?: string
+    key: string
+    encryptedValue: string
+    iv: string
+    authTag: string
+    isSecret?: boolean
+    updatedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoginTokenCreateManyAccountInput = {
+    id?: string
+    agentId: string
+    tokenHash: string
+    expiresAt: Date | string
+    consumedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type UserCreateManyAccountInput = {
+    id?: string
+    email: string
+    name?: string | null
+    phone?: string | null
+    address?: string | null
+    longSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type OrderCreateManyAccountInput = {
+    id?: string
+    userId?: string | null
+    orderId: string
+    createdAt?: Date | string
+    status?: string | null
+  }
+
+  export type ChatSessionCreateManyAccountInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    endedAt?: Date | string | null
+    messages: JsonNullValueInput | InputJsonValue
+    summary?: string | null
+    lastSummarizedIndex?: number
+    unsummarizedLimit?: number
+  }
+
+  export type TicketCreateManyAccountInput = {
+    id?: string
+    ticket: string
+    createdAt?: Date | string
+    userId?: string | null
+  }
+
+  export type ConversationMessageCreateManyTenantAccountInput = {
+    id?: number
+    messageId: number
+    conversationId: number
+    inboxId: number
+    conversationKey: string
+    sender: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type AgentAssignmentCreateManyTenantAccountInput = {
+    inboxId: number
+    agentId: number
+    lastAssignedAt?: Date | string | null
+    activeConversationId?: number | null
+    availabilityBeforeBusy?: $Enums.AgentAvailability | null
+  }
+
+  export type HandoffRequestCreateManyTenantAccountInput = {
+    conversationKey: string
+    conversationId: number
+    accountId: number
+    inboxId: number
+    requestedAt?: Date | string
+    status?: $Enums.HandoffRequestStatus
+    agentId?: number | null
+    lastPositionNotified?: number | null
+  }
+
+  export type ScrapeJobCreateManyAccountInput = {
+    id?: string
+    script: string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.ScrapeJobStatus
+    cadence?: $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: boolean
+    paused?: boolean
+    progress?: number
+    startedAt?: Date | string | null
+    finishedAt?: Date | string | null
+    logPath?: string | null
+    nextRunAt?: Date | string | null
+    durationSeconds?: number | null
+    documentsIngested?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScrapeJobLogCreateManyAccountInput = {
+    id?: string
+    jobId: string
+    storageKey: string
+    startedAt: Date | string
+    byteSize: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KnowledgeDocumentCreateManyAccountInput = {
+    id?: string
+    kind: $Enums.KnowledgeDocumentKind
+    name: string
+    storageKey: string
+    mimeType?: string
+    byteSize: number
+    sourceCreatedAt: Date | string
+    sourceModifiedAt: Date | string
+    sourceJobId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountMembershipUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentAccountUpdateOneRequiredWithoutMembershipsNestedInput
+  }
+
+  export type AccountMembershipUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountMembershipUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    role?: EnumAgentRoleFieldUpdateOperationsInput | $Enums.AgentRole
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountConfigurationUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    encryptedValue?: StringFieldUpdateOperationsInput | string
+    iv?: StringFieldUpdateOperationsInput | string
+    authTag?: StringFieldUpdateOperationsInput | string
+    isSecret?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountConfigurationUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    encryptedValue?: StringFieldUpdateOperationsInput | string
+    iv?: StringFieldUpdateOperationsInput | string
+    authTag?: StringFieldUpdateOperationsInput | string
+    isSecret?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountConfigurationUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    encryptedValue?: StringFieldUpdateOperationsInput | string
+    iv?: StringFieldUpdateOperationsInput | string
+    authTag?: StringFieldUpdateOperationsInput | string
+    isSecret?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginTokenUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentAccountUpdateOneRequiredWithoutLoginTokensNestedInput
+  }
+
+  export type LoginTokenUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoginTokenUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consumedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orders?: OrderUpdateManyWithoutUserNestedInput
+    sessions?: ChatSessionUpdateManyWithoutUserNestedInput
+    tickets?: TicketUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    longSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneWithoutOrdersNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    orderId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OrderUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    orderId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ChatSessionUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSummarizedIndex?: IntFieldUpdateOperationsInput | number
+    unsummarizedLimit?: IntFieldUpdateOperationsInput | number
+    user?: UserUpdateOneRequiredWithoutSessionsNestedInput
+  }
+
+  export type ChatSessionUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSummarizedIndex?: IntFieldUpdateOperationsInput | number
+    unsummarizedLimit?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ChatSessionUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    messages?: JsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    lastSummarizedIndex?: IntFieldUpdateOperationsInput | number
+    unsummarizedLimit?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TicketUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ticket?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutTicketsNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ticket?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TicketUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ticket?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConversationMessageUpdateWithoutTenantAccountInput = {
+    messageId?: IntFieldUpdateOperationsInput | number
+    conversationId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
+    conversationKey?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConversationMessageUncheckedUpdateWithoutTenantAccountInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    messageId?: IntFieldUpdateOperationsInput | number
+    conversationId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
+    conversationKey?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConversationMessageUncheckedUpdateManyWithoutTenantAccountInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    messageId?: IntFieldUpdateOperationsInput | number
+    conversationId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
+    conversationKey?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentAssignmentUpdateWithoutTenantAccountInput = {
+    inboxId?: IntFieldUpdateOperationsInput | number
+    agentId?: IntFieldUpdateOperationsInput | number
+    lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+    availabilityBeforeBusy?: NullableEnumAgentAvailabilityFieldUpdateOperationsInput | $Enums.AgentAvailability | null
+  }
+
+  export type AgentAssignmentUncheckedUpdateWithoutTenantAccountInput = {
+    inboxId?: IntFieldUpdateOperationsInput | number
+    agentId?: IntFieldUpdateOperationsInput | number
+    lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+    availabilityBeforeBusy?: NullableEnumAgentAvailabilityFieldUpdateOperationsInput | $Enums.AgentAvailability | null
+  }
+
+  export type AgentAssignmentUncheckedUpdateManyWithoutTenantAccountInput = {
+    inboxId?: IntFieldUpdateOperationsInput | number
+    agentId?: IntFieldUpdateOperationsInput | number
+    lastAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activeConversationId?: NullableIntFieldUpdateOperationsInput | number | null
+    availabilityBeforeBusy?: NullableEnumAgentAvailabilityFieldUpdateOperationsInput | $Enums.AgentAvailability | null
+  }
+
+  export type HandoffRequestUpdateWithoutTenantAccountInput = {
+    conversationKey?: StringFieldUpdateOperationsInput | string
+    conversationId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPositionNotified?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type HandoffRequestUncheckedUpdateWithoutTenantAccountInput = {
+    conversationKey?: StringFieldUpdateOperationsInput | string
+    conversationId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPositionNotified?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type HandoffRequestUncheckedUpdateManyWithoutTenantAccountInput = {
+    conversationKey?: StringFieldUpdateOperationsInput | string
+    conversationId?: IntFieldUpdateOperationsInput | number
+    accountId?: IntFieldUpdateOperationsInput | number
+    inboxId?: IntFieldUpdateOperationsInput | number
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumHandoffRequestStatusFieldUpdateOperationsInput | $Enums.HandoffRequestStatus
+    agentId?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPositionNotified?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ScrapeJobUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: StringFieldUpdateOperationsInput | string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFieldUpdateOperationsInput | boolean
+    paused?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    logPath?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationSeconds?: NullableFloatFieldUpdateOperationsInput | number | null
+    documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    logs?: ScrapeJobLogUpdateManyWithoutJobNestedInput
+  }
+
+  export type ScrapeJobUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: StringFieldUpdateOperationsInput | string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFieldUpdateOperationsInput | boolean
+    paused?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    logPath?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationSeconds?: NullableFloatFieldUpdateOperationsInput | number | null
+    documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    logs?: ScrapeJobLogUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type ScrapeJobUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: StringFieldUpdateOperationsInput | string
+    args?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumScrapeJobStatusFieldUpdateOperationsInput | $Enums.ScrapeJobStatus
+    cadence?: EnumScrapeJobCadenceFieldUpdateOperationsInput | $Enums.ScrapeJobCadence
+    autoRunManualWithNext?: BoolFieldUpdateOperationsInput | boolean
+    paused?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    logPath?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRunAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationSeconds?: NullableFloatFieldUpdateOperationsInput | number | null
+    documentsIngested?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScrapeJobLogUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    job?: ScrapeJobUpdateOneRequiredWithoutLogsNestedInput
+  }
+
+  export type ScrapeJobLogUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScrapeJobLogUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeDocumentUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumKnowledgeDocumentKindFieldUpdateOperationsInput | $Enums.KnowledgeDocumentKind
+    name?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    sourceCreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceJobId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeDocumentUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumKnowledgeDocumentKindFieldUpdateOperationsInput | $Enums.KnowledgeDocumentKind
+    name?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    sourceCreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceJobId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeDocumentUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumKnowledgeDocumentKindFieldUpdateOperationsInput | $Enums.KnowledgeDocumentKind
+    name?: StringFieldUpdateOperationsInput | string
+    storageKey?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    byteSize?: IntFieldUpdateOperationsInput | number
+    sourceCreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceJobId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

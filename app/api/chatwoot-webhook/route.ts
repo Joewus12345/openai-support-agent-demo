@@ -84,6 +84,20 @@ import {
   submitOpenAIToolOutputs,
   type ProviderEvent,
 } from "@/lib/providers/openai";
+import { resolveAccountRuntimeConfig } from "@/lib/server/accountConfig";
+import { resolveChatwootWebhookTenant } from "@/lib/server/chatwootWebhookTenant";
+import {
+  getAccountRuntimeContext,
+  getAccountRuntimeValue,
+  runWithAccountRuntime,
+} from "@/lib/server/accountRuntimeContext";
+import { setAccountRuntimeAccessors } from "@/lib/accountRuntime";
+import { getRuntimeTenantAccountId } from "@/lib/accounts/constants";
+
+setAccountRuntimeAccessors({
+  getContext: getAccountRuntimeContext,
+  getValue: getAccountRuntimeValue,
+});
 
 type HistoryTurn = { role: string; content: string };
 
@@ -918,8 +932,15 @@ async function getReferencedHistoryTurn(
 
   if (!stored) {
     try {
+      const tenantAccountId = getRuntimeTenantAccountId();
       const record = await prisma.conversationMessage.findUnique({
-        where: { conversationKey_messageId: { conversationKey, messageId } },
+        where: {
+          tenantAccountId_conversationKey_messageId: {
+            tenantAccountId,
+            conversationKey,
+            messageId,
+          },
+        },
       });
       if (record) {
         stored = { sender: record.sender, content: record.content };
@@ -974,9 +995,27 @@ function extractChatwootJobMetadata(
   }
 }
 
+type ProcessChatwootWebhookOptions = {
+  jobId?: number | string;
+  tenantId?: string;
+};
+
 async function processChatwootWebhookJob(
   incoming: ChatwootWebhookPayload,
-  options: { jobId?: number | string } = {}
+  options: ProcessChatwootWebhookOptions = {}
+): Promise<NextResponse> {
+  if (!options.tenantId) return processChatwootWebhookJobInternal(incoming, options, undefined);
+  const accountConfig = await resolveAccountRuntimeConfig(options.tenantId);
+  return runWithAccountRuntime(
+    { accountId: options.tenantId, config: accountConfig },
+    () => processChatwootWebhookJobInternal(incoming, options, accountConfig)
+  );
+}
+
+async function processChatwootWebhookJobInternal(
+  incoming: ChatwootWebhookPayload,
+  options: ProcessChatwootWebhookOptions,
+  accountConfig: Record<string, string> | undefined
 ): Promise<NextResponse> {
   const timer = createChatwootJobPhaseTimer(options.jobId);
   let payload: ChatwootWebhookPayload | (ChatwootWebhookPayload & { data?: any }) | undefined;
@@ -1118,10 +1157,10 @@ async function processChatwootWebhookJob(
       }
 
       configuredModelCandidate =
-        typeof process.env.CHATWOOT_WEBHOOK_MODEL === "string"
-          ? process.env.CHATWOOT_WEBHOOK_MODEL
-          : typeof process.env.OPENAI_MODEL === "string"
-            ? process.env.OPENAI_MODEL
+        typeof getAccountRuntimeValue("CHATWOOT_WEBHOOK_MODEL") === "string"
+          ? getAccountRuntimeValue("CHATWOOT_WEBHOOK_MODEL")
+          : typeof getAccountRuntimeValue("OPENAI_MODEL") === "string"
+            ? getAccountRuntimeValue("OPENAI_MODEL")
             : undefined;
       providerModelName =
         configuredModelCandidate && configuredModelCandidate.trim()
@@ -1156,9 +1195,11 @@ async function processChatwootWebhookJob(
         Number.isFinite(normalizedMessageId)
       ) {
         try {
+          const tenantAccountId = getRuntimeTenantAccountId();
           const existingFormMessage = await prisma.conversationMessage.findUnique({
             where: {
-              conversationKey_messageId: {
+              tenantAccountId_conversationKey_messageId: {
+                tenantAccountId,
                 conversationKey,
                 messageId: normalizedMessageId,
               },
@@ -1246,11 +1287,11 @@ async function processChatwootWebhookJob(
       if (attachments.some((attachment) => attachment.isImage)) {
         try {
           const kbProvider =
-            process.env.CHATWOOT_IMAGE_SEARCH_PROVIDER?.trim() ||
-            process.env.CHATWOOT_WEBHOOK_PROVIDER?.trim();
-          const kbLimitRaw = process.env.CHATWOOT_IMAGE_KB_LIMIT?.trim();
+            getAccountRuntimeValue("CHATWOOT_IMAGE_SEARCH_PROVIDER")?.trim() ||
+            getAccountRuntimeValue("CHATWOOT_WEBHOOK_PROVIDER")?.trim();
+          const kbLimitRaw = getAccountRuntimeValue("CHATWOOT_IMAGE_KB_LIMIT")?.trim();
           const kbLimit = kbLimitRaw ? Number(kbLimitRaw) : undefined;
-          const imageModel = process.env.CHATWOOT_IMAGE_MODEL?.trim();
+          const imageModel = getAccountRuntimeValue("CHATWOOT_IMAGE_MODEL")?.trim();
           const imageAttachments = attachments.filter((attachment) => attachment.isImage);
           imageInsights = await gatherImageInsights({
             attachments: imageAttachments,
@@ -1461,6 +1502,7 @@ async function processChatwootWebhookJob(
           inboxId !== undefined
         ) {
           try {
+            const tenantAccountId = getRuntimeTenantAccountId();
             const createdAtRaw = (message as any)?.created_at;
             const createdAt = createdAtRaw
               ? new Date(
@@ -1471,13 +1513,15 @@ async function processChatwootWebhookJob(
               : undefined;
             await prisma.conversationMessage.upsert({
               where: {
-                conversationKey_messageId: {
+                tenantAccountId_conversationKey_messageId: {
+                  tenantAccountId,
                   conversationKey,
                   messageId,
                 },
               },
               update: {},
               create: {
+                tenantAccountId,
                 messageId,
                 conversationId,
                 inboxId,
@@ -1499,6 +1543,7 @@ async function processChatwootWebhookJob(
                     const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
                     const recent = await prisma.conversationMessage.findMany({
                       where: {
+                        tenantAccountId,
                         conversationKey,
                         createdAt: { gte: since },
                       },
@@ -1739,7 +1784,10 @@ async function processChatwootWebhookJob(
         }
   
         const existingRequest = await prisma.handoffRequest.findUnique({
-          where: { conversationKey },
+          where: {
+            conversationKey,
+            tenantAccountId: getRuntimeTenantAccountId(),
+          },
         });
         if (
           handoffStrategy.value === "confirm" &&
@@ -2469,8 +2517,9 @@ async function processChatwootWebhookJob(
         let replyReferenceOverride:
           | { inReplyTo?: number | null; private?: boolean }
           | undefined;
-        const providerName = process.env.CHATWOOT_WEBHOOK_PROVIDER
-          ? process.env.CHATWOOT_WEBHOOK_PROVIDER.trim().toLowerCase()
+        const configuredProvider = getAccountRuntimeValue("CHATWOOT_WEBHOOK_PROVIDER");
+        const providerName = configuredProvider
+          ? configuredProvider.trim().toLowerCase()
           : undefined;
   
         const endProviderExecution = timer.startPhase("provider-execution");
@@ -2929,12 +2978,16 @@ async function processChatwootWebhookJob(
                         toolCallId
                       ) {
                         await processProviderEvents(
-                          submitOpenAIToolOutputs(responseIdForTool, [
-                            {
-                              tool_call_id: toolCallId,
-                              output: serializedOutput,
-                            },
-                          ])
+                          submitOpenAIToolOutputs(
+                            responseIdForTool,
+                            [
+                              {
+                                tool_call_id: toolCallId,
+                                output: serializedOutput,
+                              },
+                            ],
+                            { config: accountConfig }
+                          )
                         );
                       } else {
                         if (
@@ -2974,6 +3027,7 @@ async function processChatwootWebhookJob(
                 input: inputTokens,
                 output: estimatedOutputTokens,
               },
+              config: accountConfig,
             })
           );
 
@@ -3172,10 +3226,13 @@ setChatwootJobRunner(async (metadata) => {
   const sanitized = sanitizeWebhookPayload(metadata.payload);
   await processChatwootWebhookJob(sanitized, {
     jobId: metadata.jobId,
+    tenantId: metadata.tenantId,
   });
 });
 
 export async function POST(request: Request) {
+  const tenant = await resolveChatwootWebhookTenant(request);
+  if ("response" in tenant) return tenant.response;
   let incoming: ChatwootWebhookPayload;
   try {
     incoming = (await request.json()) as ChatwootWebhookPayload;
@@ -3188,17 +3245,22 @@ export async function POST(request: Request) {
   const { accountId: metadataAccountId, conversationId: metadataConversationId } =
     extractChatwootJobMetadata(sanitizedIncoming);
   const jobMetadata: {
+    tenantId?: string;
     accountId?: number | string;
     conversationId?: number | string;
     payload: ChatwootWebhookPayload;
     jobId?: number;
   } = {
+    tenantId: tenant.tenantId,
     accountId: metadataAccountId,
     conversationId: metadataConversationId,
     payload: sanitizedIncoming,
   };
   const processJob = () =>
-    processChatwootWebhookJob(sanitizedIncoming, { jobId: jobMetadata.jobId });
+    processChatwootWebhookJob(sanitizedIncoming, {
+      jobId: jobMetadata.jobId,
+      tenantId: jobMetadata.tenantId,
+    });
 
   if (!isChatwootQueueEnabled()) {
     jobMetadata.jobId = jobMetadata.jobId ?? Date.now();

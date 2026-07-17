@@ -3,18 +3,25 @@ import fs from "fs";
 import fsp from "fs/promises";
 import path from "path";
 import { spawn } from "child_process";
-import OpenAI from "openai";
+import type OpenAI from "openai";
 import { NextResponse } from "next/server";
 
 import { KB_FOLDERS } from "@/config/demoData";
-import { VECTOR_STORE_ID } from "@/config/constants";
 import { clearFileSearchCache } from "@/config/functions";
+import { AgentRole } from "@/lib/generated/prisma";
 import { localVectorStore } from "@/lib/localVectorStore";
 import prisma from "@/lib/prisma";
 import { saveIngestionResult } from "@/lib/ingestionResults";
+import { resolveAccountRuntimeConfig } from "@/lib/server/accountConfig";
+import {
+  getPrivateKnowledgeDirectory,
+  isKnowledgeFolder,
+  syncKnowledgeDocuments,
+  toStorageKey,
+} from "@/lib/server/accountStorage";
+import { requireSession } from "@/lib/server/auth";
 import { listScrapeArtifacts } from "../scrape_jobs/helpers";
-
-const openai = new OpenAI();
+import { createOpenAIClient } from "@/lib/providers/openaiClient";
 
 interface MarkdownBlob {
   content: string;
@@ -145,6 +152,7 @@ async function runIngestionService(
 }
 
 async function uploadToVectorStore(
+  openai: OpenAI,
   filePath: string,
   vectorStoreId: string,
   destinationFolder: string
@@ -167,8 +175,25 @@ async function uploadToVectorStore(
 }
 
 export async function POST(request: Request) {
+  const authResult = await requireSession(request, {
+    role: AgentRole.admin,
+    csrfProtected: true,
+  });
+  if ("response" in authResult) return authResult.response;
+  const account = authResult.session.account;
+  if (!account) return NextResponse.json({ error: "No account selected" }, { status: 409 });
+  const accountConfig = await resolveAccountRuntimeConfig(account.id);
+  const apiKey = accountConfig.OPENAI_API_KEY;
+  const configuredVectorStoreId = accountConfig.OPENAI_VECTOR_STORE_ID;
+  if (!apiKey || !configuredVectorStoreId) {
+    return NextResponse.json(
+      { error: "Configure OPENAI_API_KEY and OPENAI_VECTOR_STORE_ID for this account first" },
+      { status: 409 }
+    );
+  }
+  const openai = createOpenAIClient(accountConfig);
   let jobId: string | undefined;
-  let vectorStoreId = VECTOR_STORE_ID;
+  let vectorStoreId = configuredVectorStoreId;
   const changedFiles: string[] = [];
   const unchangedFiles: string[] = [];
   const deletedVectorStoreFiles: Record<string, string> = {};
@@ -180,7 +205,13 @@ export async function POST(request: Request) {
     let markdownBlobs: MarkdownBlob[] = body.markdownBlobs || [];
     const destinationFolder: string = body.destinationFolder || "knowledge_base";
     const chunkSize: number = body.chunkSize || 1000;
-    vectorStoreId = body.vectorStoreId || VECTOR_STORE_ID;
+    if (body.vectorStoreId && body.vectorStoreId !== configuredVectorStoreId) {
+      return NextResponse.json(
+        { error: "The requested vector store does not belong to the active account" },
+        { status: 403 }
+      );
+    }
+    vectorStoreId = configuredVectorStoreId;
     const forceLocalRebuild: boolean = body.forceLocalRebuild === true;
     const artifactPaths: string[] = Array.isArray(body.artifactPaths)
       ? body.artifactPaths.filter((entry: unknown) => typeof entry === "string")
@@ -188,7 +219,9 @@ export async function POST(request: Request) {
     jobId = typeof body.jobId === "string" ? body.jobId : undefined;
 
     if (artifactPaths.length === 0 && jobId) {
-      const job = await prisma.scrapeJob.findUnique({ where: { id: jobId } });
+      const job = await prisma.scrapeJob.findUnique({
+        where: { accountId_id: { accountId: account.id, id: jobId } },
+      });
       if (!job) {
         return NextResponse.json({ error: `No scrape job found for id ${jobId}` }, { status: 404 });
       }
@@ -211,6 +244,17 @@ export async function POST(request: Request) {
         const absolutePath = path.isAbsolute(artifactPath)
           ? artifactPath
           : path.join(process.cwd(), artifactPath);
+        const storageKey = toStorageKey(absolutePath);
+        const ownedDocument = await prisma.knowledgeDocument.findFirst({
+          where: { accountId: account.id, storageKey },
+          select: { id: true },
+        });
+        if (!ownedDocument) {
+          return NextResponse.json(
+            { error: "An artifact is outside the active account's knowledge storage" },
+            { status: 403 }
+          );
+        }
         const content = await fsp.readFile(absolutePath, "utf8");
         artifactBlobs.push({
           content,
@@ -228,14 +272,14 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!KB_FOLDERS.includes(destinationFolder)) {
+    if (!isKnowledgeFolder(destinationFolder)) {
       return NextResponse.json(
         { error: `destinationFolder must be one of: ${KB_FOLDERS.join(", ")}` },
         { status: 400 }
       );
     }
 
-    const baseDir = path.join(process.cwd(), "public", destinationFolder);
+    const baseDir = getPrivateKnowledgeDirectory(account.id, destinationFolder);
     await fsp.mkdir(baseDir, { recursive: true });
 
     const manifestPath = path.join(baseDir, ".ingest-manifest.json");
@@ -348,6 +392,7 @@ export async function POST(request: Request) {
         }
 
         const uploaded = await uploadToVectorStore(
+          openai,
           absolutePath,
           vectorStoreId,
           destinationFolder
@@ -378,11 +423,22 @@ export async function POST(request: Request) {
     const nextManifest: Manifest = { ...manifest, ...manifestUpdates };
     await writeManifest(manifestPath, nextManifest);
 
+    await syncKnowledgeDocuments({
+      account: { id: account.id, isPrimary: account.isPrimary },
+      folder: destinationFolder,
+      sourceJobId: jobId ?? null,
+      modifiedSince: changedFiles.length ? new Date(timestamp - 1_000) : undefined,
+    });
+
     if (forceLocalRebuild || changedFiles.length > 0) {
       await localVectorStore.initialize(
         forceLocalRebuild
-          ? { force: true }
-          : { files: changedFiles }
+          ? { force: true, accountId: account.id, isPrimary: account.isPrimary }
+          : {
+              files: changedFiles,
+              accountId: account.id,
+              isPrimary: account.isPrimary,
+            }
       );
       clearFileSearchCache();
     }

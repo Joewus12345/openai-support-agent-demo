@@ -1,7 +1,7 @@
 import { calculateNextRun, parseCadence } from "@/lib/scheduler";
 import prisma from "@/lib/prisma";
 import { AgentRole, Prisma, ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
-import { ensureAuthenticated, serializeJob } from "./helpers";
+import { requireScrapeSession, serializeJob } from "./helpers";
 import { triggerScrapeJob } from "@/lib/scrapeRunner";
 import {
   mergeArgsWithTarget,
@@ -40,8 +40,8 @@ function parseBoolean(value: unknown): boolean | undefined {
 }
 
 export async function GET(request: Request) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.agent });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, { role: AgentRole.agent });
+  if ("response" in authResult) return authResult.response;
   try {
     const { searchParams } = new URL(request.url);
     const status = parseStatus(searchParams.get("status"));
@@ -62,6 +62,7 @@ export async function GET(request: Request) {
     const take = limit ?? undefined;
     const findManyArgs: Prisma.ScrapeJobFindManyArgs = {
       where: {
+        accountId: authResult.accountId,
         ...(status ? { status } : {}),
         ...(createdAfter || createdBefore
           ? {
@@ -85,7 +86,9 @@ export async function GET(request: Request) {
 
     if (includeDetails) {
       const detailed = await Promise.all(
-        jobs.map((job) => serializeJob(job.id, { includeLog: includeLogPreview }))
+        jobs.map((job) =>
+          serializeJob(authResult.accountId, job.id, { includeLog: includeLogPreview })
+        )
       );
       const filtered = detailed.filter(Boolean);
       const nextCursor =
@@ -102,8 +105,11 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.admin, csrf: true });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, {
+    role: AgentRole.admin,
+    csrf: true,
+  });
+  if ("response" in authResult) return authResult.response;
 
   try {
     const body = await request.json().catch(() => null);
@@ -159,10 +165,11 @@ export async function POST(request: Request) {
     }
 
     const data: Prisma.ScrapeJobCreateInput = {
+      account: { connect: { id: authResult.accountId } },
       script: body.script,
       args: normalizedArgs,
       status,
-      logPath: body.logPath ?? null,
+      logPath: null,
       cadence,
       autoRunManualWithNext,
       paused,
@@ -172,7 +179,7 @@ export async function POST(request: Request) {
 
     const job = await prisma.scrapeJob.create({ data });
 
-    void triggerScrapeJob(job.id);
+    void triggerScrapeJob(authResult.accountId, job.id);
 
     return new Response(
       JSON.stringify({

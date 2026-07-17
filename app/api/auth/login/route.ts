@@ -79,7 +79,15 @@ export async function POST(request: Request) {
     });
   }
 
-  const agent = await prisma.agentAccount.findUnique({ where: { userId: payload.userId } });
+  const agent = await prisma.agentAccount.findUnique({
+    where: { userId: payload.userId },
+    include: {
+      memberships: {
+        include: { account: true },
+        orderBy: { createdAt: "asc" },
+      },
+    },
+  });
   if (!agent) {
     return unauthorized("Invalid credentials");
   }
@@ -98,12 +106,31 @@ export async function POST(request: Request) {
     return unauthorized("Invalid credentials");
   }
 
+  const activeMemberships = agent.memberships.filter(
+    (membership) => membership.account.status === "active"
+  );
+  const selectedMembership =
+    activeMemberships.find((membership) => membership.account.isPrimary) ??
+    activeMemberships[0] ??
+    agent.memberships.find((membership) => membership.account.isPrimary) ??
+    agent.memberships[0] ??
+    null;
+  const platformAccount =
+    !selectedMembership && agent.platformAdmin
+      ? await prisma.account.findFirst({ orderBy: [{ isPrimary: "desc" }, { createdAt: "asc" }] })
+      : null;
+  const accountId = selectedMembership?.accountId ?? platformAccount?.id ?? null;
+  if (!accountId) {
+    return unauthorized("This user has not been assigned to an account", 403);
+  }
+
   const { token, hash } = createLoginToken();
   const expiresAt = new Date(Date.now() + TOKEN_TTL_MS);
   const csrf = crypto.randomBytes(16).toString("hex");
   const loginToken = await prisma.loginToken.create({
     data: {
       agentId: agent.userId,
+      accountId,
       tokenHash: hash,
       expiresAt,
     },
@@ -164,7 +191,10 @@ export async function POST(request: Request) {
       expiresAt: expiresAt.toISOString(),
       chatConfigured: !!agent.telegramChatId,
       telegramDelivery: telegramResult,
-      roles: agent.roles,
+      roles:
+        agent.platformAdmin || selectedMembership?.role === "admin"
+          ? ["admin", "agent"]
+          : ["agent"],
     }),
     {
       status: telegramResult.ok ? 200 : 202,

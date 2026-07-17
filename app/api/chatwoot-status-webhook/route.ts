@@ -17,6 +17,18 @@ import {
   clearReleaseAttempts,
 } from "@/lib/releaseAttempts";
 import { notifyHandoffIssue } from "@/lib/friendlyErrors";
+import { setAccountRuntimeAccessors } from "@/lib/accountRuntime";
+import { resolveChatwootWebhookTenant } from "@/lib/server/chatwootWebhookTenant";
+import {
+  getAccountRuntimeContext,
+  getAccountRuntimeValue,
+  runWithAccountRuntime,
+} from "@/lib/server/accountRuntimeContext";
+
+setAccountRuntimeAccessors({
+  getContext: getAccountRuntimeContext,
+  getValue: getAccountRuntimeValue,
+});
 
 function parseAvailability(value: unknown): AgentAvailability | null {
   return value === "online" || value === "busy" || value === "offline"
@@ -24,7 +36,7 @@ function parseAvailability(value: unknown): AgentAvailability | null {
     : null;
 }
 
-export async function POST(request: Request) {
+async function processStatusWebhook(request: Request) {
   let accountId: number | undefined;
   let conversationId: number | undefined;
   let fallbackSent = false;
@@ -359,4 +371,15 @@ export async function POST(request: Request) {
     await sendFallback();
     return NextResponse.json({ status: "error" });
   }
+}
+
+export async function POST(request: Request) {
+  const tenant = await resolveChatwootWebhookTenant(request);
+  if ("response" in tenant) return tenant.response;
+  if (!tenant.tenantId || !tenant.config) return processStatusWebhook(request);
+
+  return runWithAccountRuntime(
+    { accountId: tenant.tenantId, config: tenant.config },
+    () => processStatusWebhook(request)
+  );
 }

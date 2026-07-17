@@ -5,6 +5,7 @@ import useConversationStore from "@/stores/useConversationStore";
 import { tools, ollamaTools } from "@/lib/tools/tools";
 import { Annotation } from "@/components/Annotations";
 import { functionsMap, create_ticket, start_chat_session } from "@/config/functions";
+import { authFetch } from "@/lib/client/authFetch";
 import useDataStore from "@/stores/useDataStore";
 import { agentTools } from "@/config/tools-list";
 import {
@@ -104,7 +105,7 @@ async function trimMessagesToTokenLimit(
     const truncated = removedText.slice(0, MAX_REMOVED_CHARS);
 
     // Ask the server to summarize instead of importing server modules in the browser.
-    const resp = await fetch("/api/summarize-text", {
+    const resp = await authFetch("/api/summarize-text", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: truncated }),
@@ -192,7 +193,7 @@ export const handleTurn = async (
     // Get response from the API (app/api/turn_response/route.ts).
     // This endpoint streams the assistant's reply and persists the turn
     // using saveSessionMessages on the server.
-    const response = await fetch("/api/turn_response", {
+    const response = await authFetch("/api/turn_response", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

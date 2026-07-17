@@ -26,6 +26,7 @@ import {
 import { notifyHandoffIssue } from "@/lib/friendlyErrors";
 import type { Conversation } from "@/types/chatwoot";
 import { storeBotMessage } from "@/lib/storeBotMessage";
+import { getRuntimeTenantAccountId } from "@/lib/accounts/constants";
 
 const HANDOFF_STATUS_LABEL_SET = new Set<string>(HANDOFF_STATUS_LABELS);
 
@@ -117,6 +118,7 @@ export async function releaseAgent(
   assigneeId?: number,
   inboxIdOverride?: number
 ) {
+  const tenantAccountId = getRuntimeTenantAccountId();
   let freedAgentId: number | undefined = assigneeId ??
     (conversation as any)?.assignee_id;
   let inboxId: number | undefined =
@@ -150,7 +152,7 @@ export async function releaseAgent(
     if (freedAgentId === undefined) {
       try {
         const assignment = await prisma.agentAssignment.findFirst({
-          where: { activeConversationId: conversationId },
+          where: { tenantAccountId, activeConversationId: conversationId },
         });
         freedAgentId = assignment?.agentId ?? freedAgentId;
         if (inboxId === undefined) {

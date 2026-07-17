@@ -4,10 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { type LucideIcon } from "lucide-react";
-import { IconCirclePlusFilled, IconMail } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -31,31 +29,6 @@ export function NavMain({
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              asChild
-              tooltip="Quick Create"
-              className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
-            >
-              <Link href="/" prefetch={false}>
-                <IconCirclePlusFilled />
-                <span>Quick Create</span>
-              </Link>
-            </SidebarMenuButton>
-            <Button
-              asChild
-              size="icon"
-              className="w-8 h-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
-              <Link href="/" prefetch={false}>
-                <IconMail className="w-4 h-4" />
-                <span className="sr-only">Inbox</span>
-              </Link>
-            </Button>
-          </SidebarMenuItem>
-        </SidebarMenu>
         <SidebarMenu>
           {items.map((item) => {
             const isActive =

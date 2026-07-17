@@ -1,7 +1,16 @@
-import { Agent, run } from '@openai/agents';
+import { Agent, OpenAIProvider, Runner, run, setTracingDisabled } from '@openai/agents';
 import { defineInputGuardrail } from '@openai/agents-core/guardrail';
 import { z } from 'zod';
 import { MODEL } from '@/config/constants';
+import { getAccountRuntimeContext } from '@/lib/accountRuntime';
+import { createOpenAIClient } from '@/lib/providers/openaiClient';
+
+// The SDK trace exporter is process-scoped, not tenant-scoped. Keep it off by
+// default so requests made with tenant BYOK credentials are not mixed together.
+const tracingSetting = process.env.OPENAI_AGENTS_DISABLE_TRACING?.trim().toLowerCase();
+setTracingDisabled(
+  tracingSetting === undefined || tracingSetting === '1' || tracingSetting === 'true'
+);
 
 export const RelevanceOutput = z.object({
   relevant: z.boolean(),
@@ -62,7 +71,48 @@ const jailbreak_guardrail_agent = new Agent({
   outputType: JailbreakOutput,
 });
 
-export async function runRelevanceGuardrail({ input }: { input: string }) {
+function runGuardrailAgent(
+  agent: typeof guardrail_agent | typeof jailbreak_guardrail_agent,
+  input: string,
+  config?: Record<string, string>
+) {
+  const scopedConfig = config ?? getAccountRuntimeContext()?.config;
+  if (!scopedConfig) return run(agent, input);
+  const selectedProvider = scopedConfig.CHATWOOT_WEBHOOK_PROVIDER?.trim().toLowerCase();
+  const useOllama = selectedProvider === 'ollama' || selectedProvider === 'ollama-openai';
+  const ollamaBaseUrl =
+    scopedConfig.OLLAMA_OPENAI_BASE_URL ||
+    (scopedConfig.OLLAMA_HOST
+      ? `${scopedConfig.OLLAMA_HOST.replace(/\/$/, '')}/v1`
+      : undefined);
+  const apiKey = useOllama
+    ? scopedConfig.OLLAMA_OPENAI_API_KEY || 'ollama'
+    : scopedConfig.OPENAI_API_KEY;
+  const baseURL = useOllama ? ollamaBaseUrl : scopedConfig.OPENAI_BASE_URL;
+  const guardrailModel = useOllama
+    ? scopedConfig.OLLAMA_MODEL || 'llama3.2'
+    : scopedConfig.OPENAI_MODEL || MODEL;
+  if (!apiKey || (useOllama && !baseURL)) {
+    throw new Error(
+      useOllama
+        ? 'An Ollama host or OpenAI-compatible endpoint is not configured for this account'
+        : 'OPENAI_API_KEY is not configured for this account'
+    );
+  }
+  const runner = new Runner({
+    model: guardrailModel,
+    modelProvider: new OpenAIProvider({
+      openAIClient: createOpenAIClient({
+        ...scopedConfig,
+        OPENAI_API_KEY: apiKey,
+        ...(baseURL ? { OPENAI_BASE_URL: baseURL } : {}),
+      }),
+    }),
+  });
+  return runner.run(agent, input);
+}
+
+export async function runRelevanceGuardrail({ input, config }: { input: string; config?: Record<string, string> }) {
   const normalizedInput = input.toLowerCase();
   const matchedKeyword = relevanceKeywords.find((keyword) =>
     normalizedInput.includes(keyword)
@@ -75,7 +125,7 @@ export async function runRelevanceGuardrail({ input }: { input: string }) {
     };
   }
 
-  const result = await run(guardrail_agent, input);
+  const result = await runGuardrailAgent(guardrail_agent, input, config);
   let parsed: any;
   try {
     parsed = typeof result.finalOutput === 'string' ? JSON.parse(result.finalOutput) : result.finalOutput;
@@ -92,8 +142,8 @@ export const relevance_guardrail = defineInputGuardrail({
   execute: runRelevanceGuardrail as any,
 });
 
-export async function runJailbreakGuardrail({ input }: { input: string }) {
-  const result = await run(jailbreak_guardrail_agent, input);
+export async function runJailbreakGuardrail({ input, config }: { input: string; config?: Record<string, string> }) {
+  const result = await runGuardrailAgent(jailbreak_guardrail_agent, input, config);
   let parsed: any;
   try {
     parsed = typeof result.finalOutput === 'string' ? JSON.parse(result.finalOutput) : result.finalOutput;

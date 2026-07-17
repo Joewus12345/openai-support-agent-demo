@@ -1,6 +1,6 @@
 "use client";
 
-import { Link as LinkIcon, Loader2 } from "lucide-react";
+import { Link as LinkIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Separator } from "./ui/separator";
+import { Skeleton } from "./ui/skeleton";
 import {
   Table,
   TableBody,
@@ -28,6 +29,13 @@ import {
 } from "./ui/table";
 import { cn } from "@/lib/utils";
 import { ImageProps } from "next/image";
+import { authFetch } from "@/lib/client/authFetch";
+import { useSessionStore } from "@/stores/useSessionStore";
+
+const articleDateFormatter = new Intl.DateTimeFormat(undefined, {
+  dateStyle: "medium",
+  timeStyle: "short",
+});
 
 type FileMetadata = {
   name: string;
@@ -71,6 +79,7 @@ export default function ListArticles({
   page: string;
   folder: string;
 }) {
+  const accountId = useSessionStore((state) => state.activeAccount?.id);
   const [files, setFiles] = useState<FileMetadata[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -93,7 +102,7 @@ export default function ListArticles({
     const fetchFiles = async () => {
       try {
         setLoadingFiles(true);
-        const response = await fetch(`/api/list_files?folder=${folder}`);
+        const response = await authFetch(`/api/list_files?folder=${folder}&limit=100`);
         const payload = await response.json();
         const metadata = (payload?.files as FileMetadata[]) ?? [];
         metadata.sort((a, b) => a.name.localeCompare(b.name));
@@ -118,7 +127,7 @@ export default function ListArticles({
     };
 
     fetchFiles();
-  }, [folder]);
+  }, [accountId, folder]);
 
   useEffect(() => {
     if (!selectedId) return;
@@ -128,7 +137,9 @@ export default function ListArticles({
     const fetchContent = async () => {
       try {
         setLoadingContent(true);
-        const fileResponse = await fetch(`/${folder}/${selectedFile.name}`);
+        const fileResponse = await authFetch(
+          `/api/knowledge/files/${encodeURIComponent(selectedFile.name)}?folder=${encodeURIComponent(folder)}`
+        );
         const text = await fileResponse.text();
         setFileContents((prev) => ({ ...prev, [selectedId]: text }));
       } catch (error) {
@@ -179,7 +190,7 @@ export default function ListArticles({
                 </Badge>
                 <span>{humanFileSize(selectedFile.size)}</span>
                 <span>
-                  Updated {new Date(selectedFile.modifiedAt).toLocaleString()}
+                  Updated {articleDateFormatter.format(new Date(selectedFile.modifiedAt))}
                 </span>
               </div>
             ) : null}
@@ -217,8 +228,8 @@ export default function ListArticles({
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold leading-tight">{title}</h1>
           <p className="text-sm text-muted-foreground">
-            Browse knowledge base markdown files. Click a row to preview the
-            content without leaving the table.
+            Browse account knowledge files and preview content without leaving
+            the table.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -258,17 +269,16 @@ export default function ListArticles({
                 </TableHeader>
                 <TableBody>
                   {loadingFiles ? (
-                    <TableRow>
-                      <TableCell
-                        colSpan={6}
-                        className="py-6 text-center text-sm text-muted-foreground"
-                      >
-                        <div className="flex items-center justify-center gap-2">
-                          <Loader2 className="h-4 w-4 animate-spin" /> Loading
-                          files…
-                        </div>
-                      </TableCell>
-                    </TableRow>
+                    Array.from({ length: 7 }).map((_, index) => (
+                      <TableRow key={`article-loading-row-${index}`}>
+                        <TableCell><Skeleton className="h-4 w-44" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-12" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-14" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-28" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-28" /></TableCell>
+                        <TableCell className="text-right"><Skeleton className="ml-auto h-8 w-14" /></TableCell>
+                      </TableRow>
+                    ))
                   ) : paginatedFiles.length ? (
                     paginatedFiles.map((file) => {
                       const id = getFileId(file);
@@ -280,16 +290,7 @@ export default function ListArticles({
                         <TableRow
                           key={id}
                           data-state={isSelected ? "selected" : undefined}
-                          className={cn(
-                            "cursor-pointer transition hover:bg-muted/60",
-                            isSelected ? "bg-blue-50/80" : ""
-                          )}
-                          onClick={() => {
-                            if (fileIndex >= 0) {
-                              setPageIndex(Math.floor(fileIndex / PAGE_SIZE));
-                            }
-                            setSelectedId(id);
-                          }}
+                          className={cn(isSelected ? "bg-primary/5" : "")}
                         >
                           <TableCell className="font-medium">
                             {file.name}
@@ -301,18 +302,17 @@ export default function ListArticles({
                             {humanFileSize(file.size)}
                           </TableCell>
                           <TableCell className="text-muted-foreground">
-                            {new Date(file.createdAt).toLocaleString()}
+                            {articleDateFormatter.format(new Date(file.createdAt))}
                           </TableCell>
                           <TableCell className="text-muted-foreground">
-                            {new Date(file.modifiedAt).toLocaleString()}
+                            {articleDateFormatter.format(new Date(file.modifiedAt))}
                           </TableCell>
                           <TableCell className="text-right">
                             <Button
                               variant="ghost"
                               size="sm"
                               className="h-8 px-2"
-                              onClick={(e) => {
-                                e.stopPropagation();
+                              onClick={() => {
                                 if (fileIndex >= 0) {
                                   setPageIndex(Math.floor(fileIndex / PAGE_SIZE));
                                 }
@@ -375,11 +375,12 @@ export default function ListArticles({
             </CardHeader>
             <CardContent className="min-h-[320px] space-y-3">
               {loadingContent && !selectedContent ? (
-                <div className="flex h-full min-h-[240px] items-center justify-center text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" /> Loading
-                    article…
-                  </div>
+                <div className="min-h-[240px] space-y-4" aria-label="Loading article preview" aria-busy="true">
+                  <Skeleton className="h-7 w-3/4" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-11/12" />
+                  <Skeleton className="h-28 w-full" />
                 </div>
               ) : selectedContent ? (
                 renderedContent

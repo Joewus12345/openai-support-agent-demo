@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import { AgentRole } from "@/lib/generated/prisma";
 import { useSessionStore } from "@/stores/useSessionStore";
+import type { SessionAccount } from "@/stores/useSessionStore";
 
 export default function SessionInitializer() {
   const setSession = useSessionStore((state) => state.setSession);
@@ -23,6 +24,9 @@ export default function SessionInitializer() {
           userId: string;
           roles: AgentRole[] | string[];
           verified: boolean;
+          platformAdmin: boolean;
+          activeAccount: SessionAccount | null;
+          accounts: SessionAccount[];
           csrf: string;
           expiresAt?: string;
         };
@@ -35,6 +39,9 @@ export default function SessionInitializer() {
           setSession({
             userId: data.userId,
             roles: normalizedRoles,
+            platformAdmin: data.platformAdmin,
+            activeAccount: data.activeAccount,
+            accounts: data.accounts,
             verified: data.verified,
             csrfToken: data.csrf,
             expiresAt: data.expiresAt,

@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { toResponseMessage, type ResponseMessage } from "@/lib/utils/toResponseMessage";
+import { getRuntimeTenantAccountId } from "@/lib/accounts/constants";
 
 export async function getConversationHistory(
   conversationKey: string,
@@ -30,8 +31,9 @@ export async function getConversationHistory(
   }
 
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const tenantAccountId = getRuntimeTenantAccountId();
   const messages = await prisma.conversationMessage.findMany({
-    where: { conversationKey, createdAt: { gte: since } },
+    where: { tenantAccountId, conversationKey, createdAt: { gte: since } },
     orderBy: { messageId: "desc" },
     take: limit,
   });

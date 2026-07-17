@@ -26,6 +26,12 @@ type SectionCardsProps = {
   };
 };
 
+const sessionTimeFormatter = new Intl.DateTimeFormat(undefined, {
+  hour: "numeric",
+  minute: "2-digit",
+  second: "2-digit",
+});
+
 function SessionSummary({
   userId,
   verified,
@@ -35,14 +41,14 @@ function SessionSummary({
   const expiryDate = expiresAt ? new Date(expiresAt) : null;
   const expiryLabel =
     expiryDate && !Number.isNaN(expiryDate.getTime())
-      ? `Session expires at ${expiryDate.toLocaleTimeString()}`
+      ? `Session expires at ${sessionTimeFormatter.format(expiryDate)}`
       : "Active session window";
 
   return (
     <Card className="@container/card">
       <CardHeader>
         <CardDescription>Session</CardDescription>
-        <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+        <CardTitle className="break-words text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
           {userId ?? "Not signed in"}
         </CardTitle>
         <CardAction>
@@ -170,7 +176,7 @@ function StabilitySummary() {
 
 export function SectionCards({ stats }: SectionCardsProps) {
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs md:grid-cols-2 2xl:grid-cols-4">
       <SessionSummary {...stats} />
       <MessageSummary
         messageCount={stats.messageCount}

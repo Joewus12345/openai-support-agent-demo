@@ -12,9 +12,9 @@ function toastColor(variant: string | undefined) {
 }
 
 function iconForVariant(variant: string | undefined) {
-  if (variant === "success") return <CheckCircle className="h-5 w-5" />;
-  if (variant === "error") return <TriangleAlert className="h-5 w-5" />;
-  return <Info className="h-5 w-5" />;
+  if (variant === "success") return <CheckCircle aria-hidden="true" className="h-5 w-5" />;
+  if (variant === "error") return <TriangleAlert aria-hidden="true" className="h-5 w-5" />;
+  return <Info aria-hidden="true" className="h-5 w-5" />;
 }
 
 export default function Toaster() {
@@ -36,7 +36,7 @@ export default function Toaster() {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex flex-col items-center gap-2 px-3 sm:items-end sm:px-6">
+    <div aria-live="polite" aria-atomic="false" className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex flex-col items-center gap-2 px-3 sm:items-end sm:px-6">
       {toasts.map((toast) => (
         <div
           key={toast.id}
@@ -51,10 +51,10 @@ export default function Toaster() {
             <button
               type="button"
               onClick={() => dismissToast(toast.id)}
-              className="text-gray-500 hover:text-gray-800"
+              className="flex size-11 items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Dismiss notification"
             >
-              <X className="h-4 w-4" />
+              <X aria-hidden="true" className="h-4 w-4" />
             </button>
           </div>
         </div>

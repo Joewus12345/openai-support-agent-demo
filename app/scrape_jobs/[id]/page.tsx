@@ -26,6 +26,8 @@ import useSWR from "swr";
 
 import { ScrapeJobAuthPrompt } from "@/components/ScrapeJobAuthPrompt";
 import { AppPageShell } from "@/components/app-page-shell";
+import { ScrapeJobDetailSkeleton } from "@/components/loading/scrape-job-detail-skeleton";
+import { authFetch } from "@/lib/client/authFetch";
 import { ScrapeJobCadence, ScrapeJobStatus } from "@/lib/generated/prisma";
 import type { StoredIngestionResult } from "@/lib/ingestionResults";
 import { SCRIPT_SCHEMA_MAP, validateTargetForSchema } from "@/config/scrapeScripts";
@@ -51,7 +53,7 @@ const fetcher = async (url: string) => {
   return res.json();
 };
 
-const KNOWLEDGE_BASE_PATH = "public/knowledge_base";
+const KNOWLEDGE_BASE_PATH = "data/accounts/<account-id>/knowledge_base";
 const AUTO_RUN_MANUAL_WITH_NEXT_DEFAULT =
   process.env.NEXT_PUBLIC_AUTO_RUN_MANUAL_WITH_NEXT === "true";
 
@@ -1032,7 +1034,7 @@ export default function ScrapeJobDetail({
     }
 
     try {
-      const res = await fetch("/api/scraper_ingest", {
+      const res = await authFetch("/api/scraper_ingest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1100,9 +1102,7 @@ export default function ScrapeJobDetail({
   if (!id) {
     return (
       <AppPageShell>
-        <div className="flex min-h-[60vh] w-full items-center justify-center text-sm text-zinc-600">
-          Loading job…
-        </div>
+        <ScrapeJobDetailSkeleton />
       </AppPageShell>
     );
   }
@@ -1129,9 +1129,7 @@ export default function ScrapeJobDetail({
   if (isLoading) {
     return (
       <AppPageShell>
-        <div className="flex min-h-[60vh] w-full items-center justify-center text-sm text-zinc-600">
-          Loading job…
-        </div>
+        <ScrapeJobDetailSkeleton />
       </AppPageShell>
     );
   }

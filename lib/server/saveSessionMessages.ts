@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { summarizeSession } from "@/lib/server/summarizeSession";
+import { resolveAccountRuntimeConfig } from "@/lib/server/accountConfig";
 import {
   MAX_UNSUMMARIZED_MESSAGES,
   LARGE_MESSAGE_THRESHOLD,
@@ -9,6 +10,7 @@ import {
 // Cached session messages expire after 24 hours to allow cleanup.
 
 export async function saveSessionMessages(
+  accountId: string,
   session_id: string,
   messages: any[]
 ) {
@@ -17,7 +19,7 @@ export async function saveSessionMessages(
   }
   try {
     const session = await prisma.chatSession.findUnique({
-      where: { id: session_id },
+      where: { accountId_id: { accountId, id: session_id } },
       select: {
         messages: true,
         summary: true,
@@ -84,9 +86,11 @@ export async function saveSessionMessages(
     if (updatedMessages.length > unsummarizedLimit) {
       const overflow = updatedMessages.length - unsummarizedLimit;
       const messagesToSummarize = updatedMessages.slice(0, overflow);
+      const config = await resolveAccountRuntimeConfig(accountId);
       const summaryFragment = await summarizeSession({
         priorSummary: summary,
         newMessages: messagesToSummarize,
+        config,
       });
       summary = [summary, summaryFragment].filter(Boolean).join("\n");
       updatedMessages = updatedMessages.slice(-unsummarizedLimit);
@@ -99,7 +103,7 @@ export async function saveSessionMessages(
     }
 
     await prisma.chatSession.update({
-      where: { id: session_id },
+      where: { accountId_id: { accountId, id: session_id } },
       data: {
         messages: updatedMessages,
         summary,

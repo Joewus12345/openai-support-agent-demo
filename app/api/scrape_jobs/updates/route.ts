@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server";
 
 import { onJobUpdate } from "@/lib/scrapeJobEvents";
-import { ensureAuthenticated } from "../helpers";
+import { requireScrapeSession } from "../helpers";
 import { AgentRole } from "@/lib/generated/prisma";
 
 export const runtime = "nodejs";
 export const revalidate = 0;
 
 export async function GET(request: Request) {
-  const unauthorized = await ensureAuthenticated(request, { role: AgentRole.agent });
-  if (unauthorized) return unauthorized;
+  const authResult = await requireScrapeSession(request, { role: AgentRole.agent });
+  if ("response" in authResult) return authResult.response;
   const encoder = new TextEncoder();
   let cleanup: () => void = () => {};
 
@@ -43,7 +43,7 @@ export async function GET(request: Request) {
       };
 
       unsubscribe = onJobUpdate((update) => {
-        send(update);
+        if (update.accountId === authResult.accountId) send(update);
       });
 
       heartbeat = setInterval(() => {

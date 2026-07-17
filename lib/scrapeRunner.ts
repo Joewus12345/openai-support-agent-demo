@@ -7,6 +7,11 @@ import { calculateNextRun } from "./scheduler";
 import { Prisma, ScrapeJob, ScrapeJobStatus } from "./generated/prisma";
 import { emitJobUpdate } from "./scrapeJobEvents";
 import { readLatestBenchmark } from "./scrapeMetrics";
+import {
+  getAccountScrapeLogRoot,
+  getPrivateKnowledgeDirectory,
+  syncKnowledgeDocuments,
+} from "./server/accountStorage";
 
 type PythonResolution = {
   bin: string;
@@ -106,7 +111,6 @@ const HARNESS_PATH = path.join(
   "benchmarks",
   "run_all.py"
 );
-const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
 const SCRAPE_TIMEOUT_MS = (() => {
   const raw = process.env.SCRAPE_TIMEOUT_MS;
   const parsed = raw === undefined ? 2 * 60 * 60 * 1000 : Number(raw);
@@ -115,12 +119,10 @@ const SCRAPE_TIMEOUT_MS = (() => {
 const SCRAPE_SKIP_DEP_CHECK = process.env.SCRAPE_SKIP_DEP_CHECK === "true";
 const SCRAPE_AUTO_INSTALL_DEPS =
   process.env.SCRAPE_AUTO_INSTALL_DEPS !== "false";
-const LOG_DIR = path.join(process.cwd(), "logs", "scrape_jobs");
-
-function buildRunLogPath(jobId: string, startedAt: Date) {
+function buildRunLogPath(accountId: string, jobId: string, startedAt: Date) {
   const stamp = startedAt.toISOString().replace(/[:.]/g, "-");
-  const relative = path.join("logs", "scrape_jobs", jobId, `${stamp}.log`);
-  const absolute = path.join(process.cwd(), relative);
+  const absolute = path.join(getAccountScrapeLogRoot(accountId), jobId, `${stamp}.log`);
+  const relative = path.relative(process.cwd(), absolute);
   return { relative, absolute };
 }
 
@@ -351,6 +353,7 @@ async function updateJob(
   });
 
   emitJobUpdate({
+    accountId: job.accountId,
     jobId: id,
     status: job.status,
     startedAt: job.startedAt?.toISOString() ?? null,
@@ -434,20 +437,26 @@ export async function runScrapeJob(
   job: ScrapeJob,
   client: PrismaClientLike = prisma
 ): Promise<{ exitCode: number } | undefined> {
-  await fs.promises.mkdir(LOG_DIR, { recursive: true });
-  await fs.promises.mkdir(KNOWLEDGE_BASE_DIR, { recursive: true }).catch(() => {});
+  const logRoot = getAccountScrapeLogRoot(job.accountId);
+  const knowledgeBaseDirectory = getPrivateKnowledgeDirectory(job.accountId, "knowledge_base");
+  await fs.promises.mkdir(logRoot, { recursive: true });
+  await fs.promises.mkdir(knowledgeBaseDirectory, { recursive: true }).catch(() => {});
   const startedAt = new Date();
-  const { absolute: defaultLogPath } = buildRunLogPath(job.id, startedAt);
+  const { absolute: defaultLogPath } = buildRunLogPath(job.accountId, job.id, startedAt);
   const candidateLogPath = job.logPath ? path.resolve(job.logPath) : defaultLogPath;
-  const normalizedLogPath = candidateLogPath.startsWith(LOG_DIR)
-    ? candidateLogPath
-    : defaultLogPath;
+  const candidateRelative = path.relative(path.resolve(logRoot), candidateLogPath);
+  const normalizedLogPath =
+    candidateRelative === "" ||
+    (!candidateRelative.startsWith("..") && !path.isAbsolute(candidateRelative))
+      ? candidateLogPath
+      : defaultLogPath;
   const storedLogPath = path.relative(process.cwd(), normalizedLogPath);
   await fs.promises.mkdir(path.dirname(normalizedLogPath), { recursive: true });
   const logFilePath = path.resolve(storedLogPath);
   const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
 
   const { env: pythonEnv, virtualEnvRoot } = buildPythonEnv(PYTHON_BIN);
+  pythonEnv.CRAWL_OUTPUT_DIR = knowledgeBaseDirectory;
 
   let progress = Math.max(0, Math.min(100, job.progress ?? 0));
   let lastProgressPersist = 0;
@@ -526,7 +535,7 @@ export async function runScrapeJob(
     PYTHON_RESOLUTION.notes.forEach((note) => logStream.write(`PYTHON_RESOLUTION: ${note}\n`));
   }
   logStream.write(`Virtual env root: ${virtualEnvRoot ?? "(not detected)"}\n`);
-  logStream.write(`Knowledge base output directory: ${KNOWLEDGE_BASE_DIR}\n`);
+  logStream.write(`Knowledge base output directory: ${knowledgeBaseDirectory}\n`);
   logStream.write(`Timeout (ms): ${SCRAPE_TIMEOUT_MS}\n`);
 
   const depCheck = await runDependencyCheck(PYTHON_BIN, logStream, pythonEnv);
@@ -578,6 +587,7 @@ export async function runScrapeJob(
     const heartbeat = setInterval(() => {
       logStream.write(`[${new Date().toISOString()}] heartbeat: job ${job.id} still running...\n`);
         emitJobUpdate({
+          accountId: job.accountId,
           jobId: job.id,
           status: ScrapeJobStatus.running,
           startedAt: startedAt.toISOString(),
@@ -616,6 +626,7 @@ export async function runScrapeJob(
         missingCrawlDependency = true;
       }
       emitJobUpdate({
+        accountId: job.accountId,
         jobId: job.id,
         status: ScrapeJobStatus.running,
         startedAt: startedAt.toISOString(),
@@ -668,6 +679,23 @@ export async function runScrapeJob(
   logStream.write(`[${finishedAt.toISOString()}] Job ${job.id} completed with code ${exitCode}.\n`);
   logStream.end();
 
+  if (exitCode === 0) {
+    const account = await client.account.findUnique({
+      where: { id: job.accountId },
+      select: { id: true, isPrimary: true },
+    });
+    if (account) {
+      await syncKnowledgeDocuments({
+        account,
+        folder: "knowledge_base",
+        sourceJobId: job.id,
+        modifiedSince: new Date(startedAt.getTime() - 1_000),
+      }).catch((error) => {
+        console.warn(`[scrapeRunner] failed to index account artifacts for ${job.id}:`, error);
+      });
+    }
+  }
+
   if (canceled || (await isJobCanceled(client, job.id))) {
     await updateJob(client, job.id, {
       status: ScrapeJobStatus.canceled,
@@ -705,8 +733,10 @@ export async function runScrapeJob(
   return { exitCode };
 }
 
-export async function triggerScrapeJob(jobId: string) {
-  const job = await prisma.scrapeJob.findUnique({ where: { id: jobId } });
+export async function triggerScrapeJob(accountId: string, jobId: string) {
+  const job = await prisma.scrapeJob.findUnique({
+    where: { accountId_id: { accountId, id: jobId } },
+  });
   if (!job) return null;
 
   void runScrapeJob(job).catch((error) => {

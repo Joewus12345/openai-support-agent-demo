@@ -1,9 +1,9 @@
-import OpenAI from "openai";
 import { MODEL } from "@/config/constants";
 import type { ProviderOptions } from "./index";
 import { deriveLimiterTokens, scheduleProviderCall } from "./limiter";
 import { logger } from "../logger";
 import { retryWithBackoff } from "./retry";
+import { createOpenAIClient } from "./openaiClient";
 
 /** Convert tools to the format expected by the Responses API. */
 function flattenTools(tools: any[]): any[] {
@@ -31,8 +31,11 @@ export async function* openaiProvider(
   tools: any,
   opts?: ProviderOptions
 ): AsyncGenerator<ProviderEvent> {
-  const openai = new OpenAI();
-  const modelName = opts?.model || MODEL;
+  if (opts?.config && !opts.config.OPENAI_API_KEY) {
+    throw new Error("OPENAI_API_KEY is not configured for this account");
+  }
+  const openai = createOpenAIClient(opts?.config);
+  const modelName = opts?.model || opts?.config?.OPENAI_MODEL || MODEL;
   const limiterTokens = opts?.limiterTokens ?? deriveLimiterTokens(messages, modelName);
   const { result: events, attempts } = await retryWithBackoff(
     async () =>
@@ -75,7 +78,8 @@ export async function* openaiProvider(
 
 export async function* submitOpenAIToolOutputs(
   responseId: string,
-  toolOutputs: { tool_call_id: string; output: string }[]
+  toolOutputs: { tool_call_id: string; output: string }[],
+  opts?: Pick<ProviderOptions, "config">
 ): AsyncGenerator<ProviderEvent> {
   if (!responseId) {
     throw new Error("submitOpenAIToolOutputs requires a response id");
@@ -84,7 +88,10 @@ export async function* submitOpenAIToolOutputs(
     throw new Error("submitOpenAIToolOutputs requires at least one tool output");
   }
 
-  const openai = new OpenAI();
+  if (opts?.config && !opts.config.OPENAI_API_KEY) {
+    throw new Error("OPENAI_API_KEY is not configured for this account");
+  }
+  const openai = createOpenAIClient(opts?.config);
   const { result: events, attempts } = await retryWithBackoff(
     async () =>
       scheduleProviderCall("openai", undefined, async () => {

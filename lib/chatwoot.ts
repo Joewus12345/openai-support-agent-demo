@@ -1,4 +1,5 @@
 import type { AgentAvailability, AgentRecord } from "./agentRotation";
+import { getAccountRuntimeValue } from "./accountRuntime";
 
 const AVAILABILITY_VALUES: readonly AgentAvailability[] = [
   "online",
@@ -7,7 +8,7 @@ const AVAILABILITY_VALUES: readonly AgentAvailability[] = [
 ] as const;
 
 function getChatwootConfig() {
-  const rawBaseUrl = process.env.CHATWOOT_URL || "";
+  const rawBaseUrl = getAccountRuntimeValue("CHATWOOT_URL") || "";
   const baseUrl = rawBaseUrl.replace(/\/$/, "");
 
   if (!baseUrl) {
@@ -16,7 +17,7 @@ function getChatwootConfig() {
     throw error;
   }
 
-  const token = process.env.CHATWOOT_APP_TOKEN || "";
+  const token = getAccountRuntimeValue("CHATWOOT_APP_TOKEN") || "";
   const timeoutMs = Number(process.env.CHATWOOT_TIMEOUT_MS || 15000);
 
   return { baseUrl, token, timeoutMs };

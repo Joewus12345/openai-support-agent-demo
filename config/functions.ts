@@ -3,6 +3,8 @@
 // Parameters for a tool call are passed as an object to the corresponding function
 import useDataStore from "@/stores/useDataStore";
 import useConversationStore from "@/stores/useConversationStore";
+import { useSessionStore } from "@/stores/useSessionStore";
+import { authFetch } from "@/lib/client/authFetch";
 import {
   submitChatwootComplaint,
   type CreateComplaintArgs,
@@ -33,7 +35,7 @@ const setDetailsFromUser = (user: any) => ({
 
 export const get_order = async ({ order_id }: { order_id: string }) => {
   try {
-    const res = await fetch(`/api/orders/${order_id}`).then((res) =>
+    const res = await authFetch(`/api/orders/${order_id}`).then((res) =>
       res.json()
     );
     return res;
@@ -45,7 +47,7 @@ export const get_order = async ({ order_id }: { order_id: string }) => {
 
 export const get_order_history = async ({ user_id }: { user_id: string }) => {
   try {
-    const res = await fetch(`/api/users/${user_id}/order_history`).then((res) =>
+    const res = await authFetch(`/api/users/${user_id}/order_history`).then((res) =>
       res.json()
     );
     return res;
@@ -57,7 +59,7 @@ export const get_order_history = async ({ user_id }: { user_id: string }) => {
 
 export const cancel_order = async ({ order_id }: { order_id: string }) => {
   try {
-    const res = await fetch(`/api/orders/${order_id}/cancel`, {
+    const res = await authFetch(`/api/orders/${order_id}/cancel`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +74,7 @@ export const cancel_order = async ({ order_id }: { order_id: string }) => {
 
 export const reset_password = async ({ user_id }: { user_id: string }) => {
   try {
-    const res = await fetch(`/api/users/${user_id}/reset_password`, {
+    const res = await authFetch(`/api/users/${user_id}/reset_password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -94,7 +96,7 @@ export const send_replacement = async ({
   order_id: string;
 }) => {
   try {
-    const res = await fetch(`/api/orders/${order_id}/send_replacement`, {
+    const res = await authFetch(`/api/orders/${order_id}/send_replacement`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +120,7 @@ export const create_refund = async ({
   reason: string;
 }) => {
   try {
-    const res = await fetch(`/api/orders/${order_id}/create_refund`, {
+    const res = await authFetch(`/api/orders/${order_id}/create_refund`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -142,7 +144,7 @@ export const issue_voucher = async ({
   amount: number;
 }) => {
   try {
-    const res = await fetch(`/api/vouchers/create`, {
+    const res = await authFetch(`/api/vouchers/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -164,7 +166,7 @@ export const create_return = async ({
   product_ids: string[];
 }) => {
   try {
-    const res = await fetch(`/api/orders/${order_id}/create_return`, {
+    const res = await authFetch(`/api/orders/${order_id}/create_return`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -194,7 +196,7 @@ export const create_complaint = async (args: CreateComplaintArgs) => {
 
 export const create_ticket = async () => {
   try {
-    const response = await fetch(`/api/tickets/create`, {
+    const response = await authFetch(`/api/tickets/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -241,7 +243,7 @@ export const update_info = async ({
   name?: string;
 }) => {
   try {
-    const res = await fetch(`/api/users/${user_id}/update_info`, {
+    const res = await authFetch(`/api/users/${user_id}/update_info`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -272,7 +274,7 @@ export const update_info = async ({
 
 export const get_user_profile = async ({ email }: { email: string }) => {
   try {
-    const user = await fetch(`/api/users?email=${encodeURIComponent(email)}`).then(
+    const user = await authFetch(`/api/users?email=${encodeURIComponent(email)}`).then(
       (res) => res.json()
     );
     if (!user.error) {
@@ -299,7 +301,7 @@ export const create_user_profile = async ({
   address?: string;
 }) => {
   try {
-    const user = await fetch(`/api/users`, {
+    const user = await authFetch(`/api/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -334,7 +336,7 @@ export const start_chat_session = async ({
   try {
     const identifier = email || ticket_id;
 
-    const res = await fetch(`/api/sessions/start`, {
+    const res = await authFetch(`/api/sessions/start`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: identifier, ticket_id, name, phone, address }),
@@ -429,6 +431,7 @@ export const search_knowledge_base = async ({
 
   try {
     setRelevantArticlesLoading(true);
+    const accountId = useSessionStore.getState().activeAccount?.id ?? "no-account";
     // Use all provided queries plus search params to build a stable cache key
     const queryKeyBase =
       Array.isArray(queries) && queries.length > 0 ? queries.join("|") : query;
@@ -437,6 +440,7 @@ export const search_knowledge_base = async ({
     const thresholdNum =
       typeof threshold === "string" ? parseFloat(threshold) : threshold;
     const queryKey = [
+      accountId,
       queryKeyBase,
       limitNum,
       thresholdNum,
@@ -459,7 +463,7 @@ export const search_knowledge_base = async ({
       return { results: cached };
     }
 
-    const result: SearchKnowledgeBaseResponse = await fetch(
+    const result: SearchKnowledgeBaseResponse = await authFetch(
       "/api/search-knowledge-base",
       {
         method: "POST",

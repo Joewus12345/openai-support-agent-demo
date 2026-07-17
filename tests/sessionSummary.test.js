@@ -1,11 +1,13 @@
 const assert = require('assert');
 const test = require('node:test');
 const { mock } = test;
+const accountId = 'account-1';
 
 // Simulated session storage
 const user = { id: 'u1', longSummary: null };
 const session = {
   id: 's1',
+  accountId,
   userId: 'u1',
   messages: [],
   summary: null,
@@ -35,7 +37,7 @@ const prismaMock = {
 };
 
 // Mock saveSessionMessages to append to session.messages
-async function saveSessionMessages(_id, msgs) {
+async function saveSessionMessages(_accountId, _id, msgs) {
   session.messages.push(...msgs);
   return { success: true };
 }
@@ -60,6 +62,19 @@ require.cache[require.resolve('../lib/server/saveSessionMessages.ts')] = {
 };
 require.cache[require.resolve('../lib/server/summarizeSession.ts')] = {
   exports: { summarizeSession },
+};
+require.cache[require.resolve('../lib/server/tenantSession.ts')] = {
+  exports: {
+    requireTenantSession: async () => ({ accountId, session: { account: { id: accountId } } }),
+  },
+};
+require.cache[require.resolve('../lib/server/accountConfig.ts')] = {
+  exports: {
+    resolveAccountRuntimeConfig: async () => ({
+      OPENAI_API_KEY: 'test-key',
+      OPENAI_MODEL: 'test-model',
+    }),
+  },
 };
 
 async function endSession(messages) {

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -101,11 +102,18 @@ export function ScrapeJobsDataTable({
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow>
-                  <TableCell colSpan={8} className="py-10 text-center text-sm text-muted-foreground">
-                    Loading jobs…
-                  </TableCell>
-                </TableRow>
+                Array.from({ length: 7 }).map((_, index) => (
+                  <TableRow key={`scrape-job-loading-${index}`}>
+                    <TableCell><Skeleton className="h-4 w-28" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-36" /></TableCell>
+                    <TableCell><Skeleton className="h-5 w-20 rounded-full" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-28" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-12" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                    <TableCell><Skeleton className="ml-auto h-8 w-24" /></TableCell>
+                  </TableRow>
+                ))
               ) : paginated.length ? (
                 paginated.map((row) => (
                   <TableRow key={row.id} className="align-top hover:bg-muted/50 text-sm">

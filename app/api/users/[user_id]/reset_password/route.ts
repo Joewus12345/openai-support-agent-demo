@@ -1,9 +1,13 @@
+import { requireTenantUser } from "@/lib/server/tenantRecords";
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ user_id: string }> }
 ) {
   try {
     const { user_id } = await params;
+    const auth = await requireTenantUser(request, user_id);
+    if ("response" in auth) return auth.response;
     // Simulate sending a reset password email
     return new Response(
       JSON.stringify({

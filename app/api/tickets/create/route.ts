@@ -1,7 +1,10 @@
 import prisma from "@/lib/prisma";
+import { requireTenantSession } from "@/lib/server/tenantSession";
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
+    const auth = await requireTenantSession(request, { csrfProtected: true });
+    if ("response" in auth) return auth.response;
     const start = new Date();
     start.setUTCHours(0, 0, 0, 0);
     const end = new Date();
@@ -9,6 +12,7 @@ export async function POST() {
 
     const count = await prisma.ticket.count({
       where: {
+        accountId: auth.accountId,
         createdAt: {
           gte: start,
           lte: end,
@@ -22,6 +26,7 @@ export async function POST() {
 
     await prisma.ticket.create({
       data: {
+        accountId: auth.accountId,
         ticket: ticket_id,
       },
     });

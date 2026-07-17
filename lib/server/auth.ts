@@ -1,9 +1,9 @@
 import crypto from "crypto";
 import prisma from "../prisma";
-import { AgentRole } from "../generated/prisma";
+import { AccountStatus, AgentRole } from "../generated/prisma";
+import { SESSION_COOKIE_NAME } from "../auth/constants";
 import { getRequestContext, isLocalHostName } from "./requestContext";
 
-const SESSION_COOKIE_NAME = "agent_session";
 const SESSION_SECRET = process.env.AUTH_SESSION_SECRET ?? process.env.SCRAPE_JOB_ADMIN_TOKEN ?? "change-me";
 
 const VERIFICATION_SECRET =
@@ -31,8 +31,18 @@ export type SessionContext = {
   agent: {
     userId: string;
     roles: AgentRole[];
+    platformAdmin: boolean;
     telegramChatId: string | null;
   };
+  account: {
+    id: string;
+    name: string;
+    slug: string;
+    status: AccountStatus;
+    isPrimary: boolean;
+    suspensionReason: string | null;
+    maintenanceMessage: string | null;
+  } | null;
 };
 
 function parseCookies(header: string | null) {
@@ -148,20 +158,70 @@ export async function getSession(request: Request): Promise<SessionContext | nul
 
   const loginToken = await prisma.loginToken.findUnique({
     where: { id: payload.tokenId },
-    include: { agent: true },
+    include: {
+      account: true,
+      agent: {
+        include: {
+          memberships: {
+            include: { account: true },
+            orderBy: { createdAt: "asc" },
+          },
+        },
+      },
+    },
   });
   if (!loginToken || !loginToken.agent) return null;
   const expired = loginToken.expiresAt.getTime() <= Date.now();
+  const agent = loginToken.agent;
+  const selectedMembership = loginToken.accountId
+    ? agent.memberships.find((membership) => membership.accountId === loginToken.accountId)
+    : null;
+  const fallbackMembership =
+    agent.memberships.find((membership) => membership.account.isPrimary) ?? agent.memberships[0] ?? null;
+  const membership = selectedMembership ?? fallbackMembership;
+  const account =
+    agent.platformAdmin && loginToken.account
+      ? loginToken.account
+      : membership?.account ?? (agent.platformAdmin ? loginToken.account : null);
+
+  if (account && loginToken.accountId !== account.id) {
+    await prisma.loginToken.update({
+      where: { id: loginToken.id },
+      data: { accountId: account.id },
+    });
+  }
+
+  const membershipRole = membership?.accountId === account?.id ? membership.role : null;
+  const roles: AgentRole[] = agent.platformAdmin
+    ? [AgentRole.admin, AgentRole.agent]
+    : membershipRole === AgentRole.admin
+      ? [AgentRole.admin, AgentRole.agent]
+      : membershipRole === AgentRole.agent
+        ? [AgentRole.agent]
+        : [];
+
   return {
     tokenId: payload.tokenId,
     csrf: payload.csrf,
     expiresAt: loginToken.expiresAt,
     verified: !!loginToken.consumedAt && !expired,
     agent: {
-      userId: loginToken.agent.userId,
-      roles: loginToken.agent.roles,
-      telegramChatId: loginToken.agent.telegramChatId ?? null,
+      userId: agent.userId,
+      roles,
+      platformAdmin: agent.platformAdmin,
+      telegramChatId: agent.telegramChatId ?? null,
     },
+    account: account
+      ? {
+          id: account.id,
+          name: account.name,
+          slug: account.slug,
+          status: account.status,
+          isPrimary: account.isPrimary,
+          suspensionReason: account.suspensionReason,
+          maintenanceMessage: account.maintenanceMessage,
+        }
+      : null,
   };
 }
 
@@ -174,7 +234,13 @@ export function unauthorized(message = "Unauthorized", status = 401) {
 
 export async function requireSession(
   request: Request,
-  options: { role?: AgentRole; csrfProtected?: boolean; requireVerified?: boolean } = {}
+  options: {
+    role?: AgentRole;
+    platformAdmin?: boolean;
+    csrfProtected?: boolean;
+    requireVerified?: boolean;
+    allowInactiveAccount?: boolean;
+  } = {}
 ): Promise<{ session: SessionContext } | { response: Response }> {
   const session = await getSession(request);
   if (!session) {
@@ -187,6 +253,22 @@ export async function requireSession(
 
   if (options.role && !session.agent.roles.includes(options.role)) {
     return { response: unauthorized("Forbidden", 403) };
+  }
+
+  if (options.platformAdmin && !session.agent.platformAdmin) {
+    return { response: unauthorized("Platform administrator access required", 403) };
+  }
+
+  if (
+    !options.allowInactiveAccount &&
+    session.account &&
+    session.account.status !== AccountStatus.active
+  ) {
+    const message =
+      session.account.status === AccountStatus.maintenance
+        ? "This account is temporarily in maintenance mode"
+        : "This account is suspended";
+    return { response: unauthorized(message, 423) };
   }
 
   if (options.csrfProtected) {

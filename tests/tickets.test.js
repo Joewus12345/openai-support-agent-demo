@@ -6,6 +6,12 @@ require('../scripts/register-tsconfig-paths.js');
 // Provide a lightweight Prisma stub to avoid loading native engine
 const prisma = { ticket: { count: async () => 0, create: async () => ({}) } };
 require.cache[require.resolve('../lib/prisma.ts')] = { exports: prisma };
+const accountId = 'account-1';
+require.cache[require.resolve('../lib/server/tenantSession.ts')] = {
+  exports: {
+    requireTenantSession: async () => ({ accountId, session: { account: { id: accountId } } }),
+  },
+};
 
 const { POST } = require('../app/api/tickets/create/route.ts');
 const { create_ticket } = require('../config/functions.ts');

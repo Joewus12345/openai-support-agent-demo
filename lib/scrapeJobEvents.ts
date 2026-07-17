@@ -5,6 +5,7 @@ import Redis from "ioredis";
 import { ScrapeJobStatus } from "./generated/prisma";
 
 type JobUpdatePayload = {
+  accountId: string;
   jobId: string;
   status: ScrapeJobStatus;
   startedAt?: string | null;

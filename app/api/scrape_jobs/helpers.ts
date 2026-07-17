@@ -6,9 +6,14 @@ import { AgentRole, ScrapeJob } from "../../../lib/generated/prisma";
 import { BenchmarkEntry } from "@/lib/scrapeMetrics";
 import { readIngestionResult, StoredIngestionResult } from "@/lib/ingestionResults";
 import { requireSession } from "@/lib/server/auth";
+import {
+  ensureKnowledgeDocumentsIndexed,
+  getAccountScrapeLogRoot,
+  getLegacyScrapeLogRoot,
+  resolveKnowledgeStorageKey,
+  toStorageKey,
+} from "@/lib/server/accountStorage";
 
-const KNOWLEDGE_BASE_DIR = path.join(process.cwd(), "public", "knowledge_base");
-const JOB_LOG_ROOT = path.join(process.cwd(), "logs", "scrape_jobs");
 const DEBUG_LOG_INTERVAL_MS = 5000;
 let lastArtifactDebugLog = 0;
 
@@ -111,6 +116,7 @@ type LogRun = {
 };
 
 export async function listJobLogRuns(
+  accountId: string,
   jobId: string,
   options: {
     limit?: number;
@@ -132,43 +138,76 @@ export async function listJobLogRuns(
         limit?: number | null;
       }
     >;
+    includeLegacy?: boolean;
   } = {}
 ) {
   const limit = Math.max(1, Math.min(options.limit ?? 10, 50));
-  const logDir = path.join(JOB_LOG_ROOT, jobId);
-  const legacyLogPath = path.join(JOB_LOG_ROOT, `${jobId}.log`);
+  const roots = [
+    getAccountScrapeLogRoot(accountId),
+    ...(options.includeLegacy ? [getLegacyScrapeLogRoot()] : []),
+  ];
 
-  let entries: { path: string; startedAt: Date; size: number }[] = [];
+  const entries: { path: string; startedAt: Date; size: number }[] = [];
 
-  try {
-    const files = await fs.readdir(logDir);
-    const stats = await Promise.allSettled(
-      files
-        .filter((file) => file.endsWith(".log"))
-        .map(async (file) => {
-          const fullPath = path.join(logDir, file);
-          const stat = await fs.stat(fullPath);
-          const startedAt = stat.birthtimeMs && stat.birthtimeMs > 0 ? stat.birthtime : stat.mtime;
-          return { path: fullPath, startedAt, size: stat.size };
-        })
-    );
+  for (const root of roots) {
+    const logDir = path.join(root, jobId);
+    const singleLogPath = path.join(root, `${jobId}.log`);
+    try {
+      const files = await fs.readdir(logDir);
+      const stats = await Promise.allSettled(
+        files
+          .filter((file) => file.endsWith(".log"))
+          .map(async (file) => {
+            const fullPath = path.join(logDir, file);
+            const stat = await fs.stat(fullPath);
+            const startedAt = stat.birthtimeMs && stat.birthtimeMs > 0 ? stat.birthtime : stat.mtime;
+            return { path: fullPath, startedAt, size: stat.size };
+          })
+      );
+      entries.push(
+        ...stats
+          .filter((entry): entry is PromiseFulfilledResult<{ path: string; startedAt: Date; size: number }> =>
+            entry.status === "fulfilled"
+          )
+          .map((entry) => entry.value)
+      );
+    } catch {
+      // This account has no run directory yet.
+    }
 
-    entries = stats
-      .filter((entry): entry is PromiseFulfilledResult<{ path: string; startedAt: Date; size: number }> =>
-        entry.status === "fulfilled"
-      )
-      .map((entry) => entry.value);
-  } catch {
-    // directory might not exist yet
+    try {
+      const stat = await fs.stat(singleLogPath);
+      const startedAt = stat.birthtimeMs && stat.birthtimeMs > 0 ? stat.birthtime : stat.mtime;
+      entries.push({ path: singleLogPath, startedAt, size: stat.size });
+    } catch {
+      // Ignore a missing legacy single-file log.
+    }
   }
 
-  try {
-    const stat = await fs.stat(legacyLogPath);
-    const startedAt = stat.birthtimeMs && stat.birthtimeMs > 0 ? stat.birthtime : stat.mtime;
-    entries.push({ path: legacyLogPath, startedAt, size: stat.size });
-  } catch {
-    // ignore if missing
-  }
+  await Promise.all(
+    entries.map((entry) =>
+      prisma.scrapeJobLog.upsert({
+        where: {
+          accountId_jobId_storageKey: {
+            accountId,
+            jobId,
+            storageKey: toStorageKey(entry.path),
+          },
+        },
+        create: {
+          accountId,
+          jobId,
+          storageKey: toStorageKey(entry.path),
+          startedAt: entry.startedAt,
+          byteSize: entry.size,
+        },
+        update: {
+          startedAt: entry.startedAt,
+          byteSize: entry.size,
+        },
+      })
+    )
+  );
 
   const filteredEntries = entries.filter((entry) => {
     const withinStart = options.start ? entry.startedAt >= options.start : true;
@@ -306,17 +345,37 @@ export async function listScrapeArtifacts(job: ScrapeJob) {
   const logVerbose = shouldLogArtifactsVerbose();
 
   try {
-    const entries = await fs.readdir(KNOWLEDGE_BASE_DIR);
+    const account = await prisma.account.findUnique({
+      where: { id: job.accountId },
+      select: { id: true, isPrimary: true },
+    });
+    if (!account) return [] as string[];
+    await ensureKnowledgeDocumentsIndexed(account, "knowledge_base");
+    const documents = await prisma.knowledgeDocument.findMany({
+      where: {
+        accountId: job.accountId,
+        kind: "knowledge_base",
+        sourceModifiedAt: {
+          ...(job.startedAt ? { gte: job.startedAt } : {}),
+          ...(job.finishedAt ? { lte: job.finishedAt } : {}),
+        },
+      },
+      orderBy: { name: "asc" },
+    });
     const evaluations = await Promise.allSettled(
-      entries.map(async (entry) => {
+      documents.map(async (document) => {
         const skipReasons: string[] = [];
         const includeReasons: string[] = [];
-        const isMarkdown = entry.toLowerCase().endsWith(".md");
+        const isMarkdown = document.name.toLowerCase().endsWith(".md");
         if (!isMarkdown) {
           skipReasons.push("non-markdown file");
         }
 
-        const fullPath = path.join(KNOWLEDGE_BASE_DIR, entry);
+        const fullPath = resolveKnowledgeStorageKey(
+          document.storageKey,
+          account,
+          "knowledge_base"
+        );
         const debugPayload: Record<string, unknown> = { path: fullPath };
 
         try {
@@ -409,7 +468,7 @@ export async function listScrapeArtifacts(job: ScrapeJob) {
         }
       } else {
         console.debug("listScrapeArtifacts: debug output suppressed to reduce log volume", {
-          entries: entries.length,
+          entries: documents.length,
         });
       }
     }
@@ -434,8 +493,33 @@ export async function ensureAuthenticated(
   return null;
 }
 
-export async function serializeJob(jobId: string, options: { includeLog?: boolean } = {}) {
-  const job = await prisma.scrapeJob.findUnique({ where: { id: jobId } });
+export async function requireScrapeSession(
+  request: Request,
+  options: { role?: AgentRole; csrf?: boolean } = {}
+) {
+  const result = await requireSession(request, {
+    role: options.role,
+    csrfProtected: options.csrf,
+    requireVerified: true,
+  });
+  if ("response" in result) return result;
+  const accountId = result.session.account?.id;
+  if (!accountId) {
+    return {
+      response: Response.json({ error: "No account selected" }, { status: 409 }),
+    } as const;
+  }
+  return { session: result.session, accountId } as const;
+}
+
+export async function serializeJob(
+  accountId: string,
+  jobId: string,
+  options: { includeLog?: boolean } = {}
+) {
+  const job = await prisma.scrapeJob.findUnique({
+    where: { accountId_id: { accountId, id: jobId } },
+  });
   if (!job) return null;
 
   const log = options.includeLog !== false ? await readJobLog(job.logPath, { maxBytes: 4000 }) : null;

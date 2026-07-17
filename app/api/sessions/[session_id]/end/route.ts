@@ -3,17 +3,22 @@ import redis from "@/lib/redis";
 import { saveSessionMessages } from "@/lib/server/saveSessionMessages";
 import { summarizeSession } from "@/lib/server/summarizeSession";
 import { MAX_UNSUMMARIZED_MESSAGES } from "@/config/constants";
+import { requireTenantSession } from "@/lib/server/tenantSession";
+import { resolveAccountRuntimeConfig } from "@/lib/server/accountConfig";
 
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ session_id: string }> }
 ) {
   try {
+    const auth = await requireTenantSession(request, { csrfProtected: true });
+    if ("response" in auth) return auth.response;
+    const accountId = auth.accountId;
     const { session_id } = await params;
     const { messages = [], identifier } = await request.json();
 
     if (Array.isArray(messages) && messages.length > 0) {
-      const result = await saveSessionMessages(session_id, messages);
+      const result = await saveSessionMessages(accountId, session_id, messages);
       if (result && "error" in result) {
         return new Response(JSON.stringify({ error: result.error }), {
           status: 400,
@@ -22,17 +27,22 @@ export async function POST(
     }
 
     const session = await prisma.chatSession.findUnique({
-      where: { id: session_id },
+      where: { accountId_id: { accountId, id: session_id } },
       include: { user: true },
     });
+    if (!session) {
+      return Response.json({ error: "Session not found" }, { status: 404 });
+    }
     const sessionMessages = Array.isArray(session?.messages)
       ? (session!.messages as any[])
       : [];
     const startIndex = (session as any)?.lastSummarizedIndex ?? 0;
     const newMessages = sessionMessages.slice(startIndex);
+    const config = await resolveAccountRuntimeConfig(accountId);
     const newSummary = await summarizeSession({
       priorSummary: (session as any)?.summary ?? null,
       newMessages,
+      config,
     });
     const summary = [(session as any)?.summary, newSummary]
       .filter(Boolean)
@@ -46,7 +56,7 @@ export async function POST(
       .slice(startIndex + newMessages.length)
       .slice(-limit);
     await prisma.chatSession.update({
-      where: { id: session_id },
+      where: { accountId_id: { accountId, id: session_id } },
       data: {
         endedAt: new Date(),
         summary,
@@ -70,18 +80,21 @@ export async function POST(
           content: [{ type: "output_text", text: newSummary }],
         },
       ],
+      config,
     });
     const longSummary = [(session as any)?.user?.longSummary, longSummaryFragment]
       .filter(Boolean)
       .join("\n");
 
     await prisma.user.update({
-      where: { id: (session as any)?.userId },
+      where: {
+        accountId_id: { accountId, id: (session as any)?.userId },
+      },
       data: { longSummary },
     });
 
     if (identifier) {
-      await redis.set(identifier, summary, "EX", 86400);
+      await redis.set(`account:${accountId}:contact:${identifier}`, summary, "EX", 86400);
     }
 
     return new Response(JSON.stringify({ success: true, summary, longSummary }), {

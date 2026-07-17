@@ -1,5 +1,11 @@
-import { VECTOR_STORE_ID, DEFAULT_SEARCH_LIMIT } from "@/config/constants";
+import { DEFAULT_SEARCH_LIMIT, VECTOR_STORE_ID } from "@/config/constants";
+import {
+  getAccountRuntimeContext,
+  getAccountRuntimeValue,
+} from "@/lib/accountRuntime";
 import { localVectorStore } from "@/lib/localVectorStore";
+import { getOpenAIRequestTimeout } from "@/lib/providers/openaiClient";
+import { describeProviderError } from "@/lib/providers/providerErrors";
 
 const OLLAMA_SEARCH_THRESHOLD = Number(
   process.env.OLLAMA_SEARCH_THRESHOLD ?? 0.3,
@@ -44,10 +50,24 @@ export async function fileSearch({
     }
   }
   try {
-    const endpoint = `https://api.openai.com/v1/vector_stores/${VECTOR_STORE_ID}/search`;
+    const apiKey = getAccountRuntimeValue("OPENAI_API_KEY");
+    if (getAccountRuntimeContext() && !apiKey) {
+      return { error: "OPENAI_API_KEY is not configured for this account" };
+    }
+    const apiBase = (
+      getAccountRuntimeValue("OPENAI_BASE_URL") || "https://api.openai.com/v1"
+    ).replace(/\/$/, "");
+    const runtimeContext = getAccountRuntimeContext();
+    const vectorStoreId =
+      getAccountRuntimeValue("OPENAI_VECTOR_STORE_ID") ||
+      (!runtimeContext ? VECTOR_STORE_ID : undefined);
+    if (!vectorStoreId) {
+      return { error: "OPENAI_VECTOR_STORE_ID is not configured for this account" };
+    }
+    const endpoint = `${apiBase}/vector_stores/${vectorStoreId}/search`;
     const headers = {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
       "OpenAI-Beta": "assistants=v2",
     };
 
@@ -60,6 +80,9 @@ export async function fileSearch({
         method: "POST",
         headers,
         body: JSON.stringify(body),
+        signal: AbortSignal.timeout(
+          getOpenAIRequestTimeout(runtimeContext?.config)
+        ),
       });
 
       if (res.ok) {
@@ -121,9 +144,13 @@ export async function fileSearch({
 
     return { error: retryResult.error };
   } catch (error) {
-    console.error("Error searching files:", error);
+    const failure = describeProviderError(error, "OpenAI");
+    console.error("OpenAI file search failed", {
+      code: failure.code,
+      error: failure.technicalMessage,
+    });
     return {
-      error: error instanceof Error ? error.message : "Failed to search files",
+      error: failure.message,
     };
   }
 }

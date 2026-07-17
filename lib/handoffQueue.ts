@@ -1,6 +1,7 @@
 import prisma from "./prisma";
 import type { HandoffRequest, HandoffRequestStatus } from "./generated/prisma";
 import { getConversationKey } from "./getConversationKey";
+import { getRuntimeTenantAccountId } from "./accounts/constants";
 
 export type QueueScope = {
   accountId: number;
@@ -26,6 +27,7 @@ export async function enqueueRequest(
     throw new Error("enqueueRequest requires an inboxId to segment the queue");
   }
   const conversationKey = getConversationKey(accountId, conversationId, inboxId);
+  const tenantAccountId = getRuntimeTenantAccountId();
   const nextStatus = status ?? "pending";
   type UpsertArgs = Parameters<typeof prisma.handoffRequest.upsert>[0];
   const updateData: UpsertArgs["update"] = {
@@ -39,10 +41,11 @@ export async function enqueueRequest(
     updateData.lastPositionNotified = null;
   }
   return prisma.handoffRequest.upsert({
-    where: { conversationKey },
+    where: { conversationKey, tenantAccountId },
     update: updateData,
     create: {
       conversationKey,
+      tenantAccountId,
       conversationId,
       status: nextStatus,
       agentId,
@@ -53,8 +56,10 @@ export async function enqueueRequest(
 }
 
 async function getPendingRequests(scope: QueueScope): Promise<HandoffRequest[]> {
+  const tenantAccountId = getRuntimeTenantAccountId();
   return prisma.handoffRequest.findMany({
     where: {
+      tenantAccountId,
       status: "pending",
       accountId: scope.accountId,
       ...(scope.inboxId === undefined ? {} : { inboxId: scope.inboxId }),
@@ -81,8 +86,9 @@ export async function updateRequest(
     lastPositionNotified?: number | null;
   }
 ) {
+  const tenantAccountId = getRuntimeTenantAccountId();
   return prisma.handoffRequest.update({
-    where: { conversationKey },
+    where: { conversationKey, tenantAccountId },
     data,
   });
 }
@@ -109,7 +115,10 @@ export async function updateQueuePositions(
         return;
       }
       const updated = await prisma.handoffRequest.update({
-        where: { conversationKey: request.conversationKey },
+        where: {
+          conversationKey: request.conversationKey,
+          tenantAccountId: request.tenantAccountId,
+        },
         data: { lastPositionNotified: position },
       });
       updates.push({ ...updated, position });

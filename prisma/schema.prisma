@@ -5,8 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../lib/generated/prisma"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
@@ -30,9 +30,20 @@ enum ScrapeJobCadence {
   monthly
 }
 
+enum KnowledgeDocumentKind {
+  knowledge_base
+  faq
+}
+
 enum AgentRole {
   admin
   agent
+}
+
+enum AccountStatus {
+  active
+  suspended
+  maintenance
 }
 
 enum LoginAuditStatus {
@@ -43,69 +54,96 @@ enum LoginAuditStatus {
 }
 
 model User {
-  id        String        @id @default(uuid())
-  email     String        @unique
-  name      String?
-  phone     String?
-  address   String?
-  longSummary String? @db.Text
-  createdAt DateTime      @default(now())
-  orders    Order[]
-  sessions  ChatSession[]
-  tickets   Ticket[]
+  id          String        @id @default(uuid())
+  accountId   String
+  account     Account       @relation(fields: [accountId], references: [id], onDelete: Restrict)
+  email       String
+  name        String?
+  phone       String?
+  address     String?
+  longSummary String?       @db.Text
+  createdAt   DateTime      @default(now())
+  orders      Order[]
+  sessions    ChatSession[]
+  tickets     Ticket[]
+
+  @@unique([accountId, email])
+  @@unique([accountId, id])
+  @@index([accountId])
 }
 
 model Order {
   id        String   @id @default(uuid())
-  user      User?    @relation(fields: [userId], references: [id])
+  accountId String
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Restrict)
+  user      User?    @relation(fields: [accountId, userId], references: [accountId, id], onDelete: Restrict)
   userId    String?
-  orderId   String   @unique
+  orderId   String
   createdAt DateTime @default(now())
   status    String?
+
+  @@unique([accountId, orderId])
+  @@index([accountId, userId])
 }
 
 model ChatSession {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  endedAt   DateTime?
-  messages  Json // or a separate Message model
-  summary   String?  @db.Text
-  lastSummarizedIndex Int @default(0)
-  unsummarizedLimit   Int @default(50)
+  id                  String    @id @default(uuid())
+  accountId           String
+  account             Account   @relation(fields: [accountId], references: [id], onDelete: Restrict)
+  user                User      @relation(fields: [accountId, userId], references: [accountId, id], onDelete: Restrict)
+  userId              String
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  endedAt             DateTime?
+  messages            Json // or a separate Message model
+  summary             String?   @db.Text
+  lastSummarizedIndex Int       @default(0)
+  unsummarizedLimit   Int       @default(50)
+
+  @@unique([accountId, id])
+  @@index([accountId, userId, createdAt])
 }
 
 model Ticket {
   id        String   @id @default(uuid())
+  accountId String
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Restrict)
   ticket    String
   createdAt DateTime @default(now())
-  user      User?    @relation(fields: [userId], references: [id])
+  user      User?    @relation(fields: [accountId, userId], references: [accountId, id], onDelete: Restrict)
   userId    String?
+
+  @@index([accountId, ticket])
+  @@index([accountId, userId])
 }
 
 model ConversationMessage {
-  id             Int      @id @default(autoincrement())
-  messageId      Int
-  conversationId Int
-  inboxId        Int
+  id              Int      @id @default(autoincrement())
+  tenantAccountId String
+  tenantAccount   Account  @relation(fields: [tenantAccountId], references: [id], onDelete: Restrict)
+  messageId       Int
+  conversationId  Int
+  inboxId         Int
   conversationKey String
-  sender         String
-  content        String   @db.Text
-  createdAt      DateTime @default(now())
+  sender          String
+  content         String   @db.Text
+  createdAt       DateTime @default(now())
 
-  @@unique([conversationKey, messageId])
+  @@unique([tenantAccountId, conversationKey, messageId], map: "ConversationMessage_tenant_conversation_message_key")
+  @@index([tenantAccountId, conversationKey, createdAt], map: "ConversationMessage_tenant_conversation_created_idx")
 }
 
 model AgentAssignment {
-  inboxId             Int
-  agentId             Int
-  lastAssignedAt      DateTime?
-  activeConversationId Int?
+  tenantAccountId        String
+  tenantAccount          Account            @relation(fields: [tenantAccountId], references: [id], onDelete: Restrict)
+  inboxId                Int
+  agentId                Int
+  lastAssignedAt         DateTime?
+  activeConversationId   Int?
   availabilityBeforeBusy AgentAvailability?
 
-  @@id([inboxId, agentId])
+  @@id([tenantAccountId, inboxId, agentId])
+  @@index([tenantAccountId, activeConversationId], map: "AgentAssignment_tenant_active_conversation_idx")
 }
 
 enum AgentAvailability {
@@ -122,55 +160,112 @@ enum HandoffRequestStatus {
 }
 
 model HandoffRequest {
-  conversationKey String @id
-  conversationId Int
-  accountId     Int
-  inboxId       Int
-  requestedAt   DateTime           @default(now())
-  status        HandoffRequestStatus @default(pending)
-  agentId       Int?
+  conversationKey      String               @id
+  tenantAccountId      String
+  tenantAccount        Account              @relation(fields: [tenantAccountId], references: [id], onDelete: Restrict)
+  conversationId       Int
+  accountId            Int
+  inboxId              Int
+  requestedAt          DateTime             @default(now())
+  status               HandoffRequestStatus @default(pending)
+  agentId              Int?
   lastPositionNotified Int?
+
+  @@index([tenantAccountId, accountId, inboxId, status, requestedAt], map: "HandoffRequest_tenant_queue_idx")
 }
 
 model ScrapeJob {
-  id         String          @id @default(uuid())
-  script     String
-  args       Json?
-  status     ScrapeJobStatus @default(queued)
-  cadence    ScrapeJobCadence @default(manual)
-  autoRunManualWithNext Boolean @default(false)
-  paused     Boolean         @default(false)
-  progress   Int             @default(0)
-  startedAt  DateTime?
-  finishedAt DateTime?
-  logPath    String?
-  nextRunAt  DateTime?
-  durationSeconds   Float?
-  documentsIngested Int?
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
+  id                    String           @id @default(uuid())
+  accountId             String
+  account               Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  script                String
+  args                  Json?
+  status                ScrapeJobStatus  @default(queued)
+  cadence               ScrapeJobCadence @default(manual)
+  autoRunManualWithNext Boolean          @default(false)
+  paused                Boolean          @default(false)
+  progress              Int              @default(0)
+  startedAt             DateTime?
+  finishedAt            DateTime?
+  logPath               String?
+  nextRunAt             DateTime?
+  durationSeconds       Float?
+  documentsIngested     Int?
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  logs                  ScrapeJobLog[]
+
+  @@unique([accountId, id])
+  @@index([accountId, createdAt])
+  @@index([accountId, status, createdAt])
+  @@index([accountId, cadence, nextRunAt])
+}
+
+model ScrapeJobLog {
+  id         String    @id @default(uuid())
+  accountId  String
+  jobId      String
+  storageKey String
+  startedAt  DateTime
+  byteSize   Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  account    Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  job        ScrapeJob @relation(fields: [accountId, jobId], references: [accountId, id], onDelete: Cascade)
+
+  @@unique([accountId, jobId, storageKey])
+  @@index([accountId, jobId, startedAt])
+}
+
+model KnowledgeDocument {
+  id               String                @id @default(uuid())
+  accountId        String
+  kind             KnowledgeDocumentKind
+  name             String
+  storageKey       String
+  mimeType         String                @default("text/markdown")
+  byteSize         Int
+  sourceCreatedAt  DateTime
+  sourceModifiedAt DateTime
+  sourceJobId      String?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  account          Account               @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, kind, name])
+  @@index([accountId, kind, sourceModifiedAt])
+  @@index([accountId, sourceJobId])
 }
 
 model AgentAccount {
-  userId         String         @id
+  userId         String              @id
   hashedPin      String
   telegramChatId String?
+  platformAdmin  Boolean             @default(false)
+  // Kept during the tenancy migration so older sessions and deployments can
+  // be upgraded safely. New authorization is account-scoped through
+  // AccountMembership.role.
   roles          AgentRole[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
   loginTokens    LoginToken[]
   audits         LoginAudit[]
+  memberships    AccountMembership[]
 }
 
 model LoginToken {
-  id         String       @id @default(uuid())
+  id         String    @id @default(uuid())
   agentId    String
+  accountId  String?
   tokenHash  String
   expiresAt  DateTime
   consumedAt DateTime?
-  createdAt  DateTime     @default(now())
+  createdAt  DateTime  @default(now())
 
-  agent AgentAccount @relation(fields: [agentId], references: [userId], onDelete: Cascade)
+  agent   AgentAccount @relation(fields: [agentId], references: [userId], onDelete: Cascade)
+  account Account?     @relation(fields: [accountId], references: [id], onDelete: SetNull)
+
+  @@index([accountId])
 }
 
 model LoginAudit {
@@ -183,4 +278,64 @@ model LoginAudit {
   createdAt DateTime         @default(now())
 
   agent AgentAccount @relation(fields: [agentId], references: [userId], onDelete: Cascade)
+}
+
+model Account {
+  id                   String                 @id @default(uuid())
+  name                 String
+  slug                 String                 @unique
+  status               AccountStatus          @default(active)
+  isPrimary            Boolean                @default(false)
+  suspensionReason     String?
+  maintenanceMessage   String?
+  createdById          String?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  memberships          AccountMembership[]
+  configurations       AccountConfiguration[]
+  loginTokens          LoginToken[]
+  users                User[]
+  orders               Order[]
+  chatSessions         ChatSession[]
+  tickets              Ticket[]
+  conversationMessages ConversationMessage[]
+  agentAssignments     AgentAssignment[]
+  handoffRequests      HandoffRequest[]
+  scrapeJobs           ScrapeJob[]
+  scrapeJobLogs        ScrapeJobLog[]
+  knowledgeDocuments   KnowledgeDocument[]
+
+  @@index([status])
+}
+
+model AccountMembership {
+  id          String       @id @default(uuid())
+  accountId   String
+  agentId     String
+  role        AgentRole    @default(agent)
+  invitedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  account     Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  agent       AgentAccount @relation(fields: [agentId], references: [userId], onDelete: Cascade)
+
+  @@unique([accountId, agentId])
+  @@index([agentId])
+}
+
+model AccountConfiguration {
+  id             String   @id @default(uuid())
+  accountId      String
+  key            String
+  encryptedValue String   @db.Text
+  iv             String
+  authTag        String
+  isSecret       Boolean  @default(true)
+  updatedById    String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  account        Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, key])
+  @@index([accountId])
 }
